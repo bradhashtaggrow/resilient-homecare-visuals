@@ -72,7 +72,7 @@ const HeroSection = () => {
             <Button 
               variant="outline" 
               size="lg" 
-              className="border-2 border-white text-white hover:bg-white hover:text-blue-600 transition-all duration-500 text-lg px-10 py-6 hover:scale-110 group"
+              className="border-2 border-white text-blue-600 bg-white hover:bg-blue-600 hover:text-white transition-all duration-500 text-lg px-10 py-6 hover:scale-110 group"
             >
               <Play className="mr-3 h-5 w-5 group-hover:scale-125 transition-transform" />
               Watch Revolution
