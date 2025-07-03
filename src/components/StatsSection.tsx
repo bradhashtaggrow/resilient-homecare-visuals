@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, Heart, Users, DollarSign, Award, Target } from 'lucide-react';
 
@@ -148,13 +149,15 @@ const StatsSection = () => {
             <Award className="h-4 w-4" />
             <span>What does the Research Say?</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+          <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
+              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Powering Hospital Level 
             <span className="block healthcare-text-gradient">
               Value-Based Care at Home
             </span>
           </h2>
-          <p className="text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
+             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             A different approach to hospital care, using simple methods and advanced AI technology. 
             We manage the work. You own the program.
           </p>
@@ -176,12 +179,14 @@ const StatsSection = () => {
                   </div>
                   
                   {/* Animated Value */}
-                  <div className="text-5xl font-bold text-white mb-3 animate-count-up">
+                  <div className="text-white leading-none tracking-tight font-black mb-3 animate-count-up"
+                       style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                     {stat.value}
                   </div>
                   
                   {/* Label */}
-                  <div className="text-xl font-semibold text-blue-100 mb-3">
+                  <div className="text-blue-100/90 font-medium tracking-wide mb-3"
+                       style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                     {stat.label}
                   </div>
                   
@@ -209,10 +214,12 @@ const StatsSection = () => {
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
           <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-3xl p-12 border border-white/20">
-            <h3 className="text-4xl font-bold text-white mb-6">
+            <h3 className="text-white leading-none tracking-tight font-black mb-6"
+                style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
               You Keep the Brand. The Data. The Relationship.
             </h3>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-white/90 mb-8 max-w-2xl mx-auto font-medium tracking-wide"
+               style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
               We operate behind the scenes—white-labeled under your hospital's brand and integrated into your workflows. 
               Extend your hospital. Power your value-based future.
             </p>

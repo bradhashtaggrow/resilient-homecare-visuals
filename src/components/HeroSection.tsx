@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
@@ -47,7 +48,7 @@ const HeroSection = () => {
       {/* Hero Content */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
-          {/* Apple-Style Title - Made Smaller */}
+          {/* Apple-Style Title */}
           <div className="mb-12">
             <h1 className="text-white leading-none tracking-tight font-black text-shadow-white" 
                 style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
@@ -55,7 +56,7 @@ const HeroSection = () => {
             </h1>
           </div>
           
-          {/* Single Subtitle - Made Smaller */}
+          {/* Single Subtitle */}
           <p className="text-white/90 mb-16 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
@@ -106,18 +107,24 @@ const HeroSection = () => {
           <div className="space-y-6">
             <div className="flex justify-center items-center space-x-12 text-white/90">
               <div className="text-center">
-                <div className="text-5xl font-black text-white mb-2 tracking-tight">38%</div>
-                <div className="text-lg font-medium tracking-wide">Cost Savings</div>
+                <div className="text-white leading-none tracking-tight font-black mb-2"
+                     style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>38%</div>
+                <div className="text-white/90 font-medium tracking-wide"
+                     style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Cost Savings</div>
               </div>
               <div className="w-px h-16 bg-white/20" />
               <div className="text-center">
-                <div className="text-5xl font-black text-white mb-2 tracking-tight">70%</div>
-                <div className="text-lg font-medium tracking-wide">Reduction in Readmissions</div>
+                <div className="text-white leading-none tracking-tight font-black mb-2"
+                     style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>70%</div>
+                <div className="text-white/90 font-medium tracking-wide"
+                     style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Reduction in Readmissions</div>
               </div>
               <div className="w-px h-16 bg-white/20" />
               <div className="text-center">
-                <div className="text-5xl font-black text-white mb-2 tracking-tight">91%</div>
-                <div className="text-lg font-medium tracking-wide">Patient Preference</div>
+                <div className="text-white leading-none tracking-tight font-black mb-2"
+                     style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>91%</div>
+                <div className="text-white/90 font-medium tracking-wide"
+                     style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Patient Preference</div>
               </div>
             </div>
           </div>

@@ -49,8 +49,10 @@ const Footer = () => {
                 <Heart className="h-6 w-6 text-white" />
               </div>
               <div>
-                <div className="text-2xl font-bold">Resilient Healthcare</div>
-                <div className="text-blue-300 text-sm">Extending care beyond the hospital</div>
+                <div className="text-white leading-none tracking-tight font-black"
+                     style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.85 }}>Resilient Healthcare</div>
+                <div className="text-blue-300/90 font-medium tracking-wide"
+                     style={{ fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', lineHeight: 1.3 }}>Extending care beyond the hospital</div>
               </div>
             </div>
             
@@ -78,7 +80,8 @@ const Footer = () => {
           {/* Links Columns */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h3 className="text-lg font-semibold mb-4">{category}</h3>
+              <h3 className="text-white/90 font-medium tracking-wide mb-4"
+                  style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', lineHeight: 1.3 }}>{category}</h3>
               <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.name}>

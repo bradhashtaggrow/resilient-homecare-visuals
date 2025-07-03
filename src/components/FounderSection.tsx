@@ -118,14 +118,16 @@ const FounderSection = () => {
               {/* Quote Section */}
               <div className="relative">
                 <Quote className="absolute -top-4 -left-4 h-16 w-16 text-blue-200" />
-                <blockquote className="text-3xl md:text-4xl font-medium text-gray-900 leading-relaxed pl-12">
+                <blockquote className="text-gray-900 leading-none tracking-tight font-black pl-12"
+                            style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                   "Dad's in the hospital, again..."
                 </blockquote>
               </div>
               
               {/* Story Content */}
               <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
-                <p className="text-xl font-medium text-gray-900">
+                <p className="text-blue-600/90 font-medium tracking-wide"
+                   style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                   That call became all too familiar.
                 </p>
                 
@@ -137,7 +139,8 @@ const FounderSection = () => {
                   As a physical therapist, I knew the system was broken—but as a daughter, I lived it. We were constantly exhausted, worried, and navigating a healthcare system that felt more fragmented and reactive than healing.
                 </p>
                 
-                <p className="text-xl font-semibold text-blue-600">
+                <p className="text-blue-600/90 font-medium tracking-wide"
+                   style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                   I built this company because families—and hospitals—deserve better.
                 </p>
                 
@@ -146,10 +149,12 @@ const FounderSection = () => {
                 </p>
                 
                 <div className="bg-gradient-to-r from-blue-50/90 to-blue-100/90 backdrop-blur-sm rounded-2xl p-8 border-l-4 border-blue-500">
-                  <p className="text-xl font-bold text-gray-900 mb-4">
+                  <p className="text-blue-600/90 font-medium tracking-wide mb-4"
+                     style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                     Because patients want to stay home. Clinicians want to do what they were trained to do—without drowning in paperwork or unsustainable workloads. And hospitals need a better way to serve them both.
                   </p>
-                  <p className="text-gray-700 text-2xl font-semibold">
+                  <p className="text-gray-900 leading-none tracking-tight font-black"
+                     style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.85 }}>
                     We are Resilient. And so are you.
                   </p>
                 </div>
@@ -162,10 +167,12 @@ const FounderSection = () => {
                     JS
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-gray-900 mb-2">
+                    <div className="text-gray-900 leading-none tracking-tight font-black mb-2"
+                         style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.85 }}>
                       Dr. Jackleen Samuel, PT, DPT
                     </div>
-                    <div className="text-lg text-blue-600 font-semibold mb-3">
+                    <div className="text-blue-600/90 font-medium tracking-wide mb-3"
+                         style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                       Founder & CEO, Resilient Healthcare
                     </div>
                     <div className="space-y-2 text-gray-600">
