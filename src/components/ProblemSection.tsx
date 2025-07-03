@@ -1,6 +1,6 @@
-
 import React, { useEffect, useState } from 'react';
-import { AlertTriangle, TrendingDown, Users, HeartPulse, Clock, DollarSign } from 'lucide-react';
+import { AlertTriangle, TrendingDown, Users, HeartPulse, Clock, DollarSign, ArrowRight } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 const ProblemSection = () => {
   const [isVisible, setIsVisible] = useState(false);
