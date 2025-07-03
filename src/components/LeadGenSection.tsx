@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -109,19 +108,20 @@ const LeadGenSection = () => {
       className="py-32 bg-white relative overflow-hidden"
       style={{
         backgroundImage: `url('/lovable-uploads/538d02df-2e37-481f-9af6-58f2718f977a.png')`,
-        backgroundSize: 'cover',
+        backgroundSize: '600px 600px',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'repeat',
+        backgroundBlendMode: 'soft-light'
       }}
     >
-      {/* White overlay to ensure readability */}
-      <div className="absolute inset-0 bg-white/85" />
+      {/* Very subtle radial gradient overlay for natural blending */}
+      <div className="absolute inset-0 bg-gradient-radial from-white/95 via-white/90 to-white/95" />
 
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className={`text-center mb-20 transition-all duration-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
-          <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-600 px-6 py-3 rounded-full text-sm font-medium mb-8">
+          <div className="inline-flex items-center space-x-2 bg-blue-100/70 backdrop-blur-sm text-blue-600 px-6 py-3 rounded-full text-sm font-medium mb-8">
             <Star className="h-4 w-4" />
             <span>Join the Healthcare Revolution</span>
           </div>
@@ -140,7 +140,7 @@ const LeadGenSection = () => {
           <div className={`transition-all duration-1000 ${
             isVisible ? 'animate-slide-in-left' : 'opacity-0'
           }`}>
-            <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-10 shadow-2xl border border-gray-100 relative overflow-hidden">
+            <div className="bg-white/75 backdrop-blur-sm rounded-3xl p-10 shadow-2xl border border-gray-100 relative overflow-hidden">
               {/* Form Background Pattern */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-full -translate-y-16 translate-x-16" />
               
@@ -270,7 +270,7 @@ const LeadGenSection = () => {
                     Thank you for your interest in revolutionizing healthcare delivery. 
                     Our team will contact you within 2 hours to schedule your personalized demo.
                   </p>
-                  <div className="bg-blue-50 rounded-2xl p-6">
+                  <div className="bg-blue-50/80 backdrop-blur-sm rounded-2xl p-6">
                     <p className="text-blue-700 font-medium">
                       📧 Confirmation email sent to {formData.email}
                     </p>
@@ -285,63 +285,26 @@ const LeadGenSection = () => {
             isVisible ? 'animate-slide-in-right' : 'opacity-0'
           }`}>
             {/* What You'll Get */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+            <div className="bg-white/75 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
               <h3 className="text-3xl font-bold text-gray-900 mb-8">
                 What You'll Experience
               </h3>
               <div className="space-y-6">
-                <div className="flex items-start space-x-4 group">
-                  <div className="flex-shrink-0 p-3 bg-blue-100 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                    <Award className="h-6 w-6" />
+                {benefits.map((benefit, index) => (
+                  <div key={index} className="flex items-start space-x-4 group">
+                    <div className="flex-shrink-0 p-3 bg-blue-100/80 backdrop-blur-sm rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                      {benefit.icon}
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                        {benefit.title}
+                      </h4>
+                      <p className="text-gray-600 leading-relaxed">
+                        {benefit.description}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
-                      Personalized Demo Experience
-                    </h4>
-                    <p className="text-gray-600 leading-relaxed">
-                      Tailored demonstration showcasing solutions for your specific challenges
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4 group">
-                  <div className="flex-shrink-0 p-3 bg-blue-100 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                    <Zap className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
-                      Implementation Roadmap
-                    </h4>
-                    <p className="text-gray-600 leading-relaxed">
-                      Detailed timeline, pricing, and step-by-step deployment strategy
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4 group">
-                  <div className="flex-shrink-0 p-3 bg-blue-100 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                    <Shield className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
-                      Comprehensive ROI Analysis
-                    </h4>
-                    <p className="text-gray-600 leading-relaxed">
-                      Custom financial impact assessment for your organization
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4 group">
-                  <div className="flex-shrink-0 p-3 bg-blue-100 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                    <CheckCircle className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
-                      Seamless Integration Planning
-                    </h4>
-                    <p className="text-gray-600 leading-relaxed">
-                      Technical consultation for existing systems and workflows
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
             
@@ -350,7 +313,7 @@ const LeadGenSection = () => {
               <h3 className="text-3xl font-bold text-gray-900">
                 Trusted by Healthcare Leaders
               </h3>
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
+              <div className="bg-white/75 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
                 <div className="flex items-start space-x-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-blue-400 fill-current" />

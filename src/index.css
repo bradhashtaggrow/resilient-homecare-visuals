@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -127,6 +126,11 @@
       linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 40%, hsl(210 100% 27% / 0.01) 60%, transparent 100%);
     background-size: 100px 100px, 120px 120px, 80px 80px;
     background-position: 0 0, 30px 30px, 60px 0;
+  }
+
+  /* New radial gradient utility for natural texture blending */
+  .bg-gradient-radial {
+    background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
   }
 
   .healthcare-gradient {

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Activity, Heart, Building2, ArrowRight, CheckCircle, Users, Stethoscope } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -89,18 +90,19 @@ const ServiceLinesSection = () => {
       className="py-32 bg-white relative overflow-hidden"
       style={{
         backgroundImage: `url('/lovable-uploads/538d02df-2e37-481f-9af6-58f2718f977a.png')`,
-        backgroundSize: '300px 300px',
+        backgroundSize: '400px 400px',
         backgroundPosition: 'center',
-        backgroundRepeat: 'repeat'
+        backgroundRepeat: 'repeat',
+        backgroundBlendMode: 'multiply'
       }}
     >
-      {/* Reduced white overlay to make paper texture more visible */}
-      <div className="absolute inset-0 bg-white/50" />
+      {/* Much more subtle white overlay to naturally blend texture */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/80 to-white/85" />
 
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-600 px-6 py-3 rounded-full text-sm font-medium mb-8">
+          <div className="inline-flex items-center space-x-2 bg-blue-100/80 backdrop-blur-sm text-blue-600 px-6 py-3 rounded-full text-sm font-medium mb-8">
             <Stethoscope className="h-4 w-4" />
             <span>Our Core Service Lines</span>
           </div>
@@ -129,7 +131,7 @@ const ServiceLinesSection = () => {
               }`}>
                 {/* Content */}
                 <div className={`space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                  <div className="space-y-6 bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                  <div className="space-y-6 bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
                     {/* Icon and Title */}
                     <div className="flex items-start space-x-6">
                       <div className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl transition-all duration-500 ${
@@ -169,7 +171,7 @@ const ServiceLinesSection = () => {
 
                     {/* Additional Info */}
                     {service.additionalInfo && (
-                      <div className="bg-blue-50 rounded-2xl p-6 border-l-4 border-blue-500">
+                      <div className="bg-blue-50/80 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-blue-500">
                         <p className="text-gray-700 leading-relaxed font-medium">
                           {service.additionalInfo}
                         </p>
@@ -178,7 +180,7 @@ const ServiceLinesSection = () => {
 
                     {/* Note */}
                     {service.note && (
-                      <div className="bg-blue-100 rounded-2xl p-6 border-l-4 border-blue-600">
+                      <div className="bg-blue-100/80 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-blue-600">
                         <p className="text-gray-700 leading-relaxed">
                           {service.note}
                         </p>
