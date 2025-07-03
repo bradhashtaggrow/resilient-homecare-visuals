@@ -28,7 +28,9 @@ const HeroSection = () => {
             console.log('Video error target:', e.target);
           }}
         >
+          <source src="https://videos.pexels.com/video-files/8375494/8375494-uhd_2560_1440_25fps.mp4" type="video/mp4" />
           <source src="https://videos.pexels.com/video-files/8375494/8375494-hd_1920_1080_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/8375494/8375494-sd_640_360_25fps.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         {/* Dark overlay for better text readability */}
