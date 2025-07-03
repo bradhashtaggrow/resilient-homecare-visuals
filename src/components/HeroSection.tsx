@@ -34,29 +34,67 @@ const HeroSection = () => {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            filter: 'contrast(1.1) brightness(0.85)',
+          }}
         >
-          <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/8375494/8375494-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
-        {/* Subtle gradient overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/20" />
+        {/* Enhanced gradient overlay for better readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-black/30" />
       </div>
 
-      {/* 3D Anamorphic Edge Effects */}
+      {/* Enhanced 3D Anamorphic Edge Effects */}
       <div className="absolute inset-0 z-10 pointer-events-none">
-        {/* Top edge */}
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12" />
-        {/* Bottom edge */}
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform skew-x-12" />
-        {/* Left edge */}
-        <div className="absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform -skew-y-12" />
-        {/* Right edge */}
-        <div className="absolute right-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform skew-y-12" />
+        {/* Top edge with enhanced 3D effect */}
+        <div className="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 shadow-lg" 
+             style={{
+               background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.3) 80%, transparent 100%)',
+               boxShadow: '0 2px 10px rgba(255,255,255,0.2), inset 0 1px 0 rgba(255,255,255,0.4)'
+             }} />
         
-        {/* Corner accents */}
-        <div className="absolute top-4 left-4 w-12 h-12 bg-gradient-to-br from-white/20 to-transparent transform rotate-45 blur-sm" />
-        <div className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-bl from-white/20 to-transparent transform -rotate-45 blur-sm" />
-        <div className="absolute bottom-4 left-4 w-12 h-12 bg-gradient-to-tr from-white/20 to-transparent transform -rotate-45 blur-sm" />
-        <div className="absolute bottom-4 right-4 w-12 h-12 bg-gradient-to-tl from-white/20 to-transparent transform rotate-45 blur-sm" />
+        {/* Bottom edge with enhanced 3D effect */}
+        <div className="absolute bottom-0 left-0 w-full h-4 bg-gradient-to-r from-transparent via-white/20 to-transparent transform skew-x-12 shadow-lg" 
+             style={{
+               background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.3) 80%, transparent 100%)',
+               boxShadow: '0 -2px 10px rgba(255,255,255,0.2), inset 0 -1px 0 rgba(255,255,255,0.4)'
+             }} />
+        
+        {/* Left edge with enhanced 3D effect */}
+        <div className="absolute left-0 top-0 w-4 h-full bg-gradient-to-b from-transparent via-white/20 to-transparent transform -skew-y-12 shadow-lg" 
+             style={{
+               background: 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.3) 80%, transparent 100%)',
+               boxShadow: '2px 0 10px rgba(255,255,255,0.2), inset 1px 0 0 rgba(255,255,255,0.4)'
+             }} />
+        
+        {/* Right edge with enhanced 3D effect */}
+        <div className="absolute right-0 top-0 w-4 h-full bg-gradient-to-b from-transparent via-white/20 to-transparent transform skew-y-12 shadow-lg" 
+             style={{
+               background: 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.3) 80%, transparent 100%)',
+               boxShadow: '-2px 0 10px rgba(255,255,255,0.2), inset -1px 0 0 rgba(255,255,255,0.4)'
+             }} />
+        
+        {/* Enhanced corner accents with 3D depth */}
+        <div className="absolute top-6 left-6 w-16 h-16 transform rotate-45 blur-sm" 
+             style={{
+               background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
+               boxShadow: '0 0 20px rgba(255,255,255,0.3), inset 2px 2px 4px rgba(255,255,255,0.2)'
+             }} />
+        <div className="absolute top-6 right-6 w-16 h-16 transform -rotate-45 blur-sm" 
+             style={{
+               background: 'linear-gradient(225deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
+               boxShadow: '0 0 20px rgba(255,255,255,0.3), inset -2px 2px 4px rgba(255,255,255,0.2)'
+             }} />
+        <div className="absolute bottom-6 left-6 w-16 h-16 transform -rotate-45 blur-sm" 
+             style={{
+               background: 'linear-gradient(45deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
+               boxShadow: '0 0 20px rgba(255,255,255,0.3), inset 2px -2px 4px rgba(255,255,255,0.2)'
+             }} />
+        <div className="absolute bottom-6 right-6 w-16 h-16 transform rotate-45 blur-sm" 
+             style={{
+               background: 'linear-gradient(315deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
+               boxShadow: '0 0 20px rgba(255,255,255,0.3), inset -2px -2px 4px rgba(255,255,255,0.2)'
+             }} />
       </div>
 
       {/* Hero Content */}
