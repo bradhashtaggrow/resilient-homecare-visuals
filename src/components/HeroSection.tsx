@@ -47,7 +47,7 @@ const HeroSection = () => {
           {/* Dynamic Headline */}
           <div className="mb-8 h-32 flex items-center justify-center">
             <h1 className="text-5xl md:text-8xl font-bold text-white leading-tight">
-              <span className="block healthcare-text-gradient text-shadow-blue animate-pulse-slow">
+              <span className="block text-white animate-pulse-slow">
                 {dynamicTexts[textIndex]}
               </span>
             </h1>
