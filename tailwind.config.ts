@@ -65,12 +65,12 @@ export default {
 				}
 			},
 			fontSize: {
-				'revolutionary': ['clamp(4rem, 12vw, 8rem)', { 
+				'revolutionary': ['clamp(6rem, 15vw, 12rem)', { 
 					lineHeight: '0.85', 
 					fontWeight: '900',
 					letterSpacing: '-0.025em'
 				}],
-				'revolutionary-sub': ['clamp(2.5rem, 6vw, 4rem)', { 
+				'revolutionary-sub': ['clamp(3rem, 8vw, 6rem)', { 
 					lineHeight: '0.9', 
 					fontWeight: '900',
 					letterSpacing: '-0.025em'
