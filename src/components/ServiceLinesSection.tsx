@@ -38,7 +38,7 @@ const ServiceLinesSection = () => {
         "Prepare for value-based care programs"
       ],
       color: "blue1",
-      patientImage: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+      patientImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
       icon: <Heart className="h-12 w-12" />,
@@ -51,7 +51,7 @@ const ServiceLinesSection = () => {
         "Reduce readmissions with targeted follow-up visits"
       ],
       color: "blue2",
-      patientImage: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+      patientImage: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
       icon: <Building2 className="h-12 w-12" />,
@@ -65,7 +65,7 @@ const ServiceLinesSection = () => {
       ],
       note: "CMS waiver extended through September 2025. We help hospitals prepare for future program versions.",
       color: "blue3",
-      patientImage: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+      patientImage: "https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     }
   ];
 
@@ -116,11 +116,11 @@ const ServiceLinesSection = () => {
                 {/* Content */}
                 <div className={`space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                   <div className="space-y-6 bg-white/85 backdrop-blur-sm rounded-3xl p-8 shadow-xl relative">
-                    {/* 3D Floating Icon */}
-                    <div className="absolute -top-6 -right-6 w-24 h-24 perspective-1000">
-                      <div className={`w-full h-full rounded-2xl transition-all duration-500 transform hover:rotate-y-12 hover:rotate-x-12 ${
+                    {/* Simple 2D Service Icon */}
+                    <div className="absolute -top-6 -right-6 w-24 h-24">
+                      <div className={`w-full h-full rounded-2xl transition-all duration-300 ${
                         getColorClasses(service.color, activeService === index)
-                      } flex items-center justify-center animate-float shadow-2xl`}>
+                      } flex items-center justify-center shadow-2xl`}>
                         {service.icon}
                       </div>
                     </div>
@@ -145,7 +145,7 @@ const ServiceLinesSection = () => {
                       {service.benefits.map((benefit, benefitIndex) => (
                         <div key={benefitIndex} className="flex items-start space-x-4">
                           <div className="w-8 h-8 perspective-1000 flex-shrink-0 mt-0.5">
-                            <div className="w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transform transition-all duration-300 hover:rotate-12 hover:scale-110 shadow-lg">
+                            <div className="w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transform-3d transition-all duration-300 hover:rotateY-12 hover:rotateX-6 hover:scale-110 shadow-lg">
                               <CheckCircle className="h-4 w-4 text-white" />
                             </div>
                           </div>
@@ -186,15 +186,15 @@ const ServiceLinesSection = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent" />
                     </div>
                     
-                    {/* 3D Floating Elements */}
-                    <div className="absolute -top-6 -right-6 w-16 h-16 perspective-1000">
-                      <div className="w-full h-full healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl transform transition-all duration-500 hover:rotate-12 hover:scale-110">
+                    {/* Simple decorative elements */}
+                    <div className="absolute -top-6 -right-6 w-16 h-16">
+                      <div className="w-full h-full healthcare-gradient rounded-full flex items-center justify-center shadow-xl transform transition-all duration-300 hover:scale-110">
                         <Users className="h-8 w-8 text-white" />
                       </div>
                     </div>
                     
-                    <div className="absolute -bottom-8 -left-8 w-14 h-14 perspective-1000">
-                      <div className="w-full h-full bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center animate-float shadow-xl transform transition-all duration-500 hover:rotate-12 hover:scale-110" style={{animationDelay: '2s'}}>
+                    <div className="absolute -bottom-8 -left-8 w-14 h-14">
+                      <div className="w-full h-full bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-xl transform transition-all duration-300 hover:scale-110">
                         <span className="text-white text-xl">💙</span>
                       </div>
                     </div>

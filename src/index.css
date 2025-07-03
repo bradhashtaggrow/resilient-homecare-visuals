@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -225,20 +224,24 @@
     perspective: 1000px;
   }
 
-  .rotate-x-0 {
-    transform: rotateX(0deg);
+  .transform-3d {
+    transform-style: preserve-3d;
   }
 
-  .-rotate-x-90 {
-    transform: rotateX(-90deg);
-  }
-
-  .rotate-y-12 {
+  .rotateY-12 {
     transform: rotateY(12deg);
   }
 
-  .rotate-x-12 {
-    transform: rotateX(12deg);
+  .rotateX-6 {
+    transform: rotateX(6deg);
+  }
+
+  .hover\:rotateY-12:hover {
+    transform: rotateY(12deg);
+  }
+
+  .hover\:rotateX-6:hover {
+    transform: rotateX(6deg);
   }
 
   /* Glass Morphism */
