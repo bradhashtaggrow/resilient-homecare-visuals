@@ -37,77 +37,98 @@ const HeroSection = () => {
         >
           <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
-        {/* Blue overlay instead of black */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-blue-800/50" />
+        {/* Subtle gradient overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/20" />
+      </div>
+
+      {/* 3D Anamorphic Edge Effects */}
+      <div className="absolute inset-0 z-10 pointer-events-none">
+        {/* Top edge */}
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12" />
+        {/* Bottom edge */}
+        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform skew-x-12" />
+        {/* Left edge */}
+        <div className="absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform -skew-y-12" />
+        {/* Right edge */}
+        <div className="absolute right-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform skew-y-12" />
+        
+        {/* Corner accents */}
+        <div className="absolute top-4 left-4 w-12 h-12 bg-gradient-to-br from-white/20 to-transparent transform rotate-45 blur-sm" />
+        <div className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-bl from-white/20 to-transparent transform -rotate-45 blur-sm" />
+        <div className="absolute bottom-4 left-4 w-12 h-12 bg-gradient-to-tr from-white/20 to-transparent transform -rotate-45 blur-sm" />
+        <div className="absolute bottom-4 right-4 w-12 h-12 bg-gradient-to-tl from-white/20 to-transparent transform rotate-45 blur-sm" />
       </div>
 
       {/* Hero Content */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
-          {/* Dynamic Headline */}
-          <div className="mb-8 h-24 flex items-center justify-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight">
-              <span className="block text-white animate-pulse-slow">
+          {/* Dynamic Headline - Apple Style */}
+          <div className="mb-12 h-32 flex items-center justify-center">
+            <h1 className="text-revolutionary text-white leading-none tracking-tight font-black">
+              <span className="block text-white animate-pulse-slow text-shadow-white">
                 {dynamicTexts[textIndex]}
               </span>
             </h1>
           </div>
           
-          {/* Subheading */}
-          <p className="text-lg md:text-xl text-white mb-10 max-w-4xl mx-auto leading-relaxed font-light">
+          {/* Subheading - Apple Style */}
+          <p className="text-revolutionary-sub text-white/90 mb-16 max-w-5xl mx-auto leading-relaxed font-medium tracking-wide">
             Discover an easier, more convenient healthcare delivery solution with Resilient Healthcare™. 
             We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
           </p>
           
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+          {/* Cutting-Edge Buttons */}
+          <div className="flex flex-col sm:flex-row gap-8 justify-center items-center mb-16">
             <Button 
               size="lg" 
-              className="healthcare-gradient hover:scale-110 transition-all duration-500 text-lg px-10 py-6 shadow-2xl hover:shadow-blue-500/25 group text-white border-0"
+              className="cutting-edge-btn-primary group text-white border-0 relative overflow-hidden"
             >
-              Book An Appointment
-              <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform" />
+              <span className="relative z-10 flex items-center text-xl font-semibold">
+                Book An Appointment
+                <ArrowRight className="ml-4 h-6 w-6 group-hover:translate-x-3 transition-transform duration-500" />
+              </span>
             </Button>
             
             <Button 
               variant="outline" 
               size="lg" 
-              className="border-2 border-white text-white bg-white/10 hover:bg-white hover:text-blue-900 transition-all duration-500 text-lg px-10 py-6 hover:scale-110 group backdrop-blur-sm"
+              className="cutting-edge-btn-secondary group backdrop-blur-xl"
             >
-              <Play className="mr-3 h-5 w-5 group-hover:scale-125 transition-transform" />
-              Learn More
+              <Play className="mr-4 h-6 w-6 group-hover:scale-125 transition-transform duration-500" />
+              <span className="text-xl font-semibold">Learn More</span>
             </Button>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="space-y-4">
-            <div className="flex justify-center items-center space-x-8 text-white/80">
+          {/* Trust Indicators - Apple Style */}
+          <div className="space-y-6">
+            <div className="flex justify-center items-center space-x-12 text-white/90">
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">38%</div>
-                <div className="text-xs">Cost Savings</div>
+                <div className="text-5xl font-black text-white mb-2 tracking-tight">38%</div>
+                <div className="text-lg font-medium tracking-wide">Cost Savings</div>
               </div>
-              <div className="w-px h-10 bg-white/30" />
+              <div className="w-px h-16 bg-white/20" />
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">70%</div>
-                <div className="text-xs">Reduction in Readmissions</div>
+                <div className="text-5xl font-black text-white mb-2 tracking-tight">70%</div>
+                <div className="text-lg font-medium tracking-wide">Reduction in Readmissions</div>
               </div>
-              <div className="w-px h-10 bg-white/30" />
+              <div className="w-px h-16 bg-white/20" />
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">91%</div>
-                <div className="text-xs">Patient Preference</div>
+                <div className="text-5xl font-black text-white mb-2 tracking-tight">91%</div>
+                <div className="text-lg font-medium tracking-wide">Patient Preference</div>
               </div>
             </div>
             
-            <p className="text-white/80 text-base">We manage the work. You own the program.</p>
+            <p className="text-white/80 text-xl font-medium tracking-wide">We manage the work. You own the program.</p>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Modern Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-pulse" />
+        <div className="animate-bounce-gentle">
+          <div className="w-8 h-12 border-2 border-white/40 rounded-full flex justify-center relative overflow-hidden">
+            <div className="w-1.5 h-4 bg-white/60 rounded-full mt-3 animate-pulse-slow" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent" />
           </div>
         </div>
       </div>
