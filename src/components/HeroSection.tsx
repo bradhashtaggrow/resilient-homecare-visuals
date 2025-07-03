@@ -22,19 +22,17 @@ const HeroSection = () => {
           className="absolute inset-0 w-full h-full object-cover"
           onLoadStart={() => console.log('Video loading started')}
           onCanPlay={() => console.log('Video can play')}
+          onLoadedData={() => console.log('Video data loaded')}
           onError={(e) => {
             console.log('Video failed to load:', e);
             console.log('Video error target:', e.target);
           }}
         >
-          <source src="https://player.vimeo.com/external/463476403.hd.mp4?s=ca50a3a1b8a4d0c79a4d5e7f3a2b6c8d&profile_id=175" type="video/mp4" />
           <source src="https://videos.pexels.com/video-files/8375494/8375494-hd_1920_1080_25fps.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        {/* Fallback background color */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800 z-0"></div>
         {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40 z-10"></div>
+        <div className="absolute inset-0 bg-black/50 z-10"></div>
       </div>
 
       {/* Hero Content */}
@@ -43,14 +41,14 @@ const HeroSection = () => {
           {/* Apple-Style Smaller Title */}
           <div className="mb-12">
             <h1 className="text-white leading-none tracking-tight font-black text-shadow-white" 
-                style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
               The Future of Healthcare
             </h1>
           </div>
           
           {/* Smaller Subtitle */}
           <p className="text-white/90 mb-16 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
-             style={{ fontSize: 'clamp(1.2rem, 3vw, 2rem)', lineHeight: 1.3 }}>
+             style={{ fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', lineHeight: 1.3 }}>
             We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
           </p>
           
