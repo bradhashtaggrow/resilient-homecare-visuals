@@ -25,17 +25,46 @@ const ServiceLinesSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Simple 3D Icon Component
-  const AnimatedIcon = ({ icon: Icon, color = "blue", delay = 0 }) => (
-    <div className="w-10 h-10 flex-shrink-0 mt-0.5">
-      <div 
-        className={`w-full h-full rounded-xl bg-gradient-to-br from-${color}-400 via-${color}-500 to-${color}-600 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-1 cursor-pointer`}
-        style={{ animationDelay: `${delay}ms` }}
-      >
-        <Icon className="h-5 w-5 text-white drop-shadow-sm" />
+  // 3D Animated Icon Component with Depth Effects
+  const AnimatedIcon3D = ({ icon: Icon, color = "blue", delay = 0 }) => {
+    const colorClasses = {
+      emerald: 'from-emerald-400 via-emerald-500 to-emerald-600 shadow-emerald-500/50',
+      blue: 'from-blue-400 via-blue-500 to-blue-600 shadow-blue-500/50',
+      purple: 'from-purple-400 via-purple-500 to-purple-600 shadow-purple-500/50',
+      orange: 'from-orange-400 via-orange-500 to-orange-600 shadow-orange-500/50',
+      red: 'from-red-400 via-red-500 to-red-600 shadow-red-500/50',
+      green: 'from-green-400 via-green-500 to-green-600 shadow-green-500/50',
+      indigo: 'from-indigo-400 via-indigo-500 to-indigo-600 shadow-indigo-500/50',
+      cyan: 'from-cyan-400 via-cyan-500 to-cyan-600 shadow-cyan-500/50',
+      pink: 'from-pink-400 via-pink-500 to-pink-600 shadow-pink-500/50',
+      yellow: 'from-yellow-400 via-yellow-500 to-yellow-600 shadow-yellow-500/50'
+    };
+
+    return (
+      <div className="w-10 h-10 flex-shrink-0 mt-0.5 perspective-1000">
+        <div 
+          className={`
+            w-full h-full rounded-xl bg-gradient-to-br ${colorClasses[color]} 
+            flex items-center justify-center cursor-pointer
+            transform-3d transition-all duration-500 ease-out
+            shadow-lg hover:shadow-2xl
+            hover:scale-110 hover:-translate-y-2 hover:rotate-y-12 hover:rotate-x-6
+            before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r 
+            before:from-white/20 before:to-transparent before:opacity-0 
+            hover:before:opacity-100 before:transition-opacity before:duration-300
+            relative overflow-hidden
+          `}
+          style={{ 
+            animationDelay: `${delay}ms`,
+            transformStyle: 'preserve-3d'
+          }}
+        >
+          <Icon className="h-5 w-5 text-white drop-shadow-lg relative z-10" />
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const services = [
     {
@@ -152,11 +181,11 @@ const ServiceLinesSection = () => {
                       {service.description}
                     </p>
 
-                    {/* Benefits List with Animated Icons */}
+                    {/* Benefits List with 3D Animated Icons */}
                     <div className="space-y-4">
                       {service.benefits.map((benefit, benefitIndex) => (
                         <div key={benefitIndex} className="flex items-start space-x-4">
-                          <AnimatedIcon 
+                          <AnimatedIcon3D 
                             icon={benefit.icon} 
                             color={benefit.color}
                             delay={benefitIndex * 150} 

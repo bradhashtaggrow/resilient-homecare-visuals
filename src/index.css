@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -228,20 +229,34 @@
     transform-style: preserve-3d;
   }
 
-  .rotateY-12 {
+  .rotate-y-12 {
     transform: rotateY(12deg);
   }
 
-  .rotateX-6 {
+  .rotate-x-6 {
     transform: rotateX(6deg);
   }
 
-  .hover\:rotateY-12:hover {
+  .hover\:rotate-y-12:hover {
     transform: rotateY(12deg);
   }
 
-  .hover\:rotateX-6:hover {
+  .hover\:rotate-x-6:hover {
     transform: rotateX(6deg);
+  }
+
+  /* Enhanced 3D Animation Classes */
+  .animate-3d-hover {
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transform-style: preserve-3d;
+  }
+
+  .animate-3d-hover:hover {
+    transform: perspective(1000px) rotateY(12deg) rotateX(6deg) translateZ(20px) scale(1.1);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+      0 2px 10px rgba(255, 255, 255, 0.2) inset;
   }
 
   /* Glass Morphism */
@@ -291,45 +306,6 @@
 
   .loading-pulse {
     animation: loadingPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  /* 3D Animated Icons */
-  .animated-icon-3d {
-    transform-style: preserve-3d;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .animated-icon-3d::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, rgba(255,255,255,0.3), transparent, rgba(255,255,255,0.3));
-    border-radius: inherit;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-  }
-
-  .animated-icon-3d:hover {
-    transform: translateY(-4px) rotateX(15deg) rotateY(5deg) scale(1.1);
-    box-shadow: 
-      0 8px 25px rgba(0, 0, 0, 0.15),
-      0 4px 10px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  }
-
-  .animated-icon-3d:hover::before {
-    opacity: 1;
-  }
-
-  .animated-icon-3d:active {
-    transform: translateY(-2px) rotateX(5deg) scale(1.05);
-    transition: all 0.1s ease;
   }
 }
 
@@ -499,7 +475,7 @@
     transition-duration: 0.01ms !important;
   }
   
-  .animated-icon-3d:hover {
+  .animate-3d-hover:hover {
     transform: none;
     box-shadow: none;
   }
@@ -530,30 +506,6 @@
   font-weight: 600;
   line-height: 1.3;
   letter-spacing: -0.01em;
-}
-
-/* 3D Twirling Favicon Animation */
-.twirling-favicon {
-  animation: twirlingFavicon 3s ease-in-out infinite;
-  transform-style: preserve-3d;
-}
-
-@keyframes twirlingFavicon {
-  0% {
-    transform: rotateY(0deg) rotateX(0deg);
-  }
-  25% {
-    transform: rotateY(90deg) rotateX(15deg);
-  }
-  50% {
-    transform: rotateY(180deg) rotateX(0deg);
-  }
-  75% {
-    transform: rotateY(270deg) rotateX(-15deg);
-  }
-  100% {
-    transform: rotateY(360deg) rotateX(0deg);
-  }
 }
 
 /* 3D Transform utilities */
