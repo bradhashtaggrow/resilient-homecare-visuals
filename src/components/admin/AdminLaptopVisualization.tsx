@@ -21,19 +21,19 @@ const AdminLaptopVisualization = ({
       <div className={`relative transition-all duration-1500 ${
         isVisible ? 'animate-scale-in' : 'opacity-0'
       }`}>
-        <div className="relative perspective-1000">
-          {/* Laptop Base */}
-          <div className="w-[800px] h-8 bg-gradient-to-r from-gray-600 to-gray-500 rounded-2xl shadow-2xl transform-gpu" 
-               style={{ transformStyle: 'preserve-3d' }} />
+        <div className="relative" style={{ perspective: '1000px' }}>
+          {/* Laptop Base/Keyboard */}
+          <div className="w-[800px] h-8 bg-gradient-to-r from-gray-600 to-gray-500 rounded-2xl shadow-2xl" />
           
           {/* Laptop Screen */}
           <div 
-            className={`w-[800px] h-[500px] bg-gradient-to-br from-gray-800 to-gray-900 rounded-t-3xl shadow-2xl transition-all duration-2000 origin-bottom border-4 border-gray-700 ${
-              laptopOpen ? 'rotate-x-0' : '-rotate-x-90'
+            className={`w-[800px] h-[500px] bg-gradient-to-br from-gray-800 to-gray-900 rounded-t-3xl shadow-2xl transition-all duration-2000 origin-bottom border-4 border-gray-700 relative ${
+              laptopOpen ? '' : 'transform -rotate-x-90'
             }`}
             style={{ 
               transformOrigin: 'bottom center',
-              transformStyle: 'preserve-3d'
+              transformStyle: 'preserve-3d',
+              transform: laptopOpen ? 'rotateX(-15deg)' : 'rotateX(-90deg)'
             }}
           >
             <div className="p-8 h-full healthcare-gradient rounded-t-2xl relative overflow-hidden">
