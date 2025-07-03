@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
@@ -121,8 +120,6 @@ const HeroSection = () => {
                 <div className="text-lg font-medium tracking-wide">Patient Preference</div>
               </div>
             </div>
-            
-            <p className="text-white/80 text-xl font-medium tracking-wide">We manage the work. You own the program.</p>
           </div>
         </div>
       </div>
