@@ -20,9 +20,15 @@ const HeroSection = () => {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => {
+            console.log('Video failed to load:', e);
+          }}
         >
           <source src="https://videos.pexels.com/video-files/8375494/8375494-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
         </video>
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
       </div>
 
       {/* Hero Content */}
