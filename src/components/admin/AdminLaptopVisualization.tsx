@@ -22,107 +22,114 @@ const AdminLaptopVisualization = ({
         isVisible ? 'animate-scale-in' : 'opacity-0'
       }`}>
         <div className="relative" style={{ perspective: '1000px' }}>
-          {/* Laptop Base - More realistic proportions */}
-          <div className="w-[700px] h-6 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 rounded-xl shadow-2xl relative">
-            {/* Base depth effect */}
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-600 to-gray-800 rounded-xl transform translate-y-1"></div>
-            {/* Trackpad */}
-            <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-24 h-4 bg-gray-800 rounded border border-gray-500"></div>
-          </div>
-          
-          {/* Laptop Screen - Fixed animation */}
-          <div 
-            className={`w-[700px] h-[440px] bg-gradient-to-br from-gray-900 to-black rounded-t-2xl shadow-2xl transition-all duration-2000 origin-bottom border-2 border-gray-800 relative ${
-              laptopOpen ? 'transform rotate-0' : 'transform -rotate-x-90'
-            }`}
-            style={{ 
-              transformOrigin: 'bottom center',
-              transformStyle: 'preserve-3d',
-              transform: laptopOpen ? 'rotateX(0deg)' : 'rotateX(-90deg)'
-            }}
-          >
-            {/* Screen bezel */}
-            <div className="absolute inset-2 bg-black rounded-xl">
-              {/* Actual screen content */}
-              <div className="p-6 h-full healthcare-gradient rounded-xl relative overflow-hidden">
-                {/* Screen Content */}
-                <div className="bg-black/20 rounded-xl p-4 h-full backdrop-blur-sm border border-white/10">
-                  {/* Header */}
-                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/20">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                      <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                    </div>
-                    <div className="text-white font-semibold text-sm">
-                      Resilient Healthcare - Admin Console
-                    </div>
-                    <div className="text-white/60 text-xs">
-                      {new Date().toLocaleDateString()}
-                    </div>
-                  </div>
-
-                  {/* Dynamic Dashboard Content */}
-                  <div className="grid grid-cols-4 gap-3 h-full">
-                    <div className="col-span-3 space-y-3">
-                      {/* Top Stats Row */}
-                      <div className="grid grid-cols-4 gap-3">
-                        {[
-                          { label: 'Active Patients', value: '247', trend: '+5%' },
-                          { label: 'Team Members', value: '28', trend: '+2' },
-                          { label: 'Satisfaction', value: '94.2%', trend: '+1.2%' },
-                          { label: 'Revenue', value: '$127K', trend: '+12%' }
-                        ].map((stat, i) => (
-                          <div key={i} className="bg-white/10 rounded-lg p-3 backdrop-blur-sm">
-                            <div className="text-white/60 text-xs mb-1">{stat.label}</div>
-                            <div className="text-white font-bold text-sm">{stat.value}</div>
-                            <div className="text-green-400 text-xs">{stat.trend}</div>
-                          </div>
-                        ))}
+          {/* MacBook Pro Base Image - Flipped to correct orientation */}
+          <div className="relative w-[800px] h-[500px]">
+            <img 
+              src="/lovable-uploads/a06b72e3-b23e-4c4f-930b-6f5df0bc7d75.png"
+              alt="MacBook Pro"
+              className="w-full h-full object-contain transform scale-y-[-1]"
+              style={{
+                filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5))',
+                transform: 'scaleY(-1)'
+              }}
+            />
+            
+            {/* Screen Content Overlay - Positioned for flipped laptop */}
+            <div 
+              className={`absolute bg-black rounded-lg transition-all duration-2000 overflow-hidden ${
+                laptopOpen ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{
+                top: '15%',
+                left: '12%',
+                width: '76%',
+                height: '60%',
+                transformOrigin: 'bottom center'
+              }}
+            >
+              {/* Screen bezel effect */}
+              <div className="absolute inset-1 bg-gradient-to-br from-gray-900 to-black rounded-lg">
+                {/* Actual screen content */}
+                <div className="p-4 h-full healthcare-gradient rounded-lg relative overflow-hidden">
+                  {/* Screen Content */}
+                  <div className="bg-black/20 rounded-lg p-3 h-full backdrop-blur-sm border border-white/10">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-3 pb-2 border-b border-white/20">
+                      <div className="flex items-center space-x-1">
+                        <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                       </div>
+                      <div className="text-white font-semibold text-xs">
+                        Resilient Healthcare - Admin Console
+                      </div>
+                      <div className="text-white/60 text-xs">
+                        {new Date().toLocaleDateString()}
+                      </div>
+                    </div>
 
-                      {/* Main Chart Area */}
-                      <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm h-48">
-                        <div className="text-white font-semibold text-sm mb-3">Patient Volume Trends</div>
-                        <div className="relative h-full">
-                          {/* Animated Chart Bars */}
-                          <div className="flex items-end justify-between h-full space-x-1">
-                            {[65, 78, 82, 71, 89, 95, 88, 92].map((height, i) => (
-                              <div 
-                                key={i}
-                                className="bg-gradient-to-t from-blue-400 to-purple-400 rounded-t transition-all duration-1000 flex-1"
-                                style={{ 
-                                  height: `${height}%`,
-                                  animationDelay: `${i * 200}ms`
-                                }}
-                              />
-                            ))}
+                    {/* Dynamic Dashboard Content */}
+                    <div className="grid grid-cols-4 gap-2 h-full">
+                      <div className="col-span-3 space-y-2">
+                        {/* Top Stats Row */}
+                        <div className="grid grid-cols-4 gap-2">
+                          {[
+                            { label: 'Active Patients', value: '247', trend: '+5%' },
+                            { label: 'Team Members', value: '28', trend: '+2' },
+                            { label: 'Satisfaction', value: '94.2%', trend: '+1.2%' },
+                            { label: 'Revenue', value: '$127K', trend: '+12%' }
+                          ].map((stat, i) => (
+                            <div key={i} className="bg-white/10 rounded p-2 backdrop-blur-sm">
+                              <div className="text-white/60 text-xs mb-1">{stat.label}</div>
+                              <div className="text-white font-bold text-xs">{stat.value}</div>
+                              <div className="text-green-400 text-xs">{stat.trend}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Main Chart Area */}
+                        <div className="bg-white/10 rounded p-3 backdrop-blur-sm h-32">
+                          <div className="text-white font-semibold text-xs mb-2">Patient Volume Trends</div>
+                          <div className="relative h-full">
+                            {/* Animated Chart Bars */}
+                            <div className="flex items-end justify-between h-full space-x-1">
+                              {[65, 78, 82, 71, 89, 95, 88, 92].map((height, i) => (
+                                <div 
+                                  key={i}
+                                  className="bg-gradient-to-t from-blue-400 to-purple-400 rounded-t transition-all duration-1000 flex-1"
+                                  style={{ 
+                                    height: `${height}%`,
+                                    animationDelay: `${i * 200}ms`
+                                  }}
+                                />
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Right Sidebar */}
-                    <div className="space-y-3">
-                      <div className="bg-white/10 rounded-lg p-3 backdrop-blur-sm transition-all duration-500">
-                        {demoScreens[activeDemo].content}
-                      </div>
-                      
-                      {/* Activity Feed */}
-                      <div className="bg-white/10 rounded-lg p-3 backdrop-blur-sm">
-                        <div className="text-white font-semibold text-xs mb-2">Recent Activity</div>
-                        <div className="space-y-1">
-                          {[
-                            'Patient check-in completed',
-                            'Alert: Vitals anomaly detected',
-                            'Care plan updated',
-                            'Team message sent'
-                          ].map((activity, i) => (
-                            <div key={i} className="flex items-center space-x-2">
-                              <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                              <div className="text-white/70 text-xs">{activity}</div>
-                            </div>
-                          ))}
+                      {/* Right Sidebar */}
+                      <div className="space-y-2">
+                        <div className="bg-white/10 rounded p-2 backdrop-blur-sm transition-all duration-500">
+                          {demoScreens[activeDemo].content}
+                        </div>
+                        
+                        {/* Activity Feed */}
+                        <div className="bg-white/10 rounded p-2 backdrop-blur-sm">
+                          <div className="text-white font-semibold text-xs mb-2">Recent Activity</div>
+                          <div className="space-y-1">
+                            {[
+                              'Patient check-in completed',
+                              'Alert: Vitals anomaly detected',
+                              'Care plan updated',
+                              'Team message sent'
+                            ].map((activity, i) => (
+                              <div key={i} className="flex items-center space-x-1">
+                                <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+                                <div className="text-white/70 text-xs">{activity}</div>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -130,9 +137,6 @@ const AdminLaptopVisualization = ({
                 </div>
               </div>
             </div>
-            
-            {/* Apple logo or brand mark */}
-            <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white/20 rounded-full"></div>
           </div>
           
           {/* Floating Dashboard Icons */}
