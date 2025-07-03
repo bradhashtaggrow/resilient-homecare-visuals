@@ -26,7 +26,7 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Revolutionary Video Background */}
+      {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -37,27 +37,11 @@ const HeroSection = () => {
         >
           <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-blue-800/80 to-blue-700/70" />
-        <div className="absolute inset-0 bg-black/20" />
-      </div>
-      
-      {/* Floating Particles */}
-      <div className="absolute inset-0 z-10">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-white/20 rounded-full animate-float"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 6}s`,
-              animationDuration: `${4 + Math.random() * 4}s`
-            }}
-          />
-        ))}
+        {/* Light black contrast overlay */}
+        <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      {/* Revolutionary Hero Content */}
+      {/* Hero Content */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
           {/* Dynamic Headline */}
@@ -69,7 +53,7 @@ const HeroSection = () => {
             </h1>
           </div>
           
-          <p className="text-2xl md:text-3xl text-blue-100 mb-12 max-w-4xl mx-auto leading-relaxed font-light">
+          <p className="text-2xl md:text-3xl text-white mb-12 max-w-4xl mx-auto leading-relaxed font-light">
             Reimagine patient recovery, reduce readmissions by 25%, and empower 
             clinicians with our revolutionary AI-powered home healthcare platform.
           </p>
@@ -93,26 +77,26 @@ const HeroSection = () => {
             </Button>
           </div>
 
-          {/* Revolutionary Trust Indicators */}
+          {/* Trust Indicators */}
           <div className="space-y-6">
-            <div className="flex justify-center items-center space-x-8 text-blue-200">
+            <div className="flex justify-center items-center space-x-8 text-white/80">
               <div className="text-center">
                 <div className="text-3xl font-bold text-white">1000+</div>
                 <div className="text-sm">Patients Served</div>
               </div>
-              <div className="w-px h-12 bg-blue-300/30" />
+              <div className="w-px h-12 bg-white/30" />
               <div className="text-center">
                 <div className="text-3xl font-bold text-white">25%</div>
                 <div className="text-sm">Fewer Readmissions</div>
               </div>
-              <div className="w-px h-12 bg-blue-300/30" />
+              <div className="w-px h-12 bg-white/30" />
               <div className="text-center">
                 <div className="text-3xl font-bold text-white">94%</div>
                 <div className="text-sm">Patient Satisfaction</div>
               </div>
             </div>
             
-            <p className="text-blue-200 text-lg">Trusted by healthcare professionals nationwide</p>
+            <p className="text-white/80 text-lg">Trusted by healthcare professionals nationwide</p>
             <div className="flex justify-center items-center space-x-12 opacity-70">
               {['Mayo Clinic', 'Johns Hopkins', 'Cleveland Clinic', 'Kaiser Permanente'].map((name) => (
                 <div key={name} className="px-6 py-3 bg-white/10 rounded-xl backdrop-blur-sm text-white font-medium hover:bg-white/20 transition-colors">
