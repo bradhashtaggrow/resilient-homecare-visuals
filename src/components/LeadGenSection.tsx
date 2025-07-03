@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,7 +66,7 @@ const LeadGenSection = () => {
     },
     {
       icon: <Zap className="h-6 w-6" />,
-      title: "Implementation Roadmap",
+      title: "Implementation Roadmap", 
       description: "Detailed timeline, pricing, and step-by-step deployment strategy"
     },
     {
@@ -116,12 +115,26 @@ const LeadGenSection = () => {
             <Star className="h-4 w-4" />
             <span>Join the Healthcare Revolution</span>
           </div>
-          <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
-              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+          <h2 className="leading-none tracking-tight font-black mb-8"
+              style={{ 
+                fontSize: 'clamp(3rem, 8vw, 8rem)', 
+                fontWeight: 900, 
+                lineHeight: 0.85,
+                background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>
             Ready to Transform Your 
-            <span className="block healthcare-text-gradient">Healthcare Delivery?</span>
+            <span className="block"
+                  style={{
+                    background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}>Healthcare Delivery?</span>
           </h2>
-          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
+          <p className="text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             Join visionary healthcare organizations that are revolutionizing patient care 
             and operational excellence with our comprehensive platform.
@@ -137,8 +150,16 @@ const LeadGenSection = () => {
               {/* Form Background Pattern */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-full -translate-y-16 translate-x-16" />
               
-              <h3 className="text-gray-900 leading-none tracking-tight font-black mb-8"
-                  style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              <h3 className="leading-none tracking-tight font-black mb-8"
+                  style={{ 
+                    fontSize: 'clamp(2rem, 5vw, 4rem)', 
+                    fontWeight: 900, 
+                    lineHeight: 0.85,
+                    background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}>
                 Schedule Your Revolutionary Demo
               </h3>
               
@@ -233,7 +254,17 @@ const LeadGenSection = () => {
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full healthcare-gradient hover:scale-105 transition-all duration-300 text-xl py-6 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full hover:scale-105 transition-all duration-300 text-xl py-6 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{
+                      background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                      boxShadow: `
+                        0 8px 24px rgba(74, 144, 226, 0.4),
+                        0 2px 12px rgba(0, 0, 0, 0.3),
+                        inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                        inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                      `,
+                      textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                    }}
                   >
                     {isLoading ? (
                       <div className="flex items-center space-x-2">
@@ -257,8 +288,16 @@ const LeadGenSection = () => {
                   <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle className="h-12 w-12 text-white" />
                   </div>
-                  <h4 className="text-gray-900 leading-none tracking-tight font-black mb-4"
-                      style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                  <h4 className="leading-none tracking-tight font-black mb-4"
+                      style={{ 
+                        fontSize: 'clamp(2rem, 5vw, 4rem)', 
+                        fontWeight: 900, 
+                        lineHeight: 0.85,
+                        background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                      }}>
                     Demo Scheduled Successfully!
                   </h4>
                   <p className="text-blue-600/90 font-medium tracking-wide mb-6"
@@ -282,8 +321,16 @@ const LeadGenSection = () => {
           }`}>
             {/* What You'll Get */}
             <div className="bg-white/85 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
-              <h3 className="text-gray-900 leading-none tracking-tight font-black mb-8"
-                  style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              <h3 className="leading-none tracking-tight font-black mb-8"
+                  style={{ 
+                    fontSize: 'clamp(2rem, 5vw, 4rem)', 
+                    fontWeight: 900, 
+                    lineHeight: 0.85,
+                    background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}>
                 What You'll Experience
               </h3>
               <div className="space-y-6">
@@ -308,8 +355,16 @@ const LeadGenSection = () => {
             
             {/* Revolutionary Testimonials */}
             <div className="space-y-6">
-              <h3 className="text-gray-900 leading-none tracking-tight font-black"
-                  style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              <h3 className="leading-none tracking-tight font-black"
+                  style={{ 
+                    fontSize: 'clamp(2rem, 5vw, 4rem)', 
+                    fontWeight: 900, 
+                    lineHeight: 0.85,
+                    background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}>
                 Trusted by Healthcare Leaders
               </h3>
               <div className="bg-white/85 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
@@ -335,7 +390,16 @@ const LeadGenSection = () => {
         <div className={`text-center mt-20 transition-all duration-1000 delay-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
-          <div className="healthcare-gradient rounded-3xl p-12 text-white relative overflow-hidden">
+          <div className="rounded-3xl p-12 text-white relative overflow-hidden"
+               style={{
+                 background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                 boxShadow: `
+                   0 20px 48px rgba(74, 144, 226, 0.4),
+                   0 8px 24px rgba(0, 0, 0, 0.3),
+                   inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                   inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                 `
+               }}>
             <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-24 translate-x-24" />
             <div className="relative">
               <h3 className="text-white leading-none tracking-tight font-black mb-6"

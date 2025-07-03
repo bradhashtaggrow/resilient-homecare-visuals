@@ -50,8 +50,16 @@ const HeroSection = () => {
         <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
           {/* Apple-Style Title */}
           <div className="mb-12">
-            <h1 className="text-white leading-none tracking-tight font-black text-shadow-white" 
-                style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+            <h1 className="leading-none tracking-tight font-black text-shadow-white" 
+                style={{ 
+                  fontSize: 'clamp(3rem, 8vw, 8rem)', 
+                  fontWeight: 900, 
+                  lineHeight: 0.85,
+                  background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}>
               The Future of Healthcare
             </h1>
           </div>
@@ -68,9 +76,9 @@ const HeroSection = () => {
               size="lg" 
               className="group relative px-16 py-8 text-2xl font-bold rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
               style={{
-                background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
+                background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
                 boxShadow: `
-                  0 12px 32px rgba(0, 128, 255, 0.4),
+                  0 12px 32px rgba(74, 144, 226, 0.4),
                   0 4px 16px rgba(0, 0, 0, 0.3),
                   inset 0 2px 0 rgba(255, 255, 255, 0.2),
                   inset 0 -2px 8px rgba(0, 0, 0, 0.1)
@@ -79,21 +87,21 @@ const HeroSection = () => {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.boxShadow = `
-                  0 20px 48px rgba(0, 128, 255, 0.6),
+                  0 20px 48px rgba(74, 144, 226, 0.6),
                   0 8px 24px rgba(0, 0, 0, 0.4),
                   inset 0 2px 0 rgba(255, 255, 255, 0.3),
                   inset 0 -2px 12px rgba(0, 0, 0, 0.2)
                 `;
-                e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
+                e.currentTarget.style.background = 'linear-gradient(145deg, #5A9AE6 0%, #4589C7 100%)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.boxShadow = `
-                  0 12px 32px rgba(0, 128, 255, 0.4),
+                  0 12px 32px rgba(74, 144, 226, 0.4),
                   0 4px 16px rgba(0, 0, 0, 0.3),
                   inset 0 2px 0 rgba(255, 255, 255, 0.2),
                   inset 0 -2px 8px rgba(0, 0, 0, 0.1)
                 `;
-                e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
+                e.currentTarget.style.background = 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)';
               }}
             >
               <span className="relative z-10 flex items-center">
@@ -107,22 +115,46 @@ const HeroSection = () => {
           <div className="space-y-6">
             <div className="flex justify-center items-center space-x-12 text-white/90">
               <div className="text-center">
-                <div className="text-white leading-none tracking-tight font-black mb-2"
-                     style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>38%</div>
+                <div className="leading-none tracking-tight font-black mb-2"
+                     style={{ 
+                       fontSize: 'clamp(2rem, 5vw, 4rem)', 
+                       fontWeight: 900, 
+                       lineHeight: 0.85,
+                       background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                       WebkitBackgroundClip: 'text',
+                       WebkitTextFillColor: 'transparent',
+                       backgroundClip: 'text'
+                     }}>38%</div>
                 <div className="text-white/90 font-medium tracking-wide"
                      style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Cost Savings</div>
               </div>
               <div className="w-px h-16 bg-white/20" />
               <div className="text-center">
-                <div className="text-white leading-none tracking-tight font-black mb-2"
-                     style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>70%</div>
+                <div className="leading-none tracking-tight font-black mb-2"
+                     style={{ 
+                       fontSize: 'clamp(2rem, 5vw, 4rem)', 
+                       fontWeight: 900, 
+                       lineHeight: 0.85,
+                       background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                       WebkitBackgroundClip: 'text',
+                       WebkitTextFillColor: 'transparent',
+                       backgroundClip: 'text'
+                     }}>70%</div>
                 <div className="text-white/90 font-medium tracking-wide"
                      style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Reduction in Readmissions</div>
               </div>
               <div className="w-px h-16 bg-white/20" />
               <div className="text-center">
-                <div className="text-white leading-none tracking-tight font-black mb-2"
-                     style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>91%</div>
+                <div className="leading-none tracking-tight font-black mb-2"
+                     style={{ 
+                       fontSize: 'clamp(2rem, 5vw, 4rem)', 
+                       fontWeight: 900, 
+                       lineHeight: 0.85,
+                       background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                       WebkitBackgroundClip: 'text',
+                       WebkitTextFillColor: 'transparent',
+                       backgroundClip: 'text'
+                     }}>91%</div>
                 <div className="text-white/90 font-medium tracking-wide"
                      style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Patient Preference</div>
               </div>
