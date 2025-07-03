@@ -53,7 +53,7 @@ const FounderSection = () => {
   ];
 
   return (
-    <section id="founder-section" className="py-32 bg-gradient-to-br from-white to-blue-50 relative overflow-hidden">
+    <section id="founder-section" className="py-32 bg-white paper-texture relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-10 w-32 h-32 bg-blue-200/30 rounded-full blur-3xl" />
@@ -101,7 +101,7 @@ const FounderSection = () => {
                 {achievements.map((achievement, index) => (
                   <div 
                     key={index}
-                    className={`bg-white rounded-2xl p-4 shadow-lg text-center transition-all duration-1000 delay-${index * 200} hover-lift ${
+                    className={`paper-texture-card rounded-2xl p-4 shadow-lg text-center transition-all duration-1000 delay-${index * 200} hover-lift ${
                       isVisible ? 'animate-slide-up' : 'opacity-0'
                     }`}
                   >
@@ -151,7 +151,7 @@ const FounderSection = () => {
                   At Resilient, we partner with hospitals to extend their care into the home. Whether it's primary care, rehab, or hospital-level services, we bring the team to the patient—without burning out clinicians or placing the burden on families. We built the infrastructure, technology, and clinical support so hospitals can deliver exceptional care anywhere.
                 </p>
                 
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 border-l-4 border-blue-500">
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 border-l-4 border-blue-500 paper-texture-subtle">
                   <p className="text-xl font-bold text-gray-900 mb-4">
                     Because patients want to stay home. Clinicians want to do what they were trained to do—without drowning in paperwork or unsustainable workloads. And hospitals need a better way to serve them both.
                   </p>
@@ -162,7 +162,7 @@ const FounderSection = () => {
               </div>
               
               {/* Professional Credentials */}
-              <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+              <div className="paper-texture-card rounded-2xl p-8 shadow-xl border border-gray-100">
                 <div className="flex items-start space-x-6">
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
                     JS

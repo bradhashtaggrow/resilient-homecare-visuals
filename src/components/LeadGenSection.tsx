@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -104,7 +103,7 @@ const LeadGenSection = () => {
   ];
 
   return (
-    <section id="lead-gen-section" className="py-32 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+    <section id="lead-gen-section" className="py-32 bg-white paper-texture relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -136,7 +135,7 @@ const LeadGenSection = () => {
           <div className={`transition-all duration-1000 ${
             isVisible ? 'animate-slide-in-left' : 'opacity-0'
           }`}>
-            <div className="bg-white rounded-3xl p-10 shadow-2xl border border-gray-100 relative overflow-hidden">
+            <div className="paper-texture-card rounded-3xl p-10 shadow-2xl border border-gray-100 relative overflow-hidden">
               {/* Form Background Pattern */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full -translate-y-16 translate-x-16" />
               
@@ -311,7 +310,7 @@ const LeadGenSection = () => {
               </h3>
               <div className="space-y-6">
                 {testimonials.map((testimonial, index) => (
-                  <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover-lift">
+                  <div key={index} className="paper-texture-card rounded-2xl p-8 shadow-lg border border-gray-100 hover-lift">
                     <div className="flex items-start space-x-1 mb-4">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
