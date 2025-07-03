@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -62,6 +63,10 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				}
+			},
+			fontSize: {
+				'revolutionary': ['clamp(3rem, 8vw, 8rem)', { lineHeight: '0.85', fontWeight: '900' }],
+				'revolutionary-sub': ['clamp(2rem, 5vw, 4rem)', { lineHeight: '0.85', fontWeight: '900' }]
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
