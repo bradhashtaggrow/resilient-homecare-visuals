@@ -20,10 +20,10 @@ const HeroSection = () => {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="https://videos.pexels.com/video-files/8375718/8375718-hd_1920_1080_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
         {/* Darker gradient overlay for better readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-black/40" />
       </div>
 
       {/* 3D Anamorphic Edge Effects */}
@@ -50,14 +50,14 @@ const HeroSection = () => {
           {/* Apple-Style Title - Made Smaller */}
           <div className="mb-12">
             <h1 className="text-white leading-none tracking-tight font-black text-shadow-white" 
-                style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
               The Future of Healthcare
             </h1>
           </div>
           
           {/* Single Subtitle - Made Smaller */}
           <p className="text-white/90 mb-16 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
-             style={{ fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', lineHeight: 1.3 }}>
+             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
           </p>
           
