@@ -21,7 +21,7 @@ const HeroSection = () => {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/8375494/8375494-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
         {/* Subtle gradient overlay for readability */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/20" />
