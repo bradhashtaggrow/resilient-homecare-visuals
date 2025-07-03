@@ -2,7 +2,6 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
-import ProblemSection from '@/components/ProblemSection';
 import ServiceLinesSection from '@/components/ServiceLinesSection';
 import MobileShowcase from '@/components/MobileShowcase';
 import AdminDashboard from '@/components/AdminDashboard';
@@ -16,7 +15,6 @@ const Index = () => {
     <div className="min-h-screen bg-white">
       <Navigation />
       <HeroSection />
-      <ProblemSection />
       <ServiceLinesSection />
       <MobileShowcase />
       <AdminDashboard />
