@@ -25,24 +25,6 @@ const HeroSection = () => {
         </video>
       </div>
 
-      {/* 3D Anamorphic Edge Effects */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        {/* Top edge */}
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12" />
-        {/* Bottom edge */}
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform skew-x-12" />
-        {/* Left edge */}
-        <div className="absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform -skew-y-12" />
-        {/* Right edge */}
-        <div className="absolute right-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform skew-y-12" />
-        
-        {/* Corner accents */}
-        <div className="absolute top-4 left-4 w-12 h-12 bg-gradient-to-br from-white/20 to-transparent transform rotate-45 blur-sm" />
-        <div className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-bl from-white/20 to-transparent transform -rotate-45 blur-sm" />
-        <div className="absolute bottom-4 left-4 w-12 h-12 bg-gradient-to-tr from-white/20 to-transparent transform -rotate-45 blur-sm" />
-        <div className="absolute bottom-4 right-4 w-12 h-12 bg-gradient-to-tl from-white/20 to-transparent transform rotate-45 blur-sm" />
-      </div>
-
       {/* Hero Content */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
