@@ -20,13 +20,19 @@ const HeroSection = () => {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
+          onLoadStart={() => console.log('Video loading started')}
+          onCanPlay={() => console.log('Video can play')}
           onError={(e) => {
             console.log('Video failed to load:', e);
+            console.log('Video error target:', e.target);
           }}
         >
-          <source src="https://videos.pexels.com/video-files/8375494/8375494-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://player.vimeo.com/external/463476403.hd.mp4?s=ca50a3a1b8a4d0c79a4d5e7f3a2b6c8d&profile_id=175" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/8375494/8375494-hd_1920_1080_25fps.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+        {/* Fallback background color */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800 z-0"></div>
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black/40 z-10"></div>
       </div>
