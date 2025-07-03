@@ -126,15 +126,14 @@ const ServiceLinesSection = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <h2 className="text-white leading-none tracking-tight font-black mb-8"
+          <h2 className="leading-none tracking-tight font-black mb-8 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent"
               style={{ 
                 fontSize: 'clamp(3rem, 8vw, 8rem)', 
                 fontWeight: 900, 
-                lineHeight: 0.85,
-                textShadow: '2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000'
+                lineHeight: 0.85
               }}>
             Fully Streamlined,
-            <span className="block healthcare-text-gradient"> Uncompromisingly Simple</span>
+            <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 bg-clip-text text-transparent"> Uncompromisingly Simple</span>
           </h2>
           <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
