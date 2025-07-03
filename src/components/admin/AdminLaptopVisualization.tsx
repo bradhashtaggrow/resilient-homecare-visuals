@@ -22,25 +22,24 @@ const AdminLaptopVisualization = ({
         isVisible ? 'animate-scale-in' : 'opacity-0'
       }`}>
         <div className="relative" style={{ perspective: '1000px' }}>
-          {/* MacBook Pro Base Image - Flipped to correct orientation */}
+          {/* MacBook Pro Base Image - Right side up */}
           <div className="relative w-[800px] h-[500px]">
             <img 
               src="/lovable-uploads/a06b72e3-b23e-4c4f-930b-6f5df0bc7d75.png"
               alt="MacBook Pro"
-              className="w-full h-full object-contain transform scale-y-[-1]"
+              className="w-full h-full object-contain"
               style={{
-                filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5))',
-                transform: 'scaleY(-1)'
+                filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5))'
               }}
             />
             
-            {/* Screen Content Overlay - Positioned for flipped laptop */}
+            {/* Screen Content Overlay - Positioned for right-side-up laptop */}
             <div 
               className={`absolute bg-black rounded-lg transition-all duration-2000 overflow-hidden ${
                 laptopOpen ? 'opacity-100' : 'opacity-0'
               }`}
               style={{
-                top: '15%',
+                top: '8%',
                 left: '12%',
                 width: '76%',
                 height: '60%',
