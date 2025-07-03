@@ -34,73 +34,32 @@ const HeroSection = () => {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            filter: 'contrast(1.1) brightness(0.85)',
-          }}
         >
           <source src="https://videos.pexels.com/video-files/8375494/8375494-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
-        {/* Enhanced gradient overlay for better readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-black/30" />
+        {/* Simple overlay for contrast */}
+        <div className="absolute inset-0 bg-black/30" />
       </div>
 
-      {/* Enhanced 3D Anamorphic Edge Effects */}
+      {/* Simple 3D Edges */}
       <div className="absolute inset-0 z-10 pointer-events-none">
-        {/* Top edge with enhanced 3D effect */}
-        <div className="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 shadow-lg" 
-             style={{
-               background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.3) 80%, transparent 100%)',
-               boxShadow: '0 2px 10px rgba(255,255,255,0.2), inset 0 1px 0 rgba(255,255,255,0.4)'
-             }} />
+        {/* Top edge */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
         
-        {/* Bottom edge with enhanced 3D effect */}
-        <div className="absolute bottom-0 left-0 w-full h-4 bg-gradient-to-r from-transparent via-white/20 to-transparent transform skew-x-12 shadow-lg" 
-             style={{
-               background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.3) 80%, transparent 100%)',
-               boxShadow: '0 -2px 10px rgba(255,255,255,0.2), inset 0 -1px 0 rgba(255,255,255,0.4)'
-             }} />
+        {/* Bottom edge */}
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
         
-        {/* Left edge with enhanced 3D effect */}
-        <div className="absolute left-0 top-0 w-4 h-full bg-gradient-to-b from-transparent via-white/20 to-transparent transform -skew-y-12 shadow-lg" 
-             style={{
-               background: 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.3) 80%, transparent 100%)',
-               boxShadow: '2px 0 10px rgba(255,255,255,0.2), inset 1px 0 0 rgba(255,255,255,0.4)'
-             }} />
+        {/* Left edge */}
+        <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-transparent via-white/30 to-transparent" />
         
-        {/* Right edge with enhanced 3D effect */}
-        <div className="absolute right-0 top-0 w-4 h-full bg-gradient-to-b from-transparent via-white/20 to-transparent transform skew-y-12 shadow-lg" 
-             style={{
-               background: 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.3) 80%, transparent 100%)',
-               boxShadow: '-2px 0 10px rgba(255,255,255,0.2), inset -1px 0 0 rgba(255,255,255,0.4)'
-             }} />
-        
-        {/* Enhanced corner accents with 3D depth */}
-        <div className="absolute top-6 left-6 w-16 h-16 transform rotate-45 blur-sm" 
-             style={{
-               background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
-               boxShadow: '0 0 20px rgba(255,255,255,0.3), inset 2px 2px 4px rgba(255,255,255,0.2)'
-             }} />
-        <div className="absolute top-6 right-6 w-16 h-16 transform -rotate-45 blur-sm" 
-             style={{
-               background: 'linear-gradient(225deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
-               boxShadow: '0 0 20px rgba(255,255,255,0.3), inset -2px 2px 4px rgba(255,255,255,0.2)'
-             }} />
-        <div className="absolute bottom-6 left-6 w-16 h-16 transform -rotate-45 blur-sm" 
-             style={{
-               background: 'linear-gradient(45deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
-               boxShadow: '0 0 20px rgba(255,255,255,0.3), inset 2px -2px 4px rgba(255,255,255,0.2)'
-             }} />
-        <div className="absolute bottom-6 right-6 w-16 h-16 transform rotate-45 blur-sm" 
-             style={{
-               background: 'linear-gradient(315deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
-               boxShadow: '0 0 20px rgba(255,255,255,0.3), inset -2px -2px 4px rgba(255,255,255,0.2)'
-             }} />
+        {/* Right edge */}
+        <div className="absolute right-0 top-0 w-1 h-full bg-gradient-to-b from-transparent via-white/30 to-transparent" />
       </div>
 
       {/* Hero Content */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
-          {/* Dynamic Headline - Apple Style */}
+          {/* Dynamic Headline */}
           <div className="mb-12 h-32 flex items-center justify-center">
             <h1 className="text-revolutionary text-white leading-none tracking-tight font-black">
               <span className="block text-white animate-pulse-slow text-shadow-white">
@@ -109,13 +68,13 @@ const HeroSection = () => {
             </h1>
           </div>
           
-          {/* Subheading - Apple Style */}
+          {/* Subheading */}
           <p className="text-revolutionary-sub text-white/90 mb-16 max-w-5xl mx-auto leading-relaxed font-medium tracking-wide">
             Discover an easier, more convenient healthcare delivery solution with Resilient Healthcare™. 
             We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
           </p>
           
-          {/* Cutting-Edge Buttons */}
+          {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-8 justify-center items-center mb-16">
             <Button 
               size="lg" 
@@ -137,7 +96,7 @@ const HeroSection = () => {
             </Button>
           </div>
 
-          {/* Trust Indicators - Apple Style */}
+          {/* Trust Indicators */}
           <div className="space-y-6">
             <div className="flex justify-center items-center space-x-12 text-white/90">
               <div className="text-center">
@@ -161,7 +120,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Modern Scroll Indicator */}
+      {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
         <div className="animate-bounce-gentle">
           <div className="w-8 h-12 border-2 border-white/40 rounded-full flex justify-center relative overflow-hidden">
