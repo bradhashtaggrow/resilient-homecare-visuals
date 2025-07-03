@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Activity, Heart, Building2, ArrowRight, CheckCircle, Users, Stethoscope } from 'lucide-react';
+import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 const ServiceLinesSection = () => {
@@ -24,6 +24,20 @@ const ServiceLinesSection = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  // Custom 3D Twirling Favicon Component
+  const TwirlingFavicon = ({ delay = 0 }) => (
+    <div className="w-8 h-8 perspective-1000 flex-shrink-0 mt-0.5">
+      <div 
+        className="w-full h-full bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 rounded-lg flex items-center justify-center transform-3d twirling-favicon shadow-lg"
+        style={{ animationDelay: `${delay}ms` }}
+      >
+        <div className="w-4 h-4 bg-white rounded-sm flex items-center justify-center">
+          <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+        </div>
+      </div>
+    </div>
+  );
 
   const services = [
     {
@@ -116,7 +130,7 @@ const ServiceLinesSection = () => {
                 {/* Content */}
                 <div className={`space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                   <div className="space-y-6 bg-white/85 backdrop-blur-sm rounded-3xl p-8 shadow-xl relative">
-                    {/* Simple 2D Service Icon */}
+                    {/* Service Icon */}
                     <div className="absolute -top-6 -right-6 w-24 h-24">
                       <div className={`w-full h-full rounded-2xl transition-all duration-300 ${
                         getColorClasses(service.color, activeService === index)
@@ -140,15 +154,11 @@ const ServiceLinesSection = () => {
                       {service.description}
                     </p>
 
-                    {/* Benefits List with 3D Icons */}
+                    {/* Benefits List with 3D Twirling Favicons */}
                     <div className="space-y-4">
                       {service.benefits.map((benefit, benefitIndex) => (
                         <div key={benefitIndex} className="flex items-start space-x-4">
-                          <div className="w-8 h-8 perspective-1000 flex-shrink-0 mt-0.5">
-                            <div className="w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transform-3d transition-all duration-300 hover:rotateY-12 hover:rotateX-6 hover:scale-110 shadow-lg">
-                              <CheckCircle className="h-4 w-4 text-white" />
-                            </div>
-                          </div>
+                          <TwirlingFavicon delay={benefitIndex * 200} />
                           <span className="text-gray-700 leading-relaxed flex-1">{benefit}</span>
                         </div>
                       ))}
@@ -186,7 +196,7 @@ const ServiceLinesSection = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent" />
                     </div>
                     
-                    {/* Simple decorative elements */}
+                    {/* Decorative elements */}
                     <div className="absolute -top-6 -right-6 w-16 h-16">
                       <div className="w-full h-full healthcare-gradient rounded-full flex items-center justify-center shadow-xl transform transition-all duration-300 hover:scale-110">
                         <Users className="h-8 w-8 text-white" />
