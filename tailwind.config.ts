@@ -65,8 +65,16 @@ export default {
 				}
 			},
 			fontSize: {
-				'revolutionary': ['clamp(3rem, 8vw, 8rem)', { lineHeight: '0.85', fontWeight: '900' }],
-				'revolutionary-sub': ['clamp(2rem, 5vw, 4rem)', { lineHeight: '0.85', fontWeight: '900' }]
+				'revolutionary': ['clamp(3rem, 8vw, 6rem)', { 
+					lineHeight: '0.9', 
+					fontWeight: '900',
+					letterSpacing: '-0.025em'
+				}],
+				'revolutionary-sub': ['clamp(1.5rem, 4vw, 2.5rem)', { 
+					lineHeight: '0.9', 
+					fontWeight: '900',
+					letterSpacing: '-0.025em'
+				}]
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
