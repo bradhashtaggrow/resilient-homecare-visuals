@@ -99,13 +99,6 @@ const HeroSection = () => {
             </div>
             
             <p className="text-white/80 text-base">Trusted by healthcare professionals nationwide</p>
-            <div className="flex justify-center items-center space-x-8 opacity-70">
-              {['Mayo Clinic', 'Johns Hopkins', 'Cleveland Clinic', 'Kaiser Permanente'].map((name) => (
-                <div key={name} className="px-4 py-2 bg-white/10 rounded-xl backdrop-blur-sm text-white text-sm font-medium hover:bg-white/20 transition-colors">
-                  {name}
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
