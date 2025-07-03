@@ -37,13 +37,13 @@ const FounderSection = () => {
   const achievements = [
     {
       icon: <BookOpen className="h-6 w-6" />,
-      title: "15+ Years",
-      subtitle: "Clinical Practice"
+      title: "PT, DPT",
+      subtitle: "Physical Therapist"
     },
     {
       icon: <Users className="h-6 w-6" />,
-      title: "1000+",
-      subtitle: "Patients Treated"
+      title: "Founder",
+      subtitle: "& CEO"
     },
     {
       icon: <Award className="h-6 w-6" />,
@@ -62,7 +62,7 @@ const FounderSection = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Column - Enhanced Portrait */}
+          {/* Left Column - Portrait */}
           <div className={`transition-all duration-1500 ${
             isVisible ? 'animate-slide-in-left' : 'opacity-0'
           }`}>
@@ -74,7 +74,7 @@ const FounderSection = () => {
               >
                 <div className="w-96 h-96 mx-auto rounded-full bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 p-3 shadow-2xl">
                   <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center relative overflow-hidden">
-                    {/* Portrait Placeholder with Enhanced Design */}
+                    {/* Portrait Placeholder */}
                     <div className="text-white text-8xl font-bold relative z-10">
                       JS
                     </div>
@@ -84,7 +84,7 @@ const FounderSection = () => {
                   </div>
                 </div>
                 
-                {/* Floating Professional Elements */}
+                {/* Floating Elements */}
                 <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center animate-float shadow-xl">
                   <span className="text-white text-2xl">⚕️</span>
                 </div>
@@ -116,7 +116,7 @@ const FounderSection = () => {
             </div>
           </div>
 
-          {/* Right Column - Revolutionary Story */}
+          {/* Right Column - Founder Story */}
           <div className={`transition-all duration-1500 delay-500 ${
             isVisible ? 'animate-slide-in-right' : 'opacity-0'
           }`}>
@@ -129,53 +129,39 @@ const FounderSection = () => {
                 </blockquote>
               </div>
               
-              {/* Enhanced Story Content */}
+              {/* Story Content */}
               <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
                 <p className="text-xl font-medium text-gray-900">
-                  When I received that call for the third time in six months, I knew something 
-                  had to fundamentally change.
+                  That call became all too familiar.
                 </p>
                 
                 <p>
-                  As a Doctor of Physical Therapy with over 15 years of clinical experience, 
-                  I understood the medical complexities. As a daughter watching her father 
-                  struggle through the revolving door of hospital readmissions, I felt the 
-                  family's profound frustration and helplessness.
+                  Over the last four years of my dad's life, he cycled through hospitals, rehab centers, and specialists. After his first stroke at 61, things never really stabilized. His chronic conditions—diabetes, hypertension, high cholesterol—were poorly managed, and each hospital stay left him weaker than before. Eventually, he couldn't return home at all.
                 </p>
                 
                 <p>
-                  The gap between hospital discharge and successful home recovery wasn't just 
-                  visible—it was a chasm. Patients were being sent home with complex care plans, 
-                  medications they didn't understand, and exercises they couldn't remember, 
-                  but no real support system to ensure they followed through.
+                  As a physical therapist, I knew the system was broken—but as a daughter, I lived it. We were constantly exhausted, worried, and navigating a healthcare system that felt more fragmented and reactive than healing.
                 </p>
                 
                 <p className="text-xl font-semibold text-blue-600">
-                  That's when I realized we needed to bridge this gap with technology that 
-                  actually works for both patients and clinicians.
+                  I built this company because families—and hospitals—deserve better.
                 </p>
                 
                 <p>
-                  We needed to extend hospital-level care into the home environment. Not just 
-                  through another app or device, but through a comprehensive platform that 
-                  truly understands the complexities of healthcare delivery and the human 
-                  experience of recovery.
+                  At Resilient, we partner with hospitals to extend their care into the home. Whether it's primary care, rehab, or hospital-level services, we bring the team to the patient—without burning out clinicians or placing the burden on families. We built the infrastructure, technology, and clinical support so hospitals can deliver exceptional care anywhere.
                 </p>
                 
                 <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 border-l-4 border-blue-500">
                   <p className="text-xl font-bold text-gray-900 mb-4">
-                    Resilient Healthcare was born from this deeply personal mission—to ensure 
-                    no family has to experience the preventable cycle of hospital readmissions.
+                    Because patients want to stay home. Clinicians want to do what they were trained to do—without drowning in paperwork or unsustainable workloads. And hospitals need a better way to serve them both.
                   </p>
-                  <p className="text-gray-700">
-                    Today, we're not just solving a healthcare problem. We're revolutionizing 
-                    how care is delivered, experienced, and measured—one patient, one family, 
-                    one recovery at a time.
+                  <p className="text-gray-700 text-2xl font-semibold">
+                    We are Resilient. And so are you.
                   </p>
                 </div>
               </div>
               
-              {/* Enhanced Professional Credentials */}
+              {/* Professional Credentials */}
               <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
                 <div className="flex items-start space-x-6">
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
@@ -195,15 +181,11 @@ const FounderSection = () => {
                       </div>
                       <div className="flex items-center space-x-2">
                         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>15+ years in clinical practice</span>
+                        <span>Healthcare delivery innovation expert</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                        <span>Healthcare innovation thought leader</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                        <span>Featured speaker at 20+ healthcare conferences</span>
+                        <span>Hospital partnership strategist</span>
                       </div>
                     </div>
                   </div>

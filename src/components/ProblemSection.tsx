@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { AlertTriangle, TrendingDown, Users, HeartPulse, Clock, DollarSign, ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -37,49 +38,49 @@ const ProblemSection = () => {
     {
       icon: <AlertTriangle className="h-10 w-10" />,
       title: "Fragmented Care Transitions",
-      description: "Patients lost between hospital discharge and home recovery",
-      stat: "30%",
-      statLabel: "readmission rate",
+      description: "Patients discharged with complex care plans but no real support system to ensure follow-through",
+      stat: "70%",
+      statLabel: "reduction possible",
       color: "red"
     },
     {
       icon: <TrendingDown className="h-10 w-10" />,
-      title: "Critical Readmission Crisis", 
-      description: "Healthcare costs skyrocket with preventable hospital returns",
-      stat: "$41B",
-      statLabel: "annual cost",
+      title: "Costly Readmission Cycle", 
+      description: "Hospital readmissions drive up costs while patients get weaker with each stay",
+      stat: "38%",
+      statLabel: "cost savings achievable",
       color: "orange"
     },
     {
       icon: <Users className="h-10 w-10" />,
-      title: "Clinician Burnout Epidemic",
-      description: "Healthcare workers overwhelmed by inefficient workflows",
-      stat: "76%",
-      statLabel: "report burnout",
+      title: "Clinician Burnout Crisis",
+      description: "Healthcare workers drowning in paperwork and unsustainable workloads",
+      stat: "91%",
+      statLabel: "prefer home care",
       color: "yellow"
     },
     {
       icon: <HeartPulse className="h-10 w-10" />,
-      title: "Monitoring Gaps",
-      description: "Critical health changes go undetected at home",
-      stat: "48hrs",
-      statLabel: "average delay",
+      title: "Limited Care Reach",
+      description: "Hospitals constrained by their four walls while patients need care at home",
+      stat: "96%",
+      statLabel: "less stress at home",
       color: "purple"
     },
     {
       icon: <Clock className="h-10 w-10" />,
-      title: "Communication Delays",
-      description: "Vital patient information lost in translation",
-      stat: "4.2hrs",
-      statLabel: "response time",
+      title: "Value-Based Pressure",
+      description: "Hospitals need to prepare for risk-based contracts without the overhead",
+      stat: "2025",
+      statLabel: "CMS waiver deadline",
       color: "blue"
     },
     {
       icon: <DollarSign className="h-10 w-10" />,
-      title: "Resource Waste",
-      description: "Inefficient care coordination drains healthcare budgets",
-      stat: "$2.8K",
-      statLabel: "per readmission",
+      title: "Revenue Limitations",
+      description: "Missing opportunities to capture new revenue streams beyond traditional models",
+      stat: "New",
+      statLabel: "revenue streams",
       color: "green"
     }
   ];
@@ -107,23 +108,23 @@ const ProblemSection = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative">
-        {/* Revolutionary Header */}
+        {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <div className="inline-flex items-center space-x-2 bg-red-100 text-red-600 px-6 py-3 rounded-full text-sm font-medium mb-8">
             <AlertTriangle className="h-4 w-4" />
-            <span>Healthcare Crisis Alert</span>
+            <span>What does the Research Say?</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
             "Dad's in the hospital,
             <span className="block healthcare-text-gradient"> again..."</span>
           </h2>
           <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            Every year, millions of patients cycle through a fundamentally broken system. 
-            <strong className="text-gray-900"> There has to be a better way.</strong>
+            Over four years, cycling through hospitals, rehab centers, and specialists. 
+            <strong className="text-gray-900"> The system was broken—but as a daughter, I lived it.</strong>
           </p>
         </div>
 
-        {/* Revolutionary Problem Grid */}
+        {/* Problem Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {problems.map((problem, index) => {
             const isActive = activeCard === index;
@@ -183,16 +184,16 @@ const ProblemSection = () => {
         {/* Call to Action */}
         <div className={`text-center mt-20 transition-all duration-1000 delay-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-12 rounded-3xl text-white">
-            <h3 className="text-4xl font-bold mb-6">What if recovery could be seamless?</h3>
+            <h3 className="text-4xl font-bold mb-6">A Different Approach to Hospital Care</h3>
             <p className="text-xl mb-8 opacity-90">
-              What if we could bridge the gap between hospital and home? 
-              What if care could be continuous, supported, and successful?
+              Using simple methods and advanced AI technology to extend your hospital beyond four walls. 
+              We manage the work. You own the program.
             </p>
             <Button 
               size="lg" 
               className="bg-white text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all duration-300 text-lg px-8 py-4"
             >
-              Discover the Solution
+              Discover Our Solutions
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>

@@ -8,9 +8,9 @@ const HeroSection = () => {
   const [textIndex, setTextIndex] = useState(0);
 
   const dynamicTexts = [
-    "Extend Hospital-Level Care Into the Home",
-    "Transform Patient Recovery Experience", 
-    "Revolutionize Healthcare Delivery"
+    "The Future of Healthcare Delivery Is Here",
+    "Expand Care Anywhere. Improve Outcomes.", 
+    "Capture Revenue."
   ];
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const HeroSection = () => {
       {/* Hero Content */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
-          {/* Dynamic Headline - Made Smaller */}
+          {/* Dynamic Headline */}
           <div className="mb-8 h-24 flex items-center justify-center">
             <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight">
               <span className="block text-white animate-pulse-slow">
@@ -53,19 +53,19 @@ const HeroSection = () => {
             </h1>
           </div>
           
-          {/* Subheading - Made Smaller */}
+          {/* Subheading */}
           <p className="text-lg md:text-xl text-white mb-10 max-w-4xl mx-auto leading-relaxed font-light">
-            Reimagine patient recovery, reduce readmissions by 25%, and empower 
-            clinicians with our revolutionary AI-powered home healthcare platform.
+            Discover an easier, more convenient healthcare delivery solution with Resilient Healthcare™. 
+            We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
           </p>
           
-          {/* Buttons with Double Blue Gradient */}
+          {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
             <Button 
               size="lg" 
               className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 hover:scale-110 transition-all duration-500 text-lg px-10 py-6 shadow-2xl hover:shadow-blue-500/25 group text-white border-0"
             >
-              Request Live Demo
+              Book An Appointment
               <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform" />
             </Button>
             
@@ -75,30 +75,30 @@ const HeroSection = () => {
               className="border-2 border-white text-blue-600 bg-white hover:bg-blue-600 hover:text-white transition-all duration-500 text-lg px-10 py-6 hover:scale-110 group"
             >
               <Play className="mr-3 h-5 w-5 group-hover:scale-125 transition-transform" />
-              Watch Revolution
+              Learn More
             </Button>
           </div>
 
-          {/* Trust Indicators - Made Smaller */}
+          {/* Trust Indicators */}
           <div className="space-y-4">
             <div className="flex justify-center items-center space-x-8 text-white/80">
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">1000+</div>
-                <div className="text-xs">Patients Served</div>
+                <div className="text-2xl font-bold text-white">38%</div>
+                <div className="text-xs">Cost Savings</div>
               </div>
               <div className="w-px h-10 bg-white/30" />
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">25%</div>
-                <div className="text-xs">Fewer Readmissions</div>
+                <div className="text-2xl font-bold text-white">70%</div>
+                <div className="text-xs">Reduction in Readmissions</div>
               </div>
               <div className="w-px h-10 bg-white/30" />
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">94%</div>
-                <div className="text-xs">Patient Satisfaction</div>
+                <div className="text-2xl font-bold text-white">91%</div>
+                <div className="text-xs">Patient Preference</div>
               </div>
             </div>
             
-            <p className="text-white/80 text-base">Trusted by healthcare professionals nationwide</p>
+            <p className="text-white/80 text-base">Powered by hospital-level care at home</p>
           </div>
         </div>
       </div>
