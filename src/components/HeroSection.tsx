@@ -35,7 +35,7 @@ const HeroSection = () => {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="https://player.vimeo.com/external/574842614.hd.mp4?s=c0e1b1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1&profile_id=175" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-blue-800/80 to-blue-700/70" />
         <div className="absolute inset-0 bg-black/20" />
