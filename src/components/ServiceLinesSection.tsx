@@ -89,20 +89,20 @@ const ServiceLinesSection = () => {
       id="service-lines-section" 
       className="py-32 bg-white relative overflow-hidden"
       style={{
-        backgroundImage: `url('/lovable-uploads/538d02df-2e37-481f-9af6-58f2718f977a.png')`,
-        backgroundSize: '400px 400px',
+        backgroundImage: `url('https://images.unsplash.com/photo-1486718448742-163732cd1544?ixlib=rb-4.0.3&auto=format&fit=crop&w=6587&h=4392&q=80')`,
+        backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'repeat',
-        backgroundBlendMode: 'multiply'
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
       }}
     >
-      {/* Much more subtle white overlay to naturally blend texture */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/80 to-white/85" />
+      {/* Subtle white overlay for natural blending */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/93 to-white/95" />
 
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <div className="inline-flex items-center space-x-2 bg-blue-100/80 backdrop-blur-sm text-blue-600 px-6 py-3 rounded-full text-sm font-medium mb-8">
+          <div className="inline-flex items-center space-x-2 bg-blue-100/90 backdrop-blur-sm text-blue-600 px-6 py-3 rounded-full text-sm font-medium mb-8">
             <Stethoscope className="h-4 w-4" />
             <span>Our Core Service Lines</span>
           </div>
@@ -131,7 +131,7 @@ const ServiceLinesSection = () => {
               }`}>
                 {/* Content */}
                 <div className={`space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                  <div className="space-y-6 bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                  <div className="space-y-6 bg-white/85 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
                     {/* Icon and Title */}
                     <div className="flex items-start space-x-6">
                       <div className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl transition-all duration-500 ${
@@ -171,7 +171,7 @@ const ServiceLinesSection = () => {
 
                     {/* Additional Info */}
                     {service.additionalInfo && (
-                      <div className="bg-blue-50/80 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-blue-500">
+                      <div className="bg-blue-50/90 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-blue-500">
                         <p className="text-gray-700 leading-relaxed font-medium">
                           {service.additionalInfo}
                         </p>
@@ -180,7 +180,7 @@ const ServiceLinesSection = () => {
 
                     {/* Note */}
                     {service.note && (
-                      <div className="bg-blue-100/80 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-blue-600">
+                      <div className="bg-blue-100/90 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-blue-600">
                         <p className="text-gray-700 leading-relaxed">
                           {service.note}
                         </p>

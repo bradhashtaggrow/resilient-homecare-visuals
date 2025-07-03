@@ -56,15 +56,15 @@ const FounderSection = () => {
       id="founder-section" 
       className="py-32 bg-white relative overflow-hidden"
       style={{
-        backgroundImage: `url('/lovable-uploads/538d02df-2e37-481f-9af6-58f2718f977a.png')`,
-        backgroundSize: '500px 500px',
+        backgroundImage: `url('https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151?ixlib=rb-4.0.3&auto=format&fit=crop&w=3024&h=3779&q=80')`,
+        backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'repeat',
-        backgroundBlendMode: 'multiply'
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
       }}
     >
       {/* Very subtle gradient overlay to naturally blend texture */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/85 to-white/90" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/93 to-white/95" />
 
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -105,7 +105,7 @@ const FounderSection = () => {
                 {achievements.map((achievement, index) => (
                   <div 
                     key={index}
-                    className={`bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-lg text-center transition-all duration-1000 delay-${index * 200} hover-lift ${
+                    className={`bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg text-center transition-all duration-1000 delay-${index * 200} hover-lift ${
                       isVisible ? 'animate-slide-up' : 'opacity-0'
                     }`}
                   >
@@ -124,7 +124,7 @@ const FounderSection = () => {
           <div className={`transition-all duration-1500 delay-500 ${
             isVisible ? 'animate-slide-in-right' : 'opacity-0'
           }`}>
-            <div className="space-y-8 bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+            <div className="space-y-8 bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
               {/* Quote Section */}
               <div className="relative">
                 <Quote className="absolute -top-4 -left-4 h-16 w-16 text-blue-200" />
@@ -155,7 +155,7 @@ const FounderSection = () => {
                   At Resilient, we partner with hospitals to extend their care into the home. Whether it's primary care, rehab, or hospital-level services, we bring the team to the patient—without burning out clinicians or placing the burden on families. We built the infrastructure, technology, and clinical support so hospitals can deliver exceptional care anywhere.
                 </p>
                 
-                <div className="bg-gradient-to-r from-blue-50/80 to-blue-100/80 backdrop-blur-sm rounded-2xl p-8 border-l-4 border-blue-500">
+                <div className="bg-gradient-to-r from-blue-50/90 to-blue-100/90 backdrop-blur-sm rounded-2xl p-8 border-l-4 border-blue-500">
                   <p className="text-xl font-bold text-gray-900 mb-4">
                     Because patients want to stay home. Clinicians want to do what they were trained to do—without drowning in paperwork or unsustainable workloads. And hospitals need a better way to serve them both.
                   </p>
@@ -166,7 +166,7 @@ const FounderSection = () => {
               </div>
               
               {/* Professional Credentials */}
-              <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-100">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-100">
                 <div className="flex items-start space-x-6">
                   <div className="w-16 h-16 healthcare-gradient rounded-2xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
                     JS
