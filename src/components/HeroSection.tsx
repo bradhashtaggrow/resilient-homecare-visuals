@@ -35,31 +35,34 @@ const HeroSection = () => {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="https://videos.pexels.com/video-files/8375494/8375494-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
-        {/* Simple overlay for contrast */}
-        <div className="absolute inset-0 bg-black/30" />
+        {/* Subtle gradient overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/20" />
       </div>
 
-      {/* Simple 3D Edges */}
+      {/* 3D Anamorphic Edge Effects */}
       <div className="absolute inset-0 z-10 pointer-events-none">
         {/* Top edge */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-        
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12" />
         {/* Bottom edge */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-        
+        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform skew-x-12" />
         {/* Left edge */}
-        <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-transparent via-white/30 to-transparent" />
-        
+        <div className="absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform -skew-y-12" />
         {/* Right edge */}
-        <div className="absolute right-0 top-0 w-1 h-full bg-gradient-to-b from-transparent via-white/30 to-transparent" />
+        <div className="absolute right-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform skew-y-12" />
+        
+        {/* Corner accents */}
+        <div className="absolute top-4 left-4 w-12 h-12 bg-gradient-to-br from-white/20 to-transparent transform rotate-45 blur-sm" />
+        <div className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-bl from-white/20 to-transparent transform -rotate-45 blur-sm" />
+        <div className="absolute bottom-4 left-4 w-12 h-12 bg-gradient-to-tr from-white/20 to-transparent transform -rotate-45 blur-sm" />
+        <div className="absolute bottom-4 right-4 w-12 h-12 bg-gradient-to-tl from-white/20 to-transparent transform rotate-45 blur-sm" />
       </div>
 
       {/* Hero Content */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
-          {/* Dynamic Headline */}
+          {/* Dynamic Headline - Apple Style */}
           <div className="mb-12 h-32 flex items-center justify-center">
             <h1 className="text-revolutionary text-white leading-none tracking-tight font-black">
               <span className="block text-white animate-pulse-slow text-shadow-white">
@@ -68,13 +71,13 @@ const HeroSection = () => {
             </h1>
           </div>
           
-          {/* Subheading */}
+          {/* Subheading - Apple Style */}
           <p className="text-revolutionary-sub text-white/90 mb-16 max-w-5xl mx-auto leading-relaxed font-medium tracking-wide">
             Discover an easier, more convenient healthcare delivery solution with Resilient Healthcare™. 
             We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
           </p>
           
-          {/* Buttons */}
+          {/* Cutting-Edge Buttons */}
           <div className="flex flex-col sm:flex-row gap-8 justify-center items-center mb-16">
             <Button 
               size="lg" 
@@ -96,7 +99,7 @@ const HeroSection = () => {
             </Button>
           </div>
 
-          {/* Trust Indicators */}
+          {/* Trust Indicators - Apple Style */}
           <div className="space-y-6">
             <div className="flex justify-center items-center space-x-12 text-white/90">
               <div className="text-center">
@@ -120,7 +123,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Modern Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
         <div className="animate-bounce-gentle">
           <div className="w-8 h-12 border-2 border-white/40 rounded-full flex justify-center relative overflow-hidden">
