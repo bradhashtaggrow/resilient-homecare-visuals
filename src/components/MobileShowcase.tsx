@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Heart, Video, FileCheck, Bell, MessageSquare, Clipboard, Activity, Shield, Calendar } from 'lucide-react';
 
@@ -116,11 +115,11 @@ const MobileShowcase = () => {
             <Shield className="h-4 w-4" />
             <span>Revolutionary Mobile Platform</span>
           </div>
-          <h2 className="text-revolutionary text-gray-900 mb-8">
+          <h2 className="text-revolutionary text-gray-900 mb-8 leading-none tracking-tight font-black">
             Mobile Platform That 
             <span className="block healthcare-text-gradient"> Connects Everyone</span>
           </h2>
-          <p className="text-revolutionary-sub text-gray-600 max-w-4xl mx-auto">
+          <p className="text-revolutionary-sub text-gray-600 max-w-4xl mx-auto leading-none tracking-tight font-black">
             Empower patients with intuitive self-care tools while giving 
             clinicians unprecedented insights for exceptional care delivery.
           </p>
@@ -130,7 +129,7 @@ const MobileShowcase = () => {
           {/* Left Features - Patients */}
           <div className="space-y-8">
             <div className="text-center lg:text-left mb-12">
-              <h3 className="text-revolutionary-sub text-gray-900 mb-4">For Patients</h3>
+              <h3 className="text-revolutionary-sub text-gray-900 mb-4 leading-none tracking-tight font-black">For Patients</h3>
               <p className="text-xl text-gray-600 font-light">Empowering recovery from home</p>
             </div>
             {patientFeatures.map((feature, index) => (
@@ -266,7 +265,7 @@ const MobileShowcase = () => {
           {/* Right Features - Clinicians */}
           <div className="space-y-8">
             <div className="text-center lg:text-right mb-12">
-              <h3 className="text-revolutionary-sub text-gray-900 mb-4">For Clinicians</h3>
+              <h3 className="text-revolutionary-sub text-gray-900 mb-4 leading-none tracking-tight font-black">For Clinicians</h3>
               <p className="text-xl text-gray-600 font-light">Streamlining care delivery</p>
             </div>
             {clinicianFeatures.map((feature, index) => (
