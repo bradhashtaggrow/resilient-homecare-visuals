@@ -1,27 +1,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [textIndex, setTextIndex] = useState(0);
-
-  const dynamicTexts = [
-    "The Future of Healthcare Delivery Is Here",
-    "Expand Care Anywhere. Improve Outcomes.", 
-    "Capture Revenue."
-  ];
 
   useEffect(() => {
     setIsVisible(true);
-    
-    // Dynamic text rotation
-    const interval = setInterval(() => {
-      setTextIndex((prev) => (prev + 1) % dynamicTexts.length);
-    }, 4000);
-    
-    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -62,40 +48,58 @@ const HeroSection = () => {
       {/* Hero Content */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
-          {/* Dynamic Headline - Apple Style */}
-          <div className="mb-12 h-32 flex items-center justify-center">
-            <h1 className="text-revolutionary text-white leading-none tracking-tight font-black">
-              <span className="block text-white animate-pulse-slow text-shadow-white">
-                {dynamicTexts[textIndex]}
-              </span>
+          {/* Apple-Style Huge Title */}
+          <div className="mb-12">
+            <h1 className="text-white leading-none tracking-tight font-black text-shadow-white" 
+                style={{ fontSize: 'clamp(4rem, 12vw, 12rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              The Future of Healthcare
             </h1>
           </div>
           
-          {/* Subheading - Apple Style */}
-          <p className="text-revolutionary-sub text-white/90 mb-16 max-w-5xl mx-auto leading-relaxed font-medium tracking-wide">
-            Discover an easier, more convenient healthcare delivery solution with Resilient Healthcare™. 
+          {/* Single Subtitle */}
+          <p className="text-white/90 mb-16 max-w-5xl mx-auto leading-relaxed font-medium tracking-wide"
+             style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', lineHeight: 1.3 }}>
             We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
           </p>
           
-          {/* Cutting-Edge Buttons */}
-          <div className="flex flex-col sm:flex-row gap-8 justify-center items-center mb-16">
+          {/* Single Thick 3D Animated Button */}
+          <div className="flex justify-center items-center mb-16">
             <Button 
               size="lg" 
-              className="cutting-edge-btn-primary group text-white border-0 relative overflow-hidden"
+              className="group relative px-16 py-8 text-2xl font-bold rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+              style={{
+                background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
+                boxShadow: `
+                  0 12px 32px rgba(0, 128, 255, 0.4),
+                  0 4px 16px rgba(0, 0, 0, 0.3),
+                  inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                  inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                `,
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = `
+                  0 20px 48px rgba(0, 128, 255, 0.6),
+                  0 8px 24px rgba(0, 0, 0, 0.4),
+                  inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                  inset 0 -2px 12px rgba(0, 0, 0, 0.2)
+                `;
+                e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = `
+                  0 12px 32px rgba(0, 128, 255, 0.4),
+                  0 4px 16px rgba(0, 0, 0, 0.3),
+                  inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                  inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                `;
+                e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
+              }}
             >
-              <span className="relative z-10 flex items-center text-xl font-semibold">
-                Book An Appointment
-                <ArrowRight className="ml-4 h-6 w-6 group-hover:translate-x-3 transition-transform duration-500" />
+              <span className="relative z-10 flex items-center">
+                Request Demo
+                <ArrowRight className="ml-4 h-8 w-8 group-hover:translate-x-3 transition-transform duration-500" />
               </span>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="cutting-edge-btn-secondary group backdrop-blur-xl"
-            >
-              <Play className="mr-4 h-6 w-6 group-hover:scale-125 transition-transform duration-500" />
-              <span className="text-xl font-semibold">Learn More</span>
             </Button>
           </div>
 
