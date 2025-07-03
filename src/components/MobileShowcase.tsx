@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Heart, Video, FileCheck, Bell, MessageSquare, Clipboard, Activity, Shield, Calendar } from 'lucide-react';
 
@@ -113,11 +112,13 @@ const MobileShowcase = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header Section */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <h2 className="text-revolutionary text-gray-900 mb-8 font-black leading-none tracking-tight">
+          <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
+              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Mobile Platform That 
             <span className="block healthcare-text-gradient"> Connects Everyone</span>
           </h2>
-          <p className="text-revolutionary-sub text-gray-600 max-w-4xl mx-auto font-black leading-tight tracking-tight">
+          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
+             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             Empower patients with intuitive self-care tools while giving 
             clinicians unprecedented insights for exceptional care delivery.
           </p>
@@ -164,7 +165,7 @@ const MobileShowcase = () => {
             ))}
           </div>
 
-          {/* Center - 3D Phone */}
+          {/* Center - iPhone */}
           <div className={`flex justify-center transition-all duration-1000 delay-500 ${
             isVisible ? 'animate-scale-in' : 'opacity-0'
           }`}>
