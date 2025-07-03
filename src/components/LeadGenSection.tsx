@@ -107,7 +107,7 @@ const LeadGenSection = () => {
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.5) 2px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(0, 61, 107, 0.5) 2px, transparent 0)',
           backgroundSize: '40px 40px'
         }} />
       </div>
@@ -137,7 +137,7 @@ const LeadGenSection = () => {
           }`}>
             <div className="paper-texture-card rounded-3xl p-10 shadow-2xl border border-gray-100 relative overflow-hidden">
               {/* Form Background Pattern */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full -translate-y-16 translate-x-16" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-full -translate-y-16 translate-x-16" />
               
               <h3 className="text-3xl font-bold text-gray-900 mb-8 relative">
                 Schedule Your Revolutionary Demo
@@ -255,7 +255,7 @@ const LeadGenSection = () => {
                 </form>
               ) : (
                 <div className="text-center py-16">
-                  <div className="w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle className="h-12 w-12 text-white" />
                   </div>
                   <h4 className="text-3xl font-bold text-gray-900 mb-4">
@@ -265,7 +265,7 @@ const LeadGenSection = () => {
                     Thank you for your interest in revolutionizing healthcare delivery. 
                     Our team will contact you within 2 hours to schedule your personalized demo.
                   </p>
-                  <div className="bg-blue-50 rounded-2xl p-6">
+                  <div className="bg-blue-50 rounded-2xl p-6 paper-texture-subtle">
                     <p className="text-blue-700 font-medium">
                       📧 Confirmation email sent to {formData.email}
                     </p>
@@ -313,7 +313,7 @@ const LeadGenSection = () => {
                   <div key={index} className="paper-texture-card rounded-2xl p-8 shadow-lg border border-gray-100 hover-lift">
                     <div className="flex items-start space-x-1 mb-4">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                        <Star key={i} className="h-5 w-5 text-blue-400 fill-current" />
                       ))}
                     </div>
                     <blockquote className="text-gray-700 mb-6 leading-relaxed">
@@ -335,7 +335,7 @@ const LeadGenSection = () => {
         <div className={`text-center mt-20 transition-all duration-1000 delay-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 text-white relative overflow-hidden">
+          <div className="healthcare-gradient rounded-3xl p-12 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-24 translate-x-24" />
             <div className="relative">
               <h3 className="text-4xl font-bold mb-6">

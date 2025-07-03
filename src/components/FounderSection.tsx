@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Quote, Award, Users, BookOpen } from 'lucide-react';
 
@@ -57,7 +56,7 @@ const FounderSection = () => {
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-10 w-32 h-32 bg-blue-200/30 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-10 w-48 h-48 bg-purple-200/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-10 w-48 h-48 bg-blue-300/20 rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative">
@@ -85,13 +84,13 @@ const FounderSection = () => {
                 </div>
                 
                 {/* Floating Elements */}
-                <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center animate-float shadow-xl">
+                <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl">
                   <span className="text-white text-2xl">⚕️</span>
                 </div>
-                <div className="absolute -bottom-8 -left-8 w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
+                <div className="absolute -bottom-8 -left-8 w-14 h-14 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
                   <span className="text-white text-xl">💙</span>
                 </div>
-                <div className="absolute top-1/3 -left-12 w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
+                <div className="absolute top-1/3 -left-12 w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-800 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
                   <BookOpen className="h-6 w-6 text-white" />
                 </div>
               </div>
@@ -151,7 +150,7 @@ const FounderSection = () => {
                   At Resilient, we partner with hospitals to extend their care into the home. Whether it's primary care, rehab, or hospital-level services, we bring the team to the patient—without burning out clinicians or placing the burden on families. We built the infrastructure, technology, and clinical support so hospitals can deliver exceptional care anywhere.
                 </p>
                 
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 border-l-4 border-blue-500 paper-texture-subtle">
+                <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-8 border-l-4 border-blue-500 paper-texture-subtle">
                   <p className="text-xl font-bold text-gray-900 mb-4">
                     Because patients want to stay home. Clinicians want to do what they were trained to do—without drowning in paperwork or unsustainable workloads. And hospitals need a better way to serve them both.
                   </p>
@@ -164,7 +163,7 @@ const FounderSection = () => {
               {/* Professional Credentials */}
               <div className="paper-texture-card rounded-2xl p-8 shadow-xl border border-gray-100">
                 <div className="flex items-start space-x-6">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                  <div className="w-16 h-16 healthcare-gradient rounded-2xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
                     JS
                   </div>
                   <div>
@@ -180,11 +179,11 @@ const FounderSection = () => {
                         <span>Doctor of Physical Therapy (DPT)</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
                         <span>Healthcare delivery innovation expert</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-blue-700 rounded-full"></div>
                         <span>Hospital partnership strategist</span>
                       </div>
                     </div>

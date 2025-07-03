@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from 'lucide-react';
@@ -36,8 +37,8 @@ const HeroSection = () => {
         >
           <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
-        {/* Light black contrast overlay */}
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Blue overlay instead of black */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-blue-800/50" />
       </div>
 
       {/* Hero Content */}
@@ -62,7 +63,7 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
             <Button 
               size="lg" 
-              className="healthcare-gradient-primary hover:healthcare-gradient-secondary hover:scale-110 transition-all duration-500 text-lg px-10 py-6 shadow-2xl hover:shadow-blue-500/25 group text-white border-0"
+              className="healthcare-gradient hover:scale-110 transition-all duration-500 text-lg px-10 py-6 shadow-2xl hover:shadow-blue-500/25 group text-white border-0"
             >
               Book An Appointment
               <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform" />

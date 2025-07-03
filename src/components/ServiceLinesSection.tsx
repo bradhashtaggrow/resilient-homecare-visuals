@@ -38,7 +38,7 @@ const ServiceLinesSection = () => {
         "Improve outcomes through early intervention, virtual monitoring, & coordinated recovery",
         "Prepare for value-based programs like Medicare TEAM, ACOs, & bundled payments"
       ],
-      color: "blue",
+      color: "blue1",
       image: "knee-exam"
     },
     {
@@ -53,7 +53,7 @@ const ServiceLinesSection = () => {
         "Follow-up visits to reduce ED utilization and readmissions"
       ],
       additionalInfo: "We provide the infrastructure—staffing, technology, and coordination. You maintain the patient relationship and revenue.",
-      color: "green",
+      color: "blue2",
       image: "nurse-patient"
     },
     {
@@ -70,26 +70,26 @@ const ServiceLinesSection = () => {
       ],
       note: "Note: The CMS Acute Hospital at Home waiver is currently extended through September 2025. We help hospitals navigate this evolving regulatory environment and prepare for future versions of the program.",
       additionalInfo: "We don't just offer coordination—we help you stand up the program, train your teams, and deliver compliant hospital-level care in the home.",
-      color: "purple",
+      color: "blue3",
       image: "hospital-home"
     }
   ];
 
   const getColorClasses = (color: String, isActive: boolean) => {
     const colors = {
-      blue: isActive ? 'bg-blue-500 text-white shadow-blue-500/25' : 'text-blue-500 bg-blue-50 hover:bg-blue-100',
-      green: isActive ? 'bg-green-500 text-white shadow-green-500/25' : 'text-green-500 bg-green-50 hover:bg-green-100',
-      purple: isActive ? 'bg-purple-500 text-white shadow-purple-500/25' : 'text-purple-500 bg-purple-50 hover:bg-purple-100'
+      blue1: isActive ? 'bg-blue-900 text-white shadow-blue-900/25' : 'text-blue-900 bg-blue-50 hover:bg-blue-100',
+      blue2: isActive ? 'bg-blue-700 text-white shadow-blue-700/25' : 'text-blue-700 bg-blue-100 hover:bg-blue-200',
+      blue3: isActive ? 'bg-blue-500 text-white shadow-blue-500/25' : 'text-blue-500 bg-blue-200 hover:bg-blue-300'
     };
     return colors[color as keyof typeof colors];
   };
 
   return (
-    <section id="service-lines-section" className="py-32 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
+    <section id="service-lines-section" className="py-32 bg-white paper-texture relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.5) 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0, 61, 107, 0.5) 1px, transparent 0)',
           backgroundSize: '50px 50px'
         }} />
       </div>
@@ -158,7 +158,7 @@ const ServiceLinesSection = () => {
                     <div className="space-y-4">
                       {service.benefits.map((benefit, benefitIndex) => (
                         <div key={benefitIndex} className="flex items-start space-x-3">
-                          <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0 mt-0.5" />
+                          <CheckCircle className="h-6 w-6 text-blue-500 flex-shrink-0 mt-0.5" />
                           <span className="text-gray-700 leading-relaxed">{benefit}</span>
                         </div>
                       ))}
@@ -166,7 +166,7 @@ const ServiceLinesSection = () => {
 
                     {/* Additional Info */}
                     {service.additionalInfo && (
-                      <div className="bg-gray-50 rounded-2xl p-6 border-l-4 border-blue-500">
+                      <div className="bg-blue-50 paper-texture-subtle rounded-2xl p-6 border-l-4 border-blue-500">
                         <p className="text-gray-700 leading-relaxed font-medium">
                           {service.additionalInfo}
                         </p>
@@ -175,7 +175,7 @@ const ServiceLinesSection = () => {
 
                     {/* Note */}
                     {service.note && (
-                      <div className="bg-yellow-50 rounded-2xl p-6 border-l-4 border-yellow-500">
+                      <div className="bg-blue-100 paper-texture-subtle rounded-2xl p-6 border-l-4 border-blue-600">
                         <p className="text-gray-700 leading-relaxed">
                           {service.note}
                         </p>
@@ -185,7 +185,7 @@ const ServiceLinesSection = () => {
                     {/* CTA Button */}
                     <Button 
                       size="lg" 
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg hover:scale-105 transition-all duration-300"
+                      className="healthcare-gradient hover:scale-105 transition-all duration-300 text-white px-8 py-4 text-lg"
                     >
                       Learn More About {service.title}
                       <ArrowRight className="ml-2 h-5 w-5" />
@@ -196,17 +196,17 @@ const ServiceLinesSection = () => {
                 {/* Image/Visual */}
                 <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
                   <div className="relative">
-                    <div className="w-full h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl shadow-2xl flex items-center justify-center">
+                    <div className="w-full h-96 bg-gradient-to-br from-blue-100 to-blue-200 paper-texture rounded-3xl shadow-2xl flex items-center justify-center">
                       <div className={`text-8xl ${
-                        service.color === 'blue' ? 'text-blue-300' :
-                        service.color === 'green' ? 'text-green-300' : 'text-purple-300'
+                        service.color === 'blue1' ? 'text-blue-900' :
+                        service.color === 'blue2' ? 'text-blue-700' : 'text-blue-500'
                       }`}>
                         {service.icon}
                       </div>
                     </div>
                     
                     {/* Floating Elements */}
-                    <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center animate-float shadow-xl">
+                    <div className="absolute -top-6 -right-6 w-16 h-16 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl">
                       <Users className="h-8 w-8 text-white" />
                     </div>
                   </div>
