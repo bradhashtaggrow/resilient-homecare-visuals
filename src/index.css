@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -230,6 +231,14 @@
 
   .-rotate-x-90 {
     transform: rotateX(-90deg);
+  }
+
+  .rotate-y-12 {
+    transform: rotateY(12deg);
+  }
+
+  .rotate-x-12 {
+    transform: rotateX(12deg);
   }
 
   /* Glass Morphism */
