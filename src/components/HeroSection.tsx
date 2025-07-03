@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
@@ -6,44 +5,22 @@ import { ArrowRight } from 'lucide-react';
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  useEffect(() => {
-    // Attempt to play video after component mounts
-    const timer = setTimeout(() => {
-      if (videoRef.current && !videoError) {
-        videoRef.current.play().catch((error) => {
-          console.log('Autoplay failed, but video should still work:', error);
-        });
-      }
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [videoError]);
-
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.log('Video failed to load, showing fallback');
+  const handleVideoError = () => {
+    console.log('Video failed to load, using fallback background');
     setVideoError(true);
-    setVideoLoaded(false);
   };
 
-  const handleVideoLoad = () => {
-    console.log('Video loaded successfully');
-    setVideoError(false);
-    setVideoLoaded(true);
-  };
-
-  const handleCanPlay = () => {
-    console.log('Video can play');
-    setVideoLoaded(true);
+  const handleVideoLoaded = () => {
+    console.log('Video loaded and ready to play');
     if (videoRef.current) {
       videoRef.current.play().catch(() => {
-        // Autoplay might be blocked, but that's okay
+        console.log('Autoplay blocked by browser, but video is loaded');
       });
     }
   };
@@ -59,23 +36,13 @@ const HeroSection = () => {
             muted
             loop
             playsInline
-            preload="auto"
             className="absolute inset-0 w-full h-full object-cover"
             onError={handleVideoError}
-            onLoadStart={() => console.log('Video loading started')}
-            onCanPlay={handleCanPlay}
-            onLoadedData={handleVideoLoad}
-            onLoadedMetadata={() => console.log('Video metadata loaded')}
-            style={{ opacity: videoLoaded ? 1 : 0 }}
+            onCanPlay={handleVideoLoaded}
           >
-            {/* Using a working Pexels video URL */}
-            <source src="https://videos.pexels.com/video-files/8375718/8375718-hd_1920_1080_25fps.mp4" type="video/mp4" />
-            <source src="https://videos.pexels.com/video-files/8375718/8375718-sd_640_360_25fps.mp4" type="video/mp4" />
-            {/* Fallback to reliable sources */}
-            <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4" />
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
           </video>
         ) : (
-          /* Fallback gradient background */
           <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600"></div>
         )}
         {/* Dark overlay for better text readability */}
