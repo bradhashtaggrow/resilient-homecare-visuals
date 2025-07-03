@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -103,14 +104,18 @@ const LeadGenSection = () => {
   ];
 
   return (
-    <section id="lead-gen-section" className="py-32 bg-white paper-texture relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(0, 61, 107, 0.5) 2px, transparent 0)',
-          backgroundSize: '40px 40px'
-        }} />
-      </div>
+    <section 
+      id="lead-gen-section" 
+      className="py-32 bg-white relative overflow-hidden"
+      style={{
+        backgroundImage: `url('/lovable-uploads/538d02df-2e37-481f-9af6-58f2718f977a.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* White overlay to ensure readability */}
+      <div className="absolute inset-0 bg-white/85" />
 
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className={`text-center mb-20 transition-all duration-1000 ${
@@ -135,7 +140,7 @@ const LeadGenSection = () => {
           <div className={`transition-all duration-1000 ${
             isVisible ? 'animate-slide-in-left' : 'opacity-0'
           }`}>
-            <div className="paper-texture-card rounded-3xl p-10 shadow-2xl border border-gray-100 relative overflow-hidden">
+            <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-10 shadow-2xl border border-gray-100 relative overflow-hidden">
               {/* Form Background Pattern */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-full -translate-y-16 translate-x-16" />
               
@@ -265,7 +270,7 @@ const LeadGenSection = () => {
                     Thank you for your interest in revolutionizing healthcare delivery. 
                     Our team will contact you within 2 hours to schedule your personalized demo.
                   </p>
-                  <div className="bg-blue-50 rounded-2xl p-6 paper-texture-subtle">
+                  <div className="bg-blue-50 rounded-2xl p-6">
                     <p className="text-blue-700 font-medium">
                       📧 Confirmation email sent to {formData.email}
                     </p>
@@ -280,52 +285,85 @@ const LeadGenSection = () => {
             isVisible ? 'animate-slide-in-right' : 'opacity-0'
           }`}>
             {/* What You'll Get */}
-            <div>
+            <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
               <h3 className="text-3xl font-bold text-gray-900 mb-8">
                 What You'll Experience
               </h3>
               <div className="space-y-6">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start space-x-4 group">
-                    <div className="flex-shrink-0 p-3 bg-blue-100 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                      {benefit.icon}
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-semibold text-gray-900 mb-2">
-                        {benefit.title}
-                      </h4>
-                      <p className="text-gray-600 leading-relaxed">
-                        {benefit.description}
-                      </p>
-                    </div>
+                <div className="flex items-start space-x-4 group">
+                  <div className="flex-shrink-0 p-3 bg-blue-100 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                    <Award className="h-6 w-6" />
                   </div>
-                ))}
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                      Personalized Demo Experience
+                    </h4>
+                    <p className="text-gray-600 leading-relaxed">
+                      Tailored demonstration showcasing solutions for your specific challenges
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4 group">
+                  <div className="flex-shrink-0 p-3 bg-blue-100 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                    <Zap className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                      Implementation Roadmap
+                    </h4>
+                    <p className="text-gray-600 leading-relaxed">
+                      Detailed timeline, pricing, and step-by-step deployment strategy
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4 group">
+                  <div className="flex-shrink-0 p-3 bg-blue-100 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                    <Shield className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                      Comprehensive ROI Analysis
+                    </h4>
+                    <p className="text-gray-600 leading-relaxed">
+                      Custom financial impact assessment for your organization
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4 group">
+                  <div className="flex-shrink-0 p-3 bg-blue-100 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                    <CheckCircle className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                      Seamless Integration Planning
+                    </h4>
+                    <p className="text-gray-600 leading-relaxed">
+                      Technical consultation for existing systems and workflows
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
             
             {/* Revolutionary Testimonials */}
-            <div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-8">
+            <div className="space-y-6">
+              <h3 className="text-3xl font-bold text-gray-900">
                 Trusted by Healthcare Leaders
               </h3>
-              <div className="space-y-6">
-                {testimonials.map((testimonial, index) => (
-                  <div key={index} className="paper-texture-card rounded-2xl p-8 shadow-lg border border-gray-100 hover-lift">
-                    <div className="flex items-start space-x-1 mb-4">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 text-blue-400 fill-current" />
-                      ))}
-                    </div>
-                    <blockquote className="text-gray-700 mb-6 leading-relaxed">
-                      "{testimonial.quote}"
-                    </blockquote>
-                    <div className="border-t border-gray-200 pt-4">
-                      <div className="font-semibold text-gray-900">{testimonial.author}</div>
-                      <div className="text-blue-600 font-medium">{testimonial.role}</div>
-                      <div className="text-gray-500 text-sm">{testimonial.organization}</div>
-                    </div>
-                  </div>
-                ))}
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
+                <div className="flex items-start space-x-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-blue-400 fill-current" />
+                  ))}
+                </div>
+                <blockquote className="text-gray-700 mb-6 leading-relaxed">
+                  "Resilient Healthcare has completely transformed our patient care delivery. Readmission rates dropped 28% in just 6 months."
+                </blockquote>
+                <div className="border-t border-gray-200 pt-4">
+                  <div className="font-semibold text-gray-900">Dr. Sarah Chen</div>
+                  <div className="text-blue-600 font-medium">Chief Medical Officer</div>
+                  <div className="text-gray-500 text-sm">Metro Regional Health System</div>
+                </div>
               </div>
             </div>
           </div>

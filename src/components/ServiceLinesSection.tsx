@@ -85,14 +85,18 @@ const ServiceLinesSection = () => {
   };
 
   return (
-    <section id="service-lines-section" className="py-32 bg-white paper-texture relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0, 61, 107, 0.5) 1px, transparent 0)',
-          backgroundSize: '50px 50px'
-        }} />
-      </div>
+    <section 
+      id="service-lines-section" 
+      className="py-32 bg-white relative overflow-hidden"
+      style={{
+        backgroundImage: `url('/lovable-uploads/538d02df-2e37-481f-9af6-58f2718f977a.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* White overlay to ensure readability */}
+      <div className="absolute inset-0 bg-white/85" />
 
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header */}
@@ -126,7 +130,7 @@ const ServiceLinesSection = () => {
               }`}>
                 {/* Content */}
                 <div className={`space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                  <div className="space-y-6">
+                  <div className="space-y-6 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
                     {/* Icon and Title */}
                     <div className="flex items-start space-x-6">
                       <div className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl transition-all duration-500 ${
@@ -166,7 +170,7 @@ const ServiceLinesSection = () => {
 
                     {/* Additional Info */}
                     {service.additionalInfo && (
-                      <div className="bg-blue-50 paper-texture-subtle rounded-2xl p-6 border-l-4 border-blue-500">
+                      <div className="bg-blue-50 rounded-2xl p-6 border-l-4 border-blue-500">
                         <p className="text-gray-700 leading-relaxed font-medium">
                           {service.additionalInfo}
                         </p>
@@ -175,7 +179,7 @@ const ServiceLinesSection = () => {
 
                     {/* Note */}
                     {service.note && (
-                      <div className="bg-blue-100 paper-texture-subtle rounded-2xl p-6 border-l-4 border-blue-600">
+                      <div className="bg-blue-100 rounded-2xl p-6 border-l-4 border-blue-600">
                         <p className="text-gray-700 leading-relaxed">
                           {service.note}
                         </p>
@@ -196,7 +200,7 @@ const ServiceLinesSection = () => {
                 {/* Image/Visual */}
                 <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
                   <div className="relative">
-                    <div className="w-full h-96 bg-gradient-to-br from-blue-100 to-blue-200 paper-texture rounded-3xl shadow-2xl flex items-center justify-center">
+                    <div className="w-full h-96 bg-gradient-to-br from-blue-100 to-blue-200 rounded-3xl shadow-2xl flex items-center justify-center">
                       <div className={`text-8xl ${
                         service.color === 'blue1' ? 'text-blue-900' :
                         service.color === 'blue2' ? 'text-blue-700' : 'text-blue-500'
