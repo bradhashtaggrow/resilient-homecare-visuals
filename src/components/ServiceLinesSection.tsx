@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Activity, Heart, Building2, ArrowRight, CheckCircle, Users, Stethoscope } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -90,13 +89,13 @@ const ServiceLinesSection = () => {
       className="py-32 bg-white relative overflow-hidden"
       style={{
         backgroundImage: `url('/lovable-uploads/538d02df-2e37-481f-9af6-58f2718f977a.png')`,
-        backgroundSize: 'cover',
+        backgroundSize: '300px 300px',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'repeat'
       }}
     >
-      {/* White overlay to ensure readability */}
-      <div className="absolute inset-0 bg-white/85" />
+      {/* Reduced white overlay to make paper texture more visible */}
+      <div className="absolute inset-0 bg-white/50" />
 
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header */}
@@ -130,7 +129,7 @@ const ServiceLinesSection = () => {
               }`}>
                 {/* Content */}
                 <div className={`space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                  <div className="space-y-6 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                  <div className="space-y-6 bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
                     {/* Icon and Title */}
                     <div className="flex items-start space-x-6">
                       <div className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl transition-all duration-500 ${

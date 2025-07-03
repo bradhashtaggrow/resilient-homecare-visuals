@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Quote, Award, Users, BookOpen } from 'lucide-react';
 
@@ -21,7 +20,6 @@ const FounderSection = () => {
     const element = document.getElementById('founder-section');
     if (element) observer.observe(element);
 
-    // Parallax scroll effect
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
       setParallaxOffset(scrolled * 0.2);
@@ -58,13 +56,13 @@ const FounderSection = () => {
       className="py-32 bg-white relative overflow-hidden"
       style={{
         backgroundImage: `url('/lovable-uploads/538d02df-2e37-481f-9af6-58f2718f977a.png')`,
-        backgroundSize: 'cover',
+        backgroundSize: '300px 300px',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'repeat'
       }}
     >
-      {/* White overlay to ensure readability */}
-      <div className="absolute inset-0 bg-white/85" />
+      {/* Reduced white overlay to make paper texture more visible */}
+      <div className="absolute inset-0 bg-white/50" />
 
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -80,12 +78,10 @@ const FounderSection = () => {
               >
                 <div className="w-96 h-96 mx-auto rounded-full bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 p-3 shadow-2xl">
                   <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center relative overflow-hidden">
-                    {/* Portrait Placeholder */}
                     <div className="text-white text-8xl font-bold relative z-10">
                       JS
                     </div>
                     
-                    {/* Subtle Pattern Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent" />
                   </div>
                 </div>
@@ -107,7 +103,7 @@ const FounderSection = () => {
                 {achievements.map((achievement, index) => (
                   <div 
                     key={index}
-                    className={`bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg text-center transition-all duration-1000 delay-${index * 200} hover-lift ${
+                    className={`bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg text-center transition-all duration-1000 delay-${index * 200} hover-lift ${
                       isVisible ? 'animate-slide-up' : 'opacity-0'
                     }`}
                   >
@@ -126,7 +122,7 @@ const FounderSection = () => {
           <div className={`transition-all duration-1500 delay-500 ${
             isVisible ? 'animate-slide-in-right' : 'opacity-0'
           }`}>
-            <div className="space-y-8 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+            <div className="space-y-8 bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
               {/* Quote Section */}
               <div className="relative">
                 <Quote className="absolute -top-4 -left-4 h-16 w-16 text-blue-200" />
@@ -168,7 +164,7 @@ const FounderSection = () => {
               </div>
               
               {/* Professional Credentials */}
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-100">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-100">
                 <div className="flex items-start space-x-6">
                   <div className="w-16 h-16 healthcare-gradient rounded-2xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
                     JS
