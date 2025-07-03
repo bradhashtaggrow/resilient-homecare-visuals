@@ -25,7 +25,7 @@ const Navigation = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       isScrolled 
-        ? 'bg-white/95 backdrop-blur-xl shadow-xl border-b border-gray-200/20' 
+        ? 'paper-texture-card backdrop-blur-xl shadow-xl border-b border-gray-200/20' 
         : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-6">
@@ -75,7 +75,7 @@ const Navigation = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl shadow-xl border-b border-gray-200/20">
+          <div className="md:hidden absolute top-full left-0 right-0 paper-texture-card backdrop-blur-xl shadow-xl border-b border-gray-200/20">
             <div className="px-6 py-4 space-y-4">
               {navItems.map((item) => (
                 <a

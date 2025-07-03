@@ -33,8 +33,13 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-6 py-16">
+    <footer className="bg-gray-900 text-white relative">
+      {/* Add subtle texture overlay */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="paper-texture-subtle w-full h-full"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
         {/* Top Section */}
         <div className="grid lg:grid-cols-5 gap-8 mb-12">
           {/* Brand Column */}
