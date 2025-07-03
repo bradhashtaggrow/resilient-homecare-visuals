@@ -25,11 +25,11 @@ const ServiceLinesSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // 3D Animated Icon Component
-  const AnimatedIcon3D = ({ icon: Icon, color = "blue", delay = 0 }) => (
+  // Simple 3D Icon Component
+  const AnimatedIcon = ({ icon: Icon, color = "blue", delay = 0 }) => (
     <div className="w-10 h-10 flex-shrink-0 mt-0.5">
       <div 
-        className={`w-full h-full rounded-xl animated-icon-3d bg-gradient-to-br from-${color}-400 via-${color}-500 to-${color}-600 flex items-center justify-center shadow-lg cursor-pointer`}
+        className={`w-full h-full rounded-xl bg-gradient-to-br from-${color}-400 via-${color}-500 to-${color}-600 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-1 cursor-pointer`}
         style={{ animationDelay: `${delay}ms` }}
       >
         <Icon className="h-5 w-5 text-white drop-shadow-sm" />
@@ -49,7 +49,7 @@ const ServiceLinesSection = () => {
         { text: "Improve patient outcomes with early intervention", icon: Target, color: "purple" },
         { text: "Prepare for value-based care programs", icon: Award, color: "orange" }
       ],
-      color: "blue1",
+      color: "blue",
       patientImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
@@ -62,7 +62,7 @@ const ServiceLinesSection = () => {
         { text: "Expand rural health clinic reach into underserved areas", icon: MapPin, color: "green" },
         { text: "Reduce readmissions with targeted follow-up visits", icon: CheckCircle, color: "indigo" }
       ],
-      color: "blue2",
+      color: "red",
       patientImage: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
@@ -76,16 +76,16 @@ const ServiceLinesSection = () => {
         { text: "Medicare waiver submission support", icon: Clock, color: "yellow" }
       ],
       note: "CMS waiver extended through September 2025. We help hospitals prepare for future program versions.",
-      color: "blue3",
+      color: "cyan",
       patientImage: "https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     }
   ];
 
-  const getColorClasses = (color: String, isActive: boolean) => {
+  const getColorClasses = (color: string, isActive: boolean) => {
     const colors = {
-      blue1: isActive ? 'bg-blue-900 text-white shadow-blue-900/25' : 'text-blue-900 bg-blue-50 hover:bg-blue-100',
-      blue2: isActive ? 'bg-blue-700 text-white shadow-blue-700/25' : 'text-blue-700 bg-blue-100 hover:bg-blue-200',
-      blue3: isActive ? 'bg-blue-500 text-white shadow-blue-500/25' : 'text-blue-500 bg-blue-200 hover:bg-blue-300'
+      blue: isActive ? 'bg-blue-600 text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
+      red: isActive ? 'bg-red-600 text-white shadow-red-600/25' : 'text-red-600 bg-red-50 hover:bg-red-100',
+      cyan: isActive ? 'bg-cyan-600 text-white shadow-cyan-600/25' : 'text-cyan-600 bg-cyan-50 hover:bg-cyan-100'
     };
     return colors[color as keyof typeof colors];
   };
@@ -127,7 +127,7 @@ const ServiceLinesSection = () => {
               }`}>
                 {/* Content */}
                 <div className={`space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                  <div className="space-y-6 bg-white/85 backdrop-blur-sm rounded-3xl p-8 shadow-xl relative">
+                  <div className="space-y-6 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-100/50 relative">
                     {/* Service Icon */}
                     <div className="absolute -top-6 -right-6 w-24 h-24">
                       <div className={`w-full h-full rounded-2xl transition-all duration-300 ${
@@ -152,11 +152,11 @@ const ServiceLinesSection = () => {
                       {service.description}
                     </p>
 
-                    {/* Benefits List with 3D Animated Icons */}
+                    {/* Benefits List with Animated Icons */}
                     <div className="space-y-4">
                       {service.benefits.map((benefit, benefitIndex) => (
                         <div key={benefitIndex} className="flex items-start space-x-4">
-                          <AnimatedIcon3D 
+                          <AnimatedIcon 
                             icon={benefit.icon} 
                             color={benefit.color}
                             delay={benefitIndex * 150} 
@@ -168,7 +168,7 @@ const ServiceLinesSection = () => {
 
                     {/* Note */}
                     {service.note && (
-                      <div className="bg-blue-100/90 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-blue-600">
+                      <div className="bg-blue-50/90 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-blue-600">
                         <p className="text-gray-700 leading-relaxed">
                           {service.note}
                         </p>
