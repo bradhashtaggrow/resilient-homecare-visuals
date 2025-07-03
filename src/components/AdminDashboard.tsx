@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Monitor, Users, Calendar, CreditCard, BarChart, Shield, Activity, Brain, Zap, Database } from 'lucide-react';
 
@@ -202,11 +203,13 @@ const AdminDashboard = () => {
             <Monitor className="h-4 w-4" />
             <span>Revolutionary Admin Console</span>
           </div>
-          <h2 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight text-white mb-8 leading-[0.9]">
+          <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
+              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Admin Dashboard That 
             <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"> Powers Operations</span>
           </h2>
-          <p className="text-xl md:text-2xl lg:text-3xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-light">
+          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
+             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             Next-generation management tools with AI-powered insights that give 
             administrators unprecedented visibility and control.
           </p>
