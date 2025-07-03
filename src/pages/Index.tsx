@@ -3,6 +3,7 @@ import React from 'react';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
 import ProblemSection from '@/components/ProblemSection';
+import ServiceLinesSection from '@/components/ServiceLinesSection';
 import MobileShowcase from '@/components/MobileShowcase';
 import AdminDashboard from '@/components/AdminDashboard';
 import FounderSection from '@/components/FounderSection';
@@ -16,6 +17,7 @@ const Index = () => {
       <Navigation />
       <HeroSection />
       <ProblemSection />
+      <ServiceLinesSection />
       <MobileShowcase />
       <AdminDashboard />
       <FounderSection />

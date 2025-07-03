@@ -8,9 +8,7 @@ const StatsSection = () => {
     costSavings: 0,
     readmissionReduction: 0,
     patientPreference: 0,
-    lessStress: 0,
-    hospitalPartners: 0,
-    serviceLines: 0
+    lessStress: 0
   });
 
   useEffect(() => {
@@ -37,9 +35,7 @@ const StatsSection = () => {
         costSavings: 38,
         readmissionReduction: 70,
         patientPreference: 91,
-        lessStress: 96,
-        hospitalPartners: 50,
-        serviceLines: 3
+        lessStress: 96
       };
 
       const duration = 3000;
@@ -91,7 +87,7 @@ const StatsSection = () => {
       icon: <TrendingUp className="h-10 w-10" />,
       value: `${counts.readmissionReduction}%`,
       label: "Reduction in Readmissions",
-      description: "A study published in JAMA Internal Medicine reported a 70% reduction in 30-day readmission rates among hospital-at-home patients.",
+      description: "A study published in JAMA Internal Medicine reported a 70% reduction in 30-day readmission rates among hospital-at-home patients compared to traditional inpatient care.",
       color: "red",
       trend: "30-day readmissions"
     },
@@ -99,7 +95,7 @@ const StatsSection = () => {
       icon: <Heart className="h-10 w-10" />,
       value: `${counts.patientPreference}%`,
       label: "Patient Preference",
-      description: "A survey published in the Annals of Internal Medicine found that 91% of patients who received hospital-level care at home would choose this option again.",
+      description: "A survey published in the Annals of Internal Medicine found that 91% of patients who received hospital-level care at home would choose this option again for similar medical conditions.",
       color: "pink",
       trend: "Annals of Internal Medicine"
     },
@@ -110,22 +106,6 @@ const StatsSection = () => {
       description: "A study published in BMJ Open Quality reported that 96% of patients felt less stressed receiving care at home compared to inpatient hospital care.",
       color: "blue",
       trend: "BMJ Open Quality"
-    },
-    {
-      icon: <Award className="h-10 w-10" />,
-      value: `${counts.hospitalPartners}+`,
-      label: "Hospital Partners",
-      description: "Growing network of hospitals extending their care delivery through our comprehensive platform and service lines.",
-      color: "purple",
-      trend: "Expanding nationwide"
-    },
-    {
-      icon: <Target className="h-10 w-10" />,
-      value: `${counts.serviceLines}`,
-      label: "Core Service Lines",
-      description: "Outpatient PT Anywhere, Primary Care at Home, and Acute Hospital-at-Home - fully streamlined and uncompromisingly simple.",
-      color: "orange",
-      trend: "Fully managed programs"
     }
   ];
 
@@ -134,9 +114,7 @@ const StatsSection = () => {
       red: 'from-red-500 to-pink-500',
       pink: 'from-pink-500 to-rose-500',
       blue: 'from-blue-500 to-cyan-500',
-      green: 'from-green-500 to-emerald-500',
-      purple: 'from-purple-500 to-indigo-500',
-      orange: 'from-orange-500 to-yellow-500'
+      green: 'from-green-500 to-emerald-500'
     };
     return gradients[color as keyof typeof gradients] || 'from-blue-500 to-purple-500';
   };
@@ -170,7 +148,7 @@ const StatsSection = () => {
         }`}>
           <div className="inline-flex items-center space-x-2 bg-white/10 text-white px-6 py-3 rounded-full text-sm font-medium mb-8 backdrop-blur-sm">
             <Award className="h-4 w-4" />
-            <span>Research-Backed Results</span>
+            <span>What does the Research Say?</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
             Powering Hospital Level 
@@ -184,7 +162,7 @@ const StatsSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
             <div 
               key={index}

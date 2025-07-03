@@ -98,7 +98,7 @@ const HeroSection = () => {
               </div>
             </div>
             
-            <p className="text-white/80 text-base">Powered by hospital-level care at home</p>
+            <p className="text-white/80 text-base">We manage the work. You own the program.</p>
           </div>
         </div>
       </div>
