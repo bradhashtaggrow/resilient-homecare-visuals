@@ -216,7 +216,7 @@ const ServiceLinesSection = () => {
                       ">
                         <span className="relative z-10 flex items-center gap-2">
                           Learn More
-                          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 bg-gradient-to-r from-blue-300 to-blue-100 bg-clip-text text-transparent" />
+                          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 text-white drop-shadow-lg" />
                         </span>
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-300/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </button>
