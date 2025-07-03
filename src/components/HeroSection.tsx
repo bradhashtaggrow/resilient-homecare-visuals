@@ -12,7 +12,7 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Clean Video Background - No Overlay */}
+      {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
