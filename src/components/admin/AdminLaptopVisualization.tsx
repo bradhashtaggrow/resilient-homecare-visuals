@@ -21,115 +21,100 @@ const AdminLaptopVisualization = ({
       <div className={`relative transition-all duration-1500 ${
         isVisible ? 'animate-scale-in' : 'opacity-0'
       }`}>
-        <div className="relative" style={{ perspective: '1000px' }}>
-          {/* MacBook Pro Base Image - Right side up */}
-          <div className="relative w-[800px] h-[500px]">
-            <img 
-              src="/lovable-uploads/a06b72e3-b23e-4c4f-930b-6f5df0bc7d75.png"
-              alt="MacBook Pro"
-              className="w-full h-full object-contain"
-              style={{
-                filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5))'
-              }}
-            />
-            
-            {/* Screen Content Overlay - Positioned for right-side-up laptop */}
-            <div 
-              className={`absolute bg-black rounded-lg transition-all duration-2000 overflow-hidden ${
-                laptopOpen ? 'opacity-100' : 'opacity-0'
-              }`}
-              style={{
-                top: '8%',
-                left: '12%',
-                width: '76%',
-                height: '60%',
-                transformOrigin: 'bottom center'
-              }}
-            >
-              {/* Screen bezel effect */}
-              <div className="absolute inset-1 bg-gradient-to-br from-gray-900 to-black rounded-lg">
-                {/* Actual screen content */}
-                <div className="p-4 h-full healthcare-gradient rounded-lg relative overflow-hidden">
-                  {/* Screen Content */}
-                  <div className="bg-black/20 rounded-lg p-3 h-full backdrop-blur-sm border border-white/10">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-3 pb-2 border-b border-white/20">
-                      <div className="flex items-center space-x-1">
-                        <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      </div>
-                      <div className="text-white font-semibold text-xs">
-                        Resilient Healthcare - Admin Console
-                      </div>
-                      <div className="text-white/60 text-xs">
-                        {new Date().toLocaleDateString()}
-                      </div>
+        <div className="relative perspective-1000">
+          {/* Laptop Base */}
+          <div className="w-[800px] h-8 bg-gradient-to-r from-gray-600 to-gray-500 rounded-2xl shadow-2xl transform-gpu" 
+               style={{ transformStyle: 'preserve-3d' }} />
+          
+          {/* Laptop Screen */}
+          <div 
+            className={`w-[800px] h-[500px] bg-gradient-to-br from-gray-800 to-gray-900 rounded-t-3xl shadow-2xl transition-all duration-2000 origin-bottom border-4 border-gray-700 ${
+              laptopOpen ? 'rotate-x-0' : '-rotate-x-90'
+            }`}
+            style={{ 
+              transformOrigin: 'bottom center',
+              transformStyle: 'preserve-3d'
+            }}
+          >
+            <div className="p-8 h-full healthcare-gradient rounded-t-2xl relative overflow-hidden">
+              {/* Screen Content */}
+              <div className="bg-black/20 rounded-2xl p-6 h-full backdrop-blur-sm border border-white/10">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/20">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                  </div>
+                  <div className="text-white font-semibold">
+                    Resilient Healthcare - Admin Console
+                  </div>
+                  <div className="text-white/60 text-sm">
+                    {new Date().toLocaleDateString()}
+                  </div>
+                </div>
+
+                {/* Dynamic Dashboard Content */}
+                <div className="grid grid-cols-4 gap-4 h-full">
+                  <div className="col-span-3 space-y-4">
+                    {/* Top Stats Row */}
+                    <div className="grid grid-cols-4 gap-4">
+                      {[
+                        { label: 'Active Patients', value: '247', trend: '+5%' },
+                        { label: 'Team Members', value: '28', trend: '+2' },
+                        { label: 'Satisfaction', value: '94.2%', trend: '+1.2%' },
+                        { label: 'Revenue', value: '$127K', trend: '+12%' }
+                      ].map((stat, i) => (
+                        <div key={i} className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                          <div className="text-white/60 text-xs mb-1">{stat.label}</div>
+                          <div className="text-white font-bold text-lg">{stat.value}</div>
+                          <div className="text-green-400 text-xs">{stat.trend}</div>
+                        </div>
+                      ))}
                     </div>
 
-                    {/* Dynamic Dashboard Content */}
-                    <div className="grid grid-cols-4 gap-2 h-full">
-                      <div className="col-span-3 space-y-2">
-                        {/* Top Stats Row */}
-                        <div className="grid grid-cols-4 gap-2">
-                          {[
-                            { label: 'Active Patients', value: '247', trend: '+5%' },
-                            { label: 'Team Members', value: '28', trend: '+2' },
-                            { label: 'Satisfaction', value: '94.2%', trend: '+1.2%' },
-                            { label: 'Revenue', value: '$127K', trend: '+12%' }
-                          ].map((stat, i) => (
-                            <div key={i} className="bg-white/10 rounded p-2 backdrop-blur-sm">
-                              <div className="text-white/60 text-xs mb-1">{stat.label}</div>
-                              <div className="text-white font-bold text-xs">{stat.value}</div>
-                              <div className="text-green-400 text-xs">{stat.trend}</div>
-                            </div>
+                    {/* Main Chart Area */}
+                    <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm h-64">
+                      <div className="text-white font-semibold mb-4">Patient Volume Trends</div>
+                      <div className="relative h-full">
+                        {/* Animated Chart Bars */}
+                        <div className="flex items-end justify-between h-full space-x-2">
+                          {[65, 78, 82, 71, 89, 95, 88, 92].map((height, i) => (
+                            <div 
+                              key={i}
+                              className="bg-gradient-to-t from-blue-400 to-purple-400 rounded-t-lg transition-all duration-1000 flex-1"
+                              style={{ 
+                                height: `${height}%`,
+                                animationDelay: `${i * 200}ms`
+                              }}
+                            />
                           ))}
                         </div>
-
-                        {/* Main Chart Area */}
-                        <div className="bg-white/10 rounded p-3 backdrop-blur-sm h-32">
-                          <div className="text-white font-semibold text-xs mb-2">Patient Volume Trends</div>
-                          <div className="relative h-full">
-                            {/* Animated Chart Bars */}
-                            <div className="flex items-end justify-between h-full space-x-1">
-                              {[65, 78, 82, 71, 89, 95, 88, 92].map((height, i) => (
-                                <div 
-                                  key={i}
-                                  className="bg-gradient-to-t from-blue-400 to-purple-400 rounded-t transition-all duration-1000 flex-1"
-                                  style={{ 
-                                    height: `${height}%`,
-                                    animationDelay: `${i * 200}ms`
-                                  }}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
                       </div>
+                    </div>
+                  </div>
 
-                      {/* Right Sidebar */}
+                  {/* Right Sidebar */}
+                  <div className="space-y-4">
+                    <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm transition-all duration-500">
+                      {demoScreens[activeDemo].content}
+                    </div>
+                    
+                    {/* Activity Feed */}
+                    <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                      <div className="text-white font-semibold text-sm mb-3">Recent Activity</div>
                       <div className="space-y-2">
-                        <div className="bg-white/10 rounded p-2 backdrop-blur-sm transition-all duration-500">
-                          {demoScreens[activeDemo].content}
-                        </div>
-                        
-                        {/* Activity Feed */}
-                        <div className="bg-white/10 rounded p-2 backdrop-blur-sm">
-                          <div className="text-white font-semibold text-xs mb-2">Recent Activity</div>
-                          <div className="space-y-1">
-                            {[
-                              'Patient check-in completed',
-                              'Alert: Vitals anomaly detected',
-                              'Care plan updated',
-                              'Team message sent'
-                            ].map((activity, i) => (
-                              <div key={i} className="flex items-center space-x-1">
-                                <div className="w-1 h-1 bg-green-400 rounded-full"></div>
-                                <div className="text-white/70 text-xs">{activity}</div>
-                              </div>
-                            ))}
+                        {[
+                          'Patient check-in completed',
+                          'Alert: Vitals anomaly detected',
+                          'Care plan updated',
+                          'Team message sent'
+                        ].map((activity, i) => (
+                          <div key={i} className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                            <div className="text-white/70 text-xs">{activity}</div>
                           </div>
-                        </div>
+                        ))}
                       </div>
                     </div>
                   </div>
