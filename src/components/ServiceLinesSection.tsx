@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -126,11 +127,13 @@ const ServiceLinesSection = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <h2 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
+          <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
+              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Fully Streamlined,
             <span className="block healthcare-text-gradient"> Uncompromisingly Simple</span>
           </h2>
-          <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
+             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             Three core service lines designed to extend your hospital's reach and improve patient outcomes.
           </p>
         </div>
@@ -163,10 +166,12 @@ const ServiceLinesSection = () => {
 
                     {/* Title and Subtitle */}
                     <div className="pr-16">
-                      <h3 className="text-3xl font-bold text-gray-900 mb-3">
+                      <h3 className="text-gray-900 leading-none tracking-tight font-black mb-3"
+                          style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                         {service.title}
                       </h3>
-                      <p className="text-xl text-blue-600 font-semibold mb-4">
+                      <p className="text-blue-600/90 font-medium tracking-wide"
+                         style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                         {service.subtitle}
                       </p>
                     </div>
