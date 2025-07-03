@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope } from 'lucide-react';
+import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 const ServiceLinesSection = () => {
@@ -25,16 +25,14 @@ const ServiceLinesSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Custom 3D Twirling Favicon Component
-  const TwirlingFavicon = ({ delay = 0 }) => (
-    <div className="w-8 h-8 perspective-1000 flex-shrink-0 mt-0.5">
+  // 3D Animated Icon Component
+  const AnimatedIcon3D = ({ icon: Icon, color = "blue", delay = 0 }) => (
+    <div className="w-10 h-10 flex-shrink-0 mt-0.5">
       <div 
-        className="w-full h-full bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 rounded-lg flex items-center justify-center transform-3d twirling-favicon shadow-lg"
+        className={`w-full h-full rounded-xl animated-icon-3d bg-gradient-to-br from-${color}-400 via-${color}-500 to-${color}-600 flex items-center justify-center shadow-lg cursor-pointer`}
         style={{ animationDelay: `${delay}ms` }}
       >
-        <div className="w-4 h-4 bg-white rounded-sm flex items-center justify-center">
-          <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-        </div>
+        <Icon className="h-5 w-5 text-white drop-shadow-sm" />
       </div>
     </div>
   );
@@ -46,10 +44,10 @@ const ServiceLinesSection = () => {
       subtitle: "Home-Based Therapy & Recovery",
       description: "Hospital-branded physical therapy delivered directly to patients' homes with full technology integration.",
       benefits: [
-        "Generate new outpatient therapy revenue",
-        "Reduce costly post-acute placements", 
-        "Improve patient outcomes with early intervention",
-        "Prepare for value-based care programs"
+        { text: "Generate new outpatient therapy revenue", icon: TrendingUp, color: "emerald" },
+        { text: "Reduce costly post-acute placements", icon: Shield, color: "blue" },
+        { text: "Improve patient outcomes with early intervention", icon: Target, color: "purple" },
+        { text: "Prepare for value-based care programs", icon: Award, color: "orange" }
       ],
       color: "blue1",
       patientImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
@@ -60,9 +58,9 @@ const ServiceLinesSection = () => {
       subtitle: "Transitional & Rural Care Extension",
       description: "Physician and advanced practice providers delivering seamless care transitions and rural health services.",
       benefits: [
-        "Extend transitional care management for high-risk patients",
-        "Expand rural health clinic reach into underserved areas", 
-        "Reduce readmissions with targeted follow-up visits"
+        { text: "Extend transitional care management for high-risk patients", icon: Users, color: "red" },
+        { text: "Expand rural health clinic reach into underserved areas", icon: MapPin, color: "green" },
+        { text: "Reduce readmissions with targeted follow-up visits", icon: CheckCircle, color: "indigo" }
       ],
       color: "blue2",
       patientImage: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
@@ -73,9 +71,9 @@ const ServiceLinesSection = () => {
       subtitle: "CMS-Compliant Inpatient Care at Home", 
       description: "Full implementation support for hospital-level care delivery in the home environment.",
       benefits: [
-        "Complete workflow design & policy development",
-        "Staff training & education programs", 
-        "Medicare waiver submission support"
+        { text: "Complete workflow design & policy development", icon: Zap, color: "cyan" },
+        { text: "Staff training & education programs", icon: Users, color: "pink" },
+        { text: "Medicare waiver submission support", icon: Clock, color: "yellow" }
       ],
       note: "CMS waiver extended through September 2025. We help hospitals prepare for future program versions.",
       color: "blue3",
@@ -154,12 +152,16 @@ const ServiceLinesSection = () => {
                       {service.description}
                     </p>
 
-                    {/* Benefits List with 3D Twirling Favicons */}
+                    {/* Benefits List with 3D Animated Icons */}
                     <div className="space-y-4">
                       {service.benefits.map((benefit, benefitIndex) => (
                         <div key={benefitIndex} className="flex items-start space-x-4">
-                          <TwirlingFavicon delay={benefitIndex * 200} />
-                          <span className="text-gray-700 leading-relaxed flex-1">{benefit}</span>
+                          <AnimatedIcon3D 
+                            icon={benefit.icon} 
+                            color={benefit.color}
+                            delay={benefitIndex * 150} 
+                          />
+                          <span className="text-gray-700 leading-relaxed flex-1">{benefit.text}</span>
                         </div>
                       ))}
                     </div>
@@ -194,19 +196,6 @@ const ServiceLinesSection = () => {
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent" />
-                    </div>
-                    
-                    {/* Decorative elements */}
-                    <div className="absolute -top-6 -right-6 w-16 h-16">
-                      <div className="w-full h-full healthcare-gradient rounded-full flex items-center justify-center shadow-xl transform transition-all duration-300 hover:scale-110">
-                        <Users className="h-8 w-8 text-white" />
-                      </div>
-                    </div>
-                    
-                    <div className="absolute -bottom-8 -left-8 w-14 h-14">
-                      <div className="w-full h-full bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-xl transform transition-all duration-300 hover:scale-110">
-                        <span className="text-white text-xl">💙</span>
-                      </div>
                     </div>
                   </div>
                 </div>

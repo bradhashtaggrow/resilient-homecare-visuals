@@ -292,6 +292,45 @@
   .loading-pulse {
     animation: loadingPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
+
+  /* 3D Animated Icons */
+  .animated-icon-3d {
+    transform-style: preserve-3d;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .animated-icon-3d::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, rgba(255,255,255,0.3), transparent, rgba(255,255,255,0.3));
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .animated-icon-3d:hover {
+    transform: translateY(-4px) rotateX(15deg) rotateY(5deg) scale(1.1);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.15),
+      0 4px 10px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .animated-icon-3d:hover::before {
+    opacity: 1;
+  }
+
+  .animated-icon-3d:active {
+    transform: translateY(-2px) rotateX(5deg) scale(1.05);
+    transition: all 0.1s ease;
+  }
 }
 
 @keyframes float {
@@ -458,6 +497,11 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  
+  .animated-icon-3d:hover {
+    transform: none;
+    box-shadow: none;
   }
 }
 
