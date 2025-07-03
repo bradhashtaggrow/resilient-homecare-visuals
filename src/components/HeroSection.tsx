@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
@@ -22,7 +21,6 @@ const HeroSection = () => {
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source src="https://videos.pexels.com/video-files/8375718/8375718-hd_1920_1080_25fps.mp4" type="video/mp4" />
-          <source src="https://videos.pexels.com/video-files/3196036/3196036-hd_1920_1080_25fps.mp4" type="video/mp4" />
         </video>
         {/* Darker gradient overlay for better readability */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/50" />
