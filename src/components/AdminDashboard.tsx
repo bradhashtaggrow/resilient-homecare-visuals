@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Monitor, Users, Calendar, CreditCard, BarChart, Shield, Activity, Brain, Zap, Database } from 'lucide-react';
 
@@ -199,10 +198,6 @@ const AdminDashboard = () => {
         <div className={`text-center mb-20 transition-all duration-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
-          <div className="inline-flex items-center space-x-2 bg-blue-500/20 text-blue-300 px-6 py-3 rounded-full text-sm font-medium mb-8 backdrop-blur-sm">
-            <Monitor className="h-4 w-4" />
-            <span>Revolutionary Admin Console</span>
-          </div>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Admin Dashboard That 
