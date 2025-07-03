@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Heart, Video, FileCheck, Bell, MessageSquare, Clipboard, Activity, Shield, Calendar } from 'lucide-react';
 
@@ -116,11 +115,11 @@ const MobileShowcase = () => {
             <Shield className="h-4 w-4" />
             <span>Revolutionary Mobile Platform</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight text-gray-900 mb-8 leading-[0.9]">
             Mobile Platform That 
             <span className="block healthcare-text-gradient"> Connects Everyone</span>
           </h2>
-          <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl lg:text-3xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-light">
             Empower patients with intuitive self-care tools while giving 
             clinicians unprecedented insights for exceptional care delivery.
           </p>
@@ -130,8 +129,8 @@ const MobileShowcase = () => {
           {/* Left Features - Patients */}
           <div className="space-y-8">
             <div className="text-center lg:text-left mb-12">
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">For Patients</h3>
-              <p className="text-gray-600">Empowering recovery from home</p>
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900 mb-4">For Patients</h3>
+              <p className="text-lg md:text-xl text-gray-600 font-light">Empowering recovery from home</p>
             </div>
             {patientFeatures.map((feature, index) => (
               <div 
@@ -266,8 +265,8 @@ const MobileShowcase = () => {
           {/* Right Features - Clinicians */}
           <div className="space-y-8">
             <div className="text-center lg:text-right mb-12">
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">For Clinicians</h3>
-              <p className="text-gray-600">Streamlining care delivery</p>
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900 mb-4">For Clinicians</h3>
+              <p className="text-lg md:text-xl text-gray-600 font-light">Streamlining care delivery</p>
             </div>
             {clinicianFeatures.map((feature, index) => (
               <div 
