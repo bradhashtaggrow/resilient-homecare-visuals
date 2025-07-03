@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from 'lucide-react';
@@ -63,7 +62,7 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 hover:scale-110 transition-all duration-500 text-lg px-10 py-6 shadow-2xl hover:shadow-blue-500/25 group text-white border-0"
+              className="healthcare-gradient-primary hover:healthcare-gradient-secondary hover:scale-110 transition-all duration-500 text-lg px-10 py-6 shadow-2xl hover:shadow-blue-500/25 group text-white border-0"
             >
               Book An Appointment
               <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform" />
@@ -72,7 +71,7 @@ const HeroSection = () => {
             <Button 
               variant="outline" 
               size="lg" 
-              className="border-2 border-white text-blue-600 bg-white hover:bg-blue-600 hover:text-white transition-all duration-500 text-lg px-10 py-6 hover:scale-110 group"
+              className="border-2 border-white text-white bg-white/10 hover:bg-white hover:text-blue-900 transition-all duration-500 text-lg px-10 py-6 hover:scale-110 group backdrop-blur-sm"
             >
               <Play className="mr-3 h-5 w-5 group-hover:scale-125 transition-transform" />
               Learn More
