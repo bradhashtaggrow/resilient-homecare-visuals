@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ const ServiceLinesSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  // 3D Animated Icon Component with Depth Effects
   const AnimatedIcon3D = ({ icon: Icon, color = "blue", delay = 0 }) => {
     const colorClasses = {
       emerald: 'from-emerald-400 via-emerald-500 to-emerald-600 shadow-emerald-500/50',
@@ -125,23 +127,14 @@ const ServiceLinesSection = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <h2 className="leading-none tracking-tight font-black mb-8"
+          <h2 className="leading-none tracking-tight font-black mb-8 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 bg-clip-text text-transparent"
               style={{ 
                 fontSize: 'clamp(3rem, 8vw, 8rem)', 
                 fontWeight: 900, 
-                lineHeight: 0.85,
-                background: 'linear-gradient(135deg, #4A90E2 0%, #357ABD 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
+                lineHeight: 0.85
               }}>
             Fully Streamlined,
-            <span className="block" style={{
-              background: 'linear-gradient(135deg, #4A90E2 0%, #357ABD 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}> Uncompromisingly Simple</span>
+            <span className="block bg-gradient-to-r from-blue-800 via-blue-700 to-blue-600 bg-clip-text text-transparent"> Uncompromisingly Simple</span>
           </h2>
           <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>

@@ -68,9 +68,9 @@ const HeroSection = () => {
               size="lg" 
               className="group relative px-16 py-8 text-2xl font-bold rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
               style={{
-                background: 'linear-gradient(135deg, #4A90E2 0%, #357ABD 100%)',
+                background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
                 boxShadow: `
-                  0 12px 32px rgba(74, 144, 226, 0.4),
+                  0 12px 32px rgba(0, 128, 255, 0.4),
                   0 4px 16px rgba(0, 0, 0, 0.3),
                   inset 0 2px 0 rgba(255, 255, 255, 0.2),
                   inset 0 -2px 8px rgba(0, 0, 0, 0.1)
@@ -79,21 +79,21 @@ const HeroSection = () => {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.boxShadow = `
-                  0 20px 48px rgba(74, 144, 226, 0.6),
+                  0 20px 48px rgba(0, 128, 255, 0.6),
                   0 8px 24px rgba(0, 0, 0, 0.4),
                   inset 0 2px 0 rgba(255, 255, 255, 0.3),
                   inset 0 -2px 12px rgba(0, 0, 0, 0.2)
                 `;
-                e.currentTarget.style.background = 'linear-gradient(135deg, #5BA3FF 0%, #4A90E2 100%)';
+                e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.boxShadow = `
-                  0 12px 32px rgba(74, 144, 226, 0.4),
+                  0 12px 32px rgba(0, 128, 255, 0.4),
                   0 4px 16px rgba(0, 0, 0, 0.3),
                   inset 0 2px 0 rgba(255, 255, 255, 0.2),
                   inset 0 -2px 8px rgba(0, 0, 0, 0.1)
                 `;
-                e.currentTarget.style.background = 'linear-gradient(135deg, #4A90E2 0%, #357ABD 100%)';
+                e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
               }}
             >
               <span className="relative z-10 flex items-center">
