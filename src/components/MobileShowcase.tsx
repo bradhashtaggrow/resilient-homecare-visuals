@@ -113,10 +113,6 @@ const MobileShowcase = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header Section */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-600 px-6 py-3 rounded-full text-sm font-medium mb-8">
-            <Shield className="h-4 w-4" />
-            <span>Revolutionary Mobile Platform</span>
-          </div>
           <h2 className="text-revolutionary text-gray-900 mb-8 font-black leading-none tracking-tight">
             Mobile Platform That 
             <span className="block healthcare-text-gradient"> Connects Everyone</span>
