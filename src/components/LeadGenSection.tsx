@@ -116,11 +116,13 @@ const LeadGenSection = () => {
             <Star className="h-4 w-4" />
             <span>Join the Healthcare Revolution</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
+          <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
+              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Ready to Transform Your 
-            <span className="block healthcare-text-gradient"> Healthcare Delivery?</span>
+            <span className="block healthcare-text-gradient">Healthcare Delivery?</span>
           </h2>
-          <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
+             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             Join visionary healthcare organizations that are revolutionizing patient care 
             and operational excellence with our comprehensive platform.
           </p>
@@ -135,7 +137,8 @@ const LeadGenSection = () => {
               {/* Form Background Pattern */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-full -translate-y-16 translate-x-16" />
               
-              <h3 className="text-3xl font-bold text-gray-900 mb-8 relative">
+              <h3 className="text-gray-900 leading-none tracking-tight font-black mb-8"
+                  style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                 Schedule Your Revolutionary Demo
               </h3>
               
@@ -254,10 +257,12 @@ const LeadGenSection = () => {
                   <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle className="h-12 w-12 text-white" />
                   </div>
-                  <h4 className="text-3xl font-bold text-gray-900 mb-4">
+                  <h4 className="text-gray-900 leading-none tracking-tight font-black mb-4"
+                      style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                     Demo Scheduled Successfully!
                   </h4>
-                  <p className="text-lg text-gray-600 mb-6">
+                  <p className="text-blue-600/90 font-medium tracking-wide mb-6"
+                     style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                     Thank you for your interest in revolutionizing healthcare delivery. 
                     Our team will contact you within 2 hours to schedule your personalized demo.
                   </p>
@@ -277,7 +282,8 @@ const LeadGenSection = () => {
           }`}>
             {/* What You'll Get */}
             <div className="bg-white/85 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
-              <h3 className="text-3xl font-bold text-gray-900 mb-8">
+              <h3 className="text-gray-900 leading-none tracking-tight font-black mb-8"
+                  style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                 What You'll Experience
               </h3>
               <div className="space-y-6">
@@ -287,7 +293,8 @@ const LeadGenSection = () => {
                       {benefit.icon}
                     </div>
                     <div>
-                      <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                      <h4 className="text-blue-600/90 font-medium tracking-wide mb-2"
+                          style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                         {benefit.title}
                       </h4>
                       <p className="text-gray-600 leading-relaxed">
@@ -301,7 +308,8 @@ const LeadGenSection = () => {
             
             {/* Revolutionary Testimonials */}
             <div className="space-y-6">
-              <h3 className="text-3xl font-bold text-gray-900">
+              <h3 className="text-gray-900 leading-none tracking-tight font-black"
+                  style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                 Trusted by Healthcare Leaders
               </h3>
               <div className="bg-white/85 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
@@ -330,10 +338,12 @@ const LeadGenSection = () => {
           <div className="healthcare-gradient rounded-3xl p-12 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-24 translate-x-24" />
             <div className="relative">
-              <h3 className="text-4xl font-bold mb-6">
+              <h3 className="text-white leading-none tracking-tight font-black mb-6"
+                  style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
                 Join 500+ Healthcare Organizations
               </h3>
-              <p className="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+              <p className="text-white/90 mb-8 opacity-90 max-w-3xl mx-auto font-medium tracking-wide"
+                 style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
                 Leading hospitals, health systems, and care providers trust Resilient Healthcare 
                 to deliver exceptional patient outcomes and operational excellence.
               </p>
