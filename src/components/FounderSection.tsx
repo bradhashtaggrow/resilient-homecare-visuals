@@ -54,18 +54,8 @@ const FounderSection = () => {
   return (
     <section 
       id="founder-section" 
-      className="py-32 bg-white relative overflow-hidden"
-      style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151?ixlib=rb-4.0.3&auto=format&fit=crop&w=3024&h=3779&q=80')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed'
-      }}
+      className="py-32 bg-white relative overflow-hidden paper-texture-subtle"
     >
-      {/* Very subtle gradient overlay to naturally blend texture */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/93 to-white/95" />
-
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Portrait */}

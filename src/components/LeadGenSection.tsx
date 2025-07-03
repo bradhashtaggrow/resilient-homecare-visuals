@@ -106,18 +106,8 @@ const LeadGenSection = () => {
   return (
     <section 
       id="lead-gen-section" 
-      className="py-32 bg-white relative overflow-hidden"
-      style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1486718448742-163732cd1544?ixlib=rb-4.0.3&auto=format&fit=crop&w=6587&h=4392&q=80')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed'
-      }}
+      className="py-32 bg-white relative overflow-hidden paper-texture-subtle"
     >
-      {/* Very subtle radial gradient overlay for natural blending */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/93 to-white/95" />
-
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className={`text-center mb-20 transition-all duration-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
