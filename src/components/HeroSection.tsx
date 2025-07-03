@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
@@ -40,7 +41,7 @@ const HeroSection = () => {
             onError={handleVideoError}
             onCanPlay={handleVideoLoaded}
           >
-            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+            <source src="https://videos.pexels.com/video-files/8375718/8375718-hd_1920_1080_25fps.mp4" type="video/mp4" />
           </video>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600"></div>
