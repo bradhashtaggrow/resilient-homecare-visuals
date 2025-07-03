@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -127,10 +126,6 @@ const ServiceLinesSection = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <div className="inline-flex items-center space-x-2 bg-blue-100/90 backdrop-blur-sm text-blue-600 px-6 py-3 rounded-full text-sm font-medium mb-8">
-            <Stethoscope className="h-4 w-4" />
-            <span>Our Core Service Lines</span>
-          </div>
           <h2 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
             Fully Streamlined,
             <span className="block healthcare-text-gradient"> Uncompromisingly Simple</span>
