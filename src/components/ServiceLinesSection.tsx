@@ -127,16 +127,26 @@ const ServiceLinesSection = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <h2 className="leading-none tracking-tight font-black mb-8 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 bg-clip-text text-transparent"
+          <h2 className="leading-none tracking-tight font-black mb-8"
               style={{ 
                 fontSize: 'clamp(3rem, 8vw, 8rem)', 
                 fontWeight: 900, 
-                lineHeight: 0.85
+                lineHeight: 0.85,
+                background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
               }}>
             Fully Streamlined,
-            <span className="block bg-gradient-to-r from-blue-800 via-blue-700 to-blue-600 bg-clip-text text-transparent"> Uncompromisingly Simple</span>
+            <span className="block"
+                  style={{
+                    background: 'linear-gradient(145deg, #4A90E2 0%, #357ABD 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}> Uncompromisingly Simple</span>
           </h2>
-          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
+          <p className="text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             Three core service lines designed to extend your hospital's reach and improve patient outcomes.
           </p>
