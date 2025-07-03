@@ -32,9 +32,9 @@ const HeroSection = () => {
             onCanPlay={() => console.log('Video can play')}
           >
             {/* Try multiple sources for better compatibility */}
-            <source src="https://cdn.pixabay.com/video/2023/04/24/159721-825094254_large.mp4" type="video/mp4" />
-            <source src="https://videos.pexels.com/video-files/8375494/8375494-hd_1920_1080_25fps.mp4" type="video/mp4" />
-            <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4" />
+            <source src="https://videos.pexels.com/video-files/8375718/8375718-hd_1920_1080_25fps.mp4" type="video/mp4" />
+            <source src="https://videos.pexels.com/video-files/8375718/8375718-sd_640_360_25fps.mp4" type="video/mp4" />
+            <source src="https://videos.pexels.com/video-files/8375718/8375718-uhd_2560_1440_25fps.mp4" type="video/mp4" />
           </video>
         ) : (
           /* Fallback gradient background */
