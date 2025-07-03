@@ -1,69 +1,64 @@
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const handleVideoError = () => {
-    console.log('Video failed to load, using fallback background');
-    setVideoError(true);
-  };
-
-  const handleVideoLoaded = () => {
-    console.log('Video loaded and ready to play');
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {
-        console.log('Autoplay blocked by browser, but video is loaded');
-      });
-    }
-  };
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Video Background or Fallback */}
+      {/* Video Background */}
       <div className="absolute inset-0 z-0">
-        {!videoError ? (
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-            onError={handleVideoError}
-            onCanPlay={handleVideoLoaded}
-          >
-            <source src="https://videos.pexels.com/video-files/8375718/8375718-hd_1920_1080_25fps.mp4" type="video/mp4" />
-          </video>
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600"></div>
-        )}
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/50 z-10"></div>
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/8375494/8375494-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        {/* Subtle gradient overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/20" />
+      </div>
+
+      {/* 3D Anamorphic Edge Effects */}
+      <div className="absolute inset-0 z-10 pointer-events-none">
+        {/* Top edge */}
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12" />
+        {/* Bottom edge */}
+        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform skew-x-12" />
+        {/* Left edge */}
+        <div className="absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform -skew-y-12" />
+        {/* Right edge */}
+        <div className="absolute right-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform skew-y-12" />
+        
+        {/* Corner accents */}
+        <div className="absolute top-4 left-4 w-12 h-12 bg-gradient-to-br from-white/20 to-transparent transform rotate-45 blur-sm" />
+        <div className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-bl from-white/20 to-transparent transform -rotate-45 blur-sm" />
+        <div className="absolute bottom-4 left-4 w-12 h-12 bg-gradient-to-tr from-white/20 to-transparent transform -rotate-45 blur-sm" />
+        <div className="absolute bottom-4 right-4 w-12 h-12 bg-gradient-to-tl from-white/20 to-transparent transform rotate-45 blur-sm" />
       </div>
 
       {/* Hero Content */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
-          {/* Apple-Style Smaller Title */}
+          {/* Apple-Style Huge Title */}
           <div className="mb-12">
             <h1 className="text-white leading-none tracking-tight font-black text-shadow-white" 
-                style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                style={{ fontSize: 'clamp(4rem, 12vw, 12rem)', fontWeight: 900, lineHeight: 0.85 }}>
               The Future of Healthcare
             </h1>
           </div>
           
-          {/* Smaller Subtitle */}
-          <p className="text-white/90 mb-16 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
-             style={{ fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', lineHeight: 1.3 }}>
+          {/* Single Subtitle */}
+          <p className="text-white/90 mb-16 max-w-5xl mx-auto leading-relaxed font-medium tracking-wide"
+             style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', lineHeight: 1.3 }}>
             We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
           </p>
           
