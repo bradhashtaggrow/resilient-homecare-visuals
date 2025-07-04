@@ -6,15 +6,6 @@ import { ArrowRight, CheckCircle, Star, Award, Shield, Zap } from 'lucide-react'
 
 const LeadGenSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    organization: '',
-    phone: '',
-    role: ''
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -33,31 +24,6 @@ const LeadGenSection = () => {
 
     return () => observer.disconnect();
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    console.log('Revolutionary form submitted:', formData);
-    setSubmitted(true);
-    setIsLoading(false);
-    
-    // Reset form after 5 seconds
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', organization: '', phone: '', role: '' });
-    }, 5000);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
 
   const benefits = [
     {
@@ -128,154 +94,7 @@ const LeadGenSection = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left Column - Revolutionary Form */}
-          <div className={`transition-all duration-1000 ${
-            isVisible ? 'animate-slide-in-left' : 'opacity-0'
-          }`}>
-            <div className="bg-white/85 backdrop-blur-sm rounded-3xl p-10 shadow-2xl border border-gray-100 relative overflow-hidden">
-              {/* Form Background Pattern */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-full -translate-y-16 translate-x-16" />
-              
-              <h3 className="text-gray-900 leading-none tracking-tight font-black mb-8"
-                  style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
-                Schedule Your Revolutionary Demo
-              </h3>
-              
-              {!submitted ? (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Full Name *
-                      </label>
-                      <Input
-                        type="text"
-                        name="name"
-                        placeholder="Dr. Jane Smith"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Work Email *
-                      </label>
-                      <Input
-                        type="email"
-                        name="email"
-                        placeholder="jane@hospital.com"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Organization *
-                    </label>
-                    <Input
-                      type="text"
-                      name="organization"
-                      placeholder="Metro General Hospital"
-                      value={formData.organization}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors"
-                    />
-                  </div>
-                  
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone Number
-                      </label>
-                      <Input
-                        type="tel"
-                        name="phone"
-                        placeholder="(555) 123-4567"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Role *
-                      </label>
-                      <select
-                        name="role"
-                        value={formData.role}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors bg-white"
-                      >
-                        <option value="">Select Role</option>
-                        <option value="ceo">CEO/President</option>
-                        <option value="cmo">Chief Medical Officer</option>
-                        <option value="coo">Chief Operating Officer</option>
-                        <option value="cio">Chief Information Officer</option>
-                        <option value="director">Director</option>
-                        <option value="manager">Manager</option>
-                        <option value="clinician">Clinician</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    disabled={isLoading}
-                    className="w-full healthcare-gradient hover:scale-105 transition-all duration-300 text-xl py-6 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? (
-                      <div className="flex items-center space-x-2">
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        <span>Scheduling Your Demo...</span>
-                      </div>
-                    ) : (
-                      <>
-                        Request Revolutionary Demo
-                        <ArrowRight className="ml-2 h-6 w-6" />
-                      </>
-                    )}
-                  </Button>
-                  
-                  <p className="text-sm text-gray-500 text-center">
-                    * Required fields. We respect your privacy and will never share your information.
-                  </p>
-                </form>
-              ) : (
-                <div className="text-center py-16">
-                  <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle className="h-12 w-12 text-white" />
-                  </div>
-                  <h4 className="text-gray-900 leading-none tracking-tight font-black mb-4"
-                      style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
-                    Demo Scheduled Successfully!
-                  </h4>
-                  <p className="text-blue-600/90 font-medium tracking-wide mb-6"
-                     style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
-                    Thank you for your interest in revolutionizing healthcare delivery. 
-                    Our team will contact you within 2 hours to schedule your personalized demo.
-                  </p>
-                  <div className="bg-blue-50/90 backdrop-blur-sm rounded-2xl p-6">
-                    <p className="text-blue-700 font-medium">
-                      📧 Confirmation email sent to {formData.email}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
+        <div className="grid lg:grid-cols-1 gap-16 items-start">
           {/* Right Column - Benefits & Social Proof */}
           <div className={`space-y-8 transition-all duration-1000 delay-300 ${
             isVisible ? 'animate-slide-in-right' : 'opacity-0'
