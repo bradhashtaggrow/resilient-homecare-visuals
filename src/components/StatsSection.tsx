@@ -175,8 +175,8 @@ const StatsSection = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative">
-        <div className={`text-center mb-20 transition-all duration-1000 ${
-          isVisible ? 'animate-slide-up' : 'opacity-0'
+        <div className={`text-center mb-20 transition-all duration-1200 ${
+          isVisible ? 'animate-swoop-in' : 'opacity-0'
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
@@ -188,9 +188,10 @@ const StatsSection = () => {
           {stats.map((stat, index) => (
             <div 
               key={index}
-              className={`transition-all duration-1000 delay-${index * 200} ${
-                isVisible ? 'animate-slide-up' : 'opacity-0'
+              className={`transition-all duration-1200 ${
+                isVisible ? 'animate-swoop-in' : 'opacity-0'
               }`}
+              style={{animationDelay: `${index * 200}ms`}}
             >
               <div className="group relative">
                 <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl hover-lift border border-white/20 h-full transition-all duration-500 hover:bg-white/20">

@@ -33,7 +33,7 @@ const LeadGenSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         {/* Enhanced Trust Section with Improved Animations */}
         <div className={`text-center transition-all duration-1200 transform ${
-          isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <div className="healthcare-gradient rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-white relative overflow-hidden bg-opacity-95 backdrop-blur-sm hover:scale-105 transition-all duration-700 hover:shadow-2xl group">
             {/* Animated Background Elements */}

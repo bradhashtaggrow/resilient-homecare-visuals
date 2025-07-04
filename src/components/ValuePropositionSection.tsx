@@ -80,8 +80,8 @@ const ValuePropositionSection = () => {
     <section id="value-proposition-section" className="py-16 sm:py-24 md:py-32 lg:py-40 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Enhanced Header with Better Mobile Typography */}
-        <div className={`text-center mb-12 sm:mb-20 transition-all duration-1000 transform ${
-          isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+        <div className={`text-center mb-12 sm:mb-20 transition-all duration-1200 transform ${
+          isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <h2 className="text-black leading-none tracking-tight font-black mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
@@ -95,8 +95,8 @@ const ValuePropositionSection = () => {
           {valueProps.map((prop, index) => (
             <div 
               key={index}
-              className={`text-center transition-all duration-1000 transform ${
-                isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              className={`text-center transition-all duration-1200 transform ${
+                isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
               }`}
               style={{animationDelay: `${index * 300}ms`}}
             >

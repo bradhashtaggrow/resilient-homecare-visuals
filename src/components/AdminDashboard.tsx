@@ -46,8 +46,8 @@ const AdminDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Enhanced Title with Mobile Optimization */}
-        <div className={`text-center mb-20 sm:mb-24 md:mb-32 lg:mb-40 transition-all duration-1000 transform ${
-          isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+        <div className={`text-center mb-20 sm:mb-24 md:mb-32 lg:mb-40 transition-all duration-1200 transform ${
+          isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
@@ -65,7 +65,9 @@ const AdminDashboard = () => {
 
         {/* Enhanced Laptop Container with Better Spacing */}
         <div className="mb-8 sm:mb-12 md:mb-16 lg:mb-20">
-          <div className="hover:scale-105 transition-transform duration-1000">
+          <div className={`transition-all duration-1200 transform hover:scale-105 ${
+            isVisible ? 'animate-swoop-in opacity-100' : 'opacity-0'
+          }`} style={{animationDelay: '400ms'}}>
             <AdminLaptopVisualization 
               isVisible={isVisible}
               laptopOpen={laptopOpen}
@@ -76,7 +78,9 @@ const AdminDashboard = () => {
         </div>
 
         {/* Enhanced CTA Section with Mobile Optimization - Pulled Up More */}
-        <div className="text-center pt-0 sm:pt-2 md:pt-4 lg:pt-6">
+        <div className={`text-center pt-0 sm:pt-2 md:pt-4 lg:pt-6 transition-all duration-1200 transform ${
+          isVisible ? 'animate-swoop-in opacity-100' : 'opacity-0'
+        }`} style={{animationDelay: '800ms'}}>
           <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-4 sm:mb-6 hover:scale-105 transition-transform duration-500"
               style={{ fontSize: 'clamp(1.25rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
             Ready to Transform 

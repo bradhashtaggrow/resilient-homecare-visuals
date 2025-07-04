@@ -49,7 +49,7 @@ const HeroSection = () => {
 
       {/* Enhanced Hero Content with Mobile Optimization */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className={`transition-all duration-1500 transform ${isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <div className={`transition-all duration-1500 transform ${isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           {/* Enhanced Apple-Style Title with Mobile Typography */}
           <div className="mb-8 sm:mb-12">
             <h1 className="text-white leading-none tracking-tight font-black text-shadow-white hover:scale-105 transition-transform duration-700" 
