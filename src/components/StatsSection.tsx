@@ -196,31 +196,6 @@ const StatsSection = () => {
             </div>
           ))}
         </div>
-
-        {/* Bottom CTA */}
-        <div className={`text-center mt-20 transition-all duration-1000 delay-1500 ${
-          isVisible ? 'animate-slide-up' : 'opacity-0'
-        }`}>
-          <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-3xl p-12 border border-white/20">
-            <h3 className="text-white leading-none tracking-tight font-black mb-6"
-                style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
-              You Keep the Brand. The Data. The Relationship.
-            </h3>
-            <p className="text-white/90 mb-8 max-w-2xl mx-auto font-medium tracking-wide"
-               style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
-              We operate behind the scenes—white-labeled under your hospital's brand and integrated into your workflows. 
-              Extend your hospital. Power your value-based future.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="healthcare-gradient-primary hover:healthcare-gradient-secondary text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-xl">
-                Launch Service Lines Beyond Your Four Walls
-              </button>
-              <button className="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105">
-                Contact Us Today
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
