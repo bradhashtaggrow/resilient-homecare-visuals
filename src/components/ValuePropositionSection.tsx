@@ -23,13 +23,14 @@ const ValuePropositionSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Enhanced 3D Animated Icon Component with Mobile Optimization
+  // Enhanced 3D Animated Icon Component with Correct Blue Gradient
   const AnimatedIcon3D = ({ icon: Icon, delay = 0 }) => {
     return (
       <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 perspective-1000">
         <div 
           className={`
-            w-full h-full rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 
+            w-full h-full rounded-xl sm:rounded-2xl 
+            bg-gradient-to-br from-[#0080ff] to-[#0066cc]
             flex items-center justify-center cursor-pointer
             transform-3d transition-all duration-700 ease-out
             shadow-lg shadow-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/70
@@ -84,12 +85,12 @@ const ValuePropositionSection = () => {
         }`}>
           <h2 className="text-black leading-none tracking-tight font-black mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            <span className="text-blue-600 hover:text-blue-700 transition-colors duration-500">We manage the work.</span>
+            <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent hover:from-[#1a8cff] hover:to-[#0073e6] transition-all duration-500">We manage the work.</span>
             <span className="block text-gray-900 hover:text-gray-800 transition-colors duration-500">You own the program.</span>
           </h2>
         </div>
 
-        {/* Enhanced Value Propositions Grid with Mobile Optimization */}
+        {/* Enhanced Value Propositions Grid with Glow Animation */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {valueProps.map((prop, index) => (
             <div 
@@ -99,30 +100,37 @@ const ValuePropositionSection = () => {
               }`}
               style={{animationDelay: `${index * 300}ms`}}
             >
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100/50 hover-lift h-full hover:shadow-2xl hover:scale-105 transition-all duration-500 group">
-                {/* Enhanced 3D Animated Icon */}
-                <AnimatedIcon3D icon={prop.icon} delay={index * 200} />
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100/50 hover-lift h-full hover:shadow-2xl hover:scale-105 transition-all duration-500 group relative overflow-hidden">
+                {/* Glow Animation Overlay */}
+                <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#0080ff]/20 to-[#0066cc]/20 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
+                <div className="absolute inset-0 rounded-2xl sm:rounded-3xl shadow-[0_0_50px_rgba(0,128,255,0.3)] opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
                 
-                {/* Enhanced Title and Subtitles with Mobile Typography */}
-                <div className="mb-4 sm:mb-6">
-                  <h3 className="text-gray-900 leading-none tracking-tight font-black mb-2 group-hover:text-blue-600 transition-colors duration-500"
-                      style={{ fontSize: 'clamp(1rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.9 }}>
-                    {prop.title}
-                  </h3>
-                  <p className="text-gray-900 leading-none tracking-tight font-black mb-1 group-hover:text-blue-700 transition-colors duration-500"
-                     style={{ fontSize: 'clamp(0.875rem, 2.5vw, 2rem)', fontWeight: 900, lineHeight: 0.9 }}>
-                    {prop.subtitle}
-                  </p>
-                  <p className="text-gray-900 leading-none tracking-tight font-black group-hover:text-blue-700 transition-colors duration-500"
-                     style={{ fontSize: 'clamp(0.875rem, 2.5vw, 2rem)', fontWeight: 900, lineHeight: 0.9 }}>
-                    {prop.subtitle2}
+                {/* Content */}
+                <div className="relative z-10">
+                  {/* Enhanced 3D Animated Icon */}
+                  <AnimatedIcon3D icon={prop.icon} delay={index * 200} />
+                  
+                  {/* Enhanced Title and Subtitles with Mobile Typography */}
+                  <div className="mb-4 sm:mb-6">
+                    <h3 className="text-gray-900 leading-none tracking-tight font-black mb-2 group-hover:bg-gradient-to-r group-hover:from-[#0080ff] group-hover:to-[#0066cc] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-500"
+                        style={{ fontSize: 'clamp(1rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.9 }}>
+                      {prop.title}
+                    </h3>
+                    <p className="text-gray-900 leading-none tracking-tight font-black mb-1 group-hover:bg-gradient-to-r group-hover:from-[#0080ff] group-hover:to-[#0066cc] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-500"
+                       style={{ fontSize: 'clamp(0.875rem, 2.5vw, 2rem)', fontWeight: 900, lineHeight: 0.9 }}>
+                      {prop.subtitle}
+                    </p>
+                    <p className="text-gray-900 leading-none tracking-tight font-black group-hover:bg-gradient-to-r group-hover:from-[#0080ff] group-hover:to-[#0066cc] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-500"
+                       style={{ fontSize: 'clamp(0.875rem, 2.5vw, 2rem)', fontWeight: 900, lineHeight: 0.9 }}>
+                      {prop.subtitle2}
+                    </p>
+                  </div>
+
+                  {/* Enhanced Description with Hover Effects */}
+                  <p className="text-gray-700 leading-relaxed text-base sm:text-lg group-hover:text-gray-900 transition-colors duration-500">
+                    {prop.description}
                   </p>
                 </div>
-
-                {/* Enhanced Description with Hover Effects */}
-                <p className="text-gray-700 leading-relaxed text-base sm:text-lg group-hover:text-gray-900 transition-colors duration-500">
-                  {prop.description}
-                </p>
               </div>
             </div>
           ))}
