@@ -71,10 +71,17 @@ const AdminDashboard = () => {
           />
         </div>
 
-        {/* CTA Subtitle and Button */}
+        {/* Enhanced CTA Section */}
         <div className="text-center">
-          <p className="text-white/80 text-xl font-medium mb-8 max-w-2xl mx-auto">
-            Experience the future of healthcare administration with our comprehensive demo
+          <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6"
+              style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
+            Ready to Transform 
+            <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Your Healthcare Operations?</span>
+          </h3>
+          <p className="text-white/90 max-w-3xl mx-auto leading-relaxed font-medium tracking-wide mb-10"
+             style={{ fontSize: 'clamp(1.125rem, 2.5vw, 1.5rem)', lineHeight: 1.4 }}>
+            Join forward-thinking healthcare organizations who've already revolutionized their operations. 
+            See our comprehensive platform in action with a personalized demonstration.
           </p>
           <Button 
             size="lg"
