@@ -63,39 +63,31 @@ const FounderSection = () => {
           </p>
         </div>
 
-        {/* Dashboard */}
-        <div className="mb-16 relative">
+        {/* Professional Portrait Section */}
+        <div className="mb-16 flex justify-center">
           <div className={`transition-all duration-1500 ${
-            isVisible ? 'animate-slide-in-left' : 'opacity-0'
+            isVisible ? 'animate-slide-up' : 'opacity-0'
           }`}>
-            {/* Dashboard Background Container */}
-            <div className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 rounded-3xl p-8 shadow-2xl min-h-[600px]">
-              
-              {/* Achievement Badges - positioned around the dashboard */}
-              <div className="grid grid-cols-3 gap-6 mb-8">
-                {achievements.map((achievement, index) => (
-                  <div 
-                    key={index}
-                    className={`bg-white/10 backdrop-blur-sm rounded-2xl p-4 text-center transition-all duration-1000 delay-${index * 200} hover-lift ${
-                      isVisible ? 'animate-slide-up' : 'opacity-0'
-                    }`}
-                  >
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100/20 rounded-xl mb-3 text-blue-200">
-                      {achievement.icon}
-                    </div>
-                    <div className="text-lg font-bold text-white">{achievement.title}</div>
-                    <div className="text-sm text-blue-200">{achievement.subtitle}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Dashboard Background Elements - positioned at bottom */}
-              <div className="grid grid-cols-2 gap-6 opacity-30">
-                <div className="bg-white/10 rounded-xl p-4">
-                  <div className="h-20 bg-gradient-to-r from-blue-400/20 to-blue-600/20 rounded"></div>
+            <div className="relative">
+              <img 
+                src="/lovable-uploads/0e13c6b2-1822-4376-ae28-4c9ed2e5f0c7.png"
+                alt="Dr. Jackleen Samuel, PT, DPT - Founder & CEO"
+                className="w-80 h-80 object-cover rounded-full shadow-2xl"
+              />
+              {/* Achievement Badges around the image */}
+              <div className="absolute -top-4 -right-4">
+                <div className="bg-blue-600 text-white rounded-full p-3 shadow-lg">
+                  <BookOpen className="h-6 w-6" />
                 </div>
-                <div className="bg-white/10 rounded-xl p-4">
-                  <div className="h-20 bg-gradient-to-r from-purple-400/20 to-purple-600/20 rounded"></div>
+              </div>
+              <div className="absolute top-1/2 -left-6 transform -translate-y-1/2">
+                <div className="bg-blue-500 text-white rounded-full p-3 shadow-lg">
+                  <Users className="h-6 w-6" />
+                </div>
+              </div>
+              <div className="absolute -bottom-4 -right-8">
+                <div className="bg-blue-700 text-white rounded-full p-3 shadow-lg">
+                  <Award className="h-6 w-6" />
                 </div>
               </div>
             </div>
