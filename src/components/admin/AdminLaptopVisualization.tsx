@@ -62,29 +62,33 @@ const AdminLaptopVisualization = ({
               borderRadius: '24px'
             }}
           >
-            {/* Screen Content with Video Background - NO BEZEL */}
+            {/* Screen Content with HD Video Background */}
             <div className="w-full h-full relative overflow-hidden rounded-2xl">
-              {/* Video Background - Full Coverage touching all edges */}
+              {/* HD Video Background - Full Coverage */}
               <div className="absolute inset-0 z-0">
                 <video
                   autoPlay
                   muted
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="auto"
                   className="absolute inset-0 w-full h-full object-cover rounded-2xl"
-                  poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111827' width='1920' height='1080'/%3E%3C/svg%3E"
+                  style={{ 
+                    filter: 'none',
+                    imageRendering: 'crisp-edges'
+                  }}
                 >
+                  <source src="https://videos.pexels.com/video-files/3195394/3195394-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                   <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                 </video>
-                {/* Video overlay for UI visibility */}
-                <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] rounded-2xl" />
+                {/* Reduced overlay for better video clarity */}
+                <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px] rounded-2xl" />
               </div>
 
-              {/* Admin Login Interface - Over Video - Made Smaller */}
+              {/* Admin Login Interface - Over Video */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
                 <div className="max-w-xs w-full mx-6">
-                  {/* Header - Smaller */}
+                  {/* Header */}
                   <div className="text-center mb-6">
                     {/* Logo */}
                     <div className="w-12 h-12 healthcare-gradient rounded-2xl mx-auto mb-3 flex items-center justify-center shadow-lg">
@@ -94,13 +98,13 @@ const AdminLaptopVisualization = ({
                     <p className="text-gray-300 text-sm">Secure Healthcare Management</p>
                   </div>
 
-                  {/* Login Form - Smaller */}
+                  {/* Login Form */}
                   <div className="space-y-4">
                     <div>
                       <input 
                         type="text" 
                         placeholder="Email Address"
-                        className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-sm"
+                        className="w-full p-3 bg-white/25 backdrop-blur-sm border border-white/40 rounded-lg text-white placeholder-gray-200 focus:border-blue-400 transition-colors shadow-lg text-sm"
                         defaultValue="admin@healthcare.com"
                       />
                     </div>
@@ -108,22 +112,22 @@ const AdminLaptopVisualization = ({
                       <input 
                         type="password" 
                         placeholder="Password"
-                        className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-sm"
+                        className="w-full p-3 bg-white/25 backdrop-blur-sm border border-white/40 rounded-lg text-white placeholder-gray-200 focus:border-blue-400 transition-colors shadow-lg text-sm"
                         defaultValue="••••••••"
                       />
                     </div>
                     
-                    {/* Login Button - Smaller */}
+                    {/* Login Button */}
                     <button className="w-full p-3 healthcare-gradient rounded-lg text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg text-sm">
                       Secure Login
                     </button>
 
-                    {/* Biometric - Smaller */}
+                    {/* Biometric */}
                     <div className="text-center py-4">
-                      <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
+                      <div className="w-12 h-12 bg-white/25 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
                         <div className="w-8 h-8 border-2 border-blue-400 rounded-full animate-pulse"></div>
                       </div>
-                      <p className="text-gray-300 text-xs mt-2">Touch ID / Face ID</p>
+                      <p className="text-gray-200 text-xs mt-2">Touch ID / Face ID</p>
                     </div>
                   </div>
                 </div>

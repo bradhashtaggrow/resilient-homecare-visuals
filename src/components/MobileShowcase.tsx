@@ -142,23 +142,27 @@ const MobileShowcase = () => {
                   <div className="relative w-80 h-[650px] bg-gradient-to-b from-gray-800 to-black rounded-[3.5rem] p-2 shadow-2xl">
                     {/* Screen Bezel */}
                     <div className="w-full h-full bg-black rounded-[3rem] p-1">
-                      {/* Screen with Video Background */}
+                      {/* Screen with HD Video Background */}
                       <div className="w-full h-full bg-gradient-to-br from-slate-900 to-gray-900 rounded-[2.8rem] relative overflow-hidden">
-                        {/* Hero Page Video Background */}
+                        {/* HD Video Background */}
                         <div className="absolute inset-0 z-0">
                           <video
                             autoPlay
                             muted
                             loop
                             playsInline
-                            preload="metadata"
+                            preload="auto"
                             className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
-                            poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23003D6B' width='1920' height='1080'/%3E%3C/svg%3E"
+                            style={{ 
+                              filter: 'none',
+                              imageRendering: 'crisp-edges'
+                            }}
                           >
+                            <source src="https://videos.pexels.com/video-files/3195394/3195394-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                             <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                           </video>
-                          {/* Video overlay for auth UI visibility */}
-                          <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] rounded-[2.8rem]" />
+                          {/* Reduced overlay for better video clarity */}
+                          <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px] rounded-[2.8rem]" />
                         </div>
                         
                         {/* Dynamic Island */}
@@ -181,7 +185,7 @@ const MobileShowcase = () => {
                               <input 
                                 type="text" 
                                 placeholder="Email Address"
-                                className="w-full p-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg"
+                                className="w-full p-4 bg-white/25 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-gray-200 focus:border-blue-400 transition-colors shadow-lg"
                                 defaultValue="admin@healthcare.com"
                               />
                             </div>
@@ -189,7 +193,7 @@ const MobileShowcase = () => {
                               <input 
                                 type="password" 
                                 placeholder="Password"
-                                className="w-full p-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg"
+                                className="w-full p-4 bg-white/25 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-gray-200 focus:border-blue-400 transition-colors shadow-lg"
                                 defaultValue="••••••••"
                               />
                             </div>
@@ -201,10 +205,10 @@ const MobileShowcase = () => {
 
                             {/* Biometric */}
                             <div className="text-center py-4">
-                              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
+                              <div className="w-12 h-12 bg-white/25 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
                                 <div className="w-8 h-8 border-2 border-blue-400 rounded-full animate-pulse"></div>
                               </div>
-                              <p className="text-gray-300 text-xs mt-2">Touch ID / Face ID</p>
+                              <p className="text-gray-200 text-xs mt-2">Touch ID / Face ID</p>
                             </div>
                           </div>
                         </div>
