@@ -4,7 +4,7 @@ import React from 'react';
 const AdminAnimatedBackground = () => {
   return (
     <div className="absolute inset-0">
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10" />
+      <div className="absolute inset-0 bg-gray-900" />
       {[...Array(50)].map((_, i) => (
         <div
           key={i}
