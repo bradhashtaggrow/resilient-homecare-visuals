@@ -74,11 +74,7 @@ const MobileShowcase = () => {
       {/* Light to Dark Blue Gradient Background with Shine Effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-200 via-blue-400 to-blue-900">
         {/* Shine overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" 
-             style={{
-               background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)',
-               animation: 'shine 3s ease-in-out infinite'
-             }} />
+        <div className="absolute inset-0 opacity-30 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse transform -skew-x-12" />
         {/* Additional radial shine effects */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.2),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.15),transparent_50%)]" />
@@ -272,14 +268,6 @@ const MobileShowcase = () => {
           </div>
         </div>
       </div>
-      
-      {/* Custom CSS for shine animation */}
-      <style jsx>{`
-        @keyframes shine {
-          0% { transform: translateX(-100%) skewX(-15deg); }
-          100% { transform: translateX(200%) skewX(-15deg); }
-        }
-      `}</style>
     </section>
   );
 };
