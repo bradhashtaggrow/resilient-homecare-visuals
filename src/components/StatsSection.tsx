@@ -146,16 +146,8 @@ const StatsSection = () => {
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            Powering Hospital Level 
-            <span className="block healthcare-text-gradient">
-              Value-Based Care at Home
-            </span>
+            What Does The Research Say
           </h2>
-          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
-             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
-            A different approach to hospital care, using simple methods and advanced AI technology. 
-            We manage the work. You own the program.
-          </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
