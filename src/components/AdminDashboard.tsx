@@ -64,7 +64,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Enhanced Laptop Container with Better Spacing */}
-        <div className="mb-16 sm:mb-20 md:mb-24 lg:mb-32">
+        <div className="mb-8 sm:mb-12 md:mb-16 lg:mb-20">
           <div className="hover:scale-105 transition-transform duration-1000">
             <AdminLaptopVisualization 
               isVisible={isVisible}
@@ -75,8 +75,8 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Enhanced CTA Section with Mobile Optimization */}
-        <div className="text-center pt-8 sm:pt-12 md:pt-16 lg:pt-20">
+        {/* Enhanced CTA Section with Mobile Optimization - Pulled Up */}
+        <div className="text-center pt-4 sm:pt-6 md:pt-8 lg:pt-10">
           <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-4 sm:mb-6 hover:scale-105 transition-transform duration-500"
               style={{ fontSize: 'clamp(1.25rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
             Ready to Transform 
