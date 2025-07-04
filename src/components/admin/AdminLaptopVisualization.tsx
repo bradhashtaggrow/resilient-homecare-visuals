@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BarChart, Monitor, Brain } from 'lucide-react';
+import { BarChart, Monitor, Brain, Shield, Lock } from 'lucide-react';
 import { DemoScreen } from './AdminDemoScreens';
 
 interface AdminLaptopVisualizationProps {
@@ -63,87 +63,67 @@ const AdminLaptopVisualization = ({
           >
             {/* Screen Bezel */}
             <div className="absolute inset-4 bg-black rounded-2xl overflow-hidden">
-              {/* Screen Content */}
-              <div className="w-full h-full healthcare-gradient p-6 relative overflow-hidden">
-                {/* macOS-style Window Controls */}
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/20">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 bg-red-400 rounded-full shadow-lg"></div>
-                    <div className="w-3 h-3 bg-yellow-400 rounded-full shadow-lg"></div>
-                    <div className="w-3 h-3 bg-green-400 rounded-full shadow-lg"></div>
-                  </div>
-                  <div className="text-white font-semibold text-lg">
-                    Resilient Healthcare - Admin Console
-                  </div>
-                  <div className="text-white/60 text-sm">
-                    {new Date().toLocaleDateString()}
-                  </div>
+              {/* Screen Content with Video Background */}
+              <div className="w-full h-full relative overflow-hidden">
+                {/* Video Background */}
+                <div className="absolute inset-0 z-0">
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="absolute inset-0 w-full h-full object-cover rounded-2xl"
+                    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23003D6B' width='1920' height='1080'/%3E%3C/svg%3E"
+                  >
+                    <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+                  </video>
+                  {/* Video overlay for UI visibility */}
+                  <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] rounded-2xl" />
                 </div>
 
-                {/* Dashboard Content */}
-                <div className="grid grid-cols-4 gap-6 h-full">
-                  <div className="col-span-3 space-y-6">
-                    {/* Top Stats Row */}
-                    <div className="grid grid-cols-4 gap-4">
-                      {[
-                        { label: 'Active Patients', value: '247', trend: '+5%', color: 'from-blue-500 to-blue-600' },
-                        { label: 'Team Members', value: '28', trend: '+2', color: 'from-green-500 to-green-600' },
-                        { label: 'Satisfaction', value: '94.2%', trend: '+1.2%', color: 'from-purple-500 to-purple-600' },
-                        { label: 'Revenue', value: '$127K', trend: '+12%', color: 'from-orange-500 to-orange-600' }
-                      ].map((stat, i) => (
-                        <div key={i} className={`bg-gradient-to-br ${stat.color} rounded-xl p-4 backdrop-blur-sm shadow-lg`}>
-                          <div className="text-white/80 text-xs mb-1 font-medium">{stat.label}</div>
-                          <div className="text-white font-bold text-xl">{stat.value}</div>
-                          <div className="text-white/90 text-xs font-semibold">{stat.trend}</div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Main Chart Area */}
-                    <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm border border-white/20 shadow-lg">
-                      <div className="text-white font-semibold text-lg mb-4">Patient Volume Trends</div>
-                      <div className="relative h-48">
-                        {/* Animated Chart Bars */}
-                        <div className="flex items-end justify-between h-full space-x-2">
-                          {[65, 78, 82, 71, 89, 95, 88, 92, 76, 84].map((height, i) => (
-                            <div 
-                              key={i}
-                              className="bg-gradient-to-t from-cyan-400 to-blue-500 rounded-t-lg transition-all duration-1000 flex-1 shadow-lg"
-                              style={{ 
-                                height: `${height}%`,
-                                animationDelay: `${i * 150}ms`,
-                                transform: laptopOpen ? 'scaleY(1)' : 'scaleY(0)',
-                                transformOrigin: 'bottom'
-                              }}
-                            />
-                          ))}
-                        </div>
+                {/* Admin Login Interface - Over Video */}
+                <div className="relative z-10 w-full h-full flex items-center justify-center">
+                  <div className="max-w-md w-full mx-8">
+                    {/* Header */}
+                    <div className="text-center mb-8">
+                      <div className="w-20 h-20 healthcare-gradient rounded-3xl mx-auto mb-6 flex items-center justify-center shadow-xl">
+                        <Shield className="h-10 w-10 text-white" />
                       </div>
+                      <h3 className="text-white text-3xl font-bold mb-3">Admin Portal</h3>
+                      <p className="text-gray-300 text-lg">Secure Healthcare Management</p>
                     </div>
-                  </div>
 
-                  {/* Right Sidebar */}
-                  <div className="space-y-6">
-                    {/* Dynamic Demo Content */}
-                    <div className="bg-white/15 rounded-xl p-4 backdrop-blur-sm border border-white/20 shadow-lg transition-all duration-500">
-                      {demoScreens[activeDemo].content}
-                    </div>
-                    
-                    {/* Activity Feed */}
-                    <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20 shadow-lg">
-                      <div className="text-white font-semibold text-sm mb-3">Recent Activity</div>
-                      <div className="space-y-3">
-                        {[
-                          { text: 'Patient check-in completed', color: 'bg-green-400' },
-                          { text: 'Alert: Vitals anomaly detected', color: 'bg-red-400' },
-                          { text: 'Care plan updated', color: 'bg-blue-400' },
-                          { text: 'Team message sent', color: 'bg-purple-400' }
-                        ].map((activity, i) => (
-                          <div key={i} className="flex items-center space-x-3">
-                            <div className={`w-2 h-2 ${activity.color} rounded-full shadow-sm`}></div>
-                            <div className="text-white/80 text-xs font-medium">{activity.text}</div>
-                          </div>
-                        ))}
+                    {/* Login Form */}
+                    <div className="space-y-6">
+                      <div>
+                        <input 
+                          type="text" 
+                          placeholder="Email Address"
+                          className="w-full p-5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-lg"
+                          defaultValue="admin@healthcare.com"
+                        />
+                      </div>
+                      <div>
+                        <input 
+                          type="password" 
+                          placeholder="Password"
+                          className="w-full p-5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-lg"
+                          defaultValue="••••••••"
+                        />
+                      </div>
+                      
+                      {/* Login Button */}
+                      <button className="w-full p-5 healthcare-gradient rounded-xl text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg text-lg">
+                        Secure Login
+                      </button>
+
+                      {/* Biometric */}
+                      <div className="text-center py-6">
+                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
+                          <div className="w-10 h-10 border-2 border-blue-400 rounded-full animate-pulse"></div>
+                        </div>
+                        <p className="text-gray-300 text-sm mt-3">Touch ID / Face ID</p>
                       </div>
                     </div>
                   </div>
@@ -165,6 +145,14 @@ const AdminLaptopVisualization = ({
           {/* Brain icon moved to top of laptop */}
           <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{animationDelay: '4s'}}>
             <Brain className="h-8 w-8 text-white" />
+          </div>
+          
+          {/* Floating Security Badges for Laptop */}
+          <div className="absolute -bottom-8 -right-8 w-14 h-14 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '1s'}}>
+            <Shield className="h-7 w-7 text-white" />
+          </div>
+          <div className="absolute -bottom-6 -left-10 w-12 h-12 healthcare-gradient-secondary rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '3s'}}>
+            <Lock className="h-6 w-6 text-white" />
           </div>
         </div>
       </div>
