@@ -58,7 +58,8 @@ const AdminLaptopVisualization = ({
               transformStyle: 'preserve-3d',
               transform: laptopOpen 
                 ? 'rotateX(0deg) translateY(-380px) translateZ(0px)' 
-                : 'rotateX(-90deg) translateY(-380px) translateZ(0px)'
+                : 'rotateX(-90deg) translateY(-380px) translateZ(0px)',
+              borderRadius: '24px'
             }}
           >
             {/* Screen Bezel */}
@@ -136,24 +137,29 @@ const AdminLaptopVisualization = ({
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent rounded-3xl pointer-events-none" />
           </div>
           
-          {/* Floating Dashboard Icons - Moved up 4 inches */}
-          <div className="absolute -right-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center animate-float shadow-2xl w-16 h-16" style={{ top: '-112px' }}>
-            <BarChart className="h-8 w-8 text-white" />
-          </div>
-          <div className="absolute -left-20 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center animate-float shadow-2xl w-14 h-14" style={{ top: '-108px', animationDelay: '2s' }}>
-            <Monitor className="h-7 w-7 text-white" />
-          </div>
-          
-          {/* Brain icon moved to top center of laptop - Moved up 4 inches */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-116px', animationDelay: '4s' }}>
+          {/* Floating Icons - Naturally distributed around laptop */}
+          {/* Top Brain icon */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-160px', animationDelay: '4s' }}>
             <Brain className="h-8 w-8 text-white" />
           </div>
           
-          {/* Floating Security Badges for Laptop - Moved up 4 inches */}
-          <div className="absolute -right-8 w-14 h-14 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-104px', animationDelay: '1s' }}>
-            <Shield className="h-7 w-7 text-white" />
+          {/* Top right corner */}
+          <div className="absolute w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-120px', right: '-80px' }}>
+            <BarChart className="h-7 w-7 text-white" />
           </div>
-          <div className="absolute -left-10 w-12 h-12 healthcare-gradient-secondary rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-102px', animationDelay: '3s' }}>
+          
+          {/* Top left corner */}
+          <div className="absolute w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-120px', left: '-80px', animationDelay: '2s' }}>
+            <Monitor className="h-7 w-7 text-white" />
+          </div>
+          
+          {/* Right side middle */}
+          <div className="absolute w-12 h-12 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-60px', right: '-90px', animationDelay: '1s' }}>
+            <Shield className="h-6 w-6 text-white" />
+          </div>
+          
+          {/* Left side middle */}
+          <div className="absolute w-12 h-12 healthcare-gradient-secondary rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-60px', left: '-90px', animationDelay: '3s' }}>
             <Lock className="h-6 w-6 text-white" />
           </div>
         </div>
