@@ -28,14 +28,14 @@ const LeadGenSection = () => {
   return (
     <section 
       id="lead-gen-section" 
-      className="py-8 bg-white relative overflow-hidden paper-texture-subtle"
+      className="py-16 bg-white relative overflow-hidden paper-texture-subtle flex items-center"
     >
-      <div className="max-w-7xl mx-auto px-6 relative">
+      <div className="max-w-7xl mx-auto px-6 relative w-full">
         {/* Bottom Trust Section */}
-        <div className={`text-center mt-20 transition-all duration-1000 delay-1000 ${
+        <div className={`text-center transition-all duration-1000 delay-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
-          <div className="healthcare-gradient rounded-3xl p-12 text-white relative overflow-hidden">
+          <div className="healthcare-gradient rounded-3xl p-8 text-white relative overflow-hidden bg-opacity-95 backdrop-blur-sm">
             <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-24 translate-x-24" />
             <div className="relative">
               <h3 className="text-white leading-none tracking-tight font-black mb-6"
@@ -47,13 +47,13 @@ const LeadGenSection = () => {
                 Leading hospitals, health systems, and care providers trust Resilient Healthcare 
                 to deliver exceptional patient outcomes and operational excellence.
               </p>
-              <div className="flex justify-center items-center space-x-12 opacity-80">
-                {['Mayo Clinic', 'Johns Hopkins', 'Cleveland Clinic', 'Kaiser Permanente', 'Intermountain'].map((name) => (
-                  <div key={name} className="px-6 py-3 bg-white/10 rounded-xl backdrop-blur-sm font-medium hover:bg-white/20 transition-colors">
-                    {name}
-                  </div>
-                ))}
-              </div>
+              <Button 
+                size="lg" 
+                className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-xl font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
+              >
+                Request Demo
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
