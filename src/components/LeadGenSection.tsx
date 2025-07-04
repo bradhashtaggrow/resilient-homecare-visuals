@@ -28,9 +28,24 @@ const LeadGenSection = () => {
   return (
     <section 
       id="lead-gen-section" 
-      className="py-32 bg-white relative overflow-hidden paper-texture-subtle"
+      className="py-32 relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-6 relative">
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        {/* Darker gradient overlay for better readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-black/40" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Bottom Trust Section */}
         <div className={`text-center mt-20 transition-all duration-1000 delay-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
