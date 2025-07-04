@@ -45,7 +45,7 @@ const AdminDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Title and Subtitle Container */}
-        <div className={`text-center mb-32 transition-all duration-1000 ${
+        <div className={`text-center mb-20 transition-all duration-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
@@ -60,8 +60,8 @@ const AdminDashboard = () => {
           </p>
         </div>
 
-        {/* Laptop Container - More space above to prevent overlap */}
-        <div className="mb-16">
+        {/* Laptop Container - 5 inches down from title */}
+        <div className="mb-16" style={{ marginTop: '5in' }}>
           <AdminLaptopVisualization 
             isVisible={isVisible}
             laptopOpen={laptopOpen}
