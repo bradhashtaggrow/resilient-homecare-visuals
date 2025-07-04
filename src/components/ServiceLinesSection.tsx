@@ -32,7 +32,7 @@ const ServiceLinesSection = () => {
         <div 
           className={`
             w-full h-full rounded-xl 
-            bg-gradient-to-r from-blue-600 to-blue-800
+            bg-gradient-to-r from-[#0080ff] to-[#0066cc]
             flex items-center justify-center cursor-pointer
             transform-3d transition-all duration-500 ease-out
             shadow-lg shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/50
@@ -100,9 +100,9 @@ const ServiceLinesSection = () => {
 
   const getColorClasses = (color: string, isActive: boolean) => {
     const colors = {
-      blue: isActive ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
-      red: isActive ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
-      cyan: isActive ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
+      blue: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
+      red: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
+      cyan: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
     };
     return colors[color as keyof typeof colors];
   };
@@ -118,7 +118,7 @@ const ServiceLinesSection = () => {
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Fully Streamlined,
-            <span className="block bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent"> Uncompromisingly Simple</span>
+            <span className="block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent"> Uncompromisingly Simple</span>
           </h2>
           <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
@@ -158,7 +158,7 @@ const ServiceLinesSection = () => {
                           style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                         {service.title}
                       </h3>
-                      <p className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent font-medium tracking-wide"
+                      <p className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent font-medium tracking-wide"
                          style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                         {service.subtitle}
                       </p>
@@ -184,7 +184,7 @@ const ServiceLinesSection = () => {
 
                     {/* Note */}
                     {service.note && (
-                      <div className="bg-blue-50/90 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-blue-600">
+                      <div className="bg-blue-50/90 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-[#0080ff]">
                         <p className="text-gray-700 leading-relaxed">
                           {service.note}
                         </p>
@@ -195,12 +195,12 @@ const ServiceLinesSection = () => {
                     <div className="relative">
                       <button className="
                         relative px-8 py-4 text-lg font-semibold text-white rounded-xl
-                        bg-gradient-to-r from-blue-600 to-blue-800
+                        bg-gradient-to-r from-[#0080ff] to-[#0066cc]
                         shadow-lg shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/40
                         transform transition-all duration-300 ease-out
                         hover:scale-105 hover:-translate-y-1
                         before:absolute before:inset-0 before:rounded-xl
-                        before:bg-gradient-to-r before:from-blue-500 before:to-blue-700
+                        before:bg-gradient-to-r before:from-[#1a8cff] before:to-[#0073e6]
                         before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300
                         after:absolute after:inset-0 after:rounded-xl after:shadow-inner
                         after:bg-gradient-to-t after:from-white/10 after:to-transparent
@@ -226,8 +226,8 @@ const ServiceLinesSection = () => {
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent" />
-                      {/* Hover Overlay with Blue Gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/80 to-blue-800/80 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
+                      {/* Hover Overlay with Correct Blue Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#0080ff]/80 to-[#0066cc]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
                     </div>
                   </div>
                 </div>
