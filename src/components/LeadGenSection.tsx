@@ -25,29 +25,6 @@ const LeadGenSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  const benefits = [
-    {
-      icon: <Award className="h-6 w-6" />,
-      title: "Personalized Demo Experience",
-      description: "Tailored demonstration showcasing solutions for your specific challenges"
-    },
-    {
-      icon: <Zap className="h-6 w-6" />,
-      title: "Implementation Roadmap",
-      description: "Detailed timeline, pricing, and step-by-step deployment strategy"
-    },
-    {
-      icon: <Shield className="h-6 w-6" />,
-      title: "Comprehensive ROI Analysis",
-      description: "Custom financial impact assessment for your organization"
-    },
-    {
-      icon: <CheckCircle className="h-6 w-6" />,
-      title: "Seamless Integration Planning",
-      description: "Technical consultation for existing systems and workflows"
-    }
-  ];
-
   const testimonials = [
     {
       quote: "Resilient Healthcare has completely transformed our patient care delivery. Readmission rates dropped 28% in just 6 months.",
@@ -95,37 +72,10 @@ const LeadGenSection = () => {
         </div>
 
         <div className="grid lg:grid-cols-1 gap-16 items-start">
-          {/* Right Column - Benefits & Social Proof */}
+          {/* Revolutionary Testimonials */}
           <div className={`space-y-8 transition-all duration-1000 delay-300 ${
             isVisible ? 'animate-slide-in-right' : 'opacity-0'
           }`}>
-            {/* What You'll Get */}
-            <div className="bg-white/85 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
-              <h3 className="text-gray-900 leading-none tracking-tight font-black mb-8"
-                  style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
-                What You'll Experience
-              </h3>
-              <div className="space-y-6">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start space-x-4 group">
-                    <div className="flex-shrink-0 p-3 bg-blue-100/90 backdrop-blur-sm rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                      {benefit.icon}
-                    </div>
-                    <div>
-                      <h4 className="text-blue-600/90 font-medium tracking-wide mb-2"
-                          style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
-                        {benefit.title}
-                      </h4>
-                      <p className="text-gray-600 leading-relaxed">
-                        {benefit.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Revolutionary Testimonials */}
             <div className="space-y-6">
               <h3 className="text-gray-900 leading-none tracking-tight font-black"
                   style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
