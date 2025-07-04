@@ -104,32 +104,6 @@ const HeroSection = () => {
               </span>
             </Button>
           </div>
-
-          {/* Enhanced Trust Indicators with Mobile Layout */}
-          <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-center items-center space-y-6 sm:space-y-0 sm:space-x-8 lg:space-x-12 text-white/90">
-              <div className="text-center group hover:scale-110 transition-transform duration-500">
-                <div className="text-white leading-none tracking-tight font-black mb-2 group-hover:text-blue-200 transition-colors duration-300"
-                     style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>38%</div>
-                <div className="text-white/90 font-medium tracking-wide group-hover:text-white transition-colors duration-300"
-                     style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Cost Savings</div>
-              </div>
-              <div className="w-full h-px sm:w-px sm:h-12 lg:h-16 bg-white/20" />
-              <div className="text-center group hover:scale-110 transition-transform duration-500">
-                <div className="text-white leading-none tracking-tight font-black mb-2 group-hover:text-blue-200 transition-colors duration-300"
-                     style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>70%</div>
-                <div className="text-white/90 font-medium tracking-wide group-hover:text-white transition-colors duration-300"
-                     style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Reduction in Readmissions</div>
-              </div>
-              <div className="w-full h-px sm:w-px sm:h-12 lg:h-16 bg-white/20" />
-              <div className="text-center group hover:scale-110 transition-transform duration-500">
-                <div className="text-white leading-none tracking-tight font-black mb-2 group-hover:text-blue-200 transition-colors duration-300"
-                     style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>91%</div>
-                <div className="text-white/90 font-medium tracking-wide group-hover:text-white transition-colors duration-300"
-                     style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Patient Preference</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
