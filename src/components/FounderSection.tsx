@@ -123,7 +123,7 @@ const FounderSection = () => {
                   Founder's Story
                 </h2>
                 <p className="text-blue-600/90 font-medium tracking-wide"
-                   style={{ fontSize: 'clam p(1rem, 2vw, 1.3rem)', lineHeight: 1.3 }}>
+                   style={{ fontSize: 'clamp(1rem, 2vw, 1.3rem)', lineHeight: 1.3 }}>
                   from Dr. Jackleen Samuel, PT, DPT | Founder & CEO
                 </p>
               </div>
