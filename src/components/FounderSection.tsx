@@ -63,32 +63,45 @@ const FounderSection = () => {
           </p>
         </div>
 
-        {/* Enhanced Professional Portrait Section with Mobile Layout */}
+        {/* Enhanced Professional Portrait Section with 3x Larger Size and Glowing Gradient */}
         <div className="mb-12 sm:mb-16 flex justify-center">
           <div className={`transition-all duration-1500 transform ${
             isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}>
             <div className="relative group">
-              <img 
-                src="/lovable-uploads/0e13c6b2-1822-4376-ae28-4c9ed2e5f0c7.png"
-                alt="Dr. Jackleen Samuel, PT, DPT - Founder & CEO"
-                className="w-60 h-60 sm:w-80 sm:h-80 object-cover rounded-full shadow-2xl hover:scale-105 transition-transform duration-700"
-                loading="lazy"
-              />
-              {/* Enhanced Achievement Badges with Mobile Optimization */}
-              <div className="absolute -top-2 sm:-top-4 -right-2 sm:-right-4 hover:scale-110 transition-transform duration-300">
-                <div className="bg-blue-600 text-white rounded-full p-2 sm:p-3 shadow-lg hover:bg-blue-700 transition-colors duration-300">
-                  <BookOpen className="h-4 w-4 sm:h-6 sm:w-6" />
-                </div>
+              {/* Glowing Gradient Background */}
+              <div className="absolute -inset-8 rounded-full opacity-75 group-hover:opacity-100 transition-opacity duration-500"
+                   style={{
+                     background: 'linear-gradient(135deg, #0080ff 0%, #0066cc 100%)',
+                     filter: 'blur(20px)',
+                     animation: 'pulse 3s ease-in-out infinite'
+                   }}>
               </div>
-              <div className="absolute top-1/2 -left-4 sm:-left-6 transform -translate-y-1/2 hover:scale-110 transition-transform duration-300">
-                <div className="bg-blue-500 text-white rounded-full p-2 sm:p-3 shadow-lg hover:bg-blue-600 transition-colors duration-300">
-                  <Users className="h-4 w-4 sm:h-6 sm:w-6" />
+              
+              {/* Main Image Container with 3x Size */}
+              <div className="relative">
+                <img 
+                  src="/lovable-uploads/0e13c6b2-1822-4376-ae28-4c9ed2e5f0c7.png"
+                  alt="Dr. Jackleen Samuel, PT, DPT - Founder & CEO"
+                  className="w-[540px] h-[540px] sm:w-[720px] sm:h-[720px] object-cover rounded-full shadow-2xl hover:scale-105 transition-transform duration-700 relative z-10 border-4 border-white"
+                  loading="lazy"
+                />
+                
+                {/* Enhanced Achievement Badges with Mobile Optimization */}
+                <div className="absolute -top-4 sm:-top-8 -right-4 sm:-right-8 hover:scale-110 transition-transform duration-300 z-20">
+                  <div className="bg-blue-600 text-white rounded-full p-3 sm:p-4 shadow-lg hover:bg-blue-700 transition-colors duration-300">
+                    <BookOpen className="h-6 w-6 sm:h-8 sm:w-8" />
+                  </div>
                 </div>
-              </div>
-              <div className="absolute -bottom-2 sm:-bottom-4 -right-6 sm:-right-8 hover:scale-110 transition-transform duration-300">
-                <div className="bg-blue-700 text-white rounded-full p-2 sm:p-3 shadow-lg hover:bg-blue-800 transition-colors duration-300">
-                  <Award className="h-4 w-4 sm:h-6 sm:w-6" />
+                <div className="absolute top-1/2 -left-8 sm:-left-12 transform -translate-y-1/2 hover:scale-110 transition-transform duration-300 z-20">
+                  <div className="bg-blue-500 text-white rounded-full p-3 sm:p-4 shadow-lg hover:bg-blue-600 transition-colors duration-300">
+                    <Users className="h-6 w-6 sm:h-8 sm:w-8" />
+                  </div>
+                </div>
+                <div className="absolute -bottom-4 sm:-bottom-8 -right-12 sm:-right-16 hover:scale-110 transition-transform duration-300 z-20">
+                  <div className="bg-blue-700 text-white rounded-full p-3 sm:p-4 shadow-lg hover:bg-blue-800 transition-colors duration-300">
+                    <Award className="h-6 w-6 sm:h-8 sm:w-8" />
+                  </div>
                 </div>
               </div>
             </div>
