@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminAnimatedBackground from './admin/AdminAnimatedBackground';
 import AdminLaptopVisualization from './admin/AdminLaptopVisualization';
-import AdminFeaturesGrid from './admin/AdminFeaturesGrid';
 import { useDemoScreens } from './admin/AdminDemoScreens';
 
 const AdminDashboard = () => {
@@ -61,19 +60,14 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Laptop Container - Separate Positioning */}
-      <div className="pt-32">
+      {/* Laptop Container - Moved down 4 inches (96px) */}
+      <div className="pt-48">
         <AdminLaptopVisualization 
           isVisible={isVisible}
           laptopOpen={laptopOpen}
           activeDemo={activeDemo}
           demoScreens={demoScreens}
         />
-      </div>
-
-      {/* Features Grid Container */}
-      <div className="max-w-7xl mx-auto px-6 relative pt-24">
-        <AdminFeaturesGrid isVisible={isVisible} />
       </div>
     </section>
   );
