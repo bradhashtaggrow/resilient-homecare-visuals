@@ -39,7 +39,7 @@ const AdminDashboard = () => {
   }, [laptopOpen]);
 
   return (
-    <section id="admin-dashboard" className="py-32 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden" style={{ minHeight: '120vh' }}>
+    <section id="admin-dashboard" className="py-32 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden" style={{ minHeight: '160vh' }}>
       <AdminAnimatedBackground />
 
       {/* Title and Subtitle Container - Fixed Position */}
@@ -60,8 +60,8 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Laptop Container - Moved down significantly to avoid overlap */}
-      <div className="mt-48">
+      {/* Laptop Container - Moved way down to avoid overlap */}
+      <div className="mt-96">
         <AdminLaptopVisualization 
           isVisible={isVisible}
           laptopOpen={laptopOpen}
