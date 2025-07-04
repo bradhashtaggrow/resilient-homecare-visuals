@@ -62,7 +62,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Laptop Container - Separate Positioning */}
-      <div className="pt-16">
+      <div className="pt-32">
         <AdminLaptopVisualization 
           isVisible={isVisible}
           laptopOpen={laptopOpen}
