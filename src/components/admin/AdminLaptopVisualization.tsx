@@ -162,7 +162,8 @@ const AdminLaptopVisualization = ({
           <div className="absolute -top-12 -left-20 w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{animationDelay: '2s'}}>
             <Monitor className="h-7 w-7 text-white" />
           </div>
-          <div className="absolute -bottom-12 right-1/4 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{animationDelay: '4s'}}>
+          {/* Brain icon moved to top of laptop */}
+          <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{animationDelay: '4s'}}>
             <Brain className="h-8 w-8 text-white" />
           </div>
         </div>

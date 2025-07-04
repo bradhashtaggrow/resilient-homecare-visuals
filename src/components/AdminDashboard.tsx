@@ -71,8 +71,11 @@ const AdminDashboard = () => {
           />
         </div>
 
-        {/* CTA Button */}
+        {/* CTA Subtitle and Button */}
         <div className="text-center">
+          <p className="text-white/80 text-xl font-medium mb-8 max-w-2xl mx-auto">
+            Experience the future of healthcare administration with our comprehensive demo
+          </p>
           <Button 
             size="lg"
             className="group relative px-16 py-8 text-2xl font-bold rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
