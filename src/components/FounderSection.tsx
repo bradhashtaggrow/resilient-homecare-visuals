@@ -82,7 +82,7 @@ const FounderSection = () => {
                 <img 
                   src="/lovable-uploads/0e13c6b2-1822-4376-ae28-4c9ed2e5f0c7.png"
                   alt="Dr. Jackleen Samuel, PT, DPT - Founder & CEO"
-                  className="w-[270px] h-[270px] sm:w-[360px] sm:h-[360px] object-cover rounded-full shadow-2xl hover:scale-105 transition-transform duration-700 relative z-10 border-2 border-transparent"
+                  className="w-[405px] h-[405px] sm:w-[540px] sm:h-[540px] object-cover rounded-full shadow-2xl hover:scale-105 transition-transform duration-700 relative z-10 border-2 border-transparent"
                   style={{
                     background: 'linear-gradient(white, white) padding-box, linear-gradient(135deg, #0080ff 0%, #0066cc 100%) border-box'
                   }}
