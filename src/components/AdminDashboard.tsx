@@ -40,7 +40,7 @@ const AdminDashboard = () => {
   }, [laptopOpen]);
 
   return (
-    <section id="admin-dashboard" className="py-32 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden">
+    <section id="admin-dashboard" className="py-32 pt-80 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden">
       <AdminAnimatedBackground />
 
       <div className="max-w-7xl mx-auto px-6 relative">

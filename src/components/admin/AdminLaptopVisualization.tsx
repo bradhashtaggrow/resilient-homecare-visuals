@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BarChart, Monitor, Brain } from 'lucide-react';
 import { DemoScreen } from './AdminDemoScreens';
