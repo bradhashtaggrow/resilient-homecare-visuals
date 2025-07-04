@@ -71,13 +71,14 @@ const FounderSection = () => {
           </p>
         </div>
 
-        {/* Dashboard with Portrait - Similar to AdminDashboard structure */}
+        {/* Dashboard with Portrait */}
         <div className="mb-16 relative">
           <div className={`transition-all duration-1500 ${
             isVisible ? 'animate-slide-in-left' : 'opacity-0'
           }`}>
-            {/* Dashboard Background Elements */}
-            <div className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 rounded-3xl p-8 shadow-2xl">
+            {/* Dashboard Background Container */}
+            <div className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 rounded-3xl p-8 shadow-2xl min-h-[600px]">
+              
               {/* Achievement Badges - positioned around the dashboard */}
               <div className="grid grid-cols-3 gap-6 mb-8">
                 {achievements.map((achievement, index) => (
@@ -96,12 +97,22 @@ const FounderSection = () => {
                 ))}
               </div>
 
-              {/* Central Portrait - positioned in the center like AdminDashboard */}
-              <div 
-                className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
-                style={{ transform: `translateY(${-parallaxOffset}px)` }}
-              >
-                <div className="relative">
+              {/* Dashboard Background Elements - positioned at bottom */}
+              <div className="grid grid-cols-2 gap-6 opacity-30">
+                <div className="bg-white/10 rounded-xl p-4">
+                  <div className="h-20 bg-gradient-to-r from-blue-400/20 to-blue-600/20 rounded"></div>
+                </div>
+                <div className="bg-white/10 rounded-xl p-4">
+                  <div className="h-20 bg-gradient-to-r from-purple-400/20 to-purple-600/20 rounded"></div>
+                </div>
+              </div>
+
+              {/* Portrait Image - Centered Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center z-20">
+                <div 
+                  className="relative"
+                  style={{ transform: `translateY(${-parallaxOffset}px)` }}
+                >
                   {/* Main Portrait Container */}
                   <div className="w-80 h-80 rounded-full bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 p-3 shadow-2xl">
                     <div className="w-full h-full rounded-full overflow-hidden">
@@ -114,25 +125,15 @@ const FounderSection = () => {
                   </div>
                   
                   {/* Floating Elements */}
-                  <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl">
+                  <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-bounce shadow-xl">
                     <span className="text-white text-2xl">⚕️</span>
                   </div>
-                  <div className="absolute -bottom-8 -left-8 w-14 h-14 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
+                  <div className="absolute -bottom-8 -left-8 w-14 h-14 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center animate-bounce shadow-xl" style={{animationDelay: '2s'}}>
                     <span className="text-white text-xl">💙</span>
                   </div>
-                  <div className="absolute top-1/3 -left-12 w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-800 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
+                  <div className="absolute top-1/3 -left-12 w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-800 rounded-full flex items-center justify-center animate-bounce shadow-xl" style={{animationDelay: '4s'}}>
                     <BookOpen className="h-6 w-6 text-white" />
                   </div>
-                </div>
-              </div>
-
-              {/* Dashboard Elements - background elements */}
-              <div className="grid grid-cols-2 gap-6 mt-16 opacity-30">
-                <div className="bg-white/10 rounded-xl p-4">
-                  <div className="h-20 bg-gradient-to-r from-blue-400/20 to-blue-600/20 rounded"></div>
-                </div>
-                <div className="bg-white/10 rounded-xl p-4">
-                  <div className="h-20 bg-gradient-to-r from-purple-400/20 to-purple-600/20 rounded"></div>
                 </div>
               </div>
             </div>
