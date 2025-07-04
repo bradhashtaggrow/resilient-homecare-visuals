@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -24,29 +25,17 @@ const ServiceLinesSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // 3D Animated Icon Component with Depth Effects
-  const AnimatedIcon3D = ({ icon: Icon, color = "blue", delay = 0 }) => {
-    const colorClasses = {
-      emerald: 'from-emerald-400 via-emerald-500 to-emerald-600 shadow-emerald-500/50',
-      blue: 'from-blue-400 via-blue-500 to-blue-600 shadow-blue-500/50',
-      purple: 'from-purple-400 via-purple-500 to-purple-600 shadow-purple-500/50',
-      orange: 'from-orange-400 via-orange-500 to-orange-600 shadow-orange-500/50',
-      red: 'from-red-400 via-red-500 to-red-600 shadow-red-500/50',
-      green: 'from-green-400 via-green-500 to-green-600 shadow-green-500/50',
-      indigo: 'from-indigo-400 via-indigo-500 to-indigo-600 shadow-indigo-500/50',
-      cyan: 'from-cyan-400 via-cyan-500 to-cyan-600 shadow-cyan-500/50',
-      pink: 'from-pink-400 via-pink-500 to-pink-600 shadow-pink-500/50',
-      yellow: 'from-yellow-400 via-yellow-500 to-yellow-600 shadow-yellow-500/50'
-    };
-
+  // 3D Animated Icon Component with Blue Gradient
+  const AnimatedIcon3D = ({ icon: Icon, delay = 0 }) => {
     return (
       <div className="w-10 h-10 flex-shrink-0 mt-0.5 perspective-1000">
         <div 
           className={`
-            w-full h-full rounded-xl bg-gradient-to-br ${colorClasses[color]} 
+            w-full h-full rounded-xl 
+            bg-gradient-to-r from-blue-500 to-blue-600
             flex items-center justify-center cursor-pointer
             transform-3d transition-all duration-500 ease-out
-            shadow-lg hover:shadow-2xl
+            shadow-lg shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/50
             hover:scale-110 hover:-translate-y-2 hover:rotate-y-12 hover:rotate-x-6
             before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r 
             before:from-white/20 before:to-transparent before:opacity-0 
@@ -72,10 +61,10 @@ const ServiceLinesSection = () => {
       subtitle: "Home-Based Therapy & Recovery",
       description: "Hospital-branded physical therapy delivered directly to patients' homes with full technology integration.",
       benefits: [
-        { text: "Generate new outpatient therapy revenue", icon: TrendingUp, color: "emerald" },
-        { text: "Reduce costly post-acute placements", icon: Shield, color: "blue" },
-        { text: "Improve patient outcomes with early intervention", icon: Target, color: "purple" },
-        { text: "Prepare for value-based care programs", icon: Award, color: "orange" }
+        { text: "Generate new outpatient therapy revenue", icon: TrendingUp },
+        { text: "Reduce costly post-acute placements", icon: Shield },
+        { text: "Improve patient outcomes with early intervention", icon: Target },
+        { text: "Prepare for value-based care programs", icon: Award }
       ],
       color: "blue",
       patientImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
@@ -86,9 +75,9 @@ const ServiceLinesSection = () => {
       subtitle: "Transitional & Rural Care Extension",
       description: "Physician and advanced practice providers delivering seamless care transitions and rural health services.",
       benefits: [
-        { text: "Extend transitional care management for high-risk patients", icon: Users, color: "red" },
-        { text: "Expand rural health clinic reach into underserved areas", icon: MapPin, color: "green" },
-        { text: "Reduce readmissions with targeted follow-up visits", icon: CheckCircle, color: "indigo" }
+        { text: "Extend transitional care management for high-risk patients", icon: Users },
+        { text: "Expand rural health clinic reach into underserved areas", icon: MapPin },
+        { text: "Reduce readmissions with targeted follow-up visits", icon: CheckCircle }
       ],
       color: "red",
       patientImage: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
@@ -99,9 +88,9 @@ const ServiceLinesSection = () => {
       subtitle: "CMS-Compliant Inpatient Care at Home", 
       description: "Full implementation support for hospital-level care delivery in the home environment.",
       benefits: [
-        { text: "Complete workflow design & policy development", icon: Zap, color: "cyan" },
-        { text: "Staff training & education programs", icon: Users, color: "pink" },
-        { text: "Medicare waiver submission support", icon: Clock, color: "yellow" }
+        { text: "Complete workflow design & policy development", icon: Zap },
+        { text: "Staff training & education programs", icon: Users },
+        { text: "Medicare waiver submission support", icon: Clock }
       ],
       note: "CMS waiver extended through September 2025. We help hospitals prepare for future program versions.",
       color: "cyan",
@@ -112,8 +101,8 @@ const ServiceLinesSection = () => {
   const getColorClasses = (color: string, isActive: boolean) => {
     const colors = {
       blue: isActive ? 'bg-blue-600 text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
-      red: isActive ? 'bg-red-600 text-white shadow-red-600/25' : 'text-red-600 bg-red-50 hover:bg-red-100',
-      cyan: isActive ? 'bg-cyan-600 text-white shadow-cyan-600/25' : 'text-cyan-600 bg-cyan-50 hover:bg-cyan-100'
+      red: isActive ? 'bg-blue-600 text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
+      cyan: isActive ? 'bg-blue-600 text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
     };
     return colors[color as keyof typeof colors];
   };
@@ -186,7 +175,6 @@ const ServiceLinesSection = () => {
                         <div key={benefitIndex} className="flex items-start space-x-4">
                           <AnimatedIcon3D 
                             icon={benefit.icon} 
-                            color={benefit.color}
                             delay={benefitIndex * 150} 
                           />
                           <span className="text-gray-700 leading-relaxed flex-1">{benefit.text}</span>
