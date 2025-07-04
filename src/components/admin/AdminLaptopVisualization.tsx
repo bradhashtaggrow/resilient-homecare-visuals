@@ -136,24 +136,24 @@ const AdminLaptopVisualization = ({
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent rounded-3xl pointer-events-none" />
           </div>
           
-          {/* Floating Dashboard Icons */}
-          <div className="absolute -top-16 -right-16 w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center animate-float shadow-2xl">
+          {/* Floating Dashboard Icons - Moved up 4 inches */}
+          <div className="absolute -right-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center animate-float shadow-2xl w-16 h-16" style={{ top: '-112px' }}>
             <BarChart className="h-8 w-8 text-white" />
           </div>
-          <div className="absolute -top-12 -left-20 w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{animationDelay: '2s'}}>
+          <div className="absolute -left-20 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center animate-float shadow-2xl w-14 h-14" style={{ top: '-108px', animationDelay: '2s' }}>
             <Monitor className="h-7 w-7 text-white" />
           </div>
           
-          {/* Brain icon moved to top center of laptop */}
-          <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{animationDelay: '4s'}}>
+          {/* Brain icon moved to top center of laptop - Moved up 4 inches */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-116px', animationDelay: '4s' }}>
             <Brain className="h-8 w-8 text-white" />
           </div>
           
-          {/* Floating Security Badges for Laptop */}
-          <div className="absolute -bottom-8 -right-8 w-14 h-14 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '1s'}}>
+          {/* Floating Security Badges for Laptop - Moved up 4 inches */}
+          <div className="absolute -right-8 w-14 h-14 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-104px', animationDelay: '1s' }}>
             <Shield className="h-7 w-7 text-white" />
           </div>
-          <div className="absolute -bottom-6 -left-10 w-12 h-12 healthcare-gradient-secondary rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '3s'}}>
+          <div className="absolute -left-10 w-12 h-12 healthcare-gradient-secondary rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-102px', animationDelay: '3s' }}>
             <Lock className="h-6 w-6 text-white" />
           </div>
         </div>
