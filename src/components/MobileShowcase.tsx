@@ -144,28 +144,28 @@ const MobileShowcase = () => {
                     <div className="w-full h-full bg-black rounded-[3rem] p-1">
                       {/* Screen with Video Background */}
                       <div className="w-full h-full bg-gradient-to-br from-slate-900 to-gray-900 rounded-[2.8rem] relative overflow-hidden">
-                        {/* Video Background Layer */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 opacity-80">
-                          {/* Animated video-like patterns */}
-                          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cdefs%3E%3Cpattern id=%22video-noise%22 x=%220%22 y=%220%22 width=%2220%22 height=%2220%22 patternUnits=%22userSpaceOnUse%22%3E%3Ccircle cx=%2210%22 cy=%2210%22 r=%221%22 fill=%22%23ffffff%22 opacity=%220.1%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%22100%22 height=%22100%22 fill=%22url(%23video-noise)%22/%3E%3C/svg%3E')] animate-pulse"></div>
-                          
-                          {/* Simulated video content with moving elements */}
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-32 h-32 bg-blue-600/30 rounded-full animate-ping"></div>
-                            <div className="absolute w-24 h-24 bg-blue-500/40 rounded-full animate-pulse"></div>
-                            <div className="absolute w-16 h-16 bg-blue-400/50 rounded-full animate-bounce"></div>
-                          </div>
-                          
-                          {/* Moving gradient overlays to simulate video */}
-                          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-blue-400/20 to-transparent transform -skew-x-12 animate-pulse"></div>
-                          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-blue-500/10 via-transparent to-blue-600/10 animate-pulse" style={{animationDelay: '1s'}}></div>
+                        {/* Hero Page Video Background */}
+                        <div className="absolute inset-0 z-0">
+                          <video
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            preload="metadata"
+                            className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
+                            poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23003D6B' width='1920' height='1080'/%3E%3C/svg%3E"
+                          >
+                            <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+                          </video>
+                          {/* Video overlay for auth UI visibility */}
+                          <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] rounded-[2.8rem]" />
                         </div>
                         
                         {/* Dynamic Island */}
                         <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-black rounded-full z-20"></div>
                         
                         {/* Admin Login Interface - Over Video */}
-                        <div className="p-8 pt-16 h-full flex flex-col relative z-10 bg-black/40 backdrop-blur-sm">
+                        <div className="p-8 pt-16 h-full flex flex-col relative z-10">
                           {/* Header */}
                           <div className="text-center mb-8">
                             <div className="w-16 h-16 healthcare-gradient rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
