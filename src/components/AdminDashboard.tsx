@@ -22,7 +22,7 @@ const AdminDashboard = () => {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
 
     const element = document.getElementById('admin-dashboard');
@@ -41,51 +41,57 @@ const AdminDashboard = () => {
   }, [laptopOpen]);
 
   return (
-    <section id="admin-dashboard" className="py-20 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden">
+    <section id="admin-dashboard" className="py-12 sm:py-16 md:py-20 lg:py-32 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden min-h-screen">
       <AdminAnimatedBackground />
 
-      <div className="max-w-7xl mx-auto px-6 relative">
-        {/* Title and Subtitle Container */}
-        <div className={`text-center mb-20 transition-all duration-1000 ${
-          isVisible ? 'animate-slide-up' : 'opacity-0'
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        {/* Enhanced Title with Mobile Optimization */}
+        <div className={`text-center mb-12 sm:mb-16 md:mb-20 transition-all duration-1000 transform ${
+          isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
-          <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
-              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+          <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
+              style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Admin Dashboard That 
-            <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"> Powers Operations</span>
+            <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
+              Powers Operations
+            </span>
           </h2>
-          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
-             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
+          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide hover:text-white transition-colors duration-500"
+             style={{ fontSize: 'clamp(0.875rem, 2.5vw, 2rem)', lineHeight: 1.3 }}>
             Next-generation management tools with AI-powered insights that give 
             administrators unprecedented visibility and control.
           </p>
         </div>
 
-        {/* Laptop Container - 5 inches down from title */}
-        <div className="mb-16" style={{ marginTop: '5in' }}>
-          <AdminLaptopVisualization 
-            isVisible={isVisible}
-            laptopOpen={laptopOpen}
-            activeDemo={activeDemo}
-            demoScreens={demoScreens}
-          />
+        {/* Enhanced Laptop Container with Better Spacing */}
+        <div className="mb-8 sm:mb-12 md:mb-16" style={{ marginTop: 'clamp(1rem, 8vw, 5in)' }}>
+          <div className="hover:scale-105 transition-transform duration-1000">
+            <AdminLaptopVisualization 
+              isVisible={isVisible}
+              laptopOpen={laptopOpen}
+              activeDemo={activeDemo}
+              demoScreens={demoScreens}
+            />
+          </div>
         </div>
 
-        {/* Enhanced CTA Section */}
+        {/* Enhanced CTA Section with Mobile Optimization */}
         <div className="text-center">
-          <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6"
-              style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
+          <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-4 sm:mb-6 hover:scale-105 transition-transform duration-500"
+              style={{ fontSize: 'clamp(1.25rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
             Ready to Transform 
-            <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Your Healthcare Operations?</span>
+            <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
+              Your Healthcare Operations?
+            </span>
           </h3>
-          <p className="text-white/90 max-w-3xl mx-auto leading-relaxed font-medium tracking-wide mb-10"
-             style={{ fontSize: 'clamp(1.125rem, 2.5vw, 1.5rem)', lineHeight: 1.4 }}>
+          <p className="text-white/90 max-w-3xl mx-auto leading-relaxed font-medium tracking-wide mb-8 sm:mb-10 hover:text-white transition-colors duration-500"
+             style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.4 }}>
             Join forward-thinking healthcare organizations who've already revolutionized their operations. 
             See our comprehensive platform in action with a personalized demonstration.
           </p>
           <Button 
             size="lg"
-            className="group relative px-16 py-8 text-2xl font-bold rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+            className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto"
             style={{
               background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
               boxShadow: `
@@ -115,9 +121,9 @@ const AdminDashboard = () => {
               e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
             }}
           >
-            <span className="relative z-10 flex items-center">
+            <span className="relative z-10 flex items-center justify-center">
               Request Demo
-              <ArrowRight className="ml-4 h-8 w-8 group-hover:translate-x-3 transition-transform duration-500" />
+              <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
             </span>
           </Button>
         </div>

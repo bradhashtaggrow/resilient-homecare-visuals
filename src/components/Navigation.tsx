@@ -28,33 +28,34 @@ const Navigation = () => {
         ? 'paper-texture-card backdrop-blur-xl shadow-xl border-b border-gray-200/20' 
         : 'bg-transparent'
     }`}>
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
+          {/* Enhanced Logo with Hover Animation */}
+          <div className="flex items-center space-x-3 hover:scale-105 transition-transform duration-300">
             <img 
               src="/lovable-uploads/3c85c886-dd68-494f-8a0e-b370d90eee48.png" 
               alt="Resilient Healthcare" 
-              className="h-12 w-auto"
+              className="h-10 sm:h-12 w-auto"
             />
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          {/* Enhanced Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className={`text-xl font-bold transition-all duration-300 hover:scale-105 tracking-tight ${
+                className={`text-lg lg:text-xl font-bold transition-all duration-300 hover:scale-105 tracking-tight relative group ${
                   isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'
                 }`}
                 style={{ fontWeight: 900 }}
               >
                 {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
             <Button 
-              className="group relative px-8 py-4 text-lg font-bold rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+              className="group relative px-6 lg:px-8 py-3 lg:py-4 text-base lg:text-lg font-bold rounded-xl lg:rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
               style={{
                 background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
                 boxShadow: `
@@ -86,14 +87,14 @@ const Navigation = () => {
             >
               <span className="relative z-10 flex items-center">
                 Request Demo
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                <ArrowRight className="ml-2 h-4 w-4 lg:h-5 lg:w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Enhanced Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 hover:scale-110 transition-transform duration-300"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
@@ -104,23 +105,26 @@ const Navigation = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Enhanced Mobile Menu with Animations */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 paper-texture-card backdrop-blur-xl shadow-xl border-b border-gray-200/20">
-            <div className="px-6 py-4 space-y-4">
-              {navItems.map((item) => (
+          <div className="md:hidden absolute top-full left-0 right-0 paper-texture-card backdrop-blur-xl shadow-xl border-b border-gray-200/20 animate-slide-down">
+            <div className="px-4 sm:px-6 py-4 space-y-4">
+              {navItems.map((item, index) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="block text-xl font-bold text-gray-700 hover:text-blue-600 transition-colors tracking-tight"
-                  style={{ fontWeight: 900 }}
+                  className="block text-lg sm:text-xl font-bold text-gray-700 hover:text-blue-600 transition-all duration-300 tracking-tight hover:translate-x-2"
+                  style={{ 
+                    fontWeight: 900,
+                    animationDelay: `${index * 100}ms`
+                  }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}
                 </a>
               ))}
               <Button 
-                className="w-full group relative px-8 py-4 text-lg font-bold rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300"
+                className="w-full group relative px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-xl sm:rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 mt-4"
                 style={{
                   background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
                   boxShadow: `
@@ -134,7 +138,7 @@ const Navigation = () => {
               >
                 <span className="relative z-10 flex items-center justify-center">
                   Request Demo
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                 </span>
               </Button>
             </div>

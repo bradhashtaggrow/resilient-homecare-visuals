@@ -12,61 +12,63 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Video Background */}
+      {/* Optimized Video Background with Mobile Fallback */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
           muted
           loop
           playsInline
+          preload="metadata"
           className="absolute inset-0 w-full h-full object-cover"
+          poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23003D6B' width='1920' height='1080'/%3E%3C/svg%3E"
         >
           <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
-        {/* Darker gradient overlay for better readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-black/40" />
+        {/* Enhanced gradient overlay for better mobile readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/50" />
       </div>
 
-      {/* 3D Anamorphic Edge Effects */}
+      {/* Enhanced 3D Anamorphic Edge Effects */}
       <div className="absolute inset-0 z-10 pointer-events-none">
-        {/* Top edge */}
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12" />
-        {/* Bottom edge */}
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent transform skew-x-12" />
-        {/* Left edge */}
-        <div className="absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform -skew-y-12" />
-        {/* Right edge */}
-        <div className="absolute right-0 top-0 w-2 h-full bg-gradient-to-b from-transparent via-white/10 to-transparent transform skew-y-12" />
+        {/* Animated top edge */}
+        <div className="absolute top-0 left-0 w-full h-1 sm:h-2 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 animate-pulse-slow" />
+        {/* Animated bottom edge */}
+        <div className="absolute bottom-0 left-0 w-full h-1 sm:h-2 bg-gradient-to-r from-transparent via-white/20 to-transparent transform skew-x-12 animate-pulse-slow" style={{animationDelay: '1s'}} />
+        {/* Animated left edge */}
+        <div className="absolute left-0 top-0 w-1 sm:w-2 h-full bg-gradient-to-b from-transparent via-white/20 to-transparent transform -skew-y-12 animate-pulse-slow" style={{animationDelay: '2s'}} />
+        {/* Animated right edge */}
+        <div className="absolute right-0 top-0 w-1 sm:w-2 h-full bg-gradient-to-b from-transparent via-white/20 to-transparent transform skew-y-12 animate-pulse-slow" style={{animationDelay: '3s'}} />
         
-        {/* Corner accents */}
-        <div className="absolute top-4 left-4 w-12 h-12 bg-gradient-to-br from-white/20 to-transparent transform rotate-45 blur-sm" />
-        <div className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-bl from-white/20 to-transparent transform -rotate-45 blur-sm" />
-        <div className="absolute bottom-4 left-4 w-12 h-12 bg-gradient-to-tr from-white/20 to-transparent transform -rotate-45 blur-sm" />
-        <div className="absolute bottom-4 right-4 w-12 h-12 bg-gradient-to-tl from-white/20 to-transparent transform rotate-45 blur-sm" />
+        {/* Enhanced corner accents with hover effects */}
+        <div className="absolute top-2 sm:top-4 left-2 sm:left-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-white/30 to-transparent transform rotate-45 blur-sm animate-pulse" />
+        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-bl from-white/30 to-transparent transform -rotate-45 blur-sm animate-pulse" style={{animationDelay: '1s'}} />
+        <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-tr from-white/30 to-transparent transform -rotate-45 blur-sm animate-pulse" style={{animationDelay: '2s'}} />
+        <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-tl from-white/30 to-transparent transform rotate-45 blur-sm animate-pulse" style={{animationDelay: '3s'}} />
       </div>
 
-      {/* Hero Content */}
-      <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
-        <div className={`transition-all duration-1500 ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-20'}`}>
-          {/* Apple-Style Title */}
-          <div className="mb-12">
-            <h1 className="text-white leading-none tracking-tight font-black text-shadow-white" 
-                style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+      {/* Enhanced Hero Content with Mobile Optimization */}
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className={`transition-all duration-1500 transform ${isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          {/* Enhanced Apple-Style Title with Mobile Typography */}
+          <div className="mb-8 sm:mb-12">
+            <h1 className="text-white leading-none tracking-tight font-black text-shadow-white hover:scale-105 transition-transform duration-700" 
+                style={{ fontSize: 'clamp(2rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
               The Future of Healthcare
             </h1>
           </div>
           
-          {/* Single Subtitle */}
-          <p className="text-white/90 mb-16 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
-             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
+          {/* Enhanced Subtitle with Better Mobile Spacing */}
+          <p className="text-white/90 mb-12 sm:mb-16 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide hover:text-white transition-colors duration-500"
+             style={{ fontSize: 'clamp(1rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
           </p>
           
-          {/* Single Thick 3D Animated Button */}
-          <div className="flex justify-center items-center mb-16">
+          {/* Enhanced 3D Animated Button with Mobile Optimization */}
+          <div className="flex justify-center items-center mb-12 sm:mb-16">
             <Button 
               size="lg" 
-              className="group relative px-16 py-8 text-2xl font-bold rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+              className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto max-w-xs sm:max-w-none"
               style={{
                 background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
                 boxShadow: `
@@ -96,46 +98,46 @@ const HeroSection = () => {
                 e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
               }}
             >
-              <span className="relative z-10 flex items-center">
+              <span className="relative z-10 flex items-center justify-center">
                 Request Demo
-                <ArrowRight className="ml-4 h-8 w-8 group-hover:translate-x-3 transition-transform duration-500" />
+                <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
               </span>
             </Button>
           </div>
 
-          {/* Trust Indicators - Apple Style */}
+          {/* Enhanced Trust Indicators with Mobile Layout */}
           <div className="space-y-6">
-            <div className="flex justify-center items-center space-x-12 text-white/90">
-              <div className="text-center">
-                <div className="text-white leading-none tracking-tight font-black mb-2"
-                     style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>38%</div>
-                <div className="text-white/90 font-medium tracking-wide"
-                     style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Cost Savings</div>
+            <div className="flex flex-col sm:flex-row justify-center items-center space-y-6 sm:space-y-0 sm:space-x-8 lg:space-x-12 text-white/90">
+              <div className="text-center group hover:scale-110 transition-transform duration-500">
+                <div className="text-white leading-none tracking-tight font-black mb-2 group-hover:text-blue-200 transition-colors duration-300"
+                     style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>38%</div>
+                <div className="text-white/90 font-medium tracking-wide group-hover:text-white transition-colors duration-300"
+                     style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Cost Savings</div>
               </div>
-              <div className="w-px h-16 bg-white/20" />
-              <div className="text-center">
-                <div className="text-white leading-none tracking-tight font-black mb-2"
-                     style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>70%</div>
-                <div className="text-white/90 font-medium tracking-wide"
-                     style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Reduction in Readmissions</div>
+              <div className="w-full h-px sm:w-px sm:h-12 lg:h-16 bg-white/20" />
+              <div className="text-center group hover:scale-110 transition-transform duration-500">
+                <div className="text-white leading-none tracking-tight font-black mb-2 group-hover:text-blue-200 transition-colors duration-300"
+                     style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>70%</div>
+                <div className="text-white/90 font-medium tracking-wide group-hover:text-white transition-colors duration-300"
+                     style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Reduction in Readmissions</div>
               </div>
-              <div className="w-px h-16 bg-white/20" />
-              <div className="text-center">
-                <div className="text-white leading-none tracking-tight font-black mb-2"
-                     style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>91%</div>
-                <div className="text-white/90 font-medium tracking-wide"
-                     style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Patient Preference</div>
+              <div className="w-full h-px sm:w-px sm:h-12 lg:h-16 bg-white/20" />
+              <div className="text-center group hover:scale-110 transition-transform duration-500">
+                <div className="text-white leading-none tracking-tight font-black mb-2 group-hover:text-blue-200 transition-colors duration-300"
+                     style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>91%</div>
+                <div className="text-white/90 font-medium tracking-wide group-hover:text-white transition-colors duration-300"
+                     style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>Patient Preference</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Modern Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="animate-bounce-gentle">
-          <div className="w-8 h-12 border-2 border-white/40 rounded-full flex justify-center relative overflow-hidden">
-            <div className="w-1.5 h-4 bg-white/60 rounded-full mt-3 animate-pulse-slow" />
+      {/* Enhanced Modern Scroll Indicator with Mobile Optimization */}
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="animate-bounce-gentle hover:scale-110 transition-transform duration-300">
+          <div className="w-6 h-10 sm:w-8 sm:h-12 border-2 border-white/40 rounded-full flex justify-center relative overflow-hidden hover:border-white/60 transition-colors duration-300">
+            <div className="w-1 h-3 sm:w-1.5 sm:h-4 bg-white/60 rounded-full mt-2 sm:mt-3 animate-pulse-slow" />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent" />
           </div>
         </div>
