@@ -54,45 +54,44 @@ const FounderSection = () => {
   return (
     <section 
       id="founder-section" 
-      className="py-32 bg-white relative overflow-hidden"
+      className="py-32 bg-white relative"
     >
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Portrait */}
-          <div className={`transition-all duration-1500 relative z-20 ${
+          <div className={`transition-all duration-1500 ${
             isVisible ? 'animate-slide-in-left' : 'opacity-0'
           }`}>
             <div className="relative max-w-md mx-auto lg:mx-0">
               {/* Main Portrait Container */}
               <div 
-                className="relative z-30"
+                className="relative"
                 style={{ transform: `translateY(${-parallaxOffset}px)` }}
               >
-                <div className="w-96 h-96 mx-auto rounded-full bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 p-3 shadow-2xl relative z-40">
-                  <div className="w-full h-full rounded-full overflow-hidden relative z-50">
+                <div className="w-96 h-96 mx-auto rounded-full bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 p-3 shadow-2xl">
+                  <div className="w-full h-full rounded-full overflow-hidden">
                     <img 
                       src="/lovable-uploads/7933b18c-e44f-4883-91d2-a7bdad23ebc8.png"
                       alt="Dr. Jackleen Samuel"
-                      className="w-full h-full object-cover relative z-50"
+                      className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-blue-900/10 to-transparent z-40" />
                   </div>
                 </div>
                 
                 {/* Floating Elements */}
-                <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl z-30">
+                <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl">
                   <span className="text-white text-2xl">⚕️</span>
                 </div>
-                <div className="absolute -bottom-8 -left-8 w-14 h-14 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center animate-float shadow-xl z-30" style={{animationDelay: '2s'}}>
+                <div className="absolute -bottom-8 -left-8 w-14 h-14 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
                   <span className="text-white text-xl">💙</span>
                 </div>
-                <div className="absolute top-1/3 -left-12 w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-800 rounded-full flex items-center justify-center animate-float shadow-xl z-30" style={{animationDelay: '4s'}}>
+                <div className="absolute top-1/3 -left-12 w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-800 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
                   <BookOpen className="h-6 w-6 text-white" />
                 </div>
               </div>
 
               {/* Achievement Badges */}
-              <div className="grid grid-cols-3 gap-4 mt-12 relative z-20">
+              <div className="grid grid-cols-3 gap-4 mt-12">
                 {achievements.map((achievement, index) => (
                   <div 
                     key={index}
@@ -112,7 +111,7 @@ const FounderSection = () => {
           </div>
 
           {/* Right Column - Founder Story */}
-          <div className={`transition-all duration-1500 delay-500 relative z-10 ${
+          <div className={`transition-all duration-1500 delay-500 ${
             isVisible ? 'animate-slide-in-right' : 'opacity-0'
           }`}>
             <div className="space-y-8">
