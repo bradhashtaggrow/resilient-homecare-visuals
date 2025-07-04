@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BarChart, Monitor, Brain } from 'lucide-react';
 import { DemoScreen } from './AdminDemoScreens';
@@ -16,7 +17,7 @@ const AdminLaptopVisualization = ({
   demoScreens 
 }: AdminLaptopVisualizationProps) => {
   return (
-    <div className="flex justify-center mb-24 mt-48">
+    <div className="flex justify-center mb-24 mt-72">
       <div className={`relative transition-all duration-1500 ${
         isVisible ? 'animate-scale-in' : 'opacity-0'
       }`}>
