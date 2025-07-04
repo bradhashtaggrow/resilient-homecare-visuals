@@ -28,7 +28,7 @@ const LeadGenSection = () => {
   return (
     <section 
       id="lead-gen-section" 
-      className="py-32 bg-white relative overflow-hidden paper-texture-subtle"
+      className="py-8 bg-white relative overflow-hidden paper-texture-subtle"
     >
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Bottom Trust Section */}
