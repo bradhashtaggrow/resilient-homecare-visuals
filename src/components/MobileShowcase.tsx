@@ -207,18 +207,6 @@ const MobileShowcase = () => {
                               <p className="text-gray-300 text-xs mt-2">Touch ID / Face ID</p>
                             </div>
                           </div>
-
-                          {/* Status Indicators */}
-                          <div className="grid grid-cols-2 gap-3 mt-auto">
-                            <div className="bg-blue-500/30 backdrop-blur-sm border border-blue-500/40 rounded-lg p-3 text-center shadow-lg">
-                              <div className="text-blue-300 text-sm font-semibold">System Status</div>
-                              <div className="text-blue-200 text-xs">Operational</div>
-                            </div>
-                            <div className="bg-blue-600/30 backdrop-blur-sm border border-blue-600/40 rounded-lg p-3 text-center shadow-lg">
-                              <div className="text-blue-200 text-sm font-semibold">Security</div>
-                              <div className="text-blue-100 text-xs">Verified</div>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
