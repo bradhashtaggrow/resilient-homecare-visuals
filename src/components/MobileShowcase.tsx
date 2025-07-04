@@ -144,22 +144,35 @@ const MobileShowcase = () => {
                     <div className="w-full h-full bg-black rounded-[3rem] p-1">
                       {/* Screen with Video Background */}
                       <div className="w-full h-full bg-gradient-to-br from-slate-900 to-gray-900 rounded-[2.8rem] relative overflow-hidden">
-                        {/* Video Background Effect */}
-                        <div className="absolute inset-0 healthcare-gradient opacity-10"></div>
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(210_100%_50%/0.1),transparent_70%)] animate-pulse-slow"></div>
+                        {/* Video Background Layer */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 opacity-80">
+                          {/* Animated video-like patterns */}
+                          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cdefs%3E%3Cpattern id=%22video-noise%22 x=%220%22 y=%220%22 width=%2220%22 height=%2220%22 patternUnits=%22userSpaceOnUse%22%3E%3Ccircle cx=%2210%22 cy=%2210%22 r=%221%22 fill=%22%23ffffff%22 opacity=%220.1%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%22100%22 height=%22100%22 fill=%22url(%23video-noise)%22/%3E%3C/svg%3E')] animate-pulse"></div>
+                          
+                          {/* Simulated video content with moving elements */}
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-32 h-32 bg-blue-600/30 rounded-full animate-ping"></div>
+                            <div className="absolute w-24 h-24 bg-blue-500/40 rounded-full animate-pulse"></div>
+                            <div className="absolute w-16 h-16 bg-blue-400/50 rounded-full animate-bounce"></div>
+                          </div>
+                          
+                          {/* Moving gradient overlays to simulate video */}
+                          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-blue-400/20 to-transparent transform -skew-x-12 animate-pulse"></div>
+                          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-blue-500/10 via-transparent to-blue-600/10 animate-pulse" style={{animationDelay: '1s'}}></div>
+                        </div>
                         
                         {/* Dynamic Island */}
-                        <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-black rounded-full z-10"></div>
+                        <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-black rounded-full z-20"></div>
                         
-                        {/* Admin Login Interface */}
-                        <div className="p-8 pt-16 h-full flex flex-col relative z-10">
+                        {/* Admin Login Interface - Over Video */}
+                        <div className="p-8 pt-16 h-full flex flex-col relative z-10 bg-black/40 backdrop-blur-sm">
                           {/* Header */}
                           <div className="text-center mb-8">
-                            <div className="w-16 h-16 healthcare-gradient rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                            <div className="w-16 h-16 healthcare-gradient rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
                               <Shield className="h-8 w-8 text-white" />
                             </div>
                             <h3 className="text-white text-xl font-bold mb-2">Admin Portal</h3>
-                            <p className="text-gray-400 text-sm">Secure Healthcare Management</p>
+                            <p className="text-gray-300 text-sm">Secure Healthcare Management</p>
                           </div>
 
                           {/* Login Form */}
@@ -168,7 +181,7 @@ const MobileShowcase = () => {
                               <input 
                                 type="text" 
                                 placeholder="Email Address"
-                                className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-blue-400 transition-colors"
+                                className="w-full p-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg"
                                 defaultValue="admin@healthcare.com"
                               />
                             </div>
@@ -176,34 +189,34 @@ const MobileShowcase = () => {
                               <input 
                                 type="password" 
                                 placeholder="Password"
-                                className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-blue-400 transition-colors"
+                                className="w-full p-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg"
                                 defaultValue="••••••••"
                               />
                             </div>
                             
                             {/* Login Button */}
-                            <button className="w-full p-4 healthcare-gradient rounded-xl text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105">
+                            <button className="w-full p-4 healthcare-gradient rounded-xl text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg">
                               Secure Login
                             </button>
 
                             {/* Biometric */}
                             <div className="text-center py-4">
-                              <div className="w-12 h-12 bg-white/10 rounded-full mx-auto flex items-center justify-center">
-                                <div className="w-8 h-8 border-2 border-blue-400 rounded-full"></div>
+                              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
+                                <div className="w-8 h-8 border-2 border-blue-400 rounded-full animate-pulse"></div>
                               </div>
-                              <p className="text-gray-400 text-xs mt-2">Touch ID / Face ID</p>
+                              <p className="text-gray-300 text-xs mt-2">Touch ID / Face ID</p>
                             </div>
                           </div>
 
                           {/* Status Indicators */}
                           <div className="grid grid-cols-2 gap-3 mt-auto">
-                            <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3 text-center">
-                              <div className="text-blue-400 text-sm font-semibold">System Status</div>
-                              <div className="text-blue-300 text-xs">Operational</div>
+                            <div className="bg-blue-500/30 backdrop-blur-sm border border-blue-500/40 rounded-lg p-3 text-center shadow-lg">
+                              <div className="text-blue-300 text-sm font-semibold">System Status</div>
+                              <div className="text-blue-200 text-xs">Operational</div>
                             </div>
-                            <div className="bg-blue-600/20 border border-blue-600/30 rounded-lg p-3 text-center">
-                              <div className="text-blue-300 text-sm font-semibold">Security</div>
-                              <div className="text-blue-200 text-xs">Verified</div>
+                            <div className="bg-blue-600/30 backdrop-blur-sm border border-blue-600/40 rounded-lg p-3 text-center shadow-lg">
+                              <div className="text-blue-200 text-sm font-semibold">Security</div>
+                              <div className="text-blue-100 text-xs">Verified</div>
                             </div>
                           </div>
                         </div>
