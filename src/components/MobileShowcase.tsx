@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Heart, Video, FileCheck, Bell, MessageSquare, Clipboard, Activity, Shield, Calendar } from 'lucide-react';
 
@@ -46,7 +45,7 @@ const MobileShowcase = () => {
     },
     {
       icon: <Video className="h-6 w-6" />,
-      title: "HD Tele-PT Sessions",
+      title: "HD Tele-PT Sessions", 
       description: "Crystal-clear virtual physical therapy from home comfort",
       color: "blue"
     },
@@ -115,8 +114,7 @@ const MobileShowcase = () => {
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            Mobile Platform That 
-            <span className="block healthcare-text-gradient"> Connects Everyone</span>
+            Go Mobile With Your Patients This Year
           </h2>
           <p className="text-black max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
