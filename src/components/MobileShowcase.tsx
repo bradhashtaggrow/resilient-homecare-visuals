@@ -73,9 +73,9 @@ const MobileShowcase = () => {
     <section id="mobile-showcase" className="py-32 bg-gradient-to-br from-slate-900 via-gray-900 to-black relative overflow-hidden">
       {/* Video Background Effect */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 via-purple-900/20 to-teal-900/20" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(29,78,216,0.15),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(147,51,234,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 healthcare-gradient opacity-20" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,hsl(210_100%_27%/0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(210_100%_37%/0.15),transparent_50%)]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative">
@@ -84,7 +84,7 @@ const MobileShowcase = () => {
           <h2 className="text-white leading-none tracking-tight font-black mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 7rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Go Mobile With Your 
-            <span className="block bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+            <span className="block healthcare-text-gradient">
               Patients This Year
             </span>
           </h2>
@@ -108,7 +108,7 @@ const MobileShowcase = () => {
               >
                 <div className="group p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:transform hover:scale-105">
                   <div className="flex items-start space-x-5">
-                    <div className="flex-shrink-0 p-3 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 text-white group-hover:scale-110 transition-transform duration-500">
+                    <div className="flex-shrink-0 p-3 rounded-xl healthcare-gradient text-white group-hover:scale-110 transition-transform duration-500">
                       {feature.icon}
                     </div>
                     <div>
@@ -142,16 +142,20 @@ const MobileShowcase = () => {
                   <div className="relative w-80 h-[650px] bg-gradient-to-b from-gray-800 to-black rounded-[3.5rem] p-2 shadow-2xl">
                     {/* Screen Bezel */}
                     <div className="w-full h-full bg-black rounded-[3rem] p-1">
-                      {/* Screen */}
+                      {/* Screen with Video Background */}
                       <div className="w-full h-full bg-gradient-to-br from-slate-900 to-gray-900 rounded-[2.8rem] relative overflow-hidden">
+                        {/* Video Background Effect */}
+                        <div className="absolute inset-0 healthcare-gradient opacity-10"></div>
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(210_100%_50%/0.1),transparent_70%)] animate-pulse-slow"></div>
+                        
                         {/* Dynamic Island */}
                         <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-black rounded-full z-10"></div>
                         
                         {/* Admin Login Interface */}
-                        <div className="p-8 pt-16 h-full flex flex-col">
+                        <div className="p-8 pt-16 h-full flex flex-col relative z-10">
                           {/* Header */}
                           <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-teal-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                            <div className="w-16 h-16 healthcare-gradient rounded-2xl mx-auto mb-4 flex items-center justify-center">
                               <Shield className="h-8 w-8 text-white" />
                             </div>
                             <h3 className="text-white text-xl font-bold mb-2">Admin Portal</h3>
@@ -178,7 +182,7 @@ const MobileShowcase = () => {
                             </div>
                             
                             {/* Login Button */}
-                            <button className="w-full p-4 bg-gradient-to-r from-blue-500 to-teal-500 rounded-xl text-white font-semibold hover:from-blue-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105">
+                            <button className="w-full p-4 healthcare-gradient rounded-xl text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105">
                               Secure Login
                             </button>
 
@@ -193,13 +197,13 @@ const MobileShowcase = () => {
 
                           {/* Status Indicators */}
                           <div className="grid grid-cols-2 gap-3 mt-auto">
-                            <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 text-center">
-                              <div className="text-green-400 text-sm font-semibold">System Status</div>
-                              <div className="text-green-300 text-xs">Operational</div>
-                            </div>
                             <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3 text-center">
-                              <div className="text-blue-400 text-sm font-semibold">Security</div>
-                              <div className="text-blue-300 text-xs">Verified</div>
+                              <div className="text-blue-400 text-sm font-semibold">System Status</div>
+                              <div className="text-blue-300 text-xs">Operational</div>
+                            </div>
+                            <div className="bg-blue-600/20 border border-blue-600/30 rounded-lg p-3 text-center">
+                              <div className="text-blue-300 text-sm font-semibold">Security</div>
+                              <div className="text-blue-200 text-xs">Verified</div>
                             </div>
                           </div>
                         </div>
@@ -207,14 +211,14 @@ const MobileShowcase = () => {
                     </div>
                   </div>
 
-                  {/* Floating Security Badges */}
-                  <div className="absolute -top-6 -right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center animate-float shadow-xl">
+                  {/* Floating Security Badges - Blue Theme Only */}
+                  <div className="absolute -top-6 -right-6 w-14 h-14 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl">
                     <Shield className="h-7 w-7 text-white" />
                   </div>
-                  <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
+                  <div className="absolute -bottom-6 -left-6 w-12 h-12 healthcare-gradient-secondary rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
                     <Lock className="h-6 w-6 text-white" />
                   </div>
-                  <div className="absolute top-1/3 -right-8 w-10 h-10 bg-teal-500 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
+                  <div className="absolute top-1/3 -right-8 w-10 h-10 healthcare-gradient-primary rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
                     <Database className="h-5 w-5 text-white" />
                   </div>
                 </div>
@@ -233,11 +237,11 @@ const MobileShowcase = () => {
               >
                 <div className="group p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:transform hover:scale-105">
                   <div className="flex items-start space-x-5">
-                    <div className="flex-shrink-0 p-3 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white group-hover:scale-110 transition-transform duration-500">
+                    <div className="flex-shrink-0 p-3 rounded-xl healthcare-gradient text-white group-hover:scale-110 transition-transform duration-500">
                       {feature.icon}
                     </div>
                     <div>
-                      <h4 className="text-xl font-bold text-white mb-2 group-hover:text-purple-300 transition-colors duration-300">
+                      <h4 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">
                         {feature.title}
                       </h4>
                       <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
