@@ -75,8 +75,8 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Enhanced CTA Section with Mobile Optimization - Pulled Up */}
-        <div className="text-center pt-4 sm:pt-6 md:pt-8 lg:pt-10">
+        {/* Enhanced CTA Section with Mobile Optimization - Pulled Up More */}
+        <div className="text-center pt-0 sm:pt-2 md:pt-4 lg:pt-6">
           <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-4 sm:mb-6 hover:scale-105 transition-transform duration-500"
               style={{ fontSize: 'clamp(1.25rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
             Ready to Transform 
