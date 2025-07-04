@@ -39,12 +39,12 @@ const AdminDashboard = () => {
   }, [laptopOpen]);
 
   return (
-    <section id="admin-dashboard" className="py-32 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden">
+    <section id="admin-dashboard" className="py-32 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden" style={{ minHeight: '120vh' }}>
       <AdminAnimatedBackground />
 
       {/* Title and Subtitle Container - Fixed Position */}
       <div className="max-w-7xl mx-auto px-6 relative">
-        <div className={`text-center mb-16 transition-all duration-1000 ${
+        <div className={`text-center mb-32 transition-all duration-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
@@ -60,8 +60,8 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Laptop Container - Moved down 4 inches (96px) */}
-      <div className="pt-48">
+      {/* Laptop Container - Positioned with proper spacing */}
+      <div className="mt-24">
         <AdminLaptopVisualization 
           isVisible={isVisible}
           laptopOpen={laptopOpen}
