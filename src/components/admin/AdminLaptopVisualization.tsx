@@ -52,7 +52,7 @@ const AdminLaptopVisualization = ({
 
           {/* Laptop Screen (Top Part) */}
           <div 
-            className={`absolute top-0 left-0 w-[800px] h-[500px] bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 rounded-t-3xl shadow-2xl transition-all duration-2000 ease-out border-4 border-gray-600`}
+            className={`absolute top-0 left-0 w-[800px] h-[500px] bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 rounded-3xl shadow-2xl transition-all duration-2000 ease-out border-4 border-gray-600`}
             style={{
               transformOrigin: 'bottom center',
               transformStyle: 'preserve-3d',
@@ -82,25 +82,26 @@ const AdminLaptopVisualization = ({
                   <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] rounded-2xl" />
                 </div>
 
-                {/* Admin Login Interface - Over Video */}
+                {/* Admin Login Interface - Over Video - Made Smaller */}
                 <div className="relative z-10 w-full h-full flex items-center justify-center">
-                  <div className="max-w-md w-full mx-8">
-                    {/* Header */}
-                    <div className="text-center mb-8">
-                      <div className="w-20 h-20 healthcare-gradient rounded-3xl mx-auto mb-6 flex items-center justify-center shadow-xl">
-                        <Shield className="h-10 w-10 text-white" />
+                  <div className="max-w-xs w-full mx-6">
+                    {/* Header - Smaller */}
+                    <div className="text-center mb-6">
+                      {/* Logo */}
+                      <div className="w-12 h-12 healthcare-gradient rounded-2xl mx-auto mb-3 flex items-center justify-center shadow-lg">
+                        <Shield className="h-6 w-6 text-white" />
                       </div>
-                      <h3 className="text-white text-3xl font-bold mb-3">Admin Portal</h3>
-                      <p className="text-gray-300 text-lg">Secure Healthcare Management</p>
+                      <h3 className="text-white text-xl font-bold mb-2">Admin Portal</h3>
+                      <p className="text-gray-300 text-sm">Secure Healthcare Management</p>
                     </div>
 
-                    {/* Login Form */}
-                    <div className="space-y-6">
+                    {/* Login Form - Smaller */}
+                    <div className="space-y-4">
                       <div>
                         <input 
                           type="text" 
                           placeholder="Email Address"
-                          className="w-full p-5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-lg"
+                          className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-sm"
                           defaultValue="admin@healthcare.com"
                         />
                       </div>
@@ -108,22 +109,22 @@ const AdminLaptopVisualization = ({
                         <input 
                           type="password" 
                           placeholder="Password"
-                          className="w-full p-5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-lg"
+                          className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-sm"
                           defaultValue="••••••••"
                         />
                       </div>
                       
-                      {/* Login Button */}
-                      <button className="w-full p-5 healthcare-gradient rounded-xl text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg text-lg">
+                      {/* Login Button - Smaller */}
+                      <button className="w-full p-3 healthcare-gradient rounded-lg text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg text-sm">
                         Secure Login
                       </button>
 
-                      {/* Biometric */}
-                      <div className="text-center py-6">
-                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
-                          <div className="w-10 h-10 border-2 border-blue-400 rounded-full animate-pulse"></div>
+                      {/* Biometric - Smaller */}
+                      <div className="text-center py-4">
+                        <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
+                          <div className="w-8 h-8 border-2 border-blue-400 rounded-full animate-pulse"></div>
                         </div>
-                        <p className="text-gray-300 text-sm mt-3">Touch ID / Face ID</p>
+                        <p className="text-gray-300 text-xs mt-2">Touch ID / Face ID</p>
                       </div>
                     </div>
                   </div>
@@ -132,7 +133,7 @@ const AdminLaptopVisualization = ({
             </div>
 
             {/* Screen Reflection Effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent rounded-t-3xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent rounded-3xl pointer-events-none" />
           </div>
           
           {/* Floating Dashboard Icons */}
@@ -142,7 +143,8 @@ const AdminLaptopVisualization = ({
           <div className="absolute -top-12 -left-20 w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{animationDelay: '2s'}}>
             <Monitor className="h-7 w-7 text-white" />
           </div>
-          {/* Brain icon moved to top of laptop */}
+          
+          {/* Brain icon moved to top center of laptop */}
           <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{animationDelay: '4s'}}>
             <Brain className="h-8 w-8 text-white" />
           </div>
