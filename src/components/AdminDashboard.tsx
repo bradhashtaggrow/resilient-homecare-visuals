@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import AdminAnimatedBackground from './admin/AdminAnimatedBackground';
 import AdminLaptopVisualization from './admin/AdminLaptopVisualization';
 import { useDemoScreens } from './admin/AdminDemoScreens';
+import { Button } from '@/components/ui/button';
 
 const AdminDashboard = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -39,12 +40,12 @@ const AdminDashboard = () => {
   }, [laptopOpen]);
 
   return (
-    <section id="admin-dashboard" className="py-32 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden" style={{ minHeight: '180vh' }}>
+    <section id="admin-dashboard" className="py-20 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden">
       <AdminAnimatedBackground />
 
-      {/* Title and Subtitle Container - Fixed Position */}
       <div className="max-w-7xl mx-auto px-6 relative">
-        <div className={`text-center mb-32 transition-all duration-1000 ${
+        {/* Title and Subtitle Container */}
+        <div className={`text-center mb-16 transition-all duration-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
@@ -58,16 +59,26 @@ const AdminDashboard = () => {
             administrators unprecedented visibility and control.
           </p>
         </div>
-      </div>
 
-      {/* Laptop Container - Moved much further down */}
-      <div style={{ marginTop: '600px' }}>
-        <AdminLaptopVisualization 
-          isVisible={isVisible}
-          laptopOpen={laptopOpen}
-          activeDemo={activeDemo}
-          demoScreens={demoScreens}
-        />
+        {/* Laptop Container - Reduced spacing */}
+        <div className="mb-16">
+          <AdminLaptopVisualization 
+            isVisible={isVisible}
+            laptopOpen={laptopOpen}
+            activeDemo={activeDemo}
+            demoScreens={demoScreens}
+          />
+        </div>
+
+        {/* CTA Button */}
+        <div className="text-center">
+          <Button 
+            size="lg"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-8 py-4 text-lg rounded-xl shadow-2xl transition-all duration-300 hover:scale-105"
+          >
+            Request Demo
+          </Button>
+        </div>
       </div>
     </section>
   );
