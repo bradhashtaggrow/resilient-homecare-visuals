@@ -46,14 +46,14 @@ const FounderSection = () => {
   return (
     <section 
       id="founder-section" 
-      className="py-16 sm:py-24 md:py-32 lg:py-40 bg-white relative overflow-hidden"
+      className="py-8 sm:py-12 md:py-16 lg:py-20 bg-white relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Enhanced Title Section with Apple-Style Typography */}
-        <div className={`text-center mb-12 sm:mb-20 transition-all duration-1000 transform ${
+        <div className={`text-center mb-8 sm:mb-12 transition-all duration-1000 transform ${
           isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
-          <h2 className="text-gray-900 leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
+          <h2 className="text-gray-900 leading-none tracking-tight font-black text-shadow-white mb-4 sm:mb-6 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Founder's Story
           </h2>
@@ -64,7 +64,7 @@ const FounderSection = () => {
         </div>
 
         {/* Enhanced Professional Portrait Section with Subtle Gradient Border */}
-        <div className="mb-12 sm:mb-16 flex justify-center">
+        <div className="mb-8 sm:mb-12 flex justify-center">
           <div className={`transition-all duration-1500 transform ${
             isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}>
@@ -114,7 +114,7 @@ const FounderSection = () => {
         <div className={`transition-all duration-1500 delay-500 transform ${
           isVisible ? 'animate-slide-in-right opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
         }`}>
-          <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+          <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
             {/* Enhanced Quote Section with Mobile Typography */}
             <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-shadow duration-500 group">
               <Quote className="absolute -top-3 sm:-top-4 -left-3 sm:-left-4 h-12 w-12 sm:h-16 sm:w-16 text-blue-200 group-hover:text-blue-300 transition-colors duration-500" />
