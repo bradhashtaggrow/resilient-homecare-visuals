@@ -40,11 +40,11 @@ const AdminDashboard = () => {
   }, [laptopOpen]);
 
   return (
-    <section id="admin-dashboard" className="py-32 pt-80 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden">
+    <section id="admin-dashboard" className="py-32 pt-32 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden">
       <AdminAnimatedBackground />
 
       <div className="max-w-7xl mx-auto px-6 relative">
-        <div className={`text-center mb-20 transition-all duration-1000 ${
+        <div className={`text-center mb-12 transition-all duration-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
