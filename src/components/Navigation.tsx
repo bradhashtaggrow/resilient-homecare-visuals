@@ -55,7 +55,7 @@ const Navigation = () => {
               </a>
             ))}
             <Button 
-              className="group relative px-6 lg:px-8 py-3 lg:py-4 text-base lg:text-lg font-bold rounded-xl lg:rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+              className="group relative px-6 lg:px-8 py-6 lg:py-8 text-base lg:text-lg font-bold rounded-xl lg:rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
               style={{
                 background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
                 boxShadow: `
@@ -124,7 +124,7 @@ const Navigation = () => {
                 </a>
               ))}
               <Button 
-                className="w-full group relative px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-xl sm:rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 mt-4"
+                className="w-full group relative px-6 sm:px-8 py-6 sm:py-8 text-base sm:text-lg font-bold rounded-xl sm:rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 mt-4"
                 style={{
                   background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
                   boxShadow: `
