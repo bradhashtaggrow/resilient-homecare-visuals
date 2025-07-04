@@ -20,7 +20,7 @@ const AdminLaptopVisualization = ({
     <div className="flex justify-center">
       <div className={`relative transition-all duration-1500 ${
         isVisible ? 'animate-scale-in' : 'opacity-0'
-      }`}>
+      }`} style={{ marginTop: '3.5in' }}>
         {/* 3D Container */}
         <div className="relative" style={{ perspective: '2000px', perspectiveOrigin: 'center center' }}>
           
