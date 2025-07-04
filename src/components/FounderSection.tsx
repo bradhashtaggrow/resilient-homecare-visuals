@@ -54,7 +54,7 @@ const FounderSection = () => {
   return (
     <section 
       id="founder-section" 
-      className="py-32 bg-white relative"
+      className="py-32 bg-white relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Title Section */}
@@ -71,55 +71,69 @@ const FounderSection = () => {
           </p>
         </div>
 
-        {/* Portrait Container - Positioned like AdminDashboard */}
+        {/* Dashboard with Portrait - Similar to AdminDashboard structure */}
         <div className="mb-16 relative">
           <div className={`transition-all duration-1500 ${
             isVisible ? 'animate-slide-in-left' : 'opacity-0'
           }`}>
-            <div className="relative max-w-md mx-auto">
-              {/* Main Portrait Container */}
-              <div 
-                className="relative"
-                style={{ transform: `translateY(${-parallaxOffset}px)` }}
-              >
-                <div className="w-96 h-96 mx-auto rounded-full bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 p-3 shadow-2xl">
-                  <div className="w-full h-full rounded-full overflow-hidden">
-                    <img 
-                      src="/lovable-uploads/7933b18c-e44f-4883-91d2-a7bdad23ebc8.png"
-                      alt="Dr. Jackleen Samuel"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-                
-                {/* Floating Elements */}
-                <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl">
-                  <span className="text-white text-2xl">⚕️</span>
-                </div>
-                <div className="absolute -bottom-8 -left-8 w-14 h-14 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
-                  <span className="text-white text-xl">💙</span>
-                </div>
-                <div className="absolute top-1/3 -left-12 w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-800 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
-                  <BookOpen className="h-6 w-6 text-white" />
-                </div>
-              </div>
-
-              {/* Achievement Badges */}
-              <div className="grid grid-cols-3 gap-4 mt-12">
+            {/* Dashboard Background Elements */}
+            <div className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 rounded-3xl p-8 shadow-2xl">
+              {/* Achievement Badges - positioned around the dashboard */}
+              <div className="grid grid-cols-3 gap-6 mb-8">
                 {achievements.map((achievement, index) => (
                   <div 
                     key={index}
-                    className={`bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg text-center transition-all duration-1000 delay-${index * 200} hover-lift ${
+                    className={`bg-white/10 backdrop-blur-sm rounded-2xl p-4 text-center transition-all duration-1000 delay-${index * 200} hover-lift ${
                       isVisible ? 'animate-slide-up' : 'opacity-0'
                     }`}
                   >
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-xl mb-3 text-blue-600">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100/20 rounded-xl mb-3 text-blue-200">
                       {achievement.icon}
                     </div>
-                    <div className="text-lg font-bold text-gray-900">{achievement.title}</div>
-                    <div className="text-sm text-gray-600">{achievement.subtitle}</div>
+                    <div className="text-lg font-bold text-white">{achievement.title}</div>
+                    <div className="text-sm text-blue-200">{achievement.subtitle}</div>
                   </div>
                 ))}
+              </div>
+
+              {/* Central Portrait - positioned in the center like AdminDashboard */}
+              <div 
+                className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+                style={{ transform: `translateY(${-parallaxOffset}px)` }}
+              >
+                <div className="relative">
+                  {/* Main Portrait Container */}
+                  <div className="w-80 h-80 rounded-full bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 p-3 shadow-2xl">
+                    <div className="w-full h-full rounded-full overflow-hidden">
+                      <img 
+                        src="/lovable-uploads/7933b18c-e44f-4883-91d2-a7bdad23ebc8.png"
+                        alt="Dr. Jackleen Samuel"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Floating Elements */}
+                  <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl">
+                    <span className="text-white text-2xl">⚕️</span>
+                  </div>
+                  <div className="absolute -bottom-8 -left-8 w-14 h-14 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
+                    <span className="text-white text-xl">💙</span>
+                  </div>
+                  <div className="absolute top-1/3 -left-12 w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-800 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
+                    <BookOpen className="h-6 w-6 text-white" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Dashboard Elements - background elements */}
+              <div className="grid grid-cols-2 gap-6 mt-16 opacity-30">
+                <div className="bg-white/10 rounded-xl p-4">
+                  <div className="h-20 bg-gradient-to-r from-blue-400/20 to-blue-600/20 rounded"></div>
+                </div>
+                <div className="bg-white/10 rounded-xl p-4">
+                  <div className="h-20 bg-gradient-to-r from-purple-400/20 to-purple-600/20 rounded"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -176,7 +190,7 @@ const FounderSection = () => {
             {/* Professional Credentials */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-100">
               <div className="flex items-start space-x-6">
-                <div className="w-16 h-16 healthcare-gradient rounded-2xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
                   JS
                 </div>
                 <div>
