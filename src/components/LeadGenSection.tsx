@@ -25,27 +25,6 @@ const LeadGenSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  const testimonials = [
-    {
-      quote: "Resilient Healthcare has completely transformed our patient care delivery. Readmission rates dropped 28% in just 6 months.",
-      author: "Dr. Sarah Chen",
-      role: "Chief Medical Officer",
-      organization: "Metro Regional Health System"
-    },
-    {
-      quote: "The platform's AI-driven insights have revolutionized how we coordinate care. Our clinicians are more efficient and less burned out.",
-      author: "Michael Rodriguez",
-      role: "VP of Operations",
-      organization: "Coastal Healthcare Network"
-    },
-    {
-      quote: "Implementation was seamless, and the ROI exceeded our projections by 180%. This is truly the future of healthcare.",
-      author: "Jennifer Martinez",
-      role: "Chief Innovation Officer",
-      organization: "Sunrise Medical Group"
-    }
-  ];
-
   return (
     <section 
       id="lead-gen-section" 
@@ -69,35 +48,6 @@ const LeadGenSection = () => {
             Join visionary healthcare organizations that are revolutionizing patient care 
             and operational excellence with our comprehensive platform.
           </p>
-        </div>
-
-        <div className="grid lg:grid-cols-1 gap-16 items-start">
-          {/* Revolutionary Testimonials */}
-          <div className={`space-y-8 transition-all duration-1000 delay-300 ${
-            isVisible ? 'animate-slide-in-right' : 'opacity-0'
-          }`}>
-            <div className="space-y-6">
-              <h3 className="text-gray-900 leading-none tracking-tight font-black"
-                  style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
-                Trusted by Healthcare Leaders
-              </h3>
-              <div className="bg-white/85 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
-                <div className="flex items-start space-x-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-blue-400 fill-current" />
-                  ))}
-                </div>
-                <blockquote className="text-gray-700 mb-6 leading-relaxed">
-                  "Resilient Healthcare has completely transformed our patient care delivery. Readmission rates dropped 28% in just 6 months."
-                </blockquote>
-                <div className="border-t border-gray-200 pt-4">
-                  <div className="font-semibold text-gray-900">Dr. Sarah Chen</div>
-                  <div className="text-blue-600 font-medium">Chief Medical Officer</div>
-                  <div className="text-gray-500 text-sm">Metro Regional Health System</div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Bottom Trust Section */}
