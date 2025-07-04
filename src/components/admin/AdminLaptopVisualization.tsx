@@ -62,71 +62,68 @@ const AdminLaptopVisualization = ({
               borderRadius: '24px'
             }}
           >
-            {/* Screen Bezel */}
-            <div className="absolute inset-4 bg-black rounded-2xl overflow-hidden">
-              {/* Screen Content with Video Background */}
-              <div className="w-full h-full relative overflow-hidden rounded-2xl">
-                {/* Video Background - Full Coverage */}
-                <div className="absolute inset-0 z-0">
-                  <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    className="absolute inset-0 w-full h-full object-cover"
-                    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111827' width='1920' height='1080'/%3E%3C/svg%3E"
-                  >
-                    <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
-                  </video>
-                  {/* Video overlay for UI visibility */}
-                  <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
-                </div>
+            {/* Screen Content with Video Background - NO BEZEL */}
+            <div className="w-full h-full relative overflow-hidden rounded-2xl">
+              {/* Video Background - Full Coverage touching all edges */}
+              <div className="absolute inset-0 z-0">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="absolute inset-0 w-full h-full object-cover rounded-2xl"
+                  poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111827' width='1920' height='1080'/%3E%3C/svg%3E"
+                >
+                  <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+                </video>
+                {/* Video overlay for UI visibility */}
+                <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] rounded-2xl" />
+              </div>
 
-                {/* Admin Login Interface - Over Video - Made Smaller */}
-                <div className="relative z-10 w-full h-full flex items-center justify-center">
-                  <div className="max-w-xs w-full mx-6">
-                    {/* Header - Smaller */}
-                    <div className="text-center mb-6">
-                      {/* Logo */}
-                      <div className="w-12 h-12 healthcare-gradient rounded-2xl mx-auto mb-3 flex items-center justify-center shadow-lg">
-                        <Shield className="h-6 w-6 text-white" />
-                      </div>
-                      <h3 className="text-white text-xl font-bold mb-2">Admin Portal</h3>
-                      <p className="text-gray-300 text-sm">Secure Healthcare Management</p>
+              {/* Admin Login Interface - Over Video - Made Smaller */}
+              <div className="relative z-10 w-full h-full flex items-center justify-center">
+                <div className="max-w-xs w-full mx-6">
+                  {/* Header - Smaller */}
+                  <div className="text-center mb-6">
+                    {/* Logo */}
+                    <div className="w-12 h-12 healthcare-gradient rounded-2xl mx-auto mb-3 flex items-center justify-center shadow-lg">
+                      <Shield className="h-6 w-6 text-white" />
                     </div>
+                    <h3 className="text-white text-xl font-bold mb-2">Admin Portal</h3>
+                    <p className="text-gray-300 text-sm">Secure Healthcare Management</p>
+                  </div>
 
-                    {/* Login Form - Smaller */}
-                    <div className="space-y-4">
-                      <div>
-                        <input 
-                          type="text" 
-                          placeholder="Email Address"
-                          className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-sm"
-                          defaultValue="admin@healthcare.com"
-                        />
-                      </div>
-                      <div>
-                        <input 
-                          type="password" 
-                          placeholder="Password"
-                          className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-sm"
-                          defaultValue="••••••••"
-                        />
-                      </div>
-                      
-                      {/* Login Button - Smaller */}
-                      <button className="w-full p-3 healthcare-gradient rounded-lg text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg text-sm">
-                        Secure Login
-                      </button>
+                  {/* Login Form - Smaller */}
+                  <div className="space-y-4">
+                    <div>
+                      <input 
+                        type="text" 
+                        placeholder="Email Address"
+                        className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-sm"
+                        defaultValue="admin@healthcare.com"
+                      />
+                    </div>
+                    <div>
+                      <input 
+                        type="password" 
+                        placeholder="Password"
+                        className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-gray-300 focus:border-blue-400 transition-colors shadow-lg text-sm"
+                        defaultValue="••••••••"
+                      />
+                    </div>
+                    
+                    {/* Login Button - Smaller */}
+                    <button className="w-full p-3 healthcare-gradient rounded-lg text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg text-sm">
+                      Secure Login
+                    </button>
 
-                      {/* Biometric - Smaller */}
-                      <div className="text-center py-4">
-                        <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
-                          <div className="w-8 h-8 border-2 border-blue-400 rounded-full animate-pulse"></div>
-                        </div>
-                        <p className="text-gray-300 text-xs mt-2">Touch ID / Face ID</p>
+                    {/* Biometric - Smaller */}
+                    <div className="text-center py-4">
+                      <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
+                        <div className="w-8 h-8 border-2 border-blue-400 rounded-full animate-pulse"></div>
                       </div>
+                      <p className="text-gray-300 text-xs mt-2">Touch ID / Face ID</p>
                     </div>
                   </div>
                 </div>
@@ -137,29 +134,29 @@ const AdminLaptopVisualization = ({
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent rounded-3xl pointer-events-none" />
           </div>
           
-          {/* Floating Icons - Naturally distributed around laptop */}
-          {/* Top Brain icon */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-160px', animationDelay: '4s' }}>
+          {/* Floating Icons - Naturally distributed around laptop in a circle */}
+          {/* Top center - Brain icon */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-300px', animationDelay: '0s' }}>
             <Brain className="h-8 w-8 text-white" />
           </div>
           
-          {/* Top right corner */}
-          <div className="absolute w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-120px', right: '-80px' }}>
+          {/* Top right */}
+          <div className="absolute w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-220px', right: '-150px', animationDelay: '1s' }}>
             <BarChart className="h-7 w-7 text-white" />
           </div>
           
-          {/* Top left corner */}
-          <div className="absolute w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-120px', left: '-80px', animationDelay: '2s' }}>
+          {/* Top left */}
+          <div className="absolute w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-220px', left: '-150px', animationDelay: '2s' }}>
             <Monitor className="h-7 w-7 text-white" />
           </div>
           
-          {/* Right side middle */}
-          <div className="absolute w-12 h-12 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-60px', right: '-90px', animationDelay: '1s' }}>
+          {/* Right side */}
+          <div className="absolute w-12 h-12 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-100px', right: '-200px', animationDelay: '3s' }}>
             <Shield className="h-6 w-6 text-white" />
           </div>
           
-          {/* Left side middle */}
-          <div className="absolute w-12 h-12 healthcare-gradient-secondary rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-60px', left: '-90px', animationDelay: '3s' }}>
+          {/* Left side */}
+          <div className="absolute w-12 h-12 healthcare-gradient-secondary rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-100px', left: '-200px', animationDelay: '4s' }}>
             <Lock className="h-6 w-6 text-white" />
           </div>
         </div>
