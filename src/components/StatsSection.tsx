@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, Heart, Users, DollarSign, Award, Target } from 'lucide-react';
 
@@ -145,10 +144,6 @@ const StatsSection = () => {
         <div className={`text-center mb-20 transition-all duration-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
-          <div className="inline-flex items-center space-x-2 bg-white/10 text-white px-6 py-3 rounded-full text-sm font-medium mb-8 backdrop-blur-sm">
-            <Award className="h-4 w-4" />
-            <span>What does the Research Say?</span>
-          </div>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Powering Hospital Level 
