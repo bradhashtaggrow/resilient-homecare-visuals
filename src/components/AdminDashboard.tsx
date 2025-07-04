@@ -52,7 +52,7 @@ const AdminDashboard = () => {
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Admin Dashboard That 
-            <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
+            <span className="block healthcare-text-gradient hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
               Powers Operations
             </span>
           </h2>
@@ -80,7 +80,7 @@ const AdminDashboard = () => {
           <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-4 sm:mb-6 hover:scale-105 transition-transform duration-500"
               style={{ fontSize: 'clamp(1.25rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
             Ready to Transform 
-            <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
+            <span className="block healthcare-text-gradient hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
               Your Healthcare Operations?
             </span>
           </h3>
@@ -93,9 +93,9 @@ const AdminDashboard = () => {
             size="lg"
             className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto"
             style={{
-              background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
+              background: 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)',
               boxShadow: `
-                0 12px 32px rgba(0, 128, 255, 0.4),
+                0 12px 32px hsl(210 100% 50% / 0.4),
                 0 4px 16px rgba(0, 0, 0, 0.3),
                 inset 0 2px 0 rgba(255, 255, 255, 0.2),
                 inset 0 -2px 8px rgba(0, 0, 0, 0.1)
@@ -104,21 +104,21 @@ const AdminDashboard = () => {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.boxShadow = `
-                0 20px 48px rgba(0, 128, 255, 0.6),
+                0 20px 48px hsl(210 100% 50% / 0.6),
                 0 8px 24px rgba(0, 0, 0, 0.4),
                 inset 0 2px 0 rgba(255, 255, 255, 0.3),
                 inset 0 -2px 12px rgba(0, 0, 0, 0.2)
               `;
-              e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
+              e.currentTarget.style.background = 'linear-gradient(145deg, hsl(210 100% 60%) 0%, hsl(210 100% 50%) 30%, hsl(210 100% 37%) 100%)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.boxShadow = `
-                0 12px 32px rgba(0, 128, 255, 0.4),
+                0 12px 32px hsl(210 100% 50% / 0.4),
                 0 4px 16px rgba(0, 0, 0, 0.3),
                 inset 0 2px 0 rgba(255, 255, 255, 0.2),
                 inset 0 -2px 8px rgba(0, 0, 0, 0.1)
               `;
-              e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
+              e.currentTarget.style.background = 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)';
             }}
           >
             <span className="relative z-10 flex items-center justify-center">

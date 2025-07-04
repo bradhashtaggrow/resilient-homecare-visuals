@@ -216,7 +216,7 @@ const MobileShowcase = () => {
                     </div>
                   </div>
 
-                  {/* Floating Security Badges - Blue Theme Only */}
+                  {/* Floating Security Badges - Healthcare Blue Theme Only */}
                   <div className="absolute -top-6 -right-6 w-14 h-14 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl">
                     <Shield className="h-7 w-7 text-white" />
                   </div>
