@@ -147,7 +147,7 @@ const StatsSection = () => {
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            What Does The Research Saw
+            What Does The Research Say?
           </h2>
         </div>
 
