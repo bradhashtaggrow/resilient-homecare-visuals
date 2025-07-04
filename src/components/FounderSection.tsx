@@ -4,7 +4,6 @@ import { Quote, Award, Users, BookOpen } from 'lucide-react';
 
 const FounderSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [parallaxOffset, setParallaxOffset] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -21,15 +20,8 @@ const FounderSection = () => {
     const element = document.getElementById('founder-section');
     if (element) observer.observe(element);
 
-    const handleScroll = () => {
-      const scrolled = window.pageYOffset;
-      setParallaxOffset(scrolled * 0.2);
-    };
-
-    window.addEventListener('scroll', handleScroll);
     return () => {
       observer.disconnect();
-      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -71,7 +63,7 @@ const FounderSection = () => {
           </p>
         </div>
 
-        {/* Dashboard with Portrait */}
+        {/* Dashboard */}
         <div className="mb-16 relative">
           <div className={`transition-all duration-1500 ${
             isVisible ? 'animate-slide-in-left' : 'opacity-0'
@@ -104,36 +96,6 @@ const FounderSection = () => {
                 </div>
                 <div className="bg-white/10 rounded-xl p-4">
                   <div className="h-20 bg-gradient-to-r from-purple-400/20 to-purple-600/20 rounded"></div>
-                </div>
-              </div>
-
-              {/* Portrait Image - Centered Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center z-20">
-                <div 
-                  className="relative"
-                  style={{ transform: `translateY(${-parallaxOffset}px)` }}
-                >
-                  {/* Main Portrait Container */}
-                  <div className="w-80 h-80 rounded-full bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 p-3 shadow-2xl">
-                    <div className="w-full h-full rounded-full overflow-hidden">
-                      <img 
-                        src="/lovable-uploads/7933b18c-e44f-4883-91d2-a7bdad23ebc8.png"
-                        alt="Dr. Jackleen Samuel"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </div>
-                  
-                  {/* Floating Elements */}
-                  <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-bounce shadow-xl">
-                    <span className="text-white text-2xl">⚕️</span>
-                  </div>
-                  <div className="absolute -bottom-8 -left-8 w-14 h-14 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center animate-bounce shadow-xl" style={{animationDelay: '2s'}}>
-                    <span className="text-white text-xl">💙</span>
-                  </div>
-                  <div className="absolute top-1/3 -left-12 w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-800 rounded-full flex items-center justify-center animate-bounce shadow-xl" style={{animationDelay: '4s'}}>
-                    <BookOpen className="h-6 w-6 text-white" />
-                  </div>
                 </div>
               </div>
             </div>
