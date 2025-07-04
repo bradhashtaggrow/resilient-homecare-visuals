@@ -40,11 +40,12 @@ const AdminDashboard = () => {
   }, [laptopOpen]);
 
   return (
-    <section id="admin-dashboard" className="py-32 pt-32 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden">
+    <section id="admin-dashboard" className="py-32 bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden">
       <AdminAnimatedBackground />
 
+      {/* Title and Subtitle Container - Fixed Position */}
       <div className="max-w-7xl mx-auto px-6 relative">
-        <div className={`text-center mb-12 transition-all duration-1000 ${
+        <div className={`text-center mb-16 transition-all duration-1000 ${
           isVisible ? 'animate-slide-up' : 'opacity-0'
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
@@ -58,14 +59,20 @@ const AdminDashboard = () => {
             administrators unprecedented visibility and control.
           </p>
         </div>
+      </div>
 
+      {/* Laptop Container - Separate Positioning */}
+      <div className="pt-16">
         <AdminLaptopVisualization 
           isVisible={isVisible}
           laptopOpen={laptopOpen}
           activeDemo={activeDemo}
           demoScreens={demoScreens}
         />
+      </div>
 
+      {/* Features Grid Container */}
+      <div className="max-w-7xl mx-auto px-6 relative pt-24">
         <AdminFeaturesGrid isVisible={isVisible} />
       </div>
     </section>
