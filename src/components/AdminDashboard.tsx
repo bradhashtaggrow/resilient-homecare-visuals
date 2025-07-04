@@ -60,8 +60,8 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Laptop Container - Positioned with proper spacing */}
-      <div className="mt-24">
+      {/* Laptop Container - Moved down significantly to avoid overlap */}
+      <div className="mt-48">
         <AdminLaptopVisualization 
           isVisible={isVisible}
           laptopOpen={laptopOpen}
