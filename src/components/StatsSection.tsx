@@ -4,6 +4,7 @@ import { TrendingUp, Heart, Users, DollarSign, Award, Target } from 'lucide-reac
 
 const StatsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [starsReady, setStarsReady] = useState(false);
   const [counts, setCounts] = useState({
     costSavings: 0,
     readmissionReduction: 0,
@@ -26,7 +27,15 @@ const StatsSection = () => {
     const element = document.getElementById('stats-section');
     if (element) observer.observe(element);
 
-    return () => observer.disconnect();
+    // Initialize stars after a brief delay to prevent glitching
+    const starTimer = setTimeout(() => {
+      setStarsReady(true);
+    }, 100);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(starTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -73,6 +82,28 @@ const StatsSection = () => {
       return () => clearInterval(timer);
     }
   }, [isVisible]);
+
+  // Generate stable star positions
+  const generateStars = () => {
+    const stars = [];
+    for (let i = 0; i < 80; i++) {
+      const x = (i * 13 + 7) % 100; // More evenly distributed
+      const y = (i * 17 + 11) % 100; // Using prime numbers for better distribution
+      const delay = (i * 0.1) % 4; // Staggered animation delays
+      const duration = 2 + (i % 3); // Varied durations between 2-4s
+      
+      stars.push({
+        id: i,
+        x,
+        y,
+        delay,
+        duration
+      });
+    }
+    return stars;
+  };
+
+  const stars = generateStars();
 
   const stats = [
     {
@@ -127,15 +158,17 @@ const StatsSection = () => {
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
-        {[...Array(100)].map((_, i) => (
+        {starsReady && stars.map((star) => (
           <div
-            key={i}
-            className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
+            key={star.id}
+            className="absolute w-1 h-1 bg-white/20 rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`
+              left: `${star.x}%`,
+              top: `${star.y}%`,
+              animation: `twinkle ${star.duration}s ease-in-out infinite`,
+              animationDelay: `${star.delay}s`,
+              opacity: 0,
+              animationFillMode: 'forwards'
             }}
           />
         ))}
