@@ -17,7 +17,7 @@ const AdminLaptopVisualization = ({
   demoScreens 
 }: AdminLaptopVisualizationProps) => {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center bg-gray-900">
       <div className={`relative transition-all duration-1500 ${
         isVisible ? 'animate-scale-in' : 'opacity-0'
       }`} style={{ marginTop: '3.5in' }}>
@@ -65,8 +65,8 @@ const AdminLaptopVisualization = ({
             {/* Screen Bezel */}
             <div className="absolute inset-4 bg-black rounded-2xl overflow-hidden">
               {/* Screen Content with Video Background */}
-              <div className="w-full h-full relative overflow-hidden">
-                {/* Video Background */}
+              <div className="w-full h-full relative overflow-hidden rounded-2xl">
+                {/* Video Background - Full Coverage */}
                 <div className="absolute inset-0 z-0">
                   <video
                     autoPlay
@@ -74,13 +74,13 @@ const AdminLaptopVisualization = ({
                     loop
                     playsInline
                     preload="metadata"
-                    className="absolute inset-0 w-full h-full object-cover rounded-2xl"
-                    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23003D6B' width='1920' height='1080'/%3E%3C/svg%3E"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111827' width='1920' height='1080'/%3E%3C/svg%3E"
                   >
                     <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                   </video>
                   {/* Video overlay for UI visibility */}
-                  <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] rounded-2xl" />
+                  <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
                 </div>
 
                 {/* Admin Login Interface - Over Video - Made Smaller */}
