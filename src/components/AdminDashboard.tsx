@@ -51,9 +51,9 @@ const AdminDashboard = () => {
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            Admin Dashboard That 
+            Take Full Control Of Your Business. 
             <span className="block healthcare-text-gradient hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
-              Powers Operations
+              Anywhere. Any place.
             </span>
           </h2>
           <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide hover:text-white transition-colors duration-500"
