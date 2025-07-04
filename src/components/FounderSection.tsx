@@ -141,39 +141,6 @@ const FounderSection = () => {
                 </p>
               </div>
             </div>
-            
-            {/* Professional Credentials */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-100">
-              <div className="flex items-start space-x-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
-                  JS
-                </div>
-                <div>
-                  <div className="text-gray-900 leading-none tracking-tight font-black mb-2"
-                       style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.85 }}>
-                    Dr. Jackleen Samuel, PT, DPT
-                  </div>
-                  <div className="text-blue-600/90 font-medium tracking-wide mb-3"
-                       style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
-                    Founder & CEO, Resilient Healthcare
-                  </div>
-                  <div className="space-y-2 text-gray-600">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <span>Doctor of Physical Therapy (DPT)</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                      <span>Healthcare delivery innovation expert</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-700 rounded-full"></div>
-                      <span>Hospital partnership strategist</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
