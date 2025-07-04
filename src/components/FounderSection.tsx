@@ -49,16 +49,16 @@ const FounderSection = () => {
       className="py-16 sm:py-24 md:py-32 lg:py-40 bg-white relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Enhanced Title Section with Mobile Typography */}
+        {/* Enhanced Title Section with Apple-Style Typography */}
         <div className={`text-center mb-12 sm:mb-20 transition-all duration-1000 transform ${
           isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
-          <h2 className="text-gray-900 leading-none tracking-tight font-black mb-3 sm:mb-4 hover:scale-105 transition-transform duration-700"
-              style={{ fontSize: 'clamp(1.5rem, 5vw, 5rem)', fontWeight: 900, lineHeight: 0.85 }}>
+          <h2 className="text-gray-900 leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
+              style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Founder's Story
           </h2>
-          <p className="text-blue-600/90 font-medium tracking-wide hover:text-blue-700 transition-colors duration-500"
-             style={{ fontSize: 'clamp(0.875rem, 2vw, 1.3rem)', lineHeight: 1.3 }}>
+          <p className="text-blue-600/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide hover:text-blue-700 transition-colors duration-500"
+             style={{ fontSize: 'clamp(0.875rem, 2.5vw, 2rem)', lineHeight: 1.3 }}>
             from Dr. Jackleen Samuel, PT, DPT | Founder & CEO
           </p>
         </div>
