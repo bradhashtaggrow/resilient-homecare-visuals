@@ -178,8 +178,13 @@
     animation: slideInRight 1s ease-out;
   }
 
+  /* Alternating Swoop Animations */
   .animate-swoop-in {
     animation: swoopIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .animate-swoop-in-reverse {
+    animation: swoopInReverse 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .animate-scale-in {
@@ -524,6 +529,21 @@
   60% {
     opacity: 0.8;
     transform: translateX(10px) translateY(-5px) rotate(1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes swoopInReverse {
+  0% {
+    opacity: 0;
+    transform: translateX(100px) translateY(30px) rotate(5deg);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateX(-10px) translateY(-5px) rotate(-1deg);
   }
   100% {
     opacity: 1;
