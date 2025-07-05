@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo, useCallback } from 'react';
-import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
+import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle, LucideIcon } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
@@ -58,8 +58,13 @@ const ServiceLinesSection = () => {
     }
   ], []);
 
-  // 3D Animated Icon Component with Correct Blue Gradient
-  const AnimatedIcon3D = React.memo(({ icon: Icon, delay = 0 }) => {
+  // 3D Animated Icon Component with proper TypeScript interface
+  interface AnimatedIcon3DProps {
+    icon: LucideIcon;
+    delay?: number;
+  }
+
+  const AnimatedIcon3D = React.memo<AnimatedIcon3DProps>(({ icon: Icon, delay = 0 }) => {
     return (
       <div className="w-10 h-10 flex-shrink-0 mt-0.5 perspective-1000">
         <div 
