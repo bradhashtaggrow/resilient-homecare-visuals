@@ -1,60 +1,20 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 const ServiceLinesSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const { elementRef, isVisible } = useIntersectionObserver({
+    threshold: 0.1,
+    rootMargin: '100px',
+    triggerOnce: true
+  });
+  
   const [activeService, setActiveService] = useState(0);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    const element = document.getElementById('service-lines-section');
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
-
-  // 3D Animated Icon Component with Correct Blue Gradient
-  const AnimatedIcon3D = ({ icon: Icon, delay = 0 }) => {
-    return (
-      <div className="w-10 h-10 flex-shrink-0 mt-0.5 perspective-1000">
-        <div 
-          className={`
-            w-full h-full rounded-xl 
-            bg-gradient-to-r from-[#0080ff] to-[#0066cc]
-            flex items-center justify-center cursor-pointer
-            transform-3d transition-all duration-500 ease-out
-            shadow-lg shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/50
-            hover:scale-110 hover:-translate-y-2 hover:rotate-y-12 hover:rotate-x-6
-            before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r 
-            before:from-white/20 before:to-transparent before:opacity-0 
-            hover:before:opacity-100 before:transition-opacity before:duration-300
-            relative overflow-hidden
-          `}
-          style={{ 
-            animationDelay: `${delay}ms`,
-            transformStyle: 'preserve-3d'
-          }}
-        >
-          <Icon className="h-5 w-5 text-white drop-shadow-lg relative z-10" />
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
-        </div>
-      </div>
-    );
-  };
-
-  const services = [
+  // Memoize services to prevent recreation on every render
+  const services = useMemo(() => [
     {
       icon: <Activity className="h-12 w-12" />,
       title: "Outpatient PT Anywhere",
@@ -96,31 +56,60 @@ const ServiceLinesSection = () => {
       color: "cyan",
       patientImage: "https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     }
-  ];
+  ], []);
 
-  const getColorClasses = (color: string, isActive: boolean) => {
+  // 3D Animated Icon Component with Correct Blue Gradient
+  const AnimatedIcon3D = React.memo(({ icon: Icon, delay = 0 }) => {
+    return (
+      <div className="w-10 h-10 flex-shrink-0 mt-0.5 perspective-1000">
+        <div 
+          className={`
+            w-full h-full rounded-xl 
+            bg-gradient-to-r from-[#0080ff] to-[#0066cc]
+            flex items-center justify-center cursor-pointer
+            transform-3d transition-all duration-500 ease-out
+            shadow-lg shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/50
+            hover:scale-110 hover:-translate-y-2 hover:rotate-y-12 hover:rotate-x-6
+            before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r 
+            before:from-white/20 before:to-transparent before:opacity-0 
+            hover:before:opacity-100 before:transition-opacity before:duration-300
+            relative overflow-hidden will-change-transform
+          `}
+          style={{ 
+            animationDelay: `${delay}ms`,
+            transformStyle: 'preserve-3d'
+          }}
+        >
+          <Icon className="h-5 w-5 text-white drop-shadow-lg relative z-10" />
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+        </div>
+      </div>
+    );
+  });
+
+  const getColorClasses = useCallback((color: string, isActive: boolean) => {
     const colors = {
       blue: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
       red: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
       cyan: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
     };
     return colors[color as keyof typeof colors];
-  };
+  }, []);
 
   return (
     <section 
-      id="service-lines-section" 
-      className="py-32 bg-white relative overflow-hidden paper-texture-subtle"
+      ref={elementRef}
+      className="py-32 bg-white relative overflow-hidden paper-texture-subtle will-change-transform"
     >
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Header */}
-        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
+        <div className={`text-center mb-20 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Fully Streamlined,
             <span className="block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent"> Uncompromisingly Simple</span>
           </h2>
-          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
+          <p className="text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
             Three core service lines designed to extend your hospital's reach and improve patient outcomes.
           </p>
@@ -131,10 +120,10 @@ const ServiceLinesSection = () => {
           {services.map((service, index) => (
             <div 
               key={index}
-              className={`transition-all duration-1000 ${
-                isVisible ? 'animate-slide-up' : 'opacity-0'
+              className={`transition-all duration-1000 ease-out ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
-              style={{animationDelay: `${index * 300}ms`}}
+              style={{transitionDelay: `${index * 200}ms`}}
               onMouseEnter={() => setActiveService(index)}
             >
               <div className={`grid lg:grid-cols-2 gap-12 items-center ${
@@ -142,7 +131,7 @@ const ServiceLinesSection = () => {
               }`}>
                 {/* Content */}
                 <div className={`space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                  <div className="space-y-6 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-100/50 relative">
+                  <div className="space-y-6 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-100/50 relative will-change-transform">
                     {/* Service Icon */}
                     <div className="absolute -top-6 -right-6 w-24 h-24">
                       <div className={`w-full h-full rounded-2xl transition-all duration-300 ${
@@ -204,7 +193,7 @@ const ServiceLinesSection = () => {
                         before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300
                         after:absolute after:inset-0 after:rounded-xl after:shadow-inner
                         after:bg-gradient-to-t after:from-white/10 after:to-transparent
-                        group overflow-hidden
+                        group overflow-hidden will-change-transform
                       ">
                         <span className="relative z-10 flex items-center gap-2">
                           Learn More
@@ -224,6 +213,8 @@ const ServiceLinesSection = () => {
                         src={service.patientImage}
                         alt={`Patient receiving ${service.title} care`}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent" />
                       {/* Hover Overlay with Correct Blue Gradient */}
@@ -240,4 +231,4 @@ const ServiceLinesSection = () => {
   );
 };
 
-export default ServiceLinesSection;
+export default React.memo(ServiceLinesSection);

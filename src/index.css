@@ -1,642 +1,190 @@
 
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Revolutionary Healthcare Design System - Resilient Healthcare */
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 210 100% 27%; /* Brand Blue 1 */
-
-    --card: 0 0% 100%;
-    --card-foreground: 210 100% 27%; /* Brand Blue 1 */
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 210 100% 27%; /* Brand Blue 1 */
-
-    --primary: 210 100% 27%; /* Brand Blue 1 - #003D6B */
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 100% 37%; /* Brand Blue 2 - #00609C */
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 210 100% 37%; /* Brand Blue 2 */
-
-    --accent: 210 100% 50%; /* Brand Blue 3 - #0080FF */
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 210 100% 37%; /* Use Blue 2 instead of red */
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 210 100% 50% / 0.2; /* Brand Blue 3 with opacity */
-    --input: 210 100% 50% / 0.2; /* Brand Blue 3 with opacity */
-    --ring: 210 100% 27%;
-
-    --radius: 0.5rem;
-
-    /* Revolutionary Healthcare Colors - Brand Blues Only */
-    --healthcare-blue-1: 210 100% 27%; /* #003D6B - Darkest Blue */
-    --healthcare-blue-2: 210 100% 37%; /* #00609C - Medium Blue */
-    --healthcare-blue-3: 210 100% 50%; /* #0080FF - Brightest Blue */
-  }
-
-  .dark {
-    --background: 210 100% 27%; /* Brand Blue 1 */
-    --foreground: 210 40% 98%;
-
-    --card: 210 100% 27%; /* Brand Blue 1 */
-    --card-foreground: 210 40% 98%;
-
-    --popover: 210 100% 27%; /* Brand Blue 1 */
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 100% 50%; /* Brand Blue 3 */
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 100% 37%; /* Brand Blue 2 */
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 210 100% 37%; /* Brand Blue 2 */
-    --muted-foreground: 210 100% 50%; /* Brand Blue 3 */
-
-    --accent: 210 100% 50%; /* Brand Blue 3 */
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 210 100% 37%; /* Brand Blue 2 */
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 210 100% 37%; /* Brand Blue 2 */
-    --input: 210 100% 37%; /* Brand Blue 2 */
-    --ring: 210 100% 50%; /* Brand Blue 3 */
-  }
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    scroll-behavior: smooth;
-    /* Add crinkled paper texture to body */
-    background-image: 
-      radial-gradient(circle at 20% 50%, hsl(210 100% 50% / 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, hsl(210 100% 27% / 0.02) 0%, transparent 50%),
-      linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 25%, hsl(210 100% 27% / 0.01) 50%, transparent 75%);
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Revolutionary Healthcare Animations & Effects */
-@layer utilities {
-  /* Crinkled Paper Texture Effects */
-  .paper-texture {
-    background-image: 
-      radial-gradient(circle at 20% 50%, hsl(210 100% 50% / 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, hsl(210 100% 27% / 0.03) 0%, transparent 50%),
-      linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 25%, hsl(210 100% 27% / 0.02) 50%, transparent 75%);
-    background-size: 200px 200px, 150px 150px, 180px 180px, 100px 100px;
-    background-position: 0 0, 50px 50px, 100px 0, 0 25px;
-  }
+body {
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  margin: 0;
+  padding: 0;
+  transform: translateZ(0); /* Enable hardware acceleration */
+}
 
-  .paper-texture-subtle {
-    background-image: 
-      radial-gradient(circle at 25% 25%, hsl(210 100% 27% / 0.015) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 50% 10%, hsl(210 100% 27% / 0.01) 0%, transparent 40%),
-      linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0%, transparent 30%, hsl(210 100% 27% / 0.008) 70%, transparent 100%);
-    background-size: 120px 120px, 80px 80px, 160px 160px, 60px 60px;
-    background-position: 0 0, 40px 40px, 80px 0, 0 20px;
-  }
+/* Optimize images and videos */
+img, video {
+  max-width: 100%;
+  height: auto;
+  will-change: transform;
+}
 
-  .paper-texture-card {
-    background: rgba(255, 255, 255, 0.98);
-    background-image: 
-      radial-gradient(circle at 30% 40%, hsl(210 100% 27% / 0.02) 0%, transparent 50%),
-      radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-      linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 40%, hsl(210 100% 27% / 0.01) 60%, transparent 100%);
-    background-size: 100px 100px, 120px 120px, 80px 80px;
-    background-position: 0 0, 30px 30px, 60px 0;
-  }
+/* Smooth scrolling container optimization */
+#root {
+  isolation: isolate;
+  contain: layout style paint;
+}
 
-  /* New radial gradient utility for natural texture blending */
-  .bg-gradient-radial {
-    background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
-  }
+/* Hardware acceleration for animations */
+.will-change-transform {
+  will-change: transform;
+}
 
-  .healthcare-gradient {
-    background: linear-gradient(135deg, hsl(210 100% 27%) 0%, hsl(210 100% 37%) 50%, hsl(210 100% 50%) 100%);
-  }
-  
-  .healthcare-gradient-primary {
-    background: linear-gradient(135deg, hsl(210 100% 27%) 0%, hsl(210 100% 37%) 100%);
-  }
-  
-  .healthcare-gradient-secondary {
-    background: linear-gradient(135deg, hsl(210 100% 37%) 0%, hsl(210 100% 50%) 100%);
-  }
-  
-  .healthcare-text-gradient {
-    background: linear-gradient(135deg, hsl(210 100% 27%) 0%, hsl(210 100% 50%) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+/* Optimize transforms */
+.transform-3d {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
 
-  /* Apple-Style Animations */
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
+/* Reduce layout shifts */
+.paper-texture {
+  background-image: 
+    radial-gradient(circle at 25px 25px, rgba(255,255,255,0.2) 2%, transparent 0%), 
+    radial-gradient(circle at 75px 75px, rgba(255,255,255,0.1) 2%, transparent 0%);
+  background-size: 100px 100px;
+  position: relative;
+}
 
-  .animate-pulse-slow {
-    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+.paper-texture-subtle {
+  background-image: 
+    radial-gradient(circle at 25px 25px, rgba(0,0,0,0.02) 2%, transparent 0%), 
+    radial-gradient(circle at 75px 75px, rgba(0,0,0,0.01) 2%, transparent 0%);
+  background-size: 100px 100px;
+  position: relative;
+}
+
+/* Healthcare gradients - optimized */
+.healthcare-gradient {
+  background: linear-gradient(135deg, #0080ff 0%, #0066cc 50%, #004d99 100%);
+}
+
+.healthcare-gradient-secondary {
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 50%, #023e8a 100%);
+}
+
+/* Optimized animations with reduced motion support */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-swoop-in {
+    animation: swoopIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
   .animate-slide-up {
-    animation: slideUp 1s ease-out;
+    animation: slideUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
-  .animate-slide-down {
-    animation: slideDown 1s ease-out;
-  }
-
-  .animate-slide-in-left {
-    animation: slideInLeft 1s ease-out;
-  }
-
-  .animate-slide-in-right {
-    animation: slideInRight 1s ease-out;
-  }
-
-  /* Alternating Swoop Animations */
-  .animate-swoop-in {
-    animation: swoopIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  .animate-swoop-in-reverse {
-    animation: swoopInReverse 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  .animate-scale-in {
-    animation: scaleIn 0.8s ease-out;
-  }
-
-  .animate-count-up {
-    animation: countUp 2s ease-out;
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 1s ease-out;
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
   }
 
   .animate-bounce-gentle {
     animation: bounceGentle 2s ease-in-out infinite;
   }
 
-  /* Revolutionary Hover Effects */
+  .animate-pulse-slow {
+    animation: pulseSlow 3s ease-in-out infinite;
+  }
+
   .hover-lift {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .hover-lift:hover {
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 25px 50px hsl(210 100% 27% / 0.25);
+    transform: translateY(-8px);
   }
+}
 
-  .medical-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid hsl(210 100% 50% / 0.3);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+@media (prefers-reduced-motion: reduce) {
+  .animate-swoop-in,
+  .animate-slide-up,
+  .animate-float,
+  .animate-bounce-gentle,
+  .animate-pulse-slow {
+    animation: none;
   }
-
-  .medical-card:hover {
-    background: rgba(255, 255, 255, 0.98);
-    border-color: hsl(210 100% 37% / 0.3);
+  
+  .hover-lift:hover {
+    transform: none;
   }
+}
 
-  .text-shadow-blue {
-    text-shadow: 0 0 30px hsl(210 100% 27% / 0.4);
+/* Keyframes - optimized for performance */
+@keyframes swoopIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 50px, 0) scale(0.95);
   }
-
-  /* 3D Perspective Effects */
-  .perspective-1000 {
-    perspective: 1000px;
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
+}
 
-  .transform-3d {
-    transform-style: preserve-3d;
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
   }
-
-  .rotate-y-12 {
-    transform: rotateY(12deg);
-  }
-
-  .rotate-x-6 {
-    transform: rotateX(6deg);
-  }
-
-  .hover\:rotate-y-12:hover {
-    transform: rotateY(12deg);
-  }
-
-  .hover\:rotate-x-6:hover {
-    transform: rotateX(6deg);
-  }
-
-  /* Enhanced 3D Animation Classes */
-  .animate-3d-hover {
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    transform-style: preserve-3d;
-  }
-
-  .animate-3d-hover:hover {
-    transform: perspective(1000px) rotateY(12deg) rotateX(6deg) translateZ(20px) scale(1.1);
-    box-shadow: 
-      0 20px 40px rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-      0 2px 10px rgba(255, 255, 255, 0.2) inset;
-  }
-
-  /* Glass Morphism */
-  .glass {
-    background: hsl(210 100% 50% / 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid hsl(210 100% 50% / 0.2);
-  }
-
-  /* Revolutionary Grid Patterns */
-  .grid-pattern {
-    background-image: 
-      linear-gradient(hsl(210 100% 27% / 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(210 100% 27% / 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
-  }
-
-  /* Smooth Transitions */
-  .transition-colors-slow {
-    transition: color 0.5s ease, background-color 0.5s ease, border-color 0.5s ease;
-  }
-
-  .transition-transform-slow {
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Revolutionary Button Styles */
-  .btn-revolutionary {
-    background: linear-gradient(135deg, hsl(210 100% 27%) 0%, hsl(210 100% 37%) 100%);
-    @apply relative overflow-hidden text-white font-semibold py-4 px-8 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl;
-  }
-
-  .btn-revolutionary::before {
-    content: '';
-    background: linear-gradient(135deg, hsl(210 100% 37%) 0%, hsl(210 100% 50%) 100%);
-    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-  }
-
-  .btn-revolutionary:hover::before {
-    @apply opacity-100;
-  }
-
-  /* Loading Animations */
-  .loading-dots {
-    animation: loadingDots 1.5s ease-in-out infinite;
-  }
-
-  .loading-pulse {
-    animation: loadingPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  /* Apple-Style Text Shadows */
-  .text-shadow-white {
-    text-shadow: 0 0 40px rgba(255, 255, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Cutting-Edge Button Styles */
-  .cutting-edge-btn-primary {
-    @apply relative px-12 py-6 text-xl font-semibold rounded-2xl;
-    background: linear-gradient(135deg, 
-      hsl(210 100% 27%) 0%, 
-      hsl(210 100% 37%) 30%, 
-      hsl(210 100% 50%) 70%, 
-      hsl(210 100% 37%) 100%);
-    box-shadow: 
-      0 8px 32px hsl(210 100% 27% / 0.4),
-      0 1px 2px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .cutting-edge-btn-primary::before {
-    content: '';
-    @apply absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500;
-    background: linear-gradient(135deg, 
-      hsl(210 100% 37%) 0%, 
-      hsl(210 100% 50%) 50%, 
-      hsl(210 100% 60%) 100%);
-    box-shadow: 
-      0 12px 48px hsl(210 100% 50% / 0.5),
-      0 4px 16px rgba(0, 0, 0, 0.2);
-  }
-
-  .cutting-edge-btn-primary:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 
-      0 16px 64px hsl(210 100% 27% / 0.5),
-      0 8px 32px hsl(210 100% 50% / 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  }
-
-  .cutting-edge-btn-primary:hover::before {
-    @apply opacity-100;
-  }
-
-  .cutting-edge-btn-secondary {
-    @apply relative px-12 py-6 text-xl font-semibold rounded-2xl;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    backdrop-filter: blur(20px);
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .cutting-edge-btn-secondary::before {
-    content: '';
-    @apply absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(30px);
-  }
-
-  .cutting-edge-btn-secondary:hover {
-    transform: translateY(-2px) scale(1.02);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 
-      0 16px 64px rgba(0, 0, 0, 0.2),
-      0 8px 32px rgba(255, 255, 255, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  }
-
-  .cutting-edge-btn-secondary:hover::before {
-    @apply opacity-100;
-  }
-
-  /* Enhanced Revolutionary Typography */
-  .text-revolutionary {
-    font-size: clamp(3rem, 8vw, 8rem);
-    font-weight: 900;
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-  }
-
-  .text-revolutionary-sub {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
-    font-weight: 500;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  }
-
-  /* Enhanced Bounce Animation */
-  .animate-bounce-gentle {
-    animation: bounceGentle 3s ease-in-out infinite;
-  }
-
-  /* 3D Icon Animation Classes */
-  .icon-3d {
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    transform-style: preserve-3d;
-  }
-
-  .icon-3d:hover {
-    transform: perspective(1000px) rotateY(15deg) rotateX(10deg) translateZ(10px) scale(1.1);
-  }
-
-  /* Healthcare Color-specific icon gradients */
-  .icon-emerald {
-    background: linear-gradient(135deg, hsl(210 100% 37%) 0%, hsl(210 100% 50%) 100%);
-  }
-
-  .icon-blue {
-    background: linear-gradient(135deg, hsl(210 100% 27%) 0%, hsl(210 100% 37%) 50%, hsl(210 100% 50%) 100%);
-  }
-
-  .icon-purple {
-    background: linear-gradient(135deg, hsl(210 100% 37%) 0%, hsl(210 100% 50%) 100%);
-  }
-
-  .icon-orange {
-    background: linear-gradient(135deg, hsl(210 100% 37%) 0%, hsl(210 100% 50%) 100%);
-  }
-
-  .icon-red {
-    background: linear-gradient(135deg, hsl(210 100% 27%) 0%, hsl(210 100% 37%) 100%);
-  }
-
-  .icon-green {
-    background: linear-gradient(135deg, hsl(210 100% 37%) 0%, hsl(210 100% 50%) 100%);
-  }
-
-  .icon-indigo {
-    background: linear-gradient(135deg, hsl(210 100% 27%) 0%, hsl(210 100% 50%) 100%);
-  }
-
-  .icon-cyan {
-    background: linear-gradient(135deg, hsl(210 100% 37%) 0%, hsl(210 100% 50%) 100%);
-  }
-
-  .icon-pink {
-    background: linear-gradient(135deg, hsl(210 100% 37%) 0%, hsl(210 100% 50%) 100%);
-  }
-
-  .icon-yellow {
-    background: linear-gradient(135deg, hsl(210 100% 37%) 0%, hsl(210 100% 50%) 100%);
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-80px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(80px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes swoopIn {
-  0% {
-    opacity: 0;
-    transform: translateX(-100px) translateY(30px) rotate(-5deg);
-  }
-  60% {
-    opacity: 0.8;
-    transform: translateX(10px) translateY(-5px) rotate(1deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) translateY(0) rotate(0deg);
-  }
-}
-
-@keyframes swoopInReverse {
-  0% {
-    opacity: 0;
-    transform: translateX(100px) translateY(30px) rotate(5deg);
-  }
-  60% {
-    opacity: 0.8;
-    transform: translateX(-10px) translateY(-5px) rotate(-1deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) translateY(0) rotate(0deg);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+    transform: translate3d(0, -10px, 0);
   }
 }
 
 @keyframes bounceGentle {
   0%, 100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-15px);
+    transform: translate3d(0, -5px, 0);
   }
 }
 
-@keyframes twinkle {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  25% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-  75% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-}
-
-@keyframes loadingDots {
-  0%, 80%, 100% {
-    transform: scale(0);
-  }
-  40% {
-    transform: scale(1);
-  }
-}
-
-@keyframes loadingPulse {
+@keyframes pulseSlow {
   0%, 100% {
-    opacity: 1;
+    opacity: 0.6;
   }
   50% {
-    opacity: 0.5;
+    opacity: 1;
   }
 }
 
-/* Invisible Scrollbar - Works on all browsers */
-/* Webkit browsers (Chrome, Safari, Edge) */
+/* Text shadow utilities */
+.text-shadow-white {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Perspective utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Optimized scrollbar */
 ::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -644,88 +192,42 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: transparent;
+  background: rgba(0, 128, 255, 0.3);
+  border-radius: 4px;
 }
 
-/* Firefox */
-html {
-  scrollbar-width: none;
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 128, 255, 0.5);
 }
 
-/* IE and Edge Legacy */
-body {
-  -ms-overflow-style: none;
+/* Loading state optimization */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
 }
 
-/* Ensure scrolling still works */
-html, body {
-  overflow: auto;
-}
-
-/* Print Styles */
-@media print {
-  .no-print {
-    display: none !important;
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .healthcare-gradient {
-    background: hsl(var(--healthcare-blue-1));
-  }
-  
-  .medical-card {
-    border: 2px solid hsl(var(--healthcare-blue-1));
-  }
+/* Critical rendering path optimization */
+.above-fold {
+  contain: layout style paint;
 }
 
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  
-  .animate-3d-hover:hover {
-    transform: none;
-    box-shadow: none;
-  }
+/* Reduce paint complexity */
+.complex-bg {
+  will-change: background-position;
 }
 
-/* Focus Indicators for Accessibility */
-.focus-visible:focus {
-  outline: 2px solid hsl(var(--healthcare-blue-1));
-  outline-offset: 2px;
-}
-
-/* Text Selection */
-::selection {
-  background: hsl(var(--healthcare-blue-1) / 0.3);
-  color: hsl(var(--foreground));
-}
-
-/* Revolutionary Typography Scale */
-.text-revolutionary {
-  font-size: clamp(2rem, 5vw, 5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-.text-revolutionary-sub {
-  font-size: clamp(1.25rem, 3vw, 2rem);
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-}
-
-/* 3D Transform utilities */
-.transform-3d {
-  transform-style: preserve-3d;
-}
-
-.perspective-1000 {
-  perspective: 1000px;
+/* Font loading optimization */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
 }
