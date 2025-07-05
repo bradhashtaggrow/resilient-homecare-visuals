@@ -4,7 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHeader from '@/components/admin/AdminHeader';
 import DashboardOverview from '@/components/admin/DashboardOverview';
-import UnifiedContentManager from '@/components/admin/UnifiedContentManager';
+import StorageContentManager from '@/components/admin/StorageContentManager';
 import RealTimePreview from '@/components/admin/RealTimePreview';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
 import UserManagement from '@/components/admin/UserManagement';
@@ -29,7 +29,7 @@ const Admin = () => {
   // Load initial data and stats
   useEffect(() => {
     loadData();
-    setupRealtimeSubscription();
+    setupStorageMonitoring();
   }, []);
 
   const loadData = async () => {
@@ -37,23 +37,25 @@ const Admin = () => {
       setLoading(true);
       setSyncStatus('syncing');
       
-      // Fetch stats from all tables
-      const [contentResult, servicesResult, mediaResult, usersResult] = await Promise.all([
-        supabase.from('website_content').select('count', { count: 'exact', head: true }),
+      // Fetch stats from storage and database
+      const [servicesResult, usersResult] = await Promise.all([
         supabase.from('services').select('count', { count: 'exact', head: true }),
-        supabase.from('media_library').select('count', { count: 'exact', head: true }),
         supabase.from('profiles').select('count', { count: 'exact', head: true })
       ]);
 
-      if (contentResult.error) throw contentResult.error;
+      // Get storage stats
+      const { data: storageFiles, error: storageError } = await supabase.storage
+        .from('media')
+        .list('website-content', { limit: 1000 });
+
       if (servicesResult.error) throw servicesResult.error;
-      if (mediaResult.error) throw mediaResult.error;
       if (usersResult.error) throw usersResult.error;
+      if (storageError) console.warn('Storage access limited:', storageError);
 
       setStats({
-        totalContent: contentResult.count || 0,
+        totalContent: storageFiles?.length || 0,
         totalServices: servicesResult.count || 0,
-        totalMedia: mediaResult.count || 0,
+        totalMedia: storageFiles?.length || 0,
         totalUsers: usersResult.count || 0
       });
 
@@ -72,26 +74,12 @@ const Admin = () => {
     }
   };
 
-  const setupRealtimeSubscription = () => {
+  const setupStorageMonitoring = () => {
     setSyncStatus('syncing');
     
-    // Website content real-time updates
-    const contentChannel = supabase
-      .channel('admin-realtime-updates')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content'
-      }, (payload) => {
-        console.log('Real-time website content change:', payload);
-        setSyncStatus('connected');
-        loadData(); // Refresh stats
-        
-        toast({
-          title: "Website updated",
-          description: "Content updated in real-time",
-        });
-      })
+    // Monitor database changes that might affect stats
+    const channel = supabase
+      .channel('admin-storage-updates')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
@@ -109,20 +97,6 @@ const Admin = () => {
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
-        table: 'media_library'
-      }, (payload) => {
-        console.log('Real-time media change:', payload);
-        setSyncStatus('connected');
-        loadData(); // Refresh stats
-        
-        toast({
-          title: "Media updated",
-          description: "Media library updated in real-time",
-        });
-      })
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
         table: 'profiles'
       }, (payload) => {
         console.log('Real-time profiles change:', payload);
@@ -135,13 +109,13 @@ const Admin = () => {
         });
       })
       .subscribe((status) => {
-        console.log('Subscription status:', status);
+        console.log('Storage monitoring status:', status);
         setSyncStatus(status === 'SUBSCRIBED' ? 'connected' : 'disconnected');
       });
 
     // Cleanup subscriptions
     return () => {
-      supabase.removeChannel(contentChannel);
+      supabase.removeChannel(channel);
     };
   };
 
@@ -158,7 +132,7 @@ const Admin = () => {
       case 'dashboard':
         return <DashboardOverview syncStatus={syncStatus} stats={stats} />;
       case 'content':
-        return <UnifiedContentManager syncStatus={syncStatus} />;
+        return <StorageContentManager syncStatus={syncStatus} />;
       case 'preview':
         return <RealTimePreview syncStatus={syncStatus} />;
       case 'analytics':

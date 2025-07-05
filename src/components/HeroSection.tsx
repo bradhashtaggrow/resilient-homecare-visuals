@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
@@ -24,61 +25,41 @@ const HeroSection = React.memo(() => {
   });
 
   useEffect(() => {
-    // Load hero content from database
+    // Load hero content from storage
     const loadHeroContent = async () => {
       try {
-        const { data, error } = await supabase
-          .from('website_content')
-          .select('*')
-          .eq('section_key', 'hero')
-          .single();
+        const { data, error } = await supabase.storage
+          .from('media')
+          .download('website-content/hero-config.json');
 
         if (data && !error) {
-          console.log('Loaded hero content from database:', data);
+          const text = await data.text();
+          const storageContent = JSON.parse(text);
+          console.log('Loaded hero content from storage:', storageContent);
+          
           setContent({
-            title: data.title || 'The Future of Healthcare',
-            subtitle: data.subtitle || '',
-            description: data.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
-            button_text: data.button_text || 'Request Demo',
-            button_url: data.button_url || '#',
-            background_video_url: data.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            title: storageContent.title || 'The Future of Healthcare',
+            subtitle: storageContent.subtitle || '',
+            description: storageContent.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
+            button_text: storageContent.button_text || 'Request Demo',
+            button_url: storageContent.button_url || '#',
+            background_video_url: storageContent.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
           });
         } else {
-          console.log('No hero content found in database, using defaults');
+          console.log('No hero content found in storage, using defaults');
         }
       } catch (error) {
-        console.error('Error loading hero content:', error);
+        console.error('Error loading hero content from storage:', error);
       }
     };
 
     loadHeroContent();
 
-    // Set up real-time subscription for hero content
-    const channel = supabase
-      .channel('hero-content-updates')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=eq.hero'
-      }, (payload) => {
-        console.log('Real-time hero content update:', payload);
-        if (payload.new && typeof payload.new === 'object') {
-          const newData = payload.new as any;
-          setContent(prevContent => ({
-            title: newData.title || prevContent.title,
-            subtitle: newData.subtitle || prevContent.subtitle,
-            description: newData.description || prevContent.description,
-            button_text: newData.button_text || prevContent.button_text,
-            button_url: newData.button_url || prevContent.button_url,
-            background_video_url: newData.background_video_url || prevContent.background_video_url
-          }));
-        }
-      })
-      .subscribe();
+    // Storage doesn't have real-time subscriptions like database, so we'll poll occasionally
+    const interval = setInterval(loadHeroContent, 30000); // Check every 30 seconds
 
     return () => {
-      supabase.removeChannel(channel);
+      clearInterval(interval);
     };
   }, []);
 
