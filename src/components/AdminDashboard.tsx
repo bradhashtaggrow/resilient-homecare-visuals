@@ -5,12 +5,83 @@ import AdminLaptopVisualization from './admin/AdminLaptopVisualization';
 import { useDemoScreens } from './admin/AdminDemoScreens';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface AdminDashboardContent {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  button_text?: string;
+  button_url?: string;
+  background_video_url?: string;
+  background_image_url?: string;
+  content_data?: any;
+}
 
 const AdminDashboard = React.memo(() => {
   const [isVisible, setIsVisible] = useState(false);
   const [laptopOpen, setLaptopOpen] = useState(false);
   const [activeDemo, setActiveDemo] = useState(0);
+  const [content, setContent] = useState<AdminDashboardContent>({
+    title: 'Take Full Control Of Your Business. Anywhere. Any place.',
+    description: 'Next-generation management tools with AI-powered insights that give administrators unprecedented visibility and control.',
+    button_text: 'Request Demo',
+    button_url: '#'
+  });
   const demoScreens = useDemoScreens();
+
+  useEffect(() => {
+    // Load admin dashboard content from database
+    const loadAdminContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'admin_dashboard')
+          .eq('is_active', true)
+          .single();
+
+        if (data && !error) {
+          console.log('Loaded admin dashboard content from database:', data);
+          
+          setContent({
+            title: data.title || 'Take Full Control Of Your Business. Anywhere. Any place.',
+            subtitle: data.subtitle || '',
+            description: data.description || 'Next-generation management tools with AI-powered insights that give administrators unprecedented visibility and control.',
+            button_text: data.button_text || 'Request Demo',
+            button_url: data.button_url || '#',
+            background_video_url: data.background_video_url,
+            background_image_url: data.background_image_url,
+            content_data: data.content_data
+          });
+        } else {
+          console.log('No admin dashboard content found in database, using defaults');
+        }
+      } catch (error) {
+        console.error('Error loading admin dashboard content from database:', error);
+      }
+    };
+
+    loadAdminContent();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('admin-dashboard-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.admin_dashboard'
+      }, (payload) => {
+        console.log('Real-time admin dashboard content change:', payload);
+        loadAdminContent();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
     entries.forEach((entry) => {
@@ -57,9 +128,42 @@ const AdminDashboard = React.memo(() => {
     e.currentTarget.style.background = 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)';
   }, []);
 
+  const handleButtonClick = () => {
+    if (content.button_url && content.button_url !== '#') {
+      window.open(content.button_url, '_blank');
+    }
+  };
+
   return (
-    <section id="admin-dashboard" className="py-20 sm:py-24 md:py-32 lg:py-40 bg-gray-900 relative overflow-hidden min-h-screen">
-      <AdminAnimatedBackground />
+    <section id="admin-dashboard" className="py-20 sm:py-24 md:py-32 lg:py-40 relative overflow-hidden min-h-screen">
+      {/* Background Media */}
+      {content?.background_video_url ? (
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={content.background_video_url} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+      ) : content?.background_image_url ? (
+        <div className="absolute inset-0 z-0">
+          <img
+            src={content.background_image_url}
+            alt="Admin dashboard background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 bg-gray-900">
+          <AdminAnimatedBackground />
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Enhanced Title with Mobile Optimization - Using reverse swoop */}
@@ -68,15 +172,20 @@ const AdminDashboard = React.memo(() => {
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            Take Full Control Of Your Business. 
-            <span className="block healthcare-text-gradient hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
-              Anywhere. Any place.
-            </span>
+            {content.title?.includes('.') ? (
+              <>
+                {content.title.split('.')[0]}.
+                <span className="block healthcare-text-gradient hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
+                  {content.title.split('.').slice(1).join('.').trim()}
+                </span>
+              </>
+            ) : (
+              content.title
+            )}
           </h2>
           <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide hover:text-white transition-colors duration-500"
              style={{ fontSize: 'clamp(0.875rem, 2.5vw, 2rem)', lineHeight: 1.3 }}>
-            Next-generation management tools with AI-powered insights that give 
-            administrators unprecedented visibility and control.
+            {content.description}
           </p>
         </div>
 
@@ -100,15 +209,11 @@ const AdminDashboard = React.memo(() => {
         }`} style={{animationDelay: '800ms'}}>
           <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-3 sm:mb-4 hover:scale-105 transition-transform duration-500"
               style={{ fontSize: 'clamp(1.25rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
-            Ready to Transform 
-            <span className="block healthcare-text-gradient hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
-              Your Healthcare Operations?
-            </span>
+            {content.content_data?.cta_headline || 'Ready to Transform Your Healthcare Operations?'}
           </h3>
           <p className="text-white/90 max-w-3xl mx-auto leading-relaxed font-medium tracking-wide mb-6 sm:mb-8 hover:text-white transition-colors duration-500"
              style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.4 }}>
-            Join forward-thinking healthcare organizations who've already revolutionized their operations. 
-            See our comprehensive platform in action with a personalized demonstration.
+            {content.content_data?.cta_description || 'Join forward-thinking healthcare organizations who\'ve already revolutionized their operations. See our comprehensive platform in action with a personalized demonstration.'}
           </p>
           <Button 
             size="lg"
@@ -125,9 +230,10 @@ const AdminDashboard = React.memo(() => {
             }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            onClick={handleButtonClick}
           >
             <span className="relative z-10 flex items-center justify-center">
-              Request Demo
+              {content.button_text}
               <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
             </span>
           </Button>
