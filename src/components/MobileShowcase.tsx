@@ -43,7 +43,9 @@ const MobileShowcase = () => {
     title: 'Go Mobile With Your Patients This Year',
     subtitle: '',
     description: 'Enterprise-grade mobile platform that connects your entire healthcare ecosystem with military-grade security and real-time insights.',
-    features: keyFeatures
+    features: keyFeatures,
+    background_video_url: '',
+    background_image_url: ''
   });
 
   useEffect(() => {
@@ -196,16 +198,35 @@ const MobileShowcase = () => {
                     <div className="w-full h-full bg-black rounded-[3rem] p-1">
                       <div className="w-full h-full bg-gradient-to-br from-slate-900 to-gray-900 rounded-[2.8rem] relative overflow-hidden">
                         <div className="absolute inset-0 z-0">
-                          <video
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            preload="metadata"
-                            className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
-                          >
-                            <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
-                          </video>
+                          {content?.background_video_url ? (
+                            <video
+                              autoPlay
+                              muted
+                              loop
+                              playsInline
+                              preload="metadata"
+                              className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
+                            >
+                              <source src={content.background_video_url} type="video/mp4" />
+                            </video>
+                          ) : content?.background_image_url ? (
+                            <img
+                              src={content.background_image_url}
+                              alt="Mobile showcase"
+                              className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
+                            />
+                          ) : (
+                            <video
+                              autoPlay
+                              muted
+                              loop
+                              playsInline
+                              preload="metadata"
+                              className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
+                            >
+                              <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+                            </video>
+                          )}
                           <div className="absolute inset-0 bg-black/30 rounded-[2.8rem]" />
                         </div>
                         

@@ -12,6 +12,8 @@ interface HeroContent {
   button_text?: string;
   button_url?: string;
   background_video_url?: string;
+  background_image_url?: string;
+  mobile_background_url?: string;
 }
 
 const HeroSection = React.memo(() => {
@@ -111,15 +113,50 @@ const HeroSection = React.memo(() => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
-      {/* Optimized Video Background */}
-      <div className="absolute inset-0 z-0">
-        <OptimizedVideo
-          src={content.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        {/* Minimal dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/30" />
-      </div>
+      {/* Background Media */}
+      {content?.background_video_url ? (
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={content.background_video_url} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      ) : content?.background_image_url ? (
+        <div className="absolute inset-0 z-0">
+          <img
+            src={content.background_image_url}
+            alt="Hero background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 z-0">
+          <OptimizedVideo
+            src='https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      )}
+
+      {/* Mobile Background */}
+      {content?.mobile_background_url && (
+        <div className="absolute inset-0 z-0 md:hidden">
+          <img
+            src={content.mobile_background_url}
+            alt="Mobile hero background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      )}
 
       {/* Enhanced Hero Content with Mobile Optimization */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

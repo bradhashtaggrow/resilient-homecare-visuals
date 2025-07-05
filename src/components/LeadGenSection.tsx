@@ -11,6 +11,7 @@ interface LeadGenContent {
   description?: string;
   button_text?: string;
   button_url?: string;
+  background_image_url?: string;
 }
 
 const LeadGenSection = () => {
@@ -99,8 +100,21 @@ const LeadGenSection = () => {
   return (
     <section 
       id="lead-gen-section" 
-      className="py-4 sm:py-6 md:py-8 lg:py-10 bg-white relative overflow-hidden paper-texture-subtle flex items-center min-h-[50vh]"
+      className="py-4 sm:py-6 md:py-8 lg:py-10 relative overflow-hidden paper-texture-subtle flex items-center min-h-[50vh]"
     >
+      {/* Background */}
+      {content?.background_image_url ? (
+        <div className="absolute inset-0">
+          <img
+            src={content.background_image_url}
+            alt="Lead generation background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 bg-white" />
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         {/* Enhanced Trust Section with Improved Animations */}
         <div className={`text-center transition-all duration-1200 transform ${

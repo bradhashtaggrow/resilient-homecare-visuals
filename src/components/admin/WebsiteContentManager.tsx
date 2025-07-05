@@ -306,6 +306,18 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             onChange={(e) => setEditForm({...editForm, background_image_url: e.target.value})}
                             placeholder="Image URL"
                           />
+                          {editForm.background_image_url && (
+                            <div className="mt-2">
+                              <img
+                                src={editForm.background_image_url}
+                                alt="Background preview"
+                                className="w-full h-20 object-cover rounded border"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -317,6 +329,18 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             onChange={(e) => setEditForm({...editForm, background_video_url: e.target.value})}
                             placeholder="Video URL"
                           />
+                          {editForm.background_video_url && (
+                            <div className="mt-2">
+                              <video
+                                src={editForm.background_video_url}
+                                className="w-full h-20 object-cover rounded border"
+                                muted
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -328,6 +352,18 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             onChange={(e) => setEditForm({...editForm, mobile_background_url: e.target.value})}
                             placeholder="Mobile image URL"
                           />
+                          {editForm.mobile_background_url && (
+                            <div className="mt-2">
+                              <img
+                                src={editForm.mobile_background_url}
+                                alt="Mobile background preview"
+                                className="w-full h-20 object-cover rounded border"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
                       </div>
 
@@ -364,18 +400,54 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                           <p className="text-gray-900">{section.description}</p>
                         </div>
                       )}
-                      {(section.background_image_url || section.background_video_url) && (
-                        <div className="flex items-center space-x-4 pt-2">
+                      {(section.background_image_url || section.background_video_url || section.mobile_background_url) && (
+                        <div className="space-y-3 pt-2">
                           {section.background_image_url && (
-                            <div className="flex items-center space-x-2">
-                              <Image className="h-4 w-4 text-gray-500" />
-                              <span className="text-sm text-gray-600">Background Image</span>
+                            <div>
+                              <div className="flex items-center space-x-2 mb-2">
+                                <Image className="h-4 w-4 text-gray-500" />
+                                <span className="text-sm text-gray-600">Background Image</span>
+                              </div>
+                              <img
+                                src={section.background_image_url}
+                                alt="Background"
+                                className="w-full h-32 object-cover rounded border"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
                             </div>
                           )}
                           {section.background_video_url && (
-                            <div className="flex items-center space-x-2">
-                              <Video className="h-4 w-4 text-gray-500" />
-                              <span className="text-sm text-gray-600">Background Video</span>
+                            <div>
+                              <div className="flex items-center space-x-2 mb-2">
+                                <Video className="h-4 w-4 text-gray-500" />
+                                <span className="text-sm text-gray-600">Background Video</span>
+                              </div>
+                              <video
+                                src={section.background_video_url}
+                                className="w-full h-32 object-cover rounded border"
+                                muted
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
+                            </div>
+                          )}
+                          {section.mobile_background_url && (
+                            <div>
+                              <div className="flex items-center space-x-2 mb-2">
+                                <Settings className="h-4 w-4 text-gray-500" />
+                                <span className="text-sm text-gray-600">Mobile Background</span>
+                              </div>
+                              <img
+                                src={section.mobile_background_url}
+                                alt="Mobile background"
+                                className="w-full h-32 object-cover rounded border"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
                             </div>
                           )}
                         </div>

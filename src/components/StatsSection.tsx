@@ -6,6 +6,7 @@ interface StatsContent {
   title?: string;
   subtitle?: string;
   description?: string;
+  background_image_url?: string;
 }
 
 const StatsSection = () => {
@@ -211,9 +212,20 @@ const StatsSection = () => {
   return (
     <section id="stats-section" className="py-32 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-      </div>
+      {content?.background_image_url ? (
+        <div className="absolute inset-0">
+          <img
+            src={content.background_image_url}
+            alt="Stats background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        </div>
+      )}
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
