@@ -14,15 +14,11 @@ import {
 import { 
   LayoutDashboard, 
   FileText, 
-  Settings, 
-  Image, 
   Eye, 
   BarChart3, 
   Users, 
   Cog,
-  Activity,
   Globe,
-  Palette,
   Wifi,
   WifiOff
 } from 'lucide-react';
@@ -46,8 +42,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
 
   const contentMenuItems = [
     { id: 'content', label: 'Website Content', icon: FileText },
-    { id: 'services', label: 'Service Lines', icon: Activity },
-    { id: 'media', label: 'Media Library', icon: Image },
     { id: 'preview', label: 'Live Preview', icon: Eye },
   ];
 
@@ -104,7 +98,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           </div>
           <div className="flex-1">
             <h1 className="text-xl font-bold text-gray-900">Healthcare Admin</h1>
-            <p className="text-sm text-gray-500">Management Dashboard</p>
+            <p className="text-sm text-gray-500">Content Management</p>
           </div>
         </div>
         <div className="mt-3 flex items-center justify-center">

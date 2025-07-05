@@ -4,9 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHeader from '@/components/admin/AdminHeader';
 import DashboardOverview from '@/components/admin/DashboardOverview';
-import ContentEditor from '@/components/admin/ContentEditor';
-import ServicesManager from '@/components/admin/ServicesManager';
-import MediaLibrary from '@/components/admin/MediaLibrary';
+import UnifiedContentManager from '@/components/admin/UnifiedContentManager';
 import RealTimePreview from '@/components/admin/RealTimePreview';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
 import UserManagement from '@/components/admin/UserManagement';
@@ -14,35 +12,8 @@ import SystemSettings from '@/components/admin/SystemSettings';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
-interface WebsiteContent {
-  id: string;
-  section_key: string;
-  title?: string;
-  subtitle?: string;
-  description?: string;
-  button_text?: string;
-  button_url?: string;
-  background_video_url?: string;
-  background_image_url?: string;
-  mobile_background_url?: string;
-  laptop_background_url?: string;
-}
-
-interface Service {
-  id: string;
-  title: string;
-  subtitle?: string;
-  description?: string;
-  icon_name: string;
-  color: string;
-  patient_image_url?: string;
-  display_order: number;
-}
-
 const Admin = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
-  const [websiteContent, setWebsiteContent] = useState<WebsiteContent[]>([]);
-  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<'connected' | 'disconnected' | 'syncing'>('disconnected');
   const { toast } = useToast();
@@ -58,31 +29,14 @@ const Admin = () => {
       setLoading(true);
       setSyncStatus('syncing');
       
-      // Load website content
-      const { data: contentData, error: contentError } = await supabase
+      // Simple connection test
+      const { error } = await supabase
         .from('website_content')
-        .select('*')
-        .order('section_key');
+        .select('count', { count: 'exact', head: true });
 
-      if (contentError) throw contentError;
+      if (error) throw error;
 
-      // Load services
-      const { data: servicesData, error: servicesError } = await supabase
-        .from('services')
-        .select('*')
-        .order('display_order');
-
-      if (servicesError) throw servicesError;
-
-      setWebsiteContent(contentData || []);
-      setServices(servicesData || []);
       setSyncStatus('connected');
-      
-      // Broadcast changes to main website
-      broadcastToWebsite('data_updated', { 
-        content: contentData, 
-        services: servicesData 
-      });
       
     } catch (error) {
       console.error('Error loading data:', error);
@@ -97,23 +51,12 @@ const Admin = () => {
     }
   };
 
-  const broadcastToWebsite = (type: string, data: any) => {
-    // Use BroadcastChannel to communicate with main website
-    try {
-      const channel = new BroadcastChannel('website_updates');
-      channel.postMessage({ type, data, timestamp: Date.now() });
-      console.log(`Broadcasting ${type} to website:`, data);
-    } catch (error) {
-      console.warn('BroadcastChannel not supported:', error);
-    }
-  };
-
   const setupRealtimeSubscription = () => {
     setSyncStatus('syncing');
     
     // Website content real-time updates
     const contentChannel = supabase
-      .channel('website-content-changes')
+      .channel('admin-realtime-updates')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
@@ -122,46 +65,11 @@ const Admin = () => {
         console.log('Real-time website content change:', payload);
         setSyncStatus('connected');
         
-        // Update local state immediately with proper type checking
-        if (payload.eventType === 'UPDATE' && payload.new) {
-          const updatedContent = payload.new as WebsiteContent;
-          setWebsiteContent(prev => prev.map(item => 
-            item.id === updatedContent.id ? { ...item, ...updatedContent } : item
-          ));
-          broadcastToWebsite('content_updated', updatedContent);
-          
-          toast({
-            title: "Website updated",
-            description: `${updatedContent.section_key || 'Content'} section updated in real-time`,
-          });
-        } else if (payload.eventType === 'INSERT' && payload.new) {
-          const newContent = payload.new as WebsiteContent;
-          setWebsiteContent(prev => [...prev, newContent]);
-          broadcastToWebsite('content_added', newContent);
-          
-          toast({
-            title: "Website updated",
-            description: `${newContent.section_key || 'Content'} section added in real-time`,
-          });
-        } else if (payload.eventType === 'DELETE' && payload.old) {
-          const deletedContent = payload.old as WebsiteContent;
-          setWebsiteContent(prev => prev.filter(item => item.id !== deletedContent.id));
-          broadcastToWebsite('content_deleted', deletedContent);
-          
-          toast({
-            title: "Website updated",
-            description: `${deletedContent.section_key || 'Content'} section deleted in real-time`,
-          });
-        }
+        toast({
+          title: "Website updated",
+          description: "Content updated in real-time",
+        });
       })
-      .subscribe((status) => {
-        console.log('Content subscription status:', status);
-        setSyncStatus(status === 'SUBSCRIBED' ? 'connected' : 'disconnected');
-      });
-
-    // Services real-time updates
-    const servicesChannel = supabase
-      .channel('services-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
@@ -170,77 +78,33 @@ const Admin = () => {
         console.log('Real-time services change:', payload);
         setSyncStatus('connected');
         
-        // Update local state immediately with proper type checking
-        if (payload.eventType === 'UPDATE' && payload.new) {
-          const updatedService = payload.new as Service;
-          setServices(prev => prev.map(item => 
-            item.id === updatedService.id ? { ...item, ...updatedService } : item
-          ));
-          broadcastToWebsite('service_updated', updatedService);
-          
-          toast({
-            title: "Services updated",
-            description: `${updatedService.title || 'Service'} updated in real-time`,
-          });
-        } else if (payload.eventType === 'INSERT' && payload.new) {
-          const newService = payload.new as Service;
-          setServices(prev => [...prev, newService].sort((a, b) => a.display_order - b.display_order));
-          broadcastToWebsite('service_added', newService);
-          
-          toast({
-            title: "Services updated",
-            description: `${newService.title || 'Service'} added in real-time`,
-          });
-        } else if (payload.eventType === 'DELETE' && payload.old) {
-          const deletedService = payload.old as Service;
-          setServices(prev => prev.filter(item => item.id !== deletedService.id));
-          broadcastToWebsite('service_deleted', deletedService);
-          
-          toast({
-            title: "Services updated",
-            description: `${deletedService.title || 'Service'} deleted in real-time`,
-          });
-        }
+        toast({
+          title: "Services updated",
+          description: "Services updated in real-time",
+        });
       })
-      .subscribe((status) => {
-        console.log('Services subscription status:', status);
-        setSyncStatus(status === 'SUBSCRIBED' ? 'connected' : 'disconnected');
-      });
-
-    // Media library real-time updates
-    const mediaChannel = supabase
-      .channel('media-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
         table: 'media_library'
       }, (payload) => {
         console.log('Real-time media change:', payload);
-        broadcastToWebsite('media_updated', payload);
+        setSyncStatus('connected');
         
         toast({
           title: "Media updated",
           description: "Media library updated in real-time",
         });
       })
-      .subscribe();
+      .subscribe((status) => {
+        console.log('Subscription status:', status);
+        setSyncStatus(status === 'SUBSCRIBED' ? 'connected' : 'disconnected');
+      });
 
     // Cleanup subscriptions
     return () => {
       supabase.removeChannel(contentChannel);
-      supabase.removeChannel(servicesChannel);
-      supabase.removeChannel(mediaChannel);
     };
-  };
-
-  const handleContentUpdate = async (updatedContent: WebsiteContent[]) => {
-    setWebsiteContent(updatedContent);
-    // Real-time sync will handle broadcasting automatically via database triggers
-  };
-
-  const handleServicesUpdate = async (updatedServices: Service[]) => {
-    setServices(updatedServices);
-    // Real-time sync will handle broadcasting automatically via database triggers
   };
 
   const renderContent = () => {
@@ -256,15 +120,11 @@ const Admin = () => {
       case 'dashboard':
         return <DashboardOverview syncStatus={syncStatus} />;
       case 'content':
-        return <ContentEditor content={websiteContent} onContentChange={handleContentUpdate} syncStatus={syncStatus} />;
-      case 'services':
-        return <ServicesManager services={services} onServicesChange={handleServicesUpdate} />;
-      case 'media':
-        return <MediaLibrary />;
+        return <UnifiedContentManager syncStatus={syncStatus} />;
       case 'preview':
         return <RealTimePreview syncStatus={syncStatus} />;
       case 'analytics':
-        return <AnalyticsDashboard />;
+        return <AnalyticsDashboard syncStatus={syncStatus} />;
       case 'users':
         return <UserManagement />;
       case 'settings':
@@ -280,9 +140,10 @@ const Admin = () => {
         <AdminSidebar 
           activeSection={activeSection} 
           onSectionChange={setActiveSection}
+          syncStatus={syncStatus}
         />
         <div className="flex-1 flex flex-col">
-          <AdminHeader activeSection={activeSection} />
+          <AdminHeader activeSection={activeSection} syncStatus={syncStatus} />
           <main className="flex-1 overflow-auto">
             <div className="p-6">
               {renderContent()}
