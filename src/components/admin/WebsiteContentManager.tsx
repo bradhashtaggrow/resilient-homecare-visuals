@@ -489,7 +489,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                 <div className="mt-2">
                                   <video
                                     src={editForm.background_video_url}
-                                    className="w-full h-40 object-cover rounded border"
+                                    className="w-full h-60 object-contain rounded border bg-gray-100"
                                     muted
                                     controls
                                     onError={(e) => {
