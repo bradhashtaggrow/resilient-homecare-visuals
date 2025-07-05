@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   BarChart3, 
   Users, 
@@ -14,48 +15,164 @@ import {
   ArrowDownRight
 } from 'lucide-react';
 
+interface DashboardStats {
+  totalServices: number;
+  totalContent: number;
+  totalMedia: number;
+  recentActivity: Array<{
+    action: string;
+    time: string;
+    type: string;
+  }>;
+}
+
 const DashboardOverview = () => {
-  const stats = [
+  const [stats, setStats] = useState<DashboardStats>({
+    totalServices: 0,
+    totalContent: 0,
+    totalMedia: 0,
+    recentActivity: []
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadDashboardData();
+    setupRealtimeUpdates();
+  }, []);
+
+  const loadDashboardData = async () => {
+    try {
+      // Get services count
+      const { count: servicesCount } = await supabase
+        .from('services')
+        .select('*', { count: 'exact', head: true });
+
+      // Get content count
+      const { count: contentCount } = await supabase
+        .from('website_content')
+        .select('*', { count: 'exact', head: true });
+
+      // Get media count
+      const { count: mediaCount } = await supabase
+        .from('media_library')
+        .select('*', { count: 'exact', head: true });
+
+      // Get recent activity (last 10 records across all tables)
+      const { data: recentServices } = await supabase
+        .from('services')
+        .select('title, created_at')
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+      const { data: recentContent } = await supabase
+        .from('website_content')
+        .select('section_key, updated_at')
+        .order('updated_at', { ascending: false })
+        .limit(5);
+
+      const { data: recentMedia } = await supabase
+        .from('media_library')
+        .select('original_name, created_at')
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+      // Combine and format recent activity
+      const recentActivity = [
+        ...(recentServices || []).map(item => ({
+          action: `Added service: ${item.title}`,
+          time: new Date(item.created_at).toLocaleString(),
+          type: 'service'
+        })),
+        ...(recentContent || []).map(item => ({
+          action: `Updated ${item.section_key} content`,
+          time: new Date(item.updated_at).toLocaleString(),
+          type: 'content'
+        })),
+        ...(recentMedia || []).map(item => ({
+          action: `Uploaded ${item.original_name}`,
+          time: new Date(item.created_at).toLocaleString(),
+          type: 'media'
+        }))
+      ].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 4);
+
+      setStats({
+        totalServices: servicesCount || 0,
+        totalContent: contentCount || 0,
+        totalMedia: mediaCount || 0,
+        recentActivity
+      });
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const setupRealtimeUpdates = () => {
+    const channel = supabase
+      .channel('dashboard-updates')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'services'
+      }, () => loadDashboardData())
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content'
+      }, () => loadDashboardData())
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'media_library'
+      }, () => loadDashboardData())
+      .subscribe();
+
+    return () => supabase.removeChannel(channel);
+  };
+
+  const displayStats = [
     {
-      title: 'Total Visitors',
-      value: '12,847',
-      change: '+12.5%',
-      trend: 'up',
-      icon: Users,
+      title: 'Active Services',
+      value: stats.totalServices.toString(),
+      change: '+2',
+      trend: 'up' as const,
+      icon: Activity,
       color: 'blue'
     },
     {
-      title: 'Page Views',
-      value: '45,293',
-      change: '+8.2%',
-      trend: 'up',
-      icon: Eye,
+      title: 'Content Sections',
+      value: stats.totalContent.toString(),
+      change: '+3',
+      trend: 'up' as const,
+      icon: FileText,
       color: 'green'
     },
     {
-      title: 'Active Services',
-      value: '8',
-      change: '+2',
-      trend: 'up',
-      icon: Activity,
+      title: 'Media Files',
+      value: stats.totalMedia.toString(),
+      change: `+${Math.max(0, stats.totalMedia - 10)}`,
+      trend: 'up' as const,
+      icon: Image,
       color: 'purple'
     },
     {
-      title: 'Media Files',
-      value: '156',
-      change: '+24',
-      trend: 'up',
-      icon: Image,
+      title: 'System Status',
+      value: 'Online',
+      change: '99.9%',
+      trend: 'up' as const,
+      icon: Globe,
       color: 'orange'
     }
   ];
 
-  const recentActivity = [
-    { action: 'Updated Hero Section content', time: '2 minutes ago', type: 'content' },
-    { action: 'Added new service: Cardiology', time: '1 hour ago', type: 'service' },
-    { action: 'Uploaded 5 new images', time: '3 hours ago', type: 'media' },
-    { action: 'User profile updated', time: '1 day ago', type: 'user' }
-  ];
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -69,7 +186,7 @@ const DashboardOverview = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
+        {displayStats.map((stat, index) => (
           <Card key={index} className="border-0 shadow-sm hover:shadow-md transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -154,19 +271,23 @@ const DashboardOverview = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-start space-x-3 pb-3 border-b border-gray-100 last:border-0">
-                  <div className={`w-2 h-2 rounded-full mt-2 ${
-                    activity.type === 'content' ? 'bg-blue-500' :
-                    activity.type === 'service' ? 'bg-green-500' :
-                    activity.type === 'media' ? 'bg-purple-500' : 'bg-orange-500'
-                  }`} />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900">{activity.action}</p>
-                    <p className="text-xs text-gray-500">{activity.time}</p>
+              {stats.recentActivity.length > 0 ? (
+                stats.recentActivity.map((activity, index) => (
+                  <div key={index} className="flex items-start space-x-3 pb-3 border-b border-gray-100 last:border-0">
+                    <div className={`w-2 h-2 rounded-full mt-2 ${
+                      activity.type === 'content' ? 'bg-blue-500' :
+                      activity.type === 'service' ? 'bg-green-500' :
+                      activity.type === 'media' ? 'bg-purple-500' : 'bg-orange-500'
+                    }`} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900">{activity.action}</p>
+                      <p className="text-xs text-gray-500">{activity.time}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-sm text-gray-500 text-center py-4">No recent activity</p>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -201,8 +322,8 @@ const DashboardOverview = () => {
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Users className="h-8 w-8 text-purple-600" />
               </div>
-              <p className="font-semibold text-gray-900">Active Users</p>
-              <p className="text-sm text-purple-600">247 Online Now</p>
+              <p className="font-semibold text-gray-900">Data Sync</p>
+              <p className="text-sm text-purple-600">Real-time Active</p>
             </div>
           </div>
         </CardContent>

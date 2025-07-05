@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Save, Upload, Image, Video, Type, Globe } from 'lucide-react';
+import { Save, Upload, Image, Video, Type, Globe, Zap, Eye } from 'lucide-react';
 
 interface WebsiteContent {
   id: string;
@@ -33,20 +33,57 @@ interface ContentEditorProps {
 const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange }) => {
   const [editingSection, setEditingSection] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<WebsiteContent>>({});
+  const [saving, setSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Auto-save draft every 30 seconds if there are changes
+    const autoSaveInterval = setInterval(() => {
+      if (editingSection && formData && Object.keys(formData).length > 1) {
+        handleAutoSave();
+      }
+    }, 30000);
+
+    return () => clearInterval(autoSaveInterval);
+  }, [editingSection, formData]);
 
   const handleEdit = (section: WebsiteContent) => {
     setEditingSection(section.id);
     setFormData(section);
   };
 
-  const handleSave = async () => {
+  const handleAutoSave = async () => {
     if (!editingSection || !formData) return;
 
     try {
       const { error } = await supabase
         .from('website_content')
-        .update(formData)
+        .update({ ...formData, updated_at: new Date().toISOString() })
+        .eq('id', editingSection);
+
+      if (error) throw error;
+
+      // Update local state
+      const updatedContent = content.map(item => 
+        item.id === editingSection ? { ...item, ...formData } : item
+      );
+      onContentChange(updatedContent);
+      setLastSaved(new Date());
+
+    } catch (error) {
+      console.error('Auto-save failed:', error);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!editingSection || !formData) return;
+
+    try {
+      setSaving(true);
+      const { error } = await supabase
+        .from('website_content')
+        .update({ ...formData, updated_at: new Date().toISOString() })
         .eq('id', editingSection);
 
       if (error) throw error;
@@ -58,18 +95,21 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
       onContentChange(updatedContent);
 
       toast({
-        title: "Content updated",
+        title: "Content updated successfully",
         description: "Changes are now live on the website",
       });
 
       setEditingSection(null);
       setFormData({});
+      setLastSaved(new Date());
     } catch (error) {
       toast({
         title: "Error saving content",
         description: "Failed to update content",
         variant: "destructive"
       });
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -78,15 +118,22 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
     setFormData({});
   };
 
+  const handlePreview = () => {
+    // Open the main website in a new tab to preview changes
+    window.open(window.location.origin, '_blank');
+  };
+
   const getSectionDisplayName = (sectionKey: string) => {
     const names: Record<string, string> = {
       'hero': 'Hero Section',
       'services_header': 'Services Header',
       'value_prop': 'Value Proposition',
       'about': 'About Section',
-      'contact': 'Contact Section'
+      'contact': 'Contact Section',
+      'footer': 'Footer',
+      'navigation': 'Navigation'
     };
-    return names[sectionKey] || sectionKey;
+    return names[sectionKey] || sectionKey.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
   const getSectionIcon = (sectionKey: string) => {
@@ -97,13 +144,39 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
     }
   };
 
+  const getSectionDescription = (sectionKey: string) => {
+    const descriptions: Record<string, string> = {
+      'hero': 'Main landing section with primary messaging',
+      'services_header': 'Introduction to your service offerings',
+      'value_prop': 'Key value propositions and benefits',
+      'about': 'Company information and background',
+      'contact': 'Contact information and forms'
+    };
+    return descriptions[sectionKey] || 'Content section configuration';
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Content Management</h2>
-        <Badge variant="outline" className="bg-blue-50 text-blue-700">
-          Real-time sync enabled
-        </Badge>
+        <div>
+          <h2 className="text-2xl font-bold">Content Management</h2>
+          <p className="text-gray-600">Edit and manage your website content with real-time sync</p>
+        </div>
+        <div className="flex items-center gap-4">
+          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+            <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
+            Real-time sync active
+          </Badge>
+          {lastSaved && (
+            <span className="text-sm text-gray-500">
+              Last saved: {lastSaved.toLocaleTimeString()}
+            </span>
+          )}
+          <Button variant="outline" onClick={handlePreview}>
+            <Eye className="h-4 w-4 mr-2" />
+            Preview Website
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-6">
@@ -115,16 +188,21 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
                   {getSectionIcon(section.section_key)}
                   <div>
                     <CardTitle>{getSectionDisplayName(section.section_key)}</CardTitle>
-                    <CardDescription>Section: {section.section_key}</CardDescription>
+                    <CardDescription>{getSectionDescription(section.section_key)}</CardDescription>
                   </div>
                 </div>
-                <Button
-                  variant="outline"
-                  onClick={() => handleEdit(section)}
-                  disabled={editingSection === section.id}
-                >
-                  Edit Content
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary" className="text-xs">
+                    {section.section_key}
+                  </Badge>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleEdit(section)}
+                    disabled={editingSection === section.id}
+                  >
+                    {editingSection === section.id ? 'Editing...' : 'Edit Content'}
+                  </Button>
+                </div>
               </div>
             </CardHeader>
 
@@ -238,14 +316,27 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <Button onClick={handleSave} className="flex items-center gap-2">
-                      <Save className="h-4 w-4" />
-                      Save Changes
+                  <div className="flex items-center gap-4 pt-4 border-t">
+                    <Button onClick={handleSave} disabled={saving} className="flex items-center gap-2">
+                      {saving ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          Saving...
+                        </>
+                      ) : (
+                        <>
+                          <Save className="h-4 w-4" />
+                          Save Changes
+                        </>
+                      )}
                     </Button>
-                    <Button variant="outline" onClick={handleCancel}>
+                    <Button variant="outline" onClick={handleCancel} disabled={saving}>
                       Cancel
                     </Button>
+                    <div className="flex items-center gap-2 text-sm text-gray-500 ml-auto">
+                      <Zap className="h-4 w-4" />
+                      Auto-saving every 30 seconds
+                    </div>
                   </div>
                 </div>
               ) : (
@@ -286,12 +377,47 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
                       )}
                     </div>
                   )}
+                  {(section.background_image_url || section.background_video_url) && (
+                    <div className="pt-4 border-t">
+                      <span className="text-sm font-medium text-gray-500">Media Assets:</span>
+                      <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
+                        {section.background_image_url && (
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <Image className="h-4 w-4" />
+                            Desktop background set
+                          </div>
+                        )}
+                        {section.mobile_background_url && (
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <Image className="h-4 w-4" />
+                            Mobile background set
+                          </div>
+                        )}
+                        {section.background_video_url && (
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <Video className="h-4 w-4" />
+                            Background video set
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </CardContent>
           </Card>
         ))}
       </div>
+
+      {content.length === 0 && (
+        <Card>
+          <CardContent className="py-12 text-center">
+            <Type className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No content sections found</h3>
+            <p className="text-gray-600">Content sections will appear here once they're added to the database</p>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
