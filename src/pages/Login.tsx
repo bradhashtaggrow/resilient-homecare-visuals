@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,6 +15,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { signIn, user, isAdmin } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Redirect if already authenticated and is admin
   if (user && isAdmin) {
@@ -41,8 +42,10 @@ const Login = () => {
     } else {
       toast({
         title: "Welcome back!",
-        description: "You have successfully signed in."
+        description: "Redirecting to admin dashboard..."
       });
+      // Auto-redirect to admin dashboard
+      navigate('/admin');
     }
 
     setLoading(false);
@@ -91,13 +94,13 @@ const Login = () => {
                   Signing in...
                 </>
               ) : (
-                'Sign In'
+                'Sign In to Admin Dashboard'
               )}
             </Button>
           </form>
           
           <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm text-gray-600 font-medium mb-2">Default Admin Credentials:</p>
+            <p className="text-sm text-gray-600 font-medium mb-2">Admin Credentials:</p>
             <p className="text-xs text-gray-500">Email: admin@healthcare.com</p>
             <p className="text-xs text-gray-500">Password: Admin123!</p>
           </div>
