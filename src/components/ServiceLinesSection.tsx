@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 const ServiceLinesSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeService, setActiveService] = useState(0);
-  const [typingPhase, setTypingPhase] = useState(0); // 0: not started, 1: first line, 2: pause, 3: second line
+  const [showFirstLine, setShowFirstLine] = useState(false);
+  const [showSecondLine, setShowSecondLine] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -13,17 +14,13 @@ const ServiceLinesSection = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-            // Start typing animation after main animation
+            // Start typing animations with delays
             setTimeout(() => {
-              setTypingPhase(1); // Show first line immediately
-              // After 1.5s, pause, then after 1s more show second line
+              setShowFirstLine(true);
               setTimeout(() => {
-                setTypingPhase(2); // pause
-                setTimeout(() => {
-                  setTypingPhase(3); // second line
-                }, 1000);
-              }, 1500);
-            }, 500);
+                setShowSecondLine(true);
+              }, 2000); // 2 second delay after first line finishes
+            }, 800); // Initial delay
           }
         });
       },
@@ -128,13 +125,12 @@ const ServiceLinesSection = () => {
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.9 }}>
-            <span className={`inline-block overflow-hidden whitespace-nowrap ${typingPhase >= 1 ? 'animate-typing' : 'w-0'}`}>
+            <div className={`overflow-hidden ${showFirstLine ? 'typing-line-1' : 'w-0'}`}>
               Fully Streamlined.
-            </span>
-            <br />
-            <span className={`inline-block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent overflow-hidden whitespace-nowrap ${typingPhase >= 3 ? 'animate-typing' : 'w-0'}`}>
+            </div>
+            <div className={`bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent overflow-hidden ${showSecondLine ? 'typing-line-2' : 'w-0'}`}>
               Uncompromisingly Simple.
-            </span>
+            </div>
           </h2>
           <p className="text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', lineHeight: 1.4 }}>
@@ -253,19 +249,24 @@ const ServiceLinesSection = () => {
         </div>
       </div>
 
-      <style jsx>{`
-        @keyframes typing {
-          from {
-            width: 0;
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
           }
-          to {
-            width: 100%;
+          
+          .typing-line-1 {
+            animation: typewriter 1.5s steps(20, end) forwards;
+            white-space: nowrap;
           }
-        }
-        .animate-typing {
-          animation: typing 1.5s steps(40, end) forwards;
-        }
-      `}</style>
+          
+          .typing-line-2 {
+            animation: typewriter 1.8s steps(25, end) forwards;
+            white-space: nowrap;
+          }
+        `
+      }} />
     </section>
   );
 };
