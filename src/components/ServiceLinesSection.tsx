@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 const ServiceLinesSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeService, setActiveService] = useState(0);
-  const [isTypingVisible, setIsTypingVisible] = useState(false);
+  const [typingPhase, setTypingPhase] = useState(0); // 0: not started, 1: first line, 2: pause, 3: second line
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -15,7 +15,16 @@ const ServiceLinesSection = () => {
           if (entry.isIntersecting) {
             setIsVisible(true);
             // Start typing animation after main animation
-            setTimeout(() => setIsTypingVisible(true), 500);
+            setTimeout(() => {
+              setTypingPhase(1);
+              // After first line types (3s), pause for 1s, then start second line
+              setTimeout(() => {
+                setTypingPhase(2); // pause
+                setTimeout(() => {
+                  setTypingPhase(3); // second line
+                }, 1000);
+              }, 3000);
+            }, 500);
           }
         });
       },
@@ -120,10 +129,13 @@ const ServiceLinesSection = () => {
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            <span className={`inline-block ${isTypingVisible ? 'animate-typing' : ''}`}>
+            <span className={`inline-block ${typingPhase >= 1 ? 'animate-typing' : ''}`}>
               Fully Streamlined,
             </span>
-            <span className="block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent"> Uncompromisingly Simple</span>
+            <span className={`block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent ${typingPhase >= 3 ? 'animate-typing' : 'opacity-0'}`}
+                  style={{ animationDelay: typingPhase >= 3 ? '0s' : undefined }}>
+              Uncompromisingly Simple
+            </span>
           </h2>
           <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
