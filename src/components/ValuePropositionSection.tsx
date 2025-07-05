@@ -54,7 +54,7 @@ const ValuePropositionSection = () => {
   };
 
   useEffect(() => {
-    // Load value proposition content and features from database
+    // Load value proposition content from database
     const loadValuePropContent = async () => {
       try {
         const { data, error } = await supabase
@@ -72,6 +72,14 @@ const ValuePropositionSection = () => {
             subtitle: data.subtitle || '',
             description: data.description || ''
           });
+
+          // Load features from content_data
+          if (data.content_data && typeof data.content_data === 'object' && data.content_data !== null) {
+            const contentData = data.content_data as any;
+            if (contentData.features) {
+              setFeatures(contentData.features);
+            }
+          }
         } else {
           console.log('No value proposition content found in database, using defaults');
         }
@@ -80,29 +88,10 @@ const ValuePropositionSection = () => {
       }
     };
 
-    const loadValuePropFeatures = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('value_proposition_features')
-          .select('*')
-          .order('display_order', { ascending: true });
-
-        if (data && !error) {
-          console.log('Loaded value proposition features from database:', data);
-          setFeatures(data);
-        } else {
-          console.log('No value proposition features found in database');
-        }
-      } catch (error) {
-        console.error('Error loading value proposition features from database:', error);
-      }
-    };
-
     loadValuePropContent();
-    loadValuePropFeatures();
 
-    // Set up real-time subscriptions
-    const contentChannel = supabase
+    // Set up real-time subscription
+    const channel = supabase
       .channel('value-prop-content-changes')
       .on('postgres_changes', {
         event: '*',
@@ -115,21 +104,8 @@ const ValuePropositionSection = () => {
       })
       .subscribe();
 
-    const featuresChannel = supabase
-      .channel('value-prop-features-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'value_proposition_features'
-      }, (payload) => {
-        console.log('Real-time value proposition features change:', payload);
-        loadValuePropFeatures();
-      })
-      .subscribe();
-
     return () => {
-      supabase.removeChannel(contentChannel);
-      supabase.removeChannel(featuresChannel);
+      supabase.removeChannel(channel);
     };
   }, []);
 
