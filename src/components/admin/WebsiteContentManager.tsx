@@ -68,6 +68,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [uploadingPatientImage, setUploadingPatientImage] = useState<{[key: number]: boolean}>({});
+  const [newVideoUrl, setNewVideoUrl] = useState<string | null>(null);
   const { toast } = useToast();
 
   // Available icons for selection
@@ -172,6 +173,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const handleEdit = (section: WebsiteContent) => {
     setEditingSection(section.section_key);
     setEditForm(section);
+    setNewVideoUrl(null); // Clear any previous upload preview
   };
 
   const handleSave = async () => {
@@ -217,6 +219,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const handleCancel = () => {
     setEditingSection(null);
     setEditForm({});
+    setNewVideoUrl(null); // Clear any upload preview
   };
 
   const formatSectionName = (key: string) => {
@@ -275,6 +278,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
         .from('media')
         .getPublicUrl(filePath);
 
+      setNewVideoUrl(data.publicUrl);
       return data.publicUrl;
     } catch (error) {
       console.error('Error uploading video:', error);
@@ -814,10 +818,10 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                   Uploading video...
                                 </div>
                               )}
-                              {editForm.background_video_url && (
+                              {newVideoUrl && (
                                 <div className="mt-2">
                                   <video
-                                    src={editForm.background_video_url}
+                                    src={newVideoUrl}
                                     className="w-full h-60 object-contain rounded border bg-gray-100"
                                     muted
                                     controls
