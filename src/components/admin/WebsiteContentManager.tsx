@@ -834,6 +834,152 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             </div>
                           </div>
                         </>
+                      ) : section.section_key === 'founder' ? (
+                        // Founder section specific form - comprehensive founder content
+                        <>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Title
+                              </label>
+                              <Input
+                                value={editForm.title || ''}
+                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                                placeholder="Section title"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Subtitle
+                              </label>
+                              <Input
+                                value={editForm.subtitle || ''}
+                                onChange={(e) => setEditForm({...editForm, subtitle: e.target.value})}
+                                placeholder="Section subtitle"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <Textarea
+                              value={editForm.description || ''}
+                              onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                              placeholder="Section description"
+                              rows={3}
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Quote
+                            </label>
+                            <Input
+                              value={(editForm.content_data as any)?.quote || ''}
+                              onChange={(e) => setEditForm({
+                                ...editForm,
+                                content_data: { ...editForm.content_data, quote: e.target.value }
+                              })}
+                              placeholder="Main quote"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Quote Subtitle
+                            </label>
+                            <Input
+                              value={(editForm.content_data as any)?.quote_subtitle || ''}
+                              onChange={(e) => setEditForm({
+                                ...editForm,
+                                content_data: { ...editForm.content_data, quote_subtitle: e.target.value }
+                              })}
+                              placeholder="Quote subtitle"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Founder Story
+                            </label>
+                            <Textarea
+                              value={((editForm.content_data as any)?.story || [])[0] || ''}
+                              onChange={(e) => {
+                                const currentStory = (editForm.content_data as any)?.story || [];
+                                const newStory = [...currentStory];
+                                newStory[0] = e.target.value;
+                                setEditForm({
+                                  ...editForm,
+                                  content_data: { ...editForm.content_data, story: newStory }
+                                });
+                              }}
+                              placeholder="Founder's story"
+                              rows={8}
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Closing Statement
+                            </label>
+                            <Input
+                              value={(editForm.content_data as any)?.closing || ''}
+                              onChange={(e) => setEditForm({
+                                ...editForm,
+                                content_data: { ...editForm.content_data, closing: e.target.value }
+                              })}
+                              placeholder="Closing statement"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <Image className="h-4 w-4 inline mr-1" />
+                              Upload Founder Image
+                            </label>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+                                const url = await handleImageUpload(file);
+                                if (url) {
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { ...editForm.content_data, founder_image: url }
+                                  });
+                                  toast({
+                                    title: "Upload successful",
+                                    description: "Founder image uploaded successfully",
+                                  });
+                                }
+                              }}
+                              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                              disabled={uploadingImage}
+                            />
+                            {uploadingImage && (
+                              <div className="flex items-center mt-2 text-sm text-blue-600">
+                                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"></div>
+                                Uploading image...
+                              </div>
+                            )}
+                            {(editForm.content_data as any)?.founder_image && (
+                              <div className="mt-2">
+                                <img
+                                  src={(editForm.content_data as any)?.founder_image}
+                                  alt="Founder preview"
+                                  className="w-full h-48 object-contain rounded border bg-gray-100"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </>
                       ) : (
                         // Regular form for other sections
                         <>
@@ -1097,8 +1243,69 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                       <div className="mt-2 text-xs text-orange-600 bg-orange-50 p-2 rounded">
                                         <strong>Note:</strong> {service.note}
                                       </div>
-                                    )}
-                                  </div>
+                      )}
+
+                      {/* Founder Section - Display founder content when not editing */}
+                      {section.section_key === 'founder' && (section.content_data as any) && (
+                        <div className="space-y-4 pt-4">
+                          <h4 className="text-sm font-medium text-gray-500">Founder Content:</h4>
+                          <div className="space-y-3">
+                            {(section.content_data as any)?.quote && (
+                              <div>
+                                <span className="text-sm font-medium text-gray-500">Quote:</span>
+                                <p className="text-gray-900 italic">"{(section.content_data as any).quote}"</p>
+                                {(section.content_data as any)?.quote_subtitle && (
+                                  <p className="text-sm text-gray-600 mt-1">{(section.content_data as any).quote_subtitle}</p>
+                                )}
+                              </div>
+                            )}
+                            {(section.content_data as any)?.founder_image && (
+                              <div>
+                                <span className="text-sm font-medium text-gray-500">Founder Image:</span>
+                                <img
+                                  src={(section.content_data as any).founder_image}
+                                  alt="Founder"
+                                  className="w-full h-48 object-contain rounded border bg-gray-100 mt-2"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            )}
+                            {(section.content_data as any)?.story && (section.content_data as any).story[0] && (
+                              <div>
+                                <span className="text-sm font-medium text-gray-500">Story:</span>
+                                <p className="text-gray-900 mt-1 text-sm leading-relaxed">{(section.content_data as any).story[0]}</p>
+                              </div>
+                            )}
+                            {(section.content_data as any)?.achievements && (
+                              <div>
+                                <span className="text-sm font-medium text-gray-500">Achievements:</span>
+                                <div className="grid gap-2 mt-2">
+                                  {(section.content_data as any).achievements.map((achievement: any, index: number) => (
+                                    <div key={index} className="border rounded-lg p-3 bg-white shadow-sm">
+                                      <div className="flex items-center space-x-2">
+                                        {getIconComponent(achievement.icon)}
+                                        <div>
+                                          <h5 className="font-medium text-gray-900">{achievement.title}</h5>
+                                          <p className="text-sm text-gray-600">{achievement.subtitle}</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            {(section.content_data as any)?.closing && (
+                              <div>
+                                <span className="text-sm font-medium text-gray-500">Closing:</span>
+                                <p className="text-gray-900 font-medium">{(section.content_data as any).closing}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                     </div>
                                 </div>
                               </div>
                             ))}
