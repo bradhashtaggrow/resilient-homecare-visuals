@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import MediaLibrary from './MediaLibrary';
@@ -17,7 +18,23 @@ import {
   Wifi,
   WifiOff,
   Eye,
-  Settings
+  Settings,
+  Activity,
+  Heart,
+  Building2,
+  TrendingUp,
+  Shield,
+  Target,
+  Award,
+  Users,
+  MapPin,
+  CheckCircle,
+  Zap,
+  Clock,
+  BarChart3,
+  Database,
+  Lock,
+  BookOpen
 } from 'lucide-react';
 
 interface WebsiteContent {
@@ -49,6 +66,31 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const [editForm, setEditForm] = useState<Partial<WebsiteContent>>({});
   const [activeTab, setActiveTab] = useState('content');
   const { toast } = useToast();
+
+  // Available icons for selection
+  const availableIcons = {
+    Activity,
+    Heart,
+    Building2,
+    TrendingUp,
+    Shield,
+    Target,
+    Award,
+    Users,
+    MapPin,
+    CheckCircle,
+    Zap,
+    Clock,
+    BarChart3,
+    Database,
+    Lock,
+    BookOpen
+  };
+
+  const getIconComponent = (iconName: string) => {
+    const IconComponent = availableIcons[iconName as keyof typeof availableIcons];
+    return IconComponent ? <IconComponent className="h-5 w-5" /> : <Activity className="h-5 w-5" />;
+  };
 
   useEffect(() => {
     loadContent();
@@ -493,15 +535,21 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                     />
                                   )}
                                   <div className="flex-1">
-                                    <h5 className="font-medium text-gray-900">{service.title}</h5>
+                                    <div className="flex items-center space-x-2 mb-2">
+                                      {getIconComponent(service.icon)}
+                                      <h5 className="font-medium text-gray-900">{service.title}</h5>
+                                    </div>
                                     <p className="text-sm text-blue-600">{service.subtitle}</p>
                                     <p className="text-sm text-gray-600 mt-1">{service.description}</p>
                                     {service.benefits && (
                                       <div className="mt-2">
                                         <p className="text-xs font-medium text-gray-500">Benefits:</p>
-                                        <ul className="text-xs text-gray-600 list-disc list-inside">
+                                        <ul className="text-xs text-gray-600 space-y-1">
                                           {service.benefits.map((benefit: any, i: number) => (
-                                            <li key={i}>{benefit.text}</li>
+                                            <li key={i} className="flex items-center space-x-2">
+                                              {getIconComponent(benefit.icon)}
+                                              <span>{benefit.text}</span>
+                                            </li>
                                           ))}
                                         </ul>
                                       </div>
@@ -531,7 +579,36 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             <h5 className="font-medium text-gray-900">Service {serviceIndex + 1}: {service.title}</h5>
                           </div>
                           
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="flex items-start space-x-4">
+                                  <div className="flex items-center space-x-2">
+                                    {getIconComponent(service.icon)}
+                                    <Select
+                                      value={service.icon || 'Activity'}
+                                      onValueChange={(value) => {
+                                        const newServices = [...((editForm.content_data as any)?.services || [])];
+                                        newServices[serviceIndex] = { ...service, icon: value };
+                                        setEditForm({
+                                          ...editForm,
+                                          content_data: { ...editForm.content_data, services: newServices }
+                                        });
+                                      }}
+                                    >
+                                      <SelectTrigger className="w-40">
+                                        <SelectValue />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        {Object.keys(availableIcons).map((iconName) => (
+                                          <SelectItem key={iconName} value={iconName}>
+                                            <div className="flex items-center space-x-2">
+                                              {getIconComponent(iconName)}
+                                              <span>{iconName}</span>
+                                            </div>
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                  </div>
+                                  <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-2">Service Title</label>
                               <Input
@@ -561,8 +638,9 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                 }}
                                 placeholder="Service subtitle"
                               />
-                            </div>
-                          </div>
+                                    </div>
+                                  </div>
+                                </div>
 
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Service Description</label>
@@ -613,37 +691,54 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             <label className="block text-sm font-medium text-gray-700 mb-2">Service Benefits</label>
                             <div className="space-y-2">
                               {service.benefits?.map((benefit: any, benefitIndex: number) => (
-                                <div key={benefitIndex} className="flex items-center space-x-2">
-                                  <Input
-                                    value={benefit.text || ''}
-                                    onChange={(e) => {
-                                      const newServices = [...((editForm.content_data as any)?.services || [])];
-                                      const newBenefits = [...(service.benefits || [])];
-                                      newBenefits[benefitIndex] = { ...benefit, text: e.target.value };
-                                      newServices[serviceIndex] = { ...service, benefits: newBenefits };
-                                      setEditForm({
-                                        ...editForm,
-                                        content_data: { ...editForm.content_data, services: newServices }
-                                      });
-                                    }}
-                                    placeholder="Benefit description"
-                                    className="flex-1"
-                                  />
-                                  <Input
-                                    value={benefit.icon || 'CheckCircle'}
-                                    onChange={(e) => {
-                                      const newServices = [...((editForm.content_data as any)?.services || [])];
-                                      const newBenefits = [...(service.benefits || [])];
-                                      newBenefits[benefitIndex] = { ...benefit, icon: e.target.value };
-                                      newServices[serviceIndex] = { ...service, benefits: newBenefits };
-                                      setEditForm({
-                                        ...editForm,
-                                        content_data: { ...editForm.content_data, services: newServices }
-                                      });
-                                    }}
-                                    placeholder="Icon name"
-                                    className="w-32"
-                                  />
+                                <div key={benefitIndex} className="flex items-center space-x-2 p-2 border rounded">
+                                  <div className="flex items-center space-x-2 flex-1">
+                                    <div className="flex items-center space-x-2">
+                                      {getIconComponent(benefit.icon)}
+                                      <Select
+                                        value={benefit.icon || 'CheckCircle'}
+                                        onValueChange={(value) => {
+                                          const newServices = [...((editForm.content_data as any)?.services || [])];
+                                          const newBenefits = [...(service.benefits || [])];
+                                          newBenefits[benefitIndex] = { ...benefit, icon: value };
+                                          newServices[serviceIndex] = { ...service, benefits: newBenefits };
+                                          setEditForm({
+                                            ...editForm,
+                                            content_data: { ...editForm.content_data, services: newServices }
+                                          });
+                                        }}
+                                      >
+                                        <SelectTrigger className="w-32">
+                                          <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          {Object.keys(availableIcons).map((iconName) => (
+                                            <SelectItem key={iconName} value={iconName}>
+                                              <div className="flex items-center space-x-2">
+                                                {getIconComponent(iconName)}
+                                                <span>{iconName}</span>
+                                              </div>
+                                            </SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                    </div>
+                                    <Input
+                                      value={benefit.text || ''}
+                                      onChange={(e) => {
+                                        const newServices = [...((editForm.content_data as any)?.services || [])];
+                                        const newBenefits = [...(service.benefits || [])];
+                                        newBenefits[benefitIndex] = { ...benefit, text: e.target.value };
+                                        newServices[serviceIndex] = { ...service, benefits: newBenefits };
+                                        setEditForm({
+                                          ...editForm,
+                                          content_data: { ...editForm.content_data, services: newServices }
+                                        });
+                                      }}
+                                      placeholder="Benefit description"
+                                      className="flex-1"
+                                    />
+                                  </div>
                                 </div>
                               )) || []}
                             </div>
