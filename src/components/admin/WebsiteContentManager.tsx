@@ -74,26 +74,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
         .order('section_key', { ascending: true });
 
       if (error) throw error;
-      
-      // Sort sections according to proper website structure order
-      const sectionOrder = [
-        'hero',
-        'value_proposition', 
-        'services',
-        'stats',
-        'founder',
-        'mobile_showcase',
-        'admin_dashboard',
-        'lead_generation'
-      ];
-      
-      const sortedData = (data || []).sort((a, b) => {
-        const aIndex = sectionOrder.indexOf(a.section_key);
-        const bIndex = sectionOrder.indexOf(b.section_key);
-        return aIndex - bIndex;
-      });
-      
-      setContent(sortedData);
+      setContent(data || []);
     } catch (error) {
       console.error('Error loading content:', error);
       toast({
