@@ -25,7 +25,7 @@ const Navigation = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       isScrolled 
-        ? 'paper-texture-card backdrop-blur-xl shadow-xl border-b border-gray-200/20' 
+        ? 'bg-white/70 backdrop-blur-xl shadow-sm border-b border-gray-200/30' 
         : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,7 +46,7 @@ const Navigation = () => {
                 key={item.name}
                 href={item.href}
                 className={`text-lg lg:text-xl font-bold transition-all duration-300 hover:scale-105 tracking-tight relative group ${
-                  isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'
+                  isScrolled ? 'text-gray-800 hover:text-blue-600' : 'text-white hover:text-blue-200'
                 }`}
                 style={{ fontWeight: 900 }}
               >
@@ -98,22 +98,22 @@ const Navigation = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
-              <X className={`h-6 w-6 ${isScrolled ? 'text-gray-700' : 'text-white'}`} />
+              <X className={`h-6 w-6 ${isScrolled ? 'text-gray-800' : 'text-white'}`} />
             ) : (
-              <Menu className={`h-6 w-6 ${isScrolled ? 'text-gray-700' : 'text-white'}`} />
+              <Menu className={`h-6 w-6 ${isScrolled ? 'text-gray-800' : 'text-white'}`} />
             )}
           </button>
         </div>
 
         {/* Enhanced Mobile Menu with Animations */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 paper-texture-card backdrop-blur-xl shadow-xl border-b border-gray-200/20 animate-slide-down">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-white/90 backdrop-blur-xl shadow-xl border-b border-gray-200/30 animate-slide-down">
             <div className="px-4 sm:px-6 py-4 space-y-4">
               {navItems.map((item, index) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="block text-lg sm:text-xl font-bold text-gray-700 hover:text-blue-600 transition-all duration-300 tracking-tight hover:translate-x-2"
+                  className="block text-lg sm:text-xl font-bold text-gray-800 hover:text-blue-600 transition-all duration-300 tracking-tight hover:translate-x-2"
                   style={{ 
                     fontWeight: 900,
                     animationDelay: `${index * 100}ms`
