@@ -144,25 +144,20 @@ const MobileShowcase = () => {
                     <div className="w-full h-full bg-black rounded-[3rem] p-1">
                       {/* Screen with HD Video Background */}
                       <div className="w-full h-full bg-gradient-to-br from-slate-900 to-gray-900 rounded-[2.8rem] relative overflow-hidden">
-                        {/* HD Video Background */}
+                        {/* HD Video Background - Same as landing page */}
                         <div className="absolute inset-0 z-0">
                           <video
                             autoPlay
                             muted
                             loop
                             playsInline
-                            preload="auto"
+                            preload="metadata"
                             className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
-                            style={{ 
-                              filter: 'none',
-                              imageRendering: 'crisp-edges'
-                            }}
                           >
-                            <source src="https://videos.pexels.com/video-files/3195394/3195394-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                             <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                           </video>
-                          {/* Reduced overlay for better video clarity */}
-                          <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px] rounded-[2.8rem]" />
+                          {/* Minimal dark overlay for text readability */}
+                          <div className="absolute inset-0 bg-black/30 rounded-[2.8rem]" />
                         </div>
                         
                         {/* Dynamic Island */}
