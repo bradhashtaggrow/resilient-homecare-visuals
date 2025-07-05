@@ -67,7 +67,9 @@ const MobileShowcase = () => {
             title: data.title || 'Go Mobile With Your Patients This Year',
             subtitle: data.subtitle || '',
             description: data.description || 'Enterprise-grade mobile platform that connects your entire healthcare ecosystem with military-grade security and real-time insights.',
-            features: contentData?.features || keyFeatures
+            features: contentData?.features || keyFeatures,
+            background_video_url: data.background_video_url || '',
+            background_image_url: data.background_image_url || ''
           });
         } else {
           console.log('No mobile showcase content found in database, using defaults');

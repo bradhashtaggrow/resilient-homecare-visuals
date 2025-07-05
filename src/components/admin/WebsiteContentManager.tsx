@@ -66,15 +66,36 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     }
   };
 
+  const getSectionOrder = (sectionKey: string) => {
+    const order = {
+      'navigation': 1,
+      'hero_section': 2,
+      'service_lines_section': 3,
+      'mobile_showcase': 4,
+      'value_proposition_section': 5,
+      'admin_dashboard': 6,
+      'stats_section': 7,
+      'founder_section': 8,
+      'lead_gen_section': 9,
+      'footer': 10
+    };
+    return order[sectionKey as keyof typeof order] || 999;
+  };
+
   const loadContent = async () => {
     try {
       const { data, error } = await supabase
         .from('website_content')
-        .select('*')
-        .order('section_key', { ascending: true });
+        .select('*');
 
       if (error) throw error;
-      setContent(data || []);
+      
+      // Sort by the defined order
+      const sortedData = (data || []).sort((a, b) => 
+        getSectionOrder(a.section_key) - getSectionOrder(b.section_key)
+      );
+      
+      setContent(sortedData);
     } catch (error) {
       console.error('Error loading content:', error);
       toast({
