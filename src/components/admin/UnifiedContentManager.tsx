@@ -227,8 +227,16 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
 
   const handleCreateSection = async (sectionKey: string) => {
     try {
-      // Set default content based on section type with proper typing
-      let defaultContent: Partial<WebsiteContent> = {
+      // Create the insert data with required fields properly typed
+      const insertData: {
+        section_key: string;
+        title?: string;
+        subtitle?: string;
+        description?: string;
+        button_text?: string;
+        button_url?: string;
+        background_video_url?: string;
+      } = {
         section_key: sectionKey,
         title: `${getSectionDisplayName(sectionKey)} Title`,
         subtitle: `${getSectionDisplayName(sectionKey)} Subtitle`,
@@ -239,18 +247,15 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
 
       // Special case for hero section - include the current video
       if (sectionKey === 'hero') {
-        defaultContent = {
-          ...defaultContent,
-          title: 'The Future of Healthcare',
-          description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
-          button_text: 'Request Demo',
-          background_video_url: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
-        };
+        insertData.title = 'The Future of Healthcare';
+        insertData.description = 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.';
+        insertData.button_text = 'Request Demo';
+        insertData.background_video_url = 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4';
       }
 
       const { data, error } = await supabase
         .from('website_content')
-        .insert(defaultContent)
+        .insert(insertData)
         .select()
         .single();
 
