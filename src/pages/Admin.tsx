@@ -126,9 +126,9 @@ const Admin = () => {
       case 'analytics':
         return <AnalyticsDashboard syncStatus={syncStatus} />;
       case 'users':
-        return <UserManagement />;
+        return <UserManagement syncStatus={syncStatus} />;
       case 'settings':
-        return <SystemSettings />;
+        return <SystemSettings syncStatus={syncStatus} />;
       default:
         return <DashboardOverview syncStatus={syncStatus} />;
     }
