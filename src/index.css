@@ -91,7 +91,7 @@
 
 /* Revolutionary Healthcare Animations & Effects */
 @layer utilities {
-  /* Enhanced Geometric Texture Overlay - Higher Contrast */
+  /* Enhanced Geometric Texture Overlay - Much Higher Contrast */
   .geometric-texture {
     position: relative;
   }
@@ -107,10 +107,10 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.25;
+    opacity: 0.5;
     pointer-events: none;
     z-index: 1;
-    mix-blend-mode: multiply;
+    mix-blend-mode: overlay;
   }
 
   .geometric-texture > * {
