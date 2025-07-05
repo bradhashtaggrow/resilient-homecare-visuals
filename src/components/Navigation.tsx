@@ -52,11 +52,11 @@ const Navigation = React.memo(() => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 will-change-transform ${
+    <nav className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 will-change-transform ${
       isScrolled 
-        ? 'bg-white/80 backdrop-blur-xl shadow-lg border-b border-gray-200/50' 
+        ? 'bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-200/50' 
         : 'bg-transparent'
-    }`}>
+    }`} style={{ position: 'fixed' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Enhanced Logo with Hover Animation */}

@@ -107,8 +107,8 @@ const ServiceLinesSection = () => {
       className="py-32 bg-white relative overflow-hidden paper-texture-subtle will-change-transform"
     >
       <div className="max-w-7xl mx-auto px-6 relative">
-        {/* Header */}
-        <div className={`text-center mb-20 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        {/* Header - Instant Load */}
+        <div className="text-center mb-20 opacity-100 translate-y-0">
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             Fully Streamlined,
@@ -120,17 +120,18 @@ const ServiceLinesSection = () => {
           </p>
         </div>
 
-        {/* Services Grid with Alternating Swoop Animations */}
+        {/* Services Grid with Immediate Swoop Animations */}
         <div className="space-y-16">
           {services.map((service, index) => (
             <div 
               key={index}
-              className={`transition-all duration-1000 ease-out ${
-                isVisible ? 
-                  (index % 2 === 0 ? 'animate-swoop-in-left opacity-100 translate-y-0' : 'animate-swoop-in-right opacity-100 translate-y-0') 
-                  : 'opacity-0 translate-y-8'
-              }`}
-              style={{animationDelay: `${index * 300}ms`}}
+              className={`${
+                index % 2 === 0 ? 'animate-swoop-in-left' : 'animate-swoop-in-right'
+              } opacity-100 translate-y-0`}
+              style={{
+                animationDelay: isVisible ? `${index * 200}ms` : '0ms',
+                animationFillMode: 'both'
+              }}
               onMouseEnter={() => setActiveService(index)}
             >
               <div className={`grid lg:grid-cols-2 gap-12 items-center ${
