@@ -26,41 +26,53 @@ const ServiceLinesSection = () => {
   });
 
   useEffect(() => {
-    // Load service lines content from storage
+    // Load service lines content from database
     const loadServiceLinesContent = async () => {
       try {
-        const { data, error } = await supabase.storage
-          .from('media')
-          .download('website-content/service_lines-config.json');
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'services')
+          .eq('is_active', true)
+          .single();
 
         if (data && !error) {
-          const text = await data.text();
-          const storageContent = JSON.parse(text);
-          console.log('Loaded service lines content from storage:', storageContent);
+          console.log('Loaded service lines content from database:', data);
           
           setContent({
-            title: storageContent.title || 'Fully Streamlined, Uncompromisingly Simple',
-            subtitle: storageContent.subtitle || '',
-            description: storageContent.description || 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.',
-            services: storageContent.services || getDefaultServices()
+            title: data.title || 'Fully Streamlined, Uncompromisingly Simple',
+            subtitle: data.subtitle || '',
+            description: data.description || 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.',
+            services: (data.content_data as any)?.services || getDefaultServices()
           });
         } else {
-          console.log('No service lines content found in storage, using defaults');
+          console.log('No service lines content found in database, using defaults');
           setContent(prev => ({ ...prev, services: getDefaultServices() }));
         }
       } catch (error) {
-        console.error('Error loading service lines content from storage:', error);
+        console.error('Error loading service lines content from database:', error);
         setContent(prev => ({ ...prev, services: getDefaultServices() }));
       }
     };
 
     loadServiceLinesContent();
 
-    // Poll for updates every 30 seconds
-    const interval = setInterval(loadServiceLinesContent, 30000);
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('services-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.services'
+      }, (payload) => {
+        console.log('Real-time services content change:', payload);
+        loadServiceLinesContent();
+      })
+      .subscribe();
 
     return () => {
-      clearInterval(interval);
+      supabase.removeChannel(channel);
     };
   }, []);
 

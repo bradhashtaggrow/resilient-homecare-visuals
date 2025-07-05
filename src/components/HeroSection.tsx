@@ -25,41 +25,53 @@ const HeroSection = React.memo(() => {
   });
 
   useEffect(() => {
-    // Load hero content from storage
+    // Load hero content from database
     const loadHeroContent = async () => {
       try {
-        const { data, error } = await supabase.storage
-          .from('media')
-          .download('website-content/hero-config.json');
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'hero')
+          .eq('is_active', true)
+          .single();
 
         if (data && !error) {
-          const text = await data.text();
-          const storageContent = JSON.parse(text);
-          console.log('Loaded hero content from storage:', storageContent);
+          console.log('Loaded hero content from database:', data);
           
           setContent({
-            title: storageContent.title || 'The Future of Healthcare',
-            subtitle: storageContent.subtitle || '',
-            description: storageContent.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
-            button_text: storageContent.button_text || 'Request Demo',
-            button_url: storageContent.button_url || '#',
-            background_video_url: storageContent.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            title: data.title || 'The Future of Healthcare',
+            subtitle: data.subtitle || '',
+            description: data.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
+            button_text: data.button_text || 'Request Demo',
+            button_url: data.button_url || '#',
+            background_video_url: data.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
           });
         } else {
-          console.log('No hero content found in storage, using defaults');
+          console.log('No hero content found in database, using defaults');
         }
       } catch (error) {
-        console.error('Error loading hero content from storage:', error);
+        console.error('Error loading hero content from database:', error);
       }
     };
 
     loadHeroContent();
 
-    // Storage doesn't have real-time subscriptions like database, so we'll poll occasionally
-    const interval = setInterval(loadHeroContent, 30000); // Check every 30 seconds
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('hero-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.hero'
+      }, (payload) => {
+        console.log('Real-time hero content change:', payload);
+        loadHeroContent();
+      })
+      .subscribe();
 
     return () => {
-      clearInterval(interval);
+      supabase.removeChannel(channel);
     };
   }, []);
 

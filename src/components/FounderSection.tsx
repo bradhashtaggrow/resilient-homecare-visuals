@@ -1,9 +1,110 @@
-
 import React, { useEffect, useState } from 'react';
 import { Quote, Award, Users, BookOpen } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface FounderContent {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  founder_image?: string;
+  quote?: string;
+  quote_subtitle?: string;
+  story?: string[];
+  closing?: string;
+  achievements?: Array<{
+    icon: string;
+    title: string;
+    subtitle: string;
+  }>;
+}
 
 const FounderSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [content, setContent] = useState<FounderContent>({
+    title: "Founder's Story",
+    subtitle: 'from Dr. Jackleen Samuel, PT, DPT | Founder & CEO',
+    founder_image: "/lovable-uploads/0e13c6b2-1822-4376-ae28-4c9ed2e5f0c7.png",
+    quote: "Dad's in the hospital, again...",
+    quote_subtitle: "That call became all too familiar.",
+    story: [
+      "Over the last four years of my dad's life, he cycled through hospitals, rehab centers, and specialists. After his first stroke at 61, things never really stabilized. His chronic conditions—diabetes, hypertension, high cholesterol—were poorly managed, and each hospital stay left him weaker than before. Eventually, he couldn't return home at all.",
+      "As a physical therapist, I knew the system was broken—but as a daughter, I lived it. We were constantly exhausted, worried, and navigating a healthcare system that felt more fragmented and reactive than healing.",
+      "I built this company because families—and hospitals—deserve better.",
+      "At Resilient, we partner with hospitals to extend their care into the home. Whether it's primary care, rehab, or hospital-level services, we bring the team to the patient—without burning out clinicians or placing the burden on families. We built the infrastructure, technology, and clinical support so hospitals can deliver exceptional care anywhere.",
+      "Because patients want to stay home. Clinicians want to do what they were trained to do—without drowning in paperwork or unsustainable workloads. And hospitals need a better way to serve them both."
+    ],
+    closing: "We are Resilient. And so are you.",
+    achievements: [
+      { icon: "BookOpen", title: "PT, DPT", subtitle: "Physical Therapist" },
+      { icon: "Users", title: "Founder", subtitle: "& CEO" },
+      { icon: "Award", title: "Healthcare", subtitle: "Innovation Leader" }
+    ]
+  });
+
+  useEffect(() => {
+    // Load founder content from database
+    const loadFounderContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'founder')
+          .eq('is_active', true)
+          .single();
+
+        if (data && !error) {
+          console.log('Loaded founder content from database:', data);
+          const contentData = data.content_data as any;
+          
+          setContent({
+            title: data.title || "Founder's Story",
+            subtitle: data.subtitle || 'from Dr. Jackleen Samuel, PT, DPT | Founder & CEO',
+            description: data.description || '',
+            founder_image: contentData?.founder_image || "/lovable-uploads/0e13c6b2-1822-4376-ae28-4c9ed2e5f0c7.png",
+            quote: contentData?.quote || "Dad's in the hospital, again...",
+            quote_subtitle: contentData?.quote_subtitle || "That call became all too familiar.",
+            story: contentData?.story || [
+              "Over the last four years of my dad's life, he cycled through hospitals, rehab centers, and specialists. After his first stroke at 61, things never really stabilized. His chronic conditions—diabetes, hypertension, high cholesterol—were poorly managed, and each hospital stay left him weaker than before. Eventually, he couldn't return home at all.",
+              "As a physical therapist, I knew the system was broken—but as a daughter, I lived it. We were constantly exhausted, worried, and navigating a healthcare system that felt more fragmented and reactive than healing.",
+              "I built this company because families—and hospitals—deserve better.",
+              "At Resilient, we partner with hospitals to extend their care into the home. Whether it's primary care, rehab, or hospital-level services, we bring the team to the patient—without burning out clinicians or placing the burden on families. We built the infrastructure, technology, and clinical support so hospitals can deliver exceptional care anywhere.",
+              "Because patients want to stay home. Clinicians want to do what they were trained to do—without drowning in paperwork or unsustainable workloads. And hospitals need a better way to serve them both."
+            ],
+            closing: contentData?.closing || "We are Resilient. And so are you.",
+            achievements: contentData?.achievements || [
+              { icon: "BookOpen", title: "PT, DPT", subtitle: "Physical Therapist" },
+              { icon: "Users", title: "Founder", subtitle: "& CEO" },
+              { icon: "Award", title: "Healthcare", subtitle: "Innovation Leader" }
+            ]
+          });
+        } else {
+          console.log('No founder content found in database, using defaults');
+        }
+      } catch (error) {
+        console.error('Error loading founder content from database:', error);
+      }
+    };
+
+    loadFounderContent();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('founder-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.founder'
+      }, (payload) => {
+        console.log('Real-time founder content change:', payload);
+        loadFounderContent();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -25,23 +126,18 @@ const FounderSection = () => {
     };
   }, []);
 
-  const achievements = [
-    {
-      icon: <BookOpen className="h-4 w-4 sm:h-6 sm:w-6" />,
-      title: "PT, DPT",
-      subtitle: "Physical Therapist"
-    },
-    {
-      icon: <Users className="h-4 w-4 sm:h-6 sm:w-6" />,
-      title: "Founder",
-      subtitle: "& CEO"
-    },
-    {
-      icon: <Award className="h-4 w-4 sm:h-6 sm:w-6" />,
-      title: "Healthcare",
-      subtitle: "Innovation Leader"
+  const getAchievementIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'BookOpen':
+        return <BookOpen className="h-4 w-4 sm:h-6 sm:w-6" />;
+      case 'Users':
+        return <Users className="h-4 w-4 sm:h-6 sm:w-6" />;
+      case 'Award':
+        return <Award className="h-4 w-4 sm:h-6 sm:w-6" />;
+      default:
+        return <BookOpen className="h-4 w-4 sm:h-6 sm:w-6" />;
     }
-  ];
+  };
 
   return (
     <section 
@@ -55,11 +151,11 @@ const FounderSection = () => {
         }`}>
           <h2 className="text-gray-900 leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            Founder's Story
+            {content.title}
           </h2>
           <p className="text-blue-600/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide hover:text-blue-700 transition-colors duration-500"
              style={{ fontSize: 'clamp(0.875rem, 2.5vw, 2rem)', lineHeight: 1.3 }}>
-            from Dr. Jackleen Samuel, PT, DPT | Founder & CEO
+            {content.subtitle}
           </p>
         </div>
 
@@ -80,7 +176,7 @@ const FounderSection = () => {
               {/* Main Image Container */}
               <div className="relative">
                 <img 
-                  src="/lovable-uploads/0e13c6b2-1822-4376-ae28-4c9ed2e5f0c7.png"
+                  src={content.founder_image}
                   alt="Dr. Jackleen Samuel, PT, DPT - Founder & CEO"
                   className="w-[405px] h-[405px] sm:w-[540px] sm:h-[540px] object-cover rounded-full shadow-2xl hover:scale-105 transition-transform duration-700 relative z-10 border-2 border-transparent"
                   style={{
@@ -90,21 +186,22 @@ const FounderSection = () => {
                 />
                 
                 {/* Enhanced Achievement Badges with Mobile Optimization */}
-                <div className="absolute -top-2 sm:-top-4 -right-2 sm:-right-4 hover:scale-110 transition-transform duration-300 z-20">
-                  <div className="bg-blue-600 text-white rounded-full p-2 sm:p-3 shadow-lg hover:bg-blue-700 transition-colors duration-300">
-                    <BookOpen className="h-4 w-4 sm:h-6 sm:w-6" />
-                  </div>
-                </div>
-                <div className="absolute top-1/2 -left-4 sm:-left-6 transform -translate-y-1/2 hover:scale-110 transition-transform duration-300 z-20">
-                  <div className="bg-blue-500 text-white rounded-full p-2 sm:p-3 shadow-lg hover:bg-blue-600 transition-colors duration-300">
-                    <Users className="h-4 w-4 sm:h-6 sm:w-6" />
-                  </div>
-                </div>
-                <div className="absolute -bottom-2 sm:-bottom-4 -right-6 sm:-right-8 hover:scale-110 transition-transform duration-300 z-20">
-                  <div className="bg-blue-700 text-white rounded-full p-2 sm:p-3 shadow-lg hover:bg-blue-800 transition-colors duration-300">
-                    <Award className="h-4 w-4 sm:h-6 sm:w-6" />
-                  </div>
-                </div>
+                {content.achievements?.map((achievement, index) => {
+                  const positions = [
+                    { className: "absolute -top-2 sm:-top-4 -right-2 sm:-right-4", bgColor: "bg-blue-600 hover:bg-blue-700" },
+                    { className: "absolute top-1/2 -left-4 sm:-left-6 transform -translate-y-1/2", bgColor: "bg-blue-500 hover:bg-blue-600" },
+                    { className: "absolute -bottom-2 sm:-bottom-4 -right-6 sm:-right-8", bgColor: "bg-blue-700 hover:bg-blue-800" }
+                  ];
+                  const position = positions[index] || positions[0];
+                  
+                  return (
+                    <div key={index} className={`${position.className} hover:scale-110 transition-transform duration-300 z-20`}>
+                      <div className={`${position.bgColor} text-white rounded-full p-2 sm:p-3 shadow-lg transition-colors duration-300`}>
+                        {getAchievementIcon(achievement.icon)}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -120,40 +217,26 @@ const FounderSection = () => {
               <Quote className="absolute -top-3 sm:-top-4 -left-3 sm:-left-4 h-12 w-12 sm:h-16 sm:w-16 text-blue-200 group-hover:text-blue-300 transition-colors duration-500" />
               <blockquote className="text-gray-900 leading-none tracking-tight font-black pl-8 sm:pl-12 group-hover:text-blue-600 transition-colors duration-500"
                           style={{ fontSize: 'clamp(1.25rem, 3vw, 3rem)', fontWeight: 900, lineHeight: 0.85 }}>
-                "Dad's in the hospital, again..."
+                {content.quote}
               </blockquote>
               <p className="text-blue-600/90 font-medium tracking-wide mt-3 sm:mt-4 pl-8 sm:pl-12 group-hover:text-blue-700 transition-colors duration-500"
                  style={{ fontSize: 'clamp(0.875rem, 2vw, 1.3rem)', lineHeight: 1.3 }}>
-                That call became all too familiar.
+                {content.quote_subtitle}
               </p>
             </div>
             
             {/* Enhanced Story Content with Mobile Typography */}
             <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-gray-700 leading-relaxed bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-shadow duration-500 group">
-              <p className="group-hover:text-gray-900 transition-colors duration-500">
-                Over the last four years of my dad's life, he cycled through hospitals, rehab centers, and specialists. After his first stroke at 61, things never really stabilized. His chronic conditions—diabetes, hypertension, high cholesterol—were poorly managed, and each hospital stay left him weaker than before. Eventually, he couldn't return home at all.
-              </p>
-              
-              <p className="group-hover:text-gray-900 transition-colors duration-500">
-                As a physical therapist, I knew the system was broken—but as a daughter, I lived it. We were constantly exhausted, worried, and navigating a healthcare system that felt more fragmented and reactive than healing.
-              </p>
-              
-              <p className="text-blue-600/90 font-medium tracking-wide group-hover:text-blue-700 transition-colors duration-500"
-                 style={{ fontSize: 'clamp(1rem, 2.2vw, 1.5rem)', lineHeight: 1.3 }}>
-                I built this company because families—and hospitals—deserve better.
-              </p>
-              
-              <p className="group-hover:text-gray-900 transition-colors duration-500">
-                At Resilient, we partner with hospitals to extend their care into the home. Whether it's primary care, rehab, or hospital-level services, we bring the team to the patient—without burning out clinicians or placing the burden on families. We built the infrastructure, technology, and clinical support so hospitals can deliver exceptional care anywhere.
-              </p>
+              {content.story?.map((paragraph, index) => (
+                <p key={index} className="group-hover:text-gray-900 transition-colors duration-500">
+                  {paragraph}
+                </p>
+              ))}
               
               <div className="bg-gradient-to-r from-blue-50/90 to-blue-100/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 border-l-4 border-blue-500 hover:border-blue-600 transition-colors duration-500">
-                <p className="text-gray-700 mb-3 sm:mb-4 group-hover:text-gray-900 transition-colors duration-500">
-                  Because patients want to stay home. Clinicians want to do what they were trained to do—without drowning in paperwork or unsustainable workloads. And hospitals need a better way to serve them both.
-                </p>
                 <p className="text-gray-900 leading-none tracking-tight font-black hover:text-blue-600 transition-colors duration-500"
                    style={{ fontSize: 'clamp(1.125rem, 2.5vw, 2.5rem)', fontWeight: 900, lineHeight: 0.85 }}>
-                  We are Resilient. And so are you.
+                  {content.closing}
                 </p>
               </div>
             </div>

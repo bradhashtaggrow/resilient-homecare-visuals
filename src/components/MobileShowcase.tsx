@@ -1,40 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import { Shield, BarChart3, Users, Zap, Database, Lock } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const MobileShowcase = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    const element = document.getElementById('mobile-showcase');
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (isVisible) {
-      const interval = setInterval(() => {
-        setRotation(prev => ({
-          x: Math.sin(Date.now() * 0.0008) * 3,
-          y: Math.sin(Date.now() * 0.0006) * 10
-        }));
-      }, 50);
-      return () => clearInterval(interval);
-    }
-  }, [isVisible]);
 
   const keyFeatures = [
     {
@@ -69,6 +39,93 @@ const MobileShowcase = () => {
     }
   ];
 
+  const [content, setContent] = useState({
+    title: 'Go Mobile With Your Patients This Year',
+    subtitle: '',
+    description: 'Enterprise-grade mobile platform that connects your entire healthcare ecosystem with military-grade security and real-time insights.',
+    features: keyFeatures
+  });
+
+  useEffect(() => {
+    // Load mobile showcase content from database
+    const loadMobileShowcaseContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'mobile_showcase')
+          .eq('is_active', true)
+          .single();
+
+        if (data && !error) {
+          console.log('Loaded mobile showcase content from database:', data);
+          const contentData = data.content_data as any;
+          
+          setContent({
+            title: data.title || 'Go Mobile With Your Patients This Year',
+            subtitle: data.subtitle || '',
+            description: data.description || 'Enterprise-grade mobile platform that connects your entire healthcare ecosystem with military-grade security and real-time insights.',
+            features: contentData?.features || keyFeatures
+          });
+        } else {
+          console.log('No mobile showcase content found in database, using defaults');
+        }
+      } catch (error) {
+        console.error('Error loading mobile showcase content from database:', error);
+      }
+    };
+
+    loadMobileShowcaseContent();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('mobile-showcase-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.mobile_showcase'
+      }, (payload) => {
+        console.log('Real-time mobile showcase content change:', payload);
+        loadMobileShowcaseContent();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    const element = document.getElementById('mobile-showcase');
+    if (element) observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (isVisible) {
+      const interval = setInterval(() => {
+        setRotation(prev => ({
+          x: Math.sin(Date.now() * 0.0008) * 3,
+          y: Math.sin(Date.now() * 0.0006) * 10
+        }));
+      }, 50);
+      return () => clearInterval(interval);
+    }
+  }, [isVisible]);
+
   return (
     <section id="mobile-showcase" className="py-32 bg-gradient-to-br from-slate-900 via-gray-900 to-black relative overflow-hidden">
       {/* Video Background Effect */}
@@ -83,15 +140,11 @@ const MobileShowcase = () => {
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <h2 className="text-white leading-none tracking-tight font-black mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 7rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            Go Mobile With Your 
-            <span className="block healthcare-text-gradient">
-              Patients This Year
-            </span>
+            {content.title}
           </h2>
           <p className="text-gray-300 max-w-4xl mx-auto leading-relaxed font-medium"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 1.8rem)', lineHeight: 1.3 }}>
-            Enterprise-grade mobile platform that connects your entire healthcare ecosystem 
-            with military-grade security and real-time insights.
+            {content.description}
           </p>
         </div>
 
@@ -125,7 +178,7 @@ const MobileShowcase = () => {
             ))}
           </div>
 
-          {/* Center - Hyper-Realistic Phone */}
+          {/* Center - Phone */}
           <div className="lg:col-span-4 flex justify-center">
             <div className={`transition-all duration-1000 delay-500 ${
               isVisible ? 'animate-scale-in opacity-100' : 'opacity-0'
@@ -138,13 +191,10 @@ const MobileShowcase = () => {
                     transformStyle: 'preserve-3d'
                   }}
                 >
-                  {/* iPhone 14 Pro Frame */}
+                  {/* iPhone Frame */}
                   <div className="relative w-80 h-[650px] bg-gradient-to-b from-gray-800 to-black rounded-[3.5rem] p-2 shadow-2xl">
-                    {/* Screen Bezel */}
                     <div className="w-full h-full bg-black rounded-[3rem] p-1">
-                      {/* Screen with HD Video Background */}
                       <div className="w-full h-full bg-gradient-to-br from-slate-900 to-gray-900 rounded-[2.8rem] relative overflow-hidden">
-                        {/* HD Video Background - Same as landing page */}
                         <div className="absolute inset-0 z-0">
                           <video
                             autoPlay
@@ -156,16 +206,12 @@ const MobileShowcase = () => {
                           >
                             <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                           </video>
-                          {/* Minimal dark overlay for text readability */}
                           <div className="absolute inset-0 bg-black/30 rounded-[2.8rem]" />
                         </div>
                         
-                        {/* Dynamic Island */}
                         <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-black rounded-full z-20"></div>
                         
-                        {/* Admin Login Interface - Over Video */}
                         <div className="p-8 pt-16 h-full flex flex-col relative z-10">
-                          {/* Header */}
                           <div className="text-center mb-8">
                             <div className="w-16 h-16 healthcare-gradient rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
                               <Shield className="h-8 w-8 text-white" />
@@ -174,31 +220,24 @@ const MobileShowcase = () => {
                             <p className="text-gray-300 text-sm">Secure Healthcare Management</p>
                           </div>
 
-                          {/* Login Form */}
                           <div className="space-y-4 flex-1">
-                            <div>
-                              <input 
-                                type="text" 
-                                placeholder="Email Address"
-                                className="w-full p-4 bg-white/25 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-gray-200 focus:border-blue-400 transition-colors shadow-lg"
-                                defaultValue="admin@healthcare.com"
-                              />
-                            </div>
-                            <div>
-                              <input 
-                                type="password" 
-                                placeholder="Password"
-                                className="w-full p-4 bg-white/25 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-gray-200 focus:border-blue-400 transition-colors shadow-lg"
-                                defaultValue="••••••••"
-                              />
-                            </div>
+                            <input 
+                              type="text" 
+                              placeholder="Email Address"
+                              className="w-full p-4 bg-white/25 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-gray-200 focus:border-blue-400 transition-colors shadow-lg"
+                              defaultValue="admin@healthcare.com"
+                            />
+                            <input 
+                              type="password" 
+                              placeholder="Password"
+                              className="w-full p-4 bg-white/25 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-gray-200 focus:border-blue-400 transition-colors shadow-lg"
+                              defaultValue="••••••••"
+                            />
                             
-                            {/* Login Button */}
                             <button className="w-full p-4 healthcare-gradient rounded-xl text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg">
                               Secure Login
                             </button>
 
-                            {/* Biometric */}
                             <div className="text-center py-4">
                               <div className="w-12 h-12 bg-white/25 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
                                 <div className="w-8 h-8 border-2 border-blue-400 rounded-full animate-pulse"></div>
@@ -211,7 +250,6 @@ const MobileShowcase = () => {
                     </div>
                   </div>
 
-                  {/* Floating Security Badges - Healthcare Blue Theme Only */}
                   <div className="absolute -top-6 -right-6 w-14 h-14 healthcare-gradient rounded-full flex items-center justify-center animate-float shadow-xl">
                     <Shield className="h-7 w-7 text-white" />
                   </div>

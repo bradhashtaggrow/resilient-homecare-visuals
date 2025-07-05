@@ -4,7 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHeader from '@/components/admin/AdminHeader';
 import DashboardOverview from '@/components/admin/DashboardOverview';
-import StorageContentManager from '@/components/admin/StorageContentManager';
+import WebsiteContentManager from '@/components/admin/WebsiteContentManager';
 import RealTimePreview from '@/components/admin/RealTimePreview';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
 import UserManagement from '@/components/admin/UserManagement';
@@ -131,8 +131,9 @@ const Admin = () => {
     switch (activeSection) {
       case 'dashboard':
         return <DashboardOverview syncStatus={syncStatus} stats={stats} />;
-      case 'content':
-        return <StorageContentManager syncStatus={syncStatus} />;
+        <TabsContent value="content" className="space-y-6">
+          <WebsiteContentManager syncStatus={syncStatus} />
+        </TabsContent>
       case 'preview':
         return <RealTimePreview syncStatus={syncStatus} />;
       case 'analytics':

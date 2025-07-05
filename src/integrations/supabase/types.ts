@@ -170,9 +170,11 @@ export type Database = {
           background_video_url: string | null
           button_text: string | null
           button_url: string | null
+          content_data: Json | null
           created_at: string
           description: string | null
           id: string
+          is_active: boolean | null
           laptop_background_url: string | null
           mobile_background_url: string | null
           section_key: string
@@ -185,9 +187,11 @@ export type Database = {
           background_video_url?: string | null
           button_text?: string | null
           button_url?: string | null
+          content_data?: Json | null
           created_at?: string
           description?: string | null
           id?: string
+          is_active?: boolean | null
           laptop_background_url?: string | null
           mobile_background_url?: string | null
           section_key: string
@@ -200,9 +204,11 @@ export type Database = {
           background_video_url?: string | null
           button_text?: string | null
           button_url?: string | null
+          content_data?: Json | null
           created_at?: string
           description?: string | null
           id?: string
+          is_active?: boolean | null
           laptop_background_url?: string | null
           mobile_background_url?: string | null
           section_key?: string

@@ -18,38 +18,50 @@ const ValuePropositionSection = () => {
   });
 
   useEffect(() => {
-    // Load value proposition content from storage
+    // Load value proposition content from database
     const loadValuePropContent = async () => {
       try {
-        const { data, error } = await supabase.storage
-          .from('media')
-          .download('website-content/value_proposition-config.json');
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'value_proposition')
+          .eq('is_active', true)
+          .single();
 
         if (data && !error) {
-          const text = await data.text();
-          const storageContent = JSON.parse(text);
-          console.log('Loaded value proposition content from storage:', storageContent);
+          console.log('Loaded value proposition content from database:', data);
           
           setContent({
-            title: storageContent.title || 'We manage the work. You own the program.',
-            subtitle: storageContent.subtitle || '',
-            description: storageContent.description || ''
+            title: data.title || 'We manage the work. You own the program.',
+            subtitle: data.subtitle || '',
+            description: data.description || ''
           });
         } else {
-          console.log('No value proposition content found in storage, using defaults');
+          console.log('No value proposition content found in database, using defaults');
         }
       } catch (error) {
-        console.error('Error loading value proposition content from storage:', error);
+        console.error('Error loading value proposition content from database:', error);
       }
     };
 
     loadValuePropContent();
 
-    // Poll for updates every 30 seconds
-    const interval = setInterval(loadValuePropContent, 30000);
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('value-prop-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.value_proposition'
+      }, (payload) => {
+        console.log('Real-time value proposition content change:', payload);
+        loadValuePropContent();
+      })
+      .subscribe();
 
     return () => {
-      clearInterval(interval);
+      supabase.removeChannel(channel);
     };
   }, []);
 

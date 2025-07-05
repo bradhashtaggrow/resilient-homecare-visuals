@@ -24,38 +24,50 @@ const StatsSection = () => {
   });
 
   useEffect(() => {
-    // Load stats content from storage
+    // Load stats content from database
     const loadStatsContent = async () => {
       try {
-        const { data, error } = await supabase.storage
-          .from('media')
-          .download('website-content/stats-config.json');
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'stats')
+          .eq('is_active', true)
+          .single();
 
         if (data && !error) {
-          const text = await data.text();
-          const storageContent = JSON.parse(text);
-          console.log('Loaded stats content from storage:', storageContent);
+          console.log('Loaded stats content from database:', data);
           
           setContent({
-            title: storageContent.title || 'What Does The Research Say?',
-            subtitle: storageContent.subtitle || '',
-            description: storageContent.description || ''
+            title: data.title || 'What Does The Research Say?',
+            subtitle: data.subtitle || '',
+            description: data.description || ''
           });
         } else {
-          console.log('No stats content found in storage, using defaults');
+          console.log('No stats content found in database, using defaults');
         }
       } catch (error) {
-        console.error('Error loading stats content from storage:', error);
+        console.error('Error loading stats content from database:', error);
       }
     };
 
     loadStatsContent();
 
-    // Poll for updates every 30 seconds
-    const interval = setInterval(loadStatsContent, 30000);
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('stats-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.stats'
+      }, (payload) => {
+        console.log('Real-time stats content change:', payload);
+        loadStatsContent();
+      })
+      .subscribe();
 
     return () => {
-      clearInterval(interval);
+      supabase.removeChannel(channel);
     };
   }, []);
 

@@ -23,40 +23,52 @@ const LeadGenSection = () => {
   });
 
   useEffect(() => {
-    // Load lead generation content from storage
+    // Load lead generation content from database
     const loadLeadGenContent = async () => {
       try {
-        const { data, error } = await supabase.storage
-          .from('media')
-          .download('website-content/lead_generation-config.json');
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'lead_generation')
+          .eq('is_active', true)
+          .single();
 
         if (data && !error) {
-          const text = await data.text();
-          const storageContent = JSON.parse(text);
-          console.log('Loaded lead generation content from storage:', storageContent);
+          console.log('Loaded lead generation content from database:', data);
           
           setContent({
-            title: storageContent.title || 'Join 500+ Healthcare Organizations',
-            subtitle: storageContent.subtitle || '',
-            description: storageContent.description || 'Leading hospitals, health systems, and care providers trust Resilient Healthcare to deliver exceptional patient outcomes and operational excellence.',
-            button_text: storageContent.button_text || 'Request Demo',
-            button_url: storageContent.button_url || '#'
+            title: data.title || 'Join 500+ Healthcare Organizations',
+            subtitle: data.subtitle || '',
+            description: data.description || 'Leading hospitals, health systems, and care providers trust Resilient Healthcare to deliver exceptional patient outcomes and operational excellence.',
+            button_text: data.button_text || 'Request Demo',
+            button_url: data.button_url || '#'
           });
         } else {
-          console.log('No lead generation content found in storage, using defaults');
+          console.log('No lead generation content found in database, using defaults');
         }
       } catch (error) {
-        console.error('Error loading lead generation content from storage:', error);
+        console.error('Error loading lead generation content from database:', error);
       }
     };
 
     loadLeadGenContent();
 
-    // Poll for updates every 30 seconds
-    const interval = setInterval(loadLeadGenContent, 30000);
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('lead-gen-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.lead_generation'
+      }, (payload) => {
+        console.log('Real-time lead generation content change:', payload);
+        loadLeadGenContent();
+      })
+      .subscribe();
 
     return () => {
-      clearInterval(interval);
+      supabase.removeChannel(channel);
     };
   }, []);
 
