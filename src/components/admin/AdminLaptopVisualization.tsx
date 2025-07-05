@@ -134,11 +134,6 @@ const AdminLaptopVisualization = ({
           </div>
           
           {/* Floating Icons - Naturally distributed around laptop in a circle */}
-          {/* Top center - Brain icon */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-300px', animationDelay: '0s' }}>
-            <Brain className="h-8 w-8 text-white" />
-          </div>
-          
           {/* Top right */}
           <div className="absolute w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-220px', right: '-150px', animationDelay: '1s' }}>
             <BarChart className="h-7 w-7 text-white" />
