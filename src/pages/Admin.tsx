@@ -131,9 +131,8 @@ const Admin = () => {
     switch (activeSection) {
       case 'dashboard':
         return <DashboardOverview syncStatus={syncStatus} stats={stats} />;
-        <TabsContent value="content" className="space-y-6">
-          <WebsiteContentManager syncStatus={syncStatus} />
-        </TabsContent>
+      case 'content':
+        return <WebsiteContentManager syncStatus={syncStatus} />;
       case 'preview':
         return <RealTimePreview syncStatus={syncStatus} />;
       case 'analytics':
