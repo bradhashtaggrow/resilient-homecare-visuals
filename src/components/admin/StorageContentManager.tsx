@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -39,15 +38,7 @@ interface StorageFile {
   updated_at: string;
   created_at: string;
   last_accessed_at: string;
-  metadata: {
-    eTag: string;
-    size: number;
-    mimetype: string;
-    cacheControl: string;
-    lastModified: string;
-    contentLength: number;
-    httpStatusCode: number;
-  };
+  metadata: Record<string, any>;
 }
 
 interface ContentData {
@@ -482,13 +473,13 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
               {sectionMedia.map((file) => (
                 <div key={file.name} className="relative group border rounded-lg overflow-hidden">
                   <div className="aspect-square bg-gray-100 flex items-center justify-center">
-                    {file.metadata.mimetype.startsWith('image/') ? (
+                    {file.metadata.mimetype?.startsWith('image/') ? (
                       <img
                         src={`${supabase.storage.from('media').getPublicUrl(`website-content/${file.name}`).data.publicUrl}`}
                         alt={file.name}
                         className="w-full h-full object-cover"
                       />
-                    ) : file.metadata.mimetype.startsWith('video/') ? (
+                    ) : file.metadata.mimetype?.startsWith('video/') ? (
                       <div className="relative w-full h-full bg-gray-200 flex items-center justify-center">
                         <Play className="h-6 w-6 text-gray-400 absolute z-10" />
                         <video className="w-full h-full object-cover" preload="metadata">
@@ -498,7 +489,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
                     ) : (
                       <div className="text-gray-400 text-center">
                         <FileText className="h-4 w-4 mx-auto mb-1" />
-                        <span className="text-xs">{file.metadata.mimetype}</span>
+                        <span className="text-xs">{file.metadata.mimetype || 'Unknown'}</span>
                       </div>
                     )}
                   </div>
@@ -521,7 +512,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
                   <div className="p-2 bg-white">
                     <p className="text-xs font-medium truncate" title={file.name}>{file.name}</p>
                     <span className="text-xs text-gray-500">
-                      {formatFileSize(file.metadata.size)}
+                      {file.metadata.size ? formatFileSize(file.metadata.size) : 'Unknown size'}
                     </span>
                   </div>
                 </div>
