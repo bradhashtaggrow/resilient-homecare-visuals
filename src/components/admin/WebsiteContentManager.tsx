@@ -501,6 +501,44 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             </div>
                           </div>
                         </>
+                      ) : section.section_key === 'services' ? (
+                        // Services section specific form - no button/background fields
+                        <>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Title
+                              </label>
+                              <Input
+                                value={editForm.title || ''}
+                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                                placeholder="Section title"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Subtitle
+                              </label>
+                              <Input
+                                value={editForm.subtitle || ''}
+                                onChange={(e) => setEditForm({...editForm, subtitle: e.target.value})}
+                                placeholder="Section subtitle"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <Textarea
+                              value={editForm.description || ''}
+                              onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                              placeholder="Section description"
+                              rows={3}
+                            />
+                          </div>
+                        </>
                       ) : (
                         // Regular form for other sections
                         <>
@@ -862,6 +900,22 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               }}
                               placeholder="Service description"
                               rows={3}
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Learn More Button Text</label>
+                            <Input
+                              value={service.button_text || ''}
+                              onChange={(e) => {
+                                const newServices = [...((editForm.content_data as any)?.services || [])];
+                                newServices[serviceIndex] = { ...service, button_text: e.target.value };
+                                setEditForm({
+                                  ...editForm,
+                                  content_data: { ...editForm.content_data, services: newServices }
+                                });
+                              }}
+                              placeholder="e.g., 'Learn More', 'Get Started'"
                             />
                           </div>
 
