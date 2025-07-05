@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Save, Upload, Image, Video, Type, Globe, Zap, Eye } from 'lucide-react';
+import { Save, Upload, Image, Video, Type, Globe, Zap, Eye, Wifi, WifiOff } from 'lucide-react';
 
 interface WebsiteContent {
   id: string;
@@ -28,38 +27,58 @@ interface WebsiteContent {
 interface ContentEditorProps {
   content: WebsiteContent[];
   onContentChange: (content: WebsiteContent[]) => void;
+  syncStatus?: 'connected' | 'disconnected' | 'syncing';
 }
 
-const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange }) => {
+const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange, syncStatus = 'disconnected' }) => {
   const [editingSection, setEditingSection] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<WebsiteContent>>({});
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [autoSaveTimer, setAutoSaveTimer] = useState<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Auto-save draft every 30 seconds if there are changes
-    const autoSaveInterval = setInterval(() => {
-      if (editingSection && formData && Object.keys(formData).length > 1) {
-        handleAutoSave();
+    // Clear auto-save timer on unmount
+    return () => {
+      if (autoSaveTimer) {
+        clearTimeout(autoSaveTimer);
       }
-    }, 30000);
-
-    return () => clearInterval(autoSaveInterval);
-  }, [editingSection, formData]);
+    };
+  }, [autoSaveTimer]);
 
   const handleEdit = (section: WebsiteContent) => {
     setEditingSection(section.id);
     setFormData(section);
   };
 
+  const scheduleAutoSave = () => {
+    if (autoSaveTimer) {
+      clearTimeout(autoSaveTimer);
+    }
+    
+    const timer = setTimeout(() => {
+      handleAutoSave();
+    }, 2000); // Auto-save after 2 seconds of inactivity
+    
+    setAutoSaveTimer(timer);
+  };
+
+  const handleFormChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    scheduleAutoSave();
+  };
+
   const handleAutoSave = async () => {
-    if (!editingSection || !formData) return;
+    if (!editingSection || !formData || Object.keys(formData).length <= 1) return;
 
     try {
       const { error } = await supabase
         .from('website_content')
-        .update({ ...formData, updated_at: new Date().toISOString() })
+        .update({ 
+          ...formData, 
+          updated_at: new Date().toISOString() 
+        })
         .eq('id', editingSection);
 
       if (error) throw error;
@@ -71,6 +90,7 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
       onContentChange(updatedContent);
       setLastSaved(new Date());
 
+      console.log('Auto-saved content changes');
     } catch (error) {
       console.error('Auto-save failed:', error);
     }
@@ -83,7 +103,10 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
       setSaving(true);
       const { error } = await supabase
         .from('website_content')
-        .update({ ...formData, updated_at: new Date().toISOString() })
+        .update({ 
+          ...formData, 
+          updated_at: new Date().toISOString() 
+        })
         .eq('id', editingSection);
 
       if (error) throw error;
@@ -114,6 +137,9 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
   };
 
   const handleCancel = () => {
+    if (autoSaveTimer) {
+      clearTimeout(autoSaveTimer);
+    }
     setEditingSection(null);
     setFormData({});
   };
@@ -155,6 +181,39 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
     return descriptions[sectionKey] || 'Content section configuration';
   };
 
+  const getSyncStatusIcon = () => {
+    switch (syncStatus) {
+      case 'connected':
+        return <Wifi className="h-4 w-4 text-green-600" />;
+      case 'syncing':
+        return <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />;
+      default:
+        return <WifiOff className="h-4 w-4 text-red-600" />;
+    }
+  };
+
+  const getSyncStatusText = () => {
+    switch (syncStatus) {
+      case 'connected':
+        return 'Real-time sync active';
+      case 'syncing':
+        return 'Syncing changes...';
+      default:
+        return 'Sync disconnected';
+    }
+  };
+
+  const getSyncStatusColor = () => {
+    switch (syncStatus) {
+      case 'connected':
+        return 'bg-green-50 text-green-700 border-green-200';
+      case 'syncing':
+        return 'bg-blue-50 text-blue-700 border-blue-200';
+      default:
+        return 'bg-red-50 text-red-700 border-red-200';
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -163,9 +222,9 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
           <p className="text-gray-600">Edit and manage your website content with real-time sync</p>
         </div>
         <div className="flex items-center gap-4">
-          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-            <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
-            Real-time sync active
+          <Badge variant="outline" className={getSyncStatusColor()}>
+            {getSyncStatusIcon()}
+            <span className="ml-2">{getSyncStatusText()}</span>
           </Badge>
           {lastSaved && (
             <span className="text-sm text-gray-500">
@@ -180,15 +239,15 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
       </div>
 
       <div className="grid gap-6">
-        {content.map((section) => (
+        {content.map ((section) => (
           <Card key={section.id} className="relative">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  {getSectionIcon(section.section_key)}
+                  <Globe className="h-5 w-5" />
                   <div>
-                    <CardTitle>{getSectionDisplayName(section.section_key)}</CardTitle>
-                    <CardDescription>{getSectionDescription(section.section_key)}</CardDescription>
+                    <CardTitle>{section.section_key.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}</CardTitle>
+                    <CardDescription>Content section configuration</CardDescription>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -209,14 +268,13 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
             <CardContent className="space-y-6">
               {editingSection === section.id ? (
                 <div className="space-y-6">
-                  {/* Text Content */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="title">Title</Label>
                       <Input
                         id="title"
                         value={formData.title || ''}
-                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        onChange={(e) => handleFormChange('title', e.target.value)}
                         placeholder="Enter title"
                       />
                     </div>
@@ -225,7 +283,7 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
                       <Input
                         id="subtitle"
                         value={formData.subtitle || ''}
-                        onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+                        onChange={(e) => handleFormChange('subtitle', e.target.value)}
                         placeholder="Enter subtitle"
                       />
                     </div>
@@ -236,7 +294,7 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
                     <Textarea
                       id="description"
                       value={formData.description || ''}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      onChange={(e) => handleFormChange('description', e.target.value)}
                       placeholder="Enter description"
                       rows={4}
                     />
@@ -248,7 +306,7 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
                       <Input
                         id="button_text"
                         value={formData.button_text || ''}
-                        onChange={(e) => setFormData({ ...formData, button_text: e.target.value })}
+                        onChange={(e) => handleFormChange('button_text', e.target.value)}
                         placeholder="Enter button text"
                       />
                     </div>
@@ -257,61 +315,8 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
                       <Input
                         id="button_url"
                         value={formData.button_url || ''}
-                        onChange={(e) => setFormData({ ...formData, button_url: e.target.value })}
+                        onChange={(e) => handleFormChange('button_url', e.target.value)}
                         placeholder="Enter button URL"
-                      />
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {/* Media Content */}
-                  <div className="space-y-4">
-                    <h4 className="font-medium flex items-center gap-2">
-                      <Image className="h-4 w-4" />
-                      Background Media
-                    </h4>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="background_image_url">Desktop Background</Label>
-                        <Input
-                          id="background_image_url"
-                          value={formData.background_image_url || ''}
-                          onChange={(e) => setFormData({ ...formData, background_image_url: e.target.value })}
-                          placeholder="Image URL"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="mobile_background_url">Mobile Background</Label>
-                        <Input
-                          id="mobile_background_url"
-                          value={formData.mobile_background_url || ''}
-                          onChange={(e) => setFormData({ ...formData, mobile_background_url: e.target.value })}
-                          placeholder="Mobile image URL"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="laptop_background_url">Laptop Background</Label>
-                        <Input
-                          id="laptop_background_url"
-                          value={formData.laptop_background_url || ''}
-                          onChange={(e) => setFormData({ ...formData, laptop_background_url: e.target.value })}
-                          placeholder="Laptop image URL"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="background_video_url" className="flex items-center gap-2">
-                        <Video className="h-4 w-4" />
-                        Background Video URL
-                      </Label>
-                      <Input
-                        id="background_video_url"
-                        value={formData.background_video_url || ''}
-                        onChange={(e) => setFormData({ ...formData, background_video_url: e.target.value })}
-                        placeholder="Video URL"
                       />
                     </div>
                   </div>
@@ -335,71 +340,22 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange 
                     </Button>
                     <div className="flex items-center gap-2 text-sm text-gray-500 ml-auto">
                       <Zap className="h-4 w-4" />
-                      Auto-saving every 30 seconds
+                      Auto-saving enabled
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {section.title && (
-                      <div>
-                        <span className="text-sm font-medium text-gray-500">Title:</span>
-                        <p className="text-gray-900">{section.title}</p>
-                      </div>
-                    )}
-                    {section.subtitle && (
-                      <div>
-                        <span className="text-sm font-medium text-gray-500">Subtitle:</span>
-                        <p className="text-gray-900">{section.subtitle}</p>
-                      </div>
-                    )}
-                  </div>
+                  {section.title && (
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Title:</span>
+                      <p className="text-gray-900">{section.title}</p>
+                    </div>
+                  )}
                   {section.description && (
                     <div>
                       <span className="text-sm font-medium text-gray-500">Description:</span>
                       <p className="text-gray-900">{section.description}</p>
-                    </div>
-                  )}
-                  {(section.button_text || section.button_url) && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {section.button_text && (
-                        <div>
-                          <span className="text-sm font-medium text-gray-500">Button Text:</span>
-                          <p className="text-gray-900">{section.button_text}</p>
-                        </div>
-                      )}
-                      {section.button_url && (
-                        <div>
-                          <span className="text-sm font-medium text-gray-500">Button URL:</span>
-                          <p className="text-gray-900">{section.button_url}</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  {(section.background_image_url || section.background_video_url) && (
-                    <div className="pt-4 border-t">
-                      <span className="text-sm font-medium text-gray-500">Media Assets:</span>
-                      <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
-                        {section.background_image_url && (
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <Image className="h-4 w-4" />
-                            Desktop background set
-                          </div>
-                        )}
-                        {section.mobile_background_url && (
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <Image className="h-4 w-4" />
-                            Mobile background set
-                          </div>
-                        )}
-                        {section.background_video_url && (
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <Video className="h-4 w-4" />
-                            Background video set
-                          </div>
-                        )}
-                      </div>
                     </div>
                   )}
                 </div>
