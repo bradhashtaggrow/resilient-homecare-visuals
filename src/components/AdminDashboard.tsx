@@ -63,8 +63,8 @@ const AdminDashboard = () => {
           </p>
         </div>
 
-        {/* Enhanced Laptop Container with Better Spacing */}
-        <div className="mb-8 sm:mb-12 md:mb-16 lg:mb-20">
+        {/* Enhanced Laptop Container with Reduced Bottom Margin */}
+        <div className="mb-4 sm:mb-6 md:mb-8 lg:mb-10">
           <div className={`transition-all duration-1200 transform hover:scale-105 ${
             isVisible ? 'animate-swoop-in-reverse opacity-100' : 'opacity-0'
           }`} style={{animationDelay: '400ms'}}>
@@ -77,18 +77,18 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Enhanced CTA Section with Mobile Optimization - Pulled Up More */}
-        <div className={`text-center pt-0 sm:pt-2 md:pt-4 lg:pt-6 transition-all duration-1200 transform ${
+        {/* Enhanced CTA Section with Tighter Spacing */}
+        <div className={`text-center pt-0 transition-all duration-1200 transform ${
           isVisible ? 'animate-swoop-in-reverse opacity-100' : 'opacity-0'
         }`} style={{animationDelay: '800ms'}}>
-          <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-4 sm:mb-6 hover:scale-105 transition-transform duration-500"
+          <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-3 sm:mb-4 hover:scale-105 transition-transform duration-500"
               style={{ fontSize: 'clamp(1.25rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
             Ready to Transform 
             <span className="block healthcare-text-gradient hover:from-blue-300 hover:to-purple-300 transition-all duration-500">
               Your Healthcare Operations?
             </span>
           </h3>
-          <p className="text-white/90 max-w-3xl mx-auto leading-relaxed font-medium tracking-wide mb-8 sm:mb-10 hover:text-white transition-colors duration-500"
+          <p className="text-white/90 max-w-3xl mx-auto leading-relaxed font-medium tracking-wide mb-6 sm:mb-8 hover:text-white transition-colors duration-500"
              style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.4 }}>
             Join forward-thinking healthcare organizations who've already revolutionized their operations. 
             See our comprehensive platform in action with a personalized demonstration.
