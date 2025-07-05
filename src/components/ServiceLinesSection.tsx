@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -15,14 +16,14 @@ const ServiceLinesSection = () => {
             setIsVisible(true);
             // Start typing animation after main animation
             setTimeout(() => {
-              setTypingPhase(1);
-              // After first line types (2s), pause for 1s, then start second line
+              setTypingPhase(1); // Show first line immediately
+              // After 1.5s, pause, then after 1s more show second line
               setTimeout(() => {
                 setTypingPhase(2); // pause
                 setTimeout(() => {
                   setTypingPhase(3); // second line
                 }, 1000);
-              }, 2000);
+              }, 1500);
             }, 500);
           }
         });
@@ -128,12 +129,11 @@ const ServiceLinesSection = () => {
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.9 }}>
-            <span className={`inline-block ${typingPhase >= 1 ? 'animate-typing' : 'opacity-0'}`}>
-              Fully Streamlined,
+            <span className={`inline-block transition-opacity duration-500 ${typingPhase >= 1 ? 'opacity-100' : 'opacity-0'}`}>
+              Fully Streamlined.
             </span>
             <br />
-            <span className={`inline-block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent ${typingPhase >= 3 ? 'animate-typing' : 'opacity-0'}`}
-                  style={{ animationDelay: typingPhase >= 3 ? '0s' : undefined }}>
+            <span className={`inline-block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent transition-opacity duration-500 ${typingPhase >= 3 ? 'opacity-100' : 'opacity-0'}`}>
               Uncompromisingly Simple
             </span>
           </h2>
