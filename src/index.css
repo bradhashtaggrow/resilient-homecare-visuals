@@ -203,6 +203,14 @@
     animation: bounceGentle 2s ease-in-out infinite;
   }
 
+  /* Typing Animation */
+  .animate-typing {
+    overflow: hidden;
+    border-right: 2px solid currentColor;
+    white-space: nowrap;
+    animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+
   /* Revolutionary Hover Effects */
   .hover-lift {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -588,6 +596,24 @@
   }
   50% {
     transform: translateY(-15px);
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: currentColor;
   }
 }
 

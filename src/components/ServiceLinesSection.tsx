@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 const ServiceLinesSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeService, setActiveService] = useState(0);
+  const [isTypingVisible, setIsTypingVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -13,6 +14,8 @@ const ServiceLinesSection = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
+            // Start typing animation after main animation
+            setTimeout(() => setIsTypingVisible(true), 500);
           }
         });
       },
@@ -117,7 +120,9 @@ const ServiceLinesSection = () => {
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            Fully Streamlined,
+            <span className={`inline-block ${isTypingVisible ? 'animate-typing' : ''}`}>
+              Fully Streamlined,
+            </span>
             <span className="block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent"> Uncompromisingly Simple</span>
           </h2>
           <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
