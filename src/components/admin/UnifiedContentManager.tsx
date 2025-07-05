@@ -245,11 +245,12 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
         button_url: '#'
       };
 
-      // Special case for hero section - include the current video
+      // Special case for hero section - include the current video that's already being used
       if (sectionKey === 'hero') {
         insertData.title = 'The Future of Healthcare';
         insertData.description = 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.';
         insertData.button_text = 'Request Demo';
+        insertData.button_url = '#contact';
         insertData.background_video_url = 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4';
       }
 

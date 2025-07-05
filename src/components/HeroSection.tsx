@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
@@ -35,14 +34,17 @@ const HeroSection = React.memo(() => {
           .single();
 
         if (data && !error) {
+          console.log('Loaded hero content from database:', data);
           setContent({
-            title: data.title || content.title,
-            subtitle: data.subtitle,
-            description: data.description || content.description,
-            button_text: data.button_text || content.button_text,
-            button_url: data.button_url || content.button_url,
-            background_video_url: data.background_video_url || content.background_video_url
+            title: data.title || 'The Future of Healthcare',
+            subtitle: data.subtitle || '',
+            description: data.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
+            button_text: data.button_text || 'Request Demo',
+            button_url: data.button_url || '#',
+            background_video_url: data.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
           });
+        } else {
+          console.log('No hero content found in database, using defaults');
         }
       } catch (error) {
         console.error('Error loading hero content:', error);
@@ -63,14 +65,14 @@ const HeroSection = React.memo(() => {
         console.log('Real-time hero content update:', payload);
         if (payload.new && typeof payload.new === 'object') {
           const newData = payload.new as any;
-          setContent({
-            title: newData.title || content.title,
-            subtitle: newData.subtitle,
-            description: newData.description || content.description,
-            button_text: newData.button_text || content.button_text,
-            button_url: newData.button_url || content.button_url,
-            background_video_url: newData.background_video_url || content.background_video_url
-          });
+          setContent(prevContent => ({
+            title: newData.title || prevContent.title,
+            subtitle: newData.subtitle || prevContent.subtitle,
+            description: newData.description || prevContent.description,
+            button_text: newData.button_text || prevContent.button_text,
+            button_url: newData.button_url || prevContent.button_url,
+            background_video_url: newData.background_video_url || prevContent.background_video_url
+          }));
         }
       })
       .subscribe();
