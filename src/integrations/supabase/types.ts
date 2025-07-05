@@ -9,7 +9,161 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      media_library: {
+        Row: {
+          alt_text: string | null
+          created_at: string
+          file_size: number | null
+          file_type: string
+          filename: string
+          id: string
+          original_name: string
+          url: string
+        }
+        Insert: {
+          alt_text?: string | null
+          created_at?: string
+          file_size?: number | null
+          file_type: string
+          filename: string
+          id?: string
+          original_name: string
+          url: string
+        }
+        Update: {
+          alt_text?: string | null
+          created_at?: string
+          file_size?: number | null
+          file_type?: string
+          filename?: string
+          id?: string
+          original_name?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      service_benefits: {
+        Row: {
+          benefit_text: string
+          created_at: string
+          display_order: number
+          icon_name: string
+          id: string
+          service_id: string | null
+        }
+        Insert: {
+          benefit_text: string
+          created_at?: string
+          display_order?: number
+          icon_name?: string
+          id?: string
+          service_id?: string | null
+        }
+        Update: {
+          benefit_text?: string
+          created_at?: string
+          display_order?: number
+          icon_name?: string
+          id?: string
+          service_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_benefits_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      services: {
+        Row: {
+          color: string
+          created_at: string
+          description: string | null
+          display_order: number
+          icon_name: string
+          id: string
+          patient_image_url: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon_name?: string
+          id?: string
+          patient_image_url?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon_name?: string
+          id?: string
+          patient_image_url?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      website_content: {
+        Row: {
+          background_image_url: string | null
+          background_video_url: string | null
+          button_text: string | null
+          button_url: string | null
+          created_at: string
+          description: string | null
+          id: string
+          laptop_background_url: string | null
+          mobile_background_url: string | null
+          section_key: string
+          subtitle: string | null
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          background_image_url?: string | null
+          background_video_url?: string | null
+          button_text?: string | null
+          button_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          laptop_background_url?: string | null
+          mobile_background_url?: string | null
+          section_key: string
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          background_image_url?: string | null
+          background_video_url?: string | null
+          button_text?: string | null
+          button_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          laptop_background_url?: string | null
+          mobile_background_url?: string | null
+          section_key?: string
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, Settings } from 'lucide-react';
 
 const Navigation = React.memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,7 +27,8 @@ const Navigation = React.memo(() => {
     { name: 'Platform', href: '#platform' },
     { name: 'Features', href: '#features' },
     { name: 'About', href: '#about' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Contact', href: '#contact' },
+    { name: 'Admin', href: '/admin' }
   ];
 
   const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
