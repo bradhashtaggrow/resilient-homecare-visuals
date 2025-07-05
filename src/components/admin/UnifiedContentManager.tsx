@@ -227,8 +227,8 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
 
   const handleCreateSection = async (sectionKey: string) => {
     try {
-      // Set default content based on section type
-      let defaultContent = {
+      // Set default content based on section type with proper typing
+      let defaultContent: Partial<WebsiteContent> = {
         section_key: sectionKey,
         title: `${getSectionDisplayName(sectionKey)} Title`,
         subtitle: `${getSectionDisplayName(sectionKey)} Subtitle`,
