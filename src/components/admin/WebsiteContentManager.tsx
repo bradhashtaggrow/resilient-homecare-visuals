@@ -65,6 +65,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const [editingSection, setEditingSection] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<WebsiteContent>>({});
   const [activeTab, setActiveTab] = useState('content');
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
   const { toast } = useToast();
 
   // Available icons for selection
@@ -222,6 +224,97 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     ).join(' ');
   };
 
+  const handleImageUpload = async (file: File) => {
+    try {
+      setUploadingImage(true);
+      
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `backgrounds/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('media')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('media')
+        .getPublicUrl(filePath);
+
+      return data.publicUrl;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast({
+        title: "Upload failed",
+        description: "Failed to upload image",
+        variant: "destructive"
+      });
+      return null;
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleVideoUpload = async (file: File) => {
+    try {
+      setUploadingVideo(true);
+      
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `backgrounds/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('media')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('media')
+        .getPublicUrl(filePath);
+
+      return data.publicUrl;
+    } catch (error) {
+      console.error('Error uploading video:', error);
+      toast({
+        title: "Upload failed",
+        description: "Failed to upload video",
+        variant: "destructive"
+      });
+      return null;
+    } finally {
+      setUploadingVideo(false);
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'video') => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const url = type === 'image' ? await handleImageUpload(file) : await handleVideoUpload(file);
+    if (url) {
+      if (type === 'image') {
+        setEditForm({
+          ...editForm,
+          background_image_url: url,
+          mobile_background_url: url // Auto-set mobile background to same image
+        });
+      } else {
+        setEditForm({
+          ...editForm,
+          background_video_url: url,
+          mobile_background_url: url // Auto-set mobile background to same video
+        });
+      }
+      
+      toast({
+        title: "Upload successful",
+        description: `Background ${type} uploaded successfully`,
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -300,135 +393,248 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                 <CardContent className="p-6 space-y-4 bg-white">
                   {editingSection === section.section_key ? (
                     <div className="grid gap-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Title
-                          </label>
-                          <Input
-                            value={editForm.title || ''}
-                            onChange={(e) => setEditForm({...editForm, title: e.target.value})}
-                            placeholder="Section title"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Subtitle
-                          </label>
-                          <Input
-                            value={editForm.subtitle || ''}
-                            onChange={(e) => setEditForm({...editForm, subtitle: e.target.value})}
-                            placeholder="Section subtitle"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Description
-                        </label>
-                        <Textarea
-                          value={editForm.description || ''}
-                          onChange={(e) => setEditForm({...editForm, description: e.target.value})}
-                          placeholder="Section description"
-                          rows={3}
-                        />
-                      </div>
+                      {/* Conditional form fields based on section type */}
+                      {section.section_key === 'hero' ? (
+                        // Hero section specific form
+                        <>
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Title
+                              </label>
+                              <Input
+                                value={editForm.title || ''}
+                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                                placeholder="Section title"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <Textarea
+                              value={editForm.description || ''}
+                              onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                              placeholder="Section description"
+                              rows={3}
+                            />
+                          </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Button Text
-                          </label>
-                          <Input
-                            value={editForm.button_text || ''}
-                            onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
-                            placeholder="Button text"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Button URL
-                          </label>
-                          <Input
-                            value={editForm.button_url || ''}
-                            onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
-                            placeholder="Button URL"
-                          />
-                        </div>
-                      </div>
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Button Text (for form dropdown)
+                              </label>
+                              <Input
+                                value={editForm.button_text || ''}
+                                onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
+                                placeholder="Button text (e.g., 'Request Demo')"
+                              />
+                            </div>
+                          </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            <Image className="h-4 w-4 inline mr-1" />
-                            Background Image URL
-                          </label>
-                          <Input
-                            value={editForm.background_image_url || ''}
-                            onChange={(e) => setEditForm({...editForm, background_image_url: e.target.value})}
-                            placeholder="Image URL"
-                          />
-                          {editForm.background_image_url && (
-                            <div className="mt-2">
-                              <img
-                                src={editForm.background_image_url}
-                                alt="Background preview"
-                                className="w-full h-20 object-cover rounded border"
-                                onError={(e) => {
-                                  e.currentTarget.style.display = 'none';
-                                }}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <Image className="h-4 w-4 inline mr-1" />
+                                Upload Background Image
+                              </label>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleFileChange(e, 'image')}
+                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                disabled={uploadingImage}
+                              />
+                              {uploadingImage && (
+                                <div className="flex items-center mt-2 text-sm text-blue-600">
+                                  <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"></div>
+                                  Uploading image...
+                                </div>
+                              )}
+                              {editForm.background_image_url && (
+                                <div className="mt-2">
+                                  <img
+                                    src={editForm.background_image_url}
+                                    alt="Background preview"
+                                    className="w-full h-20 object-cover rounded border"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <Video className="h-4 w-4 inline mr-1" />
+                                Upload Background Video
+                              </label>
+                              <input
+                                type="file"
+                                accept="video/*"
+                                onChange={(e) => handleFileChange(e, 'video')}
+                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                disabled={uploadingVideo}
+                              />
+                              {uploadingVideo && (
+                                <div className="flex items-center mt-2 text-sm text-blue-600">
+                                  <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"></div>
+                                  Uploading video...
+                                </div>
+                              )}
+                              {editForm.background_video_url && (
+                                <div className="mt-2">
+                                  <video
+                                    src={editForm.background_video_url}
+                                    className="w-full h-20 object-cover rounded border"
+                                    muted
+                                    controls
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        // Regular form for other sections
+                        <>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Title
+                              </label>
+                              <Input
+                                value={editForm.title || ''}
+                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                                placeholder="Section title"
                               />
                             </div>
-                          )}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            <Video className="h-4 w-4 inline mr-1" />
-                            Background Video URL
-                          </label>
-                          <Input
-                            value={editForm.background_video_url || ''}
-                            onChange={(e) => setEditForm({...editForm, background_video_url: e.target.value})}
-                            placeholder="Video URL"
-                          />
-                          {editForm.background_video_url && (
-                            <div className="mt-2">
-                              <video
-                                src={editForm.background_video_url}
-                                className="w-full h-20 object-cover rounded border"
-                                muted
-                                onError={(e) => {
-                                  e.currentTarget.style.display = 'none';
-                                }}
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Subtitle
+                              </label>
+                              <Input
+                                value={editForm.subtitle || ''}
+                                onChange={(e) => setEditForm({...editForm, subtitle: e.target.value})}
+                                placeholder="Section subtitle"
                               />
                             </div>
-                          )}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            <Settings className="h-4 w-4 inline mr-1" />
-                            Mobile Background URL
-                          </label>
-                          <Input
-                            value={editForm.mobile_background_url || ''}
-                            onChange={(e) => setEditForm({...editForm, mobile_background_url: e.target.value})}
-                            placeholder="Mobile image URL"
-                          />
-                          {editForm.mobile_background_url && (
-                            <div className="mt-2">
-                              <img
-                                src={editForm.mobile_background_url}
-                                alt="Mobile background preview"
-                                className="w-full h-20 object-cover rounded border"
-                                onError={(e) => {
-                                  e.currentTarget.style.display = 'none';
-                                }}
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <Textarea
+                              value={editForm.description || ''}
+                              onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                              placeholder="Section description"
+                              rows={3}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Button Text
+                              </label>
+                              <Input
+                                value={editForm.button_text || ''}
+                                onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
+                                placeholder="Button text"
                               />
                             </div>
-                          )}
-                        </div>
-                      </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Button URL
+                              </label>
+                              <Input
+                                value={editForm.button_url || ''}
+                                onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
+                                placeholder="Button URL"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <Image className="h-4 w-4 inline mr-1" />
+                                Background Image URL
+                              </label>
+                              <Input
+                                value={editForm.background_image_url || ''}
+                                onChange={(e) => setEditForm({...editForm, background_image_url: e.target.value})}
+                                placeholder="Image URL"
+                              />
+                              {editForm.background_image_url && (
+                                <div className="mt-2">
+                                  <img
+                                    src={editForm.background_image_url}
+                                    alt="Background preview"
+                                    className="w-full h-20 object-cover rounded border"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <Video className="h-4 w-4 inline mr-1" />
+                                Background Video URL
+                              </label>
+                              <Input
+                                value={editForm.background_video_url || ''}
+                                onChange={(e) => setEditForm({...editForm, background_video_url: e.target.value})}
+                                placeholder="Video URL"
+                              />
+                              {editForm.background_video_url && (
+                                <div className="mt-2">
+                                  <video
+                                    src={editForm.background_video_url}
+                                    className="w-full h-20 object-cover rounded border"
+                                    muted
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <Settings className="h-4 w-4 inline mr-1" />
+                                Mobile Background URL
+                              </label>
+                              <Input
+                                value={editForm.mobile_background_url || ''}
+                                onChange={(e) => setEditForm({...editForm, mobile_background_url: e.target.value})}
+                                placeholder="Mobile image URL"
+                              />
+                              {editForm.mobile_background_url && (
+                                <div className="mt-2">
+                                  <img
+                                    src={editForm.mobile_background_url}
+                                    alt="Mobile background preview"
+                                    className="w-full h-20 object-cover rounded border"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      )}
 
                       <div className="flex items-center space-x-2">
                         <input
