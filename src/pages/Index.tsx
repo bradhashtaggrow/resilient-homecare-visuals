@@ -13,7 +13,7 @@ import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-white paper-texture">
+    <div className="min-h-screen bg-white geometric-texture">
       <Navigation />
       <HeroSection />
       <ServiceLinesSection />
