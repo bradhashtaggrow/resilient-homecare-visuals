@@ -695,6 +695,34 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             </div>
                           </div>
                         </>
+                      ) : section.section_key === 'value_proposition' ? (
+                        // Value proposition section specific form - features with icons
+                        <>
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Title
+                              </label>
+                              <Input
+                                value={editForm.title || ''}
+                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                                placeholder="Section title"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <Textarea
+                              value={editForm.description || ''}
+                              onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                              placeholder="Section description"
+                              rows={3}
+                            />
+                          </div>
+                        </>
                       ) : (
                         // Regular form for other sections
                         <>
@@ -966,6 +994,28 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                           </div>
                         </div>
                       )}
+
+                      {/* Value Proposition Section - Display features when not editing */}
+                      {section.section_key === 'value_proposition' && (section.content_data as any)?.features && (
+                        <div className="space-y-4 pt-4">
+                          <h4 className="text-sm font-medium text-gray-500">Value Proposition Features:</h4>
+                          <div className="grid gap-4">
+                            {((section.content_data as any)?.features || []).map((feature: any, index: number) => (
+                              <div key={index} className="border rounded-lg p-4 bg-white shadow-sm">
+                                <div className="flex items-start space-x-4">
+                                  <div className="flex-1">
+                                    <div className="flex items-center space-x-2 mb-2">
+                                      {getIconComponent(feature.icon)}
+                                      <h5 className="font-medium text-gray-900">{feature.title}</h5>
+                                    </div>
+                                    <p className="text-sm text-gray-600">{feature.description}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -1183,9 +1233,87 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             </div>
                           )}
                         </div>
-                      )) || []}
-                    </div>
-                  )}
+                       )) || []}
+                     </div>
+                   )}
+
+                   {/* Value Proposition Section - Special handling for features */}
+                   {editingSection === section.section_key && section.section_key === 'value_proposition' && (
+                     <div className="space-y-6 mt-6 admin-scrollbar max-h-96 overflow-y-auto p-4 bg-white border rounded-lg shadow-sm">
+                       <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">Value Proposition Features</h4>
+                         {(editForm.content_data as any)?.features?.map((feature: any, featureIndex: number) => (
+                           <div key={featureIndex} className="border rounded-lg p-4 space-y-4 bg-white shadow-sm">
+                             <div className="flex items-center justify-between">
+                               <h5 className="font-medium text-gray-900">Feature {featureIndex + 1}: {feature.title}</h5>
+                             </div>
+                           
+                             <div className="flex items-start space-x-4">
+                               <div className="flex items-center space-x-2">
+                                 {getIconComponent(feature.icon)}
+                                 <Select
+                                   value={feature.icon || 'Target'}
+                                   onValueChange={(value) => {
+                                     const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                     newFeatures[featureIndex] = { ...feature, icon: value };
+                                     setEditForm({
+                                       ...editForm,
+                                       content_data: { ...editForm.content_data, features: newFeatures }
+                                     });
+                                   }}
+                                 >
+                                   <SelectTrigger className="w-40">
+                                     <SelectValue />
+                                   </SelectTrigger>
+                                   <SelectContent className="bg-white border-gray-200 shadow-lg z-50 max-h-60 overflow-y-auto">
+                                     {Object.keys(availableIcons).map((iconName) => (
+                                       <SelectItem key={iconName} value={iconName} className="hover:bg-gray-50">
+                                         <div className="flex items-center space-x-2">
+                                           {getIconComponent(iconName)}
+                                           <span>{iconName}</span>
+                                         </div>
+                                       </SelectItem>
+                                     ))}
+                                   </SelectContent>
+                                 </Select>
+                               </div>
+                               <div className="flex-1 grid grid-cols-1 gap-4">
+                                 <div>
+                                   <label className="block text-sm font-medium text-gray-700 mb-2">Feature Title</label>
+                                   <Input
+                                     value={feature.title || ''}
+                                     onChange={(e) => {
+                                       const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                       newFeatures[featureIndex] = { ...feature, title: e.target.value };
+                                       setEditForm({
+                                         ...editForm,
+                                         content_data: { ...editForm.content_data, features: newFeatures }
+                                       });
+                                     }}
+                                     placeholder="Feature title"
+                                   />
+                                 </div>
+                                 <div>
+                                   <label className="block text-sm font-medium text-gray-700 mb-2">Feature Description</label>
+                                   <Textarea
+                                     value={feature.description || ''}
+                                     onChange={(e) => {
+                                       const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                       newFeatures[featureIndex] = { ...feature, description: e.target.value };
+                                       setEditForm({
+                                         ...editForm,
+                                         content_data: { ...editForm.content_data, features: newFeatures }
+                                       });
+                                     }}
+                                     placeholder="Feature description"
+                                     rows={3}
+                                   />
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
+                         )) || []}
+                     </div>
+                   )}
                 </CardContent>
               </Card>
             ))}
