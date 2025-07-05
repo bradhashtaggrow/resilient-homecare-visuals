@@ -120,8 +120,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
       'mobile_showcase': 4,
       'value_proposition': 5,
       'admin_dashboard': 6,
-      'stats': 7,
-      'founder': 8,
+      'founder': 7,
+      'stats': 8,
       'lead_generation': 9,
       'footer': 10
     };
