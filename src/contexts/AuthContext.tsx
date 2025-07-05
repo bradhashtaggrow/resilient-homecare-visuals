@@ -39,7 +39,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
         
@@ -54,14 +53,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 .eq('role', 'admin')
                 .single();
               
-              const adminStatus = !error && data !== null;
-              console.log('Admin status check:', adminStatus, error);
-              setIsAdmin(adminStatus);
-              
-              // If user just signed in and is admin, they should be redirected by the Login component
-              if (event === 'SIGNED_IN' && adminStatus) {
-                console.log('Admin user signed in, redirect will be handled by Login component');
-              }
+              setIsAdmin(!error && data !== null);
             } catch (error) {
               console.error('Error checking admin role:', error);
               setIsAdmin(false);
@@ -70,8 +62,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         } else {
           setIsAdmin(false);
         }
-        
-        setLoading(false);
       }
     );
 
@@ -86,12 +76,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    console.log('Attempting to sign in with:', email);
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    console.log('Sign in result:', error ? 'Error' : 'Success', error?.message);
     return { error };
   };
 
