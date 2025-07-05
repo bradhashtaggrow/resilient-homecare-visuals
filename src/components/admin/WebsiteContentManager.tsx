@@ -723,6 +723,113 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             />
                           </div>
                         </>
+                      ) : section.section_key === 'admin_dashboard' ? (
+                        // Admin dashboard section specific form - no subtitle, button URL, mobile background
+                        <>
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Title
+                              </label>
+                              <Input
+                                value={editForm.title || ''}
+                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                                placeholder="Section title"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <Textarea
+                              value={editForm.description || ''}
+                              onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                              placeholder="Section description"
+                              rows={3}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Button Text
+                              </label>
+                              <Input
+                                value={editForm.button_text || ''}
+                                onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
+                                placeholder="Button text"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <Image className="h-4 w-4 inline mr-1" />
+                                Upload Background Image
+                              </label>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleFileChange(e, 'image')}
+                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                disabled={uploadingImage}
+                              />
+                              {uploadingImage && (
+                                <div className="flex items-center mt-2 text-sm text-blue-600">
+                                  <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"></div>
+                                  Uploading image...
+                                </div>
+                              )}
+                              {editForm.background_image_url && (
+                                <div className="mt-2">
+                                  <img
+                                    src={editForm.background_image_url}
+                                    alt="Background preview"
+                                    className="w-full h-40 object-contain rounded border bg-gray-100"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <Video className="h-4 w-4 inline mr-1" />
+                                Upload Background Video
+                              </label>
+                              <input
+                                type="file"
+                                accept="video/*"
+                                onChange={(e) => handleFileChange(e, 'video')}
+                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                disabled={uploadingVideo}
+                              />
+                              {uploadingVideo && (
+                                <div className="flex items-center mt-2 text-sm text-blue-600">
+                                  <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"></div>
+                                  Uploading video...
+                                </div>
+                              )}
+                              {editForm.background_video_url && (
+                                <div className="mt-2">
+                                  <video
+                                    src={editForm.background_video_url}
+                                    className="w-full h-60 object-contain rounded border bg-gray-100"
+                                    muted
+                                    controls
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </>
                       ) : (
                         // Regular form for other sections
                         <>
