@@ -99,9 +99,20 @@ const ServicesManager: React.FC<ServicesManagerProps> = ({ services, onServicesC
 
     try {
       if (isCreating) {
+        // Create proper insert data with required fields
+        const insertData = {
+          title: formData.title,
+          subtitle: formData.subtitle || null,
+          description: formData.description || null,
+          color: formData.color || 'blue',
+          icon_name: formData.icon_name || 'Activity',
+          patient_image_url: formData.patient_image_url || null,
+          display_order: formData.display_order || services.length + 1
+        };
+
         const { data, error } = await supabase
           .from('services')
-          .insert([formData])
+          .insert(insertData)
           .select()
           .single();
 
@@ -118,7 +129,7 @@ const ServicesManager: React.FC<ServicesManagerProps> = ({ services, onServicesC
         if (error) throw error;
 
         const updatedServices = services.map(service => 
-          service.id === editingService ? { ...service, ...formData } : service
+          service.id === editingService ? { ...service, ...formData } as Service : service
         );
         onServicesChange(updatedServices);
       }
