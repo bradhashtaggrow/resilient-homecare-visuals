@@ -77,10 +77,29 @@ img, video {
   background: linear-gradient(135deg, #00b4d8 0%, #0077b6 50%, #023e8a 100%);
 }
 
+.healthcare-text-gradient {
+  background: linear-gradient(135deg, #0080ff 0%, #0066cc 50%, #004d99 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Optimized animations with reduced motion support */
 @media (prefers-reduced-motion: no-preference) {
   .animate-swoop-in {
     animation: swoopIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .animate-swoop-in-left {
+    animation: swoopInLeft 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .animate-swoop-in-right {
+    animation: swoopInRight 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .animate-swoop-in-reverse {
+    animation: swoopInReverse 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
   .animate-slide-up {
@@ -110,6 +129,9 @@ img, video {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-swoop-in,
+  .animate-swoop-in-left,
+  .animate-swoop-in-right,
+  .animate-swoop-in-reverse,
   .animate-slide-up,
   .animate-float,
   .animate-bounce-gentle,
@@ -127,6 +149,39 @@ img, video {
   0% {
     opacity: 0;
     transform: translate3d(0, 50px, 0) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes swoopInLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-100px, 50px, 0) scale(0.9) rotate(-5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes swoopInRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(100px, 50px, 0) scale(0.9) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes swoopInReverse {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -50px, 0) scale(0.95);
   }
   100% {
     opacity: 1;

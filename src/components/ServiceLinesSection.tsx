@@ -120,15 +120,17 @@ const ServiceLinesSection = () => {
           </p>
         </div>
 
-        {/* Services Grid */}
+        {/* Services Grid with Alternating Swoop Animations */}
         <div className="space-y-16">
           {services.map((service, index) => (
             <div 
               key={index}
               className={`transition-all duration-1000 ease-out ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                isVisible ? 
+                  (index % 2 === 0 ? 'animate-swoop-in-left opacity-100 translate-y-0' : 'animate-swoop-in-right opacity-100 translate-y-0') 
+                  : 'opacity-0 translate-y-8'
               }`}
-              style={{transitionDelay: `${index * 200}ms`}}
+              style={{animationDelay: `${index * 300}ms`}}
               onMouseEnter={() => setActiveService(index)}
             >
               <div className={`grid lg:grid-cols-2 gap-12 items-center ${
