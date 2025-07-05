@@ -79,9 +79,9 @@ const ValuePropositionSection = () => {
   return (
     <section id="value-proposition-section" className="py-16 sm:py-24 md:py-32 lg:py-40 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Enhanced Header with Revolutionary Spiral Emergence Animation */}
-        <div className={`text-center mb-12 sm:mb-20 transition-all duration-1800 transform ${
-          isVisible ? 'animate-spiral-emergence opacity-100' : 'opacity-0'
+        {/* Enhanced Header with Better Mobile Typography */}
+        <div className={`text-center mb-12 sm:mb-20 transition-all duration-1200 transform ${
+          isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <h2 className="text-black leading-none tracking-tight font-black mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
@@ -90,24 +90,24 @@ const ValuePropositionSection = () => {
           </h2>
         </div>
 
-        {/* Revolutionary Value Propositions Grid with Spiral Emergence */}
+        {/* Enhanced Value Propositions Grid with Glow Animation */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {valueProps.map((prop, index) => (
             <div 
               key={index}
-              className={`text-center transition-all duration-1800 transform ${
-                isVisible ? 'animate-spiral-emergence opacity-100' : 'opacity-0'
+              className={`text-center transition-all duration-1200 transform ${
+                isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
               }`}
-              style={{animationDelay: `${index * 400}ms`}}
+              style={{animationDelay: `${index * 300}ms`}}
             >
               <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100/50 hover-lift h-full hover:shadow-2xl hover:scale-105 transition-all duration-500 group relative overflow-hidden">
-                {/* Revolutionary Glow Animation Overlay */}
+                {/* Glow Animation Overlay */}
                 <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#0080ff]/20 to-[#0066cc]/20 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
                 <div className="absolute inset-0 rounded-2xl sm:rounded-3xl shadow-[0_0_50px_rgba(0,128,255,0.3)] opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
                 
                 {/* Content */}
                 <div className="relative z-10">
-                  {/* Enhanced 3D Animated Icon with Spiral Emergence */}
+                  {/* Enhanced 3D Animated Icon */}
                   <AnimatedIcon3D icon={prop.icon} delay={index * 200} />
                   
                   {/* Enhanced Title and Subtitles with Mobile Typography */}

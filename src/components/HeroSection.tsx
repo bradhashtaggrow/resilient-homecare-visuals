@@ -47,9 +47,9 @@ const HeroSection = () => {
         <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-tl from-white/30 to-transparent transform rotate-45 blur-sm animate-pulse" style={{animationDelay: '3s'}} />
       </div>
 
-      {/* Enhanced Hero Content with Revolutionary Cinematic Morph Animation */}
+      {/* Enhanced Hero Content with Mobile Optimization */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className={`transition-all duration-2000 transform ${isVisible ? 'animate-cinematic-morph opacity-100' : 'opacity-0'}`}>
+        <div className={`transition-all duration-1500 transform ${isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
           {/* Enhanced Apple-Style Title with Mobile Typography */}
           <div className="mb-8 sm:mb-12">
             <h1 className="text-white leading-none tracking-tight font-black text-shadow-white hover:scale-105 transition-transform duration-700" 
