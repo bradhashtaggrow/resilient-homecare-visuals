@@ -834,6 +834,34 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             </div>
                           </div>
                         </>
+                      ) : section.section_key === 'stats' ? (
+                        // Stats section specific form - no subtitle, buttons, or backgrounds
+                        <>
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Title
+                              </label>
+                              <Input
+                                value={editForm.title || ''}
+                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                                placeholder="Section title"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <Textarea
+                              value={editForm.description || ''}
+                              onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                              placeholder="Section description"
+                              rows={3}
+                            />
+                          </div>
+                        </>
                       ) : section.section_key === 'founder' ? (
                         // Founder section specific form - comprehensive founder content
                         <>
@@ -1259,6 +1287,31 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                 )}
                               </div>
                             )}
+
+                      {/* Stats Section - Display stats content when not editing */}
+                      {section.section_key === 'stats' && (section.content_data as any)?.stats && (
+                        <div className="space-y-4 pt-4">
+                          <h4 className="text-sm font-medium text-gray-500">Research Statistics:</h4>
+                          <div className="grid gap-4">
+                            {((section.content_data as any)?.stats || []).map((stat: any, index: number) => (
+                              <div key={index} className="border rounded-lg p-4 bg-white shadow-sm">
+                                <div className="flex items-start space-x-4">
+                                  <div className="flex-1">
+                                    <div className="flex items-center justify-between mb-2">
+                                      <h5 className="font-medium text-gray-900">{stat.label}</h5>
+                                      <span className="text-2xl font-bold text-blue-600">{stat.value}</span>
+                                    </div>
+                                    <p className="text-sm text-gray-600 mb-2">{stat.description}</p>
+                                    <p className="text-xs text-gray-500 font-medium">Source: {stat.source}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                     </div>
+                            )}
                             {(section.content_data as any)?.founder_image && (
                               <div>
                                 <span className="text-sm font-medium text-gray-500">Founder Image:</span>
@@ -1335,9 +1388,89 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                         </div>
                       )}
                     </div>
-                  )}
+                   )}
 
-                  {/* Services Section - Special handling for detailed services */}
+                   {/* Stats Section - Special handling for detailed stats */}
+                   {editingSection === section.section_key && section.section_key === 'stats' && (
+                     <div className="space-y-6 mt-6 admin-scrollbar max-h-96 overflow-y-auto p-4 bg-white border rounded-lg shadow-sm">
+                       <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">Individual Statistics</h4>
+                         {(editForm.content_data as any)?.stats?.map((stat: any, statIndex: number) => (
+                           <div key={statIndex} className="border rounded-lg p-4 space-y-4 bg-white shadow-sm">
+                             <div className="flex items-center justify-between">
+                               <h5 className="font-medium text-gray-900">Stat {statIndex + 1}: {stat.label}</h5>
+                             </div>
+                           
+                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                               <div>
+                                 <label className="block text-sm font-medium text-gray-700 mb-2">Stat Label</label>
+                                 <Input
+                                   value={stat.label || ''}
+                                   onChange={(e) => {
+                                     const newStats = [...((editForm.content_data as any)?.stats || [])];
+                                     newStats[statIndex] = { ...stat, label: e.target.value };
+                                     setEditForm({
+                                       ...editForm,
+                                       content_data: { ...editForm.content_data, stats: newStats }
+                                     });
+                                   }}
+                                   placeholder="e.g., Cost Savings"
+                                 />
+                               </div>
+                               <div>
+                                 <label className="block text-sm font-medium text-gray-700 mb-2">Stat Value</label>
+                                 <Input
+                                   value={stat.value || ''}
+                                   onChange={(e) => {
+                                     const newStats = [...((editForm.content_data as any)?.stats || [])];
+                                     newStats[statIndex] = { ...stat, value: e.target.value };
+                                     setEditForm({
+                                       ...editForm,
+                                       content_data: { ...editForm.content_data, stats: newStats }
+                                     });
+                                   }}
+                                   placeholder="e.g., 38%"
+                                 />
+                               </div>
+                             </div>
+
+                             <div>
+                               <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                               <Textarea
+                                 value={stat.description || ''}
+                                 onChange={(e) => {
+                                   const newStats = [...((editForm.content_data as any)?.stats || [])];
+                                   newStats[statIndex] = { ...stat, description: e.target.value };
+                                   setEditForm({
+                                     ...editForm,
+                                     content_data: { ...editForm.content_data, stats: newStats }
+                                   });
+                                 }}
+                                 placeholder="Detailed description of the statistic"
+                                 rows={3}
+                               />
+                             </div>
+
+                             <div>
+                               <label className="block text-sm font-medium text-gray-700 mb-2">Source</label>
+                               <Input
+                                 value={stat.source || ''}
+                                 onChange={(e) => {
+                                   const newStats = [...((editForm.content_data as any)?.stats || [])];
+                                   newStats[statIndex] = { ...stat, source: e.target.value };
+                                   setEditForm({
+                                     ...editForm,
+                                     content_data: { ...editForm.content_data, stats: newStats }
+                                   });
+                                 }}
+                                 placeholder="e.g., JAMA Internal Medicine"
+                               />
+                             </div>
+                           </div>
+                        )) || []}
+                     </div>
+                   )}
+
+                   {/* Services Section - Special handling for detailed services */}
                   {editingSection === section.section_key && section.section_key === 'services' && (
                     <div className="space-y-6 mt-6 admin-scrollbar max-h-96 overflow-y-auto p-4 bg-white border rounded-lg shadow-sm">
                       <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">Individual Services</h4>
