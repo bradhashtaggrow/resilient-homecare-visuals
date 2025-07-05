@@ -112,7 +112,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-4 py-6 space-y-6">
+      <SidebarContent className="px-4 py-6 space-y-6 sidebar-scrollbar overflow-y-auto">
         {renderMenuGroup('Overview', mainMenuItems)}
         {renderMenuGroup('Content Management', contentMenuItems)}
         {renderMenuGroup('System', managementMenuItems)}

@@ -160,7 +160,7 @@ const Admin = () => {
             syncStatus={syncStatus}
             user={user}
           />
-          <main className="flex-1 overflow-auto">
+          <main className="flex-1 overflow-auto admin-scrollbar">
             <div className="p-6">
               {renderContent()}
             </div>

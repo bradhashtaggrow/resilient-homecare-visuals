@@ -258,7 +258,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="content" className="space-y-6">
+        <TabsContent value="content" className="space-y-6 admin-scrollbar max-h-[calc(100vh-12rem)] overflow-y-auto">
           <div className="grid gap-6">
             {content.map((section) => (
               <Card key={section.id} className="overflow-hidden">
@@ -571,7 +571,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
 
                   {/* Services Section - Special handling for detailed services */}
                   {editingSection === section.section_key && section.section_key === 'services' && (
-                    <div className="space-y-6 mt-6">
+                    <div className="space-y-6 mt-6 admin-scrollbar max-h-96 overflow-y-auto p-4 bg-gray-50 rounded-lg">
                       <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">Individual Services</h4>
                       {(editForm.content_data as any)?.services?.map((service: any, serviceIndex: number) => (
                         <div key={serviceIndex} className="border rounded-lg p-4 space-y-4 bg-gray-50">
