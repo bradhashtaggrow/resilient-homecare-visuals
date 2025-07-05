@@ -11,14 +11,22 @@ import UserManagement from '@/components/admin/UserManagement';
 import SystemSettings from '@/components/admin/SystemSettings';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [loading, setLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<'connected' | 'disconnected' | 'syncing'>('disconnected');
+  const [stats, setStats] = useState({
+    totalContent: 0,
+    totalServices: 0,
+    totalMedia: 0,
+    totalUsers: 0
+  });
   const { toast } = useToast();
+  const { user } = useAuth();
 
-  // Load initial data
+  // Load initial data and stats
   useEffect(() => {
     loadData();
     setupRealtimeSubscription();
@@ -29,12 +37,25 @@ const Admin = () => {
       setLoading(true);
       setSyncStatus('syncing');
       
-      // Simple connection test
-      const { error } = await supabase
-        .from('website_content')
-        .select('count', { count: 'exact', head: true });
+      // Fetch stats from all tables
+      const [contentResult, servicesResult, mediaResult, usersResult] = await Promise.all([
+        supabase.from('website_content').select('count', { count: 'exact', head: true }),
+        supabase.from('services').select('count', { count: 'exact', head: true }),
+        supabase.from('media_library').select('count', { count: 'exact', head: true }),
+        supabase.from('profiles').select('count', { count: 'exact', head: true })
+      ]);
 
-      if (error) throw error;
+      if (contentResult.error) throw contentResult.error;
+      if (servicesResult.error) throw servicesResult.error;
+      if (mediaResult.error) throw mediaResult.error;
+      if (usersResult.error) throw usersResult.error;
+
+      setStats({
+        totalContent: contentResult.count || 0,
+        totalServices: servicesResult.count || 0,
+        totalMedia: mediaResult.count || 0,
+        totalUsers: usersResult.count || 0
+      });
 
       setSyncStatus('connected');
       
@@ -64,6 +85,7 @@ const Admin = () => {
       }, (payload) => {
         console.log('Real-time website content change:', payload);
         setSyncStatus('connected');
+        loadData(); // Refresh stats
         
         toast({
           title: "Website updated",
@@ -77,6 +99,7 @@ const Admin = () => {
       }, (payload) => {
         console.log('Real-time services change:', payload);
         setSyncStatus('connected');
+        loadData(); // Refresh stats
         
         toast({
           title: "Services updated",
@@ -90,10 +113,25 @@ const Admin = () => {
       }, (payload) => {
         console.log('Real-time media change:', payload);
         setSyncStatus('connected');
+        loadData(); // Refresh stats
         
         toast({
           title: "Media updated",
           description: "Media library updated in real-time",
+        });
+      })
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'profiles'
+      }, (payload) => {
+        console.log('Real-time profiles change:', payload);
+        setSyncStatus('connected');
+        loadData(); // Refresh stats
+        
+        toast({
+          title: "User profiles updated",
+          description: "User data updated in real-time",
         });
       })
       .subscribe((status) => {
@@ -118,7 +156,7 @@ const Admin = () => {
 
     switch (activeSection) {
       case 'dashboard':
-        return <DashboardOverview syncStatus={syncStatus} />;
+        return <DashboardOverview syncStatus={syncStatus} stats={stats} />;
       case 'content':
         return <UnifiedContentManager syncStatus={syncStatus} />;
       case 'preview':
@@ -130,7 +168,7 @@ const Admin = () => {
       case 'settings':
         return <SystemSettings syncStatus={syncStatus} />;
       default:
-        return <DashboardOverview syncStatus={syncStatus} />;
+        return <DashboardOverview syncStatus={syncStatus} stats={stats} />;
     }
   };
 
@@ -143,7 +181,11 @@ const Admin = () => {
           syncStatus={syncStatus}
         />
         <div className="flex-1 flex flex-col">
-          <AdminHeader activeSection={activeSection} syncStatus={syncStatus} />
+          <AdminHeader 
+            activeSection={activeSection} 
+            syncStatus={syncStatus}
+            user={user}
+          />
           <main className="flex-1 overflow-auto">
             <div className="p-6">
               {renderContent()}

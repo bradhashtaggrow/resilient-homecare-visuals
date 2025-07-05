@@ -2,15 +2,26 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bell, Search, User, Save, Wifi, WifiOff } from 'lucide-react';
+import { Bell, Search, User, Save, Wifi, WifiOff, LogOut } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { useAuth } from '@/contexts/AuthContext';
+import { User as UserType } from '@supabase/supabase-js';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface AdminHeaderProps {
   activeSection: string;
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
+  user?: UserType | null;
 }
 
-const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = 'disconnected' }) => {
+const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = 'disconnected', user }) => {
+  const { signOut } = useAuth();
+
   const getSectionTitle = (section: string) => {
     const titles: Record<string, string> = {
       dashboard: 'Dashboard Overview',
@@ -47,6 +58,10 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = '
     }
   };
 
+  const handleLogout = async () => {
+    await signOut();
+  };
+
   return (
     <header className="h-16 border-b border-gray-200 bg-white px-6 flex items-center justify-between">
       <div className="flex items-center space-x-4">
@@ -80,9 +95,24 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = '
           Save Changes
         </Button>
 
-        <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
-          <User className="h-4 w-4 text-white" />
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                <User className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-sm font-medium text-gray-700">
+                {user?.email?.split('@')[0] || 'Admin'}
+              </span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Sign Out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

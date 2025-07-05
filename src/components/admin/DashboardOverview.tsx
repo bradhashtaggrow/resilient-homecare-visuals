@@ -10,14 +10,24 @@ import {
   Wifi,
   WifiOff,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Image
 } from 'lucide-react';
 
 interface DashboardOverviewProps {
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
+  stats?: {
+    totalContent: number;
+    totalServices: number;
+    totalMedia: number;
+    totalUsers: number;
+  };
 }
 
-const DashboardOverview: React.FC<DashboardOverviewProps> = ({ syncStatus = 'disconnected' }) => {
+const DashboardOverview: React.FC<DashboardOverviewProps> = ({ 
+  syncStatus = 'disconnected',
+  stats = { totalContent: 0, totalServices: 0, totalMedia: 0, totalUsers: 0 }
+}) => {
   const getSyncStatusIcon = () => {
     switch (syncStatus) {
       case 'connected':
@@ -49,45 +59,45 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ syncStatus = 'dis
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Content</CardTitle>
+            <CardTitle className="text-sm font-medium">Website Content</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">Website sections</p>
+            <div className="text-2xl font-bold">{stats.totalContent}</div>
+            <p className="text-xs text-muted-foreground">Content sections</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">0</div>
-            <p className="text-xs text-muted-foreground">No active sessions</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">System Status</CardTitle>
-            <CheckCircle className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">Online</div>
-            <p className="text-xs text-muted-foreground">All systems operational</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Last Updated</CardTitle>
+            <CardTitle className="text-sm font-medium">Services</CardTitle>
             <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">Now</div>
-            <p className="text-xs text-muted-foreground">Real-time sync</p>
+            <div className="text-2xl font-bold">{stats.totalServices}</div>
+            <p className="text-xs text-muted-foreground">Service offerings</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Media Files</CardTitle>
+            <Image className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.totalMedia}</div>
+            <p className="text-xs text-muted-foreground">Images and videos</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.totalUsers}</div>
+            <p className="text-xs text-muted-foreground">Registered users</p>
           </CardContent>
         </Card>
       </div>
