@@ -107,13 +107,6 @@ const ServiceLinesSection = () => {
     return colors[color as keyof typeof colors];
   };
 
-  const getSwoopAnimation = (index: number) => {
-    if (index === 0) return 'animate-swoop-left'; // Outpatient - left
-    if (index === 1) return 'animate-swoop-right'; // Primary Care - right  
-    if (index === 2) return 'animate-swoop-left'; // Acute Hospital - left
-    return '';
-  };
-
   return (
     <section 
       id="service-lines-section" 
@@ -139,7 +132,7 @@ const ServiceLinesSection = () => {
             <div 
               key={index}
               className={`transition-all duration-1000 ${
-                isVisible ? getSwoopAnimation(index) : 'opacity-0'
+                isVisible ? 'animate-slide-up' : 'opacity-0'
               }`}
               style={{animationDelay: `${index * 300}ms`}}
               onMouseEnter={() => setActiveService(index)}
