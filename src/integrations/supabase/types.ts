@@ -164,6 +164,42 @@ export type Database = {
         }
         Relationships: []
       }
+      value_proposition_features: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_order: number
+          icon_name: string
+          id: string
+          subtitle: string | null
+          subtitle2: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon_name?: string
+          id?: string
+          subtitle?: string | null
+          subtitle2?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon_name?: string
+          id?: string
+          subtitle?: string | null
+          subtitle2?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       website_content: {
         Row: {
           background_image_url: string | null
