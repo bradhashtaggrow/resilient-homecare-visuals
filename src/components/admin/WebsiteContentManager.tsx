@@ -69,14 +69,14 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const getSectionOrder = (sectionKey: string) => {
     const order = {
       'navigation': 1,
-      'hero_section': 2,
-      'service_lines_section': 3,
+      'hero': 2,
+      'services': 3,
       'mobile_showcase': 4,
-      'value_proposition_section': 5,
+      'value_proposition': 5,
       'admin_dashboard': 6,
-      'stats_section': 7,
-      'founder_section': 8,
-      'lead_gen_section': 9,
+      'stats': 7,
+      'founder': 8,
+      'lead_generation': 9,
       'footer': 10
     };
     return order[sectionKey as keyof typeof order] || 999;
