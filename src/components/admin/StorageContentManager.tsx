@@ -70,7 +70,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
     'navigation',
     'hero', 
     'services_header',
-    'services',
+    'service_lines',
     'mobile_showcase',
     'value_proposition',
     'admin_dashboard',
@@ -153,6 +153,47 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
         title: 'Our Healthcare Services',
         subtitle: 'Comprehensive Care Solutions',
         description: 'Delivering exceptional healthcare services with cutting-edge technology and compassionate care.'
+      },
+      service_lines: {
+        title: 'Fully Streamlined, Uncompromisingly Simple',
+        subtitle: '',
+        description: 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.'
+      },
+      mobile_showcase: {
+        title: 'Mobile Healthcare Management',
+        subtitle: 'Access Care Anywhere',
+        description: 'Our mobile platform puts healthcare at your fingertips with intuitive design and powerful features.'
+      },
+      value_proposition: {
+        title: 'We manage the work. You own the program.',
+        subtitle: '',
+        description: ''
+      },
+      admin_dashboard: {
+        title: 'Powerful Admin Dashboard',
+        subtitle: 'Complete Control & Analytics',
+        description: 'Manage your healthcare operations with our comprehensive admin dashboard featuring real-time analytics and insights.'
+      },
+      founder: {
+        title: 'Meet Our Founder',
+        subtitle: 'Leadership in Healthcare Innovation',
+        description: 'Learn about the vision and expertise driving our mission to transform healthcare delivery.'
+      },
+      stats: {
+        title: 'What Does The Research Say?',
+        subtitle: '',
+        description: ''
+      },
+      lead_generation: {
+        title: 'Join 500+ Healthcare Organizations',
+        description: 'Leading hospitals, health systems, and care providers trust Resilient Healthcare to deliver exceptional patient outcomes and operational excellence.',
+        button_text: 'Request Demo',
+        button_url: '#'
+      },
+      footer: {
+        title: 'Resilient Healthcare',
+        subtitle: 'Transforming Healthcare Delivery',
+        description: 'Contact us to learn more about our healthcare solutions and how we can help your organization.'
       }
     };
     
@@ -317,7 +358,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
       'navigation': 'Navigation Bar',
       'hero': 'Hero Section',
       'services_header': 'Services Header',
-      'services': 'Service Lines',
+      'service_lines': 'Service Lines',
       'mobile_showcase': 'Mobile Showcase',
       'value_proposition': 'Value Proposition',
       'admin_dashboard': 'Admin Dashboard Preview',
@@ -334,7 +375,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
       'navigation': <Navigation className="h-5 w-5" />,
       'hero': <Globe className="h-5 w-5" />,
       'services_header': <Type className="h-5 w-5" />,
-      'services': <Activity className="h-5 w-5" />,
+      'service_lines': <Activity className="h-5 w-5" />,
       'mobile_showcase': <Image className="h-5 w-5" />,
       'value_proposition': <Type className="h-5 w-5" />,
       'admin_dashboard': <Activity className="h-5 w-5" />,
@@ -351,7 +392,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
       'navigation': 'Main navigation menu and branding',
       'hero': 'Primary landing section with hero messaging',
       'services_header': 'Introduction to healthcare services',
-      'services': 'Detailed service offerings and specialties',
+      'service_lines': 'Detailed service offerings and specialties',
       'mobile_showcase': 'Mobile app demonstration and features',
       'value_proposition': 'Key benefits and value statements',
       'admin_dashboard': 'Admin dashboard preview and features',

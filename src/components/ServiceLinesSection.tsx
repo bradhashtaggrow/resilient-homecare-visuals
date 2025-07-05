@@ -1,8 +1,14 @@
-
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle, LucideIcon } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { supabase } from '@/integrations/supabase/client';
+
+interface ServiceLinesContent {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+}
 
 const ServiceLinesSection = () => {
   const { elementRef, isVisible } = useIntersectionObserver({
@@ -12,6 +18,47 @@ const ServiceLinesSection = () => {
   });
   
   const [activeService, setActiveService] = useState(0);
+  const [content, setContent] = useState<ServiceLinesContent>({
+    title: 'Fully Streamlined, Uncompromisingly Simple',
+    subtitle: '',
+    description: 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.'
+  });
+
+  useEffect(() => {
+    // Load service lines content from storage
+    const loadServiceLinesContent = async () => {
+      try {
+        const { data, error } = await supabase.storage
+          .from('media')
+          .download('website-content/service_lines-config.json');
+
+        if (data && !error) {
+          const text = await data.text();
+          const storageContent = JSON.parse(text);
+          console.log('Loaded service lines content from storage:', storageContent);
+          
+          setContent({
+            title: storageContent.title || 'Fully Streamlined, Uncompromisingly Simple',
+            subtitle: storageContent.subtitle || '',
+            description: storageContent.description || 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.'
+          });
+        } else {
+          console.log('No service lines content found in storage, using defaults');
+        }
+      } catch (error) {
+        console.error('Error loading service lines content from storage:', error);
+      }
+    };
+
+    loadServiceLinesContent();
+
+    // Poll for updates every 30 seconds
+    const interval = setInterval(loadServiceLinesContent, 30000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   // Memoize services to prevent recreation on every render
   const services = useMemo(() => [
@@ -107,16 +154,29 @@ const ServiceLinesSection = () => {
       className="py-32 bg-white relative overflow-hidden paper-texture-subtle will-change-transform"
     >
       <div className="max-w-7xl mx-auto px-6 relative">
-        {/* Header - Instant Load */}
+        {/* Header with dynamic content */}
         <div className="text-center mb-20 opacity-100 translate-y-0">
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            Fully Streamlined,
-            <span className="block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent"> Uncompromisingly Simple</span>
+            {content.title?.includes(',') ? (
+              <>
+                {content.title.split(',')[0]},
+                <span className="block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent">
+                  {content.title.split(',').slice(1).join(',').trim()}
+                </span>
+              </>
+            ) : (
+              content.title
+            )}
           </h2>
+          {content.subtitle && (
+            <h3 className="text-xl text-gray-700 max-w-3xl mx-auto mb-6">
+              {content.subtitle}
+            </h3>
+          )}
           <p className="text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
              style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
-            Three core service lines designed to extend your hospital's reach and improve patient outcomes.
+            {content.description}
           </p>
         </div>
 
