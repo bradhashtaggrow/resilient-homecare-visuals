@@ -596,9 +596,9 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                       <SelectTrigger className="w-40">
                                         <SelectValue />
                                       </SelectTrigger>
-                                      <SelectContent>
+                                      <SelectContent className="bg-white border-gray-200 shadow-lg z-50 max-h-60 overflow-y-auto">
                                         {Object.keys(availableIcons).map((iconName) => (
-                                          <SelectItem key={iconName} value={iconName}>
+                                          <SelectItem key={iconName} value={iconName} className="hover:bg-gray-50">
                                             <div className="flex items-center space-x-2">
                                               {getIconComponent(iconName)}
                                               <span>{iconName}</span>
@@ -711,9 +711,9 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                         <SelectTrigger className="w-32">
                                           <SelectValue />
                                         </SelectTrigger>
-                                        <SelectContent>
+                                        <SelectContent className="bg-white border-gray-200 shadow-lg z-50 max-h-60 overflow-y-auto">
                                           {Object.keys(availableIcons).map((iconName) => (
-                                            <SelectItem key={iconName} value={iconName}>
+                                            <SelectItem key={iconName} value={iconName} className="hover:bg-gray-50">
                                               <div className="flex items-center space-x-2">
                                                 {getIconComponent(iconName)}
                                                 <span>{iconName}</span>
