@@ -46,7 +46,7 @@ const FounderSection = () => {
   return (
     <section 
       id="founder-section" 
-      className="py-4 sm:py-6 md:py-8 lg:py-10 bg-white relative overflow-hidden"
+      className="py-16 sm:py-24 md:py-32 lg:py-40 bg-white relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Enhanced Title Section with Apple-Style Typography */}
