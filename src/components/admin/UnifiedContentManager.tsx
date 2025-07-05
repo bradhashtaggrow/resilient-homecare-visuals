@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -28,7 +27,9 @@ import {
   Mail,
   Info,
   Trash2,
-  Plus
+  Plus,
+  Link,
+  Zap
 } from 'lucide-react';
 
 interface WebsiteContent {
@@ -75,11 +76,12 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
   const [content, setContent] = useState<WebsiteContent[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([]);
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['hero'])); // Auto-expand hero section
   const [editingSection, setEditingSection] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<WebsiteContent>>({});
   const [uploading, setUploading] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const { toast } = useToast();
 
   // Complete list of all website sections
@@ -133,6 +135,8 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
       setContent(contentData || []);
       setServices(servicesData || []);
       setMediaFiles(mediaData || []);
+      
+      console.log('Loaded content data:', contentData);
     } catch (error) {
       console.error('Error loading data:', error);
       toast({
@@ -148,16 +152,25 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
   const setupRealtimeSubscriptions = () => {
     const contentChannel = supabase
       .channel('unified-content-realtime')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'website_content' }, () => {
-        console.log('Real-time content update');
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'website_content' }, (payload) => {
+        console.log('Real-time content update:', payload);
+        setLastUpdate(new Date());
+        loadAllData();
+        
+        toast({
+          title: "Content updated",
+          description: "Website content updated in real-time",
+          duration: 2000,
+        });
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, (payload) => {
+        console.log('Real-time services update:', payload);
+        setLastUpdate(new Date());
         loadAllData();
       })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, () => {
-        console.log('Real-time services update');
-        loadAllData();
-      })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'media_library' }, () => {
-        console.log('Real-time media update');
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'media_library' }, (payload) => {
+        console.log('Real-time media update:', payload);
+        setLastUpdate(new Date());
         loadAllData();
       })
       .subscribe();
@@ -184,6 +197,8 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
     if (!editingSection || !formData) return;
 
     try {
+      console.log('Saving content:', formData);
+      
       const { error } = await supabase
         .from('website_content')
         .update({ ...formData, updated_at: new Date().toISOString() })
@@ -192,13 +207,16 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
       if (error) throw error;
 
       toast({
-        title: "Content updated",
-        description: "Changes saved and synced to live website",
+        title: "Content updated successfully",
+        description: "Changes are now live on the website",
+        duration: 3000,
       });
 
       setEditingSection(null);
       setFormData({});
+      setLastUpdate(new Date());
     } catch (error) {
+      console.error('Error saving content:', error);
       toast({
         title: "Error saving",
         description: "Failed to save changes",
@@ -209,31 +227,79 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
 
   const handleCreateSection = async (sectionKey: string) => {
     try {
+      // Set default content based on section type
+      let defaultContent = {
+        section_key: sectionKey,
+        title: `${getSectionDisplayName(sectionKey)} Title`,
+        subtitle: `${getSectionDisplayName(sectionKey)} Subtitle`,
+        description: `${getSectionDisplayName(sectionKey)} description content.`,
+        button_text: 'Learn More',
+        button_url: '#'
+      };
+
+      // Special case for hero section - include the current video
+      if (sectionKey === 'hero') {
+        defaultContent = {
+          ...defaultContent,
+          title: 'The Future of Healthcare',
+          description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
+          button_text: 'Request Demo',
+          background_video_url: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+        };
+      }
+
       const { data, error } = await supabase
         .from('website_content')
-        .insert({
-          section_key: sectionKey,
-          title: `${getSectionDisplayName(sectionKey)} Title`,
-          subtitle: `${getSectionDisplayName(sectionKey)} Subtitle`,
-          description: `${getSectionDisplayName(sectionKey)} description content.`,
-          button_text: 'Learn More',
-          button_url: '#'
-        })
+        .insert(defaultContent)
         .select()
         .single();
 
       if (error) throw error;
 
       toast({
-        title: "Section created",
-        description: `${getSectionDisplayName(sectionKey)} section has been created`,
+        title: "Section created successfully",
+        description: `${getSectionDisplayName(sectionKey)} section has been created with default content`,
+        duration: 3000,
       });
 
       loadAllData();
     } catch (error) {
+      console.error('Error creating section:', error);
       toast({
         title: "Error creating section",
         description: "Failed to create section",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleSetVideoAsBackground = async (videoUrl: string, sectionKey: string) => {
+    try {
+      const section = content.find(c => c.section_key === sectionKey);
+      if (!section) return;
+
+      const { error } = await supabase
+        .from('website_content')
+        .update({ 
+          background_video_url: videoUrl,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', section.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Video background updated",
+        description: `Video is now the background for ${getSectionDisplayName(sectionKey)}`,
+        duration: 3000,
+      });
+
+      loadAllData();
+    } catch (error) {
+      console.error('Error setting video background:', error);
+      toast({
+        title: "Error updating background",
+        description: "Failed to set video as background",
         variant: "destructive"
       });
     }
@@ -249,6 +315,8 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
       const fileName = `${sectionKey}_${Date.now()}.${fileExt}`;
       const filePath = `media/${fileName}`;
 
+      console.log('Uploading file:', fileName);
+
       const { error: uploadError } = await supabase.storage
         .from('media')
         .upload(filePath, file);
@@ -259,6 +327,7 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
         .from('media')
         .getPublicUrl(filePath);
 
+      // Add to media library
       await supabase
         .from('media_library')
         .insert({
@@ -271,32 +340,28 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
         });
 
       // Auto-assign to section if it's a background
-      if (fileType === 'image') {
-        const section = content.find(c => c.section_key === sectionKey);
-        if (section) {
-          await supabase
-            .from('website_content')
-            .update({ background_image_url: publicUrl })
-            .eq('id', section.id);
-        }
-      } else if (fileType === 'video') {
-        const section = content.find(c => c.section_key === sectionKey);
-        if (section) {
-          await supabase
-            .from('website_content')
-            .update({ background_video_url: publicUrl })
-            .eq('id', section.id);
-        }
+      const section = content.find(c => c.section_key === sectionKey);
+      if (section) {
+        const updateField = fileType === 'video' ? 'background_video_url' : 'background_image_url';
+        await supabase
+          .from('website_content')
+          .update({ 
+            [updateField]: publicUrl,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', section.id);
       }
 
       toast({
-        title: "File uploaded",
+        title: "File uploaded successfully",
         description: `${file.name} uploaded and assigned to ${getSectionDisplayName(sectionKey)}`,
+        duration: 3000,
       });
 
       event.target.value = '';
       loadAllData();
     } catch (error) {
+      console.error('Upload error:', error);
       toast({
         title: "Upload failed",
         description: "Failed to upload file",
@@ -461,7 +526,13 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
         {/* Live Background Display */}
         {(section.background_image_url || section.background_video_url) && (
           <div className="mb-4">
-            <h5 className="text-xs font-medium text-gray-600 mb-2">Live Background</h5>
+            <div className="flex items-center justify-between mb-2">
+              <h5 className="text-xs font-medium text-gray-600">Current Background</h5>
+              <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">
+                <Zap className="h-3 w-3 mr-1" />
+                Live
+              </Badge>
+            </div>
             <div className="relative w-full h-32 rounded-lg overflow-hidden border">
               {section.background_video_url ? (
                 <video 
@@ -499,8 +570,8 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                     />
                   ) : file.file_type.startsWith('video/') ? (
                     <div className="relative w-full h-full bg-gray-200 flex items-center justify-center">
-                      <Play className="h-6 w-6 text-gray-400" />
-                      <video className="w-full h-full object-cover absolute inset-0" preload="metadata">
+                      <Play className="h-6 w-6 text-gray-400 absolute z-10" />
+                      <video className="w-full h-full object-cover" preload="metadata">
                         <source src={file.url} type={file.file_type} />
                       </video>
                     </div>
@@ -518,11 +589,15 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                         <Eye className="h-3 w-3" />
                       </a>
                     </Button>
-                    <Button variant="secondary" size="sm" asChild>
-                      <a href={file.url} download={file.original_name}>
-                        <Download className="h-3 w-3" />
-                      </a>
-                    </Button>
+                    {file.file_type.startsWith('video/') && (
+                      <Button 
+                        variant="secondary" 
+                        size="sm"
+                        onClick={() => handleSetVideoAsBackground(file.url, section.section_key)}
+                      >
+                        <Link className="h-3 w-3" />
+                      </Button>
+                    )}
                     <Button 
                       variant="destructive" 
                       size="sm"
@@ -633,6 +708,11 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
             {getSyncStatusIcon()}
             <span>{syncStatus === 'connected' ? 'Live Sync Active' : syncStatus === 'syncing' ? 'Syncing Changes' : 'Sync Offline'}</span>
           </Badge>
+          {lastUpdate && (
+            <span className="text-sm text-gray-500">
+              Last update: {lastUpdate.toLocaleTimeString()}
+            </span>
+          )}
           <Button variant="outline" onClick={() => window.open(window.location.origin, '_blank')}>
             <Eye className="h-4 w-4 mr-2" />
             Preview Live Website
@@ -758,6 +838,10 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                         <Button variant="outline" onClick={() => setEditingSection(null)}>
                           Cancel
                         </Button>
+                        <div className="flex items-center gap-2 text-sm text-gray-500 ml-auto">
+                          <Zap className="h-4 w-4" />
+                          Real-time sync enabled
+                        </div>
                       </div>
                     </div>
                   ) : (

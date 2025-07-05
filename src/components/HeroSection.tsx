@@ -3,9 +3,82 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
 import OptimizedVideo from './OptimizedVideo';
+import { supabase } from '@/integrations/supabase/client';
+
+interface HeroContent {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  button_text?: string;
+  button_url?: string;
+  background_video_url?: string;
+}
 
 const HeroSection = React.memo(() => {
   const [isVisible, setIsVisible] = useState(false);
+  const [content, setContent] = useState<HeroContent>({
+    title: 'The Future of Healthcare',
+    description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
+    button_text: 'Request Demo',
+    button_url: '#',
+    background_video_url: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+  });
+
+  useEffect(() => {
+    // Load hero content from database
+    const loadHeroContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'hero')
+          .single();
+
+        if (data && !error) {
+          setContent({
+            title: data.title || content.title,
+            subtitle: data.subtitle,
+            description: data.description || content.description,
+            button_text: data.button_text || content.button_text,
+            button_url: data.button_url || content.button_url,
+            background_video_url: data.background_video_url || content.background_video_url
+          });
+        }
+      } catch (error) {
+        console.error('Error loading hero content:', error);
+      }
+    };
+
+    loadHeroContent();
+
+    // Set up real-time subscription for hero content
+    const channel = supabase
+      .channel('hero-content-updates')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.hero'
+      }, (payload) => {
+        console.log('Real-time hero content update:', payload);
+        if (payload.new && typeof payload.new === 'object') {
+          const newData = payload.new as any;
+          setContent({
+            title: newData.title || content.title,
+            subtitle: newData.subtitle,
+            description: newData.description || content.description,
+            button_text: newData.button_text || content.button_text,
+            button_url: newData.button_url || content.button_url,
+            background_video_url: newData.background_video_url || content.background_video_url
+          });
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   useEffect(() => {
     // Use requestAnimationFrame for smoother animation timing
@@ -35,12 +108,18 @@ const HeroSection = React.memo(() => {
     e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
   }, []);
 
+  const handleButtonClick = () => {
+    if (content.button_url && content.button_url !== '#') {
+      window.open(content.button_url, '_blank');
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
       {/* Optimized Video Background */}
       <div className="absolute inset-0 z-0">
         <OptimizedVideo
-          src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4"
+          src={content.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'}
           className="absolute inset-0 w-full h-full object-cover"
         />
         {/* Minimal dark overlay for text readability */}
@@ -54,14 +133,19 @@ const HeroSection = React.memo(() => {
           <div className="mb-8 sm:mb-12">
             <h1 className="text-white leading-none tracking-tight font-black text-shadow-white transition-transform duration-500 hover:scale-105" 
                 style={{ fontSize: 'clamp(2rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-              The Future of Healthcare
+              {content.title}
             </h1>
+            {content.subtitle && (
+              <h2 className="text-white/80 mt-4 text-2xl sm:text-4xl font-light tracking-wide">
+                {content.subtitle}
+              </h2>
+            )}
           </div>
           
           {/* Enhanced Subtitle with Better Mobile Spacing */}
           <p className="text-white/90 mb-12 sm:mb-16 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide hover:text-white transition-colors duration-500"
              style={{ fontSize: 'clamp(1rem, 3vw, 2rem)', lineHeight: 1.3 }}>
-            We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.
+            {content.description}
           </p>
           
           {/* Enhanced 3D Animated Button with Mobile Optimization */}
@@ -81,9 +165,10 @@ const HeroSection = React.memo(() => {
               }}
               onMouseEnter={handleButtonHover}
               onMouseLeave={handleButtonLeave}
+              onClick={handleButtonClick}
             >
               <span className="relative z-10 flex items-center justify-center">
-                Request Demo
+                {content.button_text}
                 <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
               </span>
             </Button>
