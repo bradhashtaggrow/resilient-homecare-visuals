@@ -28,7 +28,7 @@ const LeadGenSection = () => {
   return (
     <section 
       id="lead-gen-section" 
-      className="py-4 sm:py-6 md:py-8 lg:py-10 bg-white relative overflow-hidden geometric-texture flex items-center min-h-[50vh]"
+      className="py-4 sm:py-6 md:py-8 lg:py-10 bg-white relative overflow-hidden paper-texture-subtle flex items-center min-h-[50vh]"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         {/* Enhanced Trust Section with Improved Animations */}
