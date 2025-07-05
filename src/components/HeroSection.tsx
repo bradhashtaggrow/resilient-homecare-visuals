@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
 
-const HeroSection = () => {
+const HeroSection = React.memo(() => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -99,6 +99,8 @@ const HeroSection = () => {
       </div>
     </section>
   );
-};
+});
+
+HeroSection.displayName = 'HeroSection';
 
 export default HeroSection;

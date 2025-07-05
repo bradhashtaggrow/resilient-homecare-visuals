@@ -1,35 +1,32 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import AdminAnimatedBackground from './admin/AdminAnimatedBackground';
 import AdminLaptopVisualization from './admin/AdminLaptopVisualization';
 import { useDemoScreens } from './admin/AdminDemoScreens';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 
-const AdminDashboard = () => {
+const AdminDashboard = React.memo(() => {
   const [isVisible, setIsVisible] = useState(false);
   const [laptopOpen, setLaptopOpen] = useState(false);
   const [activeDemo, setActiveDemo] = useState(0);
   const demoScreens = useDemoScreens();
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            setTimeout(() => setLaptopOpen(true), 800);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+  const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        setTimeout(() => setLaptopOpen(true), 800);
+      }
+    });
+  }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersection, { threshold: 0.1 });
     const element = document.getElementById('admin-dashboard');
     if (element) observer.observe(element);
-
     return () => observer.disconnect();
-  }, []);
+  }, [handleIntersection]);
 
   useEffect(() => {
     if (laptopOpen) {
@@ -40,13 +37,33 @@ const AdminDashboard = () => {
     }
   }, [laptopOpen]);
 
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.boxShadow = `
+      0 20px 48px hsl(210 100% 50% / 0.6),
+      0 8px 24px rgba(0, 0, 0, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -2px 12px rgba(0, 0, 0, 0.2)
+    `;
+    e.currentTarget.style.background = 'linear-gradient(145deg, hsl(210 100% 60%) 0%, hsl(210 100% 50%) 30%, hsl(210 100% 37%) 100%)';
+  }, []);
+
+  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.boxShadow = `
+      0 12px 32px hsl(210 100% 50% / 0.4),
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+    `;
+    e.currentTarget.style.background = 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)';
+  }, []);
+
   return (
     <section id="admin-dashboard" className="py-20 sm:py-24 md:py-32 lg:py-40 bg-gray-900 relative overflow-hidden min-h-screen">
       <AdminAnimatedBackground />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Enhanced Title with Mobile Optimization - Using reverse swoop */}
-        <div className={`text-center mb-20 sm:mb-24 md:mb-32 lg:mb-40 transition-all duration-1200 transform ${
+        <div className={`text-center mb-12 sm:mb-16 md:mb-20 transition-all duration-1200 transform ${
           isVisible ? 'animate-swoop-in-reverse opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
@@ -64,7 +81,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Enhanced Laptop Container with Reduced Bottom Margin */}
-        <div className="mb-4 sm:mb-6 md:mb-8 lg:mb-10">
+        <div className="mb-8 sm:mb-10 md:mb-12">
           <div className={`transition-all duration-1200 transform hover:scale-105 ${
             isVisible ? 'animate-swoop-in-reverse opacity-100' : 'opacity-0'
           }`} style={{animationDelay: '400ms'}}>
@@ -106,24 +123,8 @@ const AdminDashboard = () => {
               `,
               textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = `
-                0 20px 48px hsl(210 100% 50% / 0.6),
-                0 8px 24px rgba(0, 0, 0, 0.4),
-                inset 0 2px 0 rgba(255, 255, 255, 0.3),
-                inset 0 -2px 12px rgba(0, 0, 0, 0.2)
-              `;
-              e.currentTarget.style.background = 'linear-gradient(145deg, hsl(210 100% 60%) 0%, hsl(210 100% 50%) 30%, hsl(210 100% 37%) 100%)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = `
-                0 12px 32px hsl(210 100% 50% / 0.4),
-                0 4px 16px rgba(0, 0, 0, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-              `;
-              e.currentTarget.style.background = 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)';
-            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
             <span className="relative z-10 flex items-center justify-center">
               Request Demo
@@ -134,6 +135,8 @@ const AdminDashboard = () => {
       </div>
     </section>
   );
-};
+});
+
+AdminDashboard.displayName = 'AdminDashboard';
 
 export default AdminDashboard;

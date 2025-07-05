@@ -1,18 +1,27 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowRight } from 'lucide-react';
 
-const Navigation = () => {
+const Navigation = React.memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 50);
+  }, []);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => !prev);
+  }, []);
+
+  const closeMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false);
   }, []);
 
   const navItems = [
@@ -21,6 +30,26 @@ const Navigation = () => {
     { name: 'About', href: '#about' },
     { name: 'Contact', href: '#contact' }
   ];
+
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.boxShadow = `
+      0 12px 32px rgba(0, 128, 255, 0.6),
+      0 4px 16px rgba(0, 0, 0, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -2px 12px rgba(0, 0, 0, 0.2)
+    `;
+    e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
+  }, []);
+
+  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.boxShadow = `
+      0 8px 24px rgba(0, 128, 255, 0.4),
+      0 2px 12px rgba(0, 0, 0, 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+    `;
+    e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
+  }, []);
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -36,6 +65,7 @@ const Navigation = () => {
               src="/lovable-uploads/3c85c886-dd68-494f-8a0e-b370d90eee48.png" 
               alt="Resilient Healthcare" 
               className="h-10 sm:h-12 w-auto"
+              loading="eager"
             />
           </div>
 
@@ -66,24 +96,8 @@ const Navigation = () => {
                 `,
                 textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `
-                  0 12px 32px rgba(0, 128, 255, 0.6),
-                  0 4px 16px rgba(0, 0, 0, 0.4),
-                  inset 0 2px 0 rgba(255, 255, 255, 0.3),
-                  inset 0 -2px 12px rgba(0, 0, 0, 0.2)
-                `;
-                e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = `
-                  0 8px 24px rgba(0, 128, 255, 0.4),
-                  0 2px 12px rgba(0, 0, 0, 0.3),
-                  inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                  inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-                `;
-                e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
-              }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <span className="relative z-10 flex items-center">
                 Request Demo
@@ -95,7 +109,7 @@ const Navigation = () => {
           {/* Enhanced Mobile Menu Button */}
           <button
             className="md:hidden p-2 hover:scale-110 transition-transform duration-300"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={toggleMobileMenu}
           >
             {isMobileMenuOpen ? (
               <X className={`h-6 w-6 ${isScrolled ? 'text-gray-800' : 'text-white'}`} />
@@ -118,7 +132,7 @@ const Navigation = () => {
                     fontWeight: 900,
                     animationDelay: `${index * 100}ms`
                   }}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={closeMobileMenu}
                 >
                   {item.name}
                 </a>
@@ -147,6 +161,8 @@ const Navigation = () => {
       </div>
     </nav>
   );
-};
+});
+
+Navigation.displayName = 'Navigation';
 
 export default Navigation;
