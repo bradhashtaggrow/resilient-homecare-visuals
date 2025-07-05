@@ -18,10 +18,11 @@ const ServiceLinesSection = () => {
   });
   
   const [activeService, setActiveService] = useState(0);
-  const [content, setContent] = useState<ServiceLinesContent>({
+  const [content, setContent] = useState<any>({
     title: 'Fully Streamlined, Uncompromisingly Simple',
     subtitle: '',
-    description: 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.'
+    description: 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.',
+    services: []
   });
 
   useEffect(() => {
@@ -40,13 +41,16 @@ const ServiceLinesSection = () => {
           setContent({
             title: storageContent.title || 'Fully Streamlined, Uncompromisingly Simple',
             subtitle: storageContent.subtitle || '',
-            description: storageContent.description || 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.'
+            description: storageContent.description || 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.',
+            services: storageContent.services || getDefaultServices()
           });
         } else {
           console.log('No service lines content found in storage, using defaults');
+          setContent(prev => ({ ...prev, services: getDefaultServices() }));
         }
       } catch (error) {
         console.error('Error loading service lines content from storage:', error);
+        setContent(prev => ({ ...prev, services: getDefaultServices() }));
       }
     };
 
@@ -60,50 +64,88 @@ const ServiceLinesSection = () => {
     };
   }, []);
 
-  // Memoize services to prevent recreation on every render
-  const services = useMemo(() => [
+  const getDefaultServices = () => [
     {
-      icon: <Activity className="h-12 w-12" />,
+      id: 'outpatient-pt',
+      icon: 'Activity',
       title: "Outpatient PT Anywhere",
-      subtitle: "Home-Based Therapy & Recovery",
+      subtitle: "Home-Based Therapy & Recovery", 
       description: "Hospital-branded physical therapy delivered directly to patients' homes with full technology integration.",
       benefits: [
-        { text: "Generate new outpatient therapy revenue", icon: TrendingUp },
-        { text: "Reduce costly post-acute placements", icon: Shield },
-        { text: "Improve patient outcomes with early intervention", icon: Target },
-        { text: "Prepare for value-based care programs", icon: Award }
+        { text: "Generate new outpatient therapy revenue", icon: "TrendingUp" },
+        { text: "Reduce costly post-acute placements", icon: "Shield" },
+        { text: "Improve patient outcomes with early intervention", icon: "Target" },
+        { text: "Prepare for value-based care programs", icon: "Award" }
       ],
       color: "blue",
-      patientImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+      patient_image_url: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
-      icon: <Heart className="h-12 w-12" />,
-      title: "Primary Care at Home", 
+      id: 'primary-care',
+      icon: 'Heart',
+      title: "Primary Care at Home",
       subtitle: "Transitional & Rural Care Extension",
       description: "Physician and advanced practice providers delivering seamless care transitions and rural health services.",
       benefits: [
-        { text: "Extend transitional care management for high-risk patients", icon: Users },
-        { text: "Expand rural health clinic reach into underserved areas", icon: MapPin },
-        { text: "Reduce readmissions with targeted follow-up visits", icon: CheckCircle }
+        { text: "Extend transitional care management for high-risk patients", icon: "Users" },
+        { text: "Expand rural health clinic reach into underserved areas", icon: "MapPin" },
+        { text: "Reduce readmissions with targeted follow-up visits", icon: "CheckCircle" }
       ],
       color: "red",
-      patientImage: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+      patient_image_url: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
-      icon: <Building2 className="h-12 w-12" />,
+      id: 'hospital-at-home',
+      icon: 'Building2',
       title: "Acute Hospital-at-Home",
-      subtitle: "CMS-Compliant Inpatient Care at Home", 
+      subtitle: "CMS-Compliant Inpatient Care at Home",
       description: "Full implementation support for hospital-level care delivery in the home environment.",
       benefits: [
-        { text: "Complete workflow design & policy development", icon: Zap },
-        { text: "Staff training & education programs", icon: Users },
-        { text: "Medicare waiver submission support", icon: Clock }
+        { text: "Complete workflow design & policy development", icon: "Zap" },
+        { text: "Staff training & education programs", icon: "Users" },
+        { text: "Medicare waiver submission support", icon: "Clock" }
       ],
       note: "CMS waiver extended through September 2025. We help hospitals prepare for future program versions.",
       color: "cyan",
-      patientImage: "https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+      patient_image_url: "https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     }
-  ], []);
+  ];
+
+  const getIconComponent = (iconName: string) => {
+    const iconMap: Record<string, LucideIcon> = {
+      Activity,
+      Heart,
+      Building2,
+      TrendingUp,
+      Shield,
+      Target,
+      Award,
+      Users,
+      MapPin,
+      CheckCircle,
+      Zap,
+      Clock
+    };
+    
+    const IconComponent = iconMap[iconName] || Activity;
+    return <IconComponent className="h-12 w-12" />;
+  };
+
+  const getBenefitIcon = (iconName: string) => {
+    const iconMap: Record<string, LucideIcon> = {
+      TrendingUp,
+      Shield,
+      Target,
+      Award,
+      Users,
+      MapPin,
+      CheckCircle,
+      Zap,
+      Clock
+    };
+    
+    return iconMap[iconName] || TrendingUp;
+  };
 
   // 3D Animated Icon Component with proper TypeScript interface
   interface AnimatedIcon3DProps {
@@ -180,11 +222,11 @@ const ServiceLinesSection = () => {
           </p>
         </div>
 
-        {/* Services Grid with Immediate Swoop Animations */}
+        {/* Services Grid with Dynamic Data */}
         <div className="space-y-16">
-          {services.map((service, index) => (
+          {content.services?.map((service: any, index: number) => (
             <div 
-              key={index}
+              key={service.id || index}
               className={`${
                 index % 2 === 0 ? 'animate-swoop-in-left' : 'animate-swoop-in-right'
               } opacity-100 translate-y-0`}
@@ -205,7 +247,7 @@ const ServiceLinesSection = () => {
                       <div className={`w-full h-full rounded-2xl transition-all duration-300 ${
                         getColorClasses(service.color, activeService === index)
                       } flex items-center justify-center shadow-2xl`}>
-                        {service.icon}
+                        {getIconComponent(service.icon)}
                       </div>
                     </div>
 
@@ -228,10 +270,10 @@ const ServiceLinesSection = () => {
 
                     {/* Benefits List with 3D Animated Icons */}
                     <div className="space-y-4">
-                      {service.benefits.map((benefit, benefitIndex) => (
+                      {service.benefits?.map((benefit: any, benefitIndex: number) => (
                         <div key={benefitIndex} className="flex items-start space-x-4">
                           <AnimatedIcon3D 
-                            icon={benefit.icon} 
+                            icon={getBenefitIcon(benefit.icon)} 
                             delay={benefitIndex * 150} 
                           />
                           <span className="text-gray-700 leading-relaxed flex-1">{benefit.text}</span>
@@ -278,7 +320,7 @@ const ServiceLinesSection = () => {
                   <div className="relative group">
                     <div className="w-full h-96 rounded-3xl shadow-2xl overflow-hidden relative">
                       <img 
-                        src={service.patientImage}
+                        src={service.patient_image_url}
                         alt={`Patient receiving ${service.title} care`}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         loading="lazy"
