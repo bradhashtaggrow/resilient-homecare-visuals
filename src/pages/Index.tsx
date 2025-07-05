@@ -19,8 +19,8 @@ const Index = () => {
       <ValuePropositionSection />
       <ServiceLinesSection />
       <StatsSection />
-      <MobileShowcase />
       <FounderSection />
+      <MobileShowcase />
       <AdminDashboard />
       <LeadGenSection />
       <Footer />
