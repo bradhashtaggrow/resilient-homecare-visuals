@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -227,7 +228,6 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
 
   const handleCreateSection = async (sectionKey: string) => {
     try {
-      // Create the insert data with required fields properly typed
       const insertData: {
         section_key: string;
         title?: string;
@@ -529,11 +529,11 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
           </div>
         </div>
 
-        {/* Live Background Display */}
+        {/* Current Background Display - Show what's actually in the database */}
         {(section.background_image_url || section.background_video_url) && (
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
-              <h5 className="text-xs font-medium text-gray-600">Current Background</h5>
+              <h5 className="text-xs font-medium text-gray-600">Current Background (Live on Website)</h5>
               <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">
                 <Zap className="h-3 w-3 mr-1" />
                 Live
@@ -541,13 +541,24 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
             </div>
             <div className="relative w-full h-32 rounded-lg overflow-hidden border">
               {section.background_video_url ? (
-                <video 
-                  src={section.background_video_url} 
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                />
+                <div className="relative w-full h-full">
+                  <video 
+                    src={section.background_video_url} 
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                    <div className="text-center">
+                      <Play className="h-8 w-8 text-white mx-auto mb-1" />
+                      <span className="text-white text-sm font-medium">Background Video</span>
+                      <p className="text-white text-xs opacity-80 mt-1 max-w-xs truncate">
+                        {section.background_video_url}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               ) : section.background_image_url ? (
                 <img
                   src={section.background_image_url}
@@ -555,78 +566,81 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                   className="w-full h-full object-cover"
                 />
               ) : null}
-              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                <span className="text-white text-sm font-medium">Live on Website</span>
-              </div>
             </div>
           </div>
         )}
 
-        {/* Media Grid */}
+        {/* Media Library Files for this Section */}
         {sectionMedia.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {sectionMedia.map((file) => (
-              <div key={file.id} className="relative group border rounded-lg overflow-hidden">
-                <div className="aspect-square bg-gray-100 flex items-center justify-center">
-                  {file.file_type.startsWith('image/') ? (
-                    <img
-                      src={file.url}
-                      alt={file.alt_text || file.original_name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : file.file_type.startsWith('video/') ? (
-                    <div className="relative w-full h-full bg-gray-200 flex items-center justify-center">
-                      <Play className="h-6 w-6 text-gray-400 absolute z-10" />
-                      <video className="w-full h-full object-cover" preload="metadata">
-                        <source src={file.url} type={file.file_type} />
-                      </video>
-                    </div>
-                  ) : (
-                    <div className="text-gray-400 text-center">
-                      <Image className="h-4 w-4 mx-auto mb-1" />
-                      <span className="text-xs">{file.file_type}</span>
-                    </div>
-                  )}
-                </div>
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                  <div className="flex items-center space-x-2">
-                    <Button variant="secondary" size="sm" asChild>
-                      <a href={file.url} target="_blank" rel="noopener noreferrer">
-                        <Eye className="h-3 w-3" />
-                      </a>
-                    </Button>
-                    {file.file_type.startsWith('video/') && (
-                      <Button 
-                        variant="secondary" 
-                        size="sm"
-                        onClick={() => handleSetVideoAsBackground(file.url, section.section_key)}
-                      >
-                        <Link className="h-3 w-3" />
-                      </Button>
+          <div>
+            <h5 className="text-xs font-medium text-gray-600 mb-2">Uploaded Media Files</h5>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {sectionMedia.map((file) => (
+                <div key={file.id} className="relative group border rounded-lg overflow-hidden">
+                  <div className="aspect-square bg-gray-100 flex items-center justify-center">
+                    {file.file_type.startsWith('image/') ? (
+                      <img
+                        src={file.url}
+                        alt={file.alt_text || file.original_name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : file.file_type.startsWith('video/') ? (
+                      <div className="relative w-full h-full bg-gray-200 flex items-center justify-center">
+                        <Play className="h-6 w-6 text-gray-400 absolute z-10" />
+                        <video className="w-full h-full object-cover" preload="metadata">
+                          <source src={file.url} type={file.file_type} />
+                        </video>
+                      </div>
+                    ) : (
+                      <div className="text-gray-400 text-center">
+                        <Image className="h-4 w-4 mx-auto mb-1" />
+                        <span className="text-xs">{file.file_type}</span>
+                      </div>
                     )}
-                    <Button 
-                      variant="destructive" 
-                      size="sm"
-                      onClick={() => handleDeleteMedia(file.id, file.filename)}
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </Button>
+                  </div>
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                    <div className="flex items-center space-x-2">
+                      <Button variant="secondary" size="sm" asChild>
+                        <a href={file.url} target="_blank" rel="noopener noreferrer">
+                          <Eye className="h-3 w-3" />
+                        </a>
+                      </Button>
+                      {file.file_type.startsWith('video/') && (
+                        <Button 
+                          variant="secondary" 
+                          size="sm"
+                          onClick={() => handleSetVideoAsBackground(file.url, section.section_key)}
+                        >
+                          <Link className="h-3 w-3" />
+                        </Button>
+                      )}
+                      <Button 
+                        variant="destructive" 
+                        size="sm"
+                        onClick={() => handleDeleteMedia(file.id, file.filename)}
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-2 bg-white">
+                    <p className="text-xs font-medium truncate">{file.original_name}</p>
+                    <span className="text-xs text-gray-500">
+                      {Math.round((file.file_size || 0) / 1024)}KB
+                    </span>
                   </div>
                 </div>
-                <div className="p-2 bg-white">
-                  <p className="text-xs font-medium truncate">{file.original_name}</p>
-                  <span className="text-xs text-gray-500">
-                    {Math.round((file.file_size || 0) / 1024)}KB
-                  </span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         ) : (
-          <div className="text-center py-6 text-gray-500 border-2 border-dashed border-gray-200 rounded-lg">
-            <Image className="h-8 w-8 mx-auto mb-2 text-gray-300" />
-            <p className="text-sm">No media files for this section</p>
-            <p className="text-xs">Upload images or videos to get started</p>
+          <div>
+            <h5 className="text-xs font-medium text-gray-600 mb-2">Uploaded Media Files</h5>
+            <div className="text-center py-6 text-gray-500 border-2 border-dashed border-gray-200 rounded-lg">
+              <Image className="h-8 w-8 mx-auto mb-2 text-gray-300" />
+              <p className="text-sm">No uploaded media files for this section</p>
+              <p className="text-xs">Upload images or videos to manage them here</p>
+            </div>
           </div>
         )}
       </div>
