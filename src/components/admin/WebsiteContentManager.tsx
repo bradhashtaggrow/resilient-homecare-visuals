@@ -473,6 +473,202 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                           )}
                         </div>
                       )}
+                      
+                      {/* Services Section - Display services when not editing */}
+                      {section.section_key === 'services' && (section.content_data as any)?.services && (
+                        <div className="space-y-4 pt-4">
+                          <h4 className="text-sm font-medium text-gray-500">Individual Services:</h4>
+                          <div className="grid gap-4">
+                            {((section.content_data as any)?.services || []).map((service: any, index: number) => (
+                              <div key={index} className="border rounded-lg p-4 bg-gray-50">
+                                <div className="flex items-start space-x-4">
+                                  {service.patient_image_url && (
+                                    <img
+                                      src={service.patient_image_url}
+                                      alt={service.title}
+                                      className="w-16 h-16 object-cover rounded"
+                                      onError={(e) => {
+                                        e.currentTarget.style.display = 'none';
+                                      }}
+                                    />
+                                  )}
+                                  <div className="flex-1">
+                                    <h5 className="font-medium text-gray-900">{service.title}</h5>
+                                    <p className="text-sm text-blue-600">{service.subtitle}</p>
+                                    <p className="text-sm text-gray-600 mt-1">{service.description}</p>
+                                    {service.benefits && (
+                                      <div className="mt-2">
+                                        <p className="text-xs font-medium text-gray-500">Benefits:</p>
+                                        <ul className="text-xs text-gray-600 list-disc list-inside">
+                                          {service.benefits.map((benefit: any, i: number) => (
+                                            <li key={i}>{benefit.text}</li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    )}
+                                    {service.note && (
+                                      <div className="mt-2 text-xs text-orange-600 bg-orange-50 p-2 rounded">
+                                        <strong>Note:</strong> {service.note}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Services Section - Special handling for detailed services */}
+                  {editingSection === section.section_key && section.section_key === 'services' && (
+                    <div className="space-y-6 mt-6">
+                      <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">Individual Services</h4>
+                      {(editForm.content_data as any)?.services?.map((service: any, serviceIndex: number) => (
+                        <div key={serviceIndex} className="border rounded-lg p-4 space-y-4 bg-gray-50">
+                          <div className="flex items-center justify-between">
+                            <h5 className="font-medium text-gray-900">Service {serviceIndex + 1}: {service.title}</h5>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Service Title</label>
+                              <Input
+                                value={service.title || ''}
+                                onChange={(e) => {
+                                  const newServices = [...((editForm.content_data as any)?.services || [])];
+                                  newServices[serviceIndex] = { ...service, title: e.target.value };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { ...editForm.content_data, services: newServices }
+                                  });
+                                }}
+                                placeholder="Service title"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Service Subtitle</label>
+                              <Input
+                                value={service.subtitle || ''}
+                                onChange={(e) => {
+                                  const newServices = [...((editForm.content_data as any)?.services || [])];
+                                  newServices[serviceIndex] = { ...service, subtitle: e.target.value };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { ...editForm.content_data, services: newServices }
+                                  });
+                                }}
+                                placeholder="Service subtitle"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Service Description</label>
+                            <Textarea
+                              value={service.description || ''}
+                              onChange={(e) => {
+                                const newServices = [...((editForm.content_data as any)?.services || [])];
+                                newServices[serviceIndex] = { ...service, description: e.target.value };
+                                setEditForm({
+                                  ...editForm,
+                                  content_data: { ...editForm.content_data, services: newServices }
+                                });
+                              }}
+                              placeholder="Service description"
+                              rows={3}
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Patient Image URL</label>
+                            <Input
+                              value={service.patient_image_url || ''}
+                              onChange={(e) => {
+                                const newServices = [...((editForm.content_data as any)?.services || [])];
+                                newServices[serviceIndex] = { ...service, patient_image_url: e.target.value };
+                                setEditForm({
+                                  ...editForm,
+                                  content_data: { ...editForm.content_data, services: newServices }
+                                });
+                              }}
+                              placeholder="Patient image URL"
+                            />
+                            {service.patient_image_url && (
+                              <div className="mt-2">
+                                <img
+                                  src={service.patient_image_url}
+                                  alt="Service patient preview"
+                                  className="w-full h-20 object-cover rounded border"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Service Benefits</label>
+                            <div className="space-y-2">
+                              {service.benefits?.map((benefit: any, benefitIndex: number) => (
+                                <div key={benefitIndex} className="flex items-center space-x-2">
+                                  <Input
+                                    value={benefit.text || ''}
+                                    onChange={(e) => {
+                                      const newServices = [...((editForm.content_data as any)?.services || [])];
+                                      const newBenefits = [...(service.benefits || [])];
+                                      newBenefits[benefitIndex] = { ...benefit, text: e.target.value };
+                                      newServices[serviceIndex] = { ...service, benefits: newBenefits };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, services: newServices }
+                                      });
+                                    }}
+                                    placeholder="Benefit description"
+                                    className="flex-1"
+                                  />
+                                  <Input
+                                    value={benefit.icon || 'CheckCircle'}
+                                    onChange={(e) => {
+                                      const newServices = [...((editForm.content_data as any)?.services || [])];
+                                      const newBenefits = [...(service.benefits || [])];
+                                      newBenefits[benefitIndex] = { ...benefit, icon: e.target.value };
+                                      newServices[serviceIndex] = { ...service, benefits: newBenefits };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, services: newServices }
+                                      });
+                                    }}
+                                    placeholder="Icon name"
+                                    className="w-32"
+                                  />
+                                </div>
+                              )) || []}
+                            </div>
+                          </div>
+
+                          {service.note && (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Special Note</label>
+                              <Textarea
+                                value={service.note || ''}
+                                onChange={(e) => {
+                                  const newServices = [...((editForm.content_data as any)?.services || [])];
+                                  newServices[serviceIndex] = { ...service, note: e.target.value };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { ...editForm.content_data, services: newServices }
+                                  });
+                                }}
+                                placeholder="Special note or disclaimer"
+                                rows={2}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      )) || []}
                     </div>
                   )}
                 </CardContent>
