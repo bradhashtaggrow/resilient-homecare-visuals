@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { 
@@ -16,16 +15,20 @@ import {
   Video, 
   Type, 
   Globe, 
-  Zap, 
   Eye,
   Wifi,
   WifiOff,
   ChevronDown,
   ChevronRight,
   Activity,
-  Trash2,
   Download,
-  Play
+  Play,
+  Navigation,
+  Users,
+  Mail,
+  Info,
+  Trash2,
+  Plus
 } from 'lucide-react';
 
 interface WebsiteContent {
@@ -75,9 +78,24 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
   const [editingSection, setEditingSection] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<WebsiteContent>>({});
-  const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+
+  // Complete list of all website sections
+  const allSections = [
+    'navigation',
+    'hero', 
+    'services_header',
+    'services',
+    'mobile_showcase',
+    'value_proposition',
+    'admin_dashboard',
+    'founder',
+    'stats',
+    'lead_generation',
+    'footer'
+  ];
 
   useEffect(() => {
     loadAllData();
@@ -129,10 +147,19 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
 
   const setupRealtimeSubscriptions = () => {
     const contentChannel = supabase
-      .channel('unified-content-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'website_content' }, loadAllData)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, loadAllData)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'media_library' }, loadAllData)
+      .channel('unified-content-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'website_content' }, () => {
+        console.log('Real-time content update');
+        loadAllData();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, () => {
+        console.log('Real-time services update');
+        loadAllData();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'media_library' }, () => {
+        console.log('Real-time media update');
+        loadAllData();
+      })
       .subscribe();
 
     return () => supabase.removeChannel(contentChannel);
@@ -166,7 +193,7 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
 
       toast({
         title: "Content updated",
-        description: "Changes saved successfully",
+        description: "Changes saved and synced to live website",
       });
 
       setEditingSection(null);
@@ -180,14 +207,46 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
     }
   };
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, sectionKey: string) => {
+  const handleCreateSection = async (sectionKey: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('website_content')
+        .insert({
+          section_key: sectionKey,
+          title: `${getSectionDisplayName(sectionKey)} Title`,
+          subtitle: `${getSectionDisplayName(sectionKey)} Subtitle`,
+          description: `${getSectionDisplayName(sectionKey)} description content.`,
+          button_text: 'Learn More',
+          button_url: '#'
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      toast({
+        title: "Section created",
+        description: `${getSectionDisplayName(sectionKey)} section has been created`,
+      });
+
+      loadAllData();
+    } catch (error) {
+      toast({
+        title: "Error creating section",
+        description: "Failed to create section",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, sectionKey: string, fileType: 'image' | 'video' = 'image') => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    setUploading(true);
+    setUploading(`${sectionKey}-${fileType}`);
     try {
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}.${fileExt}`;
+      const fileName = `${sectionKey}_${Date.now()}.${fileExt}`;
       const filePath = `media/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
@@ -211,12 +270,32 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
           alt_text: `${sectionKey} - ${file.name.split('.')[0]}`
         });
 
+      // Auto-assign to section if it's a background
+      if (fileType === 'image') {
+        const section = content.find(c => c.section_key === sectionKey);
+        if (section) {
+          await supabase
+            .from('website_content')
+            .update({ background_image_url: publicUrl })
+            .eq('id', section.id);
+        }
+      } else if (fileType === 'video') {
+        const section = content.find(c => c.section_key === sectionKey);
+        if (section) {
+          await supabase
+            .from('website_content')
+            .update({ background_video_url: publicUrl })
+            .eq('id', section.id);
+        }
+      }
+
       toast({
         title: "File uploaded",
-        description: `${file.name} uploaded successfully`,
+        description: `${file.name} uploaded and assigned to ${getSectionDisplayName(sectionKey)}`,
       });
 
       event.target.value = '';
+      loadAllData();
     } catch (error) {
       toast({
         title: "Upload failed",
@@ -224,7 +303,37 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
         variant: "destructive"
       });
     } finally {
-      setUploading(false);
+      setUploading(null);
+    }
+  };
+
+  const handleDeleteMedia = async (mediaId: string, filename: string) => {
+    try {
+      // Delete from storage
+      await supabase.storage
+        .from('media')
+        .remove([`media/${filename}`]);
+
+      // Delete from database
+      const { error } = await supabase
+        .from('media_library')
+        .delete()
+        .eq('id', mediaId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Media deleted",
+        description: "File has been removed",
+      });
+
+      loadAllData();
+    } catch (error) {
+      toast({
+        title: "Delete failed",
+        description: "Failed to delete file",
+        variant: "destructive"
+      });
     }
   };
 
@@ -241,73 +350,147 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
 
   const getSectionDisplayName = (sectionKey: string) => {
     const names: Record<string, string> = {
+      'navigation': 'Navigation Bar',
       'hero': 'Hero Section',
       'services_header': 'Services Header',
-      'services': 'Services',
-      'value_prop': 'Value Proposition',
-      'about': 'About Section',
-      'contact': 'Contact Section',
-      'footer': 'Footer',
-      'navigation': 'Navigation'
+      'services': 'Service Lines',
+      'mobile_showcase': 'Mobile Showcase',
+      'value_proposition': 'Value Proposition',
+      'admin_dashboard': 'Admin Dashboard Preview',
+      'founder': 'Founder Section',
+      'stats': 'Statistics Section',
+      'lead_generation': 'Lead Generation',
+      'footer': 'Footer'
     };
     return names[sectionKey] || sectionKey.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
   const getSectionIcon = (sectionKey: string) => {
     const icons: Record<string, React.ReactNode> = {
+      'navigation': <Navigation className="h-5 w-5" />,
       'hero': <Globe className="h-5 w-5" />,
       'services_header': <Type className="h-5 w-5" />,
       'services': <Activity className="h-5 w-5" />,
-      'value_prop': <Zap className="h-5 w-5" />,
-      'about': <Type className="h-5 w-5" />,
-      'contact': <Type className="h-5 w-5" />,
-      'footer': <Type className="h-5 w-5" />,
-      'navigation': <Type className="h-5 w-5" />
+      'mobile_showcase': <Image className="h-5 w-5" />,
+      'value_proposition': <Type className="h-5 w-5" />,
+      'admin_dashboard': <Activity className="h-5 w-5" />,
+      'founder': <Users className="h-5 w-5" />,
+      'stats': <Activity className="h-5 w-5" />,
+      'lead_generation': <Mail className="h-5 w-5" />,
+      'footer': <Info className="h-5 w-5" />
     };
     return icons[sectionKey] || <Type className="h-5 w-5" />;
+  };
+
+  const getSectionDescription = (sectionKey: string) => {
+    const descriptions: Record<string, string> = {
+      'navigation': 'Main navigation menu and branding',
+      'hero': 'Primary landing section with hero messaging',
+      'services_header': 'Introduction to healthcare services',
+      'services': 'Detailed service offerings and specialties',
+      'mobile_showcase': 'Mobile app demonstration and features',
+      'value_proposition': 'Key benefits and value statements',
+      'admin_dashboard': 'Admin dashboard preview and features',
+      'founder': 'Founder information and credentials',
+      'stats': 'Key statistics and achievements',
+      'lead_generation': 'Contact forms and lead capture',
+      'footer': 'Footer content and legal information'
+    };
+    return descriptions[sectionKey] || 'Website section configuration';
   };
 
   const getMediaForSection = (sectionKey: string) => {
     return mediaFiles.filter(file => 
       file.alt_text?.toLowerCase().includes(sectionKey.toLowerCase()) ||
-      file.original_name.toLowerCase().includes(sectionKey.toLowerCase())
+      file.original_name.toLowerCase().includes(sectionKey.toLowerCase()) ||
+      file.filename.toLowerCase().includes(sectionKey.toLowerCase())
     );
   };
 
-  const renderMediaSection = (sectionKey: string) => {
-    const sectionMedia = getMediaForSection(sectionKey);
+  const renderMediaDisplay = (section: WebsiteContent) => {
+    const sectionMedia = getMediaForSection(section.section_key);
     
     return (
       <div className="mt-6 space-y-4">
         <div className="flex items-center justify-between">
-          <h4 className="text-sm font-medium text-gray-700">Media Files</h4>
-          <div className="relative">
-            <input
-              type="file"
-              id={`file-upload-${sectionKey}`}
-              className="hidden"
-              onChange={(e) => handleFileUpload(e, sectionKey)}
-              accept="image/*,video/*,.pdf,.doc,.docx"
-            />
-            <Button 
-              variant="outline" 
-              size="sm" 
-              asChild 
-              disabled={uploading}
-            >
-              <label htmlFor={`file-upload-${sectionKey}`} className="cursor-pointer">
-                <Upload className="h-3 w-3 mr-2" />
-                {uploading ? 'Uploading...' : 'Upload'}
-              </label>
-            </Button>
+          <h4 className="text-sm font-medium text-gray-700">Media & Assets</h4>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <input
+                type="file"
+                id={`image-upload-${section.section_key}`}
+                className="hidden"
+                onChange={(e) => handleFileUpload(e, section.section_key, 'image')}
+                accept="image/*"
+              />
+              <Button 
+                variant="outline" 
+                size="sm" 
+                asChild 
+                disabled={uploading === `${section.section_key}-image`}
+              >
+                <label htmlFor={`image-upload-${section.section_key}`} className="cursor-pointer">
+                  <Image className="h-3 w-3 mr-2" />
+                  {uploading === `${section.section_key}-image` ? 'Uploading...' : 'Add Image'}
+                </label>
+              </Button>
+            </div>
+            <div className="relative">
+              <input
+                type="file"
+                id={`video-upload-${section.section_key}`}
+                className="hidden"
+                onChange={(e) => handleFileUpload(e, section.section_key, 'video')}
+                accept="video/*"
+              />
+              <Button 
+                variant="outline" 
+                size="sm" 
+                asChild 
+                disabled={uploading === `${section.section_key}-video`}
+              >
+                <label htmlFor={`video-upload-${section.section_key}`} className="cursor-pointer">
+                  <Video className="h-3 w-3 mr-2" />
+                  {uploading === `${section.section_key}-video` ? 'Uploading...' : 'Add Video'}
+                </label>
+              </Button>
+            </div>
           </div>
         </div>
 
+        {/* Live Background Display */}
+        {(section.background_image_url || section.background_video_url) && (
+          <div className="mb-4">
+            <h5 className="text-xs font-medium text-gray-600 mb-2">Live Background</h5>
+            <div className="relative w-full h-32 rounded-lg overflow-hidden border">
+              {section.background_video_url ? (
+                <video 
+                  src={section.background_video_url} 
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  muted
+                  loop
+                />
+              ) : section.background_image_url ? (
+                <img
+                  src={section.background_image_url}
+                  alt={`${section.section_key} background`}
+                  className="w-full h-full object-cover"
+                />
+              ) : null}
+              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                <span className="text-white text-sm font-medium">Live on Website</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Media Grid */}
         {sectionMedia.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {sectionMedia.map((file) => (
               <div key={file.id} className="relative group border rounded-lg overflow-hidden">
-                <div className="aspect-video bg-gray-100 flex items-center justify-center">
+                <div className="aspect-square bg-gray-100 flex items-center justify-center">
                   {file.file_type.startsWith('image/') ? (
                     <img
                       src={file.url}
@@ -316,44 +499,51 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                     />
                   ) : file.file_type.startsWith('video/') ? (
                     <div className="relative w-full h-full bg-gray-200 flex items-center justify-center">
-                      <Play className="h-8 w-8 text-gray-400" />
+                      <Play className="h-6 w-6 text-gray-400" />
                       <video className="w-full h-full object-cover absolute inset-0" preload="metadata">
                         <source src={file.url} type={file.file_type} />
                       </video>
                     </div>
                   ) : (
                     <div className="text-gray-400 text-center">
-                      <Image className="h-6 w-6 mx-auto mb-1" />
+                      <Image className="h-4 w-4 mx-auto mb-1" />
                       <span className="text-xs">{file.file_type}</span>
                     </div>
                   )}
                 </div>
-                <div className="p-2">
-                  <p className="text-xs font-medium truncate">{file.original_name}</p>
-                  <div className="flex items-center justify-between mt-1">
-                    <span className="text-xs text-gray-500">
-                      {Math.round((file.file_size || 0) / 1024)}KB
-                    </span>
-                    <div className="flex items-center space-x-1">
-                      <Button variant="ghost" size="sm" asChild>
-                        <a href={file.url} target="_blank" rel="noopener noreferrer">
-                          <Eye className="h-3 w-3" />
-                        </a>
-                      </Button>
-                      <Button variant="ghost" size="sm" asChild>
-                        <a href={file.url} download={file.original_name}>
-                          <Download className="h-3 w-3" />
-                        </a>
-                      </Button>
-                    </div>
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <div className="flex items-center space-x-2">
+                    <Button variant="secondary" size="sm" asChild>
+                      <a href={file.url} target="_blank" rel="noopener noreferrer">
+                        <Eye className="h-3 w-3" />
+                      </a>
+                    </Button>
+                    <Button variant="secondary" size="sm" asChild>
+                      <a href={file.url} download={file.original_name}>
+                        <Download className="h-3 w-3" />
+                      </a>
+                    </Button>
+                    <Button 
+                      variant="destructive" 
+                      size="sm"
+                      onClick={() => handleDeleteMedia(file.id, file.filename)}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
                   </div>
+                </div>
+                <div className="p-2 bg-white">
+                  <p className="text-xs font-medium truncate">{file.original_name}</p>
+                  <span className="text-xs text-gray-500">
+                    {Math.round((file.file_size || 0) / 1024)}KB
+                  </span>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-8 text-gray-500">
-            <Image className="h-12 w-12 mx-auto mb-2 text-gray-300" />
+          <div className="text-center py-6 text-gray-500 border-2 border-dashed border-gray-200 rounded-lg">
+            <Image className="h-8 w-8 mx-auto mb-2 text-gray-300" />
             <p className="text-sm">No media files for this section</p>
             <p className="text-xs">Upload images or videos to get started</p>
           </div>
@@ -365,21 +555,38 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
   const renderServicesSection = () => {
     return (
       <div className="mt-6 space-y-4">
-        <h4 className="text-sm font-medium text-gray-700">Service Lines</h4>
-        <div className="grid gap-4">
+        <div className="flex items-center justify-between">
+          <h4 className="text-sm font-medium text-gray-700">Service Lines ({services.length})</h4>
+          <Badge variant="secondary" className="text-xs">
+            Live Services Data
+          </Badge>
+        </div>
+        <div className="grid gap-3">
           {services.map((service) => (
-            <div key={service.id} className="border rounded-lg p-4">
+            <div key={service.id} className="border rounded-lg p-3 bg-gray-50">
               <div className="flex items-center justify-between mb-2">
-                <h5 className="font-medium">{service.title}</h5>
-                <Badge variant="secondary" style={{ backgroundColor: `${service.color}20`, color: service.color }}>
-                  {service.icon_name}
-                </Badge>
+                <h5 className="font-medium text-sm">{service.title}</h5>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline" style={{ backgroundColor: `${service.color}20`, color: service.color }}>
+                    {service.icon_name}
+                  </Badge>
+                  <span className="text-xs text-gray-500">Order: {service.display_order}</span>
+                </div>
               </div>
               {service.subtitle && (
-                <p className="text-sm text-gray-600 mb-1">{service.subtitle}</p>
+                <p className="text-xs text-gray-600 mb-1">{service.subtitle}</p>
               )}
               {service.description && (
-                <p className="text-sm text-gray-500">{service.description}</p>
+                <p className="text-xs text-gray-500 line-clamp-2">{service.description}</p>
+              )}
+              {service.patient_image_url && (
+                <div className="mt-2">
+                  <img 
+                    src={service.patient_image_url} 
+                    alt={service.title}
+                    className="w-16 h-16 rounded object-cover border"
+                  />
+                </div>
               )}
             </div>
           ))}
@@ -396,22 +603,11 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
     );
   }
 
-  // Create a comprehensive list of all sections including those that might not be in the database yet
-  const allSections = [
-    'hero',
-    'services_header', 
-    'services',
-    'value_prop',
-    'about',
-    'contact',
-    'footer',
-    'navigation'
-  ];
-
+  // Create comprehensive sections data including those not in database
   const sectionsData = allSections.map(sectionKey => {
     const existing = content.find(c => c.section_key === sectionKey);
     return existing || {
-      id: `temp-${sectionKey}`,
+      id: `placeholder-${sectionKey}`,
       section_key: sectionKey,
       title: '',
       subtitle: '',
@@ -426,7 +622,7 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Website Content Management</h2>
-          <p className="text-gray-600">Manage all your website content, services, and media in one place</p>
+          <p className="text-gray-600">Complete website content control with real-time sync and media management</p>
         </div>
         <div className="flex items-center gap-4">
           <Badge variant="outline" className={`flex items-center gap-2 ${
@@ -435,149 +631,180 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
             'bg-red-50 text-red-700 border-red-200'
           }`}>
             {getSyncStatusIcon()}
-            <span>{syncStatus === 'connected' ? 'Live Sync' : syncStatus === 'syncing' ? 'Syncing' : 'Offline'}</span>
+            <span>{syncStatus === 'connected' ? 'Live Sync Active' : syncStatus === 'syncing' ? 'Syncing Changes' : 'Sync Offline'}</span>
           </Badge>
           <Button variant="outline" onClick={() => window.open(window.location.origin, '_blank')}>
             <Eye className="h-4 w-4 mr-2" />
-            Preview Website
+            Preview Live Website
           </Button>
         </div>
       </div>
 
       <div className="space-y-4">
-        {sectionsData.map((section) => (
-          <Card key={section.section_key} className="overflow-hidden">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <button
-                  onClick={() => toggleSection(section.section_key)}
-                  className="flex items-center gap-3 text-left flex-1"
-                >
-                  {expandedSections.has(section.section_key) ? 
-                    <ChevronDown className="h-5 w-5 text-gray-400" /> : 
-                    <ChevronRight className="h-5 w-5 text-gray-400" />
-                  }
-                  {getSectionIcon(section.section_key)}
-                  <div>
-                    <CardTitle className="text-lg">{getSectionDisplayName(section.section_key)}</CardTitle>
-                    <CardDescription>
-                      {section.section_key === 'services' ? 'Service offerings and features' :
-                       section.section_key === 'hero' ? 'Main landing section with primary messaging' :
-                       'Content section configuration'}
-                    </CardDescription>
+        {sectionsData.map((section) => {
+          const isPlaceholder = section.id.startsWith('placeholder-');
+          
+          return (
+            <Card key={section.section_key} className="overflow-hidden">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <button
+                    onClick={() => toggleSection(section.section_key)}
+                    className="flex items-center gap-3 text-left flex-1"
+                  >
+                    {expandedSections.has(section.section_key) ? 
+                      <ChevronDown className="h-5 w-5 text-gray-400" /> : 
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    }
+                    {getSectionIcon(section.section_key)}
+                    <div>
+                      <CardTitle className="text-lg">{getSectionDisplayName(section.section_key)}</CardTitle>
+                      <CardDescription>{getSectionDescription(section.section_key)}</CardDescription>
+                    </div>
+                  </button>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={isPlaceholder ? "destructive" : "secondary"} className="text-xs">
+                      {isPlaceholder ? 'Not Created' : 'Live'}
+                    </Badge>
+                    {expandedSections.has(section.section_key) && (
+                      <>
+                        {isPlaceholder ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleCreateSection(section.section_key)}
+                          >
+                            <Plus className="h-4 w-4 mr-2" />
+                            Create Section
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(section)}
+                            disabled={editingSection === section.id}
+                          >
+                            {editingSection === section.id ? 'Editing...' : 'Edit Content'}
+                          </Button>
+                        )}
+                      </>
+                    )}
                   </div>
-                </button>
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="text-xs">
-                    {section.section_key}
-                  </Badge>
-                  {expandedSections.has(section.section_key) && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleEdit(section)}
-                      disabled={editingSection === section.id}
-                    >
-                      {editingSection === section.id ? 'Editing...' : 'Edit'}
-                    </Button>
-                  )}
                 </div>
-              </div>
-            </CardHeader>
+              </CardHeader>
 
-            {expandedSections.has(section.section_key) && (
-              <CardContent className="pt-0">
-                {editingSection === section.id ? (
-                  <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {expandedSections.has(section.section_key) && !isPlaceholder && (
+                <CardContent className="pt-0">
+                  {editingSection === section.id ? (
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="title">Title</Label>
+                          <Input
+                            id="title"
+                            value={formData.title || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                            placeholder="Enter title"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="subtitle">Subtitle</Label>
+                          <Input
+                            id="subtitle"
+                            value={formData.subtitle || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, subtitle: e.target.value }))}
+                            placeholder="Enter subtitle"
+                          />
+                        </div>
+                      </div>
+
                       <div className="space-y-2">
-                        <Label htmlFor="title">Title</Label>
-                        <Input
-                          id="title"
-                          value={formData.title || ''}
-                          onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                          placeholder="Enter title"
+                        <Label htmlFor="description">Description</Label>
+                        <Textarea
+                          id="description"
+                          value={formData.description || ''}
+                          onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                          placeholder="Enter description"
+                          rows={4}
                         />
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="subtitle">Subtitle</Label>
-                        <Input
-                          id="subtitle"
-                          value={formData.subtitle || ''}
-                          onChange={(e) => setFormData(prev => ({ ...prev, subtitle: e.target.value }))}
-                          placeholder="Enter subtitle"
-                        />
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="button_text">Button Text</Label>
+                          <Input
+                            id="button_text"
+                            value={formData.button_text || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, button_text: e.target.value }))}
+                            placeholder="Enter button text"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="button_url">Button URL</Label>
+                          <Input
+                            id="button_url"
+                            value={formData.button_url || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, button_url: e.target.value }))}
+                            placeholder="Enter button URL"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-4 pt-4 border-t">
+                        <Button onClick={handleSave} className="flex items-center gap-2">
+                          <Save className="h-4 w-4" />
+                          Save & Sync to Website
+                        </Button>
+                        <Button variant="outline" onClick={() => setEditingSection(null)}>
+                          Cancel
+                        </Button>
                       </div>
                     </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="description">Description</Label>
-                      <Textarea
-                        id="description"
-                        value={formData.description || ''}
-                        onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                        placeholder="Enter description"
-                        rows={4}
-                      />
+                  ) : (
+                    <div className="space-y-4">
+                      {section.title && (
+                        <div>
+                          <span className="text-sm font-medium text-gray-500">Title:</span>
+                          <p className="text-gray-900">{section.title}</p>
+                        </div>
+                      )}
+                      {section.subtitle && (
+                        <div>
+                          <span className="text-sm font-medium text-gray-500">Subtitle:</span>
+                          <p className="text-gray-900">{section.subtitle}</p>
+                        </div>
+                      )}
+                      {section.description && (
+                        <div>
+                          <span className="text-sm font-medium text-gray-500">Description:</span>
+                          <p className="text-gray-900 text-sm">{section.description}</p>
+                        </div>
+                      )}
                     </div>
+                  )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="button_text">Button Text</Label>
-                        <Input
-                          id="button_text"
-                          value={formData.button_text || ''}
-                          onChange={(e) => setFormData(prev => ({ ...prev, button_text: e.target.value }))}
-                          placeholder="Enter button text"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="button_url">Button URL</Label>
-                        <Input
-                          id="button_url"
-                          value={formData.button_url || ''}
-                          onChange={(e) => setFormData(prev => ({ ...prev, button_url: e.target.value }))}
-                          placeholder="Enter button URL"
-                        />
-                      </div>
-                    </div>
+                  {/* Special sections */}
+                  {section.section_key === 'services' && renderServicesSection()}
+                  
+                  {/* Media section for all sections */}
+                  {renderMediaDisplay(section)}
+                </CardContent>
+              )}
 
-                    <div className="flex items-center gap-4 pt-4 border-t">
-                      <Button onClick={handleSave} className="flex items-center gap-2">
-                        <Save className="h-4 w-4" />
-                        Save Changes
-                      </Button>
-                      <Button variant="outline" onClick={() => setEditingSection(null)}>
-                        Cancel
-                      </Button>
-                    </div>
+              {expandedSections.has(section.section_key) && isPlaceholder && (
+                <CardContent className="pt-0">
+                  <div className="text-center py-8 text-gray-500">
+                    <Plus className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Section Not Created</h3>
+                    <p className="text-gray-600 mb-4">
+                      This section hasn't been created yet. Click "Create Section" to add it to your website.
+                    </p>
                   </div>
-                ) : (
-                  <div className="space-y-4">
-                    {section.title && (
-                      <div>
-                        <span className="text-sm font-medium text-gray-500">Title:</span>
-                        <p className="text-gray-900">{section.title}</p>
-                      </div>
-                    )}
-                    {section.description && (
-                      <div>
-                        <span className="text-sm font-medium text-gray-500">Description:</span>
-                        <p className="text-gray-900 text-sm">{section.description}</p>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Special sections */}
-                {section.section_key === 'services' && renderServicesSection()}
-                
-                {/* Media section for all sections */}
-                {renderMediaSection(section.section_key)}
-              </CardContent>
-            )}
-          </Card>
-        ))}
+                </CardContent>
+              )}
+            </Card>
+          );
+        })}
       </div>
     </div>
   );
