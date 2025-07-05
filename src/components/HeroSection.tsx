@@ -12,7 +12,7 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Optimized Video Background with Mobile Fallback */}
+      {/* Clean Video Background */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -21,30 +21,11 @@ const HeroSection = () => {
           playsInline
           preload="metadata"
           className="absolute inset-0 w-full h-full object-cover"
-          poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23003D6B' width='1920' height='1080'/%3E%3C/svg%3E"
         >
           <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
-        {/* Enhanced gradient overlay for better mobile readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/50" />
-      </div>
-
-      {/* Enhanced 3D Anamorphic Edge Effects */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        {/* Animated top edge */}
-        <div className="absolute top-0 left-0 w-full h-1 sm:h-2 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 animate-pulse-slow" />
-        {/* Animated bottom edge */}
-        <div className="absolute bottom-0 left-0 w-full h-1 sm:h-2 bg-gradient-to-r from-transparent via-white/20 to-transparent transform skew-x-12 animate-pulse-slow" style={{animationDelay: '1s'}} />
-        {/* Animated left edge */}
-        <div className="absolute left-0 top-0 w-1 sm:w-2 h-full bg-gradient-to-b from-transparent via-white/20 to-transparent transform -skew-y-12 animate-pulse-slow" style={{animationDelay: '2s'}} />
-        {/* Animated right edge */}
-        <div className="absolute right-0 top-0 w-1 sm:w-2 h-full bg-gradient-to-b from-transparent via-white/20 to-transparent transform skew-y-12 animate-pulse-slow" style={{animationDelay: '3s'}} />
-        
-        {/* Enhanced corner accents with hover effects */}
-        <div className="absolute top-2 sm:top-4 left-2 sm:left-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-white/30 to-transparent transform rotate-45 blur-sm animate-pulse" />
-        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-bl from-white/30 to-transparent transform -rotate-45 blur-sm animate-pulse" style={{animationDelay: '1s'}} />
-        <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-tr from-white/30 to-transparent transform -rotate-45 blur-sm animate-pulse" style={{animationDelay: '2s'}} />
-        <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-tl from-white/30 to-transparent transform rotate-45 blur-sm animate-pulse" style={{animationDelay: '3s'}} />
+        {/* Minimal dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/30" />
       </div>
 
       {/* Enhanced Hero Content with Mobile Optimization */}
