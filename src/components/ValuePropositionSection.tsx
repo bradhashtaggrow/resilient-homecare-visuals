@@ -1,9 +1,57 @@
 
 import React, { useEffect, useState } from 'react';
 import { Building2, Database, Users, Target, TrendingUp, Heart } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface ValuePropContent {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+}
 
 const ValuePropositionSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [content, setContent] = useState<ValuePropContent>({
+    title: 'We manage the work. You own the program.',
+    subtitle: '',
+    description: ''
+  });
+
+  useEffect(() => {
+    // Load value proposition content from storage
+    const loadValuePropContent = async () => {
+      try {
+        const { data, error } = await supabase.storage
+          .from('media')
+          .download('website-content/value_proposition-config.json');
+
+        if (data && !error) {
+          const text = await data.text();
+          const storageContent = JSON.parse(text);
+          console.log('Loaded value proposition content from storage:', storageContent);
+          
+          setContent({
+            title: storageContent.title || 'We manage the work. You own the program.',
+            subtitle: storageContent.subtitle || '',
+            description: storageContent.description || ''
+          });
+        } else {
+          console.log('No value proposition content found in storage, using defaults');
+        }
+      } catch (error) {
+        console.error('Error loading value proposition content from storage:', error);
+      }
+    };
+
+    loadValuePropContent();
+
+    // Poll for updates every 30 seconds
+    const interval = setInterval(loadValuePropContent, 30000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -85,9 +133,23 @@ const ValuePropositionSection = () => {
         }`}>
           <h2 className="text-black leading-none tracking-tight font-black mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent hover:from-[#1a8cff] hover:to-[#0073e6] transition-all duration-500">We manage the work.</span>
-            <span className="block text-gray-900 hover:text-gray-800 transition-colors duration-500">You own the program.</span>
+            <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent hover:from-[#1a8cff] hover:to-[#0073e6] transition-all duration-500">
+              {content.title?.split('.')[0]}.
+            </span>
+            <span className="block text-gray-900 hover:text-gray-800 transition-colors duration-500">
+              {content.title?.split('.').slice(1).join('.') || 'You own the program.'}
+            </span>
           </h2>
+          {content.subtitle && (
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              {content.subtitle}
+            </p>
+          )}
+          {content.description && (
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto mt-4">
+              {content.description}
+            </p>
+          )}
         </div>
 
         {/* Enhanced Value Propositions Grid with Glow Animation */}

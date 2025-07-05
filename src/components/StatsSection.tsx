@@ -1,6 +1,12 @@
-
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, Heart, Users, DollarSign, Award, Target } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface StatsContent {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+}
 
 const StatsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -11,6 +17,47 @@ const StatsSection = () => {
     patientPreference: 0,
     lessStress: 0
   });
+  const [content, setContent] = useState<StatsContent>({
+    title: 'What Does The Research Say?',
+    subtitle: '',
+    description: ''
+  });
+
+  useEffect(() => {
+    // Load stats content from storage
+    const loadStatsContent = async () => {
+      try {
+        const { data, error } = await supabase.storage
+          .from('media')
+          .download('website-content/stats-config.json');
+
+        if (data && !error) {
+          const text = await data.text();
+          const storageContent = JSON.parse(text);
+          console.log('Loaded stats content from storage:', storageContent);
+          
+          setContent({
+            title: storageContent.title || 'What Does The Research Say?',
+            subtitle: storageContent.subtitle || '',
+            description: storageContent.description || ''
+          });
+        } else {
+          console.log('No stats content found in storage, using defaults');
+        }
+      } catch (error) {
+        console.error('Error loading stats content from storage:', error);
+      }
+    };
+
+    loadStatsContent();
+
+    // Poll for updates every 30 seconds
+    const interval = setInterval(loadStatsContent, 30000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -87,10 +134,10 @@ const StatsSection = () => {
   const generateStars = () => {
     const stars = [];
     for (let i = 0; i < 80; i++) {
-      const x = (i * 13 + 7) % 100; // More evenly distributed
-      const y = (i * 17 + 11) % 100; // Using prime numbers for better distribution
-      const delay = (i * 0.1) % 4; // Staggered animation delays
-      const duration = 2 + (i % 3); // Varied durations between 2-4s
+      const x = (i * 13 + 7) % 100;
+      const y = (i * 17 + 11) % 100;
+      const delay = (i * 0.1) % 4;
+      const duration = 2 + (i % 3);
       
       stars.push({
         id: i,
@@ -180,8 +227,18 @@ const StatsSection = () => {
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            What Does The Research Say?
+            {content.title}
           </h2>
+          {content.subtitle && (
+            <p className="text-white/80 text-2xl font-light mb-4">
+              {content.subtitle}
+            </p>
+          )}
+          {content.description && (
+            <p className="text-white/70 text-lg max-w-4xl mx-auto">
+              {content.description}
+            </p>
+          )}
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
