@@ -818,7 +818,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                   Uploading video...
                                 </div>
                               )}
-                              {hasNewVideoUpload && editForm.background_video_url && (
+                              {editForm.background_video_url && (
                                 <div className="mt-2">
                                   <video
                                     src={editForm.background_video_url}
