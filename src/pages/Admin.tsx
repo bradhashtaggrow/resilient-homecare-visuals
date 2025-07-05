@@ -122,24 +122,37 @@ const Admin = () => {
         console.log('Real-time website content change:', payload);
         setSyncStatus('connected');
         
-        // Update local state immediately
-        if (payload.eventType === 'UPDATE') {
+        // Update local state immediately with proper type checking
+        if (payload.eventType === 'UPDATE' && payload.new) {
+          const updatedContent = payload.new as WebsiteContent;
           setWebsiteContent(prev => prev.map(item => 
-            item.id === payload.new.id ? { ...item, ...payload.new } : item
+            item.id === updatedContent.id ? { ...item, ...updatedContent } : item
           ));
-          broadcastToWebsite('content_updated', payload.new);
-        } else if (payload.eventType === 'INSERT') {
-          setWebsiteContent(prev => [...prev, payload.new as WebsiteContent]);
-          broadcastToWebsite('content_added', payload.new);
-        } else if (payload.eventType === 'DELETE') {
-          setWebsiteContent(prev => prev.filter(item => item.id !== payload.old.id));
-          broadcastToWebsite('content_deleted', payload.old);
+          broadcastToWebsite('content_updated', updatedContent);
+          
+          toast({
+            title: "Website updated",
+            description: `${updatedContent.section_key || 'Content'} section updated in real-time`,
+          });
+        } else if (payload.eventType === 'INSERT' && payload.new) {
+          const newContent = payload.new as WebsiteContent;
+          setWebsiteContent(prev => [...prev, newContent]);
+          broadcastToWebsite('content_added', newContent);
+          
+          toast({
+            title: "Website updated",
+            description: `${newContent.section_key || 'Content'} section added in real-time`,
+          });
+        } else if (payload.eventType === 'DELETE' && payload.old) {
+          const deletedContent = payload.old as WebsiteContent;
+          setWebsiteContent(prev => prev.filter(item => item.id !== deletedContent.id));
+          broadcastToWebsite('content_deleted', deletedContent);
+          
+          toast({
+            title: "Website updated",
+            description: `${deletedContent.section_key || 'Content'} section deleted in real-time`,
+          });
         }
-        
-        toast({
-          title: "Website updated",
-          description: `${payload.new?.section_key || 'Content'} section updated in real-time`,
-        });
       })
       .subscribe((status) => {
         console.log('Content subscription status:', status);
@@ -157,24 +170,37 @@ const Admin = () => {
         console.log('Real-time services change:', payload);
         setSyncStatus('connected');
         
-        // Update local state immediately
-        if (payload.eventType === 'UPDATE') {
+        // Update local state immediately with proper type checking
+        if (payload.eventType === 'UPDATE' && payload.new) {
+          const updatedService = payload.new as Service;
           setServices(prev => prev.map(item => 
-            item.id === payload.new.id ? { ...item, ...payload.new } : item
+            item.id === updatedService.id ? { ...item, ...updatedService } : item
           ));
-          broadcastToWebsite('service_updated', payload.new);
-        } else if (payload.eventType === 'INSERT') {
-          setServices(prev => [...prev, payload.new as Service].sort((a, b) => a.display_order - b.display_order));
-          broadcastToWebsite('service_added', payload.new);
-        } else if (payload.eventType === 'DELETE') {
-          setServices(prev => prev.filter(item => item.id !== payload.old.id));
-          broadcastToWebsite('service_deleted', payload.old);
+          broadcastToWebsite('service_updated', updatedService);
+          
+          toast({
+            title: "Services updated",
+            description: `${updatedService.title || 'Service'} updated in real-time`,
+          });
+        } else if (payload.eventType === 'INSERT' && payload.new) {
+          const newService = payload.new as Service;
+          setServices(prev => [...prev, newService].sort((a, b) => a.display_order - b.display_order));
+          broadcastToWebsite('service_added', newService);
+          
+          toast({
+            title: "Services updated",
+            description: `${newService.title || 'Service'} added in real-time`,
+          });
+        } else if (payload.eventType === 'DELETE' && payload.old) {
+          const deletedService = payload.old as Service;
+          setServices(prev => prev.filter(item => item.id !== deletedService.id));
+          broadcastToWebsite('service_deleted', deletedService);
+          
+          toast({
+            title: "Services updated",
+            description: `${deletedService.title || 'Service'} deleted in real-time`,
+          });
         }
-        
-        toast({
-          title: "Services updated",
-          description: `${payload.new?.title || 'Service'} updated in real-time`,
-        });
       })
       .subscribe((status) => {
         console.log('Services subscription status:', status);
@@ -232,9 +258,9 @@ const Admin = () => {
       case 'content':
         return <ContentEditor content={websiteContent} onContentChange={handleContentUpdate} syncStatus={syncStatus} />;
       case 'services':
-        return <ServicesManager services={services} onServicesChange={handleServicesUpdate} syncStatus={syncStatus} />;
+        return <ServicesManager services={services} onServicesChange={handleServicesUpdate} />;
       case 'media':
-        return <MediaLibrary syncStatus={syncStatus} />;
+        return <MediaLibrary />;
       case 'preview':
         return <RealTimePreview syncStatus={syncStatus} />;
       case 'analytics':
@@ -254,10 +280,9 @@ const Admin = () => {
         <AdminSidebar 
           activeSection={activeSection} 
           onSectionChange={setActiveSection}
-          syncStatus={syncStatus}
         />
         <div className="flex-1 flex flex-col">
-          <AdminHeader activeSection={activeSection} syncStatus={syncStatus} />
+          <AdminHeader activeSection={activeSection} />
           <main className="flex-1 overflow-auto">
             <div className="p-6">
               {renderContent()}

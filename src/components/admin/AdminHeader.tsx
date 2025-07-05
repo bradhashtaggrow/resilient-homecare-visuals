@@ -2,14 +2,15 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bell, Search, User, Save } from 'lucide-react';
+import { Bell, Search, User, Save, Wifi, WifiOff } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 interface AdminHeaderProps {
   activeSection: string;
+  syncStatus?: 'connected' | 'disconnected' | 'syncing';
 }
 
-const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection }) => {
+const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = 'disconnected' }) => {
   const getSectionTitle = (section: string) => {
     const titles: Record<string, string> = {
       dashboard: 'Dashboard Overview',
@@ -24,15 +25,40 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection }) => {
     return titles[section] || 'Admin Dashboard';
   };
 
+  const getSyncStatusIcon = () => {
+    switch (syncStatus) {
+      case 'connected':
+        return <Wifi className="h-3 w-3 text-green-600" />;
+      case 'syncing':
+        return <div className="w-3 h-3 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />;
+      default:
+        return <WifiOff className="h-3 w-3 text-red-600" />;
+    }
+  };
+
+  const getSyncStatusColor = () => {
+    switch (syncStatus) {
+      case 'connected':
+        return 'bg-green-50 text-green-700 border-green-200';
+      case 'syncing':
+        return 'bg-blue-50 text-blue-700 border-blue-200';
+      default:
+        return 'bg-red-50 text-red-700 border-red-200';
+    }
+  };
+
   return (
     <header className="h-16 border-b border-gray-200 bg-white px-6 flex items-center justify-between">
       <div className="flex items-center space-x-4">
         <h2 className="text-2xl font-bold text-gray-900">
           {getSectionTitle(activeSection)}
         </h2>
-        <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-          <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
-          Live
+        <Badge variant="outline" className={getSyncStatusColor()}>
+          {getSyncStatusIcon()}
+          <span className="ml-2">
+            {syncStatus === 'connected' ? 'Live' : 
+             syncStatus === 'syncing' ? 'Syncing' : 'Offline'}
+          </span>
         </Badge>
       </div>
 

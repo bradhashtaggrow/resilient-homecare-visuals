@@ -22,15 +22,23 @@ import {
   Cog,
   Activity,
   Globe,
-  Palette
+  Palette,
+  Wifi,
+  WifiOff
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface AdminSidebarProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
+  syncStatus?: 'connected' | 'disconnected' | 'syncing';
 }
 
-const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionChange }) => {
+const AdminSidebar: React.FC<AdminSidebarProps> = ({ 
+  activeSection, 
+  onSectionChange, 
+  syncStatus = 'disconnected' 
+}) => {
   const mainMenuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
@@ -47,6 +55,17 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
     { id: 'users', label: 'User Management', icon: Users },
     { id: 'settings', label: 'System Settings', icon: Cog },
   ];
+
+  const getSyncStatusIcon = () => {
+    switch (syncStatus) {
+      case 'connected':
+        return <Wifi className="h-3 w-3 text-green-600" />;
+      case 'syncing':
+        return <div className="w-3 h-3 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />;
+      default:
+        return <WifiOff className="h-3 w-3 text-red-600" />;
+    }
+  };
 
   const renderMenuGroup = (title: string, items: typeof mainMenuItems) => (
     <SidebarGroup>
@@ -83,10 +102,19 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
           <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
             <Globe className="h-6 w-6 text-white" />
           </div>
-          <div>
+          <div className="flex-1">
             <h1 className="text-xl font-bold text-gray-900">Healthcare Admin</h1>
             <p className="text-sm text-gray-500">Management Dashboard</p>
           </div>
+        </div>
+        <div className="mt-3 flex items-center justify-center">
+          <Badge variant="outline" className="text-xs">
+            {getSyncStatusIcon()}
+            <span className="ml-1">
+              {syncStatus === 'connected' ? 'Connected' : 
+               syncStatus === 'syncing' ? 'Syncing' : 'Offline'}
+            </span>
+          </Badge>
         </div>
       </SidebarHeader>
 
