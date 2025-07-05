@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -17,13 +16,13 @@ const ServiceLinesSection = () => {
             // Start typing animation after main animation
             setTimeout(() => {
               setTypingPhase(1);
-              // After first line types (3s), pause for 1s, then start second line
+              // After first line types (2s), pause for 1s, then start second line
               setTimeout(() => {
                 setTypingPhase(2); // pause
                 setTimeout(() => {
                   setTypingPhase(3); // second line
                 }, 1000);
-              }, 3000);
+              }, 2000);
             }, 500);
           }
         });
@@ -128,17 +127,18 @@ const ServiceLinesSection = () => {
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
-              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            <span className={`inline-block ${typingPhase >= 1 ? 'animate-typing' : ''}`}>
+              style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.9 }}>
+            <span className={`inline-block ${typingPhase >= 1 ? 'animate-typing' : 'opacity-0'}`}>
               Fully Streamlined,
             </span>
-            <span className={`block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent ${typingPhase >= 3 ? 'animate-typing' : 'opacity-0'}`}
+            <br />
+            <span className={`inline-block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent ${typingPhase >= 3 ? 'animate-typing' : 'opacity-0'}`}
                   style={{ animationDelay: typingPhase >= 3 ? '0s' : undefined }}>
               Uncompromisingly Simple
             </span>
           </h2>
-          <p className="text-white/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
-             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
+          <p className="text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
+             style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', lineHeight: 1.4 }}>
             Three core service lines designed to extend your hospital's reach and improve patient outcomes.
           </p>
         </div>
