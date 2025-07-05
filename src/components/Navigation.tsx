@@ -92,15 +92,15 @@ const Navigation = () => {
             </Button>
           </div>
 
-          {/* Enhanced Mobile Menu Button */}
+          {/* Mobile Menu Button - matching main button thickness */}
           <button
             className="md:hidden p-2 hover:scale-110 transition-transform duration-300"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
-              <X className={`h-6 w-6 ${isScrolled ? 'text-gray-800' : 'text-white'}`} />
+              <X className={`h-6 w-6 ${isScrolled ? 'text-gray-800' : 'text-white'}`} strokeWidth={2} />
             ) : (
-              <Menu className={`h-6 w-6 ${isScrolled ? 'text-gray-800' : 'text-white'}`} />
+              <Menu className={`h-6 w-6 ${isScrolled ? 'text-gray-800' : 'text-white'}`} strokeWidth={2} />
             )}
           </button>
         </div>
