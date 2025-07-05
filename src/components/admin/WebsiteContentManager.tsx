@@ -67,6 +67,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const [activeTab, setActiveTab] = useState('content');
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [uploadingPatientImage, setUploadingPatientImage] = useState<{[key: number]: boolean}>({});
   const { toast } = useToast();
 
   // Available icons for selection
@@ -313,6 +314,54 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
         description: `Background ${type} uploaded successfully`,
       });
     }
+  };
+
+  const handlePatientImageUpload = async (file: File, serviceIndex: number) => {
+    try {
+      setUploadingPatientImage(prev => ({ ...prev, [serviceIndex]: true }));
+      
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `patient-images/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('media')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('media')
+        .getPublicUrl(filePath);
+
+      // Update the service with the new image URL
+      const newServices = [...((editForm.content_data as any)?.services || [])];
+      newServices[serviceIndex] = { ...newServices[serviceIndex], patient_image_url: data.publicUrl };
+      setEditForm({
+        ...editForm,
+        content_data: { ...editForm.content_data, services: newServices }
+      });
+
+      toast({
+        title: "Upload successful",
+        description: "Patient image uploaded successfully",
+      });
+    } catch (error) {
+      console.error('Error uploading patient image:', error);
+      toast({
+        title: "Upload failed",
+        description: "Failed to upload patient image",
+        variant: "destructive"
+      });
+    } finally {
+      setUploadingPatientImage(prev => ({ ...prev, [serviceIndex]: false }));
+    }
+  };
+
+  const handlePatientImageChange = async (e: React.ChangeEvent<HTMLInputElement>, serviceIndex: number) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    await handlePatientImageUpload(file, serviceIndex);
   };
 
   if (loading) {
@@ -920,25 +969,29 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                           </div>
 
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Patient Image URL</label>
-                            <Input
-                              value={service.patient_image_url || ''}
-                              onChange={(e) => {
-                                const newServices = [...((editForm.content_data as any)?.services || [])];
-                                newServices[serviceIndex] = { ...service, patient_image_url: e.target.value };
-                                setEditForm({
-                                  ...editForm,
-                                  content_data: { ...editForm.content_data, services: newServices }
-                                });
-                              }}
-                              placeholder="Patient image URL"
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <Image className="h-4 w-4 inline mr-1" />
+                              Upload Patient Image
+                            </label>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handlePatientImageChange(e, serviceIndex)}
+                              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                              disabled={uploadingPatientImage[serviceIndex]}
                             />
+                            {uploadingPatientImage[serviceIndex] && (
+                              <div className="flex items-center mt-2 text-sm text-blue-600">
+                                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"></div>
+                                Uploading image...
+                              </div>
+                            )}
                             {service.patient_image_url && (
                               <div className="mt-2">
                                 <img
                                   src={service.patient_image_url}
                                   alt="Service patient preview"
-                                  className="w-full h-20 object-cover rounded border"
+                                  className="w-full h-48 object-contain rounded border bg-gray-100"
                                   onError={(e) => {
                                     e.currentTarget.style.display = 'none';
                                   }}
