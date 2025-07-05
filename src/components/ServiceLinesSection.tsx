@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -129,12 +128,12 @@ const ServiceLinesSection = () => {
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
               style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.9 }}>
-            <span className={`inline-block transition-opacity duration-500 ${typingPhase >= 1 ? 'opacity-100' : 'opacity-0'}`}>
+            <span className={`inline-block overflow-hidden whitespace-nowrap ${typingPhase >= 1 ? 'animate-typing' : 'w-0'}`}>
               Fully Streamlined.
             </span>
             <br />
-            <span className={`inline-block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent transition-opacity duration-500 ${typingPhase >= 3 ? 'opacity-100' : 'opacity-0'}`}>
-              Uncompromisingly Simple
+            <span className={`inline-block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent overflow-hidden whitespace-nowrap ${typingPhase >= 3 ? 'animate-typing' : 'w-0'}`}>
+              Uncompromisingly Simple.
             </span>
           </h2>
           <p className="text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
@@ -253,6 +252,20 @@ const ServiceLinesSection = () => {
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes typing {
+          from {
+            width: 0;
+          }
+          to {
+            width: 100%;
+          }
+        }
+        .animate-typing {
+          animation: typing 1.5s steps(40, end) forwards;
+        }
+      `}</style>
     </section>
   );
 };
