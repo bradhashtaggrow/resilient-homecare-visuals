@@ -1,272 +1,127 @@
-import React, { useEffect, useState } from 'react';
-import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle } from 'lucide-react';
-import { Button } from "@/components/ui/button";
+
+import React, { useState, useEffect } from 'react';
 
 const ServiceLinesSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [activeService, setActiveService] = useState(0);
-  const [showFirstLine, setShowFirstLine] = useState(false);
-  const [showSecondLine, setShowSecondLine] = useState(false);
+  const [displayedText, setDisplayedText] = useState('');
+  const fullText = "Fully Streamlined.\nUncompromisingly Simple.";
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            // Start typing animations with delays
-            setTimeout(() => {
-              setShowFirstLine(true);
-              setTimeout(() => {
-                setShowSecondLine(true);
-              }, 2000); // 2 second delay after first line finishes
-            }, 800); // Initial delay
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index <= fullText.length) {
+        setDisplayedText(fullText.slice(0, index));
+        index++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 50);
 
-    const element = document.getElementById('service-lines-section');
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
+    return () => clearInterval(timer);
   }, []);
 
-  // 3D Animated Icon Component with Correct Blue Gradient
-  const AnimatedIcon3D = ({ icon: Icon, delay = 0 }) => {
-    return (
-      <div className="w-10 h-10 flex-shrink-0 mt-0.5 perspective-1000">
-        <div 
-          className={`
-            w-full h-full rounded-xl 
-            bg-gradient-to-r from-[#0080ff] to-[#0066cc]
-            flex items-center justify-center cursor-pointer
-            transform-3d transition-all duration-500 ease-out
-            shadow-lg shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/50
-            hover:scale-110 hover:-translate-y-2 hover:rotate-y-12 hover:rotate-x-6
-            before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r 
-            before:from-white/20 before:to-transparent before:opacity-0 
-            hover:before:opacity-100 before:transition-opacity before:duration-300
-            relative overflow-hidden
-          `}
-          style={{ 
-            animationDelay: `${delay}ms`,
-            transformStyle: 'preserve-3d'
-          }}
-        >
-          <Icon className="h-5 w-5 text-white drop-shadow-lg relative z-10" />
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
-        </div>
-      </div>
-    );
-  };
-
-  const services = [
-    {
-      icon: <Activity className="h-12 w-12" />,
-      title: "Outpatient PT Anywhere",
-      subtitle: "Home-Based Therapy & Recovery",
-      description: "Hospital-branded physical therapy delivered directly to patients' homes with full technology integration.",
-      benefits: [
-        { text: "Generate new outpatient therapy revenue", icon: TrendingUp },
-        { text: "Reduce costly post-acute placements", icon: Shield },
-        { text: "Improve patient outcomes with early intervention", icon: Target },
-        { text: "Prepare for value-based care programs", icon: Award }
-      ],
-      color: "blue",
-      patientImage: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-    },
-    {
-      icon: <Heart className="h-12 w-12" />,
-      title: "Primary Care at Home", 
-      subtitle: "Transitional & Rural Care Extension",
-      description: "Physician and advanced practice providers delivering seamless care transitions and rural health services.",
-      benefits: [
-        { text: "Extend transitional care management for high-risk patients", icon: Users },
-        { text: "Expand rural health clinic reach into underserved areas", icon: MapPin },
-        { text: "Reduce readmissions with targeted follow-up visits", icon: CheckCircle }
-      ],
-      color: "red",
-      patientImage: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-    },
-    {
-      icon: <Building2 className="h-12 w-12" />,
-      title: "Acute Hospital-at-Home",
-      subtitle: "CMS-Compliant Inpatient Care at Home", 
-      description: "Full implementation support for hospital-level care delivery in the home environment.",
-      benefits: [
-        { text: "Complete workflow design & policy development", icon: Zap },
-        { text: "Staff training & education programs", icon: Users },
-        { text: "Medicare waiver submission support", icon: Clock }
-      ],
-      note: "CMS waiver extended through September 2025. We help hospitals prepare for future program versions.",
-      color: "cyan",
-      patientImage: "https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-    }
-  ];
-
-  const getColorClasses = (color: string, isActive: boolean) => {
-    const colors = {
-      blue: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
-      red: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
-      cyan: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
-    };
-    return colors[color as keyof typeof colors];
-  };
-
   return (
-    <section 
-      id="service-lines-section" 
-      className="py-32 bg-white relative overflow-hidden paper-texture-subtle"
-    >
-      <div className="max-w-7xl mx-auto px-6 relative">
-        {/* Header */}
-        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
-              style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.9 }}>
-            <div className={`overflow-hidden ${showFirstLine ? 'typing-line-1' : 'w-0'}`}>
-              Fully Streamlined.
-            </div>
-            <div className={`bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent overflow-hidden ${showSecondLine ? 'typing-line-2' : 'w-0'}`}>
-              Uncompromisingly Simple.
-            </div>
+    <section className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-8 leading-tight">
+            <span className="block bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent whitespace-pre-line">
+              {displayedText}
+            </span>
           </h2>
-          <p className="text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
-             style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', lineHeight: 1.4 }}>
-            Three core service lines designed to extend your hospital's reach and improve patient outcomes.
+          
+          <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            Our platform seamlessly integrates with hospital systems to deliver comprehensive 
+            home-based clinical services that improve patient outcomes while reducing costs.
           </p>
         </div>
 
-        {/* Services Grid */}
-        <div className="space-y-16">
-          {services.map((service, index) => (
-            <div 
-              key={index}
-              className={`transition-all duration-1000 ${
-                isVisible ? 'animate-slide-up' : 'opacity-0'
-              }`}
-              style={{animationDelay: `${index * 300}ms`}}
-              onMouseEnter={() => setActiveService(index)}
-            >
-              <div className={`grid lg:grid-cols-2 gap-12 items-center ${
-                index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
-              }`}>
-                {/* Content */}
-                <div className={`space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                  <div className="space-y-6 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-100/50 relative">
-                    {/* Service Icon */}
-                    <div className="absolute -top-6 -right-6 w-24 h-24">
-                      <div className={`w-full h-full rounded-2xl transition-all duration-300 ${
-                        getColorClasses(service.color, activeService === index)
-                      } flex items-center justify-center shadow-2xl`}>
-                        {service.icon}
-                      </div>
-                    </div>
-
-                    {/* Title and Subtitle */}
-                    <div className="pr-16">
-                      <h3 className="text-gray-900 leading-none tracking-tight font-black mb-3"
-                          style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
-                        {service.title}
-                      </h3>
-                      <p className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent font-medium tracking-wide"
-                         style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
-                        {service.subtitle}
-                      </p>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      {service.description}
-                    </p>
-
-                    {/* Benefits List with 3D Animated Icons */}
-                    <div className="space-y-4">
-                      {service.benefits.map((benefit, benefitIndex) => (
-                        <div key={benefitIndex} className="flex items-start space-x-4">
-                          <AnimatedIcon3D 
-                            icon={benefit.icon} 
-                            delay={benefitIndex * 150} 
-                          />
-                          <span className="text-gray-700 leading-relaxed flex-1">{benefit.text}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Note */}
-                    {service.note && (
-                      <div className="bg-blue-50/90 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-[#0080ff]">
-                        <p className="text-gray-700 leading-relaxed">
-                          {service.note}
-                        </p>
-                      </div>
-                    )}
-
-                    {/* CTA Button with 3D Effects */}
-                    <div className="relative">
-                      <button className="
-                        relative px-8 py-4 text-lg font-semibold text-white rounded-xl
-                        bg-gradient-to-r from-[#0080ff] to-[#0066cc]
-                        shadow-lg shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/40
-                        transform transition-all duration-300 ease-out
-                        hover:scale-105 hover:-translate-y-1
-                        before:absolute before:inset-0 before:rounded-xl
-                        before:bg-gradient-to-r before:from-[#1a8cff] before:to-[#0073e6]
-                        before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300
-                        after:absolute after:inset-0 after:rounded-xl after:shadow-inner
-                        after:bg-gradient-to-t after:from-white/10 after:to-transparent
-                        group overflow-hidden
-                      ">
-                        <span className="relative z-10 flex items-center gap-2">
-                          Learn More
-                          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 text-white drop-shadow-lg" />
-                        </span>
-                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/20 to-blue-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Patient Image with Hover Overlay */}
-                <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
-                  <div className="relative group">
-                    <div className="w-full h-96 rounded-3xl shadow-2xl overflow-hidden relative">
-                      <img 
-                        src={service.patientImage}
-                        alt={`Patient receiving ${service.title} care`}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent" />
-                      {/* Hover Overlay with Correct Blue Gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#0080ff]/80 to-[#0066cc]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+        {/* Service Lines Grid */}
+        <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+          {/* Hospital at Home */}
+          <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
             </div>
-          ))}
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Hospital at Home</h3>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              Deliver acute-level care in the comfort of patients' homes with 24/7 monitoring 
+              and clinical oversight.
+            </p>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li className="flex items-center">
+                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3"></span>
+                Remote patient monitoring
+              </li>
+              <li className="flex items-center">
+                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3"></span>
+                Daily physician visits
+              </li>
+              <li className="flex items-center">
+                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3"></span>
+                24/7 clinical support
+              </li>
+            </ul>
+          </div>
+
+          {/* Post-Acute Care */}
+          <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
+            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Post-Acute Care</h3>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              Comprehensive recovery programs that bridge the gap between hospital discharge 
+              and full independence.
+            </p>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li className="flex items-center">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-3"></span>
+                Skilled nursing care
+              </li>
+              <li className="flex items-center">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-3"></span>
+                Physical therapy
+              </li>
+              <li className="flex items-center">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-3"></span>
+                Medication management
+              </li>
+            </ul>
+          </div>
+
+          {/* Chronic Care Management */}
+          <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
+            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Chronic Care Management</h3>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              Proactive management of chronic conditions to prevent complications and 
+              reduce hospital readmissions.
+            </p>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li className="flex items-center">
+                <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-3"></span>
+                Care plan coordination
+              </li>
+              <li className="flex items-center">
+                <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-3"></span>
+                Health coaching
+              </li>
+              <li className="flex items-center">
+                <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-3"></span>
+                Regular check-ins
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          @keyframes typewriter {
-            from { width: 0; }
-            to { width: 100%; }
-          }
-          
-          .typing-line-1 {
-            animation: typewriter 1.5s steps(20, end) forwards;
-            white-space: nowrap;
-          }
-          
-          .typing-line-2 {
-            animation: typewriter 1.8s steps(25, end) forwards;
-            white-space: nowrap;
-          }
-        `
-      }} />
     </section>
   );
 };
