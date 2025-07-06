@@ -113,7 +113,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
         <div className="text-center pt-32 pb-20">          
           <h2 className="text-7xl lg:text-8xl font-black mb-8 tracking-tight leading-none text-gray-900">
             The Future of{' '}
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Care
             </span>
           </h2>
