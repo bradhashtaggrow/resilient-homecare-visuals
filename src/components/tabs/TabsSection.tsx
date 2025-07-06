@@ -110,12 +110,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
         onMouseMove={handleMouseMove}
       >
         {/* Header Section */}
-        <div className="text-center pt-32 pb-20">
-          <div className="inline-flex items-center gap-3 px-6 py-3 bg-gray-50/80 backdrop-blur-xl rounded-full border border-gray-200/50 mb-12">
-            <Sparkles className="h-5 w-5 text-gray-600" />
-            <span className="text-sm font-medium text-gray-700 tracking-wide">Revolutionary Healthcare</span>
-          </div>
-          
+        <div className="text-center pt-32 pb-20">          
           <h2 className="text-7xl lg:text-8xl font-black mb-8 tracking-tight leading-none text-gray-900">
             The Future of{' '}
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
