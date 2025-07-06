@@ -1140,18 +1140,45 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                           </div>
                         </>
                       ) : section.section_key === 'footer' ? (
-                        // Footer section specific form - title, description, and contact info
+                        // Footer section specific form - logo, description, and contact info
                         <>
                           <div className="grid grid-cols-1 gap-4">
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Title
+                                <Image className="h-4 w-4 inline mr-1" />
+                                Logo
                               </label>
-                              <Input
-                                value={editForm.title || ''}
-                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
-                                placeholder="Footer title"
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleFileChange(e, 'image')}
+                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                disabled={uploadingImage}
                               />
+                              {uploadingImage && (
+                                <div className="flex items-center mt-2 text-sm text-blue-600">
+                                  <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"></div>
+                                  Uploading logo...
+                                </div>
+                              )}
+                              <Input
+                                value={editForm.background_image_url || ''}
+                                onChange={(e) => setEditForm({...editForm, background_image_url: e.target.value})}
+                                placeholder="Or enter logo URL manually"
+                                className="mt-2"
+                              />
+                              {editForm.background_image_url && (
+                                <div className="mt-2">
+                                  <img
+                                    src={editForm.background_image_url}
+                                    alt="Logo preview"
+                                    className="w-24 h-24 object-contain rounded border bg-gray-100"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                              )}
                             </div>
                           </div>
                           
@@ -1201,44 +1228,6 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                 placeholder="Footer button URL"
                               />
                             </div>
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              <Image className="h-4 w-4 inline mr-1" />
-                              Logo
-                            </label>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => handleFileChange(e, 'image')}
-                              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                              disabled={uploadingImage}
-                            />
-                            {uploadingImage && (
-                              <div className="flex items-center mt-2 text-sm text-blue-600">
-                                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"></div>
-                                Uploading logo...
-                              </div>
-                            )}
-                            <Input
-                              value={editForm.background_image_url || ''}
-                              onChange={(e) => setEditForm({...editForm, background_image_url: e.target.value})}
-                              placeholder="Or enter logo URL manually"
-                              className="mt-2"
-                            />
-                            {editForm.background_image_url && (
-                              <div className="mt-2">
-                                <img
-                                  src={editForm.background_image_url}
-                                  alt="Logo preview"
-                                  className="w-24 h-24 object-contain rounded border bg-gray-100"
-                                  onError={(e) => {
-                                    e.currentTarget.style.display = 'none';
-                                  }}
-                                />
-                              </div>
-                            )}
                           </div>
                         </>
                       ) : (
@@ -1391,25 +1380,61 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      {section.title && (
-                        <div>
-                          <span className="text-sm font-medium text-gray-500">Title:</span>
-                          <p className="text-gray-900">{section.title}</p>
-                        </div>
+                      {section.section_key === 'footer' ? (
+                        // Footer-specific display
+                        <>
+                          {section.background_image_url && (
+                            <div>
+                              <span className="text-sm font-medium text-gray-500">Logo:</span>
+                              <div className="mt-1">
+                                <img
+                                  src={section.background_image_url}
+                                  alt="Company Logo"
+                                  className="h-16 object-contain rounded border bg-gray-100"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          )}
+                          {section.subtitle && (
+                            <div>
+                              <span className="text-sm font-medium text-gray-500">Subtitle:</span>
+                              <p className="text-gray-900">{section.subtitle}</p>
+                            </div>
+                          )}
+                          {section.description && (
+                            <div>
+                              <span className="text-sm font-medium text-gray-500">Description:</span>
+                              <p className="text-gray-900">{section.description}</p>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        // Regular display for other sections
+                        <>
+                          {section.title && (
+                            <div>
+                              <span className="text-sm font-medium text-gray-500">Title:</span>
+                              <p className="text-gray-900">{section.title}</p>
+                            </div>
+                          )}
+                          {section.subtitle && (
+                            <div>
+                              <span className="text-sm font-medium text-gray-500">Subtitle:</span>
+                              <p className="text-gray-900">{section.subtitle}</p>
+                            </div>
+                          )}
+                          {section.description && (
+                            <div>
+                              <span className="text-sm font-medium text-gray-500">Description:</span>
+                              <p className="text-gray-900">{section.description}</p>
+                            </div>
+                          )}
+                        </>
                       )}
-                      {section.subtitle && (
-                        <div>
-                          <span className="text-sm font-medium text-gray-500">Subtitle:</span>
-                          <p className="text-gray-900">{section.subtitle}</p>
-                        </div>
-                      )}
-                      {section.description && (
-                        <div>
-                          <span className="text-sm font-medium text-gray-500">Description:</span>
-                          <p className="text-gray-900">{section.description}</p>
-                        </div>
-                      )}
-                      {(section.background_image_url || section.background_video_url || section.mobile_background_url) && (
+                      {section.section_key !== 'footer' && (section.background_image_url || section.background_video_url || section.mobile_background_url) && (
                         <div className="space-y-3 pt-2">
                           {section.background_image_url && (
                             <div>
