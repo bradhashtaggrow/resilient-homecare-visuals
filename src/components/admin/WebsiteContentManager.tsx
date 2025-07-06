@@ -1139,6 +1139,70 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             </div>
                           </div>
                         </>
+                      ) : section.section_key === 'footer' ? (
+                        // Footer section specific form - title, description, and contact info
+                        <>
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Title
+                              </label>
+                              <Input
+                                value={editForm.title || ''}
+                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                                placeholder="Footer title"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <Textarea
+                              value={editForm.description || ''}
+                              onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                              placeholder="Footer description or contact information"
+                              rows={4}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Subtitle
+                              </label>
+                              <Input
+                                value={editForm.subtitle || ''}
+                                onChange={(e) => setEditForm({...editForm, subtitle: e.target.value})}
+                                placeholder="Footer subtitle"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Button Text
+                              </label>
+                              <Input
+                                value={editForm.button_text || ''}
+                                onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
+                                placeholder="Footer button text"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Button URL
+                              </label>
+                              <Input
+                                value={editForm.button_url || ''}
+                                onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
+                                placeholder="Footer button URL"
+                              />
+                            </div>
+                          </div>
+                        </>
                       ) : (
                         // Regular form for other sections
                         <>
