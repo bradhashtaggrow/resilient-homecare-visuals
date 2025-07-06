@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import LeadCaptureForm from './LeadCaptureForm';
 
 interface LeadCaptureModalProps {
@@ -30,13 +31,11 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto border-0 p-0">
-        <div className="p-6">
-          <LeadCaptureForm 
-            onSuccess={handleSuccess}
-            onClose={handleClose}
-            source={source}
-          />
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto border-0 p-6">
+        <div className="space-y-4">
+          <h2 className="text-2xl font-bold">Test Modal</h2>
+          <p>If you can see this, the modal is working!</p>
+          <Button onClick={handleClose}>Close</Button>
         </div>
       </DialogContent>
     </Dialog>
