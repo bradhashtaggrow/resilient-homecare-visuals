@@ -1,145 +1,77 @@
+
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
-import { Building2, Heart, Users, Shield, CheckCircle, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import HeroSection from '@/components/hero/HeroSection';
+import ContentSection from '@/components/content/ContentSection';
+import ServicesGrid from '@/components/services/ServicesGrid';
+import { Building2, Heart, Users, Shield, CheckCircle } from 'lucide-react';
 
 const Patients = () => {
+  const services = [
+    {
+      id: 'hospitals-partnership',
+      icon: Building2,
+      title: "Work with leading hospitals",
+      subtitle: "Partnership Excellence",
+      description: "Partner with top healthcare institutions to expand your reach and impact through our comprehensive network.",
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'patient-referrals',
+      icon: Users,
+      title: "Get access to a consistent stream of patient referrals",
+      subtitle: "Steady Patient Flow",
+      description: "Receive steady patient referrals through our integrated network of healthcare partners and streamlined referral system.",
+      color: "green",
+      patient_image_url: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'care-delivery',
+      icon: Heart,
+      title: "Support care delivery for inpatient at home and outpatient at home services",
+      subtitle: "Comprehensive Home Care",
+      description: "Comprehensive support for both inpatient and outpatient care delivery in home settings with full clinical oversight.",
+      color: "purple",
+      patient_image_url: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'simplified-workflows',
+      icon: Shield,
+      title: "Simplified workflows and credentialing through our platform",
+      subtitle: "Streamlined Operations",
+      description: "Streamlined processes that reduce administrative complexity, save time, and ensure compliance with healthcare standards.",
+      color: "orange",
+      patient_image_url: "https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'payment-structure',
+      icon: CheckCircle,
+      title: "We pay you per visit so no need to worry about administrative burden",
+      subtitle: "Simple Payment Model",
+      description: "Simple per-visit payment structure that eliminates administrative hassles and ensures fair, transparent compensation.",
+      color: "teal",
+      patient_image_url: "https://images.unsplash.com/photo-1551601651-2a8555f1c796?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Patient-centered<br />
-              <span className="text-blue-600">care at home</span>
-            </h1>
-            
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-6">Patients</h2>
-              <p className="text-xl text-gray-600 leading-relaxed">
-                We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. 
-                Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, 
-                ensuring patients receive top-quality care where they are most comfortable.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection 
+        title="Patient-centered"
+        highlightedText="care at home"
+      />
 
-      {/* Benefits Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid gap-8">
-              <div className="group p-8 rounded-3xl bg-gradient-to-br from-blue-50 to-white border border-blue-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Building2 className="h-6 w-6 text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Work with leading hospitals.</h3>
-                    <p className="text-gray-600">Partner with top healthcare institutions to expand your reach and impact.</p>
-                  </div>
-                </div>
-              </div>
+      <ContentSection 
+        title="Patients"
+        description="We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
+      />
 
-              <div className="group p-8 rounded-3xl bg-gradient-to-br from-green-50 to-white border border-green-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Users className="h-6 w-6 text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Get access to a consistent stream of patient referrals.</h3>
-                    <p className="text-gray-600">Receive steady patient referrals through our integrated network of healthcare partners.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group p-8 rounded-3xl bg-gradient-to-br from-purple-50 to-white border border-purple-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Heart className="h-6 w-6 text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Support care delivery for inpatient at home and outpatient at home services.</h3>
-                    <p className="text-gray-600">Comprehensive support for both inpatient and outpatient care delivery in home settings.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group p-8 rounded-3xl bg-gradient-to-br from-orange-50 to-white border border-orange-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-orange-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Shield className="h-6 w-6 text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Simplified workflows and credentialing through our platform.</h3>
-                    <p className="text-gray-600">Streamlined processes that reduce administrative complexity and save time.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group p-8 rounded-3xl bg-gradient-to-br from-teal-50 to-white border border-teal-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-teal-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <CheckCircle className="h-6 w-6 text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">We pay you per visit so no need to worry about administrative burden.</h3>
-                    <p className="text-gray-600">Simple per-visit payment structure that eliminates administrative hassles and ensures fair compensation.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 to-blue-700 relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Transform Healthcare Delivery?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join our network of healthcare professionals delivering exceptional care at home.
-          </p>
-          
-          <Link 
-            to="/contact"
-            className="inline-flex items-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white rounded-2xl hover:bg-blue-50 transition-all duration-300 hover:scale-105 hover:shadow-xl group"
-          >
-            Get Started Today
-            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </section>
+      <ServicesGrid services={services} />
 
       <LeadGenSection />
 
