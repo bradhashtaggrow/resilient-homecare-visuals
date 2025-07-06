@@ -3,7 +3,9 @@ import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
-import { Newspaper, Calendar, User, ArrowRight } from 'lucide-react';
+import HeroSection from '@/components/hero/HeroSection';
+import ContentSection from '@/components/content/ContentSection';
+import { Calendar, User, ArrowRight } from 'lucide-react';
 
 const News = () => {
   const newsArticles = [
@@ -46,24 +48,18 @@ const News = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-blue-50 to-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center">
-            <Newspaper className="h-16 w-16 text-blue-600 mx-auto mb-6" />
-            <h1 className="text-5xl font-bold text-gray-900 mb-6">
-              Healthcare News
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Stay informed with the latest developments in healthcare innovation, 
-              research breakthroughs, and community health initiatives from Resilient Healthcare.
-            </p>
-          </div>
-        </div>
-      </section>
+      <HeroSection 
+        title="Healthcare"
+        highlightedText="News & Updates"
+      />
+
+      <ContentSection 
+        title="News"
+        description="Stay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
+      />
 
       {/* News Articles Grid */}
       <section className="py-16 bg-gray-50">
