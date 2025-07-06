@@ -980,6 +980,34 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             )}
                           </div>
                         </>
+                      ) : section.section_key === 'stats' ? (
+                        // Stats section specific form - only title and description
+                        <>
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Title
+                              </label>
+                              <Input
+                                value={editForm.title || ''}
+                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                                placeholder="Section title"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <Textarea
+                              value={editForm.description || ''}
+                              onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                              placeholder="Section description"
+                              rows={3}
+                            />
+                          </div>
+                        </>
                       ) : (
                         // Regular form for other sections
                         <>

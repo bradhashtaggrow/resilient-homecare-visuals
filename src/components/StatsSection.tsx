@@ -4,9 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 interface StatsContent {
   title?: string;
-  subtitle?: string;
   description?: string;
-  background_image_url?: string;
 }
 
 const StatsSection = () => {
@@ -20,7 +18,6 @@ const StatsSection = () => {
   });
   const [content, setContent] = useState<StatsContent>({
     title: 'What Does The Research Say?',
-    subtitle: '',
     description: ''
   });
 
@@ -40,7 +37,6 @@ const StatsSection = () => {
           
           setContent({
             title: data.title || 'What Does The Research Say?',
-            subtitle: data.subtitle || '',
             description: data.description || ''
           });
         } else {
@@ -212,20 +208,9 @@ const StatsSection = () => {
   return (
     <section id="stats-section" className="py-32 relative overflow-hidden">
       {/* Background */}
-      {content?.background_image_url ? (
-        <div className="absolute inset-0">
-          <img
-            src={content.background_image_url}
-            alt="Stats background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/60" />
-        </div>
-      ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-        </div>
-      )}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+      </div>
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
@@ -253,11 +238,6 @@ const StatsSection = () => {
               style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {content.title}
           </h2>
-          {content.subtitle && (
-            <p className="text-white/80 text-2xl font-light mb-4">
-              {content.subtitle}
-            </p>
-          )}
           {content.description && (
             <p className="text-white/70 text-lg max-w-4xl mx-auto">
               {content.description}
