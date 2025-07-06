@@ -297,9 +297,35 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
   };
 
   const formatSectionName = (key: string) => {
-    // Remove page prefix if present
-    const cleanKey = key.replace(/^[^_]+_/, '');
-    return cleanKey.split('_').map(word => 
+    // Handle specific section name mappings for better display
+    const sectionMappings: Record<string, string> = {
+      'hero': 'Hero Section',
+      'navigation': 'Navigation Bar',
+      'footer': 'Footer',
+      'lead_generation': 'Lead Generation',
+      'mobile_showcase': 'Mobile Showcase',
+      'value_proposition': 'Value Proposition',
+      'admin_dashboard': 'Admin Dashboard',
+      'founder': 'Founder Story',
+      'stats': 'Statistics',
+      'services': 'Service Lines',
+      'why_resilient': 'Why Resilient',
+      'hospital_benefits': 'Hospital Benefits',
+      'clinician_benefits': 'Clinician Benefits',
+      'values': 'Values',
+      'content': 'Content Section',
+      'tabs': 'Tabs Section',
+      'services_grid': 'Services Grid',
+      'patient_tabs': 'Patient Tabs',
+      'news_articles': 'News Articles',
+      'contact_form': 'Contact Form'
+    };
+
+    // Remove page prefix if present (e.g., 'about_hero' -> 'hero')
+    const cleanKey = key.includes('_') ? key.split('_').slice(1).join('_') : key;
+    
+    // Use mapping if available, otherwise format the key
+    return sectionMappings[cleanKey] || cleanKey.split('_').map(word => 
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
   };
@@ -647,6 +673,34 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         <div>
                           <span className="text-sm font-medium text-gray-600">Description:</span>
                           <p className="text-gray-900">{section.description}</p>
+                        </div>
+                      )}
+                      {section.button_text && (
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Button:</span>
+                          <p className="text-gray-900">{section.button_text} ({section.button_url})</p>
+                        </div>
+                      )}
+                      {section.background_image_url && (
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Background Image:</span>
+                          <img src={section.background_image_url} alt="Background" className="w-full h-32 object-cover rounded mt-2" />
+                        </div>
+                      )}
+                      {section.background_video_url && (
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Background Video:</span>
+                          <video src={section.background_video_url} className="w-full h-32 object-cover rounded mt-2" muted />
+                        </div>
+                      )}
+                      {section.content_data && Object.keys(section.content_data).length > 0 && (
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Complex Content Data:</span>
+                          <div className="mt-2 p-3 bg-gray-50 rounded-md">
+                            <pre className="text-xs text-gray-700 whitespace-pre-wrap">
+                              {JSON.stringify(section.content_data, null, 2)}
+                            </pre>
+                          </div>
                         </div>
                       )}
                     </div>
