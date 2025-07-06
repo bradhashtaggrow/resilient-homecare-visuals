@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { LucideIcon, ArrowRight, Sparkles } from 'lucide-react';
+import { LucideIcon, ArrowRight } from 'lucide-react';
 
 interface Service {
   id: string;
@@ -82,10 +81,6 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-full mb-6">
-            <Sparkles className="h-5 w-5 text-indigo-600" />
-            <span className="text-sm font-semibold text-indigo-800">Patient Care Excellence</span>
-          </div>
           <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-6 font-apple tracking-tight">
             How We <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Transform</span> Care
           </h2>
