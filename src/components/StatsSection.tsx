@@ -5,6 +5,14 @@ import { supabase } from '@/integrations/supabase/client';
 interface StatsContent {
   title?: string;
   description?: string;
+  content_data?: {
+    stats?: Array<{
+      value: string;
+      label: string;
+      description: string;
+      source: string;
+    }>;
+  };
 }
 
 const StatsSection = () => {
@@ -18,7 +26,35 @@ const StatsSection = () => {
   });
   const [content, setContent] = useState<StatsContent>({
     title: 'What Does The Research Say?',
-    description: ''
+    description: '',
+    content_data: {
+      stats: [
+        {
+          value: '38%',
+          label: 'Cost Savings',
+          description: 'A study published in JAMA Internal Medicine found that hospital-at-home care reduced costs by 38% compared to traditional inpatient care.',
+          source: 'JAMA Internal Medicine'
+        },
+        {
+          value: '70%',
+          label: 'Reduction in Readmissions',
+          description: 'A study published in JAMA Internal Medicine reported a 70% reduction in 30-day readmission rates among hospital-at-home patients compared to traditional inpatient care.',
+          source: '30-day readmissions'
+        },
+        {
+          value: '91%',
+          label: 'Patient Preference',
+          description: 'A survey published in the Annals of Internal Medicine found that 91% of patients who received hospital-level care at home would choose this option again for similar medical conditions.',
+          source: 'Annals of Internal Medicine'
+        },
+        {
+          value: '95%',
+          label: 'Less Stress',
+          description: 'A study published in BMJ Open Quality reported that 95% of patients felt less stressed receiving care at home compared to inpatient hospital care.',
+          source: 'BMJ Open Quality'
+        }
+      ]
+    }
   });
 
   useEffect(() => {
@@ -35,9 +71,49 @@ const StatsSection = () => {
         if (data && !error) {
           console.log('Loaded stats content from database:', data);
           
+          // Safely handle content_data conversion
+          let parsedContentData = {
+            stats: [
+              {
+                value: '38%',
+                label: 'Cost Savings',
+                description: 'A study published in JAMA Internal Medicine found that hospital-at-home care reduced costs by 38% compared to traditional inpatient care.',
+                source: 'JAMA Internal Medicine'
+              },
+              {
+                value: '70%',
+                label: 'Reduction in Readmissions',
+                description: 'A study published in JAMA Internal Medicine reported a 70% reduction in 30-day readmission rates among hospital-at-home patients compared to traditional inpatient care.',
+                source: '30-day readmissions'
+              },
+              {
+                value: '91%',
+                label: 'Patient Preference',
+                description: 'A survey published in the Annals of Internal Medicine found that 91% of patients who received hospital-level care at home would choose this option again for similar medical conditions.',
+                source: 'Annals of Internal Medicine'
+              },
+              {
+                value: '95%',
+                label: 'Less Stress',
+                description: 'A study published in BMJ Open Quality reported that 95% of patients felt less stressed receiving care at home compared to inpatient hospital care.',
+                source: 'BMJ Open Quality'
+              }
+            ]
+          };
+
+          // Try to parse content_data if it exists and has the right structure
+          try {
+            if (data.content_data && typeof data.content_data === 'object' && 'stats' in data.content_data) {
+              parsedContentData = data.content_data as typeof parsedContentData;
+            }
+          } catch (e) {
+            console.log('Using default stats data due to parsing error:', e);
+          }
+          
           setContent({
             title: data.title || 'What Does The Research Say?',
-            description: data.description || ''
+            description: data.description || '',
+            content_data: parsedContentData
           });
         } else {
           console.log('No stats content found in database, using defaults');
@@ -95,12 +171,15 @@ const StatsSection = () => {
   }, []);
 
   useEffect(() => {
-    if (isVisible) {
+    if (isVisible && content.content_data?.stats) {
+      const statsData = content.content_data.stats;
+      
+      // Extract percentage values from database content
       const targets = {
-        costSavings: 38,
-        readmissionReduction: 70,
-        patientPreference: 91,
-        lessStress: 95
+        costSavings: parseInt(statsData[0]?.value.replace('%', '') || '38'),
+        readmissionReduction: parseInt(statsData[1]?.value.replace('%', '') || '70'),
+        patientPreference: parseInt(statsData[2]?.value.replace('%', '') || '91'),
+        lessStress: parseInt(statsData[3]?.value.replace('%', '') || '95')
       };
 
       const duration = 3000;
@@ -137,7 +216,7 @@ const StatsSection = () => {
 
       return () => clearInterval(timer);
     }
-  }, [isVisible]);
+  }, [isVisible, content.content_data?.stats]);
 
   // Generate stable star positions
   const generateStars = () => {
@@ -161,40 +240,29 @@ const StatsSection = () => {
 
   const stars = generateStars();
 
-  const stats = [
-    {
-      icon: <DollarSign className="h-10 w-10" />,
-      value: `${counts.costSavings}%`,
-      label: "Cost Savings",
-      description: "A study published in JAMA Internal Medicine found that hospital-at-home care reduced costs by 38% compared to traditional inpatient care.",
-      color: "primary",
-      trend: "JAMA Internal Medicine"
-    },
-    {
-      icon: <TrendingUp className="h-10 w-10" />,
-      value: `${counts.readmissionReduction}%`,
-      label: "Reduction in Readmissions",
-      description: "A study published in JAMA Internal Medicine reported a 70% reduction in 30-day readmission rates among hospital-at-home patients compared to traditional inpatient care.",
-      color: "secondary",
-      trend: "30-day readmissions"
-    },
-    {
-      icon: <Heart className="h-10 w-10" />,
-      value: `${counts.patientPreference}%`,
-      label: "Patient Preference",
-      description: "A survey published in the Annals of Internal Medicine found that 91% of patients who received hospital-level care at home would choose this option again for similar medical conditions.",
-      color: "accent",
-      trend: "Annals of Internal Medicine"
-    },
-    {
-      icon: <Users className="h-10 w-10" />,
-      value: `${counts.lessStress}%`,
-      label: "Less Stress",
-      description: "A study published in BMJ Open Quality reported that 95% of patients felt less stressed receiving care at home compared to inpatient hospital care.",
-      color: "primary",
-      trend: "BMJ Open Quality"
-    }
+  // Use database content or fallback to default stats
+  const statsData = content.content_data?.stats || [
+    { value: '38%', label: 'Cost Savings', description: 'Default description', source: 'JAMA Internal Medicine' },
+    { value: '70%', label: 'Reduction in Readmissions', description: 'Default description', source: '30-day readmissions' },
+    { value: '91%', label: 'Patient Preference', description: 'Default description', source: 'Annals of Internal Medicine' },
+    { value: '95%', label: 'Less Stress', description: 'Default description', source: 'BMJ Open Quality' }
   ];
+
+  const stats = statsData.map((stat, index) => {
+    const icons = [DollarSign, TrendingUp, Heart, Users];
+    const colors = ['primary', 'secondary', 'accent', 'primary'];
+    
+    return {
+      icon: React.createElement(icons[index], { className: "h-10 w-10" }),
+      value: counts[Object.keys(counts)[index] as keyof typeof counts] > 0 
+        ? `${counts[Object.keys(counts)[index] as keyof typeof counts]}%` 
+        : stat.value,
+      label: stat.label,
+      description: stat.description,
+      color: colors[index],
+      trend: stat.source
+    };
+  });
 
   const getGradientClass = (color: string) => {
     const gradients = {

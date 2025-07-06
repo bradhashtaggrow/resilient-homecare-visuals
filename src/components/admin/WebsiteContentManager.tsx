@@ -981,7 +981,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                           </div>
                         </>
                       ) : section.section_key === 'stats' ? (
-                        // Stats section specific form - only title and description
+                        // Stats section specific form - title, description, and individual stats
                         <>
                           <div className="grid grid-cols-1 gap-4">
                             <div>
@@ -1006,6 +1006,96 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               placeholder="Section description"
                               rows={3}
                             />
+                          </div>
+
+                          {/* Individual Stats Configuration */}
+                          <div className="space-y-6 pt-4 border-t">
+                            <h4 className="text-lg font-medium text-gray-900">Individual Statistics</h4>
+                            {[0, 1, 2, 3].map((statIndex) => {
+                              const statLabels = ['Cost Savings', 'Reduction in Readmissions', 'Patient Preference', 'Less Stress'];
+                              const stats = (editForm.content_data as any)?.stats || [];
+                              const currentStat = stats[statIndex] || {};
+                              
+                              return (
+                                <div key={statIndex} className="border rounded-lg p-4 bg-gray-50">
+                                  <h5 className="font-medium text-gray-800 mb-4">{statLabels[statIndex]} Statistic</h5>
+                                  
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Percentage Value
+                                      </label>
+                                      <Input
+                                        value={currentStat.value || ''}
+                                        onChange={(e) => {
+                                          const newStats = [...stats];
+                                          newStats[statIndex] = { ...currentStat, value: e.target.value };
+                                          setEditForm({
+                                            ...editForm,
+                                            content_data: { ...editForm.content_data, stats: newStats }
+                                          });
+                                        }}
+                                        placeholder="e.g., 38%"
+                                      />
+                                    </div>
+                                    <div>
+                                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Label
+                                      </label>
+                                      <Input
+                                        value={currentStat.label || ''}
+                                        onChange={(e) => {
+                                          const newStats = [...stats];
+                                          newStats[statIndex] = { ...currentStat, label: e.target.value };
+                                          setEditForm({
+                                            ...editForm,
+                                            content_data: { ...editForm.content_data, stats: newStats }
+                                          });
+                                        }}
+                                        placeholder={statLabels[statIndex]}
+                                      />
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="mt-4">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                      Description
+                                    </label>
+                                    <Textarea
+                                      value={currentStat.description || ''}
+                                      onChange={(e) => {
+                                        const newStats = [...stats];
+                                        newStats[statIndex] = { ...currentStat, description: e.target.value };
+                                        setEditForm({
+                                          ...editForm,
+                                          content_data: { ...editForm.content_data, stats: newStats }
+                                        });
+                                      }}
+                                      placeholder="Detailed description of the statistic"
+                                      rows={3}
+                                    />
+                                  </div>
+                                  
+                                  <div className="mt-4">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                      Source/Publication
+                                    </label>
+                                    <Input
+                                      value={currentStat.source || ''}
+                                      onChange={(e) => {
+                                        const newStats = [...stats];
+                                        newStats[statIndex] = { ...currentStat, source: e.target.value };
+                                        setEditForm({
+                                          ...editForm,
+                                          content_data: { ...editForm.content_data, stats: newStats }
+                                        });
+                                      }}
+                                      placeholder="e.g., JAMA Internal Medicine"
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
                         </>
                       ) : (
