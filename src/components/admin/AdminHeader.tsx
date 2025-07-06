@@ -33,7 +33,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
   const pages = [
     { value: 'home', label: 'Home Page' },
     { value: 'about', label: 'About Page' },
-    { value: 'care-at-home', label: 'Care at Home' },
+    { value: 'care_at_home', label: 'Care at Home' },
     { value: 'clinicians', label: 'Clinicians' },
     { value: 'patients', label: 'Patients' },
     { value: 'news', label: 'News' },
@@ -49,6 +49,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
       preview: 'Live Preview',
       analytics: 'Analytics & Reports',
       users: 'User Management',
+      leads: 'Leads Management',
       settings: 'System Settings'
     };
     return titles[section] || 'Admin Dashboard';
