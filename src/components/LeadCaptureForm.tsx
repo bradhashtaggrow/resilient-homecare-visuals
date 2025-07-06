@@ -233,8 +233,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
                 <SelectContent 
-                  className="bg-white border-gray-200"
-                  style={{ zIndex: 999999 }}
+                  style={{ 
+                    zIndex: 2147483647,
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                  }}
                 >
                   <SelectItem value="ceo">Chief Executive Officer (CEO)</SelectItem>
                   <SelectItem value="cto">Chief Technology Officer (CTO)</SelectItem>
@@ -274,8 +279,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectValue placeholder="Select company size" />
                 </SelectTrigger>
                 <SelectContent 
-                  className="bg-white border-gray-200"
-                  style={{ zIndex: 999999 }}
+                  style={{ 
+                    zIndex: 2147483647,
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                  }}
                 >
                   <SelectItem value="1-10">1-10 employees</SelectItem>
                   <SelectItem value="11-50">11-50 employees</SelectItem>
@@ -293,8 +303,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectValue placeholder="Select industry" />
                 </SelectTrigger>
                 <SelectContent 
-                  className="bg-white border-gray-200"
-                  style={{ zIndex: 999999 }}
+                  style={{ 
+                    zIndex: 2147483647,
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                  }}
                 >
                   <SelectItem value="healthcare">Healthcare</SelectItem>
                   <SelectItem value="hospital">Hospital System</SelectItem>
@@ -322,8 +337,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectValue placeholder="Select annual revenue" />
                 </SelectTrigger>
                 <SelectContent 
-                  className="bg-white border-gray-200"
-                  style={{ zIndex: 999999 }}
+                  style={{ 
+                    zIndex: 2147483647,
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                  }}
                 >
                   <SelectItem value="under-1m">Under $1M</SelectItem>
                   <SelectItem value="1m-5m">$1M - $5M</SelectItem>
@@ -351,8 +371,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectValue placeholder="What's your biggest challenge?" />
                 </SelectTrigger>
                 <SelectContent 
-                  className="bg-white border-gray-200"
-                  style={{ zIndex: 999999 }}
+                  style={{ 
+                    zIndex: 2147483647,
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                  }}
                 >
                   <SelectItem value="patient-outcomes">Improving patient outcomes</SelectItem>
                   <SelectItem value="operational-efficiency">Operational efficiency</SelectItem>
@@ -386,8 +411,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectValue placeholder="When do you need this?" />
                 </SelectTrigger>
                 <SelectContent 
-                  className="bg-white border-gray-200"
-                  style={{ zIndex: 999999 }}
+                  style={{ 
+                    zIndex: 2147483647,
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                  }}
                 >
                   <SelectItem value="immediate">Immediate (0-30 days)</SelectItem>
                   <SelectItem value="short-term">Short-term (1-3 months)</SelectItem>
@@ -403,8 +433,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectValue placeholder="Select budget range" />
                 </SelectTrigger>
                 <SelectContent 
-                  className="bg-white border-gray-200"
-                  style={{ zIndex: 999999 }}
+                  style={{ 
+                    zIndex: 2147483647,
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                  }}
                 >
                   <SelectItem value="under-50k">Under $50K</SelectItem>
                   <SelectItem value="50k-100k">$50K - $100K</SelectItem>
@@ -451,8 +486,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectValue placeholder="Select time" />
                 </SelectTrigger>
                 <SelectContent 
-                  className="bg-white border-gray-200"
-                  style={{ zIndex: 999999 }}
+                  style={{ 
+                    zIndex: 2147483647,
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                  }}
                 >
                   <SelectItem value="9:00 AM">9:00 AM</SelectItem>
                   <SelectItem value="10:00 AM">10:00 AM</SelectItem>
@@ -483,8 +523,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectValue placeholder="Select demo type" />
                 </SelectTrigger>
                 <SelectContent 
-                  className="bg-white border-gray-200"
-                  style={{ zIndex: 999999 }}
+                  style={{ 
+                    zIndex: 2147483647,
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                  }}
                 >
                   <SelectItem value="virtual">Virtual Demo</SelectItem>
                   <SelectItem value="in-person">In-Person Demo</SelectItem>
@@ -507,8 +552,18 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
       {/* Success Modal with Fireworks */}
       {showSuccessModal && (
         <div 
-          className="fixed inset-0 flex items-center justify-center p-4"
-          style={{ zIndex: 999999 }}
+          style={{ 
+            position: 'fixed', 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0, 
+            zIndex: 2147483647,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '16px'
+          }}
         >
           <div className="relative">
             {/* Success Modal Content */}
