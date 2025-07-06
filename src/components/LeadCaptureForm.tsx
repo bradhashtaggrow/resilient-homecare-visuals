@@ -477,7 +477,12 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
       <div className="mb-8">
         <div className="flex justify-between items-center mb-3">
           <span className="text-sm font-medium text-gray-500">Step {currentStep} of 4</span>
-          <span className="text-primary font-semibold">{Math.round(progress)}% Complete</span>
+          <span className="font-semibold" style={{
+            background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>{Math.round(progress)}% Complete</span>
         </div>
         <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
           <div 
