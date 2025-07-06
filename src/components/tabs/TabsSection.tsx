@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { LucideIcon, ArrowRight, Sparkles } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { LucideIcon, ArrowRight, Sparkles, Play, ChevronRight } from 'lucide-react';
 
 interface Service {
   id: string;
@@ -18,192 +18,311 @@ interface TabsSectionProps {
 
 const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
   const [activeTab, setActiveTab] = useState(services[0]?.id || '');
-  const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const activeService = services.find(service => service.id === activeTab);
+
+  const handleTabChange = (serviceId: string) => {
+    if (serviceId === activeTab) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setActiveTab(serviceId);
+      setIsTransitioning(false);
+    }, 300);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      setMousePosition({
+        x: ((e.clientX - rect.left) / rect.width - 0.5) * 20,
+        y: ((e.clientY - rect.top) / rect.height - 0.5) * 20
+      });
+    }
+  };
 
   const getColorClasses = (color: string) => {
     const colors = {
-      blue: { primary: 'rgb(0, 122, 255)', secondary: 'rgba(0, 122, 255, 0.1)' },
-      green: { primary: 'rgb(52, 199, 89)', secondary: 'rgba(52, 199, 89, 0.1)' },
-      purple: { primary: 'rgb(175, 82, 222)', secondary: 'rgba(175, 82, 222, 0.1)' },
-      orange: { primary: 'rgb(255, 149, 0)', secondary: 'rgba(255, 149, 0, 0.1)' },
-      teal: { primary: 'rgb(90, 200, 250)', secondary: 'rgba(90, 200, 250, 0.1)' }
+      blue: { 
+        primary: '#007AFF', 
+        gradient: 'from-blue-500 via-blue-600 to-indigo-600',
+        shadow: 'shadow-blue-500/30',
+        glow: 'drop-shadow-[0_0_20px_rgba(0,122,255,0.5)]'
+      },
+      green: { 
+        primary: '#34C759', 
+        gradient: 'from-green-500 via-emerald-500 to-teal-500',
+        shadow: 'shadow-green-500/30',
+        glow: 'drop-shadow-[0_0_20px_rgba(52,199,89,0.5)]'
+      },
+      purple: { 
+        primary: '#AF52DE', 
+        gradient: 'from-purple-500 via-violet-500 to-purple-600',
+        shadow: 'shadow-purple-500/30',
+        glow: 'drop-shadow-[0_0_20px_rgba(175,82,222,0.5)]'
+      },
+      orange: { 
+        primary: '#FF9500', 
+        gradient: 'from-orange-500 via-amber-500 to-yellow-500',
+        shadow: 'shadow-orange-500/30',
+        glow: 'drop-shadow-[0_0_20px_rgba(255,149,0,0.5)]'
+      },
+      teal: { 
+        primary: '#5AC8FA', 
+        gradient: 'from-cyan-400 via-teal-500 to-blue-500',
+        shadow: 'shadow-cyan-500/30',
+        glow: 'drop-shadow-[0_0_20px_rgba(90,200,250,0.5)]'
+      }
     };
     return colors[color as keyof typeof colors] || colors.blue;
   };
 
-  const activeService = services.find(service => service.id === activeTab);
-
   return (
-    <section className="py-32 bg-white relative overflow-hidden">
-      {/* Background Elements */}
+    <section className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* Revolutionary Background */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-50 to-purple-50 rounded-full blur-3xl opacity-30" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-green-50 to-blue-50 rounded-full blur-3xl opacity-30" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900" />
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(255,255,255,0.1) 0%, transparent 50%)`
+          }}
+        />
+        {/* Floating Particles */}
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 2}s`
+            }}
+          />
+        ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-8 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-24">
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-gray-100/80 backdrop-blur-sm rounded-full mb-8">
-            <Sparkles className="h-4 w-4 text-gray-600" />
-            <span className="text-sm font-medium text-gray-700 tracking-wide">Excellence Redefined</span>
+      <div 
+        ref={containerRef}
+        className="relative z-10 min-h-screen flex flex-col"
+        onMouseMove={handleMouseMove}
+      >
+        {/* Revolutionary Header */}
+        <div className="text-center pt-32 pb-20">
+          <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-xl rounded-full border border-white/10 mb-12">
+            <Sparkles className="h-5 w-5 text-white/80" />
+            <span className="text-sm font-medium text-white/90 tracking-wide">Revolutionary Healthcare</span>
           </div>
-          <h2 className="text-6xl lg:text-7xl font-black text-gray-900 mb-8 tracking-tight leading-none">
-            How We <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Deliver</span>
+          
+          <h2 className="text-7xl lg:text-8xl font-black mb-8 tracking-tight leading-none">
+            The Future of{' '}
+            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
+              Care
+            </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed font-light">
-            Comprehensive healthcare solutions designed with precision and care
+          
+          <p className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed font-light">
+            Experience healthcare like never before. Every interaction reimagined.
           </p>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-12 gap-16">
-          
-          {/* Service Navigation - Apple Style */}
-          <div className="lg:col-span-5">
-            <div className="space-y-3">
-              {services.map((service, index) => {
-                const ServiceIcon = service.icon;
-                const isActive = activeTab === service.id;
-                const isHovered = hoveredTab === service.id;
-                const colorClasses = getColorClasses(service.color);
-                
-                return (
-                  <button
-                    key={service.id}
-                    onClick={() => setActiveTab(service.id)}
-                    onMouseEnter={() => setHoveredTab(service.id)}
-                    onMouseLeave={() => setHoveredTab(null)}
-                    className={`
-                      group relative w-full text-left p-6 rounded-2xl transition-all duration-500 ease-out
-                      ${isActive 
-                        ? 'bg-white shadow-2xl shadow-black/10 scale-[1.02] border border-gray-200/60' 
-                        : 'bg-white/40 backdrop-blur-sm border border-gray-200/40 hover:bg-white/80 hover:shadow-xl hover:shadow-black/5'
-                      }
-                    `}
-                    style={{
-                      transform: isActive ? 'translateY(-8px) scale(1.02)' : isHovered ? 'translateY(-2px)' : 'translateY(0)',
-                      boxShadow: isActive 
-                        ? `0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px ${colorClasses.primary}15`
-                        : isHovered 
-                          ? '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
-                          : '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
-                      animationDelay: `${index * 100}ms`
-                    }}
-                  >
-                    {/* Active Indicator */}
-                    {isActive && (
-                      <div 
-                        className="absolute left-0 top-6 bottom-6 w-1 rounded-full"
-                        style={{ backgroundColor: colorClasses.primary }}
-                      />
-                    )}
-                    
-                    <div className="flex items-start gap-4 relative z-10">
-                      <div 
-                        className={`
-                          w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-300
-                          ${isActive ? 'text-white shadow-lg' : 'text-gray-700 bg-gray-100'}
-                        `}
-                        style={{
-                          backgroundColor: isActive ? colorClasses.primary : undefined,
-                          transform: isHovered || isActive ? 'scale(1.1)' : 'scale(1)'
-                        }}
-                      >
-                        <ServiceIcon className="h-7 w-7" />
+        {/* Revolutionary Interface */}
+        <div className="flex-1 flex items-center justify-center px-8">
+          <div className="w-full max-w-7xl">
+            
+            {/* Floating Navigation Pills */}
+            <div className="flex justify-center mb-16">
+              <div className="inline-flex bg-white/5 backdrop-blur-2xl rounded-2xl border border-white/10 p-2">
+                {services.map((service, index) => {
+                  const ServiceIcon = service.icon;
+                  const isActive = activeTab === service.id;
+                  const colorClasses = getColorClasses(service.color);
+                  
+                  return (
+                    <button
+                      key={service.id}
+                      onClick={() => handleTabChange(service.id)}
+                      className={`
+                        relative px-6 py-4 rounded-xl transition-all duration-700 ease-out group
+                        ${isActive 
+                          ? `bg-gradient-to-r ${colorClasses.gradient} ${colorClasses.shadow} shadow-2xl` 
+                          : 'hover:bg-white/5'
+                        }
+                      `}
+                      style={{
+                        transform: isActive ? `translateY(-8px) scale(1.05)` : 'translateY(0)',
+                        animationDelay: `${index * 100}ms`
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div 
+                          className={`
+                            w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-500
+                            ${isActive ? 'text-white' : 'text-white/60 group-hover:text-white/80'}
+                          `}
+                        >
+                          <ServiceIcon className="h-6 w-6" />
+                        </div>
+                        <div className="text-left">
+                          <div className={`font-semibold text-sm ${isActive ? 'text-white' : 'text-white/80'}`}>
+                            {service.title.split(' ').slice(0, 2).join(' ')}
+                          </div>
+                        </div>
                       </div>
                       
-                      <div className="flex-1 min-w-0">
-                        <h3 className={`font-semibold text-lg mb-1 leading-tight transition-colors duration-300 ${
-                          isActive ? 'text-gray-900' : 'text-gray-800'
-                        }`}>
-                          {service.title}
-                        </h3>
-                        <p className={`text-sm transition-colors duration-300 ${
-                          isActive ? 'text-gray-600' : 'text-gray-500'
-                        }`}>
-                          {service.subtitle}
-                        </p>
-                      </div>
+                      {isActive && (
+                        <div 
+                          className="absolute -inset-4 rounded-2xl opacity-50 animate-pulse"
+                          style={{ 
+                            background: `linear-gradient(45deg, ${colorClasses.primary}20, transparent)`,
+                            filter: 'blur(20px)'
+                          }}
+                        />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-                      <ArrowRight 
-                        className={`h-5 w-5 transition-all duration-300 ${
-                          isActive ? 'text-gray-900 translate-x-1' : 'text-gray-400'
-                        }`}
-                        style={{ 
-                          color: isActive ? colorClasses.primary : undefined,
-                          transform: isHovered || isActive ? 'translateX(4px)' : 'translateX(0)'
+            {/* Revolutionary Content Display */}
+            {activeService && (
+              <div 
+                className={`
+                  transition-all duration-700 ease-out
+                  ${isTransitioning ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'}
+                `}
+              >
+                <div className="relative">
+                  {/* Main Content Card */}
+                  <div 
+                    className="relative bg-gradient-to-br from-white/10 via-white/5 to-transparent backdrop-blur-2xl rounded-3xl border border-white/20 overflow-hidden group"
+                    style={{
+                      transform: `perspective(1000px) rotateX(${mousePosition.y * 0.1}deg) rotateY(${mousePosition.x * 0.1}deg)`,
+                      transformStyle: 'preserve-3d'
+                    }}
+                  >
+                    {/* Hero Image with Cinematic Effect */}
+                    <div className="relative h-96 lg:h-[32rem] overflow-hidden">
+                      <img 
+                        src={activeService.patient_image_url}
+                        alt={activeService.title}
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                        style={{
+                          transform: `translateZ(50px) translate3d(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px, 0)`
                         }}
                       />
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Active Service Display - Apple Product Card Style */}
-          <div className="lg:col-span-7">
-            {activeService && (
-              <div className="sticky top-12">
-                <div 
-                  className="bg-white rounded-3xl overflow-hidden shadow-2xl shadow-black/10 border border-gray-200/60 relative"
-                  style={{
-                    background: 'linear-gradient(135deg, #ffffff 0%, #fafafa 100%)'
-                  }}
-                >
-                  {/* Hero Image */}
-                  <div className="relative h-80 lg:h-96 overflow-hidden">
-                    <img 
-                      src={activeService.patient_image_url}
-                      alt={`${activeService.title} - Healthcare service`}
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                    
-                    {/* Floating Icon */}
-                    <div 
-                      className="absolute top-8 left-8 w-16 h-16 rounded-2xl flex items-center justify-center shadow-xl text-white backdrop-blur-sm"
-                      style={{ 
-                        backgroundColor: `${getColorClasses(activeService.color).primary}dd`
-                      }}
-                    >
-                      <activeService.icon className="h-8 w-8" />
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-10">
-                    <div className="mb-8">
-                      <h3 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3 leading-tight">
-                        {activeService.title}
-                      </h3>
-                      <p 
-                        className="text-lg font-semibold mb-6"
-                        style={{ color: getColorClasses(activeService.color).primary }}
+                      
+                      {/* Cinematic Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
+                      
+                      {/* Floating Icon */}
+                      <div 
+                        className={`
+                          absolute top-8 left-8 w-20 h-20 rounded-2xl flex items-center justify-center 
+                          bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
+                          backdrop-blur-xl border border-white/20 ${getColorClasses(activeService.color).glow}
+                        `}
+                        style={{
+                          transform: `translateZ(100px) translate3d(${mousePosition.x * 0.2}px, ${mousePosition.y * 0.2}px, 0)`
+                        }}
                       >
-                        {activeService.subtitle}
-                      </p>
-                      <p className="text-lg text-gray-700 leading-relaxed">
-                        {activeService.description}
-                      </p>
+                        <activeService.icon className="h-10 w-10 text-white" />
+                      </div>
+
+                      {/* Play Button Effect */}
+                      <div 
+                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        style={{
+                          transform: `translateZ(75px)`
+                        }}
+                      >
+                        <div className="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30">
+                          <Play className="h-8 w-8 text-white ml-1" />
+                        </div>
+                      </div>
                     </div>
 
-                    {/* CTA Button - Apple Style */}
-                    <button 
-                      className="group relative px-8 py-4 rounded-xl font-semibold text-white text-lg overflow-hidden transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-black/10"
-                      style={{ 
-                        backgroundColor: getColorClasses(activeService.color).primary,
-                        boxShadow: `0 8px 32px ${getColorClasses(activeService.color).primary}40`
+                    {/* Revolutionary Content */}
+                    <div className="relative p-12" style={{ transform: `translateZ(25px)` }}>
+                      <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                          <h3 className="text-4xl lg:text-5xl font-black text-white mb-4 tracking-tight leading-tight">
+                            {activeService.title}
+                          </h3>
+                          
+                          <p 
+                            className="text-2xl font-semibold mb-8 bg-gradient-to-r bg-clip-text text-transparent"
+                            style={{ 
+                              backgroundImage: `linear-gradient(135deg, ${getColorClasses(activeService.color).primary}, #ffffff)`
+                            }}
+                          >
+                            {activeService.subtitle}
+                          </p>
+                          
+                          <p className="text-lg text-white/80 leading-relaxed mb-10">
+                            {activeService.description}
+                          </p>
+
+                          {/* Revolutionary CTA */}
+                          <button 
+                            className={`
+                              group relative px-8 py-4 bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
+                              rounded-xl font-bold text-white text-lg overflow-hidden
+                              transform transition-all duration-300 hover:scale-105 
+                              ${getColorClasses(activeService.color).shadow} shadow-2xl
+                              border border-white/20
+                            `}
+                            style={{
+                              filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.3))'
+                            }}
+                          >
+                            <span className="relative z-10 flex items-center justify-center gap-3">
+                              Experience Now
+                              <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-2" />
+                            </span>
+                            
+                            {/* Animated Background */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] duration-700" />
+                          </button>
+                        </div>
+
+                        {/* Revolutionary Stats/Features */}
+                        <div className="space-y-6">
+                          {[
+                            { label: 'Response Time', value: '< 2min', color: 'from-green-400 to-emerald-500' },
+                            { label: 'Satisfaction', value: '99.8%', color: 'from-blue-400 to-cyan-500' },
+                            { label: 'Availability', value: '24/7', color: 'from-purple-400 to-pink-500' }
+                          ].map((stat, index) => (
+                            <div 
+                              key={stat.label}
+                              className="flex items-center justify-between p-4 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10"
+                              style={{
+                                transform: `translateZ(${25 + index * 10}px)`,
+                                animationDelay: `${index * 200}ms`
+                              }}
+                            >
+                              <span className="text-white/80 font-medium">{stat.label}</span>
+                              <span className={`text-2xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                                {stat.value}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Revolutionary Border Effect */}
+                    <div 
+                      className="absolute inset-0 rounded-3xl opacity-50 pointer-events-none"
+                      style={{
+                        background: `linear-gradient(135deg, ${getColorClasses(activeService.color).primary}20, transparent, ${getColorClasses(activeService.color).primary}10)`,
+                        filter: 'blur(1px)'
                       }}
-                    >
-                      <span className="relative z-10 flex items-center justify-center gap-3">
-                        Learn More
-                        <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                      </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </button>
+                    />
                   </div>
                 </div>
               </div>
