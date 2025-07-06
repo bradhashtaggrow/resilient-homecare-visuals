@@ -45,7 +45,6 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
             right: 0, 
             bottom: 0, 
             zIndex: 2147483647,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
