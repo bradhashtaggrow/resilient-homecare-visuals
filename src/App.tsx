@@ -11,6 +11,12 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import RequestDemo from "./pages/RequestDemo";
 import NotFound from "./pages/NotFound";
+import CareAtHome from "./pages/CareAtHome";
+import Clinicians from "./pages/Clinicians";
+import Patients from "./pages/Patients";
+import News from "./pages/News";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +31,12 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/request-demo" element={<RequestDemo />} />
+            <Route path="/care-at-home" element={<CareAtHome />} />
+            <Route path="/clinicians" element={<Clinicians />} />
+            <Route path="/patients" element={<Patients />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={
               <ProtectedRoute requireAdmin={true}>
                 <Admin />

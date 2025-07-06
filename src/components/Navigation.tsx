@@ -34,7 +34,26 @@ const Navigation = () => {
           </div>
           
           {/* Desktop Navigation */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-8">
+            <Link to="/care-at-home" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+              Care At Home
+            </Link>
+            <Link to="/clinicians" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+              Clinicians
+            </Link>
+            <Link to="/patients" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+              Patients
+            </Link>
+            <Link to="/news" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+              News
+            </Link>
+            <Link to="/about" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+              About Us
+            </Link>
+            <Link to="/contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+              Contact
+            </Link>
+            
             <LeadCaptureModal source="navigation">
               <Button 
                 size="lg" 
