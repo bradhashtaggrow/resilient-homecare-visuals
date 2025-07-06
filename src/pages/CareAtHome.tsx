@@ -1,7 +1,9 @@
+
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import OptimizedVideo from '@/components/OptimizedVideo';
+import LeadGenSection from '@/components/LeadGenSection';
 import { Building2, Heart, Users, Shield, Clock, CheckCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -127,30 +129,7 @@ const CareAtHome = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 to-blue-700 relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Transform Healthcare Delivery?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join our network of healthcare professionals delivering exceptional care at home.
-          </p>
-          
-          <Link 
-            to="/contact"
-            className="inline-flex items-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white rounded-2xl hover:bg-blue-50 transition-all duration-300 hover:scale-105 hover:shadow-xl group"
-          >
-            Get Started Today
-            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </section>
+      <LeadGenSection />
 
       <Footer />
     </div>
