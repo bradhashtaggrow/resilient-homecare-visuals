@@ -839,16 +839,29 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                             placeholder="Enter button text"
                           />
                         </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="button_url">Button URL</Label>
-                          <Input
-                            id="button_url"
-                            value={formData.button_url || ''}
-                            onChange={(e) => setFormData(prev => ({ ...prev, button_url: e.target.value }))}
-                            placeholder="Enter button URL"
-                          />
-                        </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="button_url">Button URL</Label>
+                        <Input
+                          id="button_url"
+                          value={formData.button_url || ''}
+                          onChange={(e) => setFormData(prev => ({ ...prev, button_url: e.target.value }))}
+                          placeholder="Enter button URL"
+                        />
                       </div>
+                    </div>
+
+                    {/* Logo URL field for footer section */}
+                    {formData.section_key === 'footer' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="background_image_url">Logo URL</Label>
+                        <Input
+                          id="background_image_url"
+                          value={formData.background_image_url || ''}
+                          onChange={(e) => setFormData(prev => ({ ...prev, background_image_url: e.target.value }))}
+                          placeholder="Enter logo image URL or upload via Media section below"
+                        />
+                      </div>
+                    )}
 
                       <div className="flex items-center gap-4 pt-4 border-t">
                         <Button onClick={handleSave} className="flex items-center gap-2">
