@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Heart, Settings } from 'lucide-react';
+import { Menu, X, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LeadCaptureModal from './LeadCaptureModal';
 
@@ -17,12 +17,12 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <Heart className="h-8 w-8 text-blue-600" />
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-gray-900 leading-tight">Resilient</span>
-              <span className="text-sm text-blue-600 font-medium leading-tight">Healthcare</span>
-            </div>
+          <div className="flex items-center space-x-3">
+            <img 
+              src="/lovable-uploads/79c3abe6-a93e-4fa3-898e-e31fe76e979f.png" 
+              alt="Resilient Healthcare Logo" 
+              className="h-10 w-auto"
+            />
           </div>
           
           {/* Desktop Navigation */}
