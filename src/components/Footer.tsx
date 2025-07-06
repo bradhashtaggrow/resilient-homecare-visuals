@@ -107,24 +107,18 @@ const Footer = () => {
               {content.background_image_url ? (
                 <img 
                   src={content.background_image_url} 
-                  alt={content.title || "Logo"} 
-                  className="w-12 h-12 object-contain rounded-xl"
+                  alt="Company Logo" 
+                  className="h-16 object-contain"
                 />
               ) : (
                 <div className="w-12 h-12 healthcare-gradient rounded-xl flex items-center justify-center">
                   <Heart className="h-6 w-6 text-white" />
                 </div>
               )}
-              <div>
-                {content.title && (
-                  <div className="text-white leading-none tracking-tight font-black"
-                       style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.85 }}>{content.title}</div>
-                )}
-                {content.subtitle && (
-                  <div className="text-blue-300/90 font-medium tracking-wide"
-                       style={{ fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', lineHeight: 1.3 }}>{content.subtitle}</div>
-                )}
-              </div>
+              {content.subtitle && (
+                <div className="text-blue-300/90 font-medium tracking-wide"
+                     style={{ fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', lineHeight: 1.3 }}>{content.subtitle}</div>
+              )}
             </div>
             
             <p className="text-gray-400 mb-6 leading-relaxed">

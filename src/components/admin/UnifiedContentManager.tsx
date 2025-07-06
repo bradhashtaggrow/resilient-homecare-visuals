@@ -796,27 +796,72 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
               {expandedSections.has(section.section_key) && !isPlaceholder && (
                 <CardContent className="pt-0">
                   {editingSection === section.id ? (
-                    <div className="space-y-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <Label htmlFor="title">Title</Label>
-                          <Input
-                            id="title"
-                            value={formData.title || ''}
-                            onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                            placeholder="Enter title"
-                          />
+                      <div className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {formData.section_key === 'footer' ? (
+                            <div className="space-y-2">
+                              <Label htmlFor="logo-upload">Logo Image</Label>
+                              <div className="space-y-2">
+                                <div className="relative">
+                                  <input
+                                    type="file"
+                                    id="logo-upload"
+                                    className="hidden"
+                                    onChange={(e) => handleFileUpload(e, section.section_key, 'image')}
+                                    accept="image/*"
+                                  />
+                                  <Button 
+                                    variant="outline" 
+                                    asChild 
+                                    disabled={uploading === `${section.section_key}-image`}
+                                    className="w-full"
+                                  >
+                                    <label htmlFor="logo-upload" className="cursor-pointer">
+                                      <Image className="h-4 w-4 mr-2" />
+                                      {uploading === `${section.section_key}-image` ? 'Uploading...' : 'Upload Logo'}
+                                    </label>
+                                  </Button>
+                                </div>
+                                <Input
+                                  value={formData.background_image_url || ''}
+                                  onChange={(e) => setFormData(prev => ({ ...prev, background_image_url: e.target.value }))}
+                                  placeholder="Or enter logo URL manually"
+                                />
+                                {formData.background_image_url && (
+                                  <div className="mt-2">
+                                    <img
+                                      src={formData.background_image_url}
+                                      alt="Logo preview"
+                                      className="h-16 object-contain rounded border bg-gray-100"
+                                      onError={(e) => {
+                                        e.currentTarget.style.display = 'none';
+                                      }}
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="space-y-2">
+                              <Label htmlFor="title">Title</Label>
+                              <Input
+                                id="title"
+                                value={formData.title || ''}
+                                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                                placeholder="Enter title"
+                              />
+                            </div>
+                          )}
+                          <div className="space-y-2">
+                            <Label htmlFor="subtitle">Subtitle</Label>
+                            <Input
+                              id="subtitle"
+                              value={formData.subtitle || ''}
+                              onChange={(e) => setFormData(prev => ({ ...prev, subtitle: e.target.value }))}
+                              placeholder="Enter subtitle"
+                            />
+                          </div>
                         </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="subtitle">Subtitle</Label>
-                          <Input
-                            id="subtitle"
-                            value={formData.subtitle || ''}
-                            onChange={(e) => setFormData(prev => ({ ...prev, subtitle: e.target.value }))}
-                            placeholder="Enter subtitle"
-                          />
-                        </div>
-                      </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="description">Description</Label>
@@ -849,19 +894,6 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                         />
                       </div>
                     </div>
-
-                    {/* Logo URL field for footer section */}
-                    {formData.section_key === 'footer' && (
-                      <div className="space-y-2">
-                        <Label htmlFor="background_image_url">Logo URL</Label>
-                        <Input
-                          id="background_image_url"
-                          value={formData.background_image_url || ''}
-                          onChange={(e) => setFormData(prev => ({ ...prev, background_image_url: e.target.value }))}
-                          placeholder="Enter logo image URL or upload via Media section below"
-                        />
-                      </div>
-                    )}
 
                       <div className="flex items-center gap-4 pt-4 border-t">
                         <Button onClick={handleSave} className="flex items-center gap-2">
