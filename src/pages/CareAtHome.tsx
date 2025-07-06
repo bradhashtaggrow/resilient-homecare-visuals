@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -14,7 +13,7 @@ const CareAtHome = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-24 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden">
+      <section className="pt-32 pb-32 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden h-[600px] flex items-center">
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <OptimizedVideo
@@ -22,6 +21,8 @@ const CareAtHome = () => {
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/30" />
+          {/* Bottom blur gradient effect */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-blue-900/80 via-blue-800/40 to-transparent backdrop-blur-sm" />
         </div>
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
@@ -135,4 +136,3 @@ const CareAtHome = () => {
 };
 
 export default CareAtHome;
-
