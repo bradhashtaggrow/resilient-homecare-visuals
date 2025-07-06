@@ -36,7 +36,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       
       {isOpen && (
         <div 
-          className="fixed inset-0 flex items-center justify-center p-4 z-[100] font-apple"
+          className="fixed inset-0 flex items-center justify-center p-4 z-[9999] font-apple"
           onClick={handleBackdropClick}
           style={{ paddingTop: '120px' }}
         >
