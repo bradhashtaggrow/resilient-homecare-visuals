@@ -95,15 +95,15 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     BookOpen
   };
 
-  // Page-specific section mappings
+  // Page-specific section mappings based on actual database sections
   const pageSections = {
     'home': ['navigation', 'hero', 'services', 'mobile_showcase', 'value_proposition', 'admin_dashboard', 'founder', 'stats', 'lead_generation', 'footer'],
-    'about': ['navigation', 'hero', 'content', 'why_resilient', 'hospital_benefits', 'clinician_benefits', 'values', 'lead_generation', 'footer'],
-    'care-at-home': ['navigation', 'hero', 'content', 'tabs', 'lead_generation', 'footer'],
-    'clinicians': ['navigation', 'hero', 'content', 'services_grid', 'lead_generation', 'footer'],
-    'patients': ['navigation', 'hero', 'content', 'patient_tabs', 'lead_generation', 'footer'],
-    'news': ['navigation', 'hero', 'content', 'news_articles', 'lead_generation', 'footer'],
-    'contact': ['navigation', 'hero', 'content', 'contact_form', 'lead_generation', 'footer']
+    'about': ['about_navigation', 'about_hero', 'about_content', 'about_why_resilient', 'about_hospital_benefits', 'about_clinician_benefits', 'about_values', 'about_lead_generation', 'about_footer'],
+    'care-at-home': ['care-at-home_navigation', 'care-at-home_hero', 'care-at-home_content', 'care-at-home_tabs', 'care-at-home_lead_generation', 'care-at-home_footer'],
+    'clinicians': ['clinicians_navigation', 'clinicians_hero', 'clinicians_content', 'clinicians_services_grid', 'clinicians_lead_generation', 'clinicians_footer'],
+    'patients': ['patients_navigation', 'patients_hero', 'patients_content', 'patients_patient_tabs', 'patients_lead_generation', 'patients_footer'],
+    'news': ['news_navigation', 'news_hero', 'news_content', 'news_articles', 'news_lead_generation', 'news_footer'],
+    'contact': ['contact_navigation', 'contact_hero', 'contact_content', 'contact_form', 'contact_lead_generation', 'contact_footer']
   };
 
   const getIconComponent = (iconName: string) => {
@@ -137,35 +137,56 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     try {
       const currentPageSections = pageSections[selectedPage as keyof typeof pageSections] || pageSections.home;
       
-      // Create section prefix based on page
-      const sectionPrefix = selectedPage === 'home' ? '' : `${selectedPage}_`;
-      const sectionKeys = currentPageSections.map(section => 
-        selectedPage === 'home' ? section : `${sectionPrefix}${section}`
-      );
-
-      // First try to load existing content
+      // Load existing content based on the exact section keys defined for each page
       const { data: existingData, error: fetchError } = await supabase
         .from('website_content')
         .select('*')
-        .in('section_key', sectionKeys);
+        .in('section_key', currentPageSections);
 
       if (fetchError) throw fetchError;
 
-      // Create missing sections for the current page
+      // Create missing sections for pages that don't have all their sections yet
       const existingSectionKeys = existingData?.map(item => item.section_key) || [];
-      const missingSections = sectionKeys.filter(key => !existingSectionKeys.includes(key));
+      const missingSections = currentPageSections.filter(key => !existingSectionKeys.includes(key));
 
       if (missingSections.length > 0) {
-        const newSections = missingSections.map(sectionKey => ({
-          section_key: sectionKey,
-          title: `${formatSectionName(sectionKey)} Title`,
-          subtitle: `${formatSectionName(sectionKey)} Subtitle`,
-          description: `${formatSectionName(sectionKey)} description content`,
-          button_text: 'Learn More',
-          button_url: '#',
-          is_active: true,
-          content_data: {}
-        }));
+        console.log(`Creating missing sections for ${selectedPage}:`, missingSections);
+        
+        const newSections = missingSections.map(sectionKey => {
+          // Set appropriate default content based on section type
+          const sectionType = sectionKey.split('_').pop() || sectionKey;
+          let defaultTitle = formatSectionName(sectionKey);
+          let defaultDescription = `${formatSectionName(sectionKey)} content for ${selectedPage} page`;
+          
+          // Customize based on section type
+          switch (sectionType) {
+            case 'hero':
+              defaultTitle = selectedPage === 'home' ? 'The Future of Healthcare' : `${selectedPage.charAt(0).toUpperCase() + selectedPage.slice(1)} Hero`;
+              defaultDescription = `Main hero section for ${selectedPage} page`;
+              break;
+            case 'navigation':
+              defaultTitle = 'Navigation';
+              defaultDescription = `Navigation bar content for ${selectedPage} page`;
+              break;
+            case 'footer':
+              defaultTitle = 'Footer';
+              defaultDescription = `Footer content for ${selectedPage} page`;
+              break;
+            default:
+              break;
+          }
+
+          return {
+            section_key: sectionKey,
+            title: defaultTitle,
+            subtitle: `${formatSectionName(sectionKey)} Subtitle`,
+            description: defaultDescription,
+            button_text: 'Learn More',
+            button_url: '#',
+            is_active: true,
+            content_data: {}
+          };
+        });
 
         const { error: insertError } = await supabase
           .from('website_content')
@@ -177,7 +198,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
         const { data: refreshedData, error: refreshError } = await supabase
           .from('website_content')
           .select('*')
-          .in('section_key', sectionKeys);
+          .in('section_key', currentPageSections);
 
         if (refreshError) throw refreshError;
         
