@@ -481,8 +481,11 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
         </div>
         <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
           <div 
-            className="h-full bg-gradient-to-r from-primary to-blue-500 rounded-full transition-all duration-700 ease-out shadow-sm"
-            style={{ width: `${progress}%` }}
+            className="h-full transition-all duration-700 ease-out shadow-sm rounded-full"
+            style={{ 
+              width: `${progress}%`,
+              background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)'
+            }}
           />
         </div>
       </div>
