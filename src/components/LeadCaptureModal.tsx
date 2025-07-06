@@ -36,14 +36,14 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       
       {isOpen && (
         <div 
-          className="fixed inset-0 flex items-center justify-center p-4 z-[9999] font-apple"
+          className="fixed inset-0 flex items-center justify-center p-4 z-[99999] font-apple"
           onClick={handleBackdropClick}
         >
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200 z-[9999]">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200 z-[99999]">
             {/* Apple-style close button */}
             <button
               onClick={handleClose}
-              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center z-10 transition-all duration-200"
+              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center z-[99999] transition-all duration-200"
             >
               <X className="h-4 w-4 text-gray-600" />
             </button>
