@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LucideIcon, ArrowRight } from 'lucide-react';
 
@@ -20,49 +21,16 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => 
   const [animationKey, setAnimationKey] = useState(0);
 
   const getColorClasses = (color: string) => {
-    const colors = {
-      blue: {
-        gradient: 'from-blue-400 via-blue-500 to-blue-600',
-        border: 'border-blue-300',
-        bg: 'bg-blue-500',
-        text: 'text-blue-600',
-        shadow: 'shadow-blue-200',
-        ring: 'ring-blue-200'
-      },
-      green: {
-        gradient: 'from-green-400 via-green-500 to-green-600',
-        border: 'border-green-300',
-        bg: 'bg-green-500',
-        text: 'text-green-600',
-        shadow: 'shadow-green-200',
-        ring: 'ring-green-200'
-      },
-      purple: {
-        gradient: 'from-purple-400 via-purple-500 to-purple-600',
-        border: 'border-purple-300',
-        bg: 'bg-purple-500',
-        text: 'text-purple-600',
-        shadow: 'shadow-purple-200',
-        ring: 'ring-purple-200'
-      },
-      orange: {
-        gradient: 'from-orange-400 via-orange-500 to-orange-600',
-        border: 'border-orange-300',
-        bg: 'bg-orange-500',
-        text: 'text-orange-600',
-        shadow: 'shadow-orange-200',
-        ring: 'ring-orange-200'
-      },
-      teal: {
-        gradient: 'from-teal-400 via-teal-500 to-teal-600',
-        border: 'border-teal-300',
-        bg: 'bg-teal-500',
-        text: 'text-teal-600',
-        shadow: 'shadow-teal-200',
-        ring: 'ring-teal-200'
-      }
+    // Use consistent two-blue gradient for all elements
+    const blueGradient = {
+      gradient: 'from-[#4F9CF9] to-[#183EC2]',
+      border: 'border-[#4F9CF9]',
+      bg: 'bg-[#4F9CF9]',
+      text: 'text-[#4F9CF9]',
+      shadow: 'shadow-[#4F9CF9]/30',
+      ring: 'ring-[#4F9CF9]/20'
     };
-    return colors[color as keyof typeof colors] || colors.blue;
+    return blueGradient;
   };
 
   const handleTabChange = (serviceId: string) => {
@@ -82,7 +50,7 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => 
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-6 font-apple tracking-tight">
-            How We <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Transform</span> Care
+            How We <span className="bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent">Transform</span> Care
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Discover our comprehensive approach to delivering exceptional healthcare experiences at home
@@ -97,7 +65,6 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => 
               {services.map((service, index) => {
                 const ServiceIcon = service.icon;
                 const isActive = activeTab === service.id;
-                const serviceColors = getColorClasses(service.color);
                 
                 return (
                   <button
@@ -106,10 +73,10 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => 
                     className={`
                       w-full text-left p-4 rounded-2xl transition-all duration-500 group relative overflow-hidden
                       ${isActive 
-                        ? `bg-gradient-to-r ${serviceColors.gradient} text-white shadow-2xl ${serviceColors.shadow} scale-105 -translate-y-1` 
+                        ? `bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] text-white shadow-2xl shadow-[#4F9CF9]/30 scale-105 -translate-y-1` 
                         : 'bg-white/80 backdrop-blur-sm text-gray-700 hover:text-gray-900 hover:bg-white hover:shadow-lg hover:scale-102'
                       }
-                      border-2 ${isActive ? 'border-transparent' : `${serviceColors.border} hover:${serviceColors.border}`}
+                      border-2 ${isActive ? 'border-transparent' : `border-[#4F9CF9]/30 hover:border-[#4F9CF9]/50`}
                     `}
                     style={{
                       animationDelay: `${index * 100}ms`
@@ -126,7 +93,7 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => 
                         w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300
                         ${isActive 
                           ? 'bg-white/20 backdrop-blur-sm' 
-                          : `bg-gradient-to-br ${serviceColors.gradient} text-white group-hover:scale-110`
+                          : `bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] text-white group-hover:scale-110`
                         }
                       `}>
                         <ServiceIcon className="h-6 w-6" />
@@ -153,22 +120,22 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => 
               <div key={animationKey} className="animate-fade-in">
                 <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-2xl border border-gray-200/50 relative overflow-hidden">
                   {/* Decorative Elements */}
-                  <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${colorClasses.gradient} opacity-5 rounded-full transform translate-x-20 -translate-y-20`} />
-                  <div className={`absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br ${colorClasses.gradient} opacity-10 rounded-full transform -translate-x-12 translate-y-12`} />
+                  <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] opacity-5 rounded-full transform translate-x-20 -translate-y-20`} />
+                  <div className={`absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] opacity-10 rounded-full transform -translate-x-12 translate-y-12`} />
                   
                   <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                     {/* Content */}
                     <div className="space-y-6">
                       {/* Icon and Title */}
                       <div className="flex items-center gap-4 mb-6">
-                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${colorClasses.gradient} flex items-center justify-center shadow-2xl ${colorClasses.shadow} transform transition-all duration-500 hover:scale-110 hover:rotate-6`}>
+                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] flex items-center justify-center shadow-2xl shadow-[#4F9CF9]/30 transform transition-all duration-500 hover:scale-110 hover:rotate-6`}>
                           {IconComponent && <IconComponent className="h-8 w-8 text-white" />}
                         </div>
                         <div>
                           <h3 className="text-2xl lg:text-3xl font-black text-gray-900 font-apple leading-tight">
                             {activeService.title}
                           </h3>
-                          <p className={`text-lg font-semibold bg-gradient-to-r ${colorClasses.gradient} bg-clip-text text-transparent`}>
+                          <p className={`text-lg font-semibold bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent`}>
                             {activeService.subtitle}
                           </p>
                         </div>
@@ -182,10 +149,10 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => 
                       {/* Action Button */}
                       <button className={`
                         group px-8 py-4 rounded-xl font-semibold text-white text-lg
-                        bg-gradient-to-r ${colorClasses.gradient}
-                        shadow-2xl ${colorClasses.shadow} transition-all duration-300
+                        bg-gradient-to-r from-[#4F9CF9] to-[#183EC2]
+                        shadow-2xl shadow-[#4F9CF9]/30 transition-all duration-300
                         hover:scale-105 hover:-translate-y-1
-                        focus:outline-none focus:ring-4 ${colorClasses.ring}
+                        focus:outline-none focus:ring-4 ring-[#4F9CF9]/20
                         relative overflow-hidden
                       `}>
                         <span className="relative z-10 flex items-center justify-center gap-2">
@@ -199,7 +166,7 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => 
                     {/* Image */}
                     <div className="relative group">
                       <div className={`
-                        absolute inset-0 bg-gradient-to-br ${colorClasses.gradient} 
+                        absolute inset-0 bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] 
                         rounded-3xl blur-xl opacity-20 group-hover:opacity-30 
                         transition-all duration-700 scale-95 group-hover:scale-100
                       `} />
@@ -211,7 +178,7 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => 
                           loading="lazy"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                        <div className={`absolute inset-0 bg-gradient-to-br ${colorClasses.gradient} opacity-0 group-hover:opacity-20 transition-all duration-500`} />
+                        <div className={`absolute inset-0 bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] opacity-0 group-hover:opacity-20 transition-all duration-500`} />
                       </div>
                     </div>
                   </div>
