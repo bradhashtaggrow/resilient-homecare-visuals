@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { Phone, Mail, MapPin, Clock, Send, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -40,9 +41,8 @@ const Contact = () => {
             <h1 className="text-5xl font-bold text-gray-900 mb-6">
               Contact Us
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Get in touch with our team for questions about our services, partnership opportunities, 
-              or to learn more about how Resilient Healthcare can support your healthcare needs.
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Transforming Healthcare. Powered by AI. Built for the Future.
             </p>
           </div>
         </div>
@@ -55,59 +55,24 @@ const Contact = () => {
             
             {/* Contact Information */}
             <div>
-              <h2 className="text-3xl font-bold mb-8">Get In Touch</h2>
+              <h2 className="text-3xl font-bold mb-8">📍 Resilient Healthcare Headquarters</h2>
               
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <Phone className="h-6 w-6 text-blue-600 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold mb-1">Phone Support</h3>
-                    <p className="text-gray-600">1-800-HEALTHCARE</p>
-                    <p className="text-gray-600">(1-800-432-5842)</p>
+                    <h3 className="font-semibold mb-1">📞 Call</h3>
+                    <p className="text-gray-600">(732) 429-2102</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start gap-4">
                   <Mail className="h-6 w-6 text-blue-600 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold mb-1">Email Support</h3>
-                    <p className="text-gray-600">info@resilienthealthcare.com</p>
-                    <p className="text-gray-600">support@resilienthealthcare.com</p>
+                    <h3 className="font-semibold mb-1">✉️ Email</h3>
+                    <p className="text-gray-600">jackleen@resilienthc.org</p>
                   </div>
                 </div>
-                
-                <div className="flex items-start gap-4">
-                  <MapPin className="h-6 w-6 text-blue-600 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Headquarters</h3>
-                    <p className="text-gray-600">
-                      123 Healthcare Plaza<br />
-                      Medical District<br />
-                      New York, NY 10001
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-4">
-                  <Clock className="h-6 w-6 text-blue-600 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Business Hours</h3>
-                    <p className="text-gray-600">
-                      Monday - Friday: 8:00 AM - 8:00 PM<br />
-                      Saturday: 9:00 AM - 5:00 PM<br />
-                      Sunday: Emergency Support Only
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Emergency Contact */}
-              <div className="mt-8 p-6 bg-red-50 rounded-2xl border border-red-200">
-                <h3 className="font-semibold text-red-800 mb-2">24/7 Emergency Support</h3>
-                <p className="text-red-700">
-                  For medical emergencies, call 911 immediately.<br />
-                  For urgent healthcare support: 1-800-URGENT-1
-                </p>
               </div>
             </div>
 
@@ -200,39 +165,6 @@ const Contact = () => {
                   Send Message
                 </Button>
               </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Service Areas */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Service Areas</h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-6 bg-white rounded-2xl shadow-sm">
-              <MapPin className="h-8 w-8 text-blue-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-4">Northeast Region</h3>
-              <p className="text-gray-600">
-                New York, New Jersey, Connecticut, Massachusetts, Pennsylvania
-              </p>
-            </div>
-            
-            <div className="text-center p-6 bg-white rounded-2xl shadow-sm">
-              <MapPin className="h-8 w-8 text-blue-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-4">Southeast Region</h3>
-              <p className="text-gray-600">
-                Florida, Georgia, North Carolina, South Carolina, Virginia
-              </p>
-            </div>
-            
-            <div className="text-center p-6 bg-white rounded-2xl shadow-sm">
-              <MapPin className="h-8 w-8 text-blue-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-4">West Coast Region</h3>
-              <p className="text-gray-600">
-                California, Oregon, Washington, Nevada, Arizona
-              </p>
             </div>
           </div>
         </div>
