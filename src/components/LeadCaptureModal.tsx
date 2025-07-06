@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
 import LeadCaptureForm from './LeadCaptureForm';
 import { X } from 'lucide-react';
 
@@ -35,17 +34,29 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
         {children}
       </div>
       
-      {isOpen && createPortal(
+      {isOpen && (
         <div 
-          className="fixed inset-0 flex items-center justify-center p-4 z-[99999] font-apple"
+          className="fixed inset-0 flex items-center justify-center p-4 font-apple"
           onClick={handleBackdropClick}
-          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
+          style={{ 
+            position: 'fixed', 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0, 
+            zIndex: 999999,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)'
+          }}
         >
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200 z-[99999]">
+          <div 
+            className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200"
+            style={{ zIndex: 999999 }}
+          >
             {/* Apple-style close button */}
             <button
               onClick={handleClose}
-              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center z-[99999] transition-all duration-200"
+              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-all duration-200"
+              style={{ zIndex: 999999 }}
             >
               <X className="h-4 w-4 text-gray-600" />
             </button>
@@ -76,8 +87,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
               />
             </div>
           </div>
-        </div>,
-        document.body
+        </div>
       )}
     </>
   );
