@@ -1,0 +1,2 @@
+INSERT INTO website_content (section_key, title, subtitle, description, button_text, button_url, is_active)
+VALUES ('footer', 'Ready to Transform Healthcare?', 'Get Started Today', 'Contact us to learn how our hospital-at-home platform can revolutionize patient care in your organization.', 'Contact Us', '/contact', true);

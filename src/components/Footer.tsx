@@ -1,9 +1,75 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heart, Mail, Phone, MapPin } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface FooterContent {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  button_text?: string;
+  button_url?: string;
+}
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [content, setContent] = useState<FooterContent>({
+    title: 'Ready to Transform Healthcare?',
+    subtitle: 'Get Started Today',
+    description: 'Contact us to learn how our hospital-at-home platform can revolutionize patient care in your organization.',
+    button_text: 'Contact Us',
+    button_url: '/contact'
+  });
+
+  useEffect(() => {
+    // Load footer content from database
+    const loadFooterContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'footer')
+          .eq('is_active', true)
+          .single();
+
+        if (data && !error) {
+          console.log('Loaded footer content from database:', data);
+          
+          setContent({
+            title: data.title || 'Ready to Transform Healthcare?',
+            subtitle: data.subtitle || 'Get Started Today',
+            description: data.description || 'Contact us to learn how our hospital-at-home platform can revolutionize patient care in your organization.',
+            button_text: data.button_text || 'Contact Us',
+            button_url: data.button_url || '/contact'
+          });
+        } else {
+          console.log('No footer content found in database, using defaults');
+        }
+      } catch (error) {
+        console.error('Error loading footer content from database:', error);
+      }
+    };
+
+    loadFooterContent();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('footer-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.footer'
+      }, (payload) => {
+        console.log('Real-time footer content change:', payload);
+        loadFooterContent();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const footerLinks = {
     Company: [
@@ -57,8 +123,7 @@ const Footer = () => {
             </div>
             
             <p className="text-gray-400 mb-6 leading-relaxed">
-              Revolutionizing healthcare delivery with innovative technology 
-              that bridges the gap between hospital and home care.
+              {content.description}
             </p>
             
             <div className="space-y-3">
@@ -75,6 +140,24 @@ const Footer = () => {
                 <span className="text-gray-400">San Francisco, CA</span>
               </div>
             </div>
+
+            {/* CTA Section */}
+            {content.title && (
+              <div className="mt-8 p-6 rounded-lg bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30">
+                <h3 className="text-white font-bold text-xl mb-2">{content.title}</h3>
+                {content.subtitle && (
+                  <p className="text-blue-300 mb-4">{content.subtitle}</p>
+                )}
+                {content.button_text && content.button_url && (
+                  <a
+                    href={content.button_url}
+                    className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200"
+                  >
+                    {content.button_text}
+                  </a>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Links Columns */}
