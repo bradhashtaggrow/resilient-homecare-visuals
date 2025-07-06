@@ -25,19 +25,22 @@ const About = () => {
       title: "RAIN-Powered AI Infrastructure",
       description: "Reducing inefficiencies in care management through smart automation.",
       icon: Zap,
-      color: "blue"
+      color: "blue",
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Fully Integrated With Hospital Systems",
       description: "Seamless connection to EHRs, scheduling, and billing workflows.",
       icon: Building2,
-      color: "green"
+      color: "green",
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Flexible Workforce Model",
       description: "On-demand contract clinicians that expand hospital capacity without adding full-time costs.",
       icon: Users,
-      color: "purple"
+      color: "purple",
+      image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     }
   ];
 
@@ -87,7 +90,7 @@ const About = () => {
         description="Resilient Healthcare provides turnkey solutions for hospitals and providers, powered by RAIN – the Resilient AI Network. This intelligent system optimizes patient-clinician matching, streamlines care coordination, and ensures hospitals can deliver hospital-quality care at home without disruption."
       />
 
-      {/* Why Resilient Section */}
+      {/* Why Resilient Section with Images */}
       <section className="py-32 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="text-center mb-16">
@@ -97,7 +100,7 @@ const About = () => {
             </h2>
           </div>
           
-          <div className="space-y-16">
+          <div className="space-y-24">
             {whyResilientFeatures.map((feature, index) => {
               const IconComponent = feature.icon;
               const isEven = index % 2 === 0;
@@ -105,15 +108,28 @@ const About = () => {
               
               return (
                 <div key={index} className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
+                  {/* Image Side */}
                   <div className="flex-1">
-                    <div className={`group p-8 rounded-3xl bg-gradient-to-br ${colorClasses} border hover:shadow-xl transition-all duration-500 hover:-translate-y-1`}>
+                    <div className="relative overflow-hidden rounded-3xl shadow-2xl group">
+                      <img 
+                        src={feature.image} 
+                        alt={feature.title}
+                        className="w-full h-96 object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </div>
+                  </div>
+                  
+                  {/* Content Side */}
+                  <div className="flex-1">
+                    <div className={`group p-10 rounded-3xl bg-gradient-to-br ${colorClasses} border hover:shadow-xl transition-all duration-500 hover:-translate-y-2`}>
                       <div className="flex items-start space-x-6">
-                        <div className={`w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                          <IconComponent className="h-8 w-8 text-white" />
+                        <div className={`w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                          <IconComponent className="h-10 w-10 text-white" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">{feature.title}</h3>
-                          <p className="text-gray-600 text-lg leading-relaxed font-apple">{feature.description}</p>
+                          <h3 className="text-3xl font-bold text-gray-900 mb-6 font-apple">{feature.title}</h3>
+                          <p className="text-gray-600 text-xl leading-relaxed font-apple">{feature.description}</p>
                         </div>
                       </div>
                     </div>
@@ -125,13 +141,21 @@ const About = () => {
         </div>
       </section>
 
-      {/* Hospital Benefits Section */}
-      <section className="py-32 bg-gradient-to-br from-blue-50 to-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative">
+      {/* Hospital Benefits Section with Background Image */}
+      <section className="py-32 relative overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1527576539890-dfa815648363?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80)',
+          }}
+        />
+        <div className="absolute inset-0 bg-blue-900/90" />
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center mb-6">
-              <Building2 className="h-8 w-8 text-blue-600 mr-3" />
-              <h2 className="font-black tracking-tight font-apple" 
+              <Building2 className="h-8 w-8 text-blue-300 mr-3" />
+              <h2 className="font-black tracking-tight font-apple text-white" 
                   style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 0.9 }}>
                 Expand Home-Based Care Without Disrupting Hospital Workflows
               </h2>
@@ -141,7 +165,7 @@ const About = () => {
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6">
               {hospitalBenefits.map((benefit, index) => (
-                <div key={index} className="flex items-start space-x-4 p-8 bg-white rounded-2xl shadow-sm border border-blue-100/50 hover:shadow-lg transition-all duration-300">
+                <div key={index} className="flex items-start space-x-4 p-8 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 hover:bg-white hover:shadow-xl transition-all duration-300">
                   <div className="flex-shrink-0">
                     <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
                       <CheckCircle className="h-5 w-5 text-white" />
@@ -155,24 +179,32 @@ const About = () => {
         </div>
       </section>
 
-      {/* Clinicians Section */}
-      <section className="py-32 bg-gradient-to-br from-green-50 to-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative">
+      {/* Clinicians Section with Background Image */}
+      <section className="py-32 relative overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80)',
+          }}
+        />
+        <div className="absolute inset-0 bg-green-900/90" />
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="font-black tracking-tight font-apple mb-4" 
+            <h2 className="font-black tracking-tight font-apple mb-4 text-white" 
                 style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 0.9 }}>
               Clinicians & Healthcare Providers
             </h2>
             <div className="flex items-center justify-center mb-6">
-              <UserCheck className="h-8 w-8 text-green-600 mr-3" />
-              <h3 className="text-2xl font-semibold text-gray-800 font-apple">More Flexibility, More Earnings, More Patient Impact</h3>
+              <UserCheck className="h-8 w-8 text-green-300 mr-3" />
+              <h3 className="text-2xl font-semibold text-green-100 font-apple">More Flexibility, More Earnings, More Patient Impact</h3>
             </div>
           </div>
           
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6">
               {clinicianBenefits.map((benefit, index) => (
-                <div key={index} className="flex items-start space-x-4 p-8 bg-white rounded-2xl shadow-sm border border-green-100/50 hover:shadow-lg transition-all duration-300">
+                <div key={index} className="flex items-start space-x-4 p-8 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 hover:bg-white hover:shadow-xl transition-all duration-300">
                   <div className="flex-shrink-0">
                     <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
                       <CheckCircle className="h-5 w-5 text-white" />
@@ -186,10 +218,18 @@ const About = () => {
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-32 bg-blue-600 text-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="font-black tracking-tight font-apple text-center mb-16" 
+      {/* Values Section with Enhanced Styling */}
+      <section className="py-32 relative overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1721322800607-8c38375eef04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80)',
+          }}
+        />
+        <div className="absolute inset-0 bg-blue-900/95" />
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <h2 className="font-black tracking-tight font-apple text-center mb-16 text-white" 
               style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
             Our Values
           </h2>
@@ -199,13 +239,15 @@ const About = () => {
               const IconComponent = value.icon;
               return (
                 <div key={index} className="text-center group">
-                  <div className="w-16 h-16 mx-auto mb-6 bg-white/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="h-8 w-8 opacity-90" />
+                  <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2 border border-white/20">
+                    <div className="w-20 h-20 mx-auto mb-6 bg-white/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <IconComponent className="h-10 w-10 text-white opacity-90" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-4 font-apple text-white">{value.title}</h3>
+                    <p className="text-white/90 text-lg leading-relaxed font-apple">
+                      {value.description}
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 font-apple">{value.title}</h3>
-                  <p className="opacity-90 text-lg leading-relaxed font-apple">
-                    {value.description}
-                  </p>
                 </div>
               );
             })}
