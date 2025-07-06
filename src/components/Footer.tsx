@@ -14,17 +14,13 @@ interface FooterContent {
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const [content, setContent] = useState<FooterContent>({
-    title: 'Resilient Healthcare',
-    subtitle: 'Extending care beyond the hospital',
-    description: 'Contact us to learn how our hospital-at-home platform can revolutionize patient care in your organization.',
-    button_text: 'Contact Us',
-    button_url: '/contact'
-  });
+  const [content, setContent] = useState<FooterContent>({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadFooterContent = async () => {
       try {
+        setIsLoading(true);
         const { data, error } = await supabase
           .from('website_content')
           .select('*')
@@ -34,16 +30,18 @@ const Footer = () => {
 
         if (data && !error) {
           setContent({
-            title: data.title || 'Resilient Healthcare',
-            subtitle: data.subtitle || 'Extending care beyond the hospital',
-            description: data.description || 'Contact us to learn how our hospital-at-home platform can revolutionize patient care in your organization.',
-            button_text: data.button_text || 'Contact Us',
-            button_url: data.button_url || '#contact',
+            title: data.title,
+            subtitle: data.subtitle,
+            description: data.description,
+            button_text: data.button_text,
+            button_url: data.button_url,
             background_image_url: data.background_image_url
           });
         }
+        setIsLoading(false);
       } catch (error) {
         console.error('Error loading footer content:', error);
+        setIsLoading(false);
       }
     };
 
