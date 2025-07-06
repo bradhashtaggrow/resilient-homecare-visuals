@@ -2,6 +2,7 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import OptimizedVideo from '@/components/OptimizedVideo';
 import { Building2, Heart, Users, Shield, Clock, CheckCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -11,23 +12,28 @@ const CareAtHome = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+      <section className="pt-32 pb-20 relative overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0 z-0">
+          <OptimizedVideo
+            src='https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+          {/* Transparent blur effect at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/60 via-white/20 to-transparent backdrop-blur-sm" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               What is<br />
-              <span className="text-blue-600">Resilient Community?</span>
+              <span className="text-blue-300">Resilient Community?</span>
             </h1>
             
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-6">Hospitals</h2>
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <h2 className="text-2xl font-semibold text-white mb-6">Hospitals</h2>
+              <p className="text-xl text-white/90 leading-relaxed">
                 We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. 
                 Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, 
                 ensuring patients receive top-quality care where they are most comfortable.
