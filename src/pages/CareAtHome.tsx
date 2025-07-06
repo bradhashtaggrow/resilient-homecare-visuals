@@ -21,9 +21,10 @@ const CareAtHome = () => {
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/30" />
-          {/* Bottom blur gradient effect */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-blue-900/80 via-blue-800/40 to-transparent backdrop-blur-sm" />
         </div>
+        
+        {/* Bottom blur gradient effect that extends beyond section */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/20 to-transparent backdrop-blur-sm z-20" />
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
