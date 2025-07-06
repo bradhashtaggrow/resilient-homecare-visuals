@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -13,7 +12,7 @@ const CareAtHome = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-0 relative overflow-hidden" style={{ height: 'calc(100vh + 2in)' }}>
+      <section className="pt-32 pb-16 relative overflow-hidden" style={{ height: 'calc(100vh - 4rem)' }}>
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <OptimizedVideo
@@ -23,7 +22,7 @@ const CareAtHome = () => {
           <div className="absolute inset-0 bg-black/30" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pb-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 h-full flex items-center">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               What is<br />
@@ -31,13 +30,10 @@ const CareAtHome = () => {
             </h1>
           </div>
         </div>
-        
-        {/* Blur transition positioned to blend video bottom into white background */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/90 via-white/60 to-transparent backdrop-blur-lg z-20" style={{ transform: 'translateY(2in)' }} />
       </section>
 
-      {/* Hospitals Section - Now outside video cover */}
-      <section className="py-16 bg-white relative z-10">
+      {/* Hospitals Section */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Hospitals</h2>
