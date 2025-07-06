@@ -1,9 +1,70 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heart, Mail, Phone, MapPin } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface FooterContent {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  button_text?: string;
+  button_url?: string;
+  background_image_url?: string; // For logo
+}
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [content, setContent] = useState<FooterContent>({
+    title: 'Resilient Healthcare',
+    subtitle: 'Extending care beyond the hospital',
+    description: 'Contact us to learn how our hospital-at-home platform can revolutionize patient care in your organization.',
+    button_text: 'Contact Us',
+    button_url: '/contact'
+  });
+
+  useEffect(() => {
+    const loadFooterContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'footer')
+          .eq('is_active', true)
+          .maybeSingle();
+
+        if (data && !error) {
+          setContent({
+            title: data.title || 'Resilient Healthcare',
+            subtitle: data.subtitle || 'Extending care beyond the hospital',
+            description: data.description || 'Contact us to learn how our hospital-at-home platform can revolutionize patient care in your organization.',
+            button_text: data.button_text || 'Contact Us',
+            button_url: data.button_url || '/contact',
+            background_image_url: data.background_image_url
+          });
+        }
+      } catch (error) {
+        console.error('Error loading footer content:', error);
+      }
+    };
+
+    loadFooterContent();
+
+    const channel = supabase
+      .channel('footer-realtime')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.footer'
+      }, () => {
+        loadFooterContent();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const footerLinks = {
     Company: [
@@ -46,19 +107,26 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-12 h-12 healthcare-gradient rounded-xl flex items-center justify-center">
-                <Heart className="h-6 w-6 text-white" />
+                {content.background_image_url ? (
+                  <img 
+                    src={content.background_image_url} 
+                    alt="Logo" 
+                    className="w-8 h-8 object-contain"
+                  />
+                ) : (
+                  <Heart className="h-6 w-6 text-white" />
+                )}
               </div>
               <div>
                 <div className="text-white leading-none tracking-tight font-black"
-                     style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.85 }}>Resilient Healthcare</div>
+                     style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.85 }}>{content.title}</div>
                 <div className="text-blue-300/90 font-medium tracking-wide"
-                     style={{ fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', lineHeight: 1.3 }}>Extending care beyond the hospital</div>
+                     style={{ fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', lineHeight: 1.3 }}>{content.subtitle}</div>
               </div>
             </div>
             
             <p className="text-gray-400 mb-6 leading-relaxed">
-              Revolutionizing healthcare delivery with innovative technology 
-              that bridges the gap between hospital and home care.
+              {content.description}
             </p>
             
             <div className="space-y-3">
