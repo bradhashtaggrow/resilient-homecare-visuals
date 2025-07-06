@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, LogIn } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -16,26 +16,6 @@ const Navigation = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleButtonHover = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.style.boxShadow = `
-      0 20px 48px rgba(0, 128, 255, 0.6),
-      0 8px 24px rgba(0, 0, 0, 0.4),
-      inset 0 2px 0 rgba(255, 255, 255, 0.3),
-      inset 0 -2px 12px rgba(0, 0, 0, 0.2)
-    `;
-    e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
-  }, []);
-
-  const handleButtonLeave = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.style.boxShadow = `
-      0 12px 32px rgba(0, 128, 255, 0.4),
-      0 4px 16px rgba(0, 0, 0, 0.3),
-      inset 0 2px 0 rgba(255, 255, 255, 0.2),
-      inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-    `;
-    e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
   }, []);
 
   return (
@@ -88,8 +68,24 @@ const Navigation = () => {
                   `,
                   textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
                 }}
-                onMouseEnter={handleButtonHover}
-                onMouseLeave={handleButtonLeave}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `
+                    0 20px 48px rgba(0, 128, 255, 0.6),
+                    0 8px 24px rgba(0, 0, 0, 0.4),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                    inset 0 -2px 12px rgba(0, 0, 0, 0.2)
+                  `;
+                  e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = `
+                    0 12px 32px rgba(0, 128, 255, 0.4),
+                    0 4px 16px rgba(0, 0, 0, 0.3),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                    inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                  `;
+                  e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
+                }}
               >
                 <span className="relative z-10 flex items-center justify-center">
                   Request Demo
@@ -112,8 +108,24 @@ const Navigation = () => {
                   `,
                   textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
                 }}
-                onMouseEnter={handleButtonHover}
-                onMouseLeave={handleButtonLeave}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `
+                    0 20px 48px rgba(0, 128, 255, 0.6),
+                    0 8px 24px rgba(0, 0, 0, 0.4),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                    inset 0 -2px 12px rgba(0, 0, 0, 0.2)
+                  `;
+                  e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = `
+                    0 12px 32px rgba(0, 128, 255, 0.4),
+                    0 4px 16px rgba(0, 0, 0, 0.3),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                    inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                  `;
+                  e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
+                }}
               >
                 <span className="relative z-10 flex items-center justify-center">
                   <LogIn className="mr-3 h-5 w-5" />

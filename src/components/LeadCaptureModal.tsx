@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
 import LeadCaptureForm from './LeadCaptureForm';
 import { X } from 'lucide-react';
 
@@ -27,91 +26,44 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
 
   return (
     <>
-      <div onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsOpen(true);
-      }} style={{ cursor: 'pointer' }}>
+      <div onClick={() => setIsOpen(true)}>
         {children}
       </div>
       
-      {isOpen && createPortal(
+      {isOpen && (
         <div 
+          className="fixed inset-0 flex items-center justify-center p-4 z-50 font-apple"
           onClick={handleBackdropClick}
-          style={{ 
-            position: 'fixed', 
-            top: 0, 
-            left: 0, 
-            right: 0, 
-            bottom: 0, 
-            zIndex: 2147483647,
-            backgroundColor: 'rgba(0, 0, 0, 0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '16px',
-            fontFamily: 'system-ui, -apple-system, sans-serif'
-          }}
+          style={{ paddingTop: '120px' }}
         >
-          <div 
-            onClick={(e) => e.stopPropagation()}
-            style={{ 
-              zIndex: 2147483647,
-              backgroundColor: 'white',
-              borderRadius: '24px',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-              width: '100%',
-              maxWidth: '672px',
-              maxHeight: '85vh',
-              overflowY: 'auto',
-              position: 'relative',
-              border: '1px solid #e5e7eb'
-            }}
-          >
+          <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-white/20">
             {/* Apple-style close button */}
             <button
               onClick={handleClose}
-              style={{ 
-                position: 'absolute',
-                top: '24px',
-                right: '24px',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                backgroundColor: '#f3f4f6',
-                border: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                zIndex: 2147483647,
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e5e7eb'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100/80 hover:bg-gray-200/80 flex items-center justify-center z-10 transition-all duration-200 backdrop-blur-sm"
             >
               <X className="h-4 w-4 text-gray-600" />
             </button>
             
             {/* Apple-style header */}
-            <div style={{ textAlign: 'center', paddingTop: '48px', paddingBottom: '32px', paddingLeft: '32px', paddingRight: '32px', backgroundColor: 'white' }}>
-              <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'center' }}>
+            <div className="text-center pt-12 pb-8 px-8 bg-gradient-to-b from-white/90 to-transparent">
+              <div className="mx-auto mb-6 flex justify-center">
                 <img 
                   src="/lovable-uploads/4b3af59c-60f1-4308-9e3b-e840a22af320.png" 
                   alt="Resilient Healthcare" 
-                  style={{ height: '48px' }}
+                  className="h-12"
                 />
               </div>
-              <h2 style={{ fontSize: '30px', fontWeight: 'bold', color: '#111827', letterSpacing: '-0.025em', marginBottom: '12px', margin: 0 }}>
+              <h2 className="text-3xl font-bold text-gray-900 tracking-tight mb-3">
                 Request Your Demo
               </h2>
-              <p style={{ color: '#6b7280', fontSize: '18px', fontWeight: '500', margin: 0 }}>
+              <p className="text-gray-600 text-lg font-medium">
                 Experience the future of healthcare technology
               </p>
             </div>
             
             {/* Form content */}
-            <div style={{ paddingLeft: '32px', paddingRight: '32px', paddingBottom: '32px' }}>
+            <div className="px-8 pb-8">
               <LeadCaptureForm 
                 onSuccess={handleSuccess}
                 onClose={handleClose}
@@ -119,8 +71,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
               />
             </div>
           </div>
-        </div>,
-        document.body
+        </div>
       )}
     </>
   );
