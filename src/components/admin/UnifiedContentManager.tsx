@@ -230,7 +230,6 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
     try {
       const insertData: {
         section_key: string;
-        title?: string;
         subtitle?: string;
         description?: string;
         button_text?: string;
@@ -238,7 +237,6 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
         background_video_url?: string;
       } = {
         section_key: sectionKey,
-        title: `${getSectionDisplayName(sectionKey)} Title`,
         subtitle: `${getSectionDisplayName(sectionKey)} Subtitle`,
         description: `${getSectionDisplayName(sectionKey)} description content.`,
         button_text: 'Learn More',
@@ -247,7 +245,6 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
 
       // Special case for hero section - include the current video that's already being used
       if (sectionKey === 'hero') {
-        insertData.title = 'The Future of Healthcare';
         insertData.description = 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.';
         insertData.button_text = 'Request Demo';
         insertData.button_url = '#contact';
@@ -798,60 +795,48 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                   {editingSection === section.id ? (
                       <div className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          {formData.section_key === 'footer' ? (
+                          <div className="space-y-2">
+                            <Label htmlFor="logo-upload">Logo Image</Label>
                             <div className="space-y-2">
-                              <Label htmlFor="logo-upload">Logo Image</Label>
-                              <div className="space-y-2">
-                                <div className="relative">
-                                  <input
-                                    type="file"
-                                    id="logo-upload"
-                                    className="hidden"
-                                    onChange={(e) => handleFileUpload(e, section.section_key, 'image')}
-                                    accept="image/*"
-                                  />
-                                  <Button 
-                                    variant="outline" 
-                                    asChild 
-                                    disabled={uploading === `${section.section_key}-image`}
-                                    className="w-full"
-                                  >
-                                    <label htmlFor="logo-upload" className="cursor-pointer">
-                                      <Image className="h-4 w-4 mr-2" />
-                                      {uploading === `${section.section_key}-image` ? 'Uploading...' : 'Upload Logo'}
-                                    </label>
-                                  </Button>
-                                </div>
-                                <Input
-                                  value={formData.background_image_url || ''}
-                                  onChange={(e) => setFormData(prev => ({ ...prev, background_image_url: e.target.value }))}
-                                  placeholder="Or enter logo URL manually"
+                              <div className="relative">
+                                <input
+                                  type="file"
+                                  id="logo-upload"
+                                  className="hidden"
+                                  onChange={(e) => handleFileUpload(e, section.section_key, 'image')}
+                                  accept="image/*"
                                 />
-                                {formData.background_image_url && (
-                                  <div className="mt-2">
-                                    <img
-                                      src={formData.background_image_url}
-                                      alt="Logo preview"
-                                      className="h-16 object-contain rounded border bg-gray-100"
-                                      onError={(e) => {
-                                        e.currentTarget.style.display = 'none';
-                                      }}
-                                    />
-                                  </div>
-                                )}
+                                <Button 
+                                  variant="outline" 
+                                  asChild 
+                                  disabled={uploading === `${section.section_key}-image`}
+                                  className="w-full"
+                                >
+                                  <label htmlFor="logo-upload" className="cursor-pointer">
+                                    <Image className="h-4 w-4 mr-2" />
+                                    {uploading === `${section.section_key}-image` ? 'Uploading...' : 'Upload Logo'}
+                                  </label>
+                                </Button>
                               </div>
-                            </div>
-                          ) : (
-                            <div className="space-y-2">
-                              <Label htmlFor="title">Title</Label>
                               <Input
-                                id="title"
-                                value={formData.title || ''}
-                                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                                placeholder="Enter title"
+                                value={formData.background_image_url || ''}
+                                onChange={(e) => setFormData(prev => ({ ...prev, background_image_url: e.target.value }))}
+                                placeholder="Or enter logo URL manually"
                               />
+                              {formData.background_image_url && (
+                                <div className="mt-2">
+                                  <img
+                                    src={formData.background_image_url}
+                                    alt="Logo preview"
+                                    className="h-16 object-contain rounded border bg-gray-100"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                              )}
                             </div>
-                          )}
+                          </div>
                           <div className="space-y-2">
                             <Label htmlFor="subtitle">Subtitle</Label>
                             <Input
@@ -911,10 +896,16 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {section.title && (
+                      {section.background_image_url && (
                         <div>
-                          <span className="text-sm font-medium text-gray-500">Title:</span>
-                          <p className="text-gray-900">{section.title}</p>
+                          <span className="text-sm font-medium text-gray-500">Logo:</span>
+                          <div className="mt-1">
+                            <img
+                              src={section.background_image_url}
+                              alt="Section logo"
+                              className="h-16 object-contain rounded border bg-gray-100"
+                            />
+                          </div>
                         </div>
                       )}
                       {section.subtitle && (
