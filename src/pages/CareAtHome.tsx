@@ -20,11 +20,11 @@ const CareAtHome = () => {
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/30" />
-          {/* Enhanced blur transition that merges with white background */}
-          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white via-white/80 to-white/20 backdrop-blur-md" />
+          {/* Extended blur gradient that merges seamlessly with white background */}
+          <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-white via-white/95 via-white/70 to-transparent backdrop-blur-lg" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pb-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pb-32">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               What is<br />
