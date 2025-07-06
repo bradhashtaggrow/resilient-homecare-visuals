@@ -530,7 +530,9 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
         {(section.background_image_url || section.background_video_url) && (
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
-              <h5 className="text-xs font-medium text-gray-600">Current Background (Live on Website)</h5>
+              <h5 className="text-xs font-medium text-gray-600">
+                {section.section_key === 'footer' ? 'Current Logo (Live on Website)' : 'Current Background (Live on Website)'}
+              </h5>
               <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">
                 <Zap className="h-3 w-3 mr-1" />
                 Live
@@ -557,11 +559,13 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                   </div>
                 </div>
               ) : section.background_image_url ? (
-                <img
-                  src={section.background_image_url}
-                  alt={`${section.section_key} background`}
-                  className="w-full h-full object-cover"
-                />
+                <div className="flex items-center justify-center h-full bg-gray-50">
+                  <img
+                    src={section.background_image_url}
+                    alt={section.section_key === 'footer' ? 'Logo' : `${section.section_key} background`}
+                    className={section.section_key === 'footer' ? 'h-16 object-contain' : 'w-full h-full object-cover'}
+                  />
+                </div>
               ) : null}
             </div>
           </div>
