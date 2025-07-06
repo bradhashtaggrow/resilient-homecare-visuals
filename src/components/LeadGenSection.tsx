@@ -14,7 +14,12 @@ interface LeadGenContent {
   background_image_url?: string;
 }
 
-const LeadGenSection = () => {
+interface LeadGenSectionProps {
+  sectionKey?: string;
+  customContent?: any;
+}
+
+const LeadGenSection = ({ sectionKey = 'lead_gen', customContent }: LeadGenSectionProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [content, setContent] = useState<LeadGenContent>({
     title: 'Join 500+ Healthcare Organizations',

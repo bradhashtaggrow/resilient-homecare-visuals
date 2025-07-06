@@ -19,7 +19,12 @@ interface ValuePropFeature {
   display_order: number;
 }
 
-const ValuePropositionSection = () => {
+interface ValuePropositionSectionProps {
+  sectionKey?: string;
+  customContent?: any;
+}
+
+const ValuePropositionSection = ({ sectionKey = 'value_prop', customContent }: ValuePropositionSectionProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [content, setContent] = useState<ValuePropContent>({
     title: 'We manage the work. You own the program.',

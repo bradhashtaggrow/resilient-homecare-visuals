@@ -17,7 +17,12 @@ interface HeroContent {
   mobile_background_url?: string;
 }
 
-const HeroSection = React.memo(() => {
+interface HeroSectionProps {
+  sectionKey?: string;
+  customContent?: any;
+}
+
+const HeroSection = React.memo(({ sectionKey = 'hero', customContent }: HeroSectionProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [content, setContent] = useState<HeroContent>({
     title: 'The Future of Healthcare',
@@ -34,12 +39,12 @@ const HeroSection = React.memo(() => {
         const { data, error } = await supabase
           .from('website_content')
           .select('*')
-          .eq('section_key', 'hero')
+          .eq('section_key', sectionKey)
           .eq('is_active', true)
           .single();
 
         if (data && !error) {
-          console.log('Loaded hero content from database:', data);
+          console.log(`Loaded ${sectionKey} content from database:`, data);
           
           setContent({
             title: data.title || 'The Future of Healthcare',
@@ -50,10 +55,10 @@ const HeroSection = React.memo(() => {
             background_video_url: data.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
           });
         } else {
-          console.log('No hero content found in database, using defaults');
+          console.log(`No ${sectionKey} content found in database, using defaults`);
         }
       } catch (error) {
-        console.error('Error loading hero content from database:', error);
+        console.error(`Error loading ${sectionKey} content from database:`, error);
       }
     };
 
@@ -61,14 +66,14 @@ const HeroSection = React.memo(() => {
 
     // Set up real-time subscription
     const channel = supabase
-      .channel('hero-content-changes')
+      .channel(`${sectionKey}-content-changes`)
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=eq.hero'
+        filter: `section_key=eq.${sectionKey}`
       }, (payload) => {
-        console.log('Real-time hero content change:', payload);
+        console.log(`Real-time ${sectionKey} content change:`, payload);
         loadHeroContent();
       })
       .subscribe();
@@ -76,7 +81,20 @@ const HeroSection = React.memo(() => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [sectionKey]);
+
+  useEffect(() => {
+    if (customContent) {
+      setContent({
+        title: customContent.title || 'The Future of Healthcare',
+        subtitle: customContent.subtitle || '',
+        description: customContent.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
+        button_text: customContent.button_text || 'Request Demo',
+        button_url: customContent.button_url || '#',
+        background_video_url: customContent.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+      });
+    }
+  }, [customContent]);
 
   useEffect(() => {
     // Use requestAnimationFrame for smoother animation timing

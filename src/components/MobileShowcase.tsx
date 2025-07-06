@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Shield, BarChart3, Users, Zap, Database, Lock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
-const MobileShowcase = () => {
+interface MobileShowcaseProps {
+  sectionKey?: string;
+  customContent?: any;
+}
+
+const MobileShowcase = ({ sectionKey = 'mobile', customContent }: MobileShowcaseProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
 

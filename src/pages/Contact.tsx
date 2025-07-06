@@ -1,23 +1,15 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
-import HeroSection from '@/components/HeroSection';
-import ServiceLinesSection from '@/components/ServiceLinesSection';
-import MobileShowcase from '@/components/MobileShowcase';
-import ValuePropositionSection from '@/components/ValuePropositionSection';
-import LeadGenSection from '@/components/LeadGenSection';
+import PageContent from '@/components/content/PageContent';
 import Footer from '@/components/Footer';
 
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-white paper-texture">
+    <>
       <Navigation />
-      <HeroSection />
-      <ServiceLinesSection />
-      <MobileShowcase />
-      <ValuePropositionSection />
-      <LeadGenSection />
+      <PageContent pageKey="contact" />
       <Footer />
-    </div>
+    </>
   );
 };
 
