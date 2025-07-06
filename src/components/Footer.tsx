@@ -25,6 +25,7 @@ const Footer = () => {
   useEffect(() => {
     const loadFooterContent = async () => {
       try {
+        console.log('Loading footer content...');
         const { data, error } = await supabase
           .from('website_content')
           .select('*')
@@ -32,15 +33,20 @@ const Footer = () => {
           .eq('is_active', true)
           .maybeSingle();
 
+        console.log('Footer query result:', { data, error });
+
         if (data && !error) {
+          console.log('Setting footer content:', data);
           setContent({
             title: data.title || 'Resilient Healthcare',
             subtitle: data.subtitle || 'Extending care beyond the hospital',
             description: data.description || 'Contact us to learn how our hospital-at-home platform can revolutionize patient care in your organization.',
             button_text: data.button_text || 'Contact Us',
-            button_url: data.button_url || '/contact',
+            button_url: data.button_url || '#contact',
             background_image_url: data.background_image_url
           });
+        } else {
+          console.log('No footer data found or error occurred');
         }
       } catch (error) {
         console.error('Error loading footer content:', error);
