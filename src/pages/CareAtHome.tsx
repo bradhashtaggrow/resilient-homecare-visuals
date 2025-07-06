@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
-import ServicesGrid from '@/components/services/ServicesGrid';
+import TabsSection from '@/components/tabs/TabsSection';
 import { Building2, Heart, Users, Shield, CheckCircle } from 'lucide-react';
 
 const CareAtHome = () => {
@@ -71,7 +71,7 @@ const CareAtHome = () => {
         description="We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
       />
 
-      <ServicesGrid services={services} />
+      <TabsSection services={services} />
 
       <LeadGenSection />
 
