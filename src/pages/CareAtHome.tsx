@@ -12,7 +12,7 @@ const CareAtHome = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
+      <section className="pt-32 pb-0 relative overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <OptimizedVideo
@@ -20,25 +20,30 @@ const CareAtHome = () => {
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/30" />
-          {/* Transparent blur effect at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/60 via-white/20 to-transparent backdrop-blur-sm" />
+          {/* Enhanced blur transition that merges with white background */}
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white via-white/80 to-white/20 backdrop-blur-md" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pb-20">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               What is<br />
               <span className="text-blue-300">Resilient Community?</span>
             </h1>
-            
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-white mb-6">Hospitals</h2>
-              <p className="text-xl text-white/90 leading-relaxed">
-                We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. 
-                Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, 
-                ensuring patients receive top-quality care where they are most comfortable.
-              </p>
-            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Hospitals Section - Now outside video cover */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">Hospitals</h2>
+            <p className="text-xl text-gray-600 leading-relaxed">
+              We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. 
+              Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, 
+              ensuring patients receive top-quality care where they are most comfortable.
+            </p>
           </div>
         </div>
       </section>
