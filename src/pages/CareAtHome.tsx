@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -12,7 +13,7 @@ const CareAtHome = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-16 relative overflow-hidden" style={{ height: 'calc(100vh - 4rem)' }}>
+      <section className="pt-32 pb-20 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <OptimizedVideo
@@ -22,7 +23,7 @@ const CareAtHome = () => {
           <div className="absolute inset-0 bg-black/30" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 h-full flex items-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               What is<br />
