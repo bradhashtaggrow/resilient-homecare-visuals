@@ -26,27 +26,31 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
 
   return (
     <>
-      <div onClick={() => setIsOpen(true)}>
+      <div onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsOpen(true);
+      }} style={{ cursor: 'pointer' }}>
         {children}
       </div>
       
       {isOpen && (
         <div 
-          className="fixed inset-0 flex items-center justify-center p-4 z-50 font-apple"
+          className="fixed inset-0 flex items-center justify-center p-4 z-[100] font-apple bg-black/50"
           onClick={handleBackdropClick}
           style={{ paddingTop: '120px' }}
         >
-          <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-white/20">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200">
             {/* Apple-style close button */}
             <button
               onClick={handleClose}
-              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100/80 hover:bg-gray-200/80 flex items-center justify-center z-10 transition-all duration-200 backdrop-blur-sm"
+              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center z-10 transition-all duration-200"
             >
               <X className="h-4 w-4 text-gray-600" />
             </button>
             
             {/* Apple-style header */}
-            <div className="text-center pt-12 pb-8 px-8 bg-gradient-to-b from-white/90 to-transparent">
+            <div className="text-center pt-12 pb-8 px-8 bg-white">
               <div className="mx-auto mb-6 flex justify-center">
                 <img 
                   src="/lovable-uploads/4b3af59c-60f1-4308-9e3b-e840a22af320.png" 

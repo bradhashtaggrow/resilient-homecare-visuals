@@ -232,7 +232,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
-                <SelectContent className="z-50 bg-white/95 backdrop-blur-xl border-white/20">
+                <SelectContent className="z-[110] bg-white border-gray-200">
                   <SelectItem value="ceo">Chief Executive Officer (CEO)</SelectItem>
                   <SelectItem value="cto">Chief Technology Officer (CTO)</SelectItem>
                   <SelectItem value="cfo">Chief Financial Officer (CFO)</SelectItem>
@@ -270,7 +270,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select company size" />
                 </SelectTrigger>
-                <SelectContent className="z-50 bg-white/95 backdrop-blur-xl border-white/20">
+                <SelectContent className="z-[110] bg-white border-gray-200">
                   <SelectItem value="1-10">1-10 employees</SelectItem>
                   <SelectItem value="11-50">11-50 employees</SelectItem>
                   <SelectItem value="51-200">51-200 employees</SelectItem>
@@ -286,7 +286,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select industry" />
                 </SelectTrigger>
-                <SelectContent className="z-50 bg-white/95 backdrop-blur-xl border-white/20">
+                <SelectContent className="z-[110] bg-white border-gray-200">
                   <SelectItem value="healthcare">Healthcare</SelectItem>
                   <SelectItem value="hospital">Hospital System</SelectItem>
                   <SelectItem value="clinic">Clinic/Practice</SelectItem>
@@ -312,7 +312,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select annual revenue" />
                 </SelectTrigger>
-                <SelectContent className="z-50 bg-white/95 backdrop-blur-xl border-white/20">
+                <SelectContent className="z-[110] bg-white border-gray-200">
                   <SelectItem value="under-1m">Under $1M</SelectItem>
                   <SelectItem value="1m-5m">$1M - $5M</SelectItem>
                   <SelectItem value="5m-10m">$5M - $10M</SelectItem>
@@ -338,7 +338,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="What's your biggest challenge?" />
                 </SelectTrigger>
-                <SelectContent className="z-50 bg-white/95 backdrop-blur-xl border-white/20">
+                <SelectContent className="z-[110] bg-white border-gray-200">
                   <SelectItem value="patient-outcomes">Improving patient outcomes</SelectItem>
                   <SelectItem value="operational-efficiency">Operational efficiency</SelectItem>
                   <SelectItem value="cost-reduction">Cost reduction</SelectItem>
@@ -370,7 +370,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="When do you need this?" />
                 </SelectTrigger>
-                <SelectContent className="z-50 bg-white/95 backdrop-blur-xl border-white/20">
+                <SelectContent className="z-[110] bg-white border-gray-200">
                   <SelectItem value="immediate">Immediate (0-30 days)</SelectItem>
                   <SelectItem value="short-term">Short-term (1-3 months)</SelectItem>
                   <SelectItem value="medium-term">Medium-term (3-6 months)</SelectItem>
@@ -384,7 +384,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select budget range" />
                 </SelectTrigger>
-                <SelectContent className="z-50 bg-white/95 backdrop-blur-xl border-white/20">
+                <SelectContent className="z-[110] bg-white border-gray-200">
                   <SelectItem value="under-50k">Under $50K</SelectItem>
                   <SelectItem value="50k-100k">$50K - $100K</SelectItem>
                   <SelectItem value="100k-250k">$100K - $250K</SelectItem>
@@ -429,7 +429,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select time" />
                 </SelectTrigger>
-                <SelectContent className="z-50 bg-white/95 backdrop-blur-xl border-white/20">
+                <SelectContent className="z-[110] bg-white border-gray-200">
                   <SelectItem value="9:00 AM">9:00 AM</SelectItem>
                   <SelectItem value="10:00 AM">10:00 AM</SelectItem>
                   <SelectItem value="11:00 AM">11:00 AM</SelectItem>
@@ -458,7 +458,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select demo type" />
                 </SelectTrigger>
-                <SelectContent className="z-50 bg-white/95 backdrop-blur-xl border-white/20">
+                <SelectContent className="z-[110] bg-white border-gray-200">
                   <SelectItem value="virtual">Virtual Demo</SelectItem>
                   <SelectItem value="in-person">In-Person Demo</SelectItem>
                   <SelectItem value="phone">Phone Call</SelectItem>
@@ -482,7 +482,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
         <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
           <div className="relative">
             {/* Success Modal Content */}
-            <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl w-full max-w-md p-8 text-center border border-white/20 animate-bounce-gentle">
+            <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 text-center border border-gray-200 animate-bounce-gentle">
               <div className="mx-auto mb-6 w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg checkmark-container">
                 <CheckCircle className="w-8 h-8 text-white checkmark-swoop" />
               </div>
@@ -533,7 +533,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
         <button
           onClick={currentStep === 1 ? onClose : handlePrevious}
           disabled={isSubmitting}
-          className="px-6 py-3 text-gray-600 font-medium hover:text-gray-800 transition-colors duration-200 rounded-xl hover:bg-gray-50"
+          className="px-6 py-3 text-gray-600 font-medium hover:text-gray-800 transition-colors duration-200 rounded-xl hover:bg-gray-50 cursor-pointer"
         >
           {currentStep === 1 ? 'Cancel' : '← Previous'}
         </button>
