@@ -16,7 +16,7 @@ interface PatientTabsSectionProps {
   services: Service[];
 }
 
-const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services }) => {
+const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services = [], sectionKey }) => {
   const [activeTab, setActiveTab] = useState(services[0]?.id || '');
   const [animationKey, setAnimationKey] = useState(0);
 

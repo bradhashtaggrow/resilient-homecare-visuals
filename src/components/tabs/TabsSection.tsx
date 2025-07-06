@@ -13,10 +13,11 @@ interface Service {
 }
 
 interface TabsSectionProps {
-  services: Service[];
+  services?: Service[];
+  sectionKey?: string;
 }
 
-const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
+const TabsSection: React.FC<TabsSectionProps> = ({ services = [], sectionKey }) => {
   const [activeTab, setActiveTab] = useState(services[0]?.id || '');
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });

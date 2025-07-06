@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
-import HeroSection from '@/components/hero/HeroSection';
-import ContentSection from '@/components/content/ContentSection';
+import DatabaseHeroSection from '@/components/DatabaseHeroSection';
+import DatabaseContentSection from '@/components/DatabaseContentSection';
 import { Phone, Mail, Send, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,14 +36,16 @@ const Contact = () => {
     <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
-      <HeroSection 
-        title="Get in"
-        highlightedText="Touch"
+      <DatabaseHeroSection 
+        sectionKey="contact_hero"
+        defaultTitle="Get in"
+        defaultHighlightedText="Touch"
       />
 
-      <ContentSection 
-        title="Contact Us"
-        description="Ready to transform your healthcare delivery? Connect with our team to learn how Resilient Healthcare can help you expand your services, improve patient outcomes, and capture new revenue opportunities."
+      <DatabaseContentSection 
+        sectionKey="contact_content"
+        defaultTitle="Contact Us"
+        defaultDescription="Ready to transform your healthcare delivery? Connect with our team to learn how Resilient Healthcare can help you expand your services, improve patient outcomes, and capture new revenue opportunities."
       />
 
       {/* Contact Information & Form */}
