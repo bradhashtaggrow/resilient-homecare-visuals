@@ -10,12 +10,7 @@ interface ServiceLinesContent {
   description?: string;
 }
 
-interface ServiceLinesSectionProps {
-  sectionKey?: string;
-  customContent?: any;
-}
-
-const ServiceLinesSection = ({ sectionKey = 'services', customContent }: ServiceLinesSectionProps) => {
+const ServiceLinesSection = () => {
   const { elementRef, isVisible } = useIntersectionObserver({
     threshold: 0.1,
     rootMargin: '100px',

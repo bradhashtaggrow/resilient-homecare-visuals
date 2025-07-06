@@ -15,7 +15,6 @@ import { useAuth } from '@/contexts/AuthContext';
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
-  const [selectedPage, setSelectedPage] = useState('home');
   const [loading, setLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<'connected' | 'disconnected' | 'syncing'>('disconnected');
   const [stats, setStats] = useState({
@@ -133,7 +132,7 @@ const Admin = () => {
       case 'dashboard':
         return <DashboardOverview syncStatus={syncStatus} stats={stats} />;
       case 'content':
-        return <WebsiteContentManager syncStatus={syncStatus} selectedPage={selectedPage} />;
+        return <WebsiteContentManager syncStatus={syncStatus} />;
       case 'preview':
         return <RealTimePreview syncStatus={syncStatus} />;
       case 'analytics':
@@ -160,8 +159,6 @@ const Admin = () => {
             activeSection={activeSection} 
             syncStatus={syncStatus}
             user={user}
-            selectedPage={selectedPage}
-            onPageChange={setSelectedPage}
           />
           <main className="flex-1 overflow-auto admin-scrollbar">
             <div className="p-6">

@@ -14,12 +14,7 @@ interface LeadGenContent {
   background_image_url?: string;
 }
 
-interface LeadGenSectionProps {
-  sectionKey?: string;
-  customContent?: any;
-}
-
-const LeadGenSection = ({ sectionKey = 'lead_gen', customContent }: LeadGenSectionProps) => {
+const LeadGenSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [content, setContent] = useState<LeadGenContent>({
     title: 'Join 500+ Healthcare Organizations',
@@ -118,14 +113,14 @@ const LeadGenSection = ({ sectionKey = 'lead_gen', customContent }: LeadGenSecti
           <div className="absolute inset-0 bg-black/40" />
         </div>
       ) : (
-        <div className="absolute inset-0 bg-white" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#4F9CF9] to-[#183EC2]" />
       )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         {/* Enhanced Trust Section with Improved Animations */}
         <div className={`text-center transition-all duration-1200 transform ${
           isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
-          <div className="healthcare-gradient rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-white relative overflow-hidden bg-opacity-95 backdrop-blur-sm hover:scale-105 transition-all duration-700 hover:shadow-2xl group">
+          <div className="bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-white relative overflow-hidden bg-opacity-95 backdrop-blur-sm hover:scale-105 transition-all duration-700 hover:shadow-2xl group">
             {/* Animated Background Elements */}
             <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 bg-white/10 rounded-full -translate-y-16 sm:-translate-y-24 translate-x-16 sm:translate-x-24 group-hover:scale-110 transition-transform duration-1000" />
             <div className="absolute bottom-0 left-0 w-24 h-24 sm:w-36 sm:h-36 bg-white/5 rounded-full translate-y-12 sm:translate-y-18 -translate-x-12 sm:-translate-x-18 group-hover:scale-110 transition-transform duration-1000 delay-200" />
@@ -148,7 +143,7 @@ const LeadGenSection = ({ sectionKey = 'lead_gen', customContent }: LeadGenSecti
               {/* Enhanced Button with Mobile Optimization */}
               <Button 
                 size="lg" 
-                className="bg-white text-blue-600 hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-lg sm:text-xl font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto"
+                className="bg-white text-[#4F9CF9] hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-lg sm:text-xl font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto"
                 onClick={handleButtonClick}
               >
                 <span className="flex items-center justify-center">
