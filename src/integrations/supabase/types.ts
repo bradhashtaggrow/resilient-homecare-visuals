@@ -9,6 +9,102 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      leads: {
+        Row: {
+          annual_revenue: string | null
+          budget_range: string | null
+          company: string | null
+          company_size: string | null
+          created_at: string
+          current_solution: string | null
+          decision_maker: boolean | null
+          demo_type: string | null
+          email: string
+          first_name: string
+          form_source: string | null
+          id: string
+          industry: string | null
+          interested_services: string[] | null
+          job_title: string | null
+          last_name: string
+          lead_score: number | null
+          notes: string | null
+          phone: string | null
+          preferred_date: string | null
+          preferred_time: string | null
+          primary_challenge: string | null
+          status: string | null
+          timeline: string | null
+          timezone: string | null
+          updated_at: string
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          annual_revenue?: string | null
+          budget_range?: string | null
+          company?: string | null
+          company_size?: string | null
+          created_at?: string
+          current_solution?: string | null
+          decision_maker?: boolean | null
+          demo_type?: string | null
+          email: string
+          first_name: string
+          form_source?: string | null
+          id?: string
+          industry?: string | null
+          interested_services?: string[] | null
+          job_title?: string | null
+          last_name: string
+          lead_score?: number | null
+          notes?: string | null
+          phone?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          primary_challenge?: string | null
+          status?: string | null
+          timeline?: string | null
+          timezone?: string | null
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          annual_revenue?: string | null
+          budget_range?: string | null
+          company?: string | null
+          company_size?: string | null
+          created_at?: string
+          current_solution?: string | null
+          decision_maker?: boolean | null
+          demo_type?: string | null
+          email?: string
+          first_name?: string
+          form_source?: string | null
+          id?: string
+          industry?: string | null
+          interested_services?: string[] | null
+          job_title?: string | null
+          last_name?: string
+          lead_score?: number | null
+          notes?: string | null
+          phone?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          primary_challenge?: string | null
+          status?: string | null
+          timeline?: string | null
+          timezone?: string | null
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
+      }
       media_library: {
         Row: {
           alt_text: string | null

@@ -3,6 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
 import OptimizedVideo from './OptimizedVideo';
+import LeadCaptureModal from './LeadCaptureModal';
 import { supabase } from '@/integrations/supabase/client';
 
 interface HeroContent {
@@ -182,28 +183,29 @@ const HeroSection = React.memo(() => {
           
           {/* Enhanced 3D Animated Button with Mobile Optimization */}
           <div className="flex justify-center items-center mb-12 sm:mb-16">
-            <Button 
-              size="lg" 
-              className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto max-w-xs sm:max-w-none will-change-transform"
-              style={{
-                background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
-                boxShadow: `
-                  0 12px 32px rgba(0, 128, 255, 0.4),
-                  0 4px 16px rgba(0, 0, 0, 0.3),
-                  inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                  inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-                `,
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-              }}
-              onMouseEnter={handleButtonHover}
-              onMouseLeave={handleButtonLeave}
-              onClick={handleButtonClick}
-            >
-              <span className="relative z-10 flex items-center justify-center">
-                {content.button_text}
-                <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
-              </span>
-            </Button>
+            <LeadCaptureModal source="hero-button">
+              <Button 
+                size="lg" 
+                className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto max-w-xs sm:max-w-none will-change-transform"
+                style={{
+                  background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
+                  boxShadow: `
+                    0 12px 32px rgba(0, 128, 255, 0.4),
+                    0 4px 16px rgba(0, 0, 0, 0.3),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                    inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                  `,
+                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                }}
+                onMouseEnter={handleButtonHover}
+                onMouseLeave={handleButtonLeave}
+              >
+                <span className="relative z-10 flex items-center justify-center">
+                  {content.button_text}
+                  <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
+                </span>
+              </Button>
+            </LeadCaptureModal>
           </div>
         </div>
       </div>
