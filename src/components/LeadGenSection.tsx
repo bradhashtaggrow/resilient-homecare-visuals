@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, CheckCircle, Star, Award, Shield, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import LeadCaptureModal from './LeadCaptureModal';
 
 interface LeadGenContent {
   title?: string;
@@ -141,16 +142,17 @@ const LeadGenSection = () => {
               </p>
               
               {/* Enhanced Button with Mobile Optimization */}
-              <Button 
-                size="lg" 
-                className="bg-white text-blue-600 hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-lg sm:text-xl font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto"
-                onClick={handleButtonClick}
-              >
-                <span className="flex items-center justify-center">
-                  {content.button_text}
-                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-              </Button>
+              <LeadCaptureModal source="lead-generation">
+                <Button 
+                  size="lg" 
+                  className="bg-white text-blue-600 hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-lg sm:text-xl font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto"
+                >
+                  <span className="flex items-center justify-center">
+                    {content.button_text}
+                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
+                </Button>
+              </LeadCaptureModal>
             </div>
 
             {/* Floating Elements for Desktop */}
