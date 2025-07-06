@@ -40,7 +40,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
           onClick={handleBackdropClick}
           style={{ paddingTop: '120px' }}
         >
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200 z-[9999]">
             {/* Apple-style close button */}
             <button
               onClick={handleClose}
