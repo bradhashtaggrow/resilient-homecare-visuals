@@ -479,7 +479,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
     <div className="w-full font-apple">
       {/* Success Modal with Fireworks */}
       {showSuccessModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-[60]">
+        <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
           <div className="relative">
             {/* Fireworks Animation */}
             <div className="fireworks-container absolute inset-0 pointer-events-none">
