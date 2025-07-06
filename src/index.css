@@ -489,7 +489,95 @@ img, video {
   @apply bg-primary border-primary;
 }
 
-/* Modern form section styling */
-.modern-form-section {
-  @apply space-y-6 p-6 bg-white/30 backdrop-blur-sm rounded-2xl border border-white/20;
+/* Fireworks Animation */
+.fireworks-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.firework {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  animation: firework 2s ease-out infinite;
+}
+
+.firework-1 {
+  top: 20%;
+  left: 20%;
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  animation-delay: 0s;
+}
+
+.firework-2 {
+  top: 30%;
+  right: 20%;
+  background: linear-gradient(45deg, #4834d4, #686de0);
+  animation-delay: 0.4s;
+}
+
+.firework-3 {
+  top: 50%;
+  left: 10%;
+  background: linear-gradient(45deg, #00d2d3, #01a3a4);
+  animation-delay: 0.8s;
+}
+
+.firework-4 {
+  top: 40%;
+  right: 30%;
+  background: linear-gradient(45deg, #ffa726, #ff9800);
+  animation-delay: 1.2s;
+}
+
+.firework-5 {
+  top: 60%;
+  left: 50%;
+  background: linear-gradient(45deg, #26de81, #20bf6b);
+  animation-delay: 1.6s;
+}
+
+@keyframes firework {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 10px currentColor;
+  }
+  25% {
+    transform: scale(3);
+    opacity: 0.8;
+    box-shadow: 
+      0 0 20px currentColor,
+      10px 0 20px currentColor,
+      -10px 0 20px currentColor,
+      0 10px 20px currentColor,
+      0 -10px 20px currentColor,
+      7px 7px 20px currentColor,
+      -7px -7px 20px currentColor,
+      7px -7px 20px currentColor,
+      -7px 7px 20px currentColor;
+  }
+  50% {
+    transform: scale(5);
+    opacity: 0.6;
+    box-shadow: 
+      0 0 30px currentColor,
+      15px 0 30px currentColor,
+      -15px 0 30px currentColor,
+      0 15px 30px currentColor,
+      0 -15px 30px currentColor,
+      10px 10px 30px currentColor,
+      -10px -10px 30px currentColor,
+      10px -10px 30px currentColor,
+      -10px 10px 30px currentColor;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+    box-shadow: none;
+  }
 }

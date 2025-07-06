@@ -48,6 +48,7 @@ interface LeadCaptureFormProps {
 const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, source = 'website' }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     first_name: '',
     last_name: '',
@@ -141,13 +142,16 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
 
       if (error) throw error;
 
-      toast({
-        title: "Demo request submitted successfully!",
-        description: "We'll contact you soon to schedule your personalized demo.",
-      });
-
-      onSuccess?.();
-      onClose?.();
+      // Show success modal with fireworks
+      setShowSuccessModal(true);
+      
+      // Auto-close after 5 seconds
+      setTimeout(() => {
+        setShowSuccessModal(false);
+        onSuccess?.();
+        onClose?.();
+      }, 5000);
+      
     } catch (error) {
       console.error('Error submitting lead:', error);
       toast({
@@ -473,6 +477,43 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
 
   return (
     <div className="w-full font-apple">
+      {/* Success Modal with Fireworks */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-[60]">
+          <div className="relative">
+            {/* Fireworks Animation */}
+            <div className="fireworks-container absolute inset-0 pointer-events-none">
+              <div className="firework firework-1"></div>
+              <div className="firework firework-2"></div>
+              <div className="firework firework-3"></div>
+              <div className="firework firework-4"></div>
+              <div className="firework firework-5"></div>
+            </div>
+            
+            {/* Success Modal Content */}
+            <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl w-full max-w-md p-8 text-center border border-white/20 animate-bounce-gentle">
+              <div className="mx-auto mb-6 w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+                <CheckCircle className="w-8 h-8 text-white" />
+              </div>
+              
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                🎉 Your Demo Has Been Sent!
+              </h2>
+              
+              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                Please wait for our team to send you email confirmation with calendar invite and Zoom link. 
+                <br /><br />
+                <span className="font-semibold text-primary">We look forward to meeting with you!</span>
+              </p>
+              
+              <div className="animate-pulse text-sm text-gray-500">
+                This will close automatically...
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Progress bar */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-3">
