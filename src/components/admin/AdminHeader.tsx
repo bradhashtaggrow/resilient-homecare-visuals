@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bell, Search, User, Save, Wifi, WifiOff, LogOut } from 'lucide-react';
+import { Bell, Search, User, Save, Wifi, WifiOff, LogOut, ChevronDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
 import { User as UserType } from '@supabase/supabase-js';
@@ -17,10 +17,28 @@ interface AdminHeaderProps {
   activeSection: string;
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
   user?: UserType | null;
+  selectedPage?: string;
+  onPageChange?: (page: string) => void;
 }
 
-const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = 'disconnected', user }) => {
+const AdminHeader: React.FC<AdminHeaderProps> = ({ 
+  activeSection, 
+  syncStatus = 'disconnected', 
+  user, 
+  selectedPage = 'home',
+  onPageChange 
+}) => {
   const { signOut } = useAuth();
+
+  const pages = [
+    { value: 'home', label: 'Home Page' },
+    { value: 'about', label: 'About Page' },
+    { value: 'care-at-home', label: 'Care at Home' },
+    { value: 'clinicians', label: 'Clinicians' },
+    { value: 'patients', label: 'Patients' },
+    { value: 'news', label: 'News' },
+    { value: 'contact', label: 'Contact' }
+  ];
 
   const getSectionTitle = (section: string) => {
     const titles: Record<string, string> = {
@@ -75,6 +93,31 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = '
              syncStatus === 'syncing' ? 'Syncing' : 'Offline'}
           </span>
         </Badge>
+        
+        {/* Pages Dropdown */}
+        {activeSection === 'content' && onPageChange && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="text-blue-600 hover:text-blue-700 border-blue-200 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50">
+                <span className="mr-2">
+                  {pages.find(p => p.value === selectedPage)?.label || 'Home Page'}
+                </span>
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
+              {pages.map((page) => (
+                <DropdownMenuItem 
+                  key={page.value}
+                  onClick={() => onPageChange(page.value)}
+                  className="text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50"
+                >
+                  {page.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
 
       <div className="flex items-center space-x-4">

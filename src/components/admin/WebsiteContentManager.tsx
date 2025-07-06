@@ -1,14 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
-import MediaLibrary from './MediaLibrary';
+import React from 'react';
+import PageContentManager from './PageContentManager';
 import { 
   Edit3, 
   Save, 
@@ -57,9 +48,13 @@ interface WebsiteContent {
 
 interface WebsiteContentManagerProps {
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
+  selectedPage?: string;
 }
 
-const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatus = 'disconnected' }) => {
+const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ 
+  syncStatus = 'disconnected', 
+  selectedPage = 'home' 
+}) => {
   const [content, setContent] = useState<WebsiteContent[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingSection, setEditingSection] = useState<string | null>(null);
