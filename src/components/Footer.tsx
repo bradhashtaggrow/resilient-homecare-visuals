@@ -104,22 +104,26 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 healthcare-gradient rounded-xl flex items-center justify-center">
-                {content.background_image_url ? (
-                  <img 
-                    src={content.background_image_url} 
-                    alt="Logo" 
-                    className="w-8 h-8 object-contain"
-                  />
-                ) : (
+              {content.background_image_url ? (
+                <img 
+                  src={content.background_image_url} 
+                  alt={content.title || "Logo"} 
+                  className="w-12 h-12 object-contain rounded-xl"
+                />
+              ) : (
+                <div className="w-12 h-12 healthcare-gradient rounded-xl flex items-center justify-center">
                   <Heart className="h-6 w-6 text-white" />
-                )}
-              </div>
+                </div>
+              )}
               <div>
-                <div className="text-white leading-none tracking-tight font-black"
-                     style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.85 }}>{content.title}</div>
-                <div className="text-blue-300/90 font-medium tracking-wide"
-                     style={{ fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', lineHeight: 1.3 }}>{content.subtitle}</div>
+                {content.title && (
+                  <div className="text-white leading-none tracking-tight font-black"
+                       style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 900, lineHeight: 0.85 }}>{content.title}</div>
+                )}
+                {content.subtitle && (
+                  <div className="text-blue-300/90 font-medium tracking-wide"
+                       style={{ fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', lineHeight: 1.3 }}>{content.subtitle}</div>
+                )}
               </div>
             </div>
             
