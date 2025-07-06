@@ -90,7 +90,7 @@ const CareAtHome = () => {
             <h1 className="text-white leading-none tracking-tight font-black text-shadow-white transition-transform duration-500 hover:scale-105 font-apple" 
                 style={{ fontSize: 'clamp(2rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
               What is<br />
-              <span className="text-blue-300">Resilient Community?</span>
+              <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent">Resilient Community?</span>
             </h1>
           </div>
         </div>
