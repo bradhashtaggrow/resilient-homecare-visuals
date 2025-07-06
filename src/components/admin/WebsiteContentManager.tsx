@@ -1098,6 +1098,47 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             })}
                           </div>
                         </>
+                      ) : section.section_key === 'lead_generation' ? (
+                        // Lead generation section specific form - only title, description, and button text
+                        <>
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Title
+                              </label>
+                              <Input
+                                value={editForm.title || ''}
+                                onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                                placeholder="Section title"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <Textarea
+                              value={editForm.description || ''}
+                              onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                              placeholder="Section description"
+                              rows={3}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-1 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Button Text
+                              </label>
+                              <Input
+                                value={editForm.button_text || ''}
+                                onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
+                                placeholder="Button text"
+                              />
+                            </div>
+                          </div>
+                        </>
                       ) : (
                         // Regular form for other sections
                         <>
