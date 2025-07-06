@@ -30,12 +30,14 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <LeadCaptureForm 
-          onSuccess={handleSuccess}
-          onClose={handleClose}
-          source={source}
-        />
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto border-0 p-0">
+        <div className="p-6">
+          <LeadCaptureForm 
+            onSuccess={handleSuccess}
+            onClose={handleClose}
+            source={source}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );

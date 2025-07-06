@@ -46,6 +46,7 @@ interface LeadCaptureFormProps {
 }
 
 const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, source = 'website' }) => {
+  console.log('LeadCaptureForm rendering, source:', source);
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>({
