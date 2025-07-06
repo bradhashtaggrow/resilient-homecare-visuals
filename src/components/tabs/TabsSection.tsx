@@ -79,21 +79,21 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
   };
 
   return (
-    <section className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Revolutionary Background */}
+    <section className="min-h-screen bg-white text-gray-900 relative overflow-hidden">
+      {/* White Background with Subtle Elements */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900" />
+        <div className="absolute inset-0 bg-white" />
         <div 
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-5"
           style={{
-            background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(255,255,255,0.1) 0%, transparent 50%)`
+            background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(0,128,255,0.1) 0%, transparent 50%)`
           }}
         />
         {/* Floating Particles */}
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
+            className="absolute w-1 h-1 bg-gray-300/40 rounded-full animate-pulse"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -109,32 +109,32 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
         className="relative z-10 min-h-screen flex flex-col"
         onMouseMove={handleMouseMove}
       >
-        {/* Revolutionary Header */}
+        {/* Header Section */}
         <div className="text-center pt-32 pb-20">
-          <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-xl rounded-full border border-white/10 mb-12">
-            <Sparkles className="h-5 w-5 text-white/80" />
-            <span className="text-sm font-medium text-white/90 tracking-wide">Revolutionary Healthcare</span>
+          <div className="inline-flex items-center gap-3 px-6 py-3 bg-gray-50/80 backdrop-blur-xl rounded-full border border-gray-200/50 mb-12">
+            <Sparkles className="h-5 w-5 text-gray-600" />
+            <span className="text-sm font-medium text-gray-700 tracking-wide">Revolutionary Healthcare</span>
           </div>
           
-          <h2 className="text-7xl lg:text-8xl font-black mb-8 tracking-tight leading-none">
+          <h2 className="text-7xl lg:text-8xl font-black mb-8 tracking-tight leading-none text-gray-900">
             The Future of{' '}
-            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
+            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               Care
             </span>
           </h2>
           
-          <p className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed font-light">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
             Experience healthcare like never before. Every interaction reimagined.
           </p>
         </div>
 
-        {/* Revolutionary Interface */}
+        {/* Interface Section */}
         <div className="flex-1 flex items-center justify-center px-8">
           <div className="w-full max-w-7xl">
             
-            {/* Floating Navigation Pills */}
+            {/* Navigation Pills */}
             <div className="flex justify-center mb-16">
-              <div className="inline-flex bg-white/5 backdrop-blur-2xl rounded-2xl border border-white/10 p-2">
+              <div className="inline-flex bg-gray-50/80 backdrop-blur-2xl rounded-2xl border border-gray-200/50 p-2">
                 {services.map((service, index) => {
                   const ServiceIcon = service.icon;
                   const isActive = activeTab === service.id;
@@ -147,8 +147,8 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                       className={`
                         relative px-6 py-4 rounded-xl transition-all duration-700 ease-out group
                         ${isActive 
-                          ? `bg-gradient-to-r ${colorClasses.gradient} ${colorClasses.shadow} shadow-2xl` 
-                          : 'hover:bg-white/5'
+                          ? `bg-gradient-to-r ${colorClasses.gradient} ${colorClasses.shadow} shadow-2xl text-white` 
+                          : 'hover:bg-gray-100/80 text-gray-600 hover:text-gray-800'
                         }
                       `}
                       style={{
@@ -160,13 +160,13 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                         <div 
                           className={`
                             w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-500
-                            ${isActive ? 'text-white' : 'text-white/60 group-hover:text-white/80'}
+                            ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-700'}
                           `}
                         >
                           <ServiceIcon className="h-6 w-6" />
                         </div>
                         <div className="text-left">
-                          <div className={`font-semibold text-sm ${isActive ? 'text-white' : 'text-white/80'}`}>
+                          <div className={`font-semibold text-sm ${isActive ? 'text-white' : 'text-gray-700'}`}>
                             {service.title.split(' ').slice(0, 2).join(' ')}
                           </div>
                         </div>
@@ -174,7 +174,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                       
                       {isActive && (
                         <div 
-                          className="absolute -inset-4 rounded-2xl opacity-50 animate-pulse"
+                          className="absolute -inset-4 rounded-2xl opacity-30 animate-pulse"
                           style={{ 
                             background: `linear-gradient(45deg, ${colorClasses.primary}20, transparent)`,
                             filter: 'blur(20px)'
@@ -187,7 +187,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
               </div>
             </div>
 
-            {/* Revolutionary Content Display */}
+            {/* Content Display */}
             {activeService && (
               <div 
                 className={`
@@ -198,13 +198,13 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                 <div className="relative">
                   {/* Main Content Card */}
                   <div 
-                    className="relative bg-gradient-to-br from-white/10 via-white/5 to-transparent backdrop-blur-2xl rounded-3xl border border-white/20 overflow-hidden group"
+                    className="relative bg-white/90 backdrop-blur-2xl rounded-3xl border border-gray-200/50 overflow-hidden group shadow-xl hover:shadow-2xl transition-all duration-700"
                     style={{
                       transform: `perspective(1000px) rotateX(${mousePosition.y * 0.1}deg) rotateY(${mousePosition.x * 0.1}deg)`,
                       transformStyle: 'preserve-3d'
                     }}
                   >
-                    {/* Hero Image with Cinematic Effect */}
+                    {/* Hero Image */}
                     <div className="relative h-96 lg:h-[32rem] overflow-hidden">
                       <img 
                         src={activeService.patient_image_url}
@@ -215,16 +215,15 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                         }}
                       />
                       
-                      {/* Cinematic Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-                      <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
+                      {/* Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent" />
                       
                       {/* Floating Icon */}
                       <div 
                         className={`
                           absolute top-8 left-8 w-20 h-20 rounded-2xl flex items-center justify-center 
                           bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
-                          backdrop-blur-xl border border-white/20 ${getColorClasses(activeService.color).glow}
+                          backdrop-blur-xl border border-white/30 ${getColorClasses(activeService.color).glow}
                         `}
                         style={{
                           transform: `translateZ(100px) translate3d(${mousePosition.x * 0.2}px, ${mousePosition.y * 0.2}px, 0)`
@@ -246,28 +245,28 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                       </div>
                     </div>
 
-                    {/* Revolutionary Content */}
+                    {/* Content */}
                     <div className="relative p-12" style={{ transform: `translateZ(25px)` }}>
                       <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <div>
-                          <h3 className="text-4xl lg:text-5xl font-black text-white mb-4 tracking-tight leading-tight">
+                          <h3 className="text-4xl lg:text-5xl font-black text-gray-900 mb-4 tracking-tight leading-tight">
                             {activeService.title}
                           </h3>
                           
                           <p 
                             className="text-2xl font-semibold mb-8 bg-gradient-to-r bg-clip-text text-transparent"
                             style={{ 
-                              backgroundImage: `linear-gradient(135deg, ${getColorClasses(activeService.color).primary}, #ffffff)`
+                              backgroundImage: `linear-gradient(135deg, ${getColorClasses(activeService.color).primary}, #666666)`
                             }}
                           >
                             {activeService.subtitle}
                           </p>
                           
-                          <p className="text-lg text-white/80 leading-relaxed mb-10">
+                          <p className="text-lg text-gray-600 leading-relaxed mb-10">
                             {activeService.description}
                           </p>
 
-                          {/* Revolutionary CTA */}
+                          {/* CTA Button */}
                           <button 
                             className={`
                               group relative px-8 py-4 bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
@@ -277,7 +276,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                               border border-white/20
                             `}
                             style={{
-                              filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.3))'
+                              filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.1))'
                             }}
                           >
                             <span className="relative z-10 flex items-center justify-center gap-3">
@@ -290,7 +289,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           </button>
                         </div>
 
-                        {/* Revolutionary Stats/Features */}
+                        {/* Stats/Features */}
                         <div className="space-y-6">
                           {[
                             { label: 'Response Time', value: '< 2min', color: 'from-green-400 to-emerald-500' },
@@ -299,13 +298,13 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           ].map((stat, index) => (
                             <div 
                               key={stat.label}
-                              className="flex items-center justify-between p-4 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10"
+                              className="flex items-center justify-between p-4 bg-gray-50/50 backdrop-blur-xl rounded-xl border border-gray-200/30"
                               style={{
                                 transform: `translateZ(${25 + index * 10}px)`,
                                 animationDelay: `${index * 200}ms`
                               }}
                             >
-                              <span className="text-white/80 font-medium">{stat.label}</span>
+                              <span className="text-gray-600 font-medium">{stat.label}</span>
                               <span className={`text-2xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
                                 {stat.value}
                               </span>
@@ -315,11 +314,11 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                       </div>
                     </div>
 
-                    {/* Revolutionary Border Effect */}
+                    {/* Subtle Border Effect */}
                     <div 
-                      className="absolute inset-0 rounded-3xl opacity-50 pointer-events-none"
+                      className="absolute inset-0 rounded-3xl opacity-20 pointer-events-none"
                       style={{
-                        background: `linear-gradient(135deg, ${getColorClasses(activeService.color).primary}20, transparent, ${getColorClasses(activeService.color).primary}10)`,
+                        background: `linear-gradient(135deg, ${getColorClasses(activeService.color).primary}10, transparent, ${getColorClasses(activeService.color).primary}05)`,
                         filter: 'blur(1px)'
                       }}
                     />
