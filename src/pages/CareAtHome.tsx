@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 const CareAtHome = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
       {/* Hero Section */}
@@ -28,7 +28,7 @@ const CareAtHome = () => {
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight font-apple">
               What is<br />
               <span className="text-blue-300">Resilient Community?</span>
             </h1>
@@ -40,8 +40,8 @@ const CareAtHome = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Hospitals</h2>
-            <p className="text-xl text-gray-600 leading-relaxed">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 font-apple">Hospitals</h2>
+            <p className="text-xl text-gray-600 leading-relaxed font-apple">
               We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. 
               Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, 
               ensuring patients receive top-quality care where they are most comfortable.
@@ -63,8 +63,8 @@ const CareAtHome = () => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Work with leading hospitals.</h3>
-                    <p className="text-gray-600">Partner with top healthcare institutions to expand your reach and impact.</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-apple">Work with leading hospitals.</h3>
+                    <p className="text-gray-600 font-apple">Partner with top healthcare institutions to expand your reach and impact.</p>
                   </div>
                 </div>
               </div>
@@ -77,8 +77,8 @@ const CareAtHome = () => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Get access to a consistent stream of patient referrals.</h3>
-                    <p className="text-gray-600">Receive steady patient referrals through our integrated network of healthcare partners.</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-apple">Get access to a consistent stream of patient referrals.</h3>
+                    <p className="text-gray-600 font-apple">Receive steady patient referrals through our integrated network of healthcare partners.</p>
                   </div>
                 </div>
               </div>
@@ -91,8 +91,8 @@ const CareAtHome = () => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Support care delivery for inpatient at home and outpatient at home services.</h3>
-                    <p className="text-gray-600">Comprehensive support for both inpatient and outpatient care delivery in home settings.</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-apple">Support care delivery for inpatient at home and outpatient at home services.</h3>
+                    <p className="text-gray-600 font-apple">Comprehensive support for both inpatient and outpatient care delivery in home settings.</p>
                   </div>
                 </div>
               </div>
@@ -105,8 +105,8 @@ const CareAtHome = () => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Simplified workflows and credentialing through our platform.</h3>
-                    <p className="text-gray-600">Streamlined processes that reduce administrative complexity and save time.</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-apple">Simplified workflows and credentialing through our platform.</h3>
+                    <p className="text-gray-600 font-apple">Streamlined processes that reduce administrative complexity and save time.</p>
                   </div>
                 </div>
               </div>
@@ -119,8 +119,8 @@ const CareAtHome = () => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">We pay you per visit so no need to worry about administrative burden.</h3>
-                    <p className="text-gray-600">Simple per-visit payment structure that eliminates administrative hassles and ensures fair compensation.</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-apple">We pay you per visit so no need to worry about administrative burden.</h3>
+                    <p className="text-gray-600 font-apple">Simple per-visit payment structure that eliminates administrative hassles and ensures fair compensation.</p>
                   </div>
                 </div>
               </div>
