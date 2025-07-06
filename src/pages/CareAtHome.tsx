@@ -2,7 +2,6 @@ import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import OptimizedVideo from '@/components/OptimizedVideo';
-import LeadGenSection from '@/components/LeadGenSection';
 import { Building2, Heart, Users, Shield, Clock, CheckCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -12,7 +11,7 @@ const CareAtHome = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-0 relative overflow-hidden" style={{ height: 'calc(100vh + 1in)' }}>
+      <section className="pt-32 pb-0 relative overflow-hidden" style={{ height: 'calc(100vh + 2in)' }}>
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <OptimizedVideo
@@ -32,7 +31,7 @@ const CareAtHome = () => {
         </div>
         
         {/* Blur transition positioned to blend video bottom into white background */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white via-white/90 via-white/60 to-transparent backdrop-blur-lg z-20" style={{ transform: 'translateY(1in)' }} />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/90 via-white/60 to-transparent backdrop-blur-lg z-20" style={{ transform: 'translateY(2in)' }} />
       </section>
 
       {/* Hospitals Section - Now outside video cover */}
@@ -152,8 +151,6 @@ const CareAtHome = () => {
           </Link>
         </div>
       </section>
-
-      <LeadGenSection />
 
       <Footer />
     </div>
