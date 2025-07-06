@@ -33,8 +33,6 @@ const Footer = () => {
           .single();
 
         if (data && !error) {
-          console.log('Loaded footer content from database:', data);
-          
           setContent({
             title: data.title || 'Ready to Transform Healthcare?',
             subtitle: data.subtitle || 'Get Started Today',
@@ -42,11 +40,9 @@ const Footer = () => {
             button_text: data.button_text || 'Contact Us',
             button_url: data.button_url || '/contact'
           });
-        } else {
-          console.log('No footer content found in database, using defaults');
         }
       } catch (error) {
-        console.error('Error loading footer content from database:', error);
+        console.error('Error loading footer content:', error);
       }
     };
 
@@ -60,8 +56,7 @@ const Footer = () => {
         schema: 'public',
         table: 'website_content',
         filter: 'section_key=eq.footer'
-      }, (payload) => {
-        console.log('Real-time footer content change:', payload);
+      }, () => {
         loadFooterContent();
       })
       .subscribe();
@@ -126,7 +121,7 @@ const Footer = () => {
               {content.description}
             </p>
             
-            <div className="space-y-3">
+            <div className="space-y-3 mb-8">
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-blue-400" />
                 <span className="text-gray-400">hello@resilientcare.com</span>
@@ -142,22 +137,16 @@ const Footer = () => {
             </div>
 
             {/* CTA Section */}
-            {content.title && (
-              <div className="mt-8 p-6 rounded-lg bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30">
-                <h3 className="text-white font-bold text-xl mb-2">{content.title}</h3>
-                {content.subtitle && (
-                  <p className="text-blue-300 mb-4">{content.subtitle}</p>
-                )}
-                {content.button_text && content.button_url && (
-                  <a
-                    href={content.button_url}
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200"
-                  >
-                    {content.button_text}
-                  </a>
-                )}
-              </div>
-            )}
+            <div className="p-6 rounded-lg bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30">
+              <h3 className="text-white font-bold text-xl mb-2">{content.title}</h3>
+              <p className="text-blue-300 mb-4">{content.subtitle}</p>
+              <a
+                href={content.button_url}
+                className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
+              >
+                {content.button_text}
+              </a>
+            </div>
           </div>
 
           {/* Links Columns */}
