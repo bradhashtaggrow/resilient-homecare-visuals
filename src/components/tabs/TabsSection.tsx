@@ -43,39 +43,14 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
   };
 
   const getColorClasses = (color: string) => {
-    const colors = {
-      blue: { 
-        primary: '#007AFF', 
-        gradient: 'from-blue-500 via-blue-600 to-indigo-600',
-        shadow: 'shadow-blue-500/30',
-        glow: 'drop-shadow-[0_0_20px_rgba(0,122,255,0.5)]'
-      },
-      green: { 
-        primary: '#34C759', 
-        gradient: 'from-green-500 via-emerald-500 to-teal-500',
-        shadow: 'shadow-green-500/30',
-        glow: 'drop-shadow-[0_0_20px_rgba(52,199,89,0.5)]'
-      },
-      purple: { 
-        primary: '#AF52DE', 
-        gradient: 'from-purple-500 via-violet-500 to-purple-600',
-        shadow: 'shadow-purple-500/30',
-        glow: 'drop-shadow-[0_0_20px_rgba(175,82,222,0.5)]'
-      },
-      orange: { 
-        primary: '#FF9500', 
-        gradient: 'from-orange-500 via-amber-500 to-yellow-500',
-        shadow: 'shadow-orange-500/30',
-        glow: 'drop-shadow-[0_0_20px_rgba(255,149,0,0.5)]'
-      },
-      teal: { 
-        primary: '#5AC8FA', 
-        gradient: 'from-cyan-400 via-teal-500 to-blue-500',
-        shadow: 'shadow-cyan-500/30',
-        glow: 'drop-shadow-[0_0_20px_rgba(90,200,250,0.5)]'
-      }
+    // Use the correct two-blue gradient for all colors
+    const blueGradient = { 
+      primary: '#4F9CF9', 
+      gradient: 'from-[#4F9CF9] to-[#183EC2]',
+      shadow: 'shadow-[#4F9CF9]/30',
+      glow: 'drop-shadow-[0_0_20px_rgba(79,156,249,0.5)]'
     };
-    return colors[color as keyof typeof colors] || colors.blue;
+    return blueGradient;
   };
 
   return (
@@ -86,7 +61,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
         <div 
           className="absolute inset-0 opacity-5"
           style={{
-            background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(0,128,255,0.1) 0%, transparent 50%)`
+            background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(79,156,249,0.1) 0%, transparent 50%)`
           }}
         />
         {/* Floating Particles */}
@@ -113,7 +88,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
         <div className="text-center pt-32 pb-20">          
           <h2 className="text-7xl lg:text-8xl font-black mb-8 tracking-tight leading-none text-gray-900">
             The Future of{' '}
-            <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent">
               Care
             </span>
           </h2>
@@ -171,7 +146,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                         <div 
                           className="absolute -inset-4 rounded-2xl opacity-30 animate-pulse"
                           style={{ 
-                            background: `linear-gradient(45deg, ${colorClasses.primary}20, transparent)`,
+                            background: `linear-gradient(45deg, #4F9CF920, transparent)`,
                             filter: 'blur(20px)'
                           }}
                         />
@@ -249,10 +224,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           </h3>
                           
                           <p 
-                            className="text-2xl font-semibold mb-8 bg-gradient-to-r bg-clip-text text-transparent"
-                            style={{ 
-                              backgroundImage: `linear-gradient(135deg, ${getColorClasses(activeService.color).primary}, #666666)`
-                            }}
+                            className="text-2xl font-semibold mb-8 bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent"
                           >
                             {activeService.subtitle}
                           </p>
@@ -287,9 +259,9 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                         {/* Stats/Features */}
                         <div className="space-y-6">
                           {[
-                            { label: 'Response Time', value: '< 2min', color: 'from-green-400 to-emerald-500' },
-                            { label: 'Satisfaction', value: '99.8%', color: 'from-blue-400 to-cyan-500' },
-                            { label: 'Availability', value: '24/7', color: 'from-purple-400 to-pink-500' }
+                            { label: 'Response Time', value: '< 2min', color: 'from-[#4F9CF9] to-[#183EC2]' },
+                            { label: 'Satisfaction', value: '99.8%', color: 'from-[#4F9CF9] to-[#183EC2]' },
+                            { label: 'Availability', value: '24/7', color: 'from-[#4F9CF9] to-[#183EC2]' }
                           ].map((stat, index) => (
                             <div 
                               key={stat.label}
@@ -313,7 +285,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                     <div 
                       className="absolute inset-0 rounded-3xl opacity-20 pointer-events-none"
                       style={{
-                        background: `linear-gradient(135deg, ${getColorClasses(activeService.color).primary}10, transparent, ${getColorClasses(activeService.color).primary}05)`,
+                        background: `linear-gradient(135deg, #4F9CF910, transparent, #4F9CF905)`,
                         filter: 'blur(1px)'
                       }}
                     />
