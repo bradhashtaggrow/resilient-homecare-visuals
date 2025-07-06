@@ -19,8 +19,8 @@ const CareAtHome = () => {
     <div className="min-h-screen bg-white paper-texture">
       <Navigation />
       
-      {/* Hero Section with Video Background */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
+      {/* Header Cover Section */}
+      <section className="relative h-[33vh] flex items-center justify-center overflow-hidden will-change-transform">
         {/* Background Video */}
         <div className="absolute inset-0 z-0">
           <video
@@ -35,50 +35,54 @@ const CareAtHome = () => {
           <div className="absolute inset-0 bg-black/30" />
         </div>
 
-        {/* Hero Content */}
+        {/* Blur Transition at Bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent backdrop-blur-sm z-10" />
+
+        {/* Header Content - Only Title */}
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className={`transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             {/* Apple-Style Title */}
-            <div className="mb-8 sm:mb-12">
-              <h1 className="text-white leading-none tracking-tight font-black text-shadow-white transition-transform duration-500 hover:scale-105" 
-                  style={{ fontSize: 'clamp(2rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
-                What is<br />Resilient Community?
-              </h1>
-              <h2 className="text-white/80 mt-4 text-2xl sm:text-4xl font-light tracking-wide">
-                Hospitals
-              </h2>
-            </div>
-            
-            {/* Description */}
-            <p className="text-white/90 mb-12 sm:mb-16 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide hover:text-white transition-colors duration-500"
-               style={{ fontSize: 'clamp(1rem, 3vw, 2rem)', lineHeight: 1.3 }}>
+            <h1 className="text-white leading-none tracking-tight font-black text-shadow-white transition-transform duration-500 hover:scale-105" 
+                style={{ fontSize: 'clamp(2rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              What is<br />Resilient Community?
+            </h1>
+            <h2 className="text-white/80 mt-4 text-xl sm:text-3xl font-light tracking-wide">
+              Hospitals
+            </h2>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content Section */}
+      <section className="py-16 sm:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <p className="text-xl sm:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium mb-12">
               We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable.
             </p>
             
             {/* CTA Button */}
-            <div className="flex justify-center items-center mb-12 sm:mb-16">
-              <LeadCaptureModal source="care-at-home-hero">
-                <Button 
-                  size="lg" 
-                  className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto max-w-xs sm:max-w-none will-change-transform"
-                  style={{
-                    background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
-                    boxShadow: `
-                      0 12px 32px rgba(0, 128, 255, 0.4),
-                      0 4px 16px rgba(0, 0, 0, 0.3),
-                      inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                      inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-                    `,
-                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-                  }}
-                >
-                  <span className="relative z-10 flex items-center justify-center">
-                    Request Demo
-                    <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
-                  </span>
-                </Button>
-              </LeadCaptureModal>
-            </div>
+            <LeadCaptureModal source="care-at-home-main">
+              <Button 
+                size="lg" 
+                className="group relative px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+                style={{
+                  background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
+                  boxShadow: `
+                    0 12px 32px rgba(0, 128, 255, 0.4),
+                    0 4px 16px rgba(0, 0, 0, 0.3),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                    inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                  `,
+                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                }}
+              >
+                <span className="relative z-10 flex items-center justify-center">
+                  Request Demo
+                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </span>
+              </Button>
+            </LeadCaptureModal>
           </div>
         </div>
       </section>
