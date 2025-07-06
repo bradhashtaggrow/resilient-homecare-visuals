@@ -1,8 +1,11 @@
+
 import React, { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
-import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
+import HeroSection from '@/components/hero/HeroSection';
+import ContentSection from '@/components/content/ContentSection';
+import { Phone, Mail, Send, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -30,60 +33,74 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-blue-50 to-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center">
-            <MessageCircle className="h-16 w-16 text-blue-600 mx-auto mb-6" />
-            <h1 className="text-5xl font-bold text-gray-900 mb-6">
-              Contact Us
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Transforming Healthcare. Powered by AI. Built for the Future.
-            </p>
-          </div>
-        </div>
-      </section>
+      <HeroSection 
+        title="Get in"
+        highlightedText="Touch"
+      />
+
+      <ContentSection 
+        title="Contact Us"
+        description="Ready to transform your healthcare delivery? Connect with our team to learn how Resilient Healthcare can help you expand your services, improve patient outcomes, and capture new revenue opportunities."
+      />
 
       {/* Contact Information & Form */}
-      <section className="py-16">
+      <section className="py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-16">
             
             {/* Contact Information */}
-            <div>
-              <h2 className="text-3xl font-bold mb-8">📍 Resilient Healthcare Headquarters</h2>
-              
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <Phone className="h-6 w-6 text-blue-600 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">📞 Call</h3>
-                    <p className="text-gray-600">(732) 429-2102</p>
-                  </div>
-                </div>
+            <div className="space-y-12">
+              <div>
+                <h2 className="font-black tracking-tight font-apple mb-8" 
+                    style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 0.9 }}>
+                  📍 Resilient Healthcare Headquarters
+                </h2>
                 
-                <div className="flex items-start gap-4">
-                  <Mail className="h-6 w-6 text-blue-600 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">✉️ Email</h3>
-                    <p className="text-gray-600">jackleen@resilienthc.org</p>
+                <div className="space-y-8">
+                  <div className="group p-8 rounded-3xl bg-gradient-to-br from-blue-50 to-white border border-blue-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+                    <div className="flex items-start space-x-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <Phone className="h-8 w-8 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">📞 Call</h3>
+                        <p className="text-gray-600 text-lg leading-relaxed font-apple">(732) 429-2102</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="group p-8 rounded-3xl bg-gradient-to-br from-green-50 to-white border border-green-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+                    <div className="flex items-start space-x-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <Mail className="h-8 w-8 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">✉️ Email</h3>
+                        <p className="text-gray-600 text-lg leading-relaxed font-apple">jackleen@resilienthc.org</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Contact Form */}
-            <div className="bg-gray-50 rounded-2xl p-8">
-              <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
+            <div className="group p-12 rounded-3xl bg-gradient-to-br from-gray-50 to-white border border-gray-100/50 hover:shadow-xl transition-all duration-500">
+              <div className="flex items-center mb-8">
+                <MessageCircle className="h-8 w-8 text-blue-600 mr-3" />
+                <h2 className="font-black tracking-tight font-apple" 
+                    style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: 900, lineHeight: 0.9 }}>
+                  Send us a Message
+                </h2>
+              </div>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
                       Full Name *
                     </label>
                     <Input
@@ -92,13 +109,13 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full"
+                      className="w-full h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
                       placeholder="Your full name"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
                       Phone Number
                     </label>
                     <Input
@@ -106,14 +123,14 @@ const Contact = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full"
+                      className="w-full h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
                       placeholder="Your phone number"
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
                     Email Address *
                   </label>
                   <Input
@@ -122,13 +139,13 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full"
+                    className="w-full h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
                     placeholder="your.email@example.com"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
                     Subject *
                   </label>
                   <Input
@@ -137,13 +154,13 @@ const Contact = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full"
+                    className="w-full h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
                     placeholder="What is this regarding?"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
                     Message *
                   </label>
                   <Textarea
@@ -151,18 +168,49 @@ const Contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    rows={5}
-                    className="w-full"
+                    rows={6}
+                    className="w-full text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors resize-none"
                     placeholder="Please provide details about your inquiry..."
                   />
                 </div>
                 
                 <Button 
                   type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold"
+                  size="lg" 
+                  className="group relative w-full px-8 py-6 text-xl font-bold rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                  style={{
+                    background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
+                    boxShadow: `
+                      0 12px 32px rgba(0, 128, 255, 0.4),
+                      0 4px 16px rgba(0, 0, 0, 0.3),
+                      inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                      inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                    `,
+                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = `
+                      0 20px 48px rgba(0, 128, 255, 0.6),
+                      0 8px 24px rgba(0, 0, 0, 0.4),
+                      inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                      inset 0 -2px 12px rgba(0, 0, 0, 0.2)
+                    `;
+                    e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = `
+                      0 12px 32px rgba(0, 128, 255, 0.4),
+                      0 4px 16px rgba(0, 0, 0, 0.3),
+                      inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                      inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                    `;
+                    e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
+                  }}
                 >
-                  <Send className="mr-2 h-5 w-5" />
-                  Send Message
+                  <span className="relative z-10 flex items-center justify-center">
+                    <Send className="mr-3 h-6 w-6 group-hover:translate-x-1 transition-transform duration-300" />
+                    Send Message
+                  </span>
                 </Button>
               </form>
             </div>
