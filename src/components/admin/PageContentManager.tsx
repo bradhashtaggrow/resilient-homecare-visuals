@@ -98,12 +98,12 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
   // Page-specific section mappings based on actual database sections
   const pageSections = {
     'home': ['navigation', 'hero', 'services', 'mobile_showcase', 'value_proposition', 'admin_dashboard', 'founder', 'stats', 'lead_generation', 'footer'],
-    'about': ['about_navigation', 'about_hero', 'about_content', 'about_why_resilient', 'about_hospital_benefits', 'about_clinician_benefits', 'about_values', 'about_lead_generation', 'about_footer'],
-    'care-at-home': ['care-at-home_navigation', 'care-at-home_hero', 'care-at-home_content', 'care-at-home_tabs', 'care-at-home_lead_generation', 'care-at-home_footer'],
-    'clinicians': ['clinicians_navigation', 'clinicians_hero', 'clinicians_content', 'clinicians_services_grid', 'clinicians_lead_generation', 'clinicians_footer'],
-    'patients': ['patients_navigation', 'patients_hero', 'patients_content', 'patients_patient_tabs', 'patients_lead_generation', 'patients_footer'],
-    'news': ['news_navigation', 'news_hero', 'news_content', 'news_articles', 'news_lead_generation', 'news_footer'],
-    'contact': ['contact_navigation', 'contact_hero', 'contact_content', 'contact_form', 'contact_lead_generation', 'contact_footer']
+    'about': ['about_hero', 'about_services', 'about_mobile', 'about_value_prop', 'about_lead_gen'],
+    'care_at_home': ['care_at_home_hero', 'care_at_home_services', 'care_at_home_mobile', 'care_at_home_value_prop', 'care_at_home_lead_gen'],
+    'clinicians': ['clinicians_hero', 'clinicians_services', 'clinicians_mobile', 'clinicians_value_prop', 'clinicians_lead_gen'],
+    'patients': ['patients_hero', 'patients_services', 'patients_mobile', 'patients_value_prop', 'patients_lead_gen'],
+    'news': ['news_hero', 'news_services', 'news_mobile', 'news_value_prop', 'news_lead_gen'],
+    'contact': ['contact_hero', 'contact_services', 'contact_mobile', 'contact_value_prop', 'contact_lead_gen']
   };
 
   const getIconComponent = (iconName: string) => {
@@ -482,7 +482,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
         <div>
           <h2 className="text-2xl font-bold text-gray-900">
             {selectedPage === 'home' ? 'Home Page' : 
-             selectedPage === 'care-at-home' ? 'Care at Home Page' :
+             selectedPage === 'care_at_home' ? 'Care at Home Page' :
              selectedPage.charAt(0).toUpperCase() + selectedPage.slice(1) + ' Page'} Content Manager
           </h2>
           <p className="text-gray-600">Manage all sections, content, and media for this page</p>
