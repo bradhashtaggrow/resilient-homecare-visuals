@@ -20,7 +20,8 @@ import {
   Cog,
   Globe,
   Wifi,
-  WifiOff
+  WifiOff,
+  UserCheck
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
@@ -42,6 +43,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
 
   const contentMenuItems = [
     { id: 'content', label: 'Website Content', icon: FileText },
+    { id: 'leads', label: 'Demo Requests', icon: UserCheck },
     { id: 'preview', label: 'Live Preview', icon: Eye },
   ];
 

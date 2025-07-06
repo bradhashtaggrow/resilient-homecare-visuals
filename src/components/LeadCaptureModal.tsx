@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import LeadCaptureForm from './LeadCaptureForm';
+import { X } from 'lucide-react';
 
 interface LeadCaptureModalProps {
   children: React.ReactNode;
@@ -8,39 +8,53 @@ interface LeadCaptureModalProps {
 }
 
 const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 'button' }) => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSuccess = () => {
-    setOpen(false);
+    setIsOpen(false);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setIsOpen(false);
+  };
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setIsOpen(false);
+    }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <>
+      <div onClick={() => setIsOpen(true)}>
         {children}
-      </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white p-6">
-        <DialogHeader>
-          <DialogTitle>Request Your Demo</DialogTitle>
-        </DialogHeader>
-        <div className="mt-4">
-          <div className="p-4 bg-gray-100 rounded">
-            <h3 className="text-lg font-semibold mb-4">Demo Request Form</h3>
-            <p className="text-gray-600 mb-4">This is a test to see if the modal opens properly.</p>
-            <button 
+      </div>
+      
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+          onClick={handleBackdropClick}
+        >
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
+            <button
               onClick={handleClose}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full z-10"
             >
-              Close Test
+              <X className="h-5 w-5" />
             </button>
+            
+            <div className="p-8">
+              <h2 className="text-2xl font-bold mb-6 text-center">Request Your Demo</h2>
+              <LeadCaptureForm 
+                onSuccess={handleSuccess}
+                onClose={handleClose}
+                source={source}
+              />
+            </div>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      )}
+    </>
   );
 };
 
