@@ -145,12 +145,12 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
       // Show success modal with fireworks
       setShowSuccessModal(true);
       
-      // Auto-close after 5 seconds
+      // Auto-close after 15 seconds (3x longer)
       setTimeout(() => {
         setShowSuccessModal(false);
         onSuccess?.();
         onClose?.();
-      }, 5000);
+      }, 15000);
       
     } catch (error) {
       console.error('Error submitting lead:', error);
@@ -497,7 +497,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </div>
               
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                🎉 Your Demo Has Been Sent!
+                Your demo request has been sent!
               </h2>
               
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
@@ -505,10 +505,6 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <br /><br />
                 <span className="font-semibold text-primary">We look forward to meeting with you!</span>
               </p>
-              
-              <div className="animate-pulse text-sm text-gray-500">
-                This will close automatically...
-              </div>
             </div>
           </div>
         </div>
