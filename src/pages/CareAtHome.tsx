@@ -20,7 +20,7 @@ const CareAtHome = () => {
       <Navigation />
       
       {/* Header Cover Section */}
-      <section className="relative h-[33vh] flex items-center justify-center overflow-hidden will-change-transform">
+      <section className="relative h-[66vh] flex items-center justify-center overflow-hidden will-change-transform">
         {/* Background Video */}
         <div className="absolute inset-0 z-0">
           <video
@@ -38,17 +38,13 @@ const CareAtHome = () => {
         {/* Blur Transition at Bottom */}
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent backdrop-blur-sm z-10" />
 
-        {/* Header Content - Only Title */}
+        {/* Header Content - Only Main Title */}
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className={`transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            {/* Apple-Style Title */}
             <h1 className="text-white leading-none tracking-tight font-black text-shadow-white transition-transform duration-500 hover:scale-105" 
-                style={{ fontSize: 'clamp(2rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                style={{ fontSize: 'clamp(2.5rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
               What is<br />Resilient Community?
             </h1>
-            <h2 className="text-white/80 mt-4 text-xl sm:text-3xl font-light tracking-wide">
-              Hospitals
-            </h2>
           </div>
         </div>
       </section>
@@ -57,6 +53,12 @@ const CareAtHome = () => {
       <section className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
+            {/* Big Apple-Style Hospitals Title */}
+            <h2 className="text-gray-900 leading-none tracking-tight font-black mb-8 transition-transform duration-500 hover:scale-105" 
+                style={{ fontSize: 'clamp(3rem, 10vw, 10rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              Hospitals
+            </h2>
+            
             <p className="text-xl sm:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium mb-12">
               We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable.
             </p>
