@@ -75,6 +75,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.log('Initial session check:', session?.user?.email);
       setSession(session);
       setUser(session?.user ?? null);
+      
+      // If no session, make sure admin is false
+      if (!session) {
+        setIsAdmin(false);
+      }
+      
       setLoading(false);
     });
 
