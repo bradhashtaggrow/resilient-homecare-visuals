@@ -443,42 +443,62 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
   const progress = (currentStep / 4) * 100;
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle className="text-center">Request Your Demo</CardTitle>
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
-          <span>Step {currentStep} of 4</span>
-          <span>{Math.round(progress)}% Complete</span>
+    <div className="w-full font-apple">
+      {/* Progress bar */}
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-sm font-medium text-gray-500">Step {currentStep} of 4</span>
+          <span className="text-sm font-medium text-blue-600">{Math.round(progress)}% Complete</span>
         </div>
-        <Progress value={progress} className="h-2" />
-      </CardHeader>
-      <CardContent>
+        <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+          <div 
+            className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-700 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Form content */}
+      <div className="min-h-[400px]">
         {renderStep()}
-        
-        <div className="flex justify-between mt-6">
-          <Button
-            variant="outline"
-            onClick={currentStep === 1 ? onClose : handlePrevious}
+      </div>
+
+      {/* Navigation buttons */}
+      <div className="flex justify-between mt-8 pt-6 border-t border-gray-100">
+        <button
+          onClick={currentStep === 1 ? onClose : handlePrevious}
+          disabled={isSubmitting}
+          className="px-6 py-3 text-gray-600 font-medium hover:text-gray-800 transition-colors duration-200 rounded-xl hover:bg-gray-50"
+        >
+          {currentStep === 1 ? 'Cancel' : '← Previous'}
+        </button>
+
+        {currentStep < 4 ? (
+          <button
+            onClick={handleNext}
             disabled={isSubmitting}
+            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 active:scale-95"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            {currentStep === 1 ? 'Cancel' : 'Previous'}
-          </Button>
-          
-          {currentStep < 4 ? (
-            <Button onClick={handleNext} disabled={isSubmitting}>
-              Next
-              <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
-          ) : (
-            <Button onClick={handleSubmit} disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Submit Request'}
-              <CheckCircle className="h-4 w-4 ml-2" />
-            </Button>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+            Next →
+          </button>
+        ) : (
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 active:scale-95 min-w-[140px]"
+          >
+            {isSubmitting ? (
+              <div className="flex items-center justify-center">
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                Submitting...
+              </div>
+            ) : (
+              'Submit Request'
+            )}
+          </button>
+        )}
+      </div>
+    </div>
   );
 };
 
