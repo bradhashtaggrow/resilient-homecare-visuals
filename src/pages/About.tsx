@@ -1,34 +1,39 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { Users, Target, Award, Heart, TrendingUp, Globe } from 'lucide-react';
+import { Users, Target, Award, Heart, TrendingUp, Globe, Zap, Building2, CheckCircle, UserCheck } from 'lucide-react';
 
 const About = () => {
-  const stats = [
-    { number: "10,000+", label: "Patients Served", icon: Heart },
-    { number: "500+", label: "Healthcare Professionals", icon: Users },
-    { number: "50+", label: "Healthcare Facilities", icon: Globe },
-    { number: "98%", label: "Patient Satisfaction", icon: Award }
+  const hospitalBenefits = [
+    "Reduce readmissions by 25-40% while optimizing care efficiency.",
+    "Scale hospital-at-home services with on-demand contract clinicians.",
+    "Maintain profitability with AI-driven automation that reduces overhead."
   ];
 
-  const team = [
+  const clinicianBenefits = [
+    "Work on your schedule—join the home healthcare gig economy.",
+    "RAIN automates scheduling, payments, and records management for a seamless experience.",
+    "Deliver high-quality, patient-centered care with less bureaucracy."
+  ];
+
+  const whyResilientFeatures = [
     {
-      name: "Dr. Sarah Johnson",
-      role: "Chief Medical Officer",
-      image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      bio: "Board-certified physician with 15+ years in healthcare innovation"
+      title: "RAIN-Powered AI Infrastructure",
+      description: "Reducing inefficiencies in care management through smart automation.",
+      icon: Zap,
+      color: "from-blue-50 to-white border-blue-100/50"
     },
     {
-      name: "Michael Chen",
-      role: "Chief Technology Officer",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      bio: "Healthcare technology expert leading digital transformation"
+      title: "Fully Integrated With Hospital Systems",
+      description: "Seamless connection to EHRs, scheduling, and billing workflows.",
+      icon: Building2,
+      color: "from-green-50 to-white border-green-100/50"
     },
     {
-      name: "Dr. Maria Rodriguez",
-      role: "Director of Clinical Operations",
-      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      bio: "Specialist in patient care coordination and quality improvement"
+      title: "Flexible Workforce Model",
+      description: "On-demand contract clinicians that expand hospital capacity without adding full-time costs.",
+      icon: Users,
+      color: "from-purple-50 to-white border-purple-100/50"
     }
   ];
 
@@ -37,62 +42,53 @@ const About = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-blue-50 to-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center">
-            <Users className="h-16 w-16 text-blue-600 mx-auto mb-6" />
-            <h1 className="text-5xl font-bold text-gray-900 mb-6">
-              About Resilient Healthcare
+      <section className="pt-32 pb-20 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              About Us
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We're transforming healthcare delivery through innovative solutions that bring 
-              quality care directly to patients while empowering healthcare professionals 
-              with cutting-edge tools and technology.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission & Vision */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="text-center p-8 rounded-2xl bg-blue-50">
-              <Target className="h-12 w-12 text-blue-600 mx-auto mb-6" />
-              <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
-              <p className="text-gray-600 text-lg">
-                To revolutionize healthcare accessibility by bringing hospital-quality care 
-                directly to patients' homes while supporting healthcare professionals with 
-                innovative technology and comprehensive resources.
-              </p>
-            </div>
             
-            <div className="text-center p-8 rounded-2xl bg-green-50">
-              <TrendingUp className="h-12 w-12 text-green-600 mx-auto mb-6" />
-              <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
-              <p className="text-gray-600 text-lg">
-                A world where quality healthcare is accessible to everyone, regardless of 
-                location or circumstance, powered by technology and delivered with compassion 
-                by skilled healthcare professionals.
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                Revolutionizing Home-Based Healthcare with 
+                <span className="text-blue-600"> RAIN</span>
+              </h2>
+              <p className="text-xl text-gray-600 leading-relaxed">
+                Resilient Healthcare provides turnkey solutions for hospitals and providers, powered by RAIN – the Resilient AI Network. 
+                This intelligent system optimizes patient-clinician matching, streamlines care coordination, and ensures hospitals can 
+                deliver hospital-quality care at home without disruption.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Statistics */}
-      <section className="py-16 bg-gray-50">
+      {/* Why Resilient Section */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Impact</h2>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Resilient?</h2>
+          </div>
           
-          <div className="grid md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => {
-              const IconComponent = stat.icon;
+          <div className="grid md:grid-cols-3 gap-8">
+            {whyResilientFeatures.map((feature, index) => {
+              const IconComponent = feature.icon;
               return (
-                <div key={index} className="text-center p-6 bg-white rounded-2xl shadow-sm">
-                  <IconComponent className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                  <div className="text-3xl font-bold text-gray-900 mb-2">{stat.number}</div>
-                  <div className="text-gray-600">{stat.label}</div>
+                <div key={index} className={`group p-8 rounded-3xl bg-gradient-to-br ${feature.color} border hover:shadow-xl transition-all duration-500 hover:-translate-y-1`}>
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <IconComponent className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">{feature.title}</h3>
+                    <p className="text-gray-600">{feature.description}</p>
+                  </div>
                 </div>
               );
             })}
@@ -100,29 +96,70 @@ const About = () => {
         </div>
       </section>
 
-      {/* Leadership Team */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Leadership Team</h2>
+      {/* Hospital Benefits Section */}
+      <section className="py-20 bg-gradient-to-br from-blue-50 to-white relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-20 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center mb-4">
+              <Building2 className="h-8 w-8 text-blue-600 mr-3" />
+              <h2 className="text-3xl font-bold text-gray-900">Expand Home-Based Care Without Disrupting Hospital Workflows</h2>
+            </div>
+          </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            {team.map((member, index) => (
-              <div key={index} className="text-center p-8 rounded-2xl bg-gray-50">
-                <img 
-                  src={member.image} 
-                  alt={member.name}
-                  className="w-32 h-32 rounded-full mx-auto mb-6 object-cover"
-                />
-                <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
-                <p className="text-blue-600 font-medium mb-4">{member.role}</p>
-                <p className="text-gray-600">{member.bio}</p>
-              </div>
-            ))}
+          <div className="max-w-4xl mx-auto">
+            <div className="grid gap-6">
+              {hospitalBenefits.map((benefit, index) => (
+                <div key={index} className="flex items-start space-x-4 p-6 bg-white rounded-2xl shadow-sm border border-blue-100/50">
+                  <div className="flex-shrink-0">
+                    <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                      <CheckCircle className="h-5 w-5 text-white" />
+                    </div>
+                  </div>
+                  <p className="text-lg text-gray-700">{benefit}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Values */}
+      {/* Clinicians Section */}
+      <section className="py-20 bg-gradient-to-br from-green-50 to-white relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute bottom-0 left-20 w-64 h-64 bg-green-400/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Clinicians & Healthcare Providers</h2>
+            <div className="flex items-center justify-center mb-6">
+              <UserCheck className="h-8 w-8 text-green-600 mr-3" />
+              <h3 className="text-2xl font-semibold text-gray-800">More Flexibility, More Earnings, More Patient Impact</h3>
+            </div>
+          </div>
+          
+          <div className="max-w-4xl mx-auto">
+            <div className="grid gap-6">
+              {clinicianBenefits.map((benefit, index) => (
+                <div key={index} className="flex items-start space-x-4 p-6 bg-white rounded-2xl shadow-sm border border-green-100/50">
+                  <div className="flex-shrink-0">
+                    <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                      <CheckCircle className="h-5 w-5 text-white" />
+                    </div>
+                  </div>
+                  <p className="text-lg text-gray-700">{benefit}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
       <section className="py-16 bg-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-12">Our Values</h2>
