@@ -1,6 +1,7 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import LeadGenSection from '@/components/LeadGenSection';
 import { Newspaper, Calendar, User, ArrowRight } from 'lucide-react';
 
 const News = () => {
@@ -133,6 +134,8 @@ const News = () => {
           </div>
         </div>
       </section>
+
+      <LeadGenSection />
 
       <Footer />
     </div>

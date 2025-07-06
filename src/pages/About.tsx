@@ -1,6 +1,7 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import LeadGenSection from '@/components/LeadGenSection';
 import { Users, Target, Award, Heart, TrendingUp, Globe, Zap, Building2, CheckCircle, UserCheck } from 'lucide-react';
 
 const About = () => {
@@ -191,6 +192,8 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      <LeadGenSection />
 
       <Footer />
     </div>

@@ -1,8 +1,8 @@
-
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import OptimizedVideo from '@/components/OptimizedVideo';
+import LeadGenSection from '@/components/LeadGenSection';
 import { Building2, Heart, Users, Shield, Clock, CheckCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -152,6 +152,8 @@ const CareAtHome = () => {
           </Link>
         </div>
       </section>
+
+      <LeadGenSection />
 
       <Footer />
     </div>

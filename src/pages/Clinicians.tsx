@@ -1,7 +1,7 @@
-
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import LeadGenSection from '@/components/LeadGenSection';
 import { Building2, Heart, Users, Shield, CheckCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -140,6 +140,8 @@ const Clinicians = () => {
           </Link>
         </div>
       </section>
+
+      <LeadGenSection />
 
       <Footer />
     </div>
