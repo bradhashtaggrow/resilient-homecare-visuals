@@ -7,7 +7,9 @@ import { useAuth } from '@/contexts/AuthContext';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAdmin, signOut } = useAuth();
+  const { user, isAdmin, signOut, loading } = useAuth();
+
+  console.log('Navigation render - user:', user?.email, 'isAdmin:', isAdmin, 'loading:', loading);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
