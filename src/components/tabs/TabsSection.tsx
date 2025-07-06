@@ -20,8 +20,22 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
   const [activeTab, setActiveTab] = useState(services[0]?.id || '');
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const activeService = services.find(service => service.id === activeTab);
+
+  // Responsive breakpoint detection
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   const handleTabChange = (serviceId: string) => {
     if (serviceId === activeTab) return;
@@ -33,7 +47,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (containerRef.current) {
+    if (!isMobile && containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       setMousePosition({
         x: ((e.clientX - rect.left) / rect.width - 0.5) * 20,
@@ -43,7 +57,6 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
   };
 
   const getColorClasses = (color: string) => {
-    // Use the correct two-blue gradient for all colors
     const blueGradient = { 
       primary: '#4F9CF9', 
       gradient: 'from-[#4F9CF9] to-[#183EC2]',
@@ -55,7 +68,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
 
   return (
     <section className="min-h-screen bg-white text-gray-900 relative overflow-hidden">
-      {/* White Background with Subtle Elements */}
+      {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-white" />
         <div 
@@ -64,8 +77,8 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
             background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(79,156,249,0.1) 0%, transparent 50%)`
           }}
         />
-        {/* Floating Particles */}
-        {[...Array(20)].map((_, i) => (
+        {/* Responsive Floating Particles */}
+        {[...Array(isMobile ? 10 : isTablet ? 15 : 20)].map((_, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-gray-300/40 rounded-full animate-pulse"
@@ -84,27 +97,34 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
         className="relative z-10 min-h-screen flex flex-col"
         onMouseMove={handleMouseMove}
       >
-        {/* Header Section */}
-        <div className="text-center pt-32 pb-20">          
-          <h2 className="text-7xl lg:text-8xl font-black mb-8 tracking-tight leading-none text-gray-900">
+        {/* Responsive Header Section */}
+        <div className="text-center pt-16 md:pt-24 lg:pt-32 pb-12 md:pb-16 lg:pb-20 px-4 md:px-6 lg:px-8">          
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4 md:mb-6 lg:mb-8 tracking-tight leading-none text-gray-900">
             The Future of{' '}
             <span className="bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent">
               Care
             </span>
           </h2>
           
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
+          <p className="text-base sm:text-lg md:text-xl lg:text-xl text-gray-600 max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-light px-4">
             Experience healthcare like never before. Every interaction reimagined.
           </p>
         </div>
 
         {/* Interface Section */}
-        <div className="flex-1 flex items-center justify-center px-8">
+        <div className="flex-1 flex items-center justify-center px-4 md:px-6 lg:px-8">
           <div className="w-full max-w-7xl">
             
-            {/* Navigation Pills */}
-            <div className="flex justify-center mb-16">
-              <div className="inline-flex bg-gray-50/80 backdrop-blur-2xl rounded-2xl border border-gray-200/50 p-2">
+            {/* Responsive Navigation Pills */}
+            <div className="flex justify-center mb-8 md:mb-12 lg:mb-16">
+              <div className={`
+                ${isMobile 
+                  ? 'flex flex-col space-y-2 w-full max-w-sm' 
+                  : isTablet 
+                    ? 'grid grid-cols-2 gap-3 w-full max-w-2xl' 
+                    : 'inline-flex bg-gray-50/80 backdrop-blur-2xl rounded-2xl border border-gray-200/50 p-2'
+                }
+              `}>
                 {services.map((service, index) => {
                   const ServiceIcon = service.icon;
                   const isActive = activeTab === service.id;
@@ -115,34 +135,54 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                       key={service.id}
                       onClick={() => handleTabChange(service.id)}
                       className={`
-                        relative px-6 py-4 rounded-xl transition-all duration-700 ease-out group
-                        ${isActive 
-                          ? `bg-gradient-to-r ${colorClasses.gradient} ${colorClasses.shadow} shadow-2xl text-white` 
-                          : 'hover:bg-gray-100/80 text-gray-600 hover:text-gray-800'
+                        relative transition-all duration-700 ease-out group
+                        ${isMobile 
+                          ? `w-full px-4 py-3 rounded-xl ${isActive 
+                              ? `bg-gradient-to-r ${colorClasses.gradient} ${colorClasses.shadow} shadow-xl text-white` 
+                              : 'bg-gray-50/80 hover:bg-gray-100/80 text-gray-600 hover:text-gray-800 border border-gray-200/50'
+                            }`
+                          : isTablet
+                            ? `px-4 py-3 rounded-xl ${isActive 
+                                ? `bg-gradient-to-r ${colorClasses.gradient} ${colorClasses.shadow} shadow-xl text-white` 
+                                : 'bg-gray-50/80 hover:bg-gray-100/80 text-gray-600 hover:text-gray-800 border border-gray-200/50'
+                              }`
+                            : `px-6 py-4 rounded-xl ${isActive 
+                                ? `bg-gradient-to-r ${colorClasses.gradient} ${colorClasses.shadow} shadow-2xl text-white` 
+                                : 'hover:bg-gray-100/80 text-gray-600 hover:text-gray-800'
+                              }`
                         }
                       `}
                       style={{
-                        transform: isActive ? `translateY(-8px) scale(1.05)` : 'translateY(0)',
+                        transform: isActive && !isMobile ? `translateY(-8px) scale(1.05)` : 'translateY(0)',
                         animationDelay: `${index * 100}ms`
                       }}
                     >
-                      <div className="flex items-center gap-3">
+                      <div className={`flex items-center ${isMobile ? 'gap-3' : isTablet ? 'gap-2' : 'gap-3'}`}>
                         <div 
                           className={`
-                            w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-500
+                            ${isMobile ? 'w-8 h-8' : isTablet ? 'w-9 h-9' : 'w-10 h-10'} 
+                            rounded-lg flex items-center justify-center transition-all duration-500
                             ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-700'}
                           `}
                         >
-                          <ServiceIcon className="h-6 w-6" />
+                          <ServiceIcon className={`${isMobile ? 'h-5 w-5' : isTablet ? 'h-5 w-5' : 'h-6 w-6'}`} />
                         </div>
-                        <div className="text-left">
-                          <div className={`font-semibold text-sm ${isActive ? 'text-white' : 'text-gray-700'}`}>
-                            {service.title.split(' ').slice(0, 2).join(' ')}
+                        <div className="text-left flex-1">
+                          <div className={`font-semibold ${isMobile ? 'text-sm' : isTablet ? 'text-sm' : 'text-sm'} ${isActive ? 'text-white' : 'text-gray-700'}`}>
+                            {isMobile 
+                              ? service.title
+                              : service.title.split(' ').slice(0, 2).join(' ')
+                            }
                           </div>
+                          {isMobile && (
+                            <div className={`text-xs mt-1 ${isActive ? 'text-white/80' : 'text-gray-500'}`}>
+                              {service.subtitle}
+                            </div>
+                          )}
                         </div>
                       </div>
                       
-                      {isActive && (
+                      {isActive && !isMobile && (
                         <div 
                           className="absolute -inset-4 rounded-2xl opacity-30 animate-pulse"
                           style={{ 
@@ -157,7 +197,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
               </div>
             </div>
 
-            {/* Content Display */}
+            {/* Responsive Content Display */}
             {activeService && (
               <div 
                 className={`
@@ -168,77 +208,98 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                 <div className="relative">
                   {/* Main Content Card */}
                   <div 
-                    className="relative bg-white/90 backdrop-blur-2xl rounded-3xl border border-gray-200/50 overflow-hidden group shadow-xl hover:shadow-2xl transition-all duration-700"
+                    className={`
+                      relative bg-white/90 backdrop-blur-2xl rounded-2xl md:rounded-3xl 
+                      border border-gray-200/50 overflow-hidden group 
+                      shadow-lg md:shadow-xl hover:shadow-2xl transition-all duration-700
+                      ${isMobile ? 'mx-2' : ''}
+                    `}
                     style={{
-                      transform: `perspective(1000px) rotateX(${mousePosition.y * 0.1}deg) rotateY(${mousePosition.x * 0.1}deg)`,
+                      transform: !isMobile ? `perspective(1000px) rotateX(${mousePosition.y * 0.1}deg) rotateY(${mousePosition.x * 0.1}deg)` : 'none',
                       transformStyle: 'preserve-3d'
                     }}
                   >
-                    {/* Hero Image */}
-                    <div className="relative h-96 lg:h-[32rem] overflow-hidden">
+                    {/* Responsive Hero Image */}
+                    <div className={`relative overflow-hidden ${isMobile ? 'h-48' : isTablet ? 'h-64' : 'h-96 lg:h-[32rem]'}`}>
                       <img 
                         src={activeService.patient_image_url}
                         alt={activeService.title}
                         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                         style={{
-                          transform: `translateZ(50px) translate3d(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px, 0)`
+                          transform: !isMobile ? `translateZ(50px) translate3d(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px, 0)` : 'none'
                         }}
                       />
                       
                       {/* Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent" />
                       
-                      {/* Floating Icon */}
+                      {/* Responsive Floating Icon */}
                       <div 
                         className={`
-                          absolute top-8 left-8 w-20 h-20 rounded-2xl flex items-center justify-center 
+                          absolute top-4 md:top-6 lg:top-8 left-4 md:left-6 lg:left-8 
+                          ${isMobile ? 'w-12 h-12' : isTablet ? 'w-16 h-16' : 'w-20 h-20'} 
+                          rounded-xl md:rounded-2xl flex items-center justify-center 
                           bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
                           backdrop-blur-xl border border-white/30 ${getColorClasses(activeService.color).glow}
                         `}
                         style={{
-                          transform: `translateZ(100px) translate3d(${mousePosition.x * 0.2}px, ${mousePosition.y * 0.2}px, 0)`
+                          transform: !isMobile ? `translateZ(100px) translate3d(${mousePosition.x * 0.2}px, ${mousePosition.y * 0.2}px, 0)` : 'none'
                         }}
                       >
-                        <activeService.icon className="h-10 w-10 text-white" />
+                        <activeService.icon className={`${isMobile ? 'h-6 w-6' : isTablet ? 'h-8 w-8' : 'h-10 w-10'} text-white`} />
                       </div>
 
-                      {/* Play Button Effect */}
-                      <div 
-                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                        style={{
-                          transform: `translateZ(75px)`
-                        }}
-                      >
-                        <div className="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30">
-                          <Play className="h-8 w-8 text-white ml-1" />
+                      {/* Play Button Effect - Hidden on Mobile */}
+                      {!isMobile && (
+                        <div 
+                          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                          style={{
+                            transform: `translateZ(75px)`
+                          }}
+                        >
+                          <div className={`${isTablet ? 'w-16 h-16' : 'w-20 h-20'} bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30`}>
+                            <Play className={`${isTablet ? 'h-6 w-6' : 'h-8 w-8'} text-white ml-1`} />
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
 
-                    {/* Content */}
-                    <div className="relative p-12" style={{ transform: `translateZ(25px)` }}>
-                      <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        <div>
-                          <h3 className="text-4xl lg:text-5xl font-black text-gray-900 mb-4 tracking-tight leading-tight">
+                    {/* Responsive Content */}
+                    <div className={`relative ${isMobile ? 'p-6' : isTablet ? 'p-8' : 'p-12'}`} style={{ transform: !isMobile ? `translateZ(25px)` : 'none' }}>
+                      <div className={`${isMobile ? 'space-y-6' : isTablet ? 'space-y-8' : 'grid lg:grid-cols-2 gap-12 items-center'}`}>
+                        <div className={isMobile || isTablet ? 'text-center' : ''}>
+                          <h3 className={`
+                            ${isMobile ? 'text-2xl' : isTablet ? 'text-3xl' : 'text-4xl lg:text-5xl'} 
+                            font-black text-gray-900 mb-3 md:mb-4 tracking-tight leading-tight
+                          `}>
                             {activeService.title}
                           </h3>
                           
                           <p 
-                            className="text-2xl font-semibold mb-8 bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent"
+                            className={`
+                              ${isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-2xl'} 
+                              font-semibold mb-4 md:mb-6 lg:mb-8 
+                              bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent
+                            `}
                           >
                             {activeService.subtitle}
                           </p>
                           
-                          <p className="text-lg text-gray-600 leading-relaxed mb-10">
+                          <p className={`
+                            ${isMobile ? 'text-base' : isTablet ? 'text-lg' : 'text-lg'} 
+                            text-gray-600 leading-relaxed mb-6 md:mb-8 lg:mb-10
+                          `}>
                             {activeService.description}
                           </p>
 
                           {/* CTA Button */}
                           <button 
                             className={`
-                              group relative px-8 py-4 bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
-                              rounded-xl font-bold text-white text-lg overflow-hidden
-                              transform transition-all duration-300 hover:scale-105 
+                              group relative px-6 md:px-8 py-3 md:py-4 
+                              bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
+                              rounded-xl font-bold text-white 
+                              ${isMobile ? 'text-base w-full' : isTablet ? 'text-lg' : 'text-lg'} 
+                              overflow-hidden transform transition-all duration-300 hover:scale-105 
                               ${getColorClasses(activeService.color).shadow} shadow-2xl
                               border border-white/20
                             `}
@@ -256,8 +317,10 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           </button>
                         </div>
 
-                        {/* Stats/Features */}
-                        <div className="space-y-6">
+                        {/* Stats/Features - Responsive Layout */}
+                        <div className={`
+                          ${isMobile ? 'space-y-3' : isTablet ? 'space-y-4 mt-8' : 'space-y-6'}
+                        `}>
                           {[
                             { label: 'Response Time', value: '< 2min', color: 'from-[#4F9CF9] to-[#183EC2]' },
                             { label: 'Satisfaction', value: '99.8%', color: 'from-[#4F9CF9] to-[#183EC2]' },
@@ -265,14 +328,25 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           ].map((stat, index) => (
                             <div 
                               key={stat.label}
-                              className="flex items-center justify-between p-4 bg-gray-50/50 backdrop-blur-xl rounded-xl border border-gray-200/30"
+                              className={`
+                                flex items-center justify-between 
+                                ${isMobile ? 'p-3' : isTablet ? 'p-3' : 'p-4'} 
+                                bg-gray-50/50 backdrop-blur-xl 
+                                ${isMobile ? 'rounded-lg' : 'rounded-xl'} 
+                                border border-gray-200/30
+                              `}
                               style={{
-                                transform: `translateZ(${25 + index * 10}px)`,
+                                transform: !isMobile ? `translateZ(${25 + index * 10}px)` : 'none',
                                 animationDelay: `${index * 200}ms`
                               }}
                             >
-                              <span className="text-gray-600 font-medium">{stat.label}</span>
-                              <span className={`text-2xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                              <span className={`text-gray-600 font-medium ${isMobile ? 'text-sm' : 'text-base'}`}>
+                                {stat.label}
+                              </span>
+                              <span className={`
+                                ${isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-2xl'} 
+                                font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent
+                              `}>
                                 {stat.value}
                               </span>
                             </div>
@@ -283,7 +357,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
 
                     {/* Subtle Border Effect */}
                     <div 
-                      className="absolute inset-0 rounded-3xl opacity-20 pointer-events-none"
+                      className="absolute inset-0 rounded-2xl md:rounded-3xl opacity-20 pointer-events-none"
                       style={{
                         background: `linear-gradient(135deg, #4F9CF910, transparent, #4F9CF905)`,
                         filter: 'blur(1px)'
