@@ -489,95 +489,42 @@ img, video {
   @apply bg-primary border-primary;
 }
 
-/* Fireworks Animation */
-.fireworks-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
+/* 3D Checkmark Swooping Animation */
+.checkmark-container {
+  animation: container-pulse 2s ease-in-out infinite;
 }
 
-.firework {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  animation: firework 2s ease-out infinite;
+.checkmark-swoop {
+  transform-origin: center;
+  animation: checkmark-swoop 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-.firework-1 {
-  top: 20%;
-  left: 20%;
-  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-  animation-delay: 0s;
-}
-
-.firework-2 {
-  top: 30%;
-  right: 20%;
-  background: linear-gradient(45deg, #4834d4, #686de0);
-  animation-delay: 0.4s;
-}
-
-.firework-3 {
-  top: 50%;
-  left: 10%;
-  background: linear-gradient(45deg, #00d2d3, #01a3a4);
-  animation-delay: 0.8s;
-}
-
-.firework-4 {
-  top: 40%;
-  right: 30%;
-  background: linear-gradient(45deg, #ffa726, #ff9800);
-  animation-delay: 1.2s;
-}
-
-.firework-5 {
-  top: 60%;
-  left: 50%;
-  background: linear-gradient(45deg, #26de81, #20bf6b);
-  animation-delay: 1.6s;
-}
-
-@keyframes firework {
+@keyframes checkmark-swoop {
   0% {
-    transform: scale(1);
-    opacity: 1;
-    box-shadow: 0 0 10px currentColor;
-  }
-  25% {
-    transform: scale(3);
-    opacity: 0.8;
-    box-shadow: 
-      0 0 20px currentColor,
-      10px 0 20px currentColor,
-      -10px 0 20px currentColor,
-      0 10px 20px currentColor,
-      0 -10px 20px currentColor,
-      7px 7px 20px currentColor,
-      -7px -7px 20px currentColor,
-      7px -7px 20px currentColor,
-      -7px 7px 20px currentColor;
+    transform: scale(0) rotate(-180deg) translateX(-50px) translateY(-50px);
+    opacity: 0;
   }
   50% {
-    transform: scale(5);
-    opacity: 0.6;
-    box-shadow: 
-      0 0 30px currentColor,
-      15px 0 30px currentColor,
-      -15px 0 30px currentColor,
-      0 15px 30px currentColor,
-      0 -15px 30px currentColor,
-      10px 10px 30px currentColor,
-      -10px -10px 30px currentColor,
-      10px -10px 30px currentColor,
-      -10px 10px 30px currentColor;
+    transform: scale(1.3) rotate(-90deg) translateX(-10px) translateY(-10px);
+    opacity: 0.8;
+  }
+  80% {
+    transform: scale(1.1) rotate(-10deg) translateX(5px) translateY(5px);
+    opacity: 0.9;
   }
   100% {
-    transform: scale(0);
-    opacity: 0;
-    box-shadow: none;
+    transform: scale(1) rotate(0deg) translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes container-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
   }
 }

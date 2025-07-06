@@ -481,19 +481,10 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
       {showSuccessModal && (
         <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
           <div className="relative">
-            {/* Fireworks Animation */}
-            <div className="fireworks-container absolute inset-0 pointer-events-none">
-              <div className="firework firework-1"></div>
-              <div className="firework firework-2"></div>
-              <div className="firework firework-3"></div>
-              <div className="firework firework-4"></div>
-              <div className="firework firework-5"></div>
-            </div>
-            
             {/* Success Modal Content */}
             <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl w-full max-w-md p-8 text-center border border-white/20 animate-bounce-gentle">
-              <div className="mx-auto mb-6 w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
-                <CheckCircle className="w-8 h-8 text-white" />
+              <div className="mx-auto mb-6 w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg checkmark-container">
+                <CheckCircle className="w-8 h-8 text-white checkmark-swoop" />
               </div>
               
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
