@@ -9,17 +9,24 @@ interface LeadCaptureModalProps {
 
 const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 'button' }) => {
   const [open, setOpen] = useState(false);
+  
+  console.log('LeadCaptureModal rendered, open:', open, 'source:', source);
 
   const handleSuccess = () => {
+    console.log('LeadCaptureModal handleSuccess called');
     setOpen(false);
   };
 
   const handleClose = () => {
+    console.log('LeadCaptureModal handleClose called');
     setOpen(false);
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(newOpen) => {
+      console.log('Dialog onOpenChange called, newOpen:', newOpen);
+      setOpen(newOpen);
+    }}>
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>

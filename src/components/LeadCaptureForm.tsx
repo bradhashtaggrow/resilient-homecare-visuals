@@ -117,7 +117,9 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
   };
 
   const handleSubmit = async () => {
+    console.log('Form handleSubmit called');
     if (!validateStep(4)) {
+      console.log('Form validation failed for step 4');
       toast({
         title: "Please complete all required fields",
         description: "Fill in all required information before submitting",
@@ -126,6 +128,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
       return;
     }
 
+    console.log('Form validation passed, submitting data:', formData);
     setIsSubmitting(true);
     
     try {
