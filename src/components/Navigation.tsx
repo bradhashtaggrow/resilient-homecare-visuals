@@ -26,11 +26,13 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex items-center">
-            <img 
-              src="/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png" 
-              alt="Resilient Healthcare" 
-              className="h-12 w-auto"
-            />
+            <Link to="/" className="transition-transform duration-200 hover:scale-105">
+              <img 
+                src="/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png" 
+                alt="Resilient Healthcare" 
+                className="h-12 w-auto"
+              />
+            </Link>
           </div>
           
           {/* Desktop Navigation */}
