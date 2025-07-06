@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -60,30 +61,6 @@ const News = () => {
               Stay informed with the latest developments in healthcare innovation, 
               research breakthroughs, and community health initiatives from Resilient Healthcare.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Article */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl p-12 text-white mb-16">
-            <div className="max-w-4xl">
-              <span className="inline-block bg-white/20 px-4 py-2 rounded-full text-sm font-medium mb-4">
-                Featured Story
-              </span>
-              <h2 className="text-4xl font-bold mb-6">
-                Breakthrough in Telemedicine Technology
-              </h2>
-              <p className="text-xl opacity-90 mb-8">
-                Our latest telemedicine platform integration has reduced patient wait times by 60% 
-                while improving diagnostic accuracy through advanced remote monitoring capabilities.
-              </p>
-              <button className="inline-flex items-center bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
-                Read Full Article
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </button>
-            </div>
           </div>
         </div>
       </section>
