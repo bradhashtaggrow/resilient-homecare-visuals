@@ -20,8 +20,6 @@ const CareAtHome = () => {
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/30" />
-          {/* Extended blur gradient that merges seamlessly with white background */}
-          <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-white via-white/95 via-white/70 to-transparent backdrop-blur-lg" />
         </div>
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pb-32">
@@ -32,10 +30,13 @@ const CareAtHome = () => {
             </h1>
           </div>
         </div>
+        
+        {/* Blur transition at the bottom edge extending into white section */}
+        <div className="absolute -bottom-32 left-0 right-0 h-64 bg-gradient-to-t from-white via-white/90 via-white/60 to-transparent backdrop-blur-lg z-20" />
       </section>
 
       {/* Hospitals Section - Now outside video cover */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white relative z-10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Hospitals</h2>
