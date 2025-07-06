@@ -39,10 +39,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state change:', event, 'User:', session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
-        setLoading(false); // Make sure loading is set to false
         
         if (session?.user) {
           // Check if user is admin
@@ -55,16 +53,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 .eq('role', 'admin')
                 .single();
               
-              const adminStatus = !error && data !== null;
-              console.log('Admin check result:', adminStatus, 'Error:', error);
-              setIsAdmin(adminStatus);
+              setIsAdmin(!error && data !== null);
             } catch (error) {
               console.error('Error checking admin role:', error);
               setIsAdmin(false);
             }
           }, 0);
         } else {
-          console.log('No user session, setting isAdmin to false');
           setIsAdmin(false);
         }
       }
@@ -72,15 +67,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('Initial session check:', session?.user?.email);
       setSession(session);
       setUser(session?.user ?? null);
-      
-      // If no session, make sure admin is false
-      if (!session) {
-        setIsAdmin(false);
-      }
-      
       setLoading(false);
     });
 

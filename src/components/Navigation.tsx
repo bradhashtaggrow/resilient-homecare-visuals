@@ -1,22 +1,14 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Globe, Settings, LogOut } from 'lucide-react';
+import { Menu, X, Globe, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAdmin, signOut, loading } = useAuth();
-
-  console.log('Navigation render - user:', user?.email, 'isAdmin:', isAdmin, 'loading:', loading);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-  };
-
-  const handleSignOut = async () => {
-    await signOut();
   };
 
   return (
@@ -33,33 +25,12 @@ const Navigation = () => {
             <a href="#services" className="text-gray-700 hover:text-blue-600 transition-colors">Services</a>
             <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors">About</a>
             <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
-            
-            {isAdmin ? (
-              <div className="flex items-center space-x-4">
-                <Link to="/admin">
-                  <Button variant="outline" size="sm" className="flex items-center">
-                    <Settings className="h-4 w-4 mr-2" />
-                    Admin Dashboard
-                  </Button>
-                </Link>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={handleSignOut}
-                  className="flex items-center"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
-              </div>
-            ) : !user ? (
-              <Link to="/login">
-                <Button variant="outline" size="sm" className="flex items-center">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Admin Login
-                </Button>
-              </Link>
-            ) : null}
+            <Link to="/login">
+              <Button variant="outline" size="sm" className="flex items-center">
+                <Settings className="h-4 w-4 mr-2" />
+                Admin
+              </Button>
+            </Link>
           </div>
 
           <div className="md:hidden">
@@ -80,33 +51,12 @@ const Navigation = () => {
             <a href="#services" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Services</a>
             <a href="#about" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">About</a>
             <a href="#contact" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
-            
-            {isAdmin ? (
-              <div className="space-y-2 px-3 py-2">
-                <Link to="/admin">
-                  <Button variant="outline" size="sm" className="flex items-center w-full justify-center">
-                    <Settings className="h-4 w-4 mr-2" />
-                    Admin Dashboard
-                  </Button>
-                </Link>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={handleSignOut}
-                  className="flex items-center w-full justify-center"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
-              </div>
-            ) : !user ? (
-              <Link to="/login" className="block px-3 py-2">
-                <Button variant="outline" size="sm" className="flex items-center w-full justify-center">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Admin Login
-                </Button>
-              </Link>
-            ) : null}
+            <Link to="/login" className="block px-3 py-2">
+              <Button variant="outline" size="sm" className="flex items-center w-full justify-center">
+                <Settings className="h-4 w-4 mr-2" />
+                Admin Login
+              </Button>
+            </Link>
           </div>
         </div>
       )}

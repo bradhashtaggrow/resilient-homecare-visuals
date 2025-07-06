@@ -5,7 +5,6 @@ import AdminLaptopVisualization from './admin/AdminLaptopVisualization';
 import { useDemoScreens } from './admin/AdminDemoScreens';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import LeadCaptureModal from './LeadCaptureModal';
 import { supabase } from '@/integrations/supabase/client';
 
 interface AdminDashboardContent {
@@ -137,10 +136,34 @@ const AdminDashboard = React.memo(() => {
 
   return (
     <section id="admin-dashboard" className="py-20 sm:py-24 md:py-32 lg:py-40 relative overflow-hidden min-h-screen">
-      {/* Dark Animated Background */}
-      <div className="absolute inset-0 bg-gray-900">
-        <AdminAnimatedBackground />
-      </div>
+      {/* Background Media */}
+      {content?.background_video_url ? (
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={content.background_video_url} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+      ) : content?.background_image_url ? (
+        <div className="absolute inset-0 z-0">
+          <img
+            src={content.background_image_url}
+            alt="Admin dashboard background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 bg-gray-900">
+          <AdminAnimatedBackground />
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Enhanced Title with Mobile Optimization - Using reverse swoop */}
@@ -192,29 +215,28 @@ const AdminDashboard = React.memo(() => {
              style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.4 }}>
             {content.content_data?.cta_description || 'Join forward-thinking healthcare organizations who\'ve already revolutionized their operations. See our comprehensive platform in action with a personalized demonstration.'}
           </p>
-          <LeadCaptureModal source="admin-dashboard">
-            <Button 
-              size="lg"
-              className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto"
-              style={{
-                background: 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)',
-                boxShadow: `
-                  0 12px 32px hsl(210 100% 50% / 0.4),
-                  0 4px 16px rgba(0, 0, 0, 0.3),
-                  inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                  inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-                `,
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-              }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <span className="relative z-10 flex items-center justify-center">
-                {content.button_text}
-                <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
-              </span>
-            </Button>
-          </LeadCaptureModal>
+          <Button 
+            size="lg"
+            className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto"
+            style={{
+              background: 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)',
+              boxShadow: `
+                0 12px 32px hsl(210 100% 50% / 0.4),
+                0 4px 16px rgba(0, 0, 0, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+              `,
+              textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleButtonClick}
+          >
+            <span className="relative z-10 flex items-center justify-center">
+              {content.button_text}
+              <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
+            </span>
+          </Button>
         </div>
       </div>
     </section>
