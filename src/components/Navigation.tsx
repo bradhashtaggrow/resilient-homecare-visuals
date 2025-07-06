@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Globe, Settings } from 'lucide-react';
+import { Menu, X, Heart, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import LeadCaptureModal from './LeadCaptureModal';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,24 +16,37 @@ const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Globe className="h-8 w-8 text-blue-600" />
-            <span className="ml-2 text-xl font-bold text-gray-900">Healthcare</span>
+          {/* Logo */}
+          <div className="flex items-center space-x-2">
+            <Heart className="h-8 w-8 text-blue-600" />
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-gray-900 leading-tight">Resilient</span>
+              <span className="text-sm text-blue-600 font-medium leading-tight">Healthcare</span>
+            </div>
           </div>
           
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#home" className="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
-            <a href="#services" className="text-gray-700 hover:text-blue-600 transition-colors">Services</a>
-            <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors">About</a>
-            <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+            <a href="#home" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Home</a>
+            <a href="#services" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Services</a>
+            <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">About</a>
+            <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact</a>
+            
+            <LeadCaptureModal source="navigation">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                Request Demo
+              </Button>
+            </LeadCaptureModal>
+            
             <Link to="/login">
-              <Button variant="outline" size="sm" className="flex items-center">
+              <Button variant="outline" size="sm" className="flex items-center border-blue-200 text-blue-600 hover:bg-blue-50">
                 <Settings className="h-4 w-4 mr-2" />
                 Admin
               </Button>
             </Link>
           </div>
 
+          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
@@ -44,17 +58,27 @@ const Navigation = () => {
         </div>
       </div>
 
+      {/* Mobile Navigation */}
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-b border-gray-200">
-            <a href="#home" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Home</a>
-            <a href="#services" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Services</a>
-            <a href="#about" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">About</a>
-            <a href="#contact" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+            <a href="#home" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium">Home</a>
+            <a href="#services" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium">Services</a>
+            <a href="#about" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium">About</a>
+            <a href="#contact" className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact</a>
+            
+            <div className="px-3 py-2">
+              <LeadCaptureModal source="mobile-navigation">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full justify-center py-2 rounded-lg font-medium transition-colors">
+                  Request Demo
+                </Button>
+              </LeadCaptureModal>
+            </div>
+            
             <Link to="/login" className="block px-3 py-2">
-              <Button variant="outline" size="sm" className="flex items-center w-full justify-center">
+              <Button variant="outline" size="sm" className="flex items-center w-full justify-center border-blue-200 text-blue-600 hover:bg-blue-50">
                 <Settings className="h-4 w-4 mr-2" />
-                Admin Login
+                Admin
               </Button>
             </Link>
           </div>
