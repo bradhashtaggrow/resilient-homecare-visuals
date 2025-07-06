@@ -135,9 +135,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
 
   const loadContent = async () => {
     try {
-      console.log('Loading content for page:', selectedPage);
       const currentPageSections = pageSections[selectedPage as keyof typeof pageSections] || pageSections.home;
-      console.log('Expected sections for page:', currentPageSections);
       
       // Load existing content based on the exact section keys defined for each page
       const { data: existingData, error: fetchError } = await supabase
@@ -147,18 +145,11 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
 
       if (fetchError) throw fetchError;
 
-      console.log('Loaded data from database:', existingData);
-      console.log('Number of sections found:', existingData?.length);
-
       // Create missing sections for pages that don't have all their sections yet
       const existingSectionKeys = existingData?.map(item => item.section_key) || [];
       const missingSections = currentPageSections.filter(key => !existingSectionKeys.includes(key));
 
-      console.log('Missing sections:', missingSections);
-
       if (missingSections.length > 0) {
-        console.log(`Creating missing sections for ${selectedPage}:`, missingSections);
-        
         const newSections = missingSections.map(sectionKey => {
           // Set appropriate default content based on section type
           const sectionType = sectionKey.split('_').pop() || sectionKey;
@@ -214,7 +205,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
           getSectionOrder(a.section_key) - getSectionOrder(b.section_key)
         );
         
-        console.log('Final sorted data:', sortedData);
         setContent(sortedData);
       } else {
         // Sort by the defined order
@@ -222,7 +212,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
           getSectionOrder(a.section_key) - getSectionOrder(b.section_key)
         );
         
-        console.log('Final sorted data (no missing sections):', sortedData);
         setContent(sortedData);
       }
     } catch (error) {
