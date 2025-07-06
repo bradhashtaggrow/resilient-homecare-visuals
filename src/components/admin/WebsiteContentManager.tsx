@@ -1202,6 +1202,44 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               />
                             </div>
                           </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <Image className="h-4 w-4 inline mr-1" />
+                              Logo
+                            </label>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleFileChange(e, 'image')}
+                              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                              disabled={uploadingImage}
+                            />
+                            {uploadingImage && (
+                              <div className="flex items-center mt-2 text-sm text-blue-600">
+                                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"></div>
+                                Uploading logo...
+                              </div>
+                            )}
+                            <Input
+                              value={editForm.background_image_url || ''}
+                              onChange={(e) => setEditForm({...editForm, background_image_url: e.target.value})}
+                              placeholder="Or enter logo URL manually"
+                              className="mt-2"
+                            />
+                            {editForm.background_image_url && (
+                              <div className="mt-2">
+                                <img
+                                  src={editForm.background_image_url}
+                                  alt="Logo preview"
+                                  className="w-24 h-24 object-contain rounded border bg-gray-100"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
                         </>
                       ) : (
                         // Regular form for other sections
