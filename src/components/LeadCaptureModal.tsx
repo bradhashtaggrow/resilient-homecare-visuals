@@ -47,10 +47,10 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
             
             {/* Apple-style header */}
             <div className="text-center pt-12 pb-8 px-8 bg-gradient-to-b from-white/90 to-transparent">
-              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg flex items-center justify-center">
-                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                  <div className="w-4 h-4 bg-white rounded-full"></div>
-                </div>
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg flex items-center justify-center">
+                <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
               </div>
               <h2 className="text-3xl font-bold text-gray-900 tracking-tight mb-3">
                 Request Your Demo
