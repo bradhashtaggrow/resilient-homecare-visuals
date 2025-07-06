@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -13,7 +14,7 @@ const CareAtHome = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden">
+      <section className="pt-32 pb-24 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <OptimizedVideo
@@ -134,3 +135,4 @@ const CareAtHome = () => {
 };
 
 export default CareAtHome;
+
