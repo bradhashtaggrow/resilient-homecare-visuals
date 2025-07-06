@@ -1,30 +1,22 @@
 
 import React from 'react';
 import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
+import HeroSection from '@/components/HeroSection';
+import ServiceLinesSection from '@/components/ServiceLinesSection';
+import MobileShowcase from '@/components/MobileShowcase';
+import ValuePropositionSection from '@/components/ValuePropositionSection';
 import LeadGenSection from '@/components/LeadGenSection';
-import DatabaseHeroSection from '@/components/DatabaseHeroSection';
-import DatabaseContentSection from '@/components/DatabaseContentSection';
+import Footer from '@/components/Footer';
 
 const News = () => {
   return (
-    <div className="min-h-screen bg-white font-apple">
+    <div className="min-h-screen bg-white paper-texture">
       <Navigation />
-      
-      <DatabaseHeroSection 
-        sectionKey="news_hero"
-        defaultTitle="Healthcare"
-        defaultHighlightedText="News & Updates"
-      />
-
-      <DatabaseContentSection 
-        sectionKey="news_content"
-        defaultTitle="News"
-        defaultDescription="Stay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
-      />
-
+      <HeroSection />
+      <ServiceLinesSection />
+      <MobileShowcase />
+      <ValuePropositionSection />
       <LeadGenSection />
-
       <Footer />
     </div>
   );
