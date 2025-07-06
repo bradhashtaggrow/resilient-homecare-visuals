@@ -37,6 +37,9 @@ const Navigation = () => {
           
           {/* Desktop Navigation */}
           <div className="flex items-center space-x-8">
+            <Link to="/about" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+              About Us
+            </Link>
             <Link to="/care-at-home" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
               Care At Home
             </Link>
@@ -48,9 +51,6 @@ const Navigation = () => {
             </Link>
             <Link to="/news" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
               News
-            </Link>
-            <Link to="/about" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-              About Us
             </Link>
             <Link to="/contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
               Contact
