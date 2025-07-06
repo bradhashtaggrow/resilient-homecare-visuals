@@ -24,7 +24,7 @@ const Patients = () => {
         defaultDescription="We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
       />
 
-      <PatientTabsSection />
+      <PatientTabsSection sectionKey="patients_patient_tabs" />
 
       <LeadGenSection />
 

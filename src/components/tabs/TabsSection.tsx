@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { LucideIcon, ArrowRight, Sparkles, Play, ChevronRight } from 'lucide-react';
+import { LucideIcon, ArrowRight, Sparkles, Play, ChevronRight, Activity, Heart, Building2, Users, Shield, CheckCircle } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Service {
   id: string;
-  icon: LucideIcon;
+  icon: string;
   title: string;
   subtitle: string;
   description: string;
@@ -17,14 +18,80 @@ interface TabsSectionProps {
   sectionKey?: string;
 }
 
-const TabsSection: React.FC<TabsSectionProps> = ({ services = [], sectionKey }) => {
-  const [activeTab, setActiveTab] = useState(services[0]?.id || '');
+const TabsSection: React.FC<TabsSectionProps> = ({ 
+  services: propServices = [], 
+  sectionKey 
+}) => {
+  const [services, setServices] = useState<Service[]>(propServices);
+  const [activeTab, setActiveTab] = useState('');
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const activeService = services.find(service => service.id === activeTab);
+
+  // Load services from database if sectionKey is provided
+  useEffect(() => {
+    const loadServices = async () => {
+      if (sectionKey) {
+        try {
+          const { data, error } = await supabase
+            .from('website_content')
+            .select('*')
+            .eq('section_key', sectionKey)
+            .eq('is_active', true)
+            .single();
+
+          if (data && !error && data.content_data) {
+            const contentData = data.content_data as any;
+            if (contentData.services && Array.isArray(contentData.services)) {
+              setServices(contentData.services);
+              setActiveTab(contentData.services[0]?.id || '');
+            }
+          }
+        } catch (error) {
+          console.error('Error loading services from database:', error);
+        }
+      } else if (propServices.length > 0) {
+        setServices(propServices);
+        setActiveTab(propServices[0]?.id || '');
+      }
+    };
+
+    loadServices();
+
+    // Set up real-time subscription if sectionKey is provided
+    if (sectionKey) {
+      const channel = supabase
+        .channel(`tabs-changes-${sectionKey}`)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'website_content',
+          filter: `section_key=eq.${sectionKey}`
+        }, (payload) => {
+          loadServices();
+        })
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [sectionKey, propServices]);
+
+  const getIconComponent = (iconName: string): LucideIcon => {
+    const iconMap: Record<string, LucideIcon> = {
+      Activity,
+      Heart,
+      Building2,
+      Users,
+      Shield,
+      CheckCircle
+    };
+    return iconMap[iconName] || Activity;
+  };
 
   // Responsive breakpoint detection
   useEffect(() => {
@@ -127,7 +194,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services = [], sectionKey }) 
                 }
               `}>
                 {services.map((service, index) => {
-                  const ServiceIcon = service.icon;
+                  const ServiceIcon = getIconComponent(service.icon);
                   const isActive = activeTab === service.id;
                   const colorClasses = getColorClasses(service.color);
                   
@@ -247,7 +314,9 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services = [], sectionKey }) 
                           transform: !isMobile ? `translateZ(100px) translate3d(${mousePosition.x * 0.2}px, ${mousePosition.y * 0.2}px, 0)` : 'none'
                         }}
                       >
-                        <activeService.icon className={`${isMobile ? 'h-6 w-6' : isTablet ? 'h-8 w-8' : 'h-10 w-10'} text-white`} />
+                        {React.createElement(getIconComponent(activeService.icon), { 
+                          className: `${isMobile ? 'h-6 w-6' : isTablet ? 'h-8 w-8' : 'h-10 w-10'} text-white` 
+                        })}
                       </div>
 
                       {/* Play Button Effect - Hidden on Mobile */}

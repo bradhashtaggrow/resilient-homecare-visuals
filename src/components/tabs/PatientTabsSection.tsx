@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { LucideIcon, ArrowRight } from 'lucide-react';
+import { LucideIcon, ArrowRight, Activity, Heart, Building2, Users, Shield, CheckCircle } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Service {
   id: string;
-  icon: LucideIcon;
+  icon: string;
   title: string;
   subtitle: string;
   description: string;
@@ -13,12 +14,79 @@ interface Service {
 }
 
 interface PatientTabsSectionProps {
-  services: Service[];
+  services?: Service[];
+  sectionKey?: string;
 }
 
-const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services = [], sectionKey }) => {
-  const [activeTab, setActiveTab] = useState(services[0]?.id || '');
+const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ 
+  services: propServices = [], 
+  sectionKey 
+}) => {
+  const [services, setServices] = useState<Service[]>(propServices);
+  const [activeTab, setActiveTab] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
+
+  // Load services from database if sectionKey is provided
+  useEffect(() => {
+    const loadServices = async () => {
+      if (sectionKey) {
+        try {
+          const { data, error } = await supabase
+            .from('website_content')
+            .select('*')
+            .eq('section_key', sectionKey)
+            .eq('is_active', true)
+            .single();
+
+          if (data && !error && data.content_data) {
+            const contentData = data.content_data as any;
+            if (contentData.services && Array.isArray(contentData.services)) {
+              setServices(contentData.services);
+              setActiveTab(contentData.services[0]?.id || '');
+            }
+          }
+        } catch (error) {
+          console.error('Error loading services from database:', error);
+        }
+      } else if (propServices.length > 0) {
+        setServices(propServices);
+        setActiveTab(propServices[0]?.id || '');
+      }
+    };
+
+    loadServices();
+
+    // Set up real-time subscription if sectionKey is provided
+    if (sectionKey) {
+      const channel = supabase
+        .channel(`patient-tabs-changes-${sectionKey}`)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'website_content',
+          filter: `section_key=eq.${sectionKey}`
+        }, (payload) => {
+          loadServices();
+        })
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [sectionKey, propServices]);
+
+  const getIconComponent = (iconName: string): LucideIcon => {
+    const iconMap: Record<string, LucideIcon> = {
+      Activity,
+      Heart,
+      Building2,
+      Users,
+      Shield,
+      CheckCircle
+    };
+    return iconMap[iconName] || Activity;
+  };
 
   const getColorClasses = (color: string) => {
     // Use consistent two-blue gradient for all elements
@@ -41,7 +109,7 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services = [], 
   };
 
   const activeService = services.find(service => service.id === activeTab);
-  const IconComponent = activeService?.icon;
+  const IconComponent = activeService ? getIconComponent(activeService.icon) : Activity;
   const colorClasses = getColorClasses(activeService?.color || 'blue');
 
   return (
@@ -63,7 +131,7 @@ const PatientTabsSection: React.FC<PatientTabsSectionProps> = ({ services = [], 
           <div className="lg:col-span-1">
             <div className="space-y-3">
               {services.map((service, index) => {
-                const ServiceIcon = service.icon;
+                const ServiceIcon = getIconComponent(service.icon);
                 const isActive = activeTab === service.id;
                 
                 return (
