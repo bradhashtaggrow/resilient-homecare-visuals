@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bell, Search, User, Save, Wifi, WifiOff, LogOut } from 'lucide-react';
+import { Bell, Search, User, Save, Wifi, WifiOff, LogOut, ChevronDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
 import { User as UserType } from '@supabase/supabase-js';
@@ -12,15 +12,40 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface AdminHeaderProps {
   activeSection: string;
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
   user?: UserType | null;
+  selectedPage?: string;
+  onPageChange?: (page: string) => void;
 }
 
-const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = 'disconnected', user }) => {
+const AdminHeader: React.FC<AdminHeaderProps> = ({ 
+  activeSection, 
+  syncStatus = 'disconnected', 
+  user,
+  selectedPage = 'home',
+  onPageChange 
+}) => {
   const { signOut } = useAuth();
+
+  const pages = [
+    { id: 'home', label: 'Home Page' },
+    { id: 'about', label: 'About Us' },
+    { id: 'clinicians', label: 'Clinicians' },
+    { id: 'care-at-home', label: 'Care at Home' },
+    { id: 'patients', label: 'Patients' },
+    { id: 'news', label: 'News' },
+    { id: 'contact', label: 'Contact' }
+  ];
 
   const getSectionTitle = (section: string) => {
     const titles: Record<string, string> = {
@@ -68,6 +93,20 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = '
         <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
           {getSectionTitle(activeSection)}
         </h2>
+        {activeSection === 'content' && onPageChange && (
+          <Select value={selectedPage} onValueChange={onPageChange}>
+            <SelectTrigger className="w-48 bg-gradient-to-r from-blue-50/50 to-white border-blue-200">
+              <SelectValue placeholder="Select page" />
+            </SelectTrigger>
+            <SelectContent>
+              {pages.map((page) => (
+                <SelectItem key={page.id} value={page.id}>
+                  {page.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
         <Badge variant="outline" className={getSyncStatusColor()}>
           {getSyncStatusIcon()}
           <span className="ml-2">
