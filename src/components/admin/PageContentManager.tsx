@@ -273,11 +273,47 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
   };
 
   const formatSectionName = (key: string) => {
-    const prefix = getPagePrefix(selectedPage);
-    const baseKey = key.replace(prefix, '');
-    return baseKey.split('_').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
+    const nameMap: Record<string, string> = {
+      // Care at Home
+      'care_at_home_hero': 'Hero Section',
+      'care_at_home_mobile': 'The Future of Care',
+      'care_at_home_services': 'Our Care Solutions',
+      'care_at_home_value_prop': 'Partner with Leading Hospitals',
+      'care_at_home_stats': 'Healthcare Excellence Metrics',
+      'care_at_home_footer': 'Footer',
+      
+      // About
+      'about_hero': 'Hero Section',
+      'about_values': 'Our Core Values',
+      'about_team': 'Meet Our Team',
+      'about_footer': 'Footer',
+      
+      // Clinicians
+      'clinicians_hero': 'Hero Section',
+      'clinicians_tools': 'Clinical Tools & Features',
+      'clinicians_benefits': 'Why Clinicians Choose Us',
+      'clinicians_footer': 'Footer',
+      
+      // Patients
+      'patients_hero': 'Hero Section',
+      'patients_features': 'Patient Features',
+      'patients_support': 'Support & Resources',
+      'patients_footer': 'Footer',
+      
+      // News
+      'news_hero': 'Hero Section',
+      'news_featured': 'Featured Articles',
+      'news_insights': 'Industry Insights',
+      'news_footer': 'Footer',
+      
+      // Contact
+      'contact_hero': 'Hero Section',
+      'contact_form': 'Contact Information',
+      'contact_locations': 'Our Locations',
+      'contact_footer': 'Footer'
+    };
+    
+    return nameMap[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
   const handleImageUpload = async (file: File) => {
