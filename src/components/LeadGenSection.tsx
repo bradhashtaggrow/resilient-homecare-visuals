@@ -113,7 +113,7 @@ const LeadGenSection = () => {
           <div className="absolute inset-0 bg-black/40" />
         </div>
       ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-[#4F9CF9] to-[#183EC2]" />
+        <div className="absolute inset-0 bg-white" />
       )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         {/* Enhanced Trust Section with Improved Animations */}
