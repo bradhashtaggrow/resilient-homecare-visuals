@@ -39,12 +39,12 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
 
   const pages = [
     { id: 'home', label: 'Home Page' },
-    { id: 'about', label: 'About Us' },
-    { id: 'clinicians', label: 'Clinicians' },
     { id: 'care-at-home', label: 'Care at Home' },
+    { id: 'clinicians', label: 'Clinicians' },
     { id: 'patients', label: 'Patients' },
     { id: 'news', label: 'News' },
-    { id: 'contact', label: 'Contact' }
+    { id: 'about', label: 'About Us' },
+    { id: 'contact', label: 'Contact Us' }
   ];
 
   const getSectionTitle = (section: string) => {
