@@ -426,12 +426,22 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
         .from('media')
         .getPublicUrl(filePath);
 
-      const newServices = [...((editForm.content_data as any)?.services || [])];
-      newServices[serviceIndex] = { ...newServices[serviceIndex], patient_image_url: data.publicUrl };
-      setEditForm({
-        ...editForm,
-        content_data: { ...editForm.content_data, services: newServices }
-      });
+      // Handle both services (for other sections) and tabs (for care_at_home_mobile)
+      if ((editForm.content_data as any)?.services) {
+        const newServices = [...((editForm.content_data as any)?.services || [])];
+        newServices[serviceIndex] = { ...newServices[serviceIndex], patient_image_url: data.publicUrl };
+        setEditForm({
+          ...editForm,
+          content_data: { ...editForm.content_data, services: newServices }
+        });
+      } else if ((editForm.content_data as any)?.tabs) {
+        const newTabs = [...((editForm.content_data as any)?.tabs || [])];
+        newTabs[serviceIndex] = { ...newTabs[serviceIndex], image_url: data.publicUrl };
+        setEditForm({
+          ...editForm,
+          content_data: { ...editForm.content_data, tabs: newTabs }
+        });
+      }
 
       toast({
         title: "Upload successful",
@@ -648,6 +658,137 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                           )}
                         </div>
                       </div>
+                      )}
+
+                      {/* Tabs management for care_at_home_mobile section */}
+                      {section.section_key === 'care_at_home_mobile' && (
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Future of Care Tabs</h4>
+                          {((editForm.content_data as any)?.tabs || []).map((tab: any, index: number) => (
+                            <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
+                              <div className="flex items-center justify-between">
+                                <h5 className="font-medium text-gray-800">Tab {index + 1}</h5>
+                                <Badge variant="outline">{tab.display_order}</Badge>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Tab Title
+                                  </label>
+                                  <Input
+                                    value={tab.title || ''}
+                                    onChange={(e) => {
+                                      const newTabs = [...((editForm.content_data as any)?.tabs || [])];
+                                      newTabs[index] = { ...newTabs[index], title: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, tabs: newTabs }
+                                      });
+                                    }}
+                                    placeholder="Tab title"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Subtitle
+                                  </label>
+                                  <Input
+                                    value={tab.subtitle || ''}
+                                    onChange={(e) => {
+                                      const newTabs = [...((editForm.content_data as any)?.tabs || [])];
+                                      newTabs[index] = { ...newTabs[index], subtitle: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, tabs: newTabs }
+                                      });
+                                    }}
+                                    placeholder="Tab subtitle"
+                                  />
+                                </div>
+                              </div>
+
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Description
+                                </label>
+                                <Textarea
+                                  value={tab.description || ''}
+                                  onChange={(e) => {
+                                    const newTabs = [...((editForm.content_data as any)?.tabs || [])];
+                                    newTabs[index] = { ...newTabs[index], description: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: { ...editForm.content_data, tabs: newTabs }
+                                    });
+                                  }}
+                                  placeholder="Tab description"
+                                  rows={3}
+                                />
+                              </div>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Icon
+                                  </label>
+                                  <Select
+                                    value={tab.icon_name || 'Activity'}
+                                    onValueChange={(value) => {
+                                      const newTabs = [...((editForm.content_data as any)?.tabs || [])];
+                                      newTabs[index] = { ...newTabs[index], icon_name: value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, tabs: newTabs }
+                                      });
+                                    }}
+                                  >
+                                    <SelectTrigger>
+                                      <SelectValue>
+                                        <div className="flex items-center gap-2">
+                                          {getIconComponent(tab.icon_name || 'Activity')}
+                                          <span>{tab.icon_name || 'Activity'}</span>
+                                        </div>
+                                      </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {Object.keys(availableIcons).map((iconName) => (
+                                        <SelectItem key={iconName} value={iconName}>
+                                          <div className="flex items-center gap-2">
+                                            {getIconComponent(iconName)}
+                                            <span>{iconName}</span>
+                                          </div>
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Tab Image
+                                  </label>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => handlePatientImageChange(e, index)}
+                                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                    disabled={uploadingPatientImage[index]}
+                                  />
+                                  {uploadingPatientImage[index] && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
+                                  {tab.image_url && (
+                                    <div className="mt-2">
+                                      <img 
+                                        src={tab.image_url} 
+                                        alt="Tab preview" 
+                                        className="w-full h-32 object-cover rounded border"
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       )}
 
                       {/* Active toggle */}
