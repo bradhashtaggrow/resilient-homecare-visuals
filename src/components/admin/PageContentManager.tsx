@@ -119,8 +119,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     
     const order = {
       'navigation': 1,
-      'hero': 2,
-      'patient_tabs': 3,
+      'patient_tabs': 2,
+      'hero': 3,
       'services': 4,
       'mobile_showcase': 5,
       'mobile': 5,
