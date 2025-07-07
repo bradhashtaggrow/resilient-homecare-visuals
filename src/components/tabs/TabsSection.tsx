@@ -281,6 +281,9 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           }}
                         />
                         
+                        {/* Blur effect in the middle where image and form connect */}
+                        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white via-white/80 to-transparent backdrop-blur-sm" />
+                        
                         {/* Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/10" />
                       </div>
