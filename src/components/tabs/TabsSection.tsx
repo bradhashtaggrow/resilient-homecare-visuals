@@ -219,68 +219,72 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                       transformStyle: 'preserve-3d'
                     }}
                   >
-                    {/* Responsive Hero Image */}
-                    <div className={`relative overflow-hidden ${isMobile ? 'h-48' : isTablet ? 'h-64' : 'h-96 lg:h-[32rem]'}`}>
-                      <img 
-                        src={activeService.patient_image_url}
-                        alt={activeService.title}
-                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                        style={{
-                          transform: !isMobile ? `translateZ(50px) translate3d(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px, 0)` : 'none'
-                        }}
-                      />
+                    {/* Half and Half Layout */}
+                    <div className={`
+                      ${isMobile ? 'flex flex-col' : 'grid grid-cols-2'} 
+                      ${isMobile ? 'min-h-[500px]' : isTablet ? 'min-h-[400px]' : 'min-h-[500px]'}
+                    `}>
                       
-                      {/* Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent" />
-                      
-                      {/* Responsive Floating Icon */}
-                      <div 
-                        className={`
-                          absolute top-4 md:top-6 lg:top-8 left-4 md:left-6 lg:left-8 
-                          ${isMobile ? 'w-12 h-12' : isTablet ? 'w-16 h-16' : 'w-20 h-20'} 
-                          rounded-xl md:rounded-2xl flex items-center justify-center 
-                          bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
-                          backdrop-blur-xl border border-white/30 ${getColorClasses(activeService.color).glow}
-                        `}
-                        style={{
-                          transform: !isMobile ? `translateZ(100px) translate3d(${mousePosition.x * 0.2}px, ${mousePosition.y * 0.2}px, 0)` : 'none'
-                        }}
-                      >
-                        <activeService.icon className={`${isMobile ? 'h-6 w-6' : isTablet ? 'h-8 w-8' : 'h-10 w-10'} text-white`} />
-                      </div>
-
-                    </div>
-
-                    {/* Responsive Content */}
-                    <div className={`relative ${isMobile ? 'p-6' : isTablet ? 'p-8' : 'p-12'}`} style={{ transform: !isMobile ? `translateZ(25px)` : 'none' }}>
-                      <div className={`${isMobile ? 'space-y-6' : isTablet ? 'space-y-8' : 'grid lg:grid-cols-2 gap-12 items-center'}`}>
-                        <div className={isMobile || isTablet ? 'text-center' : ''}>
-                          <h3 className={`
-                            ${isMobile ? 'text-2xl' : isTablet ? 'text-3xl' : 'text-4xl lg:text-5xl'} 
-                            font-black text-gray-900 mb-3 md:mb-4 tracking-tight leading-tight
-                          `}>
-                            {activeService.title}
-                          </h3>
-                          
-                          <p 
-                            className={`
-                              ${isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-2xl'} 
-                              font-semibold mb-4 md:mb-6 lg:mb-8 
-                              bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent
-                            `}
-                          >
-                            {activeService.subtitle}
-                          </p>
-                          
-                          <p className={`
-                            ${isMobile ? 'text-base' : isTablet ? 'text-lg' : 'text-lg'} 
-                            text-gray-600 leading-relaxed
-                          `}>
-                            {activeService.description}
-                          </p>
-
+                      {/* Left Side - Content */}
+                      <div className={`
+                        ${isMobile ? 'order-2 p-6' : isTablet ? 'p-6' : 'p-12'} 
+                        flex flex-col justify-center bg-white
+                      `}>
+                        {/* Floating Icon */}
+                        <div 
+                          className={`
+                            ${isMobile ? 'w-12 h-12 mb-4' : isTablet ? 'w-16 h-16 mb-6' : 'w-20 h-20 mb-8'} 
+                            rounded-xl md:rounded-2xl flex items-center justify-center 
+                            bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
+                            ${getColorClasses(activeService.color).glow} mb-6
+                          `}
+                        >
+                          <activeService.icon className={`${isMobile ? 'h-6 w-6' : isTablet ? 'h-8 w-8' : 'h-10 w-10'} text-white`} />
                         </div>
+
+                        <h3 className={`
+                          ${isMobile ? 'text-2xl' : isTablet ? 'text-3xl' : 'text-4xl lg:text-5xl'} 
+                          font-black text-gray-900 mb-3 md:mb-4 tracking-tight leading-tight
+                        `}>
+                          {activeService.title}
+                        </h3>
+                        
+                        <p 
+                          className={`
+                            ${isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-2xl'} 
+                            font-semibold mb-4 md:mb-6 
+                            bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent
+                          `}
+                        >
+                          {activeService.subtitle}
+                        </p>
+                        
+                        <p className={`
+                          ${isMobile ? 'text-base' : isTablet ? 'text-lg' : 'text-lg'} 
+                          text-gray-600 leading-relaxed
+                        `}>
+                          {activeService.description}
+                        </p>
                       </div>
+
+                      {/* Right Side - Image */}
+                      <div className={`
+                        relative overflow-hidden ${isMobile ? 'order-1 h-48' : 'h-full'}
+                        ${isMobile ? '' : isTablet ? 'rounded-r-2xl' : 'rounded-r-3xl'}
+                      `}>
+                        <img 
+                          src={activeService.patient_image_url}
+                          alt={activeService.title}
+                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                          style={{
+                            transform: !isMobile ? `translateZ(50px) translate3d(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px, 0)` : 'none'
+                          }}
+                        />
+                        
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/10" />
+                      </div>
+
                     </div>
 
                     {/* Subtle Border Effect */}
