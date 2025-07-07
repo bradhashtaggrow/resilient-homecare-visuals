@@ -572,28 +572,31 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         />
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Button Text
-                          </label>
-                          <Input
-                            value={editForm.button_text || ''}
-                            onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
-                            placeholder="Button text"
-                          />
+                      {/* Only show button fields for non-hero sections */}
+                      {!section.section_key.includes('hero') && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Button Text
+                            </label>
+                            <Input
+                              value={editForm.button_text || ''}
+                              onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
+                              placeholder="Button text"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Button URL
+                            </label>
+                            <Input
+                              value={editForm.button_url || ''}
+                              onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
+                              placeholder="Button URL"
+                            />
+                          </div>
                         </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Button URL
-                          </label>
-                          <Input
-                            value={editForm.button_url || ''}
-                            onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
-                            placeholder="Button URL"
-                          />
-                        </div>
-                      </div>
+                      )}
 
                       {/* Background media uploads */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -637,7 +640,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                             <div className="mt-2">
                               <video 
                                 src={editForm.background_video_url} 
-                                className="w-full h-32 object-cover rounded border"
+                                className="w-full h-60 object-cover rounded border"
                                 controls
                               />
                             </div>
