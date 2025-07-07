@@ -120,17 +120,18 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     const order = {
       'navigation': 1,
       'hero': 2,
-      'services': 3,
-      'mobile_showcase': 4,
-      'mobile': 4,
-      'value_proposition': 5,
-      'value_prop': 5,
-      'admin_dashboard': 6,
-      'founder': 7,
-      'stats': 8,
-      'lead_generation': 9,
-      'lead_gen': 9,
-      'footer': 10,
+      'patient_tabs': 3,
+      'services': 4,
+      'mobile_showcase': 5,
+      'mobile': 5,
+      'value_proposition': 6,
+      'value_prop': 6,
+      'admin_dashboard': 7,
+      'founder': 8,
+      'stats': 9,
+      'lead_generation': 10,
+      'lead_gen': 10,
+      'footer': 11,
       // Page specific sections
       'values': 3,
       'team': 4,
@@ -140,7 +141,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'technology': 4,
       'features': 3,
       'support': 4,
-      'patient_tabs': 5,
       'featured': 3,
       'insights': 4,
       'articles': 3,
@@ -176,7 +176,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       
       if (selectedPage === 'home') {
         // For home page, get sections without prefixes and common sections
-        query = query.or(`section_key.eq.hero,section_key.eq.services,section_key.eq.mobile_showcase,section_key.eq.value_proposition,section_key.eq.admin_dashboard,section_key.eq.founder,section_key.eq.stats,section_key.eq.lead_generation,section_key.eq.navigation,section_key.eq.footer`);
+        query = query.or(`section_key.eq.hero,section_key.eq.patient_tabs,section_key.eq.services,section_key.eq.mobile_showcase,section_key.eq.value_proposition,section_key.eq.admin_dashboard,section_key.eq.founder,section_key.eq.stats,section_key.eq.lead_generation,section_key.eq.navigation,section_key.eq.footer`);
       } else {
         // For other pages, get sections with the page prefix
         query = query.like('section_key', `${prefix}%`);
@@ -572,8 +572,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         />
                       </div>
 
-                      {/* Only show button fields for non-hero sections */}
-                      {!section.section_key.includes('hero') && (
+                      {/* Only show button fields for non-hero sections and non-patient_tabs */}
+                      {!section.section_key.includes('hero') && !section.section_key.includes('patient_tabs') && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -598,7 +598,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         </div>
                       )}
 
-                      {/* Background media uploads */}
+                      {/* Background media uploads - hide for patient_tabs */}
+                      {!section.section_key.includes('patient_tabs') && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -647,6 +648,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                           )}
                         </div>
                       </div>
+                      )}
 
                       {/* Active toggle */}
                       <div className="flex items-center space-x-2">
