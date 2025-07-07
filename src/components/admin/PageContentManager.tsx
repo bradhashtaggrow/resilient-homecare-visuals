@@ -215,6 +215,15 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
         console.log('Real-time content change:', payload);
         loadContent();
       })
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'media_library'
+      }, (payload) => {
+        console.log('Real-time media change:', payload);
+        // Refresh content to show updated media thumbnails
+        loadContent();
+      })
       .subscribe();
 
     return () => supabase.removeChannel(channel);
