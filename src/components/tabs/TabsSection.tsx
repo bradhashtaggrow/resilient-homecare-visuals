@@ -279,29 +279,6 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                             {activeService.description}
                           </p>
 
-                          {/* CTA Button */}
-                          <button 
-                            className={`
-                              group relative px-6 md:px-8 py-3 md:py-4 
-                              bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
-                              rounded-xl font-bold text-white 
-                              ${isMobile ? 'text-base w-full' : isTablet ? 'text-lg' : 'text-lg'} 
-                              overflow-hidden transform transition-all duration-300 hover:scale-105 
-                              ${getColorClasses(activeService.color).shadow} shadow-2xl
-                              border border-white/20
-                            `}
-                            style={{
-                              filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.1))'
-                            }}
-                          >
-                            <span className="relative z-10 flex items-center justify-center gap-3">
-                              Experience Now
-                              <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-2" />
-                            </span>
-                            
-                            {/* Animated Background */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] duration-700" />
-                          </button>
                         </div>
 
                         {/* Stats/Features - Responsive Layout */}
