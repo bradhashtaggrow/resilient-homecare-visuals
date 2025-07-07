@@ -67,7 +67,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
   };
 
   return (
-    <section className="min-h-screen bg-white text-gray-900 relative overflow-hidden">
+    <section className="min-h-screen bg-white text-gray-900 relative overflow-hidden pb-20">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-white" />
