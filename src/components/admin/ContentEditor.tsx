@@ -215,6 +215,8 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange,
     }
   };
 
+  const isFooterSection = (sectionKey: string) => sectionKey === 'footer';
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -295,17 +297,19 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange,
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="description" className="text-blue-700">Description</Label>
-                    <Textarea
-                      id="description"
-                      value={formData.description || ''}
-                      onChange={(e) => handleFormChange('description', e.target.value)}
-                      placeholder="Enter description"
-                      rows={4}
-                      className="border-blue-200 focus:border-blue-400 focus:ring-blue-400/20"
-                    />
-                  </div>
+                  {!isFooterSection(section.section_key) && (
+                    <div className="space-y-2">
+                      <Label htmlFor="description" className="text-blue-700">Description</Label>
+                      <Textarea
+                        id="description"
+                        value={formData.description || ''}
+                        onChange={(e) => handleFormChange('description', e.target.value)}
+                        placeholder="Enter description"
+                        rows={4}
+                        className="border-blue-200 focus:border-blue-400 focus:ring-blue-400/20"
+                      />
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -318,16 +322,18 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange,
                         className="border-blue-200 focus:border-blue-400 focus:ring-blue-400/20"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="button_url" className="text-blue-700">Button URL</Label>
-                      <Input
-                        id="button_url"
-                        value={formData.button_url || ''}
-                        onChange={(e) => handleFormChange('button_url', e.target.value)}
-                        placeholder="Enter button URL"
-                        className="border-blue-200 focus:border-blue-400 focus:ring-blue-400/20"
-                      />
-                    </div>
+                    {!isFooterSection(section.section_key) && (
+                      <div className="space-y-2">
+                        <Label htmlFor="button_url" className="text-blue-700">Button URL</Label>
+                        <Input
+                          id="button_url"
+                          value={formData.button_url || ''}
+                          onChange={(e) => handleFormChange('button_url', e.target.value)}
+                          placeholder="Enter button URL"
+                          className="border-blue-200 focus:border-blue-400 focus:ring-blue-400/20"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-4 pt-4 border-t border-blue-100">
@@ -370,7 +376,7 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange,
                       <p className="text-blue-900">{section.title}</p>
                     </div>
                   )}
-                  {section.description && (
+                  {section.description && !isFooterSection(section.section_key) && (
                     <div>
                       <span className="text-sm font-medium text-blue-600">Description:</span>
                       <p className="text-blue-900">{section.description}</p>
