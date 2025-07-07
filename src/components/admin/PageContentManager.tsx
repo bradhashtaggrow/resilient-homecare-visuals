@@ -119,11 +119,10 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     
     const order = {
       'navigation': 1,
-      'patient_tabs': 2,
-      'hero': 3,
+      'hero': 2,
+      'mobile': 3,
       'services': 4,
       'mobile_showcase': 5,
-      'mobile': 5,
       'value_proposition': 6,
       'value_prop': 6,
       'admin_dashboard': 7,
@@ -141,6 +140,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'technology': 4,
       'features': 3,
       'support': 4,
+      'patient_tabs': 3,
       'featured': 3,
       'insights': 4,
       'articles': 3,
@@ -572,8 +572,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         />
                       </div>
 
-                      {/* Only show button fields for non-hero sections and non-patient_tabs */}
-                      {!section.section_key.includes('hero') && !section.section_key.includes('patient_tabs') && (
+                      {/* Only show button fields for non-hero sections and non-mobile */}
+                      {!section.section_key.includes('hero') && !section.section_key.includes('mobile') && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -598,8 +598,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         </div>
                       )}
 
-                      {/* Background media uploads - hide for patient_tabs */}
-                      {!section.section_key.includes('patient_tabs') && (
+                      {/* Background media uploads - hide for mobile sections */}
+                      {!section.section_key.includes('mobile') && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
