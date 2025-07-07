@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bell, Search, User, Save, Wifi, WifiOff, LogOut } from 'lucide-react';
+import { Bell, Search, User, Save, Wifi, WifiOff, LogOut, ChevronDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
 import { User as UserType } from '@supabase/supabase-js';
@@ -11,15 +11,24 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 
 interface AdminHeaderProps {
   activeSection: string;
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
   user?: UserType | null;
+  selectedPage?: string;
+  onPageChange?: (page: string) => void;
 }
 
-const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = 'disconnected', user }) => {
+const AdminHeader: React.FC<AdminHeaderProps> = ({ 
+  activeSection, 
+  syncStatus = 'disconnected', 
+  user,
+  selectedPage = 'home',
+  onPageChange 
+}) => {
   const { signOut } = useAuth();
 
   const getSectionTitle = (section: string) => {
@@ -31,6 +40,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = '
       preview: 'Live Preview',
       analytics: 'Analytics & Reports',
       users: 'User Management',
+      leads: 'Demo Requests',
       settings: 'System Settings'
     };
     return titles[section] || 'Admin Dashboard';
@@ -62,12 +72,50 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = '
     await signOut();
   };
 
+  const pageOptions = [
+    { key: 'home', label: 'Home Page' },
+    { key: 'about', label: 'About Page' },
+    { key: 'clinicians', label: 'Clinicians Page' },
+    { key: 'care-at-home', label: 'Care At Home Page' },
+    { key: 'contact', label: 'Contact Page' },
+  ];
+
+  const getCurrentPageLabel = () => {
+    const page = pageOptions.find(p => p.key === selectedPage);
+    return page ? page.label : 'Select Page';
+  };
+
   return (
     <header className="h-16 border-b border-blue-100 bg-gradient-to-r from-white to-blue-50/50 px-6 flex items-center justify-between">
       <div className="flex items-center space-x-4">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
           {getSectionTitle(activeSection)}
         </h2>
+        
+        {activeSection === 'content' && onPageChange && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="bg-white border-blue-200 text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50">
+                {getCurrentPageLabel()}
+                <ChevronDown className="h-4 w-4 ml-2" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="border-blue-100 bg-white z-50">
+              {pageOptions.map((page) => (
+                <DropdownMenuItem
+                  key={page.key}
+                  onClick={() => onPageChange(page.key)}
+                  className={`cursor-pointer hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 ${
+                    selectedPage === page.key ? 'bg-blue-50 text-blue-700' : 'text-blue-600'
+                  }`}
+                >
+                  {page.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+
         <Badge variant="outline" className={getSyncStatusColor()}>
           {getSyncStatusIcon()}
           <span className="ml-2">
@@ -106,7 +154,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ activeSection, syncStatus = '
               </span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
+          <DropdownMenuContent align="end" className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30 z-50">
             <DropdownMenuItem onClick={handleLogout} className="text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50">
               <LogOut className="h-4 w-4 mr-2" />
               Sign Out
