@@ -274,47 +274,11 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           
                           <p className={`
                             ${isMobile ? 'text-base' : isTablet ? 'text-lg' : 'text-lg'} 
-                            text-gray-600 leading-relaxed mb-6 md:mb-8 lg:mb-10
+                            text-gray-600 leading-relaxed
                           `}>
                             {activeService.description}
                           </p>
 
-                        </div>
-
-                        {/* Stats/Features - Responsive Layout */}
-                        <div className={`
-                          ${isMobile ? 'space-y-3' : isTablet ? 'space-y-4 mt-8' : 'space-y-6'}
-                        `}>
-                          {[
-                            { label: 'Response Time', value: '< 2min', color: 'from-[#4F9CF9] to-[#183EC2]' },
-                            { label: 'Satisfaction', value: '99.8%', color: 'from-[#4F9CF9] to-[#183EC2]' },
-                            { label: 'Availability', value: '24/7', color: 'from-[#4F9CF9] to-[#183EC2]' }
-                          ].map((stat, index) => (
-                            <div 
-                              key={stat.label}
-                              className={`
-                                flex items-center justify-between 
-                                ${isMobile ? 'p-3' : isTablet ? 'p-3' : 'p-4'} 
-                                bg-gray-50/50 backdrop-blur-xl 
-                                ${isMobile ? 'rounded-lg' : 'rounded-xl'} 
-                                border border-gray-200/30
-                              `}
-                              style={{
-                                transform: !isMobile ? `translateZ(${25 + index * 10}px)` : 'none',
-                                animationDelay: `${index * 200}ms`
-                              }}
-                            >
-                              <span className={`text-gray-600 font-medium ${isMobile ? 'text-sm' : 'text-base'}`}>
-                                {stat.label}
-                              </span>
-                              <span className={`
-                                ${isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-2xl'} 
-                                font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent
-                              `}>
-                                {stat.value}
-                              </span>
-                            </div>
-                          ))}
                         </div>
                       </div>
                     </div>
