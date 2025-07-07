@@ -249,19 +249,6 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                         <activeService.icon className={`${isMobile ? 'h-6 w-6' : isTablet ? 'h-8 w-8' : 'h-10 w-10'} text-white`} />
                       </div>
 
-                      {/* Play Button Effect - Hidden on Mobile */}
-                      {!isMobile && (
-                        <div 
-                          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                          style={{
-                            transform: `translateZ(75px)`
-                          }}
-                        >
-                          <div className={`${isTablet ? 'w-16 h-16' : 'w-20 h-20'} bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30`}>
-                            <Play className={`${isTablet ? 'h-6 w-6' : 'h-8 w-8'} text-white ml-1`} />
-                          </div>
-                        </div>
-                      )}
                     </div>
 
                     {/* Responsive Content */}
