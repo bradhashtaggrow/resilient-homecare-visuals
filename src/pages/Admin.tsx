@@ -4,7 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHeader from '@/components/admin/AdminHeader';
 import DashboardOverview from '@/components/admin/DashboardOverview';
-import PageContentManager from '@/components/admin/PageContentManager';
+import WebsiteContentManager from '@/components/admin/WebsiteContentManager';
 import RealTimePreview from '@/components/admin/RealTimePreview';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
 import UserManagement from '@/components/admin/UserManagement';
@@ -15,7 +15,6 @@ import { useAuth } from '@/contexts/AuthContext';
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
-  const [selectedPage, setSelectedPage] = useState('home');
   const [loading, setLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<'connected' | 'disconnected' | 'syncing'>('disconnected');
   const [stats, setStats] = useState({
@@ -39,10 +38,9 @@ const Admin = () => {
       setSyncStatus('syncing');
       
       // Fetch stats from storage and database
-      const [servicesResult, usersResult, contentResult] = await Promise.all([
+      const [servicesResult, usersResult] = await Promise.all([
         supabase.from('services').select('count', { count: 'exact', head: true }),
-        supabase.from('profiles').select('count', { count: 'exact', head: true }),
-        supabase.from('website_content').select('count', { count: 'exact', head: true })
+        supabase.from('profiles').select('count', { count: 'exact', head: true })
       ]);
 
       // Get storage stats
@@ -52,11 +50,10 @@ const Admin = () => {
 
       if (servicesResult.error) throw servicesResult.error;
       if (usersResult.error) throw usersResult.error;
-      if (contentResult.error) throw contentResult.error;
       if (storageError) console.warn('Storage access limited:', storageError);
 
       setStats({
-        totalContent: contentResult.count || 0,
+        totalContent: storageFiles?.length || 0,
         totalServices: servicesResult.count || 0,
         totalMedia: storageFiles?.length || 0,
         totalUsers: usersResult.count || 0
@@ -100,20 +97,6 @@ const Admin = () => {
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
-        table: 'website_content'
-      }, (payload) => {
-        console.log('Real-time content change:', payload);
-        setSyncStatus('connected');
-        loadData(); // Refresh stats
-        
-        toast({
-          title: "Content updated",
-          description: "Website content updated in real-time",
-        });
-      })
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
         table: 'profiles'
       }, (payload) => {
         console.log('Real-time profiles change:', payload);
@@ -149,7 +132,7 @@ const Admin = () => {
       case 'dashboard':
         return <DashboardOverview syncStatus={syncStatus} stats={stats} />;
       case 'content':
-        return <PageContentManager selectedPage={selectedPage} syncStatus={syncStatus} />;
+        return <WebsiteContentManager syncStatus={syncStatus} />;
       case 'preview':
         return <RealTimePreview syncStatus={syncStatus} />;
       case 'analytics':
@@ -176,8 +159,6 @@ const Admin = () => {
             activeSection={activeSection} 
             syncStatus={syncStatus}
             user={user}
-            selectedPage={selectedPage}
-            onPageChange={setSelectedPage}
           />
           <main className="flex-1 overflow-auto admin-scrollbar">
             <div className="p-6">
