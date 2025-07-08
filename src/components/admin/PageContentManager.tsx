@@ -786,13 +786,15 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                             disabled={uploadingVideo}
                           />
                           {uploadingVideo && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
-                          {editForm.background_video_url && (
+                          {(editForm.background_video_url || section.background_video_url) && (
                             <div className="mt-2">
+                              <p className="text-sm text-gray-600 mb-2">Current Background Video:</p>
                               <video 
-                                src={editForm.background_video_url} 
+                                src={editForm.background_video_url || section.background_video_url} 
                                 className="w-full h-40 object-contain rounded border bg-black"
                                 controls
                                 preload="metadata"
+                                muted
                               />
                             </div>
                           )}
