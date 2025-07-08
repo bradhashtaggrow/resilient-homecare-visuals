@@ -151,7 +151,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     return order[baseKey as keyof typeof order] || 999;
   };
 
-  const isFooterSection = (sectionKey: string) => sectionKey === 'footer';
+  const isFooterSection = (sectionKey: string) => sectionKey.includes('footer');
 
   useEffect(() => {
     loadContent();
