@@ -118,11 +118,10 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     const baseKey = sectionKey.replace(prefix, '');
     
     const order = {
-      'hero': 1,
-      'services': 2,
-      'footer': 3,
       'navigation': 1,
+      'hero': 2,
       'mobile': 3,
+      'services': 4,
       'mobile_showcase': 5,
       'value_proposition': 6,
       'value_prop': 6,
@@ -131,6 +130,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'stats': 9,
       'lead_generation': 10,
       'lead_gen': 10,
+      'footer': 11,
       // Page specific sections
       'values': 3,
       'team': 4,
@@ -179,9 +179,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       if (selectedPage === 'home') {
         // For home page, get sections without prefixes and common sections
         query = query.or(`section_key.eq.hero,section_key.eq.patient_tabs,section_key.eq.services,section_key.eq.mobile_showcase,section_key.eq.value_proposition,section_key.eq.admin_dashboard,section_key.eq.founder,section_key.eq.stats,section_key.eq.lead_generation,section_key.eq.navigation,section_key.eq.footer`);
-      } else if (selectedPage === 'clinicians') {
-        // For clinicians page, get the specific sections we need
-        query = query.in('section_key', ['clinicians_hero', 'clinicians_services', 'clinicians_footer']);
       } else {
         // For other pages, get sections with the page prefix
         query = query.like('section_key', `${prefix}%`);
@@ -288,11 +285,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
 
   const formatSectionName = (key: string) => {
     const nameMap: Record<string, string> = {
-      // Clinicians
-      'clinicians_hero': 'Hero Section',
-      'clinicians_services': 'Services with Tabs',
-      'clinicians_footer': 'Footer Section',
-      
       // Care at Home
       'care_at_home_hero': 'Hero Section',
       'care_at_home_mobile': 'The Future of Care',
@@ -306,6 +298,12 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'about_values': 'Our Core Values',
       'about_team': 'Meet Our Team',
       'about_footer': 'Footer',
+      
+      // Clinicians
+      'clinicians_hero': 'Hero Section',
+      'clinicians_tools': 'Clinical Tools & Features',
+      'clinicians_benefits': 'Why Clinicians Choose Us',
+      'clinicians_footer': 'Footer',
       
       // Patients
       'patients_hero': 'Hero Section',
@@ -439,8 +437,15 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
         .from('media')
         .getPublicUrl(filePath);
 
-      // Handle tabs data for clinicians_services
-      if ((editForm.content_data as any)?.tabs) {
+      // Handle both services (for other sections) and tabs (for care_at_home_mobile)
+      if ((editForm.content_data as any)?.services) {
+        const newServices = [...((editForm.content_data as any)?.services || [])];
+        newServices[serviceIndex] = { ...newServices[serviceIndex], patient_image_url: data.publicUrl };
+        setEditForm({
+          ...editForm,
+          content_data: { ...editForm.content_data, services: newServices }
+        });
+      } else if ((editForm.content_data as any)?.tabs) {
         const newTabs = [...((editForm.content_data as any)?.tabs || [])];
         newTabs[serviceIndex] = { ...newTabs[serviceIndex], image_url: data.publicUrl };
         setEditForm({
@@ -451,13 +456,13 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
 
       toast({
         title: "Upload successful",
-        description: "Tab image uploaded successfully",
+        description: "Patient image uploaded successfully",
       });
     } catch (error) {
-      console.error('Error uploading tab image:', error);
+      console.error('Error uploading patient image:', error);
       toast({
         title: "Upload failed",
-        description: "Failed to upload tab image",
+        description: "Failed to upload patient image",
         variant: "destructive"
       });
     } finally {
@@ -590,40 +595,95 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         </div>
                       )}
 
+                      {/* Only show button fields for non-hero sections and non-mobile */}
+                      {!section.section_key.includes('hero') && !section.section_key.includes('mobile') && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Button Text
+                            </label>
+                            <Input
+                              value={editForm.button_text || ''}
+                              onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
+                              placeholder="Button text"
+                            />
+                          </div>
+                          {!isFooterSection(section.section_key) && (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Button URL
+                              </label>
+                              <Input
+                                value={editForm.button_url || ''}
+                                onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
+                                placeholder="Button URL"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Background media uploads - hide for mobile sections and footer */}
+                      {!section.section_key.includes('mobile') && !isFooterSection(section.section_key) && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Button Text
+                            <Image className="h-4 w-4 inline mr-1" />
+                            Upload Background Image
                           </label>
-                          <Input
-                            value={editForm.button_text || ''}
-                            onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
-                            placeholder="Button text"
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleFileChange(e, 'image')}
+                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            disabled={uploadingImage}
                           />
+                          {uploadingImage && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
+                          {editForm.background_image_url && (
+                            <div className="mt-2">
+                              <img 
+                                src={editForm.background_image_url} 
+                                alt="Background preview" 
+                                className="w-full h-32 object-cover rounded border"
+                              />
+                            </div>
+                          )}
                         </div>
-                        {!isFooterSection(section.section_key) && (
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Button URL
-                            </label>
-                            <Input
-                              value={editForm.button_url || ''}
-                              onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
-                              placeholder="Button URL"
-                            />
-                          </div>
-                        )}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <Video className="h-4 w-4 inline mr-1" />
+                            Upload Background Video
+                          </label>
+                          <input
+                            type="file"
+                            accept="video/*"
+                            onChange={(e) => handleFileChange(e, 'video')}
+                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            disabled={uploadingVideo}
+                          />
+                          {uploadingVideo && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
+                          {editForm.background_video_url && (
+                            <div className="mt-2">
+                              <video 
+                                src={editForm.background_video_url} 
+                                className="w-full h-60 object-cover rounded border"
+                                controls
+                              />
+                            </div>
+                          )}
+                        </div>
                       </div>
+                      )}
 
-                      {/* Tabs management for clinicians_services section */}
-                      {section.section_key === 'clinicians_services' && (
+                      {/* Tabs management for care_at_home_mobile section */}
+                      {section.section_key === 'care_at_home_mobile' && (
                         <div className="space-y-4 border-t pt-4">
-                          <h4 className="text-lg font-semibold text-gray-900">Service Tabs</h4>
+                          <h4 className="text-lg font-semibold text-gray-900">Future of Care Tabs</h4>
                           {((editForm.content_data as any)?.tabs || []).map((tab: any, index: number) => (
                             <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
                               <div className="flex items-center justify-between">
                                 <h5 className="font-medium text-gray-800">Tab {index + 1}</h5>
-                                <Badge variant="outline">{tab.icon_name}</Badge>
+                                <Badge variant="outline">{tab.display_order}</Badge>
                               </div>
                               
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -688,7 +748,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                     Icon
                                   </label>
                                   <Select
-                                    value={tab.icon_name || 'Building2'}
+                                    value={tab.icon_name || 'Activity'}
                                     onValueChange={(value) => {
                                       const newTabs = [...((editForm.content_data as any)?.tabs || [])];
                                       newTabs[index] = { ...newTabs[index], icon_name: value };
@@ -701,8 +761,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                     <SelectTrigger>
                                       <SelectValue>
                                         <div className="flex items-center gap-2">
-                                          {getIconComponent(tab.icon_name || 'Building2')}
-                                          <span>{tab.icon_name || 'Building2'}</span>
+                                          {getIconComponent(tab.icon_name || 'Activity')}
+                                          <span>{tab.icon_name || 'Activity'}</span>
                                         </div>
                                       </SelectValue>
                                     </SelectTrigger>
@@ -744,58 +804,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                             </div>
                           ))}
                         </div>
-                      )}
-
-                      {/* Background media uploads - hide for mobile sections and footer */}
-                      {!section.section_key.includes('mobile') && !isFooterSection(section.section_key) && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            <Image className="h-4 w-4 inline mr-1" />
-                            Upload Background Image
-                          </label>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => handleFileChange(e, 'image')}
-                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                            disabled={uploadingImage}
-                          />
-                          {uploadingImage && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
-                          {editForm.background_image_url && (
-                            <div className="mt-2">
-                              <img 
-                                src={editForm.background_image_url} 
-                                alt="Background preview" 
-                                className="w-full h-32 object-cover rounded border"
-                              />
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            <Video className="h-4 w-4 inline mr-1" />
-                            Upload Background Video
-                          </label>
-                          <input
-                            type="file"
-                            accept="video/*"
-                            onChange={(e) => handleFileChange(e, 'video')}
-                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                            disabled={uploadingVideo}
-                          />
-                          {uploadingVideo && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
-                          {editForm.background_video_url && (
-                            <div className="mt-2">
-                              <video 
-                                src={editForm.background_video_url} 
-                                className="w-full h-60 object-cover rounded border"
-                                controls
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
                       )}
 
                       {/* Active toggle */}

@@ -1,56 +1,36 @@
 
 import React from 'react';
+import OptimizedVideo from '@/components/OptimizedVideo';
 
 interface HeroSectionProps {
   title: string;
   highlightedText: string;
-  description?: string;
-  buttonText?: string;
-  buttonUrl?: string;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({
-  title,
-  highlightedText,
-  description,
-  buttonText,
-  buttonUrl
-}) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText }) => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent transform -skew-y-12"></div>
+    <section className="pt-32 pb-32 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden h-[600px] flex items-center">
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
+        <OptimizedVideo
+          src='https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/30" />
       </div>
       
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 text-center">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-          {title}{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-cyan-200">
-            {highlightedText}
-          </span>
-        </h1>
-        
-        {description && (
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-4xl mx-auto">
-            {description}
-          </p>
-        )}
-        
-        {buttonText && buttonUrl && (
-          <a
-            href={buttonUrl}
-            className="inline-flex items-center px-8 py-4 bg-white text-blue-900 font-semibold rounded-lg hover:bg-blue-50 transition-colors text-lg"
-          >
-            {buttonText}
-          </a>
-        )}
-      </div>
+      {/* Bottom blur gradient effect that extends beyond section */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/20 to-transparent backdrop-blur-sm z-20" />
       
-      {/* Decorative Elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 bg-blue-400 rounded-full opacity-20 animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-48 h-48 bg-cyan-400 rounded-full opacity-10 animate-pulse delay-1000"></div>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="text-center max-w-4xl mx-auto">
+          <h1 className="text-white leading-none tracking-tight font-black text-shadow-white transition-transform duration-500 hover:scale-105 font-apple" 
+              style={{ fontSize: 'clamp(2rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+            {title}<br />
+            <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent">{highlightedText}</span>
+          </h1>
+        </div>
+      </div>
     </section>
   );
 };
