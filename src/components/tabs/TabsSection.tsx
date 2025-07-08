@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect, useRef } from 'react';
-import { LucideIcon, ArrowRight, Sparkles, Play, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { LucideIcon, ArrowRight } from 'lucide-react';
 
 interface Service {
   id: string;
@@ -18,283 +18,169 @@ interface TabsSectionProps {
 
 const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
   const [activeTab, setActiveTab] = useState(services[0]?.id || '');
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const activeService = services.find(service => service.id === activeTab);
-
-  // Responsive breakpoint detection
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768);
-      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
-    };
-
-    checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
-
-  const handleTabChange = (serviceId: string) => {
-    if (serviceId === activeTab) return;
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setActiveTab(serviceId);
-      setIsTransitioning(false);
-    }, 300);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isMobile && containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      setMousePosition({
-        x: ((e.clientX - rect.left) / rect.width - 0.5) * 20,
-        y: ((e.clientY - rect.top) / rect.height - 0.5) * 20
-      });
-    }
-  };
+  const [animationKey, setAnimationKey] = useState(0);
 
   const getColorClasses = (color: string) => {
-    const blueGradient = { 
-      primary: '#4F9CF9', 
+    // Use consistent two-blue gradient for all elements
+    const blueGradient = {
       gradient: 'from-[#4F9CF9] to-[#183EC2]',
+      border: 'border-[#4F9CF9]',
+      bg: 'bg-[#4F9CF9]',
+      text: 'text-[#4F9CF9]',
       shadow: 'shadow-[#4F9CF9]/30',
-      glow: 'drop-shadow-[0_0_20px_rgba(79,156,249,0.5)]'
+      ring: 'ring-[#4F9CF9]/20'
     };
     return blueGradient;
   };
 
-  return (
-    <section className="min-h-screen bg-white text-gray-900 relative overflow-hidden pb-20">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-white" />
-        <div 
-          className="absolute inset-0 opacity-5"
-          style={{
-            background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(79,156,249,0.1) 0%, transparent 50%)`
-          }}
-        />
-        {/* Responsive Floating Particles */}
-        {[...Array(isMobile ? 10 : isTablet ? 15 : 20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-gray-300/40 rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
-            }}
-          />
-        ))}
-      </div>
+  const handleTabChange = (serviceId: string) => {
+    if (serviceId !== activeTab) {
+      setActiveTab(serviceId);
+      setAnimationKey(prev => prev + 1);
+    }
+  };
 
-      <div 
-        ref={containerRef}
-        className="relative z-10 min-h-screen flex flex-col"
-        onMouseMove={handleMouseMove}
-      >
-        {/* Responsive Header Section */}
-        <div className="text-center pt-8 md:pt-12 lg:pt-16 pb-12 md:pb-16 lg:pb-20 px-4 md:px-6 lg:px-8">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4 md:mb-6 lg:mb-8 tracking-tight leading-none text-gray-900">
-            The Future of{' '}
-            <span className="bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent">
-              Care
-            </span>
+  const activeService = services.find(service => service.id === activeTab);
+  const IconComponent = activeService?.icon;
+  const colorClasses = getColorClasses(activeService?.color || 'blue');
+
+  return (
+    <section className="py-20 bg-gradient-to-br from-slate-50 via-white to-gray-50 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-6 font-apple tracking-tight">
+            How We <span className="bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent">Empower</span> Clinicians
           </h2>
-          
-          <p className="text-base sm:text-lg md:text-xl lg:text-xl text-gray-600 max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-light px-4">
-            Experience healthcare like never before. Every interaction reimagined.
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Discover our comprehensive platform designed to support healthcare professionals in delivering exceptional care
           </p>
         </div>
 
-        {/* Interface Section */}
-        <div className="flex-1 flex items-center justify-center px-4 md:px-6 lg:px-8">
-          <div className="w-full max-w-7xl">
-            
-            {/* Responsive Navigation Pills */}
-            <div className="flex justify-center mb-8 md:mb-12 lg:mb-16">
-              <div className={`
-                ${isMobile 
-                  ? 'flex flex-col space-y-2 w-full max-w-sm' 
-                  : isTablet 
-                    ? 'grid grid-cols-2 gap-3 w-full max-w-2xl' 
-                    : 'inline-flex bg-gray-50/80 backdrop-blur-2xl rounded-2xl border border-gray-200/50 p-2'
-                }
-              `}>
-                {services.map((service, index) => {
-                  const ServiceIcon = service.icon;
-                  const isActive = activeTab === service.id;
-                  const colorClasses = getColorClasses(service.color);
-                  
-                  return (
-                    <button
-                      key={service.id}
-                      onClick={() => handleTabChange(service.id)}
-                      className={`
-                        relative transition-all duration-700 ease-out group
-                        ${isMobile 
-                          ? `w-full px-4 py-3 rounded-xl ${isActive 
-                              ? `bg-gradient-to-r ${colorClasses.gradient} ${colorClasses.shadow} shadow-xl text-white` 
-                              : 'bg-gray-50/80 hover:bg-gray-100/80 text-gray-600 hover:text-gray-800 border border-gray-200/50'
-                            }`
-                          : isTablet
-                            ? `px-4 py-3 rounded-xl ${isActive 
-                                ? `bg-gradient-to-r ${colorClasses.gradient} ${colorClasses.shadow} shadow-xl text-white` 
-                                : 'bg-gray-50/80 hover:bg-gray-100/80 text-gray-600 hover:text-gray-800 border border-gray-200/50'
-                              }`
-                            : `px-6 py-4 rounded-xl ${isActive 
-                                ? `bg-gradient-to-r ${colorClasses.gradient} ${colorClasses.shadow} shadow-2xl text-white` 
-                                : 'hover:bg-gray-100/80 text-gray-600 hover:text-gray-800'
-                              }`
-                        }
-                      `}
-                      style={{
-                        transform: isActive && !isMobile ? `translateY(-8px) scale(1.05)` : 'translateY(0)',
-                        animationDelay: `${index * 100}ms`
-                      }}
-                    >
-                      <div className={`flex items-center ${isMobile ? 'gap-3' : isTablet ? 'gap-2' : 'gap-3'}`}>
-                        <div 
-                          className={`
-                            ${isMobile ? 'w-8 h-8' : isTablet ? 'w-9 h-9' : 'w-10 h-10'} 
-                            rounded-lg flex items-center justify-center transition-all duration-500
-                            ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-700'}
-                          `}
-                        >
-                          <ServiceIcon className={`${isMobile ? 'h-5 w-5' : isTablet ? 'h-5 w-5' : 'h-6 w-6'}`} />
-                        </div>
-                        <div className="text-left flex-1">
-                          <div className={`font-semibold ${isMobile ? 'text-sm' : isTablet ? 'text-sm' : 'text-sm'} ${isActive ? 'text-white' : 'text-gray-700'}`}>
-                            {isMobile 
-                              ? service.title
-                              : service.title.split(' ').slice(0, 2).join(' ')
-                            }
-                          </div>
-                          {isMobile && (
-                            <div className={`text-xs mt-1 ${isActive ? 'text-white/80' : 'text-gray-500'}`}>
-                              {service.subtitle}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      
-                      {isActive && !isMobile && (
-                        <div 
-                          className="absolute -inset-4 rounded-2xl opacity-30 animate-pulse"
-                          style={{ 
-                            background: `linear-gradient(45deg, #4F9CF920, transparent)`,
-                            filter: 'blur(20px)'
-                          }}
-                        />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Responsive Content Display */}
-            {activeService && (
-              <div 
-                className={`
-                  transition-all duration-700 ease-out
-                  ${isTransitioning ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'}
-                `}
-              >
-                <div className="relative">
-                  {/* Main Content Card */}
-                  <div 
+        {/* Vertical Tab Navigation */}
+        <div className="grid lg:grid-cols-4 gap-8 lg:gap-12">
+          {/* Tab List - Vertical on large screens */}
+          <div className="lg:col-span-1">
+            <div className="space-y-3">
+              {services.map((service, index) => {
+                const ServiceIcon = service.icon;
+                const isActive = activeTab === service.id;
+                
+                return (
+                  <button
+                    key={service.id}
+                    onClick={() => handleTabChange(service.id)}
                     className={`
-                      relative bg-white/90 backdrop-blur-2xl rounded-2xl md:rounded-3xl 
-                      border border-gray-200/50 overflow-hidden group 
-                      shadow-lg md:shadow-xl hover:shadow-2xl transition-all duration-700
-                      ${isMobile ? 'mx-2' : ''}
+                      w-full text-left p-4 rounded-2xl transition-all duration-500 group relative overflow-hidden
+                      ${isActive 
+                        ? `bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] text-white shadow-2xl shadow-[#4F9CF9]/30 scale-105 -translate-y-1` 
+                        : 'bg-white/80 backdrop-blur-sm text-gray-700 hover:text-gray-900 hover:bg-white hover:shadow-lg hover:scale-102'
+                      }
+                      border-2 ${isActive ? 'border-transparent' : `border-[#4F9CF9]/30 hover:border-[#4F9CF9]/50`}
                     `}
                     style={{
-                      transform: !isMobile ? `perspective(1000px) rotateX(${mousePosition.y * 0.1}deg) rotateY(${mousePosition.x * 0.1}deg)` : 'none',
-                      transformStyle: 'preserve-3d'
+                      animationDelay: `${index * 100}ms`
                     }}
                   >
-                    {/* Half and Half Layout */}
-                    <div className={`
-                      ${isMobile ? 'flex flex-col' : 'grid grid-cols-2'} 
-                      ${isMobile ? 'min-h-[500px]' : isTablet ? 'min-h-[400px]' : 'min-h-[500px]'}
-                    `}>
-                      
-                      {/* Left Side - Content */}
+                    {/* Background Pattern */}
+                    <div className={`absolute inset-0 opacity-10 ${isActive ? 'opacity-20' : 'opacity-0 group-hover:opacity-5'} transition-opacity duration-300`}>
+                      <div className="absolute top-0 right-0 w-20 h-20 rounded-full bg-current transform translate-x-8 -translate-y-8" />
+                      <div className="absolute bottom-0 left-0 w-12 h-12 rounded-full bg-current transform -translate-x-4 translate-y-4" />
+                    </div>
+                    
+                    <div className="relative z-10 flex items-center gap-4">
                       <div className={`
-                        ${isMobile ? 'order-2 p-6' : isTablet ? 'p-6' : 'p-12'} 
-                        flex flex-col justify-center bg-white
+                        w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300
+                        ${isActive 
+                          ? 'bg-white/20 backdrop-blur-sm' 
+                          : `bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] text-white group-hover:scale-110`
+                        }
                       `}>
-                        {/* Floating Icon */}
-                        <div 
-                          className={`
-                            ${isMobile ? 'w-12 h-12 mb-4' : isTablet ? 'w-16 h-16 mb-6' : 'w-20 h-20 mb-8'} 
-                            rounded-xl md:rounded-2xl flex items-center justify-center 
-                            bg-gradient-to-r ${getColorClasses(activeService.color).gradient} 
-                            ${getColorClasses(activeService.color).glow} mb-6
-                          `}
-                        >
-                          <activeService.icon className={`${isMobile ? 'h-6 w-6' : isTablet ? 'h-8 w-8' : 'h-10 w-10'} text-white`} />
-                        </div>
-
-                        <h3 className={`
-                          ${isMobile ? 'text-2xl' : isTablet ? 'text-3xl' : 'text-4xl lg:text-5xl'} 
-                          font-black text-gray-900 mb-3 md:mb-4 tracking-tight leading-tight
-                        `}>
-                          {activeService.title}
+                        <ServiceIcon className="h-6 w-6" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-sm mb-1 leading-tight">
+                          {service.title.split(' ').slice(0, 4).join(' ')}
                         </h3>
-                        
-                        <p 
-                          className={`
-                            ${isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-2xl'} 
-                            font-semibold mb-4 md:mb-6 
-                            bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent
-                          `}
-                        >
-                          {activeService.subtitle}
-                        </p>
-                        
-                        <p className={`
-                          ${isMobile ? 'text-base' : isTablet ? 'text-lg' : 'text-lg'} 
-                          text-gray-600 leading-relaxed
-                        `}>
-                          {activeService.description}
+                        <p className={`text-xs opacity-80 ${isActive ? 'text-white/80' : 'text-gray-500'}`}>
+                          {service.subtitle}
                         </p>
                       </div>
+                      <ArrowRight className={`h-4 w-4 transition-transform duration-300 ${isActive ? 'translate-x-1' : 'group-hover:translate-x-1'}`} />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-                      {/* Right Side - Image */}
-                      <div className={`
-                        relative overflow-hidden ${isMobile ? 'order-1 h-48' : 'h-full'}
-                        ${isMobile ? '' : isTablet ? 'rounded-r-2xl' : 'rounded-r-3xl'}
+          {/* Tab Content */}
+          <div className="lg:col-span-3">
+            {activeService && (
+              <div key={animationKey} className="animate-fade-in">
+                <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-2xl border border-gray-200/50 relative overflow-hidden">
+                  {/* Decorative Elements */}
+                  <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] opacity-5 rounded-full transform translate-x-20 -translate-y-20`} />
+                  <div className={`absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] opacity-10 rounded-full transform -translate-x-12 translate-y-12`} />
+                  
+                  <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    {/* Content */}
+                    <div className="space-y-6">
+                      {/* Icon and Title */}
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] flex items-center justify-center shadow-2xl shadow-[#4F9CF9]/30 transform transition-all duration-500 hover:scale-110 hover:rotate-6`}>
+                          {IconComponent && <IconComponent className="h-8 w-8 text-white" />}
+                        </div>
+                        <div>
+                          <h3 className="text-2xl lg:text-3xl font-black text-gray-900 font-apple leading-tight">
+                            {activeService.title}
+                          </h3>
+                          <p className={`text-lg font-semibold bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent`}>
+                            {activeService.subtitle}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-lg text-gray-700 leading-relaxed">
+                        {activeService.description}
+                      </p>
+
+                      {/* Action Button */}
+                      <button className={`
+                        group px-8 py-4 rounded-xl font-semibold text-white text-lg
+                        bg-gradient-to-r from-[#4F9CF9] to-[#183EC2]
+                        shadow-2xl shadow-[#4F9CF9]/30 transition-all duration-300
+                        hover:scale-105 hover:-translate-y-1
+                        focus:outline-none focus:ring-4 ring-[#4F9CF9]/20
+                        relative overflow-hidden
                       `}>
-                        <img 
-                          src={activeService.patient_image_url}
-                          alt={activeService.title}
-                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                          style={{
-                            transform: !isMobile ? `translateZ(50px) translate3d(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px, 0)` : 'none'
-                          }}
-                        />
-                        
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/10" />
-                      </div>
-
+                        <span className="relative z-10 flex items-center justify-center gap-2">
+                          Learn More
+                          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                        </span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </button>
                     </div>
 
-                    {/* Subtle Border Effect */}
-                    <div 
-                      className="absolute inset-0 rounded-2xl md:rounded-3xl opacity-20 pointer-events-none"
-                      style={{
-                        background: `linear-gradient(135deg, #4F9CF910, transparent, #4F9CF905)`,
-                        filter: 'blur(1px)'
-                      }}
-                    />
+                    {/* Image */}
+                    <div className="relative group">
+                      <div className={`
+                        absolute inset-0 bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] 
+                        rounded-3xl blur-xl opacity-20 group-hover:opacity-30 
+                        transition-all duration-700 scale-95 group-hover:scale-100
+                      `} />
+                      <div className="relative rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-700 group-hover:scale-105">
+                        <img 
+                          src={activeService.patient_image_url}
+                          alt={`${activeService.title} - Clinical service`}
+                          className="w-full h-80 lg:h-96 object-cover transition-transform duration-700 group-hover:scale-110"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                        <div className={`absolute inset-0 bg-gradient-to-br from-[#4F9CF9] to-[#183EC2] opacity-0 group-hover:opacity-20 transition-all duration-500`} />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
