@@ -6,7 +6,10 @@ import { supabase } from '@/integrations/supabase/client';
 interface FooterContent {
   title?: string;
   subtitle?: string;
+  description?: string;
   button_text?: string;
+  button_url?: string;
+  background_image_url?: string; // For logo
 }
 
 const Footer = () => {
@@ -29,7 +32,10 @@ const Footer = () => {
           setContent({
             title: data.title,
             subtitle: data.subtitle,
-            button_text: data.button_text
+            description: data.description,
+            button_text: data.button_text,
+            button_url: data.button_url,
+            background_image_url: data.background_image_url
           });
         }
         setIsLoading(false);
@@ -99,15 +105,27 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <div className="mb-6">
               <div className="mb-3">
-                <div className="w-12 h-12 healthcare-gradient rounded-xl flex items-center justify-center">
-                  <Heart className="h-6 w-6 text-white" />
-                </div>
+                {content.background_image_url ? (
+                  <img 
+                    src={content.background_image_url} 
+                    alt="Company Logo" 
+                    className="h-16 object-contain"
+                  />
+                ) : (
+                  <div className="w-12 h-12 healthcare-gradient rounded-xl flex items-center justify-center">
+                    <Heart className="h-6 w-6 text-white" />
+                  </div>
+                )}
               </div>
               {content.subtitle && (
                 <div className="text-blue-300/90 font-medium tracking-wide"
                      style={{ fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', lineHeight: 1.3 }}>{content.subtitle}</div>
               )}
             </div>
+            
+            <p className="text-gray-400 mb-6 leading-relaxed">
+              {content.description}
+            </p>
             
             <div className="space-y-3">
               <div className="flex items-center space-x-3">

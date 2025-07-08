@@ -151,8 +151,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     return order[baseKey as keyof typeof order] || 999;
   };
 
-  const isFooterSection = (sectionKey: string) => sectionKey.includes('footer');
-
   useEffect(() => {
     loadContent();
     setupRealtimeSubscription();
@@ -581,19 +579,17 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         />
                       </div>
                       
-                      {!isFooterSection(section.section_key) && (
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Description
-                          </label>
-                          <Textarea
-                            value={editForm.description || ''}
-                            onChange={(e) => setEditForm({...editForm, description: e.target.value})}
-                            placeholder="Section description"
-                            rows={3}
-                          />
-                        </div>
-                      )}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Description
+                        </label>
+                        <Textarea
+                          value={editForm.description || ''}
+                          onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                          placeholder="Section description"
+                          rows={3}
+                        />
+                      </div>
 
                       {/* Only show button fields for non-hero sections and non-mobile */}
                       {!section.section_key.includes('hero') && !section.section_key.includes('mobile') && (
@@ -608,23 +604,21 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                               placeholder="Button text"
                             />
                           </div>
-                          {!isFooterSection(section.section_key) && (
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Button URL
-                              </label>
-                              <Input
-                                value={editForm.button_url || ''}
-                                onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
-                                placeholder="Button URL"
-                              />
-                            </div>
-                          )}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Button URL
+                            </label>
+                            <Input
+                              value={editForm.button_url || ''}
+                              onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
+                              placeholder="Button URL"
+                            />
+                          </div>
                         </div>
                       )}
 
-                      {/* Background media uploads - hide for mobile sections and footer */}
-                      {!section.section_key.includes('mobile') && !isFooterSection(section.section_key) && (
+                      {/* Background media uploads - hide for mobile sections */}
+                      {!section.section_key.includes('mobile') && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -828,7 +822,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                           <p className="text-gray-900">{section.title}</p>
                         </div>
                       )}
-                      {section.description && !isFooterSection(section.section_key) && (
+                      {section.description && (
                         <div>
                           <span className="text-sm font-medium text-gray-600">Description:</span>
                           <p className="text-gray-900">{section.description}</p>
