@@ -290,7 +290,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     const nameMap: Record<string, string> = {
       // Clinicians
       'clinicians_hero': 'Hero Section',
-      'clinicians_services': 'Services Section',
+      'clinicians_services': 'Services with Tabs',
       'clinicians_footer': 'Footer Section',
       
       // Care at Home
@@ -306,12 +306,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'about_values': 'Our Core Values',
       'about_team': 'Meet Our Team',
       'about_footer': 'Footer',
-      
-      // Clinicians
-      'clinicians_hero': 'Hero Section',
-      'clinicians_tools': 'Clinical Tools & Features',
-      'clinicians_benefits': 'Why Clinicians Choose Us',
-      'clinicians_footer': 'Footer',
       
       // Patients
       'patients_hero': 'Hero Section',
