@@ -152,6 +152,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
   };
 
   const isFooterSection = (sectionKey: string) => sectionKey.includes('footer');
+  const isHeroSection = (sectionKey: string) => sectionKey.includes('hero');
 
   useEffect(() => {
     loadContent();
@@ -601,7 +602,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                             placeholder="Button text"
                           />
                         </div>
-                        {!isFooterSection(section.section_key) && (
+                        {!isFooterSection(section.section_key) && !isHeroSection(section.section_key) && (
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                               Button URL
@@ -789,8 +790,9 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                             <div className="mt-2">
                               <video 
                                 src={editForm.background_video_url} 
-                                className="w-full h-60 object-cover rounded border"
+                                className="w-full h-40 object-contain rounded border bg-black"
                                 controls
+                                preload="metadata"
                               />
                             </div>
                           )}
