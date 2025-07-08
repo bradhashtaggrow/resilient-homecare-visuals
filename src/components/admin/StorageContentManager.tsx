@@ -112,7 +112,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
         table: 'website_content'
       }, (payload) => {
         console.log('Real-time content change:', payload);
-        loadContent(); // Reload content when changes occur
+        loadContent();
       })
       .subscribe();
 
@@ -121,105 +121,68 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
 
   const getDefaultContent = (sectionKey: string) => {
     const defaults: Record<string, any> = {
-      'hero': {
-        title: 'Hospital-at-Home Services',
-        subtitle: 'Transform Healthcare Delivery',
-        description: 'Comprehensive care solutions that extend your hospital\'s reach while improving patient outcomes and reducing costs.',
+      'clinicians_hero': {
+        title: 'Enabling',
+        subtitle: 'seamless referrals',
+        description: 'Transform healthcare delivery with our comprehensive referral platform designed for clinicians and healthcare agencies.',
         button_text: 'Learn More',
         button_url: '#services'
       },
-      'service_lines': {
-        title: 'Fully Streamlined, Uncompromisingly Simple',
+      'clinicians_services': {
+        title: 'Clinicians',
         subtitle: '',
-        description: 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.',
-        services: [
-          {
-            id: 'outpatient-pt',
-            icon: 'Activity',
-            title: 'Outpatient PT Anywhere',
-            subtitle: 'Home-Based Therapy & Recovery',
-            description: 'Hospital-branded physical therapy delivered directly to patients\' homes with full technology integration.',
-            benefits: [
-              { text: 'Generate new outpatient therapy revenue', icon: 'TrendingUp' },
-              { text: 'Reduce costly post-acute placements', icon: 'Shield' },
-              { text: 'Improve patient outcomes with early intervention', icon: 'Target' },
-              { text: 'Prepare for value-based care programs', icon: 'Award' }
-            ],
-            color: 'blue',
-            patient_image_url: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80'
-          },
-          {
-            id: 'primary-care',
-            icon: 'Heart',
-            title: 'Primary Care at Home',
-            subtitle: 'Transitional & Rural Care Extension',
-            description: 'Physician and advanced practice providers delivering seamless care transitions and rural health services.',
-            benefits: [
-              { text: 'Extend transitional care management for high-risk patients', icon: 'Users' },
-              { text: 'Expand rural health clinic reach into underserved areas', icon: 'MapPin' },
-              { text: 'Reduce readmissions with targeted follow-up visits', icon: 'CheckCircle' }
-            ],
-            color: 'red',
-            patient_image_url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80'
-          },
-          {
-            id: 'hospital-at-home',
-            icon: 'Building2',
-            title: 'Acute Hospital-at-Home',
-            subtitle: 'CMS-Compliant Inpatient Care at Home',
-            description: 'Full implementation support for hospital-level care delivery in the home environment.',
-            benefits: [
-              { text: 'Complete workflow design & policy development', icon: 'Zap' },
-              { text: 'Staff training & education programs', icon: 'Users' },
-              { text: 'Medicare waiver submission support', icon: 'Clock' }
-            ],
-            note: 'CMS waiver extended through September 2025. We help hospitals prepare for future program versions.',
-            color: 'cyan',
-            patient_image_url: 'https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80'
-          }
-        ]
+        description: 'We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable.',
+        content_data: {
+          tabs: [
+            {
+              id: 'work-with-hospitals',
+              icon_name: 'Building2',
+              title: 'Work with leading hospitals',
+              subtitle: 'Partnership Excellence',
+              description: 'Partner with top healthcare institutions to expand your reach and provide exceptional patient care through our referral network.',
+              image_url: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80'
+            },
+            {
+              id: 'patient-referrals',
+              icon_name: 'Users',
+              title: 'Get access to a consistent stream of patient referrals',
+              subtitle: 'Steady Patient Flow',
+              description: 'Receive steady patient referrals to scale your billing and services to healthcare providers through our streamlined platform.',
+              image_url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80'
+            },
+            {
+              id: 'care-delivery',
+              icon_name: 'Heart',
+              title: 'Support care delivery for inpatient at home and outpatient at home services',
+              subtitle: 'Comprehensive Care',
+              description: 'Comprehensive support for both inpatient and outpatient care services delivered directly in the home environment.',
+              image_url: 'https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80'
+            },
+            {
+              id: 'simplified-workflows',
+              icon_name: 'Zap',
+              title: 'Simplified workflows and credentialing through our platform',
+              subtitle: 'Streamlined Operations',
+              description: 'Streamline your operations with simplified workflows, credentialing processes, and administrative support through our comprehensive platform.',
+              image_url: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80'
+            },
+            {
+              id: 'payment-model',
+              icon_name: 'CheckCircle',
+              title: 'We pay you per visit so no need to worry about administrative burden',
+              subtitle: 'Simple Payment Model',
+              description: 'Simple per-visit payment structure that eliminates administrative burden and allows you to focus on delivering exceptional patient care.',
+              image_url: 'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80'
+            }
+          ]
+        }
       },
-      'value_proposition': {
-        title: 'Why Choose Our Hospital-at-Home Solutions',
-        subtitle: 'Proven Results That Transform Healthcare Delivery',
-        description: 'Our comprehensive approach delivers measurable outcomes for hospitals, patients, and communities.',
-        propositions: [
-          {
-            icon: 'TrendingUp',
-            title: 'Revenue Growth',
-            description: 'Generate new revenue streams while optimizing existing resources'
-          },
-          {
-            icon: 'Users',
-            title: 'Patient Satisfaction',
-            description: 'Deliver care in the comfort of patients\' homes with better outcomes'
-          },
-          {
-            icon: 'Shield',
-            title: 'Risk Reduction',
-            description: 'Reduce readmissions and post-acute placement costs'
-          }
-        ]
-      },
-      'stats': {
-        title: 'Proven Impact Across Healthcare Systems',
-        subtitle: 'Real Results from Real Implementations',
-        description: 'Our solutions deliver measurable outcomes that transform healthcare delivery and improve patient experiences.',
-        stats: [
-          { number: '85%', label: 'Patient Satisfaction Rate', description: 'Patients prefer home-based care' },
-          { number: '40%', label: 'Cost Reduction', description: 'Average savings vs traditional care' },
-          { number: '92%', label: 'Readmission Prevention', description: 'Successful care transitions' },
-          { number: '50+', label: 'Healthcare Partners', description: 'Hospitals using our solutions' }
-        ]
-      },
-      'lead_generation': {
-        title: 'Ready to Transform Your Healthcare Delivery?',
-        subtitle: 'Partner with Us Today',
-        description: 'Join leading healthcare systems in delivering exceptional patient care at home. Contact us to learn how we can help extend your hospital\'s reach.',
-        form_title: 'Get Started Today',
-        form_subtitle: 'Tell us about your needs and we\'ll be in touch within 24 hours.',
-        button_text: 'Contact Us Now',
-        success_message: 'Thank you for your interest! We\'ll be in touch soon.'
+      'clinicians_footer': {
+        title: 'Join 500+ Healthcare Organizations',
+        subtitle: 'Leading hospitals, health systems, and care providers trust Resilient Healthcare to deliver exceptional patient outcomes and operational excellence.',
+        description: '',
+        button_text: 'Contact Us',
+        button_url: '/contact'
       }
     };
     return defaults[sectionKey] || {};
@@ -284,7 +247,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
     </div>
   );
 
-  const renderValuePropositionEditor = (content: any) => (
+  const renderCliniciansServicesEditor = (content: any) => (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -292,7 +255,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
           <Input
             id="title"
             value={content.title || ''}
-            onChange={(e) => handleContentUpdate('value_proposition', { ...content, title: e.target.value })}
+            onChange={(e) => handleContentUpdate('clinicians_services', { ...content, title: e.target.value })}
             placeholder="Enter section title"
           />
         </div>
@@ -301,7 +264,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
           <Input
             id="subtitle"
             value={content.subtitle || ''}
-            onChange={(e) => handleContentUpdate('value_proposition', { ...content, subtitle: e.target.value })}
+            onChange={(e) => handleContentUpdate('clinicians_services', { ...content, subtitle: e.target.value })}
             placeholder="Enter section subtitle"
           />
         </div>
@@ -312,254 +275,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
         <Textarea
           id="description"
           value={content.description || ''}
-          onChange={(e) => handleContentUpdate('value_proposition', { ...content, description: e.target.value })}
-          placeholder="Enter section description"
-          rows={3}
-        />
-      </div>
-
-      <Separator />
-
-      <div className="space-y-4">
-        <h4 className="text-lg font-semibold">Propositions</h4>
-        {content.propositions?.map((proposition: any, index: number) => (
-          <Card key={index} className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label>Proposition Title</Label>
-                <Input
-                  value={proposition.title || ''}
-                  onChange={(e) => {
-                    const updatedPropositions = [...(content.propositions || [])];
-                    updatedPropositions[index] = { ...proposition, title: e.target.value };
-                    handleContentUpdate('value_proposition', { ...content, propositions: updatedPropositions });
-                  }}
-                  placeholder="Proposition title"
-                />
-              </div>
-              <div>
-                <Label>Proposition Icon</Label>
-                <Input
-                  value={proposition.icon || ''}
-                  onChange={(e) => {
-                    const updatedPropositions = [...(content.propositions || [])];
-                    updatedPropositions[index] = { ...proposition, icon: e.target.value };
-                    handleContentUpdate('value_proposition', { ...content, propositions: updatedPropositions });
-                  }}
-                  placeholder="Proposition icon"
-                />
-              </div>
-            </div>
-            <div>
-              <Label>Proposition Description</Label>
-              <Textarea
-                value={proposition.description || ''}
-                onChange={(e) => {
-                  const updatedPropositions = [...(content.propositions || [])];
-                  updatedPropositions[index] = { ...proposition, description: e.target.value };
-                  handleContentUpdate('value_proposition', { ...content, propositions: updatedPropositions });
-                }}
-                placeholder="Proposition description"
-                rows={2}
-              />
-            </div>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderStatsEditor = (content: any) => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="title">Section Title</Label>
-          <Input
-            id="title"
-            value={content.title || ''}
-            onChange={(e) => handleContentUpdate('stats', { ...content, title: e.target.value })}
-            placeholder="Enter section title"
-          />
-        </div>
-        <div>
-          <Label htmlFor="subtitle">Section Subtitle</Label>
-          <Input
-            id="subtitle"
-            value={content.subtitle || ''}
-            onChange={(e) => handleContentUpdate('stats', { ...content, subtitle: e.target.value })}
-            placeholder="Enter section subtitle"
-          />
-        </div>
-      </div>
-      
-      <div>
-        <Label htmlFor="description">Section Description</Label>
-        <Textarea
-          id="description"
-          value={content.description || ''}
-          onChange={(e) => handleContentUpdate('stats', { ...content, description: e.target.value })}
-          placeholder="Enter section description"
-          rows={3}
-        />
-      </div>
-
-      <Separator />
-
-      <div className="space-y-4">
-        <h4 className="text-lg font-semibold">Stats</h4>
-        {content.stats?.map((stat: any, index: number) => (
-          <Card key={index} className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <Label>Stat Number</Label>
-                <Input
-                  value={stat.number || ''}
-                  onChange={(e) => {
-                    const updatedStats = [...(content.stats || [])];
-                    updatedStats[index] = { ...stat, number: e.target.value };
-                    handleContentUpdate('stats', { ...content, stats: updatedStats });
-                  }}
-                  placeholder="Stat number"
-                />
-              </div>
-              <div>
-                <Label>Stat Label</Label>
-                <Input
-                  value={stat.label || ''}
-                  onChange={(e) => {
-                    const updatedStats = [...(content.stats || [])];
-                    updatedStats[index] = { ...stat, label: e.target.value };
-                    handleContentUpdate('stats', { ...content, stats: updatedStats });
-                  }}
-                  placeholder="Stat label"
-                />
-              </div>
-              <div>
-                <Label>Stat Description</Label>
-                <Input
-                  value={stat.description || ''}
-                  onChange={(e) => {
-                    const updatedStats = [...(content.stats || [])];
-                    updatedStats[index] = { ...stat, description: e.target.value };
-                    handleContentUpdate('stats', { ...content, stats: updatedStats });
-                  }}
-                  placeholder="Stat description"
-                />
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderLeadGenEditor = (content: any) => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="title">Section Title</Label>
-          <Input
-            id="title"
-            value={content.title || ''}
-            onChange={(e) => handleContentUpdate('lead_generation', { ...content, title: e.target.value })}
-            placeholder="Enter section title"
-          />
-        </div>
-        <div>
-          <Label htmlFor="subtitle">Section Subtitle</Label>
-          <Input
-            id="subtitle"
-            value={content.subtitle || ''}
-            onChange={(e) => handleContentUpdate('lead_generation', { ...content, subtitle: e.target.value })}
-            placeholder="Enter section subtitle"
-          />
-        </div>
-      </div>
-      
-      <div>
-        <Label htmlFor="description">Section Description</Label>
-        <Textarea
-          id="description"
-          value={content.description || ''}
-          onChange={(e) => handleContentUpdate('lead_generation', { ...content, description: e.target.value })}
-          placeholder="Enter section description"
-          rows={3}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="form_title">Form Title</Label>
-          <Input
-            id="form_title"
-            value={content.form_title || ''}
-            onChange={(e) => handleContentUpdate('lead_generation', { ...content, form_title: e.target.value })}
-            placeholder="Enter form title"
-          />
-        </div>
-        <div>
-          <Label htmlFor="form_subtitle">Form Subtitle</Label>
-          <Input
-            id="form_subtitle"
-            value={content.form_subtitle || ''}
-            onChange={(e) => handleContentUpdate('lead_generation', { ...content, form_subtitle: e.target.value })}
-            placeholder="Enter form subtitle"
-          />
-        </div>
-      </div>
-
-      <div>
-        <Label htmlFor="success_message">Success Message</Label>
-        <Textarea
-          id="success_message"
-          value={content.success_message || ''}
-          onChange={(e) => handleContentUpdate('lead_generation', { ...content, success_message: e.target.value })}
-          placeholder="Enter success message"
-          rows={2}
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="button_text">Button Text</Label>
-        <Input
-          id="button_text"
-          value={content.button_text || ''}
-          onChange={(e) => handleContentUpdate('lead_generation', { ...content, button_text: e.target.value })}
-          placeholder="Enter button text"
-        />
-      </div>
-    </div>
-  );
-
-  const renderServiceLinesEditor = (content: any) => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="title">Section Title</Label>
-          <Input
-            id="title"
-            value={content.title || ''}
-            onChange={(e) => handleContentUpdate('service_lines', { ...content, title: e.target.value })}
-            placeholder="Enter section title"
-          />
-        </div>
-        <div>
-          <Label htmlFor="subtitle">Section Subtitle</Label>
-          <Input
-            id="subtitle"
-            value={content.subtitle || ''}
-            onChange={(e) => handleContentUpdate('service_lines', { ...content, subtitle: e.target.value })}
-            placeholder="Enter section subtitle"
-          />
-        </div>
-      </div>
-      
-      <div>
-        <Label htmlFor="description">Section Description</Label>
-        <Textarea
-          id="description"
-          value={content.description || ''}
-          onChange={(e) => handleContentUpdate('service_lines', { ...content, description: e.target.value })}
+          onChange={(e) => handleContentUpdate('clinicians_services', { ...content, description: e.target.value })}
           placeholder="Enter section description"
           rows={3}
         />
@@ -568,52 +284,55 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
       <Separator />
       
       <div className="space-y-8">
-        <h4 className="text-lg font-semibold">Services</h4>
-        {content.services?.map((service: any, index: number) => (
-          <Card key={service.id} className="p-6">
+        <h4 className="text-lg font-semibold">Service Tabs</h4>
+        {content.content_data?.tabs?.map((tab: any, index: number) => (
+          <Card key={tab.id} className="p-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h5 className="text-md font-semibold">Service {index + 1}: {service.title}</h5>
-                <Badge variant="outline">{service.icon}</Badge>
+                <h5 className="text-md font-semibold">Tab {index + 1}: {tab.title}</h5>
+                <Badge variant="outline">{tab.icon_name}</Badge>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label>Service Title</Label>
+                  <Label>Tab Title</Label>
                   <Input
-                    value={service.title || ''}
+                    value={tab.title || ''}
                     onChange={(e) => {
-                      const updatedServices = [...(content.services || [])];
-                      updatedServices[index] = { ...service, title: e.target.value };
-                      handleContentUpdate('service_lines', { ...content, services: updatedServices });
+                      const updatedTabs = [...(content.content_data?.tabs || [])];
+                      updatedTabs[index] = { ...tab, title: e.target.value };
+                      const updatedContentData = { ...content.content_data, tabs: updatedTabs };
+                      handleContentUpdate('clinicians_services', { ...content, content_data: updatedContentData });
                     }}
-                    placeholder="Service title"
+                    placeholder="Tab title"
                   />
                 </div>
                 <div>
-                  <Label>Service Subtitle</Label>
+                  <Label>Tab Subtitle</Label>
                   <Input
-                    value={service.subtitle || ''}
+                    value={tab.subtitle || ''}
                     onChange={(e) => {
-                      const updatedServices = [...(content.services || [])];
-                      updatedServices[index] = { ...service, subtitle: e.target.value };
-                      handleContentUpdate('service_lines', { ...content, services: updatedServices });
+                      const updatedTabs = [...(content.content_data?.tabs || [])];
+                      updatedTabs[index] = { ...tab, subtitle: e.target.value };
+                      const updatedContentData = { ...content.content_data, tabs: updatedTabs };
+                      handleContentUpdate('clinicians_services', { ...content, content_data: updatedContentData });
                     }}
-                    placeholder="Service subtitle"
+                    placeholder="Tab subtitle"
                   />
                 </div>
               </div>
 
               <div>
-                <Label>Service Description</Label>
+                <Label>Tab Description</Label>
                 <Textarea
-                  value={service.description || ''}
+                  value={tab.description || ''}
                   onChange={(e) => {
-                    const updatedServices = [...(content.services || [])];
-                    updatedServices[index] = { ...service, description: e.target.value };
-                    handleContentUpdate('service_lines', { ...content, services: updatedServices });
+                    const updatedTabs = [...(content.content_data?.tabs || [])];
+                    updatedTabs[index] = { ...tab, description: e.target.value };
+                    const updatedContentData = { ...content.content_data, tabs: updatedTabs };
+                    handleContentUpdate('clinicians_services', { ...content, content_data: updatedContentData });
                   }}
-                  placeholder="Service description"
+                  placeholder="Tab description"
                   rows={3}
                 />
               </div>
@@ -622,76 +341,28 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
                 <div>
                   <Label>Icon Name</Label>
                   <Input
-                    value={service.icon || ''}
+                    value={tab.icon_name || ''}
                     onChange={(e) => {
-                      const updatedServices = [...(content.services || [])];
-                      updatedServices[index] = { ...service, icon: e.target.value };
-                      handleContentUpdate('service_lines', { ...content, services: updatedServices });
+                      const updatedTabs = [...(content.content_data?.tabs || [])];
+                      updatedTabs[index] = { ...tab, icon_name: e.target.value };
+                      const updatedContentData = { ...content.content_data, tabs: updatedTabs };
+                      handleContentUpdate('clinicians_services', { ...content, content_data: updatedContentData });
                     }}
-                    placeholder="Lucide icon name (e.g., Activity)"
+                    placeholder="Lucide icon name (e.g., Building2)"
                   />
                 </div>
                 <div>
-                  <Label>Patient Image URL</Label>
+                  <Label>Image URL</Label>
                   <Input
-                    value={service.patient_image_url || ''}
+                    value={tab.image_url || ''}
                     onChange={(e) => {
-                      const updatedServices = [...(content.services || [])];
-                      updatedServices[index] = { ...service, patient_image_url: e.target.value };
-                      handleContentUpdate('service_lines', { ...content, services: updatedServices });
+                      const updatedTabs = [...(content.content_data?.tabs || [])];
+                      updatedTabs[index] = { ...tab, image_url: e.target.value };
+                      const updatedContentData = { ...content.content_data, tabs: updatedTabs };
+                      handleContentUpdate('clinicians_services', { ...content, content_data: updatedContentData });
                     }}
                     placeholder="Image URL"
                   />
-                </div>
-              </div>
-
-              {service.note && (
-                <div>
-                  <Label>Special Note</Label>
-                  <Textarea
-                    value={service.note || ''}
-                    onChange={(e) => {
-                      const updatedServices = [...(content.services || [])];
-                      updatedServices[index] = { ...service, note: e.target.value };
-                      handleContentUpdate('service_lines', { ...content, services: updatedServices });
-                    }}
-                    placeholder="Special note for this service"
-                    rows={2}
-                  />
-                </div>
-              )}
-
-              <div>
-                <Label>Benefits</Label>
-                <div className="space-y-2 mt-2">
-                  {service.benefits?.map((benefit: any, benefitIndex: number) => (
-                    <div key={benefitIndex} className="flex items-center space-x-2">
-                      <Input
-                        value={benefit.text || ''}
-                        onChange={(e) => {
-                          const updatedServices = [...(content.services || [])];
-                          const updatedBenefits = [...(service.benefits || [])];
-                          updatedBenefits[benefitIndex] = { ...benefit, text: e.target.value };
-                          updatedServices[index] = { ...service, benefits: updatedBenefits };
-                          handleContentUpdate('service_lines', { ...content, services: updatedServices });
-                        }}
-                        placeholder="Benefit description"
-                        className="flex-1"
-                      />
-                      <Input
-                        value={benefit.icon || ''}
-                        onChange={(e) => {
-                          const updatedServices = [...(content.services || [])];
-                          const updatedBenefits = [...(service.benefits || [])];
-                          updatedBenefits[benefitIndex] = { ...benefit, icon: e.target.value };
-                          updatedServices[index] = { ...service, benefits: updatedBenefits };
-                          handleContentUpdate('service_lines', { ...content, services: updatedServices });
-                        }}
-                        placeholder="Icon name"
-                        className="w-32"
-                      />
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
@@ -714,42 +385,26 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
 
   const getSectionDisplayName = (sectionKey: string) => {
     const names: Record<string, string> = {
-      'hero': 'Hero Section',
-      'service_lines': 'Service Lines Section',
-      'value_proposition': 'Value Proposition Section',
-      'stats': 'Stats Section',
-      'lead_generation': 'Lead Generation Section',
-      'about': 'About Section',
-      'contact': 'Contact Section',
-      'footer': 'Footer',
-      'navigation': 'Navigation'
+      'clinicians_hero': 'Clinicians Hero Section',
+      'clinicians_services': 'Clinicians Services Section',
+      'clinicians_footer': 'Clinicians Footer Section'
     };
     return names[sectionKey] || sectionKey.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
   const getSectionDescription = (sectionKey: string) => {
     const descriptions: Record<string, string> = {
-      'hero': 'Main landing section with primary messaging',
-      'service_lines': 'Detailed service offerings',
-      'value_proposition': 'Key value propositions and benefits',
-      'stats': 'Key statistics and impact metrics',
-      'lead_generation': 'Lead capture and contact form',
-      'about': 'Company information and background',
-      'contact': 'Contact information and forms'
+      'clinicians_hero': 'Main hero section for clinicians page',
+      'clinicians_services': 'Services tabs section for clinicians',
+      'clinicians_footer': 'Footer section for clinicians page'
     };
     return descriptions[sectionKey] || 'Content section configuration';
   };
 
   const renderContentEditor = (sectionKey: string, content: any) => {
     switch (sectionKey) {
-      case 'service_lines':
-        return renderServiceLinesEditor(content);
-      case 'value_proposition':
-        return renderValuePropositionEditor(content);
-      case 'stats':
-        return renderStatsEditor(content);
-      case 'lead_generation':
-        return renderLeadGenEditor(content);
+      case 'clinicians_services':
+        return renderCliniciansServicesEditor(content);
       default:
         return renderBasicEditor(sectionKey, content);
     }
@@ -763,12 +418,17 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
     );
   }
 
+  // Filter to show only clinicians sections
+  const cliniciansContent = Object.entries(content).filter(([key]) => 
+    key.startsWith('clinicians_')
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Website Content Management</h2>
-          <p className="text-gray-600">Manage and update content sections of your website</p>
+          <h2 className="text-2xl font-bold">Clinicians Page Content</h2>
+          <p className="text-gray-600">Manage content for the clinicians page</p>
         </div>
         <div className="flex items-center space-x-4">
           {getSyncStatusIcon()}
@@ -779,7 +439,7 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
         </div>
       </div>
 
-      {Object.entries(content).map(([sectionKey, sectionContent]) => (
+      {cliniciansContent.map(([sectionKey, sectionContent]) => (
         <Card key={sectionKey}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -793,11 +453,11 @@ const StorageContentManager: React.FC<StorageContentManagerProps> = ({ syncStatu
         </Card>
       ))}
 
-      {Object.keys(content).length === 0 && (
+      {cliniciansContent.length === 0 && (
         <div className="text-center py-12">
           <Type className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No content available</h3>
-          <p className="text-gray-500">Add content to the database to see it here</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No clinicians content available</h3>
+          <p className="text-gray-500">Add clinicians content to the database to see it here</p>
         </div>
       )}
     </div>
