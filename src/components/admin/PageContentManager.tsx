@@ -828,6 +828,18 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                           <p className="text-gray-900">{section.description}</p>
                         </div>
                       )}
+                      {section.background_video_url && (
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Background Video:</span>
+                          <video 
+                            src={section.background_video_url} 
+                            className="mt-1 w-full h-40 object-contain rounded border bg-black"
+                            controls
+                            preload="metadata"
+                            muted
+                          />
+                        </div>
+                      )}
                       {section.background_image_url && (
                         <div>
                           <span className="text-sm font-medium text-gray-600">Background Image:</span>
