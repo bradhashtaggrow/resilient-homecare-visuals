@@ -152,7 +152,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
   };
 
   const isFooterSection = (sectionKey: string) => sectionKey.includes('footer');
-  const isHeroSection = (sectionKey: string) => sectionKey.includes('hero');
 
   useEffect(() => {
     loadContent();
@@ -602,7 +601,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                             placeholder="Button text"
                           />
                         </div>
-                        {!isFooterSection(section.section_key) && !isHeroSection(section.section_key) && (
+                        {!isFooterSection(section.section_key) && (
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                               Button URL
@@ -786,15 +785,12 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                             disabled={uploadingVideo}
                           />
                           {uploadingVideo && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
-                          {(editForm.background_video_url || section.background_video_url) && (
+                          {editForm.background_video_url && (
                             <div className="mt-2">
-                              <p className="text-sm text-gray-600 mb-2">Current Background Video:</p>
                               <video 
-                                src={editForm.background_video_url || section.background_video_url} 
-                                className="w-full h-40 object-contain rounded border bg-black"
+                                src={editForm.background_video_url} 
+                                className="w-full h-60 object-cover rounded border"
                                 controls
-                                preload="metadata"
-                                muted
                               />
                             </div>
                           )}
@@ -828,18 +824,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         <div>
                           <span className="text-sm font-medium text-gray-600">Description:</span>
                           <p className="text-gray-900">{section.description}</p>
-                        </div>
-                      )}
-                      {section.background_video_url && (
-                        <div>
-                          <span className="text-sm font-medium text-gray-600">Background Video:</span>
-                          <video 
-                            src={section.background_video_url} 
-                            className="mt-1 w-full h-40 object-contain rounded border bg-black"
-                            controls
-                            preload="metadata"
-                            muted
-                          />
                         </div>
                       )}
                       {section.background_image_url && (
