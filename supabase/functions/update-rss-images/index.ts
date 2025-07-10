@@ -27,7 +27,7 @@ serve(async (req) => {
       .from('blog_posts')
       .select('id, title, content, excerpt, featured_image_url')
       .eq('source', 'rss')
-      .is('featured_image_url', null);
+      .or('featured_image_url.is.null,featured_image_url.eq.');
 
     if (fetchError) {
       console.error('Error fetching posts:', fetchError);

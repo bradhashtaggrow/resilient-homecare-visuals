@@ -182,9 +182,10 @@ function parseRSSFeed(xmlText: string): RSSItem[] {
                               extractXMLContent(itemXml, 'enclosure') ||
                               extractXMLContent(itemXml, 'image') ||
                               extractXMLContent(itemXml, 'media:group') ||
+                              extractImageFromMeta(itemXml) ||
                               extractImageFromContent(content) ||
                               extractImageFromContent(description) ||
-                              extractImageFromMeta(itemXml) ||
+                              extractImageFromLink(link) ||
                               null;
 
         // Clean up HTML tags from description and content
@@ -273,6 +274,87 @@ function extractImageFromMeta(xml: string): string | null {
   }
   
   return null;
+}
+
+async function extractImageFromLink(link: string): Promise<string | null> {
+  if (!link) return null;
+  
+  try {
+    console.log(`Attempting to extract header image from: ${link}`);
+    
+    // Fetch the actual web page
+    const response = await fetch(link, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; RSS Image Extractor)'
+      }
+    });
+    
+    if (!response.ok) {
+      console.log(`Failed to fetch page: ${response.status}`);
+      return null;
+    }
+    
+    const html = await response.text();
+    
+    // Try to extract Open Graph image (most common for header images)
+    let ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["'][^>]*>/i);
+    if (!ogImageMatch) {
+      ogImageMatch = html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["'][^>]*>/i);
+    }
+    if (ogImageMatch) {
+      console.log(`Found Open Graph image: ${ogImageMatch[1]}`);
+      return ogImageMatch[1];
+    }
+    
+    // Try to extract Twitter Card image
+    let twitterImageMatch = html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["'][^>]*>/i);
+    if (!twitterImageMatch) {
+      twitterImageMatch = html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["'][^>]*>/i);
+    }
+    if (twitterImageMatch) {
+      console.log(`Found Twitter Card image: ${twitterImageMatch[1]}`);
+      return twitterImageMatch[1];
+    }
+    
+    // Try to extract from schema.org JSON-LD
+    const jsonLdMatch = html.match(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/i);
+    if (jsonLdMatch) {
+      try {
+        const jsonData = JSON.parse(jsonLdMatch[1]);
+        if (jsonData.image) {
+          const imageUrl = typeof jsonData.image === 'string' ? jsonData.image : jsonData.image.url || jsonData.image[0];
+          if (imageUrl) {
+            console.log(`Found JSON-LD image: ${imageUrl}`);
+            return imageUrl;
+          }
+        }
+      } catch (jsonError) {
+        // Ignore JSON parse errors
+      }
+    }
+    
+    // Try to find the first large image in the page
+    const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+    let imgMatch;
+    while ((imgMatch = imgRegex.exec(html)) !== null) {
+      const imgSrc = imgMatch[1];
+      // Skip small images, icons, and common non-content images
+      if (!imgSrc.includes('icon') && 
+          !imgSrc.includes('logo') && 
+          !imgSrc.includes('avatar') && 
+          !imgSrc.includes('thumbnail') &&
+          !imgSrc.includes('badge') &&
+          imgSrc.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+        console.log(`Found potential header image: ${imgSrc}`);
+        return imgSrc;
+      }
+    }
+    
+    return null;
+  } catch (error) {
+    console.error(`Error extracting image from link ${link}:`, error);
+    return null;
+  }
 }
 
 function cleanHTML(text: string): string {
