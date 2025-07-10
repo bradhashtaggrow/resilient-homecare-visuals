@@ -383,6 +383,41 @@ const BlogManager: React.FC = () => {
     }
   };
 
+  const updateExistingRSSImages = async () => {
+    try {
+      setIsFetching(true);
+      console.log('Invoking update RSS images function...');
+      
+      const { data, error } = await supabase.functions.invoke('update-rss-images', {
+        body: {}
+      });
+
+      console.log('Update RSS images response:', { data, error });
+
+      if (error) {
+        console.error('Update RSS images function error:', error);
+        throw new Error(error.message || 'Unknown error occurred');
+      }
+      
+      toast({
+        title: "RSS images updated",
+        description: `Successfully added images to ${data?.updatedCount || 0} existing RSS posts out of ${data?.totalProcessed || 0} processed.`,
+      });
+
+      // Reload blog posts to show updated images
+      loadBlogPosts();
+    } catch (error) {
+      console.error('Error updating RSS images:', error);
+      toast({
+        title: "Error updating RSS images", 
+        description: error.message || "Failed to update existing RSS post images",
+        variant: "destructive"
+      });
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
   const togglePostStatus = async (postId: string, field: 'is_published' | 'is_featured') => {
     try {
       const post = blogPosts.find(p => p.id === postId);
@@ -573,6 +608,21 @@ const BlogManager: React.FC = () => {
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold">RSS Imported Posts ({blogPosts.filter(p => p.source === 'rss').length})</h3>
             <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={updateExistingRSSImages}
+                disabled={isFetching}
+                className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                title="Add missing images to existing RSS posts"
+              >
+                {isFetching ? (
+                  <RefreshCw className="h-4 w-4 animate-spin mr-2" />
+                ) : (
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                )}
+                Update Images
+              </Button>
               <Badge variant="secondary">{blogPosts.filter(p => p.source === 'rss' && p.is_published).length} Published</Badge>
               <Badge variant="secondary">{blogPosts.filter(p => p.source === 'rss' && !p.is_published).length} Drafts</Badge>
             </div>
