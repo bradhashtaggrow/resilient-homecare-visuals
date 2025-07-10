@@ -1,10 +1,10 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useAnalytics } from './useAnalytics';
+import { useAdvancedAnalytics } from './useAdvancedAnalytics';
 
 export const useAnalyticsTracking = () => {
   const location = useLocation();
-  const { trackPageView, trackEvent } = useAnalytics();
+  const { trackPageView, trackEvent } = useAdvancedAnalytics();
 
   // Track page views on route changes
   useEffect(() => {
