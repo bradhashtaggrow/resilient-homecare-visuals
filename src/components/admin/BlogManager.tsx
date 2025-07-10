@@ -917,12 +917,75 @@ const BlogManager: React.FC = () => {
 
       {/* Edit Post Modal */}
       {editingPost && (
-        <EditPostModal
-          editedPost={editedPost}
-          setEditedPost={setEditedPost}
-          onSave={saveEditedPost}
-          onCancel={cancelEditingPost}
-        />
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-lg shadow-2xl">
+            {/* Header */}
+            <div className="bg-orange-500 text-white p-4 rounded-t-lg">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold">Edit Blog Post</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={cancelEditingPost}
+                  className="text-white hover:bg-white/20"
+                >
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 space-y-4">
+              {/* Title */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <Input
+                  value={editedPost.title || ''}
+                  onChange={(e) => setEditedPost({...editedPost, title: e.target.value})}
+                  placeholder="Enter blog post title"
+                />
+              </div>
+
+              {/* Author */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Author</label>
+                <Input
+                  value={editedPost.author || ''}
+                  onChange={(e) => setEditedPost({...editedPost, author: e.target.value})}
+                  placeholder="Author name"
+                />
+              </div>
+
+              {/* Content */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
+                <Textarea
+                  value={editedPost.content || ''}
+                  onChange={(e) => setEditedPost({...editedPost, content: e.target.value})}
+                  placeholder="Write your blog post content here..."
+                  rows={10}
+                  className="font-mono text-sm"
+                />
+              </div>
+
+              {/* Buttons */}
+              <div className="flex justify-end space-x-3 pt-4 border-t">
+                <Button 
+                  variant="outline" 
+                  onClick={cancelEditingPost}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={saveEditedPost}
+                  className="bg-orange-500 hover:bg-orange-600 text-white"
+                >
+                  Save Changes
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
