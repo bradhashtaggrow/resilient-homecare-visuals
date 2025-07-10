@@ -248,7 +248,16 @@ const BlogManager: React.FC = () => {
   };
 
   const saveEditedPost = async () => {
+    console.log('Save button clicked!');
+    console.log('editingPost:', editingPost);
+    console.log('editedPost:', editedPost);
+    
     if (!editingPost || !editedPost.title || !editedPost.content) {
+      console.log('Missing required fields:', {
+        editingPost: !!editingPost,
+        title: !!editedPost.title,
+        content: !!editedPost.content
+      });
       toast({
         title: "Missing required fields",
         description: "Title and content are required",
