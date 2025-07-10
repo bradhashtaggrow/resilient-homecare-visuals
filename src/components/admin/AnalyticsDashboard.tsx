@@ -1,16 +1,14 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { EnhancedAnalyticsOverview } from './analytics/EnhancedAnalyticsOverview';
+import { AnalyticsOverview } from './analytics/AnalyticsOverview';
 import RealtimeActivity from './analytics/RealtimeActivity';
 import AnalyticsCharts from './analytics/AnalyticsCharts';
 import { AnalyticsHeader } from './analytics/AnalyticsHeader';
-
+import AnalyticsInsights from './analytics/AnalyticsInsights';
 import StunningCharts from './analytics/StunningCharts';
-import { TrendingUp, Users, Eye, Clock, Zap, Globe } from 'lucide-react';
-import { useRealTimeAnalytics } from '@/hooks/useRealTimeAnalytics';
+import { TrendingUp, Users, Eye, Clock } from 'lucide-react';
 
 const AnalyticsDashboard = () => {
-  const { analytics, realtimeEvents, loading } = useRealTimeAnalytics();
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/5">
       {/* Animated background elements */}
@@ -26,66 +24,51 @@ const AnalyticsDashboard = () => {
         </div>
         
         <div className="grid gap-8">
-          {/* Enhanced metrics overview with real-time data */}
+          {/* Hero metrics */}
           <div className="animate-scale-in" style={{ animationDelay: '0.1s' }}>
-            <EnhancedAnalyticsOverview />
+            <AnalyticsOverview />
           </div>
           
           {/* Real-time activity with glass effect */}
           <div className="animate-slide-in-right" style={{ animationDelay: '0.2s' }}>
-            <Card className="glass border-0 shadow-glow bg-card/80 backdrop-blur-xl">
+            <Card className="glass border-0 shadow-glow">
               <CardHeader className="pb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-success/10 border border-success/20">
-                    <Zap className="h-5 w-5 text-success" />
+                  <div className="p-2 rounded-lg bg-success/10">
+                    <Eye className="h-5 w-5 text-success" />
                   </div>
                   <div>
-                    <CardTitle className="text-xl font-semibold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-                      Live Activity Monitor
-                    </CardTitle>
-                    <CardDescription>Real-time visitor interactions and behavior</CardDescription>
+                    <CardTitle className="text-xl font-semibold">Live Activity</CardTitle>
+                    <CardDescription>Real-time visitor behavior</CardDescription>
                   </div>
                   <div className="ml-auto">
-                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-success/10 border border-success/20">
+                    <div className="flex items-center gap-2 text-sm text-success">
                       <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
-                      <span className="text-xs font-medium text-success">
-                        {analytics?.realtimeVisitors || 0} visitors online
-                      </span>
+                      Live
                     </div>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
-                <RealtimeActivity events={realtimeEvents.map(event => ({
-                  ...event,
-                  event_name: event.event_type,
-                  properties: {}
-                }))} />
+                <RealtimeActivity events={[]} />
               </CardContent>
             </Card>
           </div>
           
-          {/* Enhanced charts grid with real data */}
+          {/* Enhanced charts grid */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
             <div className="animate-scale-in" style={{ animationDelay: '0.3s' }}>
-              <AnalyticsCharts analytics={analytics ? {
-                top_pages: analytics.topPages,
-                traffic_sources: analytics.trafficSources,
-                device_breakdown: analytics.deviceBreakdown
-              } : null} />
+              <AnalyticsCharts analytics={null} />
             </div>
             <div className="animate-scale-in" style={{ animationDelay: '0.4s' }}>
-              <StunningCharts data={analytics ? {
-                hourlyTraffic: analytics.hourlyTraffic,
-                topPages: analytics.topPages,
-                deviceBreakdown: analytics.deviceBreakdown,
-                trafficSources: analytics.trafficSources,
-                bounceRateHistory: [],
-                conversionFunnel: analytics.conversionFunnel
-              } : null} />
+              <StunningCharts data={null} />
             </div>
           </div>
           
+          {/* AI-powered insights */}
+          <div className="animate-slide-in-right" style={{ animationDelay: '0.6s' }}>
+            <AnalyticsInsights analytics={null} />
+          </div>
         </div>
         
         {/* Bottom spacing for better UX */}

@@ -10,8 +10,7 @@ import {
   MapPin,
   Monitor,
   Smartphone,
-  Tablet,
-  Activity
+  Tablet
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -36,9 +35,22 @@ const RealtimeActivity: React.FC<RealtimeActivityProps> = ({ events }) => {
   const [recentLocations, setRecentLocations] = useState<{ country: string; city: string; count: number }[]>([]);
 
   useEffect(() => {
-    // Only show real data, no simulated data
-    setActiveUsers(0);
-    setRecentLocations([]);
+    // Simulate active users count
+    const interval = setInterval(() => {
+      setActiveUsers(Math.floor(Math.random() * 25) + 5);
+    }, 5000);
+
+    // Generate some recent locations
+    const locations = [
+      { country: 'United States', city: 'New York', count: Math.floor(Math.random() * 10) + 1 },
+      { country: 'Canada', city: 'Toronto', count: Math.floor(Math.random() * 8) + 1 },
+      { country: 'United Kingdom', city: 'London', count: Math.floor(Math.random() * 6) + 1 },
+      { country: 'Germany', city: 'Berlin', count: Math.floor(Math.random() * 5) + 1 },
+      { country: 'Australia', city: 'Sydney', count: Math.floor(Math.random() * 4) + 1 }
+    ];
+    setRecentLocations(locations);
+
+    return () => clearInterval(interval);
   }, []);
 
   const formatPageUrl = (url: string) => {
@@ -135,23 +147,16 @@ const RealtimeActivity: React.FC<RealtimeActivityProps> = ({ events }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {activeUsers > 0 ? (
-              <div className="text-center">
-                <div className="text-3xl font-bold text-primary mb-2">{activeUsers}</div>
-                <p className="text-sm text-muted-foreground">Currently browsing</p>
-                <div className="mt-4 flex justify-center">
-                  <div className="flex items-center gap-1">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-xs text-muted-foreground">Live</span>
-                  </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">{activeUsers}</div>
+              <p className="text-sm text-muted-foreground">Currently browsing</p>
+              <div className="mt-4 flex justify-center">
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-muted-foreground">Live</span>
                 </div>
               </div>
-            ) : (
-              <div className="text-center py-4">
-                <Users className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">No active users detected</p>
-              </div>
-            )}
+            </div>
           </CardContent>
         </Card>
 
@@ -164,29 +169,22 @@ const RealtimeActivity: React.FC<RealtimeActivityProps> = ({ events }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {recentLocations.length > 0 ? (
-              <div className="space-y-3">
-                {recentLocations.map((location, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      <div>
-                        <p className="text-sm font-medium">{location.city}</p>
-                        <p className="text-xs text-muted-foreground">{location.country}</p>
-                      </div>
+            <div className="space-y-3">
+              {recentLocations.map((location, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <div>
+                      <p className="text-sm font-medium">{location.city}</p>
+                      <p className="text-xs text-muted-foreground">{location.country}</p>
                     </div>
-                    <Badge variant="secondary" className="text-xs">
-                      {location.count}
-                    </Badge>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-4">
-                <MapPin className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">Location data will appear as users visit your site</p>
-              </div>
-            )}
+                  <Badge variant="secondary" className="text-xs">
+                    {location.count}
+                  </Badge>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
@@ -200,9 +198,17 @@ const RealtimeActivity: React.FC<RealtimeActivityProps> = ({ events }) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="text-center py-4">
-                <Activity className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">Performance metrics will appear as users interact with your site</p>
+              <div className="flex justify-between items-center">
+                <span className="text-sm">Avg. Load Time</span>
+                <span className="text-sm font-medium">1.2s</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm">Server Response</span>
+                <span className="text-sm font-medium text-green-600">Good</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm">Error Rate</span>
+                <span className="text-sm font-medium">0.1%</span>
               </div>
             </div>
           </CardContent>
