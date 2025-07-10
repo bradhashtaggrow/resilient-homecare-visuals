@@ -30,7 +30,8 @@ import {
   Tag,
   Globe,
   Wifi,
-  WifiOff
+  WifiOff,
+  Star
  } from 'lucide-react';
 import BlogEditDropdown from './BlogEditDropdown';
 import RSSPostControls from './RSSPostControls';
@@ -676,22 +677,25 @@ const BlogManager: React.FC = () => {
                         size="sm"
                         onClick={() => togglePostStatus(post.id, 'is_featured')}
                         className="border-yellow-200 text-yellow-600 hover:bg-yellow-50"
+                        title={post.is_featured ? 'Remove from featured' : 'Mark as featured'}
                       >
-                        {post.is_featured ? 'Unfeature' : 'Feature'}
+                        <Star className={`h-4 w-4 ${post.is_featured ? 'fill-current' : ''}`} />
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => togglePostStatus(post.id, 'is_published')}
                         className={post.is_published ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-green-600 hover:bg-green-50'}
+                        title={post.is_published ? 'Unpublish post' : 'Publish post'}
                       >
-                        {post.is_published ? 'Unpublish' : 'Publish'}
+                        {post.is_published ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => deletePost(post.id)}
                         className="border-red-200 text-red-600 hover:bg-red-50"
+                        title="Delete post"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
