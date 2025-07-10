@@ -46,8 +46,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setSession(session);
         setUser(session?.user ?? null);
         
-        if (session?.user) {
-          // Check if user is admin immediately
+        if (session?.user && event === 'SIGNED_IN') {
+          // Check if user is admin immediately and redirect
           setTimeout(async () => {
             try {
               const { data, error } = await supabase
@@ -60,12 +60,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               const adminStatus = !error && data !== null;
               console.log('Admin check result:', adminStatus);
               setIsAdmin(adminStatus);
+              
+              // Force redirect to admin dashboard if admin
+              if (adminStatus && window.location.pathname !== '/admin') {
+                console.log('Redirecting admin user to dashboard');
+                window.location.href = '/admin';
+              }
             } catch (error) {
               console.error('Error checking admin role:', error);
               setIsAdmin(false);
             }
           }, 0);
-        } else {
+        } else if (!session) {
           console.log('No session, clearing admin state');
           setIsAdmin(false);
         }

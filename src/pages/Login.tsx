@@ -40,18 +40,14 @@ const Login = () => {
         description: error.message,
         variant: "destructive"
       });
+      setLoading(false);
     } else {
       toast({
         title: "Welcome back!",
-        description: "Redirecting to admin dashboard..."
+        description: "Signing you in..."
       });
-      // Force immediate redirect to admin dashboard
-      setTimeout(() => {
-        navigate('/admin', { replace: true });
-      }, 100);
+      // Don't set loading to false here - let the auth state change handle the redirect
     }
-
-    setLoading(false);
   };
 
   return (
@@ -160,7 +156,7 @@ const Login = () => {
                 {loading ? (
                   <>
                     <Loader2 className="mr-3 h-6 w-6 animate-spin" />
-                    <span className="tracking-wide">Authenticating...</span>
+                    <span className="tracking-wide">Signing in...</span>
                   </>
                 ) : (
                   <>
