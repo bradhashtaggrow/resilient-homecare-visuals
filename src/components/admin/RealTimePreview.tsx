@@ -130,8 +130,8 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
       {!isFullScreen && (
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-black font-apple">Live Preview</h2>
-            <p className="text-blue-600 font-apple">See your website changes in real-time</p>
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">Live Preview</h2>
+            <p className="text-lg text-muted-foreground">See your website changes in real-time</p>
             {lastUpdate && (
               <p className="text-xs text-gray-500 mt-1">
                 Last updated: {lastUpdate.toLocaleTimeString()}
