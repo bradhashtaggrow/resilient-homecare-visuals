@@ -68,9 +68,6 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
               <p className="text-lg text-muted-foreground">Real-time healthcare platform management</p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-success/10">
-                {getSyncStatusIcon()}
-              </div>
             </div>
           </div>
         </div>
