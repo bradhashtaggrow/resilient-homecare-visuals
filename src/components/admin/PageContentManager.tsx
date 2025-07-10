@@ -803,6 +803,178 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         </div>
                       )}
 
+                      {/* Pillars management for about_why_choose section */}
+                      {section.section_key === 'about_why_choose' && (
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Why Choose Resilient Pillars</h4>
+                          {((editForm.content_data as any)?.pillars || []).map((pillar: any, index: number) => (
+                            <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
+                              <div className="flex items-center justify-between">
+                                <h5 className="font-medium text-gray-800">Pillar {index + 1}</h5>
+                                <Badge variant="outline">{pillar.id}</Badge>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Pillar Title
+                                  </label>
+                                  <Input
+                                    value={pillar.title || ''}
+                                    onChange={(e) => {
+                                      const newPillars = [...((editForm.content_data as any)?.pillars || [])];
+                                      newPillars[index] = { ...newPillars[index], title: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, pillars: newPillars }
+                                      });
+                                    }}
+                                    placeholder="Pillar title"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Subtitle
+                                  </label>
+                                  <Input
+                                    value={pillar.subtitle || ''}
+                                    onChange={(e) => {
+                                      const newPillars = [...((editForm.content_data as any)?.pillars || [])];
+                                      newPillars[index] = { ...newPillars[index], subtitle: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, pillars: newPillars }
+                                      });
+                                    }}
+                                    placeholder="Pillar subtitle"
+                                  />
+                                </div>
+                              </div>
+
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Description
+                                </label>
+                                <Textarea
+                                  value={pillar.description || ''}
+                                  onChange={(e) => {
+                                    const newPillars = [...((editForm.content_data as any)?.pillars || [])];
+                                    newPillars[index] = { ...newPillars[index], description: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: { ...editForm.content_data, pillars: newPillars }
+                                    });
+                                  }}
+                                  placeholder="Pillar description"
+                                  rows={3}
+                                />
+                              </div>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Icon
+                                  </label>
+                                  <Select
+                                    value={pillar.icon_name || 'Activity'}
+                                    onValueChange={(value) => {
+                                      const newPillars = [...((editForm.content_data as any)?.pillars || [])];
+                                      newPillars[index] = { ...newPillars[index], icon_name: value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, pillars: newPillars }
+                                      });
+                                    }}
+                                  >
+                                    <SelectTrigger>
+                                      <SelectValue>
+                                        <div className="flex items-center gap-2">
+                                          {getIconComponent(pillar.icon_name || 'Activity')}
+                                          <span>{pillar.icon_name || 'Activity'}</span>
+                                        </div>
+                                      </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {Object.keys(availableIcons).map((iconName) => (
+                                        <SelectItem key={iconName} value={iconName}>
+                                          <div className="flex items-center gap-2">
+                                            {getIconComponent(iconName)}
+                                            <span>{iconName}</span>
+                                          </div>
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Pillar Image
+                                  </label>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (!file) return;
+                                      
+                                      // Handle pillar image upload
+                                      const handlePillarImageUpload = async (file: File, pillarIndex: number) => {
+                                        try {
+                                          const fileExt = file.name.split('.').pop();
+                                          const fileName = `${Math.random()}.${fileExt}`;
+                                          const filePath = `pillar-images/${fileName}`;
+
+                                          const { error: uploadError } = await supabase.storage
+                                            .from('media')
+                                            .upload(filePath, file);
+
+                                          if (uploadError) throw uploadError;
+
+                                          const { data } = supabase.storage
+                                            .from('media')
+                                            .getPublicUrl(filePath);
+
+                                          const newPillars = [...((editForm.content_data as any)?.pillars || [])];
+                                          newPillars[pillarIndex] = { ...newPillars[pillarIndex], image_url: data.publicUrl };
+                                          setEditForm({
+                                            ...editForm,
+                                            content_data: { ...editForm.content_data, pillars: newPillars }
+                                          });
+
+                                          toast({
+                                            title: "Upload successful",
+                                            description: "Pillar image uploaded successfully",
+                                          });
+                                        } catch (error) {
+                                          console.error('Error uploading pillar image:', error);
+                                          toast({
+                                            title: "Upload failed",
+                                            description: "Failed to upload pillar image",
+                                            variant: "destructive"
+                                          });
+                                        }
+                                      };
+                                      
+                                      handlePillarImageUpload(file, index);
+                                    }}
+                                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                  />
+                                  {pillar.image_url && (
+                                    <div className="mt-2">
+                                      <img 
+                                        src={pillar.image_url} 
+                                        alt="Pillar preview" 
+                                        className="w-full h-32 object-cover rounded border"
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
                       {/* Active toggle */}
                       <div className="flex items-center space-x-2">
                         <input
