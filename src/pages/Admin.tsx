@@ -8,6 +8,7 @@ import WebsiteContentManager from '@/components/admin/WebsiteContentManager';
 import PageContentManager from '@/components/admin/PageContentManager';
 import RealTimePreview from '@/components/admin/RealTimePreview';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
+import BlogManager from '@/components/admin/BlogManager';
 import UserManagement from '@/components/admin/UserManagement';
 import LeadsManager from '@/components/admin/LeadsManager';
 import { supabase } from '@/integrations/supabase/client';
@@ -141,6 +142,8 @@ const Admin = () => {
         return <RealTimePreview syncStatus={syncStatus} />;
       case 'analytics':
         return <AnalyticsDashboard syncStatus={syncStatus} />;
+      case 'blog':
+        return <BlogManager />;
       case 'users':
         return <UserManagement syncStatus={syncStatus} />;
       case 'leads':
