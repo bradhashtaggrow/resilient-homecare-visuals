@@ -179,7 +179,19 @@ async function extractImageFromRSSFeed(feedUrl: string, postTitle: string): Prom
       if (title && title.trim() === postTitle.trim()) {
         console.log(`Found matching RSS item for: ${postTitle}`);
         
-        // Extract image from various RSS elements with better parsing
+        // First, try to get the article URL and fetch the actual page
+        const articleUrl = extractXMLContent(itemXml, 'link') || extractXMLContent(itemXml, 'guid');
+        
+        if (articleUrl) {
+          console.log(`Fetching article page: ${articleUrl}`);
+          const pageImageUrl = await extractImageFromArticlePage(articleUrl);
+          if (pageImageUrl) {
+            console.log(`Found cover image from article page: ${pageImageUrl}`);
+            return pageImageUrl;
+          }
+        }
+        
+        // Fallback: Extract image from RSS item directly
         let imageUrl = 
           // Try media namespace tags first
           extractMediaContentUrl(itemXml) ||
@@ -204,6 +216,81 @@ async function extractImageFromRSSFeed(feedUrl: string, postTitle: string): Prom
     return null;
   } catch (error) {
     console.error(`Error extracting image from RSS feed:`, error);
+    return null;
+  }
+}
+
+async function extractImageFromArticlePage(url: string): Promise<string | null> {
+  try {
+    console.log(`Fetching article page: ${url}`);
+    
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; RSS Image Extractor/1.0)'
+      }
+    });
+    
+    if (!response.ok) {
+      console.error(`Failed to fetch article page: ${response.status}`);
+      return null;
+    }
+    
+    const html = await response.text();
+    
+    // Try to extract cover/featured image from common meta tags and selectors
+    const imageSelectors = [
+      // Open Graph image
+      /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["'][^>]*>/i,
+      /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["'][^>]*>/i,
+      
+      // Twitter card image
+      /<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["'][^>]*>/i,
+      /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["'][^>]*>/i,
+      
+      // Article featured image
+      /<meta[^>]+name=["']article:image["'][^>]+content=["']([^"']+)["'][^>]*>/i,
+      /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']article:image["'][^>]*>/i,
+      
+      // Common featured image selectors
+      /<img[^>]+class=["'][^"']*featured[^"']*["'][^>]+src=["']([^"']+)["'][^>]*>/i,
+      /<img[^>]+class=["'][^"']*hero[^"']*["'][^>]+src=["']([^"']+)["'][^>]*>/i,
+      /<img[^>]+class=["'][^"']*cover[^"']*["'][^>]+src=["']([^"']+)["'][^>]*>/i,
+      
+      // First image in article content
+      /<article[^>]*>[\s\S]*?<img[^>]+src=["']([^"']+)["'][^>]*>[\s\S]*?<\/article>/i,
+      
+      // General first large image
+      /<img[^>]+src=["']([^"']+)["'][^>]*>/i
+    ];
+    
+    for (const regex of imageSelectors) {
+      const match = html.match(regex);
+      if (match && match[1]) {
+        let imageUrl = match[1];
+        
+        // Convert relative URLs to absolute
+        if (imageUrl.startsWith('//')) {
+          imageUrl = 'https:' + imageUrl;
+        } else if (imageUrl.startsWith('/')) {
+          const baseUrl = new URL(url);
+          imageUrl = baseUrl.origin + imageUrl;
+        } else if (!imageUrl.startsWith('http')) {
+          const baseUrl = new URL(url);
+          imageUrl = baseUrl.origin + '/' + imageUrl;
+        }
+        
+        // Validate it looks like an image URL
+        if (/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?|$)/i.test(imageUrl)) {
+          console.log(`Found cover image: ${imageUrl}`);
+          return imageUrl;
+        }
+      }
+    }
+    
+    console.log(`No cover image found in article page: ${url}`);
+    return null;
+  } catch (error) {
+    console.error(`Error fetching article page:`, error);
     return null;
   }
 }
