@@ -86,17 +86,6 @@ const AnalyticsDashboard = () => {
             </div>
           </div>
           
-          {/* AI-powered insights with real data */}
-          <div className="animate-slide-in-right" style={{ animationDelay: '0.6s' }}>
-            <AnalyticsInsights analytics={analytics ? {
-              total_page_views: analytics.totalPageViews,
-              unique_visitors: analytics.uniqueVisitors,
-              total_sessions: analytics.totalSessions,
-              avg_session_duration: analytics.avgSessionDuration,
-              bounce_rate: analytics.bounceRate,
-              top_pages: analytics.topPages
-            } : null} />
-          </div>
         </div>
         
         {/* Bottom spacing for better UX */}
