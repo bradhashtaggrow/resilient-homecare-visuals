@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -319,60 +320,84 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-4xl font-bold font-apple bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">Website Content Manager</h2>
-          <p className="text-lg text-black">Manage all website sections, content, and media</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl sm:text-5xl font-bold font-apple text-slate-900 mb-3">
+              Website Content Manager
+            </h1>
+            <p className="text-xl text-slate-600 font-apple">
+              Manage all website sections, content, and media
+            </p>
+          </div>
+          <div className="flex items-center space-x-3">
+            {getSyncStatusIcon()}
+            <Badge 
+              variant="outline" 
+              className="text-sm font-apple bg-white border-slate-200 text-slate-700"
+            >
+              {syncStatus === 'connected' ? 'Live Updates' : 
+               syncStatus === 'syncing' ? 'Syncing' : 'Offline'}
+            </Badge>
+          </div>
         </div>
-        <div className="flex items-center space-x-2">
-          {getSyncStatusIcon()}
-          <Badge variant="outline" className="text-sm">
-            {syncStatus === 'connected' ? 'Live Updates' : 
-             syncStatus === 'syncing' ? 'Syncing' : 'Offline'}
-          </Badge>
-        </div>
-      </div>
 
-      <div className="space-y-6 admin-scrollbar max-h-[calc(100vh-12rem)] overflow-y-auto bg-white p-4 rounded-lg">
-        <div className="grid gap-6">
+        <div className="space-y-6">
           {content.map((section) => (
-            <Card key={section.id} className="overflow-hidden">
-              <CardHeader className="bg-white border-b">
+            <Card key={section.id} className="overflow-hidden border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+              <CardHeader className="bg-gradient-to-r from-white to-slate-50 border-b border-slate-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-lg font-semibold font-apple">
+                    <CardTitle className="text-2xl font-bold font-apple text-slate-900">
                       {formatSectionName(section.section_key)}
                     </CardTitle>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-slate-500 font-apple mt-1">
                       Section: {section.section_key}
                     </p>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Badge variant={section.is_active ? "default" : "secondary"}>
+                  <div className="flex items-center space-x-3">
+                    <Badge 
+                      variant={section.is_active ? "default" : "secondary"}
+                      className="font-apple"
+                    >
                       {section.is_active ? "Active" : "Inactive"}
                     </Badge>
                     {editingSection === section.section_key ? (
                       <div className="flex space-x-2">
-                        <Button size="sm" onClick={handleSave} className="btn-3d-gradient">
-                          <Save className="h-4 w-4 mr-1" />
+                        <Button 
+                          size="sm" 
+                          onClick={handleSave} 
+                          className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg font-apple"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
                           Save
                         </Button>
-                        <Button size="sm" variant="outline" onClick={handleCancel}>
-                          <X className="h-4 w-4 mr-1" />
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          onClick={handleCancel}
+                          className="border-slate-300 text-slate-700 hover:bg-slate-50 font-apple"
+                        >
+                          <X className="h-4 w-4 mr-2" />
                           Cancel
                         </Button>
                       </div>
                     ) : (
-                      <Button size="sm" variant="outline" onClick={() => handleEdit(section)}>
-                        <Edit3 className="h-4 w-4 mr-1" />
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        onClick={() => handleEdit(section)}
+                        className="border-slate-300 text-slate-700 hover:bg-slate-50 font-apple"
+                      >
+                        <Edit3 className="h-4 w-4 mr-2" />
                         Edit
                       </Button>
                     )}
@@ -380,91 +405,98 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                 </div>
               </CardHeader>
               
-              <CardContent className="p-6 space-y-4 bg-white">
+              <CardContent className="p-8 bg-white">
                 {editingSection === section.section_key ? (
-                  <div className="grid gap-4">
+                  <div className="grid gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-black mb-2">
+                      <label className="block text-sm font-semibold text-slate-700 mb-3 font-apple">
                         Title
                       </label>
                       <Input
                         value={editForm.title || ''}
                         onChange={(e) => setEditForm({...editForm, title: e.target.value})}
                         placeholder="Section title"
+                        className="border-slate-200 focus:border-blue-500 focus:ring-blue-500 font-apple text-lg"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-black mb-2">
+                      <label className="block text-sm font-semibold text-slate-700 mb-3 font-apple">
                         Description
                       </label>
                       <Textarea
                         value={editForm.description || ''}
                         onChange={(e) => setEditForm({...editForm, description: e.target.value})}
                         placeholder="Section description"
-                        rows={3}
+                        rows={4}
+                        className="border-slate-200 focus:border-blue-500 focus:ring-blue-500 font-apple"
                       />
                     </div>
 
-                    {/* File upload section */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-black mb-2">
-                          <Image className="h-4 w-4 inline mr-1" />
+                        <label className="block text-sm font-semibold text-slate-700 mb-3 font-apple">
+                          <Image className="h-4 w-4 inline mr-2" />
                           Upload Background Image
                         </label>
                         <input
                           type="file"
                           accept="image/*"
                           onChange={(e) => handleFileChange(e, 'image')}
-                          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                          className="block w-full text-sm text-slate-500 font-apple
+                            file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 
+                            file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 
+                            hover:file:bg-blue-100 file:transition-colors"
                         />
                         {uploadingImage && (
-                          <div className="mt-2 text-sm text-blue-600">Uploading...</div>
+                          <div className="mt-3 text-sm text-blue-600 font-apple">Uploading...</div>
                         )}
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-black mb-2">
-                          <Video className="h-4 w-4 inline mr-1" />
+                        <label className="block text-sm font-semibold text-slate-700 mb-3 font-apple">
+                          <Video className="h-4 w-4 inline mr-2" />
                           Upload Background Video
                         </label>
                         <input
                           type="file"
                           accept="video/*"
                           onChange={(e) => handleFileChange(e, 'video')}
-                          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                          className="block w-full text-sm text-slate-500 font-apple
+                            file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 
+                            file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 
+                            hover:file:bg-blue-100 file:transition-colors"
                         />
                         {uploadingVideo && (
-                          <div className="mt-2 text-sm text-blue-600">Uploading...</div>
+                          <div className="mt-3 text-sm text-blue-600 font-apple">Uploading...</div>
                         )}
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-4">
                     {section.title && (
-                      <div>
-                        <span className="font-semibold text-black">Title:</span> 
-                        <span className="text-black ml-2">{section.title}</span>
+                      <div className="flex items-start space-x-3">
+                        <span className="font-semibold text-slate-700 font-apple min-w-[100px]">Title:</span> 
+                        <span className="text-slate-900 font-apple text-lg">{section.title}</span>
                       </div>
                     )}
                     {section.description && (
-                      <div>
-                        <span className="font-semibold text-black">Description:</span> 
-                        <span className="text-black ml-2">{section.description}</span>
+                      <div className="flex items-start space-x-3">
+                        <span className="font-semibold text-slate-700 font-apple min-w-[100px]">Description:</span> 
+                        <span className="text-slate-700 font-apple leading-relaxed">{section.description}</span>
                       </div>
                     )}
                     {section.background_image_url && (
-                      <div>
-                        <span className="font-semibold text-black">Background Image:</span> 
-                        <span className="text-black ml-2">Available</span>
+                      <div className="flex items-start space-x-3">
+                        <span className="font-semibold text-slate-700 font-apple min-w-[100px]">Background Image:</span> 
+                        <span className="text-green-600 font-apple">✓ Available</span>
                       </div>
                     )}
                     {section.background_video_url && (
-                      <div>
-                        <span className="font-semibold text-black">Background Video:</span> 
-                        <span className="text-black ml-2">Available</span>
+                      <div className="flex items-start space-x-3">
+                        <span className="font-semibold text-slate-700 font-apple min-w-[100px]">Background Video:</span> 
+                        <span className="text-green-600 font-apple">✓ Available</span>
                       </div>
                     )}
                   </div>
