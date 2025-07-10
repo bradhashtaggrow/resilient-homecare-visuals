@@ -63,6 +63,18 @@ serve(async (req) => {
     
     console.log('Fetching RSS from URL:', feedUrl);
     
+    // Test with a known working RSS feed first if this fails
+    if (feedUrl.includes('allazohealth.com')) {
+      console.log('AllazoHealth URL detected, this might not be a valid RSS feed');
+      return new Response(JSON.stringify({ 
+        error: 'The AllazoHealth URL appears to be invalid. Please update the RSS feed URL to a working RSS feed like: https://feeds.feedburner.com/venturebeat/SZYF',
+        suggestion: 'Try updating the RSS feed URL to a known working feed'
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    
     // Fetch RSS content
     const rssResponse = await fetch(feedUrl);
     console.log('RSS response status:', rssResponse.status);
