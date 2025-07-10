@@ -64,6 +64,7 @@ const BlogManager: React.FC = () => {
   const [rssFeeds, setRssFeeds] = useState<RSSFeed[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingPost, setEditingPost] = useState<string | null>(null);
+  const [editedPost, setEditedPost] = useState<Partial<BlogPost>>({});
   const [editingFeed, setEditingFeed] = useState<string | null>(null);
   const [newPost, setNewPost] = useState<Partial<BlogPost>>({
     title: '',
@@ -212,6 +213,76 @@ const BlogManager: React.FC = () => {
       toast({
         title: "Error saving blog post",
         description: "Failed to save blog post",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const startEditingPost = (post: BlogPost) => {
+    setEditingPost(post.id);
+    setEditedPost({
+      title: post.title,
+      content: post.content,
+      excerpt: post.excerpt,
+      author: post.author,
+      category: post.category,
+      tags: post.tags,
+      featured_image_url: post.featured_image_url,
+      is_published: post.is_published,
+      is_featured: post.is_featured
+    });
+  };
+
+  const cancelEditingPost = () => {
+    setEditingPost(null);
+    setEditedPost({});
+  };
+
+  const saveEditedPost = async () => {
+    if (!editingPost || !editedPost.title || !editedPost.content) {
+      toast({
+        title: "Missing required fields",
+        description: "Title and content are required",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const slug = generateSlug(editedPost.title);
+      const updates = {
+        title: editedPost.title,
+        content: editedPost.content,
+        excerpt: editedPost.excerpt || null,
+        author: editedPost.author || 'Resilient Healthcare',
+        slug,
+        category: editedPost.category || 'healthcare',
+        tags: editedPost.tags || [],
+        featured_image_url: editedPost.featured_image_url || null,
+        is_published: editedPost.is_published || false,
+        is_featured: editedPost.is_featured || false,
+        updated_at: new Date().toISOString()
+      };
+
+      const { error } = await supabase
+        .from('blog_posts')
+        .update(updates)
+        .eq('id', editingPost);
+
+      if (error) throw error;
+
+      toast({
+        title: "Post updated",
+        description: "Blog post has been updated successfully",
+      });
+
+      setEditingPost(null);
+      setEditedPost({});
+    } catch (error) {
+      console.error('Error updating blog post:', error);
+      toast({
+        title: "Error updating post",
+        description: "Failed to update blog post",
         variant: "destructive"
       });
     }
@@ -432,6 +503,14 @@ const BlogManager: React.FC = () => {
                       <Button
                         variant="outline"
                         size="sm"
+                        onClick={() => startEditingPost(post)}
+                        className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => togglePostStatus(post.id, 'is_featured')}
                         className="border-yellow-200 text-yellow-600 hover:bg-yellow-50"
                       >
@@ -459,6 +538,136 @@ const BlogManager: React.FC = () => {
               </Card>
             ))}
           </div>
+
+          {/* Edit Post Modal */}
+          {editingPost && (
+            <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50/30">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-orange-900">Edit Blog Post</CardTitle>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={cancelEditingPost}
+                    className="border-gray-300 text-gray-600 hover:bg-gray-50"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+                <CardDescription className="text-orange-700">
+                  Make changes and save to update in real-time
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-orange-700">Title</Label>
+                    <Input
+                      value={editedPost.title || ''}
+                      onChange={(e) => setEditedPost({...editedPost, title: e.target.value})}
+                      placeholder="Blog post title"
+                      className="border-orange-200 focus:border-orange-400"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-orange-700">Author</Label>
+                    <Input
+                      value={editedPost.author || ''}
+                      onChange={(e) => setEditedPost({...editedPost, author: e.target.value})}
+                      placeholder="Author name"
+                      className="border-orange-200 focus:border-orange-400"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-orange-700">Featured Image URL</Label>
+                  <Input
+                    value={editedPost.featured_image_url || ''}
+                    onChange={(e) => setEditedPost({...editedPost, featured_image_url: e.target.value})}
+                    placeholder="https://example.com/image.jpg"
+                    className="border-orange-200 focus:border-orange-400"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-orange-700">Excerpt</Label>
+                  <Textarea
+                    value={editedPost.excerpt || ''}
+                    onChange={(e) => setEditedPost({...editedPost, excerpt: e.target.value})}
+                    placeholder="Brief excerpt or summary"
+                    rows={2}
+                    className="border-orange-200 focus:border-orange-400"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-orange-700">Content</Label>
+                  <Textarea
+                    value={editedPost.content || ''}
+                    onChange={(e) => setEditedPost({...editedPost, content: e.target.value})}
+                    placeholder="Blog post content..."
+                    rows={12}
+                    className="border-orange-200 focus:border-orange-400"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <Label className="text-orange-700">Category</Label>
+                    <Select 
+                      value={editedPost.category || 'healthcare'} 
+                      onValueChange={(value) => setEditedPost({...editedPost, category: value})}
+                    >
+                      <SelectTrigger className="border-orange-200">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="healthcare">Healthcare</SelectItem>
+                        <SelectItem value="ai">AI & Technology</SelectItem>
+                        <SelectItem value="innovation">Innovation</SelectItem>
+                        <SelectItem value="research">Research</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="edit-published"
+                      checked={editedPost.is_published || false}
+                      onCheckedChange={(checked) => setEditedPost({...editedPost, is_published: checked})}
+                    />
+                    <Label htmlFor="edit-published" className="text-orange-700">Published</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="edit-featured"
+                      checked={editedPost.is_featured || false}
+                      onCheckedChange={(checked) => setEditedPost({...editedPost, is_featured: checked})}
+                    />
+                    <Label htmlFor="edit-featured" className="text-orange-700">Featured</Label>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <Button 
+                    onClick={saveEditedPost} 
+                    className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700"
+                  >
+                    <Save className="h-4 w-4 mr-2" />
+                    Save Changes
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={cancelEditingPost}
+                    className="border-gray-300 text-gray-600 hover:bg-gray-50"
+                  >
+                    <X className="h-4 w-4 mr-2" />
+                    Cancel
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="create" className="space-y-6">
