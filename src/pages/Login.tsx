@@ -55,12 +55,14 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Video Background - No Overlay */}
+      {/* Video Background with Contrast Overlay */}
       <div className="absolute inset-0 z-0">
         <OptimizedVideo
           src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4"
           className="absolute inset-0 w-full h-full object-cover scale-105"
         />
+        {/* Contrast overlay to match website brightness */}
+        <div className="absolute inset-0 bg-black/40" />
       </div>
 
       {/* Floating particles effect */}
