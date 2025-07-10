@@ -496,10 +496,10 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">
+          <h2 className="text-2xl font-bold text-black font-apple">
             {selectedPage.charAt(0).toUpperCase() + selectedPage.slice(1).replace('-', ' ')} Page Content
           </h2>
-          <p className="text-gray-600">Manage content sections, media, and settings</p>
+          <p className="text-blue-600 font-apple">Manage content sections, media, and settings</p>
         </div>
         <div className="flex items-center space-x-2">
           {getSyncStatusIcon()}
@@ -1218,19 +1218,19 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                     <div className="space-y-4">
                       {section.title && (
                         <div>
-                          <span className="text-sm font-medium text-gray-600">Title:</span>
-                          <p className="text-gray-900">{section.title}</p>
+                          <span className="text-sm font-medium text-blue-600">Title:</span>
+                          <p className="text-black">{section.title}</p>
                         </div>
                       )}
                       {section.description && (
                         <div>
-                          <span className="text-sm font-medium text-gray-600">Description:</span>
-                          <p className="text-gray-900">{section.description}</p>
+                          <span className="text-sm font-medium text-blue-600">Description:</span>
+                          <p className="text-black">{section.description}</p>
                         </div>
                       )}
                       {section.background_image_url && (
                         <div>
-                          <span className="text-sm font-medium text-gray-600">Background Image:</span>
+                          <span className="text-sm font-medium text-blue-600">Background Image:</span>
                           <img 
                             src={section.background_image_url} 
                             alt="Background" 
@@ -1251,8 +1251,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                 <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
                   <Edit3 className="h-8 w-8 text-gray-400" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No content sections found</h3>
-                <p className="text-gray-600">Content sections for this page will appear here once they're added to the database</p>
+                <h3 className="text-lg font-medium text-black mb-2">No content sections found</h3>
+                <p className="text-blue-600">Content sections for this page will appear here once they're added to the database</p>
               </CardContent>
             </Card>
           )}

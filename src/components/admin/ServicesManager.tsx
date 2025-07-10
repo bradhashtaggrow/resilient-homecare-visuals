@@ -196,7 +196,7 @@ const ServicesManager: React.FC<ServicesManagerProps> = ({ services, onServicesC
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Services Management</h2>
+        <h2 className="text-2xl font-bold text-black font-apple">Services Management</h2>
         <Button onClick={handleCreate} className="flex items-center gap-2">
           <Plus className="h-4 w-4" />
           Add Service

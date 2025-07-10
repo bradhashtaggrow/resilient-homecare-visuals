@@ -111,8 +111,8 @@ const ViewPostDropdown: React.FC<ViewPostDropdownProps> = ({ post, children }) =
               <div className="space-y-4">
                 {/* Title */}
                 <div>
-                  <h4 className="text-xl font-bold text-gray-900 mb-2">{post.title}</h4>
-                  <p className="text-sm text-gray-600">
+                  <h4 className="text-xl font-bold text-black mb-2">{post.title}</h4>
+                  <p className="text-sm text-blue-600">
                     By {post.author} • {new Date(post.created_at).toLocaleDateString()}
                   </p>
                 </div>

@@ -717,8 +717,8 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Website Content Management</h2>
-          <p className="text-gray-600">Complete website content control with real-time sync and media management</p>
+          <h2 className="text-2xl font-bold text-black font-apple">Website Content Management</h2>
+          <p className="text-blue-600 font-apple">Complete website content control with real-time sync and media management</p>
         </div>
         <div className="flex items-center gap-4">
           <Badge variant="outline" className={`flex items-center gap-2 ${
@@ -914,14 +914,14 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                       )}
                       {section.subtitle && (
                         <div>
-                          <span className="text-sm font-medium text-gray-500">Subtitle:</span>
-                          <p className="text-gray-900">{section.subtitle}</p>
+                          <span className="text-sm font-medium text-blue-600">Subtitle:</span>
+                          <p className="text-black">{section.subtitle}</p>
                         </div>
                       )}
                       {section.description && (
                         <div>
-                          <span className="text-sm font-medium text-gray-500">Description:</span>
-                          <p className="text-gray-900 text-sm">{section.description}</p>
+                          <span className="text-sm font-medium text-blue-600">Description:</span>
+                          <p className="text-black text-sm">{section.description}</p>
                         </div>
                       )}
                     </div>
@@ -939,8 +939,8 @@ const UnifiedContentManager: React.FC<UnifiedContentManagerProps> = ({ syncStatu
                 <CardContent className="pt-0">
                   <div className="text-center py-8 text-gray-500">
                     <Plus className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Section Not Created</h3>
-                    <p className="text-gray-600 mb-4">
+                    <h3 className="text-lg font-medium text-black mb-2">Section Not Created</h3>
+                    <p className="text-blue-600 mb-4">
                       This section hasn't been created yet. Click "Create Section" to add it to your website.
                     </p>
                   </div>

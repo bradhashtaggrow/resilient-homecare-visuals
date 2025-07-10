@@ -1060,7 +1060,7 @@ const BlogManager: React.FC = () => {
                         <h4 className="text-lg font-medium text-blue-900">{feed.name}</h4>
                         <p className="text-sm text-blue-600">{feed.url}</p>
                         {feed.description && (
-                          <p className="text-sm text-gray-600 mt-1">{feed.description}</p>
+                          <p className="text-sm text-blue-600 mt-1">{feed.description}</p>
                         )}
                         {feed.last_fetched_at && (
                           <p className="text-xs text-gray-500 mt-2">
