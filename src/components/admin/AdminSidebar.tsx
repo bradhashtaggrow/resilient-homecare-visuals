@@ -155,10 +155,10 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
               <SidebarMenuItem>
                 <SidebarMenuButton
                   onClick={handleLogout}
-                  className="w-full justify-start px-3 py-2.5 rounded-lg transition-all duration-200 font-apple text-foreground hover:bg-gradient-to-r hover:from-primary hover:to-primary-light hover:text-white group"
+                  className="w-full justify-start px-3 py-2.5 rounded-lg transition-all duration-200 font-apple text-foreground hover:bg-destructive/10 hover:text-destructive"
                 >
-                  <LogOut className="h-5 w-5 mr-3 group-hover:text-white" />
-                  <span className="font-medium font-apple group-hover:text-white">Sign Out</span>
+                  <LogOut className="h-5 w-5 mr-3" />
+                  <span className="font-medium font-apple">Sign Out</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
