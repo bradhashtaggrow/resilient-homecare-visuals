@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bell, User, Save, Wifi, WifiOff, LogOut, ChevronDown, Menu, ExternalLink } from 'lucide-react';
+import { Bell, User, Wifi, WifiOff, LogOut, ChevronDown, Menu, ExternalLink } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
 import { User as UserType } from '@supabase/supabase-js';
@@ -146,11 +145,6 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
         
         <NotificationDropdown />
         
-        <Button size="sm" className="btn-3d-gradient font-apple">
-          <Save className="h-4 w-4 mr-2" />
-          Save Changes
-        </Button>
-
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="sm" className="flex items-center space-x-2">
