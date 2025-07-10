@@ -253,9 +253,6 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
               <p className="text-lg text-muted-foreground">Track and manage your demo requests and leads</p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-success/10">
-                <Users className="h-5 w-5 text-success" />
-              </div>
             </div>
           </div>
         </div>
