@@ -277,7 +277,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                     <p className="text-3xl font-bold text-foreground">{stats.total}</p>
                   </div>
                   <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/10 group-hover:from-primary/20 group-hover:to-primary-light/20 transition-all duration-300">
-                    <Users className="h-8 w-8 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent" />
+                    <Users className="h-8 w-8 text-primary" />
                   </div>
                 </div>
               </CardContent>
@@ -292,7 +292,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                     <p className="text-3xl font-bold text-foreground">{stats.new}</p>
                   </div>
                   <div className="p-3 rounded-xl bg-gradient-to-br from-chart-3/10 to-chart-3/20 group-hover:from-chart-3/20 group-hover:to-chart-3/30 transition-all duration-300">
-                    <Star className="h-8 w-8 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent" />
+                    <Star className="h-8 w-8 text-primary" />
                   </div>
                 </div>
               </CardContent>
@@ -307,7 +307,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                     <p className="text-3xl font-bold text-foreground">{stats.qualified}</p>
                   </div>
                   <div className="p-3 rounded-xl bg-gradient-to-br from-chart-4/10 to-chart-4/20 group-hover:from-chart-4/20 group-hover:to-chart-4/30 transition-all duration-300">
-                    <Target className="h-8 w-8 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent" />
+                    <Target className="h-8 w-8 text-primary" />
                   </div>
                 </div>
               </CardContent>
@@ -322,7 +322,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                     <p className="text-3xl font-bold text-foreground">{stats.demo_scheduled}</p>
                   </div>
                   <div className="p-3 rounded-xl bg-gradient-to-br from-chart-5/10 to-chart-5/20 group-hover:from-chart-5/20 group-hover:to-chart-5/30 transition-all duration-300">
-                    <Calendar className="h-8 w-8 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent" />
+                    <Calendar className="h-8 w-8 text-primary" />
                   </div>
                 </div>
               </CardContent>
@@ -337,7 +337,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                     <p className="text-3xl font-bold text-foreground">{stats.closed_won}</p>
                   </div>
                   <div className="p-3 rounded-xl bg-gradient-to-br from-success/10 to-success/20 group-hover:from-success/20 group-hover:to-success/30 transition-all duration-300">
-                    <TrendingUp className="h-8 w-8 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent" />
+                    <TrendingUp className="h-8 w-8 text-primary" />
                   </div>
                 </div>
               </CardContent>
@@ -352,7 +352,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                     <p className="text-3xl font-bold text-foreground">{stats.closed_lost}</p>
                   </div>
                   <div className="p-3 rounded-xl bg-gradient-to-br from-destructive/10 to-destructive/20 group-hover:from-destructive/20 group-hover:to-destructive/30 transition-all duration-300">
-                    <StarOff className="h-8 w-8 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent" />
+                    <StarOff className="h-8 w-8 text-primary" />
                   </div>
                 </div>
               </CardContent>
