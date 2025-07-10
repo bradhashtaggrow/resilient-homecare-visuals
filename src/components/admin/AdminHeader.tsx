@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bell, Search, User, Save, Wifi, WifiOff, LogOut, ChevronDown, Menu } from 'lucide-react';
+import { Bell, User, Save, Wifi, WifiOff, LogOut, ChevronDown, Menu, ExternalLink } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
 import { User as UserType } from '@supabase/supabase-js';
@@ -131,13 +131,15 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
       </div>
 
       <div className="flex items-center space-x-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search..." 
-            className="pl-10 w-64 bg-background border-border"
-          />
-        </div>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="text-foreground"
+          onClick={() => window.open('/', '_blank')}
+        >
+          <ExternalLink className="h-4 w-4 mr-2" />
+          Visit Site
+        </Button>
         
         <Button variant="outline" size="sm" className="text-foreground">
           <Bell className="h-4 w-4" />
