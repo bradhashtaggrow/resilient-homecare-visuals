@@ -74,6 +74,8 @@ const BlogManager: React.FC = () => {
   // Debug logging for edit state
   console.log('BlogManager component rendered');
   const [editingFeed, setEditingFeed] = useState<string | null>(null);
+  const [fetchingFeeds, setFetchingFeeds] = useState<Set<string>>(new Set());
+  const [editFeedData, setEditFeedData] = useState<Partial<RSSFeed>>({});
   const [newPost, setNewPost] = useState<Partial<BlogPost>>({
     title: '',
     content: '',
@@ -338,7 +340,8 @@ const BlogManager: React.FC = () => {
 
   const fetchRSSPosts = async (feedId: string) => {
     try {
-      setIsFetching(true);
+      // Add to fetching feeds set
+      setFetchingFeeds(prev => new Set(prev).add(feedId));
       console.log('Invoking RSS fetch function with feedId:', feedId);
       
       const { data, error } = await supabase.functions.invoke('fetch-rss-posts', {
@@ -379,7 +382,88 @@ const BlogManager: React.FC = () => {
         variant: "destructive"
       });
     } finally {
-      setIsFetching(false);
+      // Remove from fetching feeds set
+      setFetchingFeeds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(feedId);
+        return newSet;
+      });
+    }
+  };
+
+  const deleteFeed = async (feedId: string) => {
+    try {
+      const { error } = await supabase
+        .from('rss_feeds')
+        .delete()
+        .eq('id', feedId);
+
+      if (error) throw error;
+
+      toast({
+        title: "RSS feed deleted",
+        description: "RSS feed has been deleted successfully",
+      });
+    } catch (error) {
+      console.error('Error deleting RSS feed:', error);
+      toast({
+        title: "Error deleting RSS feed",
+        description: "Failed to delete RSS feed",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const updateFeedStatus = async (feedId: string, isActive: boolean) => {
+    try {
+      const { error } = await supabase
+        .from('rss_feeds')
+        .update({ is_active: isActive })
+        .eq('id', feedId);
+
+      if (error) throw error;
+
+      toast({
+        title: "RSS feed updated",
+        description: `RSS feed ${isActive ? 'activated' : 'deactivated'} successfully`,
+      });
+    } catch (error) {
+      console.error('Error updating RSS feed:', error);
+      toast({
+        title: "Error updating RSS feed",
+        description: "Failed to update RSS feed status",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const saveEditedFeed = async (feedId: string, updatedFeed: Partial<RSSFeed>) => {
+    try {
+      const { error } = await supabase
+        .from('rss_feeds')
+        .update({
+          name: updatedFeed.name,
+          url: updatedFeed.url,
+          description: updatedFeed.description,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', feedId);
+
+      if (error) throw error;
+
+      toast({
+        title: "RSS feed updated",
+        description: "RSS feed has been updated successfully",
+      });
+
+      setEditingFeed(null);
+    } catch (error) {
+      console.error('Error updating RSS feed:', error);
+      toast({
+        title: "Error updating RSS feed",
+        description: "Failed to update RSS feed",
+        variant: "destructive"
+      });
     }
   };
 
@@ -919,39 +1003,122 @@ const BlogManager: React.FC = () => {
             {rssFeeds.map((feed) => (
               <Card key={feed.id} className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
                 <CardContent className="pt-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h4 className="text-lg font-medium text-blue-900">{feed.name}</h4>
-                      <p className="text-sm text-blue-600">{feed.url}</p>
-                      {feed.description && (
-                        <p className="text-sm text-gray-600 mt-1">{feed.description}</p>
-                      )}
-                      {feed.last_fetched_at && (
-                        <p className="text-xs text-gray-500 mt-2">
-                          Last fetched: {new Date(feed.last_fetched_at).toLocaleString()}
-                        </p>
-                      )}
+                  {editingFeed === feed.id ? (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <Label className="text-blue-700">Feed Name</Label>
+                          <Input
+                            value={editFeedData.name || feed.name}
+                            onChange={(e) => setEditFeedData({...editFeedData, name: e.target.value})}
+                            placeholder="Healthcare News RSS"
+                            className="border-blue-200 focus:border-blue-400"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-blue-700">RSS URL</Label>
+                          <Input
+                            value={editFeedData.url || feed.url}
+                            onChange={(e) => setEditFeedData({...editFeedData, url: e.target.value})}
+                            placeholder="https://example.com/rss"
+                            className="border-blue-200 focus:border-blue-400"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label className="text-blue-700">Description</Label>
+                        <Textarea
+                          value={editFeedData.description !== undefined ? editFeedData.description : (feed.description || '')}
+                          onChange={(e) => setEditFeedData({...editFeedData, description: e.target.value})}
+                          placeholder="Description of the RSS feed"
+                          rows={2}
+                          className="border-blue-200 focus:border-blue-400"
+                        />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          onClick={() => saveEditedFeed(feed.id, editFeedData)}
+                          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          Save Changes
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            setEditingFeed(null);
+                            setEditFeedData({});
+                          }}
+                          className="border-gray-200 text-gray-600 hover:bg-gray-50"
+                        >
+                          <X className="h-4 w-4 mr-2" />
+                          Cancel
+                        </Button>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant={feed.is_active ? 'default' : 'secondary'}>
-                        {feed.is_active ? 'Active' : 'Inactive'}
-                      </Badge>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => fetchRSSPosts(feed.id)}
-                        disabled={isFetching}
-                        className="border-blue-200 text-blue-600 hover:bg-blue-50"
-                      >
-                        {isFetching ? (
-                          <RefreshCw className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Rss className="h-4 w-4" />
+                  ) : (
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <h4 className="text-lg font-medium text-blue-900">{feed.name}</h4>
+                        <p className="text-sm text-blue-600">{feed.url}</p>
+                        {feed.description && (
+                          <p className="text-sm text-gray-600 mt-1">{feed.description}</p>
                         )}
-                        Fetch
-                      </Button>
+                        {feed.last_fetched_at && (
+                          <p className="text-xs text-gray-500 mt-2">
+                            Last fetched: {new Date(feed.last_fetched_at).toLocaleString()}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => updateFeedStatus(feed.id, !feed.is_active)}
+                          className={feed.is_active ? 'border-orange-200 text-orange-600 hover:bg-orange-50' : 'border-green-200 text-green-600 hover:bg-green-50'}
+                        >
+                          {feed.is_active ? <WifiOff className="h-4 w-4" /> : <Wifi className="h-4 w-4" />}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setEditingFeed(feed.id);
+                            setEditFeedData({
+                              name: feed.name,
+                              url: feed.url,
+                              description: feed.description
+                            });
+                          }}
+                          className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => fetchRSSPosts(feed.id)}
+                          disabled={fetchingFeeds.has(feed.id)}
+                          className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                        >
+                          {fetchingFeeds.has(feed.id) ? (
+                            <RefreshCw className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Rss className="h-4 w-4" />
+                          )}
+                          Fetch
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => deleteFeed(feed.id)}
+                          className="border-red-200 text-red-600 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
