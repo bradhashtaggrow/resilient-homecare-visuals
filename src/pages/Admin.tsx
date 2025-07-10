@@ -134,7 +134,7 @@ const Admin = () => {
 
     switch (activeSection) {
       case 'dashboard':
-        return <DashboardOverview syncStatus={syncStatus} stats={stats} />;
+        return <DashboardOverview syncStatus={syncStatus} stats={stats} onSectionChange={setActiveSection} />;
       case 'content':
         return selectedPage === 'home' ? 
           <WebsiteContentManager syncStatus={syncStatus} /> :
