@@ -44,12 +44,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   const mainMenuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'leads', label: 'Demo Requests', icon: UserCheck },
   ];
 
   const contentMenuItems = [
     { id: 'content', label: 'Website Content', icon: FileText },
     { id: 'blog', label: 'Blog Management', icon: Edit3 },
-    { id: 'leads', label: 'Demo Requests', icon: UserCheck },
     { id: 'preview', label: 'Live Preview', icon: Eye },
   ];
 
