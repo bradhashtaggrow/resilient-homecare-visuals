@@ -97,40 +97,66 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
               Top Performing Pages
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            {analytics?.top_pages && analytics.top_pages.length > 0 ? (
-              <div className="space-y-4">
-                {analytics.top_pages.slice(0, 10).map((page, index) => (
-                  <div key={index} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
-                          <span className="text-xs font-medium text-primary">{index + 1}</span>
-                        </div>
-                        <div>
-                          <p className="font-medium text-sm">{formatPageUrl(page.page)}</p>
-                          <p className="text-xs text-muted-foreground">{page.page}</p>
-                        </div>
-                      </div>
-                      <span className="text-sm font-medium">{page.views}</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div
-                        className="bg-primary h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${getProgressWidth(page.views, maxTopPageViews)}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">No page data available yet</p>
-                <p className="text-sm text-muted-foreground">Page analytics will appear as users visit your site</p>
-              </div>
-            )}
-          </CardContent>
+           <CardContent>
+             <div className="space-y-4">
+               {analytics?.top_pages && analytics.top_pages.length > 0 ? (
+                 analytics.top_pages.slice(0, 10).map((page, index) => (
+                   <div key={index} className="space-y-2">
+                     <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                         <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+                           <span className="text-xs font-medium text-primary">{index + 1}</span>
+                         </div>
+                         <div>
+                           <p className="font-medium text-sm">{formatPageUrl(page.page)}</p>
+                           <p className="text-xs text-muted-foreground">{page.page}</p>
+                         </div>
+                       </div>
+                       <span className="text-sm font-medium">{page.views}</span>
+                     </div>
+                     <div className="w-full bg-muted rounded-full h-2">
+                       <div
+                         className="bg-primary h-2 rounded-full transition-all duration-500"
+                         style={{ width: `${getProgressWidth(page.views, maxTopPageViews)}%` }}
+                       ></div>
+                     </div>
+                   </div>
+                 ))
+               ) : (
+                 // Show placeholder data when no real data is available
+                 [
+                   { page: '/', views: 0, name: 'Home' },
+                   { page: '/about', views: 0, name: 'About' },
+                   { page: '/services', views: 0, name: 'Services' },
+                   { page: '/contact', views: 0, name: 'Contact' },
+                   { page: '/news', views: 0, name: 'News' }
+                 ].map((page, index) => (
+                   <div key={index} className="space-y-2 opacity-50">
+                     <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                         <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+                           <span className="text-xs font-medium text-muted-foreground">{index + 1}</span>
+                         </div>
+                         <div>
+                           <p className="font-medium text-sm text-muted-foreground">{page.name}</p>
+                           <p className="text-xs text-muted-foreground/70">{page.page}</p>
+                         </div>
+                       </div>
+                       <span className="text-sm font-medium text-muted-foreground">-</span>
+                     </div>
+                     <div className="w-full bg-muted rounded-full h-2">
+                       <div className="bg-muted h-2 rounded-full w-1"></div>
+                     </div>
+                   </div>
+                 ))
+               )}
+               {(!analytics?.top_pages || analytics.top_pages.length === 0) && (
+                 <div className="text-center py-2">
+                   <p className="text-xs text-muted-foreground">Page analytics will appear as users visit your site</p>
+                 </div>
+               )}
+             </div>
+           </CardContent>
         </Card>
 
         {/* Traffic Sources */}
@@ -141,38 +167,62 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
               Traffic Sources
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            {analytics?.traffic_sources && analytics.traffic_sources.length > 0 ? (
-              <div className="space-y-4">
-                {analytics.traffic_sources.slice(0, 8).map((source, index) => (
-                  <div key={index} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Globe className="h-4 w-4 text-muted-foreground" />
-                        <div>
-                          <p className="font-medium text-sm">{source.source}</p>
-                          <p className="text-xs text-muted-foreground">Referral source</p>
-                        </div>
-                      </div>
-                      <span className="text-sm font-medium">{source.sessions}</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div
-                        className="bg-secondary h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${getProgressWidth(source.sessions, maxSourceSessions)}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <Globe className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">No traffic source data available yet</p>
-                <p className="text-sm text-muted-foreground">Traffic sources will appear as users visit your site</p>
-              </div>
-            )}
-          </CardContent>
+           <CardContent>
+             <div className="space-y-4">
+               {analytics?.traffic_sources && analytics.traffic_sources.length > 0 ? (
+                 analytics.traffic_sources.slice(0, 8).map((source, index) => (
+                   <div key={index} className="space-y-2">
+                     <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                         <Globe className="h-4 w-4 text-muted-foreground" />
+                         <div>
+                           <p className="font-medium text-sm">{source.source}</p>
+                           <p className="text-xs text-muted-foreground">Referral source</p>
+                         </div>
+                       </div>
+                       <span className="text-sm font-medium">{source.sessions}</span>
+                     </div>
+                     <div className="w-full bg-muted rounded-full h-2">
+                       <div
+                         className="bg-secondary h-2 rounded-full transition-all duration-500"
+                         style={{ width: `${getProgressWidth(source.sessions, maxSourceSessions)}%` }}
+                       ></div>
+                     </div>
+                   </div>
+                 ))
+               ) : (
+                 // Show placeholder data when no real data is available
+                 [
+                   { source: 'Direct', sessions: 0 },
+                   { source: 'Google', sessions: 0 },
+                   { source: 'Social Media', sessions: 0 },
+                   { source: 'Email', sessions: 0 },
+                   { source: 'Referral', sessions: 0 }
+                 ].map((source, index) => (
+                   <div key={index} className="space-y-2 opacity-50">
+                     <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                         <Globe className="h-4 w-4 text-muted-foreground" />
+                         <div>
+                           <p className="font-medium text-sm text-muted-foreground">{source.source}</p>
+                           <p className="text-xs text-muted-foreground/70">Referral source</p>
+                         </div>
+                       </div>
+                       <span className="text-sm font-medium text-muted-foreground">-</span>
+                     </div>
+                     <div className="w-full bg-muted rounded-full h-2">
+                       <div className="bg-muted h-2 rounded-full w-1"></div>
+                     </div>
+                   </div>
+                 ))
+               )}
+               {(!analytics?.traffic_sources || analytics.traffic_sources.length === 0) && (
+                 <div className="text-center py-2">
+                   <p className="text-xs text-muted-foreground">Traffic sources will appear as users visit your site</p>
+                 </div>
+               )}
+             </div>
+           </CardContent>
         </Card>
       </div>
 
@@ -188,30 +238,53 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Device Breakdown */}
             <div>
-              <h4 className="font-medium mb-4">Device Types</h4>
-              {analytics?.device_breakdown && analytics.device_breakdown.length > 0 ? (
-                <div className="space-y-4">
-                  {analytics.device_breakdown.map((device, index) => (
-                    <div key={index} className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          {getDeviceIcon(device.device)}
-                          <span className="font-medium capitalize text-sm">{device.device}</span>
-                        </div>
-                        <span className="text-sm font-medium">{device.sessions}</span>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <div
-                          className="bg-accent h-2 rounded-full transition-all duration-500"
-                          style={{ width: `${getProgressWidth(device.sessions, maxDeviceSessions)}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-muted-foreground text-center py-4">No device data available yet</p>
-              )}
+               <h4 className="font-medium mb-4">Device Types</h4>
+               <div className="space-y-4">
+                 {analytics?.device_breakdown && analytics.device_breakdown.length > 0 ? (
+                   analytics.device_breakdown.map((device, index) => (
+                     <div key={index} className="space-y-2">
+                       <div className="flex items-center justify-between">
+                         <div className="flex items-center gap-3">
+                           {getDeviceIcon(device.device)}
+                           <span className="font-medium capitalize text-sm">{device.device}</span>
+                         </div>
+                         <span className="text-sm font-medium">{device.sessions}</span>
+                       </div>
+                       <div className="w-full bg-muted rounded-full h-2">
+                         <div
+                           className="bg-accent h-2 rounded-full transition-all duration-500"
+                           style={{ width: `${getProgressWidth(device.sessions, maxDeviceSessions)}%` }}
+                         ></div>
+                       </div>
+                     </div>
+                   ))
+                 ) : (
+                   // Show placeholder device data
+                   [
+                     { device: 'desktop', sessions: 0 },
+                     { device: 'mobile', sessions: 0 },
+                     { device: 'tablet', sessions: 0 }
+                   ].map((device, index) => (
+                     <div key={index} className="space-y-2 opacity-50">
+                       <div className="flex items-center justify-between">
+                         <div className="flex items-center gap-3">
+                           {getDeviceIcon(device.device)}
+                           <span className="font-medium capitalize text-sm text-muted-foreground">{device.device}</span>
+                         </div>
+                         <span className="text-sm font-medium text-muted-foreground">-</span>
+                       </div>
+                       <div className="w-full bg-muted rounded-full h-2">
+                         <div className="bg-muted h-2 rounded-full w-1"></div>
+                       </div>
+                     </div>
+                   ))
+                 )}
+                 {(!analytics?.device_breakdown || analytics.device_breakdown.length === 0) && (
+                   <div className="text-center py-2">
+                     <p className="text-xs text-muted-foreground">Device analytics will appear as users visit your site</p>
+                   </div>
+                 )}
+               </div>
             </div>
 
             {/* Browser Breakdown (Sample) */}

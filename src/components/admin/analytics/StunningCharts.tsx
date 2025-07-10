@@ -42,33 +42,55 @@ interface StunningChartsProps {
 }
 
 const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
-  // Early return if no data
-  if (!data) {
-    return (
-      <div className="h-80 flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto">
-            <BarChart3 className="w-8 h-8 text-muted-foreground" />
-          </div>
-          <p className="text-sm text-muted-foreground">No analytics data available</p>
-          <p className="text-xs text-muted-foreground">Data will appear as analytics are collected</p>
-        </div>
-      </div>
-    );
-  }
+  // Generate placeholder data if no real data is available
+  const placeholderData: AnalyticsData = {
+    hourlyTraffic: Array.from({ length: 24 }, (_, i) => ({
+      hour: i,
+      visitors: 0,
+      pageViews: 0
+    })),
+    topPages: [
+      { page: '/', views: 0 },
+      { page: '/about', views: 0 },
+      { page: '/services', views: 0 },
+      { page: '/contact', views: 0 },
+      { page: '/news', views: 0 }
+    ],
+    deviceBreakdown: [
+      { device: 'Desktop', sessions: 0 },
+      { device: 'Mobile', sessions: 0 },
+      { device: 'Tablet', sessions: 0 }
+    ],
+    trafficSources: [
+      { source: 'Direct', sessions: 0 },
+      { source: 'Google', sessions: 0 },
+      { source: 'Social', sessions: 0 },
+      { source: 'Email', sessions: 0 }
+    ],
+    bounceRateHistory: [],
+    conversionFunnel: [
+      { stage: 'Page Views', users: 0 },
+      { stage: 'Engagement', users: 0 },
+      { stage: 'Contact Forms', users: 0 },
+      { stage: 'Conversions', users: 0 }
+    ]
+  };
+
+  const chartData = data || placeholderData;
+  const isPlaceholder = !data;
   // Hourly Traffic Line Chart
   const hourlyTrafficData = {
-    labels: data.hourlyTraffic.map(d => `${d.hour}:00`),
+    labels: chartData.hourlyTraffic.map(d => `${d.hour}:00`),
     datasets: [
       {
         label: 'Visitors',
-        data: data.hourlyTraffic.map(d => d.visitors),
-        borderColor: 'hsl(var(--primary))',
-        backgroundColor: 'hsl(var(--primary) / 0.1)',
+        data: chartData.hourlyTraffic.map(d => d.visitors),
+        borderColor: isPlaceholder ? 'hsl(var(--muted))' : 'hsl(var(--primary))',
+        backgroundColor: isPlaceholder ? 'hsl(var(--muted) / 0.1)' : 'hsl(var(--primary) / 0.1)',
         borderWidth: 3,
         fill: true,
         tension: 0.4,
-        pointBackgroundColor: 'hsl(var(--primary))',
+        pointBackgroundColor: isPlaceholder ? 'hsl(var(--muted))' : 'hsl(var(--primary))',
         pointBorderColor: '#fff',
         pointBorderWidth: 2,
         pointRadius: 6,
@@ -76,13 +98,13 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
       },
       {
         label: 'Page Views',
-        data: data.hourlyTraffic.map(d => d.pageViews),
-        borderColor: 'hsl(var(--secondary))',
-        backgroundColor: 'hsl(var(--secondary) / 0.1)',
+        data: chartData.hourlyTraffic.map(d => d.pageViews),
+        borderColor: isPlaceholder ? 'hsl(var(--muted-foreground))' : 'hsl(var(--secondary))',
+        backgroundColor: isPlaceholder ? 'hsl(var(--muted-foreground) / 0.1)' : 'hsl(var(--secondary) / 0.1)',
         borderWidth: 3,
         fill: true,
         tension: 0.4,
-        pointBackgroundColor: 'hsl(var(--secondary))',
+        pointBackgroundColor: isPlaceholder ? 'hsl(var(--muted-foreground))' : 'hsl(var(--secondary))',
         pointBorderColor: '#fff',
         pointBorderWidth: 2,
         pointRadius: 6,
@@ -93,19 +115,31 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
 
   // Top Pages Bar Chart
   const topPagesData = {
-    labels: data.topPages.map(p => p.page),
+    labels: chartData.topPages.map(p => p.page),
     datasets: [
       {
         label: 'Page Views',
-        data: data.topPages.map(p => p.views),
-        backgroundColor: [
+        data: chartData.topPages.map(p => p.views),
+        backgroundColor: isPlaceholder ? [
+          'hsl(var(--muted) / 0.8)',
+          'hsl(var(--muted) / 0.6)',
+          'hsl(var(--muted) / 0.4)',
+          'hsl(var(--muted) / 0.3)',
+          'hsl(var(--muted) / 0.2)'
+        ] : [
           'hsl(var(--primary) / 0.8)',
           'hsl(var(--secondary) / 0.8)',
           'hsl(var(--accent) / 0.8)',
           'hsl(var(--muted) / 0.8)',
           'hsl(220 70% 50% / 0.8)'
         ],
-        borderColor: [
+        borderColor: isPlaceholder ? [
+          'hsl(var(--muted))',
+          'hsl(var(--muted))',
+          'hsl(var(--muted))',
+          'hsl(var(--muted))',
+          'hsl(var(--muted))'
+        ] : [
           'hsl(var(--primary))',
           'hsl(var(--secondary))',
           'hsl(var(--accent))',
@@ -121,16 +155,24 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
 
   // Device Breakdown Doughnut Chart
   const deviceData = {
-    labels: data.deviceBreakdown.map(d => d.device),
+    labels: chartData.deviceBreakdown.map(d => d.device),
     datasets: [
       {
-        data: data.deviceBreakdown.map(d => d.sessions),
-        backgroundColor: [
+        data: chartData.deviceBreakdown.map(d => d.sessions),
+        backgroundColor: isPlaceholder ? [
+          'hsl(var(--muted) / 0.8)',
+          'hsl(var(--muted) / 0.6)',
+          'hsl(var(--muted) / 0.4)'
+        ] : [
           'hsl(var(--primary) / 0.8)',
           'hsl(var(--secondary) / 0.8)',
           'hsl(var(--accent) / 0.8)'
         ],
-        borderColor: [
+        borderColor: isPlaceholder ? [
+          'hsl(var(--muted))',
+          'hsl(var(--muted))',
+          'hsl(var(--muted))'
+        ] : [
           'hsl(var(--primary))',
           'hsl(var(--secondary))',
           'hsl(var(--accent))'
@@ -143,18 +185,28 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
 
   // Traffic Sources Polar Area Chart
   const trafficSourcesData = {
-    labels: data.trafficSources.map(s => s.source),
+    labels: chartData.trafficSources.map(s => s.source),
     datasets: [
       {
-        data: data.trafficSources.map(s => s.sessions),
-        backgroundColor: [
+        data: chartData.trafficSources.map(s => s.sessions),
+        backgroundColor: isPlaceholder ? [
+          'hsl(var(--muted) / 0.7)',
+          'hsl(var(--muted) / 0.6)',
+          'hsl(var(--muted) / 0.5)',
+          'hsl(var(--muted) / 0.4)'
+        ] : [
           'hsl(var(--primary) / 0.7)',
           'hsl(var(--secondary) / 0.7)',
           'hsl(var(--accent) / 0.7)',
           'hsl(var(--muted) / 0.7)',
           'hsl(220 70% 50% / 0.7)'
         ],
-        borderColor: [
+        borderColor: isPlaceholder ? [
+          'hsl(var(--muted))',
+          'hsl(var(--muted))',
+          'hsl(var(--muted))',
+          'hsl(var(--muted))'
+        ] : [
           'hsl(var(--primary))',
           'hsl(var(--secondary))',
           'hsl(var(--accent))',
@@ -285,23 +337,31 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
       <div className="bg-card rounded-lg border p-6">
         <h3 className="text-lg font-semibold mb-4">User Journey Funnel</h3>
         <div className="space-y-3">
-          {data.conversionFunnel.map((stage, index) => {
-            const percentage = index === 0 ? 100 : Math.round((stage.users / data.conversionFunnel[0].users) * 100);
+          {chartData.conversionFunnel.map((stage, index) => {
+            const totalUsers = chartData.conversionFunnel[0]?.users || 1;
+            const percentage = index === 0 ? 100 : Math.round((stage.users / totalUsers) * 100);
             return (
               <div key={stage.stage} className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="font-medium">{stage.stage}</span>
-                  <span className="text-muted-foreground">{stage.users} users ({percentage}%)</span>
+                  <span className="text-muted-foreground">
+                    {isPlaceholder ? '-' : stage.users} users ({isPlaceholder ? '0' : percentage}%)
+                  </span>
                 </div>
                 <div className="w-full bg-muted rounded-full h-3">
                   <div 
-                    className="bg-primary h-3 rounded-full transition-all duration-500"
-                    style={{ width: `${percentage}%` }}
+                    className={`h-3 rounded-full transition-all duration-500 ${isPlaceholder ? 'bg-muted w-1' : 'bg-primary'}`}
+                    style={!isPlaceholder ? { width: `${percentage}%` } : {}}
                   ></div>
                 </div>
               </div>
             );
           })}
+          {isPlaceholder && (
+            <div className="text-center py-2">
+              <p className="text-xs text-muted-foreground">Conversion funnel will appear as users interact with your site</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
