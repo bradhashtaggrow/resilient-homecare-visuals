@@ -59,7 +59,7 @@ const Navigation = () => {
             <LeadCaptureModal source="navigation">
               <Button 
                 size="lg" 
-                className="group relative px-8 py-4 text-lg font-bold rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                className="group relative px-6 py-4 text-lg font-bold rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                 style={{
                   background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
                   boxShadow: `
@@ -91,7 +91,6 @@ const Navigation = () => {
               >
                 <span className="relative z-10 flex items-center justify-center">
                   Request Demo
-                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </span>
               </Button>
             </LeadCaptureModal>
@@ -99,7 +98,7 @@ const Navigation = () => {
             <Link to="/login">
               <Button 
                 size="lg" 
-                className="group relative px-8 py-4 text-lg font-bold rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                className="group relative px-6 py-4 text-lg font-bold rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                 style={{
                   background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
                   boxShadow: `
@@ -130,7 +129,6 @@ const Navigation = () => {
                 }}
               >
                 <span className="relative z-10 flex items-center justify-center">
-                  <LogIn className="mr-3 h-5 w-5" />
                   Login
                 </span>
               </Button>
