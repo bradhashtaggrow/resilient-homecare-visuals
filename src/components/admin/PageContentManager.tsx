@@ -304,10 +304,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'about_why_choose_workforce': 'Flexible Workforce Model',
       'about_for_hospitals': 'For Hospitals',
       'about_for_clinicians': 'For Clinicians',
-      'about_core_values_header': 'Our Core Values Header',
-      'about_core_values_compassionate_care': 'Compassionate Care',
-      'about_core_values_excellence': 'Excellence',
-      'about_core_values_innovation': 'Innovation',
+      'about_core_values': 'Our Core Values',
       'about_footer': 'Footer',
       
       // Clinicians
@@ -977,6 +974,95 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                     </div>
                                   )}
                                 </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                       )}
+
+                      {/* Values management for about_core_values section */}
+                      {section.section_key === 'about_core_values' && (
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Core Values</h4>
+                          {((editForm.content_data as any)?.values || []).map((value: any, index: number) => (
+                            <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
+                              <div className="flex items-center justify-between">
+                                <h5 className="font-medium text-gray-800">Value {index + 1}</h5>
+                                <Badge variant="outline">{value.id}</Badge>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Value Title
+                                  </label>
+                                  <Input
+                                    value={value.title || ''}
+                                    onChange={(e) => {
+                                      const newValues = [...((editForm.content_data as any)?.values || [])];
+                                      newValues[index] = { ...newValues[index], title: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, values: newValues }
+                                      });
+                                    }}
+                                    placeholder="Value title"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Icon
+                                  </label>
+                                  <Select
+                                    value={value.icon_name || 'Activity'}
+                                    onValueChange={(value_icon) => {
+                                      const newValues = [...((editForm.content_data as any)?.values || [])];
+                                      newValues[index] = { ...newValues[index], icon_name: value_icon };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, values: newValues }
+                                      });
+                                    }}
+                                  >
+                                    <SelectTrigger>
+                                      <SelectValue>
+                                        <div className="flex items-center gap-2">
+                                          {getIconComponent(value.icon_name || 'Activity')}
+                                          <span>{value.icon_name || 'Activity'}</span>
+                                        </div>
+                                      </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {Object.keys(availableIcons).map((iconName) => (
+                                        <SelectItem key={iconName} value={iconName}>
+                                          <div className="flex items-center gap-2">
+                                            {getIconComponent(iconName)}
+                                            <span>{iconName}</span>
+                                          </div>
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </div>
+
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Description
+                                </label>
+                                <Textarea
+                                  value={value.description || ''}
+                                  onChange={(e) => {
+                                    const newValues = [...((editForm.content_data as any)?.values || [])];
+                                    newValues[index] = { ...newValues[index], description: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: { ...editForm.content_data, values: newValues }
+                                    });
+                                  }}
+                                  placeholder="Value description"
+                                  rows={3}
+                                />
                               </div>
                             </div>
                           ))}
