@@ -176,12 +176,16 @@ function parseRSSFeed(xmlText: string): RSSItem[] {
                        extractXMLContent(itemXml, 'content') || 
                        description;
 
-        // Extract featured image from various RSS elements
+        // Extract featured image from various RSS elements with improved logic
         const featuredImage = extractXMLContent(itemXml, 'media:content') ||
-                             extractXMLContent(itemXml, 'enclosure') ||
-                             extractImageFromContent(content) ||
-                             extractImageFromContent(description) ||
-                             null;
+                              extractXMLContent(itemXml, 'media:thumbnail') ||
+                              extractXMLContent(itemXml, 'enclosure') ||
+                              extractXMLContent(itemXml, 'image') ||
+                              extractXMLContent(itemXml, 'media:group') ||
+                              extractImageFromContent(content) ||
+                              extractImageFromContent(description) ||
+                              extractImageFromMeta(itemXml) ||
+                              null;
 
         // Clean up HTML tags from description and content
         const cleanDescription = cleanHTML(description);
@@ -215,18 +219,57 @@ function extractXMLContent(xml: string, tag: string): string | null {
 function extractImageFromContent(content: string): string | null {
   if (!content) return null;
   
-  // Try to extract image URL from img tags
-  const imgRegex = /<img[^>]+src="([^"]+)"/i;
+  // Try to extract image URL from img tags (most common)
+  const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/i;
   const imgMatch = content.match(imgRegex);
   if (imgMatch) {
     return imgMatch[1];
   }
   
   // Try to extract from media:content attributes
-  const mediaRegex = /url="([^"]*\.(jpg|jpeg|png|gif|webp)[^"]*)"/i;
+  const mediaRegex = /url=["']([^"']*\.(jpg|jpeg|png|gif|webp|bmp|svg)[^"']*)["']/i;
   const mediaMatch = content.match(mediaRegex);
   if (mediaMatch) {
     return mediaMatch[1];
+  }
+  
+  // Try to extract from figure tags
+  const figureRegex = /<figure[^>]*>[\s\S]*?<img[^>]+src=["']([^"']+)["'][^>]*>[\s\S]*?<\/figure>/i;
+  const figureMatch = content.match(figureRegex);
+  if (figureMatch) {
+    return figureMatch[1];
+  }
+  
+  return null;
+}
+
+function extractImageFromMeta(xml: string): string | null {
+  // Extract from enclosure tag (commonly used for images in RSS)
+  const enclosureRegex = /<enclosure[^>]+url=["']([^"']*\.(jpg|jpeg|png|gif|webp|bmp)[^"']*)["'][^>]*>/i;
+  const enclosureMatch = xml.match(enclosureRegex);
+  if (enclosureMatch) {
+    return enclosureMatch[1];
+  }
+  
+  // Extract from media:content url attribute
+  const mediaContentRegex = /<media:content[^>]+url=["']([^"']*\.(jpg|jpeg|png|gif|webp|bmp)[^"']*)["'][^>]*>/i;
+  const mediaContentMatch = xml.match(mediaContentRegex);
+  if (mediaContentMatch) {
+    return mediaContentMatch[1];
+  }
+  
+  // Extract from media:thumbnail url attribute
+  const mediaThumbnailRegex = /<media:thumbnail[^>]+url=["']([^"']*\.(jpg|jpeg|png|gif|webp|bmp)[^"']*)["'][^>]*>/i;
+  const mediaThumbnailMatch = xml.match(mediaThumbnailRegex);
+  if (mediaThumbnailMatch) {
+    return mediaThumbnailMatch[1];
+  }
+  
+  // Extract from image tag
+  const imageRegex = /<image[^>]*>[\s\S]*?<url>([^<]*\.(jpg|jpeg|png|gif|webp|bmp)[^<]*)<\/url>[\s\S]*?<\/image>/i;
+  const imageMatch = xml.match(imageRegex);
+  if (imageMatch) {
+    return imageMatch[1];
   }
   
   return null;
