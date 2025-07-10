@@ -135,50 +135,8 @@ export const useRealTimeAnalytics = () => {
       console.error('Error fetching analytics:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch analytics');
       
-      // Provide fallback data for demonstration
-      setAnalytics({
-        totalPageViews: 1247,
-        uniqueVisitors: 892,
-        totalSessions: 1089,
-        avgSessionDuration: 180,
-        bounceRate: 23.5,
-        topPages: [
-          { page: '/', views: 456 },
-          { page: '/about', views: 234 },
-          { page: '/services', views: 189 },
-          { page: '/contact', views: 156 },
-          { page: '/news', views: 98 }
-        ],
-        trafficSources: [
-          { source: 'Direct', sessions: 387 },
-          { source: 'Google', sessions: 289 },
-          { source: 'Social Media', sessions: 156 },
-          { source: 'Email', sessions: 89 }
-        ],
-        deviceBreakdown: [
-          { device: 'Desktop', sessions: 612 },
-          { device: 'Mobile', sessions: 398 },
-          { device: 'Tablet', sessions: 79 }
-        ],
-        hourlyTraffic: Array.from({ length: 24 }, (_, hour) => ({
-          hour,
-          visitors: Math.floor(Math.random() * 50) + 10,
-          pageViews: Math.floor(Math.random() * 80) + 20
-        })),
-        conversionFunnel: [
-          { stage: 'Page Views', users: 1247 },
-          { stage: 'Engagement', users: 748 },
-          { stage: 'Contact Forms', users: 187 },
-          { stage: 'Conversions', users: 98 }
-        ],
-        realtimeVisitors: Math.floor(Math.random() * 12) + 3,
-        todayStats: {
-          visitors: 234,
-          pageViews: 567,
-          avgDuration: 180,
-          bounceRate: 23.5
-        }
-      });
+      // Don't provide fallback data - show empty state
+      setAnalytics(null);
     } finally {
       setLoading(false);
     }
