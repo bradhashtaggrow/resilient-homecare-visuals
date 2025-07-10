@@ -198,17 +198,19 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
 
               <iframe
                 key={`preview-${iframeKey}`}
-                src={window.location.origin}
+                src={`${window.location.origin}?desktop=true`}
                 className="w-full h-full border-0"
                 onLoad={handleIframeLoad}
                 onError={handleIframeError}
                 sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"
                 loading="lazy"
+                width="100%"
+                height="100%"
                 style={{ 
                   opacity: isLoading ? 0 : 1,
                   transition: 'opacity 0.3s ease-in-out',
-                  transform: 'scale(1)',
-                  transformOrigin: 'top left'
+                  minWidth: '1200px',
+                  zoom: 1
                 }}
               />
             </div>
