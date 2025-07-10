@@ -22,12 +22,11 @@ serve(async (req) => {
   try {
     console.log('Starting to update RSS post images...');
 
-    // Get all RSS posts without featured images
+    // Get all RSS posts to update their images
     const { data: postsWithoutImages, error: fetchError } = await supabaseClient
       .from('blog_posts')
       .select('id, title, content, excerpt, featured_image_url, rss_feed_id')
-      .eq('source', 'rss')
-      .or('featured_image_url.is.null,featured_image_url.eq.');
+      .eq('source', 'rss');
 
     if (fetchError) {
       console.error('Error fetching posts:', fetchError);
@@ -180,12 +179,19 @@ async function extractImageFromRSSFeed(feedUrl: string, postTitle: string): Prom
       if (title && title.trim() === postTitle.trim()) {
         console.log(`Found matching RSS item for: ${postTitle}`);
         
-        // Extract image from various RSS elements
-        let imageUrl = extractXMLContent(itemXml, 'media:content') ||
-                      extractXMLContent(itemXml, 'media:thumbnail') ||
-                      extractImageFromEnclosure(itemXml) ||
-                      extractImageFromContent(extractXMLContent(itemXml, 'content:encoded') || '') ||
-                      extractImageFromContent(extractXMLContent(itemXml, 'description') || '');
+        // Extract image from various RSS elements with better parsing
+        let imageUrl = 
+          // Try media namespace tags first
+          extractMediaContentUrl(itemXml) ||
+          extractMediaThumbnailUrl(itemXml) ||
+          // Try enclosure tags
+          extractImageFromEnclosure(itemXml) ||
+          // Try content and description
+          extractImageFromContent(extractXMLContent(itemXml, 'content:encoded') || '') ||
+          extractImageFromContent(extractXMLContent(itemXml, 'description') || '') ||
+          // Try other common RSS image elements
+          extractXMLContent(itemXml, 'image') ||
+          extractXMLContent(itemXml, 'thumbnail');
         
         if (imageUrl) {
           console.log(`Extracted image from RSS: ${imageUrl}`);
@@ -223,6 +229,41 @@ function extractImageFromEnclosure(xml: string): string | null {
     return mediaContentMatch[1];
   }
   
+  return null;
+}
+
+function extractMediaContentUrl(xml: string): string | null {
+  // Try different variations of media:content
+  const patterns = [
+    /<media:content[^>]+url=["']([^"']+)["'][^>]*>/i,
+    /<media:content[^>]*url=["']([^"']+)["'][^>]*\/>/i,
+    /<media:content[^>]*>[\s\S]*?url=["']([^"']+)["'][\s\S]*?<\/media:content>/i
+  ];
+  
+  for (const pattern of patterns) {
+    const match = xml.match(pattern);
+    if (match && match[1]) {
+      console.log(`Found media:content URL: ${match[1]}`);
+      return match[1];
+    }
+  }
+  return null;
+}
+
+function extractMediaThumbnailUrl(xml: string): string | null {
+  // Try different variations of media:thumbnail
+  const patterns = [
+    /<media:thumbnail[^>]+url=["']([^"']+)["'][^>]*>/i,
+    /<media:thumbnail[^>]*url=["']([^"']+)["'][^>]*\/>/i
+  ];
+  
+  for (const pattern of patterns) {
+    const match = xml.match(pattern);
+    if (match && match[1]) {
+      console.log(`Found media:thumbnail URL: ${match[1]}`);
+      return match[1];
+    }
+  }
   return null;
 }
 
