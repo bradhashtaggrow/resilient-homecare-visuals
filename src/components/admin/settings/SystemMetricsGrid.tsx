@@ -111,7 +111,7 @@ export const SystemMetricsGrid: React.FC<SystemMetricsProps> = ({ metrics, syste
             <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  <div className={`p-3 rounded-xl bg-gradient-to-br from-${metric.color}/10 to-${metric.color}/20 group-hover:from-${metric.color}/20 group-hover:to-${metric.color}/30 transition-all duration-300`}>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 group-hover:from-blue-200 group-hover:to-blue-300 transition-all duration-300">
                     <Icon className="h-6 w-6 text-blue-600" />
                   </div>
                   <div className="flex items-center gap-2">
