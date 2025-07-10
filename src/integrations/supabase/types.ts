@@ -424,6 +424,42 @@ export type Database = {
         }
         Relationships: []
       }
+      security_settings: {
+        Row: {
+          created_at: string
+          id: string
+          max_login_attempts: number
+          password_min_length: number
+          require_numbers: boolean
+          require_special_chars: boolean
+          session_timeout: number
+          two_factor_enabled: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          max_login_attempts?: number
+          password_min_length?: number
+          require_numbers?: boolean
+          require_special_chars?: boolean
+          session_timeout?: number
+          two_factor_enabled?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          max_login_attempts?: number
+          password_min_length?: number
+          require_numbers?: boolean
+          require_special_chars?: boolean
+          session_timeout?: number
+          two_factor_enabled?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       service_benefits: {
         Row: {
           benefit_text: string
@@ -495,6 +531,93 @@ export type Database = {
           subtitle?: string | null
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      system_activity: {
+        Row: {
+          activity_description: string
+          activity_type: string
+          created_at: string
+          id: string
+          metadata: Json | null
+          user_id: string | null
+        }
+        Insert: {
+          activity_description: string
+          activity_type: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          user_id?: string | null
+        }
+        Update: {
+          activity_description?: string
+          activity_type?: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      system_config: {
+        Row: {
+          backup_frequency: string
+          cache_enabled: boolean
+          created_at: string
+          debug_mode: boolean
+          email_notifications: boolean
+          id: string
+          maintenance_mode: boolean
+          site_name: string
+          updated_at: string
+        }
+        Insert: {
+          backup_frequency?: string
+          cache_enabled?: boolean
+          created_at?: string
+          debug_mode?: boolean
+          email_notifications?: boolean
+          id?: string
+          maintenance_mode?: boolean
+          site_name?: string
+          updated_at?: string
+        }
+        Update: {
+          backup_frequency?: string
+          cache_enabled?: boolean
+          created_at?: string
+          debug_mode?: boolean
+          email_notifications?: boolean
+          id?: string
+          maintenance_mode?: boolean
+          site_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      system_metrics: {
+        Row: {
+          id: string
+          metric_date: string
+          metric_name: string
+          metric_value: Json
+          recorded_at: string
+        }
+        Insert: {
+          id?: string
+          metric_date?: string
+          metric_name: string
+          metric_value: Json
+          recorded_at?: string
+        }
+        Update: {
+          id?: string
+          metric_date?: string
+          metric_name?: string
+          metric_value?: Json
+          recorded_at?: string
         }
         Relationships: []
       }
