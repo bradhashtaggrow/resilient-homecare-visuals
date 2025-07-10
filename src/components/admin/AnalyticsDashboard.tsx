@@ -1,28 +1,14 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  BarChart3, 
-  TrendingUp, 
-  Users, 
-  Eye, 
-  Wifi, 
-  WifiOff, 
-  Clock, 
-  Globe, 
-  Smartphone, 
-  Monitor,
-  Tablet,
-  RefreshCw,
-  Calendar,
-  MousePointer
-} from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+
+// Import new focused components
+import AnalyticsHeader from './analytics/AnalyticsHeader';
+import AnalyticsOverview from './analytics/AnalyticsOverview';
+import RealtimeActivity from './analytics/RealtimeActivity';
+import AnalyticsCharts from './analytics/AnalyticsCharts';
 
 interface AnalyticsSummary {
   total_page_views: number;
@@ -42,13 +28,16 @@ interface RealtimeEvent {
   page_url: string;
   created_at: string;
   properties: any;
+  device_type?: string;
+  country?: string;
+  city?: string;
 }
 
 interface AnalyticsDashboardProps {
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
 }
 
-const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ syncStatus = 'disconnected' }) => {
+const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ syncStatus = 'connected' }) => {
   const [analytics, setAnalytics] = useState<AnalyticsSummary | null>(null);
   const [realtimeEvents, setRealtimeEvents] = useState<RealtimeEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -113,9 +102,9 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ syncStatus = 'd
     try {
       const { data, error } = await supabase
         .from('analytics_events')
-        .select('id, event_type, event_name, page_url, created_at, properties')
+        .select('id, event_type, event_name, page_url, created_at, properties, device_type, country, city')
         .order('created_at', { ascending: false })
-        .limit(10);
+        .limit(50);
 
       if (error) throw error;
       setRealtimeEvents(data || []);
@@ -143,11 +132,11 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ syncStatus = 'd
       })
       .subscribe();
 
-    // Auto-refresh every 5 minutes
+    // Auto-refresh every 30 seconds for real-time feel
     const autoRefresh = setInterval(() => {
       fetchAnalytics();
       fetchRealtimeEvents();
-    }, 300000);
+    }, 30000);
 
     return () => {
       supabase.removeChannel(eventsChannel);
@@ -155,313 +144,56 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ syncStatus = 'd
     };
   }, [fetchAnalytics, fetchRealtimeEvents]);
 
-  const getSyncStatusIcon = () => {
-    switch (syncStatus) {
-      case 'connected':
-        return <Wifi className="h-4 w-4 text-green-600" />;
-      case 'syncing':
-        return <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />;
-      default:
-        return <WifiOff className="h-4 w-4 text-red-600" />;
-    }
-  };
-
-  const getDeviceIcon = (device: string) => {
-    switch (device.toLowerCase()) {
-      case 'mobile':
-        return <Smartphone className="h-4 w-4" />;
-      case 'tablet':
-        return <Tablet className="h-4 w-4" />;
-      default:
-        return <Monitor className="h-4 w-4" />;
-    }
-  };
-
-  const formatDuration = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}m ${remainingSeconds}s`;
-  };
-
-  const formatPageUrl = (url: string) => {
-    if (url === '/') return 'Home';
-    return url.replace('/', '').replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Home';
-  };
-
-  const getPercentageChange = (current: number, comparison: number) => {
-    if (comparison === 0) return current > 0 ? 100 : 0;
-    return Math.round(((current - comparison) / comparison) * 100);
+  const handleRefresh = () => {
+    fetchAnalytics();
+    fetchRealtimeEvents();
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">Analytics Dashboard</h2>
-          <p className="text-gray-600">Real-time website performance and user engagement metrics</p>
-          <p className="text-xs text-gray-500 mt-1">
-            Last updated: {lastUpdate.toLocaleTimeString()}
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
-          <Select value={dateRange} onValueChange={setDateRange}>
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="Date range" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="7">Last 7 days</SelectItem>
-              <SelectItem value="30">Last 30 days</SelectItem>
-              <SelectItem value="90">Last 90 days</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              fetchAnalytics();
-              fetchRealtimeEvents();
-            }}
-            disabled={loading}
-          >
-            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
-          <Badge variant="outline" className={`flex items-center gap-2 ${
-            syncStatus === 'connected' ? 'bg-green-50 text-green-700 border-green-200' :
-            syncStatus === 'syncing' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-            'bg-red-50 text-red-700 border-red-200'
-          }`}>
-            {getSyncStatusIcon()}
-            <span>{syncStatus === 'connected' ? 'Live Data' : 'Offline'}</span>
-          </Badge>
-        </div>
-      </div>
+      <AnalyticsHeader
+        syncStatus={syncStatus}
+        dateRange={dateRange}
+        setDateRange={setDateRange}
+        onRefresh={handleRefresh}
+        loading={loading}
+        lastUpdate={lastUpdate}
+      />
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList>
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="realtime">Real-time</TabsTrigger>
-          <TabsTrigger value="pages">Top Pages</TabsTrigger>
-          <TabsTrigger value="sources">Traffic Sources</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger value="insights">Insights</TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Page Views</CardTitle>
-                    <Eye className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{analytics?.total_page_views?.toLocaleString() || '0'}</div>
-                    <p className="text-xs text-muted-foreground">
-                      Total page views in {dateRange} days
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Unique Visitors</CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{analytics?.unique_visitors?.toLocaleString() || '0'}</div>
-                    <p className="text-xs text-muted-foreground">
-                      Unique sessions in {dateRange} days
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Avg. Session Duration</CardTitle>
-                    <Clock className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">
-                      {analytics?.avg_session_duration ? formatDuration(Math.round(analytics.avg_session_duration)) : '0m 0s'}
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Average time on site
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Bounce Rate</CardTitle>
-                    <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">
-                      {analytics?.bounce_rate ? `${Math.round(analytics.bounce_rate)}%` : '0%'}
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Single page sessions
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Device Breakdown</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {analytics?.device_breakdown && analytics.device_breakdown.length > 0 ? (
-                      <div className="space-y-3">
-                        {analytics.device_breakdown.map((device, index) => (
-                          <div key={index} className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              {getDeviceIcon(device.device)}
-                              <span className="font-medium capitalize">{device.device}</span>
-                            </div>
-                            <span className="text-sm text-gray-600">{device.sessions} sessions</span>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-gray-600 text-center py-4">No device data available yet</p>
-                    )}
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Total Sessions</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-center py-8">
-                      <div className="text-4xl font-bold text-blue-600 mb-2">
-                        {analytics?.total_sessions?.toLocaleString() || '0'}
-                      </div>
-                      <p className="text-gray-600">Total user sessions</p>
-                      <p className="text-xs text-gray-500 mt-2">
-                        in the last {dateRange} days
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </>
-          )}
+          <AnalyticsOverview 
+            analytics={analytics} 
+            dateRange={dateRange} 
+            loading={loading} 
+          />
         </TabsContent>
         
         <TabsContent value="realtime" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                Real-time Activity
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {realtimeEvents.length > 0 ? (
-                <div className="space-y-3">
-                  {realtimeEvents.map((event) => (
-                    <div key={event.id} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <MousePointer className="h-4 w-4 text-blue-600" />
-                        <div>
-                          <p className="font-medium">{event.event_name}</p>
-                          <p className="text-sm text-gray-600">{formatPageUrl(event.page_url)}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-xs text-gray-500">
-                          {new Date(event.created_at).toLocaleTimeString()}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <Globe className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">No recent activity</p>
-                  <p className="text-sm text-gray-500">Real-time events will appear here</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          <RealtimeActivity events={realtimeEvents} />
         </TabsContent>
         
-        <TabsContent value="pages" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Top Performing Pages</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {analytics?.top_pages && analytics.top_pages.length > 0 ? (
-                <div className="space-y-3">
-                  {analytics.top_pages.map((page, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <span className="text-sm font-medium text-blue-600">{index + 1}</span>
-                        </div>
-                        <div>
-                          <p className="font-medium">{formatPageUrl(page.page)}</p>
-                          <p className="text-sm text-gray-600">{page.page}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-medium">{page.views} views</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">No page data available yet</p>
-                  <p className="text-sm text-gray-500">Page analytics will appear as users visit your site</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+        <TabsContent value="analytics" className="space-y-6">
+          <AnalyticsCharts analytics={analytics} />
         </TabsContent>
         
-        <TabsContent value="sources" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Traffic Sources</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {analytics?.traffic_sources && analytics.traffic_sources.length > 0 ? (
-                <div className="space-y-3">
-                  {analytics.traffic_sources.map((source, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <Globe className="h-5 w-5 text-gray-600" />
-                        <div>
-                          <p className="font-medium">{source.source}</p>
-                          <p className="text-sm text-gray-600">Referral source</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-medium">{source.sessions} sessions</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <Globe className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">No traffic source data available yet</p>
-                  <p className="text-sm text-gray-500">Traffic sources will appear as users visit your site</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+        <TabsContent value="insights" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <AnalyticsOverview 
+              analytics={analytics} 
+              dateRange={dateRange} 
+              loading={loading} 
+            />
+            <RealtimeActivity events={realtimeEvents.slice(0, 5)} />
+          </div>
+          <AnalyticsCharts analytics={analytics} />
         </TabsContent>
       </Tabs>
     </div>
