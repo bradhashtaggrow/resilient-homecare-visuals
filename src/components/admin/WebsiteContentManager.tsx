@@ -329,8 +329,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Website Content Manager</h2>
-          <p className="text-gray-600">Manage all website sections, content, and media</p>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent font-apple">Website Content Manager</h2>
+          <p className="text-blue-600">Manage all website sections, content, and media</p>
         </div>
         <div className="flex items-center space-x-2">
           {getSyncStatusIcon()}
