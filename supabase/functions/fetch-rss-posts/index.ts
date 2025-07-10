@@ -65,11 +65,11 @@ serve(async (req) => {
     // Process each RSS item
     for (const item of items) {
       try {
-        // Check if post already exists by link or title
+        // Check if post already exists by title
         const { data: existingPost } = await supabaseClient
           .from('blog_posts')
           .select('id')
-          .or(`title.eq.${item.title},content.ilike.%${item.link}%`)
+          .eq('title', item.title)
           .limit(1);
 
         if (existingPost && existingPost.length > 0) {
