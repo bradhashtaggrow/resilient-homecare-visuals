@@ -669,8 +669,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                       </div>
                       )}
 
-                      {/* Tabs management for care_at_home_mobile and clinicians_mobile sections */}
-                      {(section.section_key === 'care_at_home_mobile' || section.section_key === 'clinicians_mobile') && (
+                      {/* Tabs management for care_at_home_mobile, clinicians_mobile, and patients_mobile sections */}
+                      {(section.section_key === 'care_at_home_mobile' || section.section_key === 'clinicians_mobile' || section.section_key === 'patients_mobile') && (
                         <div className="space-y-4 border-t pt-4">
                           <h4 className="text-lg font-semibold text-gray-900">Future of Care Tabs</h4>
                           {((editForm.content_data as any)?.tabs || []).map((tab: any, index: number) => (
