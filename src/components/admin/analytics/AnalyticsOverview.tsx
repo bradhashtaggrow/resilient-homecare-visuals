@@ -1,153 +1,214 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { 
-  Eye, 
-  Users, 
-  Clock, 
-  TrendingUp,
-  Target,
-  MousePointer,
-  Calendar,
-  Activity
-} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { supabase } from "@/integrations/supabase/client";
+import { Users, Eye, Clock, TrendingUp, Globe, MousePointer, ArrowUpRight, ArrowDownRight, Activity } from 'lucide-react';
 
-interface AnalyticsOverviewProps {
-  analytics: {
-    total_page_views: number;
-    unique_visitors: number;
-    total_sessions: number;
-    avg_session_duration: number;
-    bounce_rate: number;
-  } | null;
-  dateRange: string;
-  loading: boolean;
+interface OverviewStats {
+  totalSessions: number;
+  totalPageViews: number;
+  avgSessionDuration: number;
+  bounceRate: number;
+  uniqueVisitors: number;
+  currentActiveUsers: number;
 }
 
-const AnalyticsOverview: React.FC<AnalyticsOverviewProps> = ({ analytics, dateRange, loading }) => {
+export const AnalyticsOverview = () => {
+  const [stats, setStats] = useState<OverviewStats>({
+    totalSessions: 0,
+    totalPageViews: 0,
+    avgSessionDuration: 0,
+    bounceRate: 0,
+    uniqueVisitors: 0,
+    currentActiveUsers: 0
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOverviewStats = async () => {
+      try {
+        // Get total sessions from today
+        const today = new Date().toISOString().split('T')[0];
+        
+        const { data: sessionsData } = await supabase
+          .from('analytics_sessions')
+          .select('*')
+          .gte('started_at', today);
+
+        // Get total page views from today
+        const { data: pageViewsData } = await supabase
+          .from('analytics_events')
+          .select('*')
+          .eq('event_type', 'page_view')
+          .gte('created_at', today);
+
+        // Calculate stats
+        const totalSessions = sessionsData?.length || 0;
+        const totalPageViews = pageViewsData?.length || 0;
+        
+        // Calculate average session duration
+        const sessionsWithDuration = sessionsData?.filter(s => s.duration_seconds) || [];
+        const avgSessionDuration = sessionsWithDuration.length > 0 
+          ? sessionsWithDuration.reduce((acc, s) => acc + (s.duration_seconds || 0), 0) / sessionsWithDuration.length
+          : 0;
+
+        // Calculate bounce rate
+        const bouncedSessions = sessionsData?.filter(s => s.is_bounce) || [];
+        const bounceRate = totalSessions > 0 ? (bouncedSessions.length / totalSessions) * 100 : 0;
+
+        // Get unique visitors (sessions with unique session_id)
+        const uniqueVisitors = new Set(sessionsData?.map(s => s.session_id) || []).size;
+
+        // Get current active users (sessions active in last 5 minutes)
+        const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+        const { data: activeUsersData } = await supabase
+          .from('analytics_events')
+          .select('session_id')
+          .gte('created_at', fiveMinutesAgo);
+
+        const currentActiveUsers = new Set(activeUsersData?.map(e => e.session_id) || []).size;
+
+        setStats({
+          totalSessions,
+          totalPageViews,
+          avgSessionDuration: Math.round(avgSessionDuration),
+          bounceRate: Math.round(bounceRate),
+          uniqueVisitors,
+          currentActiveUsers
+        });
+      } catch (error) {
+        console.error('Error fetching overview stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOverviewStats();
+    
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchOverviewStats, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
   const formatDuration = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}m ${remainingSeconds}s`;
   };
 
-  const getChangeIndicator = (value: number, isPositive: boolean = true) => {
-    const color = isPositive ? 'text-green-600' : 'text-red-600';
-    const icon = isPositive ? '↗' : '↘';
-    return (
-      <span className={`text-xs ${color} flex items-center gap-1`}>
-        {icon} {value}%
-      </span>
-    );
-  };
-
-  if (loading) {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <Card key={i}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <div className="h-4 bg-muted animate-pulse rounded w-24"></div>
-              <div className="h-4 w-4 bg-muted animate-pulse rounded"></div>
-            </CardHeader>
-            <CardContent>
-              <div className="h-8 bg-muted animate-pulse rounded w-16 mb-2"></div>
-              <div className="h-3 bg-muted animate-pulse rounded w-32"></div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    );
-  }
-
   const metrics = [
     {
-      title: 'Page Views',
-      value: analytics?.total_page_views?.toLocaleString() || '0',
-      icon: Eye,
-      description: `Total views in ${dateRange} days`,
-      change: Math.floor(Math.random() * 20) + 5,
-      isPositive: true
-    },
-    {
-      title: 'Unique Visitors',
-      value: analytics?.unique_visitors?.toLocaleString() || '0',
-      icon: Users,
-      description: `Unique sessions in ${dateRange} days`,
-      change: Math.floor(Math.random() * 15) + 3,
-      isPositive: true
-    },
-    {
-      title: 'Total Sessions',
-      value: analytics?.total_sessions?.toLocaleString() || '0',
+      title: "Active Users",
+      value: stats.currentActiveUsers.toLocaleString(),
       icon: Activity,
-      description: `User sessions in ${dateRange} days`,
-      change: Math.floor(Math.random() * 12) + 2,
-      isPositive: true
+      gradient: "from-success to-success/80",
+      change: "+12%",
+      changeType: "positive",
+      pulse: true
     },
     {
-      title: 'Avg. Session Duration',
-      value: analytics?.avg_session_duration ? formatDuration(Math.round(analytics.avg_session_duration)) : '0m 0s',
+      title: "Total Sessions", 
+      value: stats.totalSessions.toLocaleString(),
+      icon: Globe,
+      gradient: "from-primary to-primary-light",
+      change: "+8%",
+      changeType: "positive"
+    },
+    {
+      title: "Page Views",
+      value: stats.totalPageViews.toLocaleString(),
+      icon: Eye,
+      gradient: "from-chart-1 to-chart-1/80",
+      change: "+15%",
+      changeType: "positive"
+    },
+    {
+      title: "Avg. Session",
+      value: formatDuration(stats.avgSessionDuration),
       icon: Clock,
-      description: 'Average time on site',
-      change: Math.floor(Math.random() * 10) + 1,
-      isPositive: true
+      gradient: "from-warning to-warning/80",
+      change: "-2%",
+      changeType: "negative"
     },
     {
-      title: 'Bounce Rate',
-      value: analytics?.bounce_rate ? `${Math.round(analytics.bounce_rate)}%` : '0%',
-      icon: TrendingUp,
-      description: 'Single page sessions',
-      change: Math.floor(Math.random() * 8) + 2,
-      isPositive: false
-    },
-    {
-      title: 'Conversion Rate',
-      value: '3.2%',
-      icon: Target,
-      description: 'Lead generation rate',
-      change: 8,
-      isPositive: true
-    },
-    {
-      title: 'Page Load Time',
-      value: '1.4s',
-      icon: Calendar,
-      description: 'Average load time',
-      change: 12,
-      isPositive: false
-    },
-    {
-      title: 'Active Users',
-      value: Math.floor(Math.random() * 50) + 10,
+      title: "Bounce Rate",
+      value: `${stats.bounceRate}%`,
       icon: MousePointer,
-      description: 'Currently online',
-      change: Math.floor(Math.random() * 5) + 1,
-      isPositive: true
+      gradient: "from-destructive to-destructive/80",
+      change: "-5%",
+      changeType: "positive"
+    },
+    {
+      title: "Unique Visitors",
+      value: stats.uniqueVisitors.toLocaleString(),
+      icon: TrendingUp,
+      gradient: "from-info to-info/80",
+      change: "+18%",
+      changeType: "positive"
     }
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {metrics.map((metric, index) => (
-        <Card key={index} className="relative overflow-hidden group hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              {metric.title}
-            </CardTitle>
-            <metric.icon className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold mb-1">{metric.value}</div>
-            <div className="flex items-center justify-between">
-              <p className="text-xs text-muted-foreground">{metric.description}</p>
-              {getChangeIndicator(metric.change, metric.isPositive)}
-            </div>
-          </CardContent>
-          <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-primary/20 to-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        </Card>
-      ))}
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {metrics.map((metric, index) => {
+        const Icon = metric.icon;
+        const TrendIcon = metric.changeType === 'positive' ? ArrowUpRight : ArrowDownRight;
+        
+        return (
+          <Card 
+            key={metric.title} 
+            className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
+            style={{ animationDelay: `${index * 0.1}s` }}
+          >
+            {/* Gradient background */}
+            <div className={`absolute inset-0 bg-gradient-to-br ${metric.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`}></div>
+            
+            {/* Content */}
+            <CardContent className="relative p-6">
+              <div className="flex items-start justify-between">
+                <div className="space-y-3 flex-1">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                      {metric.title}
+                    </p>
+                    {metric.pulse && (
+                      <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                    )}
+                  </div>
+                  
+                  <p className="text-3xl font-bold tracking-tight">
+                    {loading ? (
+                      <div className="w-16 h-8 bg-muted rounded animate-pulse"></div>
+                    ) : (
+                      metric.value
+                    )}
+                  </p>
+                  
+                  <Badge 
+                    variant="outline" 
+                    className={`inline-flex items-center gap-1 text-xs font-medium ${
+                      metric.changeType === 'positive' 
+                        ? 'text-success border-success/20 bg-success/5' 
+                        : 'text-destructive border-destructive/20 bg-destructive/5'
+                    }`}
+                  >
+                    <TrendIcon className="w-3 h-3" />
+                    {metric.change}
+                  </Badge>
+                </div>
+                
+                {/* Icon with gradient background */}
+                <div className={`p-4 rounded-2xl bg-gradient-to-br ${metric.gradient} shadow-lg`}>
+                  <Icon className="h-6 w-6 text-white" />
+                </div>
+              </div>
+              
+              {/* Hover effect bar */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 };
-
-export default AnalyticsOverview;
