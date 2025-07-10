@@ -384,6 +384,7 @@ const BlogManager: React.FC = () => {
   };
 
   const updateExistingRSSImages = async () => {
+    console.log('🚀 UPDATE IMAGES BUTTON CLICKED!');
     try {
       setIsFetching(true);
       console.log('Starting RSS image update process...');
