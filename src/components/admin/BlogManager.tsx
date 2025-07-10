@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -915,62 +916,181 @@ const BlogManager: React.FC = () => {
         </TabsContent>
       </Tabs>
 
-      {/* Edit Post Modal */}
-      {editingPost && (
-        <div 
-          className="fixed inset-0 z-[9999] bg-black bg-opacity-50 flex items-center justify-center p-4"
-          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
-        >
-          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">Edit Post</h2>
-              <button 
-                onClick={cancelEditingPost}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
-              >
-                ×
-              </button>
+      {/* Edit Post Dialog */}
+      <Dialog open={!!editingPost} onOpenChange={(open) => {
+        if (!open) {
+          cancelEditingPost();
+        }
+      }}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Blog Post</DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            {/* Image Preview */}
+            {editedPost.featured_image_url && (
+              <div className="bg-gray-50 p-4 rounded-lg border">
+                <Label className="text-sm font-medium text-gray-700 mb-2 block">Current Featured Image</Label>
+                <img 
+                  src={editedPost.featured_image_url} 
+                  alt={editedPost.title || 'Featured image'}
+                  className="w-full max-w-md h-48 object-cover rounded-lg border shadow-sm"
+                />
+              </div>
+            )}
+
+            {/* Image Upload */}
+            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <Label className="text-sm font-medium text-blue-700 mb-2 block">Featured Image</Label>
+              <ImageUpload
+                currentImageUrl={editedPost.featured_image_url || ''}
+                onImageUploaded={(url) => setEditedPost({...editedPost, featured_image_url: url})}
+                onImageRemoved={() => setEditedPost({...editedPost, featured_image_url: ''})}
+              />
             </div>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Title</label>
-                <input
-                  type="text"
-                  value={editedPost.title || ''}
-                  onChange={(e) => setEditedPost({...editedPost, title: e.target.value})}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
+
+            {/* Basic Information */}
+            <div className="bg-gray-50 p-4 rounded-lg border">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Basic Information</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-sm font-medium text-gray-700">Title *</Label>
+                  <Input
+                    value={editedPost.title || ''}
+                    onChange={(e) => setEditedPost({...editedPost, title: e.target.value})}
+                    placeholder="Enter blog post title"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-gray-700">Author</Label>
+                  <Input
+                    value={editedPost.author || ''}
+                    onChange={(e) => setEditedPost({...editedPost, author: e.target.value})}
+                    placeholder="Author name"
+                    className="mt-1"
+                  />
+                </div>
               </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-1">Content</label>
-                <textarea
-                  value={editedPost.content || ''}
-                  onChange={(e) => setEditedPost({...editedPost, content: e.target.value})}
-                  rows={10}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
+            </div>
+
+            {/* Content */}
+            <div className="bg-gray-50 p-4 rounded-lg border">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Content</h3>
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-sm font-medium text-gray-700">Excerpt</Label>
+                  <Textarea
+                    value={editedPost.excerpt || ''}
+                    onChange={(e) => setEditedPost({...editedPost, excerpt: e.target.value})}
+                    placeholder="Brief description"
+                    rows={3}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-gray-700">Content *</Label>
+                  <Textarea
+                    value={editedPost.content || ''}
+                    onChange={(e) => setEditedPost({...editedPost, content: e.target.value})}
+                    placeholder="Write your blog post content here..."
+                    rows={12}
+                    className="mt-1 font-mono text-sm"
+                  />
+                </div>
               </div>
-              
-              <div className="flex justify-end gap-2">
-                <button 
-                  onClick={cancelEditingPost}
-                  className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
-                >
-                  Cancel
-                </button>
-                <button 
-                  onClick={saveEditedPost}
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                  Save
-                </button>
+            </div>
+
+            {/* Settings */}
+            <div className="bg-gray-50 p-4 rounded-lg border">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Settings</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                  <Label className="text-sm font-medium text-gray-700">Category</Label>
+                  <Select 
+                    value={editedPost.category || 'healthcare'} 
+                    onValueChange={(value) => setEditedPost({...editedPost, category: value})}
+                  >
+                    <SelectTrigger className="mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="healthcare">Healthcare</SelectItem>
+                      <SelectItem value="ai">AI & Technology</SelectItem>
+                      <SelectItem value="telemedicine">Telemedicine</SelectItem>
+                      <SelectItem value="news">News</SelectItem>
+                      <SelectItem value="insights">Insights</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-gray-700">URL Slug</Label>
+                  <Input
+                    value={editedPost.slug || ''}
+                    onChange={(e) => setEditedPost({...editedPost, slug: e.target.value})}
+                    placeholder="url-friendly-slug"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-gray-700">Tags</Label>
+                  <Input
+                    value={editedPost.tags?.join(', ') || ''}
+                    onChange={(e) => setEditedPost({...editedPost, tags: e.target.value.split(',').map(tag => tag.trim()).filter(Boolean)})}
+                    placeholder="tag1, tag2, tag3"
+                    className="mt-1"
+                  />
+                </div>
               </div>
+
+              {/* Checkboxes */}
+              <div className="flex items-center gap-6 p-4 bg-white rounded-lg border">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="published"
+                    checked={editedPost.is_published || false}
+                    onCheckedChange={(checked) => setEditedPost({...editedPost, is_published: checked as boolean})}
+                  />
+                  <Label htmlFor="published" className="text-sm font-medium text-gray-700 flex items-center">
+                    <Eye className="h-4 w-4 mr-1 text-green-600" />
+                    Published
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="featured"
+                    checked={editedPost.is_featured || false}
+                    onCheckedChange={(checked) => setEditedPost({...editedPost, is_featured: checked as boolean})}
+                  />
+                  <Label htmlFor="featured" className="text-sm font-medium text-gray-700 flex items-center">
+                    <Star className="h-4 w-4 mr-1 text-yellow-500" />
+                    Featured
+                  </Label>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end space-x-3 pt-4 border-t">
+              <Button 
+                variant="outline" 
+                onClick={cancelEditingPost}
+              >
+                <X className="h-4 w-4 mr-2" />
+                Cancel
+              </Button>
+              <Button 
+                onClick={saveEditedPost}
+                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
+              >
+                <Save className="h-4 w-4 mr-2" />
+                Save Changes
+              </Button>
             </div>
           </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
