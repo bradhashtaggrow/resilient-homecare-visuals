@@ -99,11 +99,11 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
     <Sidebar className="border-r border-border bg-background">
       <SidebarHeader className="p-6 border-b border-border bg-background">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center justify-center flex-1">
             <img 
               src="/lovable-uploads/30c729f3-ad9e-4d48-aabf-36d2418d944a.png" 
               alt="Resilient Healthcare" 
-              className="h-8 w-auto"
+              className="h-10 w-auto"
             />
           </div>
           <button
