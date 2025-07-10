@@ -22,7 +22,7 @@ serve(async (req) => {
   try {
     console.log('Starting to update RSS post images...');
 
-    // Get all RSS posts that need image updates
+    // Get all RSS posts to update their images
     const { data: postsWithoutImages, error: fetchError } = await supabaseClient
       .from('blog_posts')
       .select('id, title, content, excerpt, featured_image_url, rss_feed_id')
@@ -36,7 +36,7 @@ serve(async (req) => {
       });
     }
 
-    console.log(`Found ${postsWithoutImages?.length || 0} RSS posts to process:`, postsWithoutImages?.map(p => ({ id: p.id, title: p.title })));
+    console.log(`Found ${postsWithoutImages?.length || 0} RSS posts without images`);
 
     let updatedCount = 0;
 
@@ -113,13 +113,10 @@ serve(async (req) => {
 function extractImageFromContent(content: string): string | null {
   if (!content) return null;
   
-  console.log('Attempting to extract image from content snippet:', content.substring(0, 200));
-  
   // Try to extract image URL from img tags (most common)
   const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/i;
   const imgMatch = content.match(imgRegex);
   if (imgMatch) {
-    console.log('Found image in img tag:', imgMatch[1]);
     return imgMatch[1];
   }
   
@@ -127,7 +124,6 @@ function extractImageFromContent(content: string): string | null {
   const mediaRegex = /url=["']([^"']*\.(jpg|jpeg|png|gif|webp|bmp|svg)[^"']*)["']/i;
   const mediaMatch = content.match(mediaRegex);
   if (mediaMatch) {
-    console.log('Found image in media content:', mediaMatch[1]);
     return mediaMatch[1];
   }
   
@@ -135,7 +131,6 @@ function extractImageFromContent(content: string): string | null {
   const figureRegex = /<figure[^>]*>[\s\S]*?<img[^>]+src=["']([^"']+)["'][^>]*>[\s\S]*?<\/figure>/i;
   const figureMatch = content.match(figureRegex);
   if (figureMatch) {
-    console.log('Found image in figure tag:', figureMatch[1]);
     return figureMatch[1];
   }
 
@@ -143,7 +138,6 @@ function extractImageFromContent(content: string): string | null {
   const bgImageRegex = /background-image:\s*url\(["']?([^"')]+)["']?\)/i;
   const bgImageMatch = content.match(bgImageRegex);
   if (bgImageMatch) {
-    console.log('Found image in background-image:', bgImageMatch[1]);
     return bgImageMatch[1];
   }
 
@@ -151,11 +145,9 @@ function extractImageFromContent(content: string): string | null {
   const urlImageRegex = /https?:\/\/[^\s<>"']+\.(jpg|jpeg|png|gif|webp|bmp)/i;
   const urlImageMatch = content.match(urlImageRegex);
   if (urlImageMatch) {
-    console.log('Found image URL:', urlImageMatch[0]);
     return urlImageMatch[0];
   }
   
-  console.log('No image found in content');
   return null;
 }
 
@@ -223,25 +215,20 @@ function extractXMLContent(xml: string, tag: string): string | null {
 }
 
 function extractImageFromEnclosure(xml: string): string | null {
-  console.log('Checking enclosure tags...');
-  
   // Extract from enclosure tag (commonly used for images in RSS)
   const enclosureRegex = /<enclosure[^>]+url=["']([^"']*\.(jpg|jpeg|png|gif|webp|bmp)[^"']*)["'][^>]*>/i;
   const enclosureMatch = xml.match(enclosureRegex);
   if (enclosureMatch) {
-    console.log('Found image in enclosure:', enclosureMatch[1]);
     return enclosureMatch[1];
   }
   
-  // Check for any enclosure with type="image/*"
-  const imageEnclosureRegex = /<enclosure[^>]+type=["']image\/[^"']*["'][^>]+url=["']([^"']*)["'][^>]*>/i;
-  const imageEnclosureMatch = xml.match(imageEnclosureRegex);
-  if (imageEnclosureMatch) {
-    console.log('Found image enclosure by type:', imageEnclosureMatch[1]);
-    return imageEnclosureMatch[1];
+  // Extract from media:content url attribute
+  const mediaContentRegex = /<media:content[^>]+url=["']([^"']*\.(jpg|jpeg|png|gif|webp|bmp)[^"']*)["'][^>]*>/i;
+  const mediaContentMatch = xml.match(mediaContentRegex);
+  if (mediaContentMatch) {
+    return mediaContentMatch[1];
   }
   
-  console.log('No image found in enclosure tags');
   return null;
 }
 
@@ -281,8 +268,6 @@ function extractMediaThumbnailUrl(xml: string): string | null {
 }
 
 function cleanImageUrl(url: string): string {
-  console.log('Cleaning URL:', url);
-  
   // Remove any HTML entities
   url = url.replace(/&amp;/g, '&')
            .replace(/&lt;/g, '<')
@@ -290,15 +275,13 @@ function cleanImageUrl(url: string): string {
            .replace(/&quot;/g, '"')
            .replace(/&#39;/g, "'");
   
-  // Don't remove query parameters - they might be needed for the image
-  // url = url.split('?')[0];  // Commented out to preserve image parameters
+  // Remove any trailing parameters that might interfere
+  url = url.split('?')[0];
   
   // Ensure it's a proper URL
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
     url = 'https://' + url;
   }
   
-  const cleanUrl = url.trim();
-  console.log('Cleaned URL:', cleanUrl);
-  return cleanUrl;
+  return url.trim();
 }
