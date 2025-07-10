@@ -99,11 +99,11 @@ export const EnhancedAnalyticsOverview = () => {
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-secondary">{analytics.todayStats.pageViews}</div>
-            <div className="text-xs text-muted-foreground">Page Views</div>
+            <div className="text-xs text-black">Page Views</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-accent">{Math.floor(analytics.todayStats.avgDuration / 60)}m</div>
-            <div className="text-xs text-muted-foreground">Avg. Duration</div>
+            <div className="text-xs text-black">Avg. Duration</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-green-600">{analytics.todayStats.bounceRate.toFixed(1)}%</div>
