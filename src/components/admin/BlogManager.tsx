@@ -717,7 +717,7 @@ const BlogManager: React.FC = () => {
                 size="sm"
                 onClick={updateExistingRSSImages}
                 disabled={isFetching}
-                className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                className="bg-gradient-to-r from-primary to-primary-light text-white hover:from-primary/90 hover:to-primary-light/90"
                 title="Add missing images to existing RSS posts"
               >
                 {isFetching ? (
