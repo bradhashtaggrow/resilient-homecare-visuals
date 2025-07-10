@@ -19,9 +19,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular'],
-        apple: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'system-ui', 'sans-serif'],
+        sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'system-ui', 'sans-serif'],
+        mono: ['SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'source-code-pro', 'Menlo', 'monospace'],
+        apple: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -110,8 +110,8 @@ export default {
         xs: '2px',
       },
       boxShadow: {
-        'glow': '0 0 20px hsl(262 83% 58% / 0.3)',
-        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        'glow': '0 0 20px hsl(214 100% 50% / 0.3)',
+        'glass': '0 8px 32px 0 rgba(0, 123, 255, 0.37)',
       },
       keyframes: {
         'accordion-down': {
@@ -143,8 +143,8 @@ export default {
           "50%": { transform: "translateY(-10px)" }
         },
         'pulse-glow': {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(262 83% 58% / 0.3)" },
-          "50%": { boxShadow: "0 0 30px hsl(262 83% 58% / 0.6)" }
+          "0%, 100%": { boxShadow: "0 0 20px hsl(214 100% 50% / 0.3)" },
+          "50%": { boxShadow: "0 0 30px hsl(214 100% 50% / 0.6)" }
         },
         'bounce-gentle': {
           '0%, 100%': { transform: 'translateY(0)' },
