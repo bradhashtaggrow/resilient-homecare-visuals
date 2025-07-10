@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -44,9 +45,10 @@ const Login = () => {
     } else {
       toast({
         title: "Welcome back!",
-        description: "Signing you in..."
+        description: "Redirecting to admin dashboard..."
       });
-      // Don't set loading to false here - let the auth state change handle the redirect
+      // Force immediate redirect to admin dashboard
+      navigate('/admin', { replace: true });
     }
   };
 
@@ -156,7 +158,7 @@ const Login = () => {
                 {loading ? (
                   <>
                     <Loader2 className="mr-3 h-6 w-6 animate-spin" />
-                    <span className="tracking-wide">Signing in...</span>
+                    <span className="tracking-wide">Accessing Dashboard...</span>
                   </>
                 ) : (
                   <>
