@@ -41,7 +41,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/50"
       onClick={handleBackdropClick}
       style={{ paddingTop: '120px' }}
     >
