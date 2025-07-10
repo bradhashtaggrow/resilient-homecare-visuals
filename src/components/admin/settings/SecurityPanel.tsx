@@ -123,7 +123,7 @@ export const SecurityPanel: React.FC<SecurityPanelProps> = ({ security, onSecuri
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <div className={`text-2xl font-bold mb-1 ${getStatusColor(metric.status)}`}>
+                  <div className="text-2xl font-bold mb-1 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
                     {metric.value}
                   </div>
                   <p className="text-xs text-muted-foreground">{metric.description}</p>

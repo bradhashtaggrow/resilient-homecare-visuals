@@ -136,7 +136,7 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
                       </div>
                       <div>
                         <CardTitle className="text-sm font-medium text-muted-foreground">{metric.title}</CardTitle>
-                        <div className={`text-2xl font-bold ${getStatusColor(metric.status)}`}>
+                        <div className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
                           {metric.value}
                         </div>
                       </div>
