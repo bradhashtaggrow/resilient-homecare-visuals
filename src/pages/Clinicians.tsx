@@ -23,7 +23,54 @@ const Clinicians = () => {
     subtitle: "Experience healthcare like never before",
     description: "Every interaction reimagined."
   });
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState([
+    // Fallback services in case database doesn't load
+    {
+      id: 'work-with-hospitals',
+      icon: Building2,
+      title: 'Work with leading hospitals',
+      subtitle: 'Partnership Excellence',
+      description: 'Partner with top healthcare institutions to expand your reach and impact through our comprehensive network.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'steady-patient-flow',
+      icon: Users,
+      title: 'Get access to a consistent stream of patient referrals',
+      subtitle: 'Steady Patient Flow',
+      description: 'Receive steady patient referrals through our integrated network of healthcare partners and streamlined referral system.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'comprehensive-home-care',
+      icon: Heart,
+      title: 'Support care delivery for inpatient at home and outpatient at home services',
+      subtitle: 'Comprehensive Home Care',
+      description: 'Comprehensive support for both inpatient and outpatient care delivery in home settings with full clinical oversight.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'streamlined-operations',
+      icon: Zap,
+      title: 'Simplified workflows and credentialing through our platform',
+      subtitle: 'Streamlined Operations',
+      description: 'Streamlined processes that reduce administrative complexity, save time, and ensure compliance with healthcare standards.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'simple-payment-model',
+      icon: CheckCircle,
+      title: 'We pay you per visit so no need to worry about administrative burden',
+      subtitle: 'Simple Payment Model',
+      description: 'Simple per-visit payment structure that eliminates administrative hassles and ensures fair, transparent compensation.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    }
+  ]);
 
   // Available icons mapping
   const availableIcons = {
@@ -42,6 +89,7 @@ const Clinicians = () => {
   };
 
   useEffect(() => {
+    console.log('Clinicians page - Loading content...');
     // Load all content from database
     const loadAllContent = async () => {
       try {
