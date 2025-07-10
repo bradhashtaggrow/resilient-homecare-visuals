@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -40,7 +39,7 @@ export const AnalyticsHeader = () => {
                   <BarChart3 className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h1 className="text-4xl font-bold tracking-tight text-foreground">
+                  <h1 className="text-4xl font-bold tracking-tight gradient-text">
                     Analytics Command Center
                   </h1>
                   <div className="flex items-center gap-4 mt-2">
