@@ -6,6 +6,7 @@ import { Bell, User, Save, Wifi, WifiOff, LogOut, ChevronDown, Menu, ExternalLin
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
 import { User as UserType } from '@supabase/supabase-js';
+import NotificationDropdown from './NotificationDropdown';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -143,9 +144,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
           Visit Site
         </Button>
         
-        <Button variant="outline" size="sm" className="text-foreground">
-          <Bell className="h-4 w-4" />
-        </Button>
+        <NotificationDropdown />
         
         <Button size="sm" className="btn-3d-gradient font-apple">
           <Save className="h-4 w-4 mr-2" />
