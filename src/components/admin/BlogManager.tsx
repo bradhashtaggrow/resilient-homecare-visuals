@@ -586,8 +586,8 @@ const BlogManager: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-black font-apple">Blog Management</h2>
-          <p className="text-blue-600 font-apple">Manage blog posts, AI generation, and RSS feeds</p>
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">Blog Management</h2>
+          <p className="text-lg text-black">Manage blog posts, AI generation, and RSS feeds</p>
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border-green-200">
@@ -607,7 +607,7 @@ const BlogManager: React.FC = () => {
 
         <TabsContent value="posts" className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Published Posts ({blogPosts.filter(p => p.is_published && p.source !== 'rss').length})</h3>
+            <h3 className="text-lg font-semibold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">Published Posts ({blogPosts.filter(p => p.is_published && p.source !== 'rss').length})</h3>
             <div className="flex gap-2">
               <Badge variant="secondary">{blogPosts.filter(p => p.source !== 'rss').length} Total</Badge>
               <Badge variant="secondary">{blogPosts.filter(p => p.is_featured && p.source !== 'rss').length} Featured</Badge>
@@ -620,8 +620,8 @@ const BlogManager: React.FC = () => {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-blue-900">{post.title}</CardTitle>
-                      <CardDescription className="text-blue-600">
+                      <CardTitle className="text-black">{post.title}</CardTitle>
+                      <CardDescription className="text-black">
                         By {post.author} • {new Date(post.created_at).toLocaleDateString()}
                       </CardDescription>
                     </div>
@@ -650,7 +650,7 @@ const BlogManager: React.FC = () => {
                        />
                      </div>
                    )}
-                   <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
+                   <p className="text-black mb-4 line-clamp-2">{post.excerpt}</p>
                    <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {post.tags && post.tags.map((tag, index) => (
@@ -666,7 +666,7 @@ const BlogManager: React.FC = () => {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                            className="border-primary text-primary hover:bg-primary/10"
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -706,7 +706,7 @@ const BlogManager: React.FC = () => {
 
         <TabsContent value="rss-posts" className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">RSS Imported Posts ({blogPosts.filter(p => p.source === 'rss').length})</h3>
+            <h3 className="text-lg font-semibold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">RSS Imported Posts ({blogPosts.filter(p => p.source === 'rss').length})</h3>
             <div className="flex gap-2">
               <Button
                 variant="outline"
@@ -734,8 +734,8 @@ const BlogManager: React.FC = () => {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-orange-900">{post.title}</CardTitle>
-                      <CardDescription className="text-orange-600">
+                      <CardTitle className="text-black">{post.title}</CardTitle>
+                      <CardDescription className="text-black">
                         By {post.author} • {new Date(post.created_at).toLocaleDateString()}
                       </CardDescription>
                     </div>
@@ -763,7 +763,7 @@ const BlogManager: React.FC = () => {
                        />
                      </div>
                    )}
-                   <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+                   <p className="text-black mb-4 line-clamp-3">{post.excerpt}</p>
                    <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {post.tags && post.tags.map((tag, index) => (
@@ -778,7 +778,7 @@ const BlogManager: React.FC = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                           className="border-primary text-primary hover:bg-primary/10"
                           title="View post content"
                         >
                           <Eye className="h-4 w-4" />
@@ -788,7 +788,7 @@ const BlogManager: React.FC = () => {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                             className="border-primary text-primary hover:bg-primary/10"
                             title="Edit post settings"
                           >
                             <Edit className="h-4 w-4" />
@@ -823,14 +823,14 @@ const BlogManager: React.FC = () => {
             <Card className="border-gray-200 bg-gray-50">
               <CardContent className="text-center py-8">
                 <Rss className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No RSS posts yet</h3>
-                <p className="text-gray-600 mb-4">
+                <h3 className="text-lg font-medium text-black mb-2">No RSS posts yet</h3>
+                <p className="text-black mb-4">
                   Import posts from RSS feeds to see them here. You can then publish them to your website.
                 </p>
                 <Button 
                   onClick={() => setActiveTab('rss')}
                   variant="outline"
-                  className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                  className="border-primary text-primary hover:bg-primary/10"
                 >
                   <Rss className="h-4 w-4 mr-2" />
                   Manage RSS Feeds
@@ -843,29 +843,29 @@ const BlogManager: React.FC = () => {
         <TabsContent value="create" className="space-y-6">
           <Card className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
             <CardHeader>
-              <CardTitle className="text-blue-900">Create Blog Post</CardTitle>
-              <CardDescription className="text-blue-600">
+              <CardTitle className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">Create Blog Post</CardTitle>
+              <CardDescription className="text-black">
                 Create and publish new blog content
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-blue-700">Title</Label>
+                  <Label className="text-black">Title</Label>
                   <Input
                     value={newPost.title || ''}
                     onChange={(e) => setNewPost({...newPost, title: e.target.value})}
                     placeholder="Blog post title"
-                    className="border-blue-200 focus:border-blue-400"
+                    className="border-primary focus:border-primary"
                   />
                 </div>
                 <div>
-                  <Label className="text-blue-700">Author</Label>
+                  <Label className="text-black">Author</Label>
                   <Input
                     value={newPost.author || ''}
                     onChange={(e) => setNewPost({...newPost, author: e.target.value})}
                     placeholder="Author name"
-                    className="border-blue-200 focus:border-blue-400"
+                    className="border-primary focus:border-primary"
                   />
                 </div>
               </div>
@@ -877,35 +877,35 @@ const BlogManager: React.FC = () => {
                 />
 
                 <div>
-                  <Label className="text-blue-700">Excerpt</Label>
+                  <Label className="text-black">Excerpt</Label>
                   <Textarea
                     value={newPost.excerpt || ''}
                     onChange={(e) => setNewPost({...newPost, excerpt: e.target.value})}
                     placeholder="Brief excerpt or summary"
                     rows={2}
-                    className="border-blue-200 focus:border-blue-400"
+                    className="border-primary focus:border-primary"
                   />
                 </div>
 
               <div>
-                <Label className="text-blue-700">Content</Label>
+                <Label className="text-black">Content</Label>
                 <Textarea
                   value={newPost.content || ''}
                   onChange={(e) => setNewPost({...newPost, content: e.target.value})}
                   placeholder="Blog post content..."
                   rows={10}
-                  className="border-blue-200 focus:border-blue-400"
+                  className="border-primary focus:border-primary"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <Label className="text-blue-700">Category</Label>
+                  <Label className="text-black">Category</Label>
                   <Select 
                     value={newPost.category || 'healthcare'} 
                     onValueChange={(value) => setNewPost({...newPost, category: value})}
                   >
-                    <SelectTrigger className="border-blue-200">
+                    <SelectTrigger className="border-primary">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -922,7 +922,7 @@ const BlogManager: React.FC = () => {
                     checked={newPost.is_published || false}
                     onCheckedChange={(checked) => setNewPost({...newPost, is_published: checked})}
                   />
-                  <Label htmlFor="published" className="text-blue-700">Publish immediately</Label>
+                  <Label htmlFor="published" className="text-black">Publish immediately</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Switch
@@ -930,13 +930,13 @@ const BlogManager: React.FC = () => {
                     checked={newPost.is_featured || false}
                     onCheckedChange={(checked) => setNewPost({...newPost, is_featured: checked})}
                   />
-                  <Label htmlFor="featured" className="text-blue-700">Featured post</Label>
+                  <Label htmlFor="featured" className="text-black">Featured post</Label>
                 </div>
               </div>
 
               <Button 
                 onClick={savePost} 
-                className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
+                className="bg-gradient-to-r from-primary to-primary-light hover:from-primary/90 hover:to-primary-light/90"
               >
                 <Save className="h-4 w-4 mr-2" />
                 Create Blog Post
@@ -948,47 +948,47 @@ const BlogManager: React.FC = () => {
         <TabsContent value="rss" className="space-y-6">
           <Card className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
             <CardHeader>
-              <CardTitle className="text-blue-900">Add RSS Feed</CardTitle>
-              <CardDescription className="text-blue-600">
+              <CardTitle className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">Add RSS Feed</CardTitle>
+              <CardDescription className="text-black">
                 Add healthcare and tech RSS feeds to automatically import content
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-blue-700">Feed Name</Label>
+                  <Label className="text-black">Feed Name</Label>
                   <Input
                     value={newFeed.name || ''}
                     onChange={(e) => setNewFeed({...newFeed, name: e.target.value})}
                     placeholder="Healthcare News RSS"
-                    className="border-blue-200 focus:border-blue-400"
+                    className="border-primary focus:border-primary"
                   />
                 </div>
                 <div>
-                  <Label className="text-blue-700">RSS URL</Label>
+                  <Label className="text-black">RSS URL</Label>
                   <Input
                     value={newFeed.url || ''}
                     onChange={(e) => setNewFeed({...newFeed, url: e.target.value})}
                     placeholder="https://example.com/rss"
-                    className="border-blue-200 focus:border-blue-400"
+                    className="border-primary focus:border-primary"
                   />
                 </div>
               </div>
 
               <div>
-                <Label className="text-blue-700">Description</Label>
+                <Label className="text-black">Description</Label>
                 <Textarea
                   value={newFeed.description || ''}
                   onChange={(e) => setNewFeed({...newFeed, description: e.target.value})}
                   placeholder="Description of the RSS feed"
                   rows={2}
-                  className="border-blue-200 focus:border-blue-400"
+                  className="border-primary focus:border-primary"
                 />
               </div>
 
               <Button 
                 onClick={saveFeed} 
-                className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
+                className="bg-gradient-to-r from-primary to-primary-light hover:from-primary/90 hover:to-primary-light/90"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add RSS Feed
@@ -997,7 +997,7 @@ const BlogManager: React.FC = () => {
           </Card>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">RSS Feeds ({rssFeeds.length})</h3>
+            <h3 className="text-lg font-semibold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">RSS Feeds ({rssFeeds.length})</h3>
             {rssFeeds.map((feed) => (
               <Card key={feed.id} className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
                 <CardContent className="pt-6">
@@ -1005,38 +1005,38 @@ const BlogManager: React.FC = () => {
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <Label className="text-blue-700">Feed Name</Label>
+                          <Label className="text-black">Feed Name</Label>
                           <Input
                             value={editFeedData.name || feed.name}
                             onChange={(e) => setEditFeedData({...editFeedData, name: e.target.value})}
                             placeholder="Healthcare News RSS"
-                            className="border-blue-200 focus:border-blue-400"
+                            className="border-primary focus:border-primary"
                           />
                         </div>
                         <div>
-                          <Label className="text-blue-700">RSS URL</Label>
+                          <Label className="text-black">RSS URL</Label>
                           <Input
                             value={editFeedData.url || feed.url}
                             onChange={(e) => setEditFeedData({...editFeedData, url: e.target.value})}
                             placeholder="https://example.com/rss"
-                            className="border-blue-200 focus:border-blue-400"
+                            className="border-primary focus:border-primary"
                           />
                         </div>
                       </div>
                       <div>
-                        <Label className="text-blue-700">Description</Label>
+                        <Label className="text-black">Description</Label>
                         <Textarea
                           value={editFeedData.description !== undefined ? editFeedData.description : (feed.description || '')}
                           onChange={(e) => setEditFeedData({...editFeedData, description: e.target.value})}
                           placeholder="Description of the RSS feed"
                           rows={2}
-                          className="border-blue-200 focus:border-blue-400"
+                          className="border-primary focus:border-primary"
                         />
                       </div>
                       <div className="flex items-center gap-2">
                         <Button
                           onClick={() => saveEditedFeed(feed.id, editFeedData)}
-                          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
+                          className="bg-gradient-to-r from-primary to-primary-light hover:from-primary/90 hover:to-primary-light/90"
                         >
                           <Save className="h-4 w-4 mr-2" />
                           Save Changes
@@ -1047,7 +1047,7 @@ const BlogManager: React.FC = () => {
                             setEditingFeed(null);
                             setEditFeedData({});
                           }}
-                          className="border-gray-200 text-gray-600 hover:bg-gray-50"
+                          className="border-black text-black hover:bg-gray-50"
                         >
                           <X className="h-4 w-4 mr-2" />
                           Cancel
@@ -1057,13 +1057,13 @@ const BlogManager: React.FC = () => {
                   ) : (
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
-                        <h4 className="text-lg font-medium text-blue-900">{feed.name}</h4>
-                        <p className="text-sm text-blue-600">{feed.url}</p>
+                        <h4 className="text-lg font-medium text-black">{feed.name}</h4>
+                        <p className="text-sm text-black">{feed.url}</p>
                         {feed.description && (
-                          <p className="text-sm text-blue-600 mt-1">{feed.description}</p>
+                          <p className="text-sm text-black mt-1">{feed.description}</p>
                         )}
                         {feed.last_fetched_at && (
-                          <p className="text-xs text-gray-500 mt-2">
+                          <p className="text-xs text-black mt-2">
                             Last fetched: {new Date(feed.last_fetched_at).toLocaleString()}
                           </p>
                         )}
@@ -1073,7 +1073,7 @@ const BlogManager: React.FC = () => {
                           variant="outline"
                           size="sm"
                           onClick={() => updateFeedStatus(feed.id, !feed.is_active)}
-                          className={feed.is_active ? 'border-orange-200 text-orange-600 hover:bg-orange-50' : 'border-green-200 text-green-600 hover:bg-green-50'}
+                          className={feed.is_active ? 'border-primary text-primary hover:bg-primary/10' : 'border-primary text-primary hover:bg-primary/10'}
                         >
                           {feed.is_active ? <WifiOff className="h-4 w-4" /> : <Wifi className="h-4 w-4" />}
                         </Button>
@@ -1088,7 +1088,7 @@ const BlogManager: React.FC = () => {
                               description: feed.description
                             });
                           }}
-                          className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                          className="border-primary text-primary hover:bg-primary/10"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -1097,7 +1097,7 @@ const BlogManager: React.FC = () => {
                           size="sm"
                           onClick={() => fetchRSSPosts(feed.id)}
                           disabled={fetchingFeeds.has(feed.id)}
-                          className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                          className="border-primary text-primary hover:bg-primary/10"
                         >
                           {fetchingFeeds.has(feed.id) ? (
                             <RefreshCw className="h-4 w-4 animate-spin" />
