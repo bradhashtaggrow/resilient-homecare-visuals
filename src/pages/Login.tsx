@@ -98,7 +98,7 @@ const Login = () => {
             <p className="text-white/80 text-lg font-medium tracking-wide">
               Secure Dashboard Access
             </p>
-            <div className="w-16 h-1 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full mx-auto mt-4" />
+            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary-light rounded-full mx-auto mt-4" />
           </CardHeader>
           
           <CardContent className="px-8 pb-8">
@@ -106,7 +106,7 @@ const Login = () => {
               {/* Enhanced Email Field */}
               <div className="space-y-3">
                 <Label htmlFor="email" className="text-white/90 font-semibold text-sm tracking-wide flex items-center">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full mr-2" />
+                  <div className="w-2 h-2 bg-gradient-to-r from-primary to-primary-light rounded-full mr-2" />
                   Email Address
                 </Label>
                 <div className="relative">
@@ -126,7 +126,7 @@ const Login = () => {
               {/* Enhanced Password Field */}
               <div className="space-y-3">
                 <Label htmlFor="password" className="text-white/90 font-semibold text-sm tracking-wide flex items-center">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full mr-2" />
+                  <div className="w-2 h-2 bg-gradient-to-r from-primary to-primary-light rounded-full mr-2" />
                   Password
                 </Label>
                 <div className="relative">
