@@ -504,9 +504,18 @@ const BlogManager: React.FC = () => {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
-                  <div className="flex items-center justify-between">
+                 <CardContent>
+                   {post.featured_image_url && (
+                     <div className="mb-4">
+                       <img 
+                         src={post.featured_image_url} 
+                         alt={post.title}
+                         className="w-full h-32 object-cover rounded-lg border"
+                       />
+                     </div>
+                   )}
+                   <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
+                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {post.tags && post.tags.map((tag, index) => (
                         <Badge key={index} variant="outline" className="text-xs">
@@ -722,9 +731,18 @@ const BlogManager: React.FC = () => {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
-                  <div className="flex items-center justify-between">
+                 <CardContent>
+                   {post.featured_image_url && (
+                     <div className="mb-4">
+                       <img 
+                         src={post.featured_image_url} 
+                         alt={post.title}
+                         className="w-full h-32 object-cover rounded-lg border"
+                       />
+                     </div>
+                   )}
+                   <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {post.tags && post.tags.map((tag, index) => (
                         <Badge key={index} variant="outline" className="text-xs">

@@ -12,6 +12,7 @@ interface RSSItem {
   link: string;
   pubDate: string;
   content?: string;
+  featured_image_url?: string;
 }
 
 const supabaseClient = createClient(
@@ -115,7 +116,8 @@ serve(async (req) => {
             tags: ['rss', 'news'],
             source: 'rss',
             rss_feed_id: feedId,
-            is_published: true,
+            featured_image_url: item.featured_image_url || null,
+            is_published: false,
             is_featured: false,
             published_at: item.pubDate ? new Date(item.pubDate).toISOString() : new Date().toISOString()
           }]);
@@ -174,6 +176,13 @@ function parseRSSFeed(xmlText: string): RSSItem[] {
                        extractXMLContent(itemXml, 'content') || 
                        description;
 
+        // Extract featured image from various RSS elements
+        const featuredImage = extractXMLContent(itemXml, 'media:content') ||
+                             extractXMLContent(itemXml, 'enclosure') ||
+                             extractImageFromContent(content) ||
+                             extractImageFromContent(description) ||
+                             null;
+
         // Clean up HTML tags from description and content
         const cleanDescription = cleanHTML(description);
         const cleanContent = cleanHTML(content);
@@ -183,7 +192,8 @@ function parseRSSFeed(xmlText: string): RSSItem[] {
           description: cleanDescription,
           link,
           pubDate,
-          content: cleanContent
+          content: cleanContent,
+          featured_image_url: featuredImage
         });
       } catch (itemError) {
         console.error('Error parsing RSS item:', itemError);
@@ -200,6 +210,26 @@ function extractXMLContent(xml: string, tag: string): string | null {
   const regex = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\/${tag}>`, 'i');
   const match = xml.match(regex);
   return match ? match[1].trim() : null;
+}
+
+function extractImageFromContent(content: string): string | null {
+  if (!content) return null;
+  
+  // Try to extract image URL from img tags
+  const imgRegex = /<img[^>]+src="([^"]+)"/i;
+  const imgMatch = content.match(imgRegex);
+  if (imgMatch) {
+    return imgMatch[1];
+  }
+  
+  // Try to extract from media:content attributes
+  const mediaRegex = /url="([^"]*\.(jpg|jpeg|png|gif|webp)[^"]*)"/i;
+  const mediaMatch = content.match(mediaRegex);
+  if (mediaMatch) {
+    return mediaMatch[1];
+  }
+  
+  return null;
 }
 
 function cleanHTML(text: string): string {
