@@ -38,32 +38,20 @@ const RSSPostControls: React.FC<RSSPostControlsProps> = ({ children, post, onSav
     e.preventDefault();
     e.stopPropagation();
     
-    if (triggerRef.current) {
-      const rect = triggerRef.current.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-      
-      // Position dropdown to the right of the button, or center if not enough space
-      const windowWidth = window.innerWidth;
-      const dropdownWidth = 600; // Smaller width for RSS controls
-      
-      let left = rect.right + scrollLeft + 10; // 10px gap from button
-      
-      // If dropdown would go off screen, position it to the left of the button
-      if (left + dropdownWidth > windowWidth) {
-        left = rect.left + scrollLeft - dropdownWidth - 10;
-      }
-      
-      // If still off screen, center it
-      if (left < 0) {
-        left = (windowWidth - dropdownWidth) / 2;
-      }
-      
-      setPosition({
-        top: rect.top + scrollTop,
-        left: left
-      });
-    }
+    // Always center the form in the current viewport
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    
+    // Center the form in the visible viewport
+    const dropdownWidth = 600;
+    const dropdownHeight = Math.min(windowHeight * 0.7, 500); // Max 70% of viewport height
+    
+    setPosition({
+      top: scrollTop + (windowHeight - dropdownHeight) / 2,
+      left: scrollLeft + (windowWidth - dropdownWidth) / 2
+    });
     
     setIsOpen(true);
     setEditedPost({
@@ -105,18 +93,18 @@ const RSSPostControls: React.FC<RSSPostControlsProps> = ({ children, post, onSav
             onClick={handleBackdropClick}
           />
           
-          {/* Dropdown positioned relative to trigger */}
+          {/* Dropdown always centered in viewport */}
           <div 
             className="fixed z-50"
             style={{
               top: `${position.top}px`,
               left: `${position.left}px`,
-              maxHeight: '80vh',
               width: '600px',
-              maxWidth: 'calc(100vw - 20px)'
+              maxWidth: 'calc(100vw - 40px)',
+              maxHeight: 'calc(100vh - 40px)'
             }}
           >
-            <Card className="border-orange-200 bg-white shadow-2xl overflow-auto max-h-[80vh]">
+            <Card className="border-orange-200 bg-white shadow-2xl overflow-auto h-full">
             {/* Close button */}
             <button
               onClick={handleClose}
