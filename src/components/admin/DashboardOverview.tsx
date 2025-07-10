@@ -63,7 +63,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">
-                Dashboard Command Center
+                Dashboard
               </h2>
               <p className="text-lg text-muted-foreground">Real-time healthcare platform management</p>
             </div>
