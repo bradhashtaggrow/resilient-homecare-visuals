@@ -90,7 +90,7 @@ export const SystemMetricsGrid: React.FC<SystemMetricsProps> = ({ metrics, syste
       subtitle: 'Continuous operation',
       icon: Clock,
       status: 'healthy',
-      color: 'success'
+      color: 'primary'
     },
     {
       title: 'Version',
