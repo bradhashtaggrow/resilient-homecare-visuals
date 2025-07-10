@@ -180,11 +180,11 @@ const Login = () => {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-white/70 text-sm">Email:</span>
-                  <code className="text-blue-300 bg-blue-900/30 px-2 py-1 rounded text-sm font-mono">admin@healthcare.com</code>
+                  <code className="text-white bg-gradient-to-r from-primary to-primary-light px-2 py-1 rounded text-sm font-mono">admin@healthcare.com</code>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-white/70 text-sm">Password:</span>
-                  <code className="text-purple-300 bg-purple-900/30 px-2 py-1 rounded text-sm font-mono">Admin123!</code>
+                  <code className="text-white bg-gradient-to-r from-primary to-primary-light px-2 py-1 rounded text-sm font-mono">Admin123!</code>
                 </div>
               </div>
             </div>
