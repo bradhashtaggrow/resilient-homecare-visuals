@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AnalyticsOverview } from './analytics/AnalyticsOverview';
@@ -18,14 +17,6 @@ const AnalyticsDashboard = () => {
       
       <div className="relative z-10 space-y-8 p-8 max-w-7xl mx-auto">
         <div className="animate-fade-in-up">
-          <div className="mb-8">
-            <h1 className="text-4xl sm:text-5xl font-bold font-apple gradient-text mb-3">
-              Analytics
-            </h1>
-            <p className="text-xl text-slate-600 font-apple">
-              Track your website performance and visitor insights
-            </p>
-          </div>
           <AnalyticsHeader />
         </div>
         
