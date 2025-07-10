@@ -357,8 +357,8 @@ const BlogManager: React.FC = () => {
       }
       
       toast({
-        title: "RSS posts fetched",
-        description: `${data?.count || 0} new posts imported from RSS feed`,
+        title: "RSS posts imported",
+        description: `${data?.count || 0} new posts imported and ready for review. Check the RSS Posts tab to approve them for publishing.`,
       });
     } catch (error) {
       console.error('Error fetching RSS posts:', error);
@@ -621,14 +621,22 @@ const BlogManager: React.FC = () => {
                       ))}
                     </div>
                      <div className="flex items-center gap-2" style={{ pointerEvents: 'auto' }}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                        title="View full post content"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
                         <RSSPostControls post={post} onSave={handlePostSave}>
                           <Button
                             variant="outline"
                             size="sm"
                             className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                            title="Edit post settings"
                           >
                             <Edit className="h-4 w-4" />
-                            Settings
                           </Button>
                         </RSSPostControls>
                       <Button
@@ -636,23 +644,16 @@ const BlogManager: React.FC = () => {
                         size="sm"
                         onClick={() => togglePostStatus(post.id, 'is_published')}
                         className={post.is_published ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-green-600 hover:bg-green-50'}
+                        title={post.is_published ? 'Remove from website' : 'Approve and publish to website'}
                       >
-                        <Globe className="h-4 w-4 mr-2" />
-                        {post.is_published ? 'Remove from Website' : 'Publish to Website'}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => togglePostStatus(post.id, 'is_featured')}
-                        className="border-yellow-200 text-yellow-600 hover:bg-yellow-50"
-                      >
-                        {post.is_featured ? 'Unfeature' : 'Feature'}
+                        {post.is_published ? <X className="h-4 w-4" /> : <Globe className="h-4 w-4" />}
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => deletePost(post.id)}
                         className="border-red-200 text-red-600 hover:bg-red-50"
+                        title="Delete post permanently"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
