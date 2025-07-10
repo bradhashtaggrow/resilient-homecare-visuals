@@ -132,8 +132,11 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'lead_gen': 10,
       'footer': 11,
       // Page specific sections
-      'values': 3,
-      'team': 4,
+      'why_choose': 3,
+      'for_hospitals': 4,
+      'for_clinicians': 5,
+      'values': 6,
+      'team': 7,
       'tools': 3,
       'benefits': 4,
       'services_grid': 3,
