@@ -1071,6 +1071,145 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         </div>
                       )}
 
+                      {/* Contact Information management for get_in_touch section */}
+                      {section.section_key === 'get_in_touch' && (
+                        <div className="space-y-6 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Contact Information</h4>
+                          
+                          {/* Headquarters */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Headquarters Text
+                            </label>
+                            <Input
+                              value={((editForm.content_data as any)?.contact_info?.headquarters) || ''}
+                              onChange={(e) => {
+                                const newContactInfo = {
+                                  ...((editForm.content_data as any)?.contact_info || {}),
+                                  headquarters: e.target.value
+                                };
+                                setEditForm({
+                                  ...editForm,
+                                  content_data: { 
+                                    ...editForm.content_data, 
+                                    contact_info: newContactInfo 
+                                  }
+                                });
+                              }}
+                              placeholder="📍 Resilient Healthcare Headquarters"
+                            />
+                          </div>
+
+                          {/* Phone */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Phone Label
+                              </label>
+                              <Input
+                                value={((editForm.content_data as any)?.contact_info?.phone?.label) || ''}
+                                onChange={(e) => {
+                                  const newContactInfo = {
+                                    ...((editForm.content_data as any)?.contact_info || {}),
+                                    phone: {
+                                      ...((editForm.content_data as any)?.contact_info?.phone || {}),
+                                      label: e.target.value
+                                    }
+                                  };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { 
+                                      ...editForm.content_data, 
+                                      contact_info: newContactInfo 
+                                    }
+                                  });
+                                }}
+                                placeholder="📞 Call"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Phone Number
+                              </label>
+                              <Input
+                                value={((editForm.content_data as any)?.contact_info?.phone?.number) || ''}
+                                onChange={(e) => {
+                                  const newContactInfo = {
+                                    ...((editForm.content_data as any)?.contact_info || {}),
+                                    phone: {
+                                      ...((editForm.content_data as any)?.contact_info?.phone || {}),
+                                      number: e.target.value
+                                    }
+                                  };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { 
+                                      ...editForm.content_data, 
+                                      contact_info: newContactInfo 
+                                    }
+                                  });
+                                }}
+                                placeholder="(732) 429-2102"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Email */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Email Label
+                              </label>
+                              <Input
+                                value={((editForm.content_data as any)?.contact_info?.email?.label) || ''}
+                                onChange={(e) => {
+                                  const newContactInfo = {
+                                    ...((editForm.content_data as any)?.contact_info || {}),
+                                    email: {
+                                      ...((editForm.content_data as any)?.contact_info?.email || {}),
+                                      label: e.target.value
+                                    }
+                                  };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { 
+                                      ...editForm.content_data, 
+                                      contact_info: newContactInfo 
+                                    }
+                                  });
+                                }}
+                                placeholder="✉️ Email"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Email Address
+                              </label>
+                              <Input
+                                value={((editForm.content_data as any)?.contact_info?.email?.address) || ''}
+                                onChange={(e) => {
+                                  const newContactInfo = {
+                                    ...((editForm.content_data as any)?.contact_info || {}),
+                                    email: {
+                                      ...((editForm.content_data as any)?.contact_info?.email || {}),
+                                      address: e.target.value
+                                    }
+                                  };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { 
+                                      ...editForm.content_data, 
+                                      contact_info: newContactInfo 
+                                    }
+                                  });
+                                }}
+                                placeholder="jackleen@resilienthc.org"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
                       {/* Active toggle */}
                       <div className="flex items-center space-x-2">
                         <input
