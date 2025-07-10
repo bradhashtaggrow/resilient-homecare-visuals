@@ -11,6 +11,7 @@ import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
 import BlogManager from '@/components/admin/BlogManager';
 import UserManagement from '@/components/admin/UserManagement';
 import LeadsManager from '@/components/admin/LeadsManager';
+import SystemSettings from '@/components/admin/SystemSettings';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
@@ -149,6 +150,8 @@ const Admin = () => {
         return <UserManagement syncStatus={syncStatus} />;
       case 'leads':
         return <LeadsManager syncStatus={syncStatus} />;
+      case 'settings':
+        return <SystemSettings syncStatus={syncStatus} />;
       default:
         return <DashboardOverview syncStatus={syncStatus} stats={stats} />;
     }
