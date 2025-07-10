@@ -218,10 +218,10 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
 
       {/* System Health Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="glass border-0 shadow-glow border-success/20 bg-success/5">
+        <Card className="glass border-0 shadow-glow border-primary/20 bg-primary/5">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
-              <CheckCircle className="h-5 w-5 text-success" />
+              <CheckCircle className="h-5 w-5 text-primary" />
               <CardTitle className="text-lg font-semibold">Database Health</CardTitle>
             </div>
           </CardHeader>
