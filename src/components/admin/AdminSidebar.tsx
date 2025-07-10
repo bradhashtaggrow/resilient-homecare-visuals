@@ -24,11 +24,9 @@ import {
   UserCheck,
   Rss,
   Edit3,
-  X,
-  LogOut
+  X
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { useAuth } from '@/contexts/AuthContext';
 
 interface AdminSidebarProps {
   activeSection: string;
@@ -43,8 +41,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   syncStatus = 'disconnected',
   onClose
 }) => {
-  const { signOut } = useAuth();
-
   const mainMenuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
@@ -70,14 +66,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
         return <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />;
       default:
         return <WifiOff className="h-3 w-3 text-muted-foreground" />;
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error('Logout error:', error);
     }
   };
 
@@ -141,29 +129,10 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-4 py-6 space-y-6 overflow-y-auto bg-background flex flex-col">
-        <div className="space-y-6 flex-1">
-          {renderMenuGroup('Overview', mainMenuItems)}
-          {renderMenuGroup('Content Management', contentMenuItems)}
-          {renderMenuGroup('System', managementMenuItems)}
-        </div>
-        
-        {/* Logout Section */}
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={handleLogout}
-                  className="w-full justify-start px-3 py-2.5 rounded-lg transition-all duration-200 font-apple text-foreground hover:bg-destructive/10 hover:text-destructive"
-                >
-                  <LogOut className="h-5 w-5 mr-3" />
-                  <span className="font-medium font-apple">Sign Out</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+      <SidebarContent className="px-4 py-6 space-y-6 overflow-y-auto bg-background">
+        {renderMenuGroup('Overview', mainMenuItems)}
+        {renderMenuGroup('Content Management', contentMenuItems)}
+        {renderMenuGroup('System', managementMenuItems)}
       </SidebarContent>
     </Sidebar>
   );
