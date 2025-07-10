@@ -462,8 +462,9 @@ const BlogManager: React.FC = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="posts">Blog Posts</TabsTrigger>
+          <TabsTrigger value="rss-posts">RSS Posts</TabsTrigger>
           <TabsTrigger value="create">Create Post</TabsTrigger>
           <TabsTrigger value="rss">RSS Feeds</TabsTrigger>
         </TabsList>
@@ -682,6 +683,114 @@ const BlogManager: React.FC = () => {
                     Cancel
                   </Button>
                 </div>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="rss-posts" className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">RSS Imported Posts ({blogPosts.filter(p => p.source === 'rss').length})</h3>
+            <div className="flex gap-2">
+              <Badge variant="secondary">{blogPosts.filter(p => p.source === 'rss' && p.is_published).length} Published</Badge>
+              <Badge variant="secondary">{blogPosts.filter(p => p.source === 'rss' && !p.is_published).length} Drafts</Badge>
+            </div>
+          </div>
+
+          <div className="grid gap-4">
+            {blogPosts.filter(p => p.source === 'rss').map((post) => (
+              <Card key={post.id} className="border-orange-100 bg-gradient-to-br from-white to-orange-50/30">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <CardTitle className="text-orange-900">{post.title}</CardTitle>
+                      <CardDescription className="text-orange-600">
+                        By {post.author} • {new Date(post.created_at).toLocaleDateString()}
+                      </CardDescription>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary">
+                        <Rss className="h-3 w-3 mr-1" />
+                        RSS
+                      </Badge>
+                      {post.is_featured && <Badge className="bg-yellow-500">Featured</Badge>}
+                      {post.is_published ? (
+                        <Badge className="bg-green-500"><Eye className="h-3 w-3 mr-1" />Published</Badge>
+                      ) : (
+                        <Badge variant="outline"><EyeOff className="h-3 w-3 mr-1" />Draft</Badge>
+                      )}
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {post.tags && post.tags.map((tag, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          <Tag className="h-3 w-3 mr-1" />
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => startEditingPost(post)}
+                        className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                      >
+                        <Edit className="h-4 w-4" />
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => togglePostStatus(post.id, 'is_published')}
+                        className={post.is_published ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-green-600 hover:bg-green-50'}
+                      >
+                        <Globe className="h-4 w-4 mr-2" />
+                        {post.is_published ? 'Remove from Website' : 'Publish to Website'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => togglePostStatus(post.id, 'is_featured')}
+                        className="border-yellow-200 text-yellow-600 hover:bg-yellow-50"
+                      >
+                        {post.is_featured ? 'Unfeature' : 'Feature'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => deletePost(post.id)}
+                        className="border-red-200 text-red-600 hover:bg-red-50"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {blogPosts.filter(p => p.source === 'rss').length === 0 && (
+            <Card className="border-gray-200 bg-gray-50">
+              <CardContent className="text-center py-8">
+                <Rss className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No RSS posts yet</h3>
+                <p className="text-gray-600 mb-4">
+                  Import posts from RSS feeds to see them here. You can then publish them to your website.
+                </p>
+                <Button 
+                  onClick={() => setActiveTab('rss')}
+                  variant="outline"
+                  className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                >
+                  <Rss className="h-4 w-4 mr-2" />
+                  Manage RSS Feeds
+                </Button>
               </CardContent>
             </Card>
           )}
