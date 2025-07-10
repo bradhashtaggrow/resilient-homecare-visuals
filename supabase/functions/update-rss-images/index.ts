@@ -40,19 +40,34 @@ serve(async (req) => {
     console.log(`Found ${postsWithoutImages?.length || 0} RSS posts without images`);
 
     let updatedCount = 0;
+    const placeholderImages = [
+      'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1584515933487-779824d29309?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop'
+    ];
 
     if (postsWithoutImages && postsWithoutImages.length > 0) {
-      for (const post of postsWithoutImages) {
+      for (let i = 0; i < postsWithoutImages.length; i++) {
+        const post = postsWithoutImages[i];
         try {
-          // Try to extract image from content first, then excerpt
-          let extractedImage = extractImageFromContent(post.content) || 
-                              extractImageFromContent(post.excerpt || '');
+          console.log(`Processing post: "${post.title}"`);
+          console.log(`Post content preview: ${post.content?.substring(0, 200)}...`);
+          console.log(`Post excerpt preview: ${post.excerpt?.substring(0, 100)}...`);
+
+          // Try multiple extraction methods
+          let extractedImage = 
+            extractImageFromContent(post.content) ||
+            extractImageFromContent(post.excerpt || '') ||
+            await extractImageFromTitle(post.title) ||
+            placeholderImages[i % placeholderImages.length]; // Fallback to healthcare placeholder
 
           if (extractedImage) {
             // Clean up the URL if needed
             extractedImage = cleanImageUrl(extractedImage);
             
-            console.log(`Found image for post "${post.title}": ${extractedImage}`);
+            console.log(`Using image for post "${post.title}": ${extractedImage}`);
 
             // Update the post with the extracted image
             const { error: updateError } = await supabaseClient
@@ -62,12 +77,12 @@ serve(async (req) => {
 
             if (!updateError) {
               updatedCount++;
-              console.log(`Updated post "${post.title}" with image`);
+              console.log(`✅ Updated post "${post.title}" with image`);
             } else {
-              console.error(`Error updating post "${post.title}":`, updateError);
+              console.error(`❌ Error updating post "${post.title}":`, updateError);
             }
           } else {
-            console.log(`No image found for post "${post.title}"`);
+            console.log(`❌ No image found for post "${post.title}"`);
           }
         } catch (postError) {
           console.error(`Error processing post "${post.title}":`, postError);
@@ -134,6 +149,33 @@ function extractImageFromContent(content: string): string | null {
   const urlImageMatch = content.match(urlImageRegex);
   if (urlImageMatch) {
     return urlImageMatch[0];
+  }
+  
+  return null;
+}
+
+async function extractImageFromTitle(title: string): Promise<string | null> {
+  // Generate healthcare-related images based on keywords in title
+  const healthcareKeywords = {
+    'medication': 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop',
+    'adherence': 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=800&h=600&fit=crop', 
+    'patient': 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&h=600&fit=crop',
+    'healthcare': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop',
+    'pediatric': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop',
+    'digital': 'https://images.unsplash.com/photo-1587440871875-191322ee64b0?w=800&h=600&fit=crop',
+    'AI': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
+    'pharmaceutical': 'https://images.unsplash.com/photo-1559757175-5965834c18d7?w=800&h=600&fit=crop',
+    'value-based': 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop',
+    'care': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop'
+  };
+
+  const titleLower = title.toLowerCase();
+  
+  for (const [keyword, imageUrl] of Object.entries(healthcareKeywords)) {
+    if (titleLower.includes(keyword)) {
+      console.log(`Found keyword "${keyword}" in title, using themed image`);
+      return imageUrl;
+    }
   }
   
   return null;
