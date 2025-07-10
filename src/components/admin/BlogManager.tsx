@@ -906,7 +906,7 @@ const BlogManager: React.FC = () => {
 
       {/* Edit Post Modal - Outside tabs so it's always visible */}
       {editingPost && (
-        <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50/30 mt-6">
+        <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50/30 mt-6 fixed inset-4 z-50 overflow-auto">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-orange-900">Edit Blog Post</CardTitle>
