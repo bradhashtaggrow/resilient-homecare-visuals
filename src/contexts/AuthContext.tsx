@@ -77,11 +77,31 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.log('Initial session check:', session?.user?.email);
       setSession(session);
       setUser(session?.user ?? null);
-      setLoading(false);
       
-      // Clear admin state if no session
-      if (!session) {
+      if (session?.user) {
+        // Check admin status for existing session
+        setTimeout(async () => {
+          try {
+            const { data, error } = await supabase
+              .from('user_roles')
+              .select('role')
+              .eq('user_id', session.user.id)
+              .eq('role', 'admin')
+              .single();
+            
+            const adminStatus = !error && data !== null;
+            console.log('Initial admin check result:', adminStatus);
+            setIsAdmin(adminStatus);
+            setLoading(false);
+          } catch (error) {
+            console.error('Error checking initial admin role:', error);
+            setIsAdmin(false);
+            setLoading(false);
+          }
+        }, 0);
+      } else {
         setIsAdmin(false);
+        setLoading(false);
       }
     });
 
