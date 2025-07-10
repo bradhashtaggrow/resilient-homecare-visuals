@@ -153,7 +153,8 @@ const Login = () => {
               {/* Enhanced Submit Button */}
               <Button 
                 type="submit" 
-                className="w-full h-14 text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 hover:from-blue-500 hover:via-purple-500 hover:to-blue-600 border-0 shadow-xl shadow-blue-500/30 hover:shadow-blue-400/50 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 text-white" 
+                variant="gradient"
+                className="w-full h-14 text-lg font-bold transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1" 
                 disabled={loading}
               >
                 {loading ? (
