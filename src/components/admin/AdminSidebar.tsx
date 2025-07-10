@@ -61,17 +61,17 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   const getSyncStatusIcon = () => {
     switch (syncStatus) {
       case 'connected':
-        return <Wifi className="h-3 w-3 text-blue-600" />;
+        return <Wifi className="h-3 w-3 text-primary" />;
       case 'syncing':
-        return <div className="w-3 h-3 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />;
+        return <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />;
       default:
-        return <WifiOff className="h-3 w-3 text-blue-400" />;
+        return <WifiOff className="h-3 w-3 text-muted-foreground" />;
     }
   };
 
   const renderMenuGroup = (title: string, items: typeof mainMenuItems) => (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
+      <SidebarGroupLabel className="text-xs font-semibold text-foreground uppercase tracking-wider font-apple">
         {title}
       </SidebarGroupLabel>
       <SidebarGroupContent>
@@ -81,14 +81,14 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
               <SidebarMenuButton
                 onClick={() => onSectionChange(item.id)}
                 isActive={activeSection === item.id}
-                className={`w-full justify-start px-3 py-2.5 rounded-lg transition-all duration-200 ${
+                className={`w-full justify-start px-3 py-2.5 rounded-lg transition-all duration-200 font-apple ${
                   activeSection === item.id
-                    ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25'
-                    : 'text-blue-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-800'
+                    ? 'btn-3d-gradient text-white'
+                    : 'text-foreground hover:bg-accent hover:text-accent-foreground'
                 }`}
               >
                 <item.icon className="h-5 w-5 mr-3" />
-                <span className="font-medium">{item.label}</span>
+                <span className="font-medium font-apple">{item.label}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
@@ -98,30 +98,30 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   );
 
   return (
-    <Sidebar className="border-r border-blue-100 bg-gradient-to-b from-white to-blue-50/50">
-      <SidebarHeader className="p-6 border-b border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
+    <Sidebar className="border-r border-border bg-background">
+      <SidebarHeader className="p-6 border-b border-border bg-background">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
               <Globe className="h-6 w-6 text-white" />
             </div>
             <div className="flex-1">
-              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Healthcare Admin</h1>
-              <p className="text-sm text-blue-600">Content Management</p>
+              <h1 className="text-xl font-bold text-foreground font-apple">Healthcare Admin</h1>
+              <p className="text-sm text-muted-foreground font-apple">Content Management</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-blue-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-accent rounded-lg transition-colors"
             aria-label="Close sidebar"
           >
-            <X className="h-5 w-5 text-blue-600" />
+            <X className="h-5 w-5 text-foreground" />
           </button>
         </div>
         <div className="mt-3 flex items-center justify-center">
-          <Badge variant="outline" className="text-xs bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border-blue-200">
+          <Badge variant="outline" className="text-xs bg-background text-foreground border-border">
             {getSyncStatusIcon()}
-            <span className="ml-1">
+            <span className="ml-1 font-apple">
               {syncStatus === 'connected' ? 'Connected' : 
                syncStatus === 'syncing' ? 'Syncing' : 'Offline'}
             </span>
@@ -129,7 +129,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-4 py-6 space-y-6 sidebar-scrollbar overflow-y-auto">
+      <SidebarContent className="px-4 py-6 space-y-6 overflow-y-auto bg-background">
         {renderMenuGroup('Overview', mainMenuItems)}
         {renderMenuGroup('Content Management', contentMenuItems)}
         {renderMenuGroup('System', managementMenuItems)}

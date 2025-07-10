@@ -20,7 +20,7 @@ const Navigation = () => {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white/80 backdrop-blur-md border-b border-gray-200/50' : 'bg-white border-b border-gray-200'
+      scrolled ? 'bg-white/95 backdrop-blur-md border-b border-black/10' : 'bg-white border-b border-black/10'
     }`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
@@ -37,100 +37,34 @@ const Navigation = () => {
           
           {/* Desktop Navigation */}
           <div className="flex items-center space-x-8">
-            <Link to="/care-at-home" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link to="/care-at-home" className="text-black hover:text-primary transition-colors font-medium font-apple">
               Care At Home
             </Link>
-            <Link to="/clinicians" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link to="/clinicians" className="text-black hover:text-primary transition-colors font-medium font-apple">
               Clinicians
             </Link>
-            <Link to="/patients" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link to="/patients" className="text-black hover:text-primary transition-colors font-medium font-apple">
               Patients
             </Link>
-            <Link to="/news" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link to="/news" className="text-black hover:text-primary transition-colors font-medium font-apple">
               News
             </Link>
-            <Link to="/about" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link to="/about" className="text-black hover:text-primary transition-colors font-medium font-apple">
               About Us
             </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <Link to="/contact" className="text-black hover:text-primary transition-colors font-medium font-apple">
               Contact
             </Link>
             
             <LeadCaptureModal source="navigation">
-              <Button 
-                size="lg" 
-                className="group relative px-6 py-4 text-lg font-bold rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
-                style={{
-                  background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
-                  boxShadow: `
-                    0 12px 32px rgba(0, 128, 255, 0.4),
-                    0 4px 16px rgba(0, 0, 0, 0.3),
-                    inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                    inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-                  `,
-                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = `
-                    0 20px 48px rgba(0, 128, 255, 0.6),
-                    0 8px 24px rgba(0, 0, 0, 0.4),
-                    inset 0 2px 0 rgba(255, 255, 255, 0.3),
-                    inset 0 -2px 12px rgba(0, 0, 0, 0.2)
-                  `;
-                  e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = `
-                    0 12px 32px rgba(0, 128, 255, 0.4),
-                    0 4px 16px rgba(0, 0, 0, 0.3),
-                    inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                    inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-                  `;
-                  e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
-                }}
-              >
-                <span className="relative z-10 flex items-center justify-center">
-                  Request Demo
-                </span>
+              <Button className="btn-3d-gradient font-apple text-lg font-semibold">
+                Request Demo
               </Button>
             </LeadCaptureModal>
             
             <Link to="/login">
-              <Button 
-                size="lg" 
-                className="group relative px-6 py-4 text-lg font-bold rounded-2xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
-                style={{
-                  background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
-                  boxShadow: `
-                    0 12px 32px rgba(0, 128, 255, 0.4),
-                    0 4px 16px rgba(0, 0, 0, 0.3),
-                    inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                    inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-                  `,
-                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = `
-                    0 20px 48px rgba(0, 128, 255, 0.6),
-                    0 8px 24px rgba(0, 0, 0, 0.4),
-                    inset 0 2px 0 rgba(255, 255, 255, 0.3),
-                    inset 0 -2px 12px rgba(0, 0, 0, 0.2)
-                  `;
-                  e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = `
-                    0 12px 32px rgba(0, 128, 255, 0.4),
-                    0 4px 16px rgba(0, 0, 0, 0.3),
-                    inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                    inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-                  `;
-                  e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
-                }}
-              >
-                <span className="relative z-10 flex items-center justify-center">
-                  Login
-                </span>
+              <Button className="btn-3d-gradient font-apple text-lg font-semibold">
+                Login
               </Button>
             </Link>
           </div>

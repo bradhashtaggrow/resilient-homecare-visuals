@@ -39,42 +39,35 @@ const SystemSettings: React.FC<SystemSettingsProps> = ({ syncStatus = 'disconnec
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/5 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-          <p className="text-muted-foreground">Loading system settings...</p>
+          <p className="text-muted-foreground font-apple">Loading system settings...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/5">
-      {/* Animated background elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-chart-2/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-chart-3/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-      </div>
-      
+    <div className="min-h-screen bg-background">
       <div className="relative z-10 space-y-8 p-8 max-w-7xl mx-auto">
         {/* Header */}
         <div className="animate-fade-in-up">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">
+              <h2 className="text-4xl font-bold text-foreground font-apple mb-2">
                 System Settings
               </h2>
-              <p className="text-lg text-muted-foreground">Advanced configuration and monitoring</p>
+              <p className="text-lg text-muted-foreground font-apple">Advanced configuration and monitoring</p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-success/10">
+              <div className="p-2 rounded-lg bg-accent">
                 {getSyncStatusIcon()}
               </div>
-              <Badge variant="outline" className="glass border-0 text-sm bg-gradient-to-r from-primary/10 to-primary-light/10 text-primary border-primary/20">
+              <Badge variant="outline" className="glass border-0 text-sm bg-background text-foreground border-border">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
-                  {syncStatus === 'connected' ? 'System Online' : 'Offline'}
+                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                  <span className="font-apple">{syncStatus === 'connected' ? 'System Online' : 'Offline'}</span>
                 </div>
               </Badge>
             </div>
@@ -89,25 +82,25 @@ const SystemSettings: React.FC<SystemSettingsProps> = ({ syncStatus = 'disconnec
         {/* Main Settings Tabs */}
         <div className="animate-slide-in-right" style={{ animationDelay: '0.2s' }}>
           <Tabs defaultValue="configuration" className="space-y-6">
-            <div className="glass border-0 p-2 rounded-xl shadow-glow">
+            <div className="glass border-0 p-2 rounded-xl bg-background border-border">
               <TabsList className="grid w-full grid-cols-3 bg-transparent gap-2">
                 <TabsTrigger 
                   value="configuration" 
-                  className="glass border-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  className="glass border-0 data-[state=active]:btn-3d-gradient data-[state=active]:text-white font-apple"
                 >
                   <Settings className="h-4 w-4 mr-2" />
                   Configuration
                 </TabsTrigger>
                 <TabsTrigger 
                   value="security" 
-                  className="glass border-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  className="glass border-0 data-[state=active]:btn-3d-gradient data-[state=active]:text-white font-apple"
                 >
                   <Shield className="h-4 w-4 mr-2" />
                   Security
                 </TabsTrigger>
                 <TabsTrigger 
                   value="monitoring" 
-                  className="glass border-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  className="glass border-0 data-[state=active]:btn-3d-gradient data-[state=active]:text-white font-apple"
                 >
                   <BarChart3 className="h-4 w-4 mr-2" />
                   Monitoring

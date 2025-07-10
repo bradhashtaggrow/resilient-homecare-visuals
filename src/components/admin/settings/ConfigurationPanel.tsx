@@ -237,26 +237,26 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
   return (
     <div className="space-y-6">
       {/* System Status Bar */}
-      <Card className="glass border-0 shadow-glow">
+      <Card className="glass border-0 bg-background border-border">
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
+              <div className="p-2 rounded-lg bg-accent">
                 <Globe className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <CardTitle className="text-xl font-semibold">System Status</CardTitle>
-                <p className="text-sm text-muted-foreground">Real-time system configuration</p>
+                <CardTitle className="text-xl font-semibold font-apple text-foreground">System Status</CardTitle>
+                <p className="text-sm text-muted-foreground font-apple">Real-time system configuration</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               {config.maintenance && (
-                <Badge variant="destructive" className="animate-pulse">
+                <Badge variant="destructive" className="animate-pulse font-apple">
                   <Shield className="h-3 w-3 mr-1" />
                   Maintenance Mode
                 </Badge>
               )}
-              <Button onClick={onRefreshSystem} variant="outline" size="sm">
+              <Button onClick={onRefreshSystem} className="btn-3d-gradient font-apple">
                 <Zap className="h-4 w-4 mr-2" />
                 Refresh System
               </Button>
@@ -271,18 +271,18 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
           const Icon = section.icon;
           return (
             <div key={section.title} className="animate-slide-in-right" style={{ animationDelay: `${index * 0.1}s` }}>
-              <Card className="glass border-0 shadow-glow h-full">
+              <Card className="glass border-0 bg-background border-border h-full">
                 <CardHeader className="pb-4">
                   <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg bg-${section.color}/10`}>
-                      <Icon className={`h-5 w-5 text-${section.color}`} />
+                    <div className="p-2 rounded-lg bg-accent">
+                      <Icon className="h-5 w-5 text-primary" />
                     </div>
-                    <CardTitle className="text-lg font-semibold">{section.title}</CardTitle>
+                    <CardTitle className="text-lg font-semibold font-apple text-foreground">{section.title}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   {section.settings.map((setting) => (
-                    <div key={setting.key} className="p-4 glass border-0 rounded-xl">
+                    <div key={setting.key} className="p-4 glass border-0 rounded-xl bg-background border-border">
                       {renderSetting(setting)}
                     </div>
                   ))}

@@ -68,22 +68,22 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
   const getSyncStatusIcon = () => {
     switch (syncStatus) {
       case 'connected':
-        return <Wifi className="h-3 w-3 text-blue-600" />;
+        return <Wifi className="h-3 w-3 text-primary" />;
       case 'syncing':
-        return <div className="w-3 h-3 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />;
+        return <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />;
       default:
-        return <WifiOff className="h-3 w-3 text-blue-400" />;
+        return <WifiOff className="h-3 w-3 text-muted-foreground" />;
     }
   };
 
   const getSyncStatusColor = () => {
     switch (syncStatus) {
       case 'connected':
-        return 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border-blue-200';
+        return 'bg-white text-foreground border-border';
       case 'syncing':
-        return 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border-blue-200';
+        return 'bg-white text-foreground border-border';
       default:
-        return 'bg-gradient-to-r from-blue-50 to-slate-50 text-blue-600 border-blue-200';
+        return 'bg-white text-muted-foreground border-border';
     }
   };
 
@@ -92,24 +92,24 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
   };
 
   return (
-    <header className="h-16 border-b border-blue-100 bg-gradient-to-r from-white to-blue-50/50 px-6 flex items-center justify-between">
+    <header className="h-16 border-b border-border bg-background px-6 flex items-center justify-between">
       <div className="flex items-center space-x-4">
         {!sidebarOpen && onSidebarToggle && (
           <Button
             variant="outline"
             size="sm"
             onClick={onSidebarToggle}
-            className="p-2 hover:bg-blue-100 border-blue-200"
+            className="p-2"
           >
-            <Menu className="h-4 w-4 text-blue-600" />
+            <Menu className="h-4 w-4" />
           </Button>
         )}
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+        <h2 className="text-2xl font-bold text-foreground font-apple">
           {getSectionTitle(activeSection)}
         </h2>
         {activeSection === 'content' && onPageChange && (
           <Select value={selectedPage} onValueChange={onPageChange}>
-            <SelectTrigger className="w-48 bg-gradient-to-r from-blue-50/50 to-white border-blue-200">
+            <SelectTrigger className="w-48 bg-background border-border">
               <SelectValue placeholder="Select page" />
             </SelectTrigger>
             <SelectContent>
@@ -132,35 +132,35 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
 
       <div className="flex items-center space-x-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input 
             placeholder="Search..." 
-            className="pl-10 w-64 bg-gradient-to-r from-blue-50/50 to-white border-blue-200 focus:bg-white focus:border-blue-400 focus:ring-blue-400/20"
+            className="pl-10 w-64 bg-background border-border"
           />
         </div>
         
-        <Button variant="outline" size="sm" className="text-blue-600 hover:text-blue-700 border-blue-200 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50">
+        <Button variant="outline" size="sm" className="text-foreground">
           <Bell className="h-4 w-4" />
         </Button>
         
-        <Button size="sm" className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700">
+        <Button size="sm" className="btn-3d-gradient font-apple">
           <Save className="h-4 w-4 mr-2" />
           Save Changes
         </Button>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="flex items-center space-x-2 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+            <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                 <User className="h-4 w-4 text-white" />
               </div>
-              <span className="text-sm font-medium text-blue-700">
+              <span className="text-sm font-medium text-foreground font-apple">
                 {user?.email?.split('@')[0] || 'Admin'}
               </span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
-            <DropdownMenuItem onClick={handleLogout} className="text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50">
+          <DropdownMenuContent align="end" className="border-border bg-background">
+            <DropdownMenuItem onClick={handleLogout} className="text-foreground">
               <LogOut className="h-4 w-4 mr-2" />
               Sign Out
             </DropdownMenuItem>
