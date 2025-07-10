@@ -348,7 +348,14 @@ const BlogManager: React.FC = () => {
 
       if (error) {
         console.error('RSS function error:', error);
-        throw new Error(error.message || 'Unknown error occurred');
+        // Try to get more detailed error info from the response
+        let errorMessage = 'Unknown error occurred';
+        if (error.message?.includes('non-2xx status code')) {
+          errorMessage = 'The RSS feed URL appears to be invalid or unreachable. Please check the URL and try again.';
+        } else {
+          errorMessage = error.message || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
       
       toast({
@@ -357,7 +364,14 @@ const BlogManager: React.FC = () => {
       });
     } catch (error) {
       console.error('Error fetching RSS posts:', error);
-      const errorMessage = error.message || error.details || "Failed to fetch posts from RSS feed";
+      let errorMessage = "Failed to fetch posts from RSS feed";
+      
+      if (error.message?.includes('non-2xx status code')) {
+        errorMessage = 'The RSS feed URL appears to be invalid or unreachable. Please verify the URL points to a valid RSS feed.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: "Error fetching RSS posts", 
         description: errorMessage,
