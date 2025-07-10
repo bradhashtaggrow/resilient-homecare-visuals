@@ -25,7 +25,7 @@ serve(async (req) => {
     // Get all RSS posts without featured images
     const { data: postsWithoutImages, error: fetchError } = await supabaseClient
       .from('blog_posts')
-      .select('id, title, content, excerpt, featured_image_url')
+      .select('id, title, content, excerpt, featured_image_url, rss_feed_id')
       .eq('source', 'rss')
       .or('featured_image_url.is.null,featured_image_url.eq.');
 
@@ -40,28 +40,26 @@ serve(async (req) => {
     console.log(`Found ${postsWithoutImages?.length || 0} RSS posts without images`);
 
     let updatedCount = 0;
-    const placeholderImages = [
-      'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1584515933487-779824d29309?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop'
-    ];
 
     if (postsWithoutImages && postsWithoutImages.length > 0) {
-      for (let i = 0; i < postsWithoutImages.length; i++) {
-        const post = postsWithoutImages[i];
+      for (const post of postsWithoutImages) {
         try {
           console.log(`Processing post: "${post.title}"`);
-          console.log(`Post content preview: ${post.content?.substring(0, 200)}...`);
-          console.log(`Post excerpt preview: ${post.excerpt?.substring(0, 100)}...`);
-
-          // Try multiple extraction methods
-          let extractedImage = 
-            extractImageFromContent(post.content) ||
-            extractImageFromContent(post.excerpt || '') ||
-            await extractImageFromTitle(post.title) ||
-            placeholderImages[i % placeholderImages.length]; // Fallback to healthcare placeholder
+          
+          // Get the RSS feed URL to re-fetch and extract images
+          const { data: rssFeed } = await supabaseClient
+            .from('rss_feeds')
+            .select('url')
+            .eq('id', post.rss_feed_id)
+            .single();
+            
+          if (!rssFeed) {
+            console.log(`No RSS feed found for post: ${post.title}`);
+            continue;
+          }
+          
+          // Re-fetch the RSS feed to get the original content with images
+          let extractedImage = await extractImageFromRSSFeed(rssFeed.url, post.title);
 
           if (extractedImage) {
             // Clean up the URL if needed
@@ -154,28 +152,75 @@ function extractImageFromContent(content: string): string | null {
   return null;
 }
 
-async function extractImageFromTitle(title: string): Promise<string | null> {
-  // Generate healthcare-related images based on keywords in title
-  const healthcareKeywords = {
-    'medication': 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop',
-    'adherence': 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=800&h=600&fit=crop', 
-    'patient': 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&h=600&fit=crop',
-    'healthcare': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop',
-    'pediatric': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop',
-    'digital': 'https://images.unsplash.com/photo-1587440871875-191322ee64b0?w=800&h=600&fit=crop',
-    'AI': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
-    'pharmaceutical': 'https://images.unsplash.com/photo-1559757175-5965834c18d7?w=800&h=600&fit=crop',
-    'value-based': 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop',
-    'care': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop'
-  };
-
-  const titleLower = title.toLowerCase();
-  
-  for (const [keyword, imageUrl] of Object.entries(healthcareKeywords)) {
-    if (titleLower.includes(keyword)) {
-      console.log(`Found keyword "${keyword}" in title, using themed image`);
-      return imageUrl;
+async function extractImageFromRSSFeed(feedUrl: string, postTitle: string): Promise<string | null> {
+  try {
+    console.log(`Fetching RSS feed: ${feedUrl}`);
+    
+    // Ensure URL has proper protocol
+    if (!feedUrl.startsWith('http://') && !feedUrl.startsWith('https://')) {
+      feedUrl = 'https://' + feedUrl;
     }
+    
+    const response = await fetch(feedUrl);
+    if (!response.ok) {
+      console.error(`Failed to fetch RSS feed: ${response.status}`);
+      return null;
+    }
+    
+    const rssText = await response.text();
+    
+    // Find the specific RSS item that matches our post title
+    const itemMatches = rssText.match(/<item[^>]*>[\s\S]*?<\/item>/gi);
+    if (!itemMatches) return null;
+    
+    for (const itemXml of itemMatches) {
+      const title = extractXMLContent(itemXml, 'title');
+      
+      // Check if this is the item we're looking for
+      if (title && title.trim() === postTitle.trim()) {
+        console.log(`Found matching RSS item for: ${postTitle}`);
+        
+        // Extract image from various RSS elements
+        let imageUrl = extractXMLContent(itemXml, 'media:content') ||
+                      extractXMLContent(itemXml, 'media:thumbnail') ||
+                      extractImageFromEnclosure(itemXml) ||
+                      extractImageFromContent(extractXMLContent(itemXml, 'content:encoded') || '') ||
+                      extractImageFromContent(extractXMLContent(itemXml, 'description') || '');
+        
+        if (imageUrl) {
+          console.log(`Extracted image from RSS: ${imageUrl}`);
+          return imageUrl;
+        }
+      }
+    }
+    
+    console.log(`No image found in RSS for: ${postTitle}`);
+    return null;
+  } catch (error) {
+    console.error(`Error extracting image from RSS feed:`, error);
+    return null;
+  }
+}
+
+function extractXMLContent(xml: string, tag: string): string | null {
+  const regex = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\/${tag}>`, 'i');
+  const match = xml.match(regex);
+  return match ? match[1].trim() : null;
+}
+
+function extractImageFromEnclosure(xml: string): string | null {
+  // Extract from enclosure tag (commonly used for images in RSS)
+  const enclosureRegex = /<enclosure[^>]+url=["']([^"']*\.(jpg|jpeg|png|gif|webp|bmp)[^"']*)["'][^>]*>/i;
+  const enclosureMatch = xml.match(enclosureRegex);
+  if (enclosureMatch) {
+    return enclosureMatch[1];
+  }
+  
+  // Extract from media:content url attribute
+  const mediaContentRegex = /<media:content[^>]+url=["']([^"']*\.(jpg|jpeg|png|gif|webp|bmp)[^"']*)["'][^>]*>/i;
+  const mediaContentMatch = xml.match(mediaContentRegex);
+  if (mediaContentMatch) {
+    return mediaContentMatch[1];
   }
   
   return null;
