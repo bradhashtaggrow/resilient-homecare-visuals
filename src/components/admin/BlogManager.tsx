@@ -339,22 +339,15 @@ const BlogManager: React.FC = () => {
     try {
       setIsFetching(true);
       
-      const response = await fetch('https://iwgtwzpygoyohocbgqgm.supabase.co/functions/v1/fetch-rss-posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3Z3R3enB5Z295b2hvY2JncWdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1NTM4OTksImV4cCI6MjA2NzEyOTg5OX0.qAe2WDhB0K3r71mKwAFBXL9_gc2sPn8XwgM6mAS9iyI`
-        },
-        body: JSON.stringify({ feedId })
+      const { data, error } = await supabase.functions.invoke('fetch-rss-posts', {
+        body: { feedId }
       });
 
-      if (!response.ok) throw new Error('Failed to fetch RSS posts');
-      
-      const { count } = await response.json();
+      if (error) throw error;
       
       toast({
         title: "RSS posts fetched",
-        description: `${count} new posts imported from RSS feed`,
+        description: `${data.count} new posts imported from RSS feed`,
       });
     } catch (error) {
       console.error('Error fetching RSS posts:', error);
