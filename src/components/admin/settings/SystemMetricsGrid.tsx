@@ -108,25 +108,25 @@ export const SystemMetricsGrid: React.FC<SystemMetricsProps> = ({ metrics, syste
         const Icon = metric.icon;
         return (
           <div key={metric.title} className="animate-scale-in" style={{ animationDelay: `${index * 0.1}s` }}>
-            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105 gradient-card">
+            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  <div className="p-3 rounded-xl gradient-primary group-hover:opacity-90 transition-all duration-300">
-                    <Icon className="h-6 w-6 text-white" />
+                  <div className={`p-3 rounded-xl bg-gradient-to-br from-${metric.color}/10 to-${metric.color}/20 group-hover:from-${metric.color}/20 group-hover:to-${metric.color}/30 transition-all duration-300`}>
+                    <Icon className={`h-6 w-6 text-${metric.color}`} />
                   </div>
                   <div className="flex items-center gap-2">
                     {getStatusIcon(metric.status)}
-                    <CardTitle className="text-sm font-medium text-foreground font-apple">{metric.title}</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">{metric.title}</CardTitle>
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className={`text-2xl font-bold mb-1 gradient-text font-apple ${getStatusColor(metric.status)}`}>
+                <div className={`text-2xl font-bold mb-1 ${getStatusColor(metric.status)}`}>
                   {metric.value}
                 </div>
-                <p className="text-xs text-muted-foreground font-apple">{metric.subtitle}</p>
+                <p className="text-xs text-muted-foreground">{metric.subtitle}</p>
                 {metric.title === 'System Uptime' && metrics.lastBackup && (
-                  <p className="text-xs text-muted-foreground mt-1 font-apple">
+                  <p className="text-xs text-muted-foreground mt-1">
                     Last backup: {metrics.lastBackup.toLocaleDateString()}
                   </p>
                 )}

@@ -31,71 +31,70 @@ export const useAdvancedAnalytics = () => {
   const pageStartTime = useRef<Date>(new Date());
   const scrollDepthRef = useRef<number>(0);
   const geolocationRef = useRef<GeolocationData | null>(null);
-  const isInitializedRef = useRef<boolean>(false);
-  const cleanupFunctionsRef = useRef<(() => void)[]>([]);
 
-  // Get or create session ID with error handling
+  // Get or create session ID
   const getSessionId = useCallback(() => {
-    try {
-      if (!sessionRef.current) {
-        let sessionId = sessionStorage.getItem('analytics_session_id');
-        if (!sessionId) {
-          sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-          sessionStorage.setItem('analytics_session_id', sessionId);
-        }
-        sessionRef.current = sessionId;
+    if (!sessionRef.current) {
+      let sessionId = sessionStorage.getItem('analytics_session_id');
+      if (!sessionId) {
+        sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        sessionStorage.setItem('analytics_session_id', sessionId);
       }
-      return sessionRef.current;
-    } catch (error) {
-      // Fallback if sessionStorage fails
-      if (!sessionRef.current) {
-        sessionRef.current = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      }
-      return sessionRef.current;
+      sessionRef.current = sessionId;
     }
+    return sessionRef.current;
   }, []);
 
-  // Get geolocation data with proper error handling
-  const getGeolocation = useCallback(async (): Promise<GeolocationData> => {
+  // Get geolocation data from IP
+  const getGeolocation = useCallback(async () => {
     if (geolocationRef.current) return geolocationRef.current;
     
-    const fallbackData: GeolocationData = {
-      country: 'Unknown',
-      city: 'Unknown',
-      region: 'Unknown',
-      timezone: 'Unknown',
-      isp: 'Unknown'
-    };
-    
     try {
+      // Using ipapi.co for IP geolocation (free tier)
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000);
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
       
       const response = await fetch('https://ipapi.co/json/', {
         signal: controller.signal,
-        headers: { 'Accept': 'application/json' }
+        headers: {
+          'Accept': 'application/json',
+        }
       });
       
       clearTimeout(timeoutId);
       
-      if (response.ok) {
-        const data = await response.json();
-        const geoData: GeolocationData = {
-          country: data.country_name || 'Unknown',
-          city: data.city || 'Unknown',
-          region: data.region || 'Unknown',
-          timezone: data.timezone || 'Unknown',
-          isp: data.org || 'Unknown'
-        };
-        geolocationRef.current = geoData;
-        return geoData;
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
       }
+      
+      const data = await response.json();
+      
+      const geoData: GeolocationData = {
+        country: data.country_name || 'Unknown',
+        city: data.city || 'Unknown',
+        region: data.region || 'Unknown',
+        latitude: data.latitude ? parseFloat(data.latitude) : undefined,
+        longitude: data.longitude ? parseFloat(data.longitude) : undefined,
+        timezone: data.timezone || 'Unknown',
+        isp: data.org || 'Unknown'
+      };
+      
+      geolocationRef.current = geoData;
+      return geoData;
     } catch (error) {
-      // Silent fail, use fallback
+      // Set fallback data to prevent repeated requests
+      const fallbackData: GeolocationData = {
+        country: 'Unknown',
+        city: 'Unknown',
+        region: 'Unknown',
+        timezone: 'Unknown',
+        isp: 'Unknown'
+      };
+      
+      geolocationRef.current = fallbackData;
+      console.warn('Geolocation service unavailable, using fallback data');
+      return fallbackData;
     }
-    
-    geolocationRef.current = fallbackData;
-    return fallbackData;
   }, []);
 
   // Enhanced device detection
@@ -136,17 +135,14 @@ export const useAdvancedAnalytics = () => {
     };
   }, []);
 
-  // Track any event with robust error handling
+  // Track any event with enhanced data
   const trackEvent = useCallback(async (event: TrackingEvent) => {
-    // Don't track during initialization or if already cleaning up
-    if (!isInitializedRef.current) return;
-    
     try {
       const sessionId = getSessionId();
       const geoData = await getGeolocation();
       const deviceInfo = getDeviceInfo();
       
-      const eventData = {
+      await supabase.from('analytics_events').insert({
         event_type: event.event_type,
         event_name: event.event_name,
         page_url: event.page_url || location.pathname,
@@ -160,28 +156,23 @@ export const useAdvancedAnalytics = () => {
         os: deviceInfo.os,
         properties: {
           ...event.properties,
+          deviceInfo,
+          geolocation: geoData as Record<string, any>,
           element_id: event.element_id,
           element_type: event.element_type,
           element_text: event.element_text,
           scroll_depth: event.scroll_depth,
           time_on_page: event.time_on_page,
           mouse_position: event.mouse_position,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          url_hash: location.hash,
+          url_search: location.search
         }
-      };
-
-      // Use timeout to prevent hanging
-      const insertPromise = supabase.from('analytics_events').insert(eventData);
-      const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Request timeout')), 5000)
-      );
-
-      await Promise.race([insertPromise, timeoutPromise]);
+      });
     } catch (error) {
-      // Silent fail - analytics should never break the app
-      console.warn('Analytics event failed:', error);
+      console.error('Error tracking event:', error);
     }
-  }, [location.pathname, getSessionId, getGeolocation, getDeviceInfo]);
+  }, [location, getSessionId, getGeolocation, getDeviceInfo]);
 
   // Track page view with enhanced data
   const trackPageView = useCallback(async (customUrl?: string) => {
@@ -200,35 +191,38 @@ export const useAdvancedAnalytics = () => {
       }
     });
 
-    // Simplified session tracking
+    // Update or create session
     try {
       const sessionId = getSessionId();
       const geoData = await getGeolocation();
       const deviceInfo = getDeviceInfo();
 
-      // Check if session exists first
-      const { data: existingSession } = await supabase
-        .from('analytics_sessions')
-        .select('id')
-        .eq('session_id', sessionId)
-        .single();
+      const sessionData = {
+        session_id: sessionId,
+        entry_page: pageUrl,
+        referrer: document.referrer || null,
+        device_type: deviceInfo.deviceType,
+        browser: deviceInfo.browser,
+        os: deviceInfo.os,
+        country: geoData.country,
+        city: geoData.city
+      };
 
-      if (!existingSession) {
-        // Only insert if session doesn't exist
-        await supabase.from('analytics_sessions').insert({
-          session_id: sessionId,
-          entry_page: pageUrl,
-          referrer: document.referrer || null,
-          device_type: deviceInfo.deviceType,
-          browser: deviceInfo.browser,
-          os: deviceInfo.os,
-          country: geoData.country,
-          city: geoData.city
-        });
+      // Try to insert, if it fails (duplicate), update instead
+      const { error } = await supabase.from('analytics_sessions').insert(sessionData);
+      
+      if (error && error.code === '23505') {
+        // Session exists, update it
+        await supabase
+          .from('analytics_sessions')
+          .update({ 
+            page_count: 1, // Will be incremented by trigger
+            exit_page: pageUrl 
+          })
+          .eq('session_id', sessionId);
       }
     } catch (error) {
-      // Silent fail to prevent crashes
-      console.warn('Session tracking error:', error);
+      console.error('Error updating session:', error);
     }
   }, [location, trackEvent, getSessionId, getGeolocation, getDeviceInfo]);
 
@@ -305,95 +299,76 @@ export const useAdvancedAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // Set up analytics with proper initialization and cleanup
+  // Set up global event listeners
   useEffect(() => {
-    // Prevent multiple initializations
-    if (isInitializedRef.current) return;
-    
-    // Initialize after a small delay to ensure DOM is ready
-    const initTimer = setTimeout(() => {
-      try {
-        isInitializedRef.current = true;
-        
-        // Track initial page view
-        trackPageView().catch(() => {
-          console.warn('Initial page view tracking failed');
+    // Track page view on route change
+    trackPageView();
+
+    // Track clicks on all interactive elements
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (target && (target.tagName === 'BUTTON' || target.tagName === 'A' || target.onclick)) {
+        trackClick(target, {
+          mouse_position: { x: event.clientX, y: event.clientY }
         });
-
-        // Set up event listeners with proper error handling
-        const handleClick = (event: MouseEvent) => {
-          try {
-            const target = event.target as HTMLElement;
-            if (target && (target.tagName === 'BUTTON' || target.tagName === 'A')) {
-              trackClick(target, {
-                mouse_position: { x: event.clientX, y: event.clientY }
-              }).catch(() => {
-                // Silent fail
-              });
-            }
-          } catch (error) {
-            console.warn('Click tracking failed:', error);
-          }
-        };
-
-        const handleScroll = () => {
-          try {
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrolled = window.scrollY;
-            if (scrollHeight > 0) {
-              const scrollDepth = Math.round((scrolled / scrollHeight) * 100);
-              trackScrollDepth(scrollDepth).catch(() => {
-                // Silent fail
-              });
-            }
-          } catch (error) {
-            console.warn('Scroll tracking failed:', error);
-          }
-        };
-
-        const handleBeforeUnload = () => {
-          try {
-            trackTimeOnPage().catch(() => {
-              // Silent fail
-            });
-          } catch (error) {
-            console.warn('Time tracking failed:', error);
-          }
-        };
-
-        // Add event listeners
-        document.addEventListener('click', handleClick);
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        // Store cleanup functions
-        cleanupFunctionsRef.current = [
-          () => document.removeEventListener('click', handleClick),
-          () => window.removeEventListener('scroll', handleScroll),
-          () => window.removeEventListener('beforeunload', handleBeforeUnload)
-        ];
-        
-      } catch (error) {
-        console.warn('Analytics initialization failed:', error);
-        isInitializedRef.current = false;
       }
-    }, 100);
+    };
+
+    // Track scroll depth
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = window.scrollY;
+      const scrollDepth = Math.round((scrolled / scrollHeight) * 100);
+      trackScrollDepth(scrollDepth);
+    };
+
+    // Track time on page intervals
+    const timeInterval = setInterval(trackTimeOnPage, 30000); // Every 30 seconds
+
+    // Track before page unload
+    const handleBeforeUnload = () => {
+      trackTimeOnPage();
+    };
+
+    // Track visibility change
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        trackTimeOnPage();
+      }
+    };
+
+    // Track mouse movement (sampled)
+    let mouseMoveCount = 0;
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseMoveCount++;
+      if (mouseMoveCount % 100 === 0) { // Sample every 100th movement
+        trackEvent({
+          event_type: 'interaction',
+          event_name: 'Mouse Movement',
+          mouse_position: { x: event.clientX, y: event.clientY },
+          properties: {
+            movement_count: mouseMoveCount
+          }
+        });
+      }
+    };
+
+    // Add event listeners
+    document.addEventListener('click', handleClick);
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      clearTimeout(initTimer);
-      isInitializedRef.current = false;
-      
-      // Clean up all event listeners
-      cleanupFunctionsRef.current.forEach(cleanup => {
-        try {
-          cleanup();
-        } catch (error) {
-          console.warn('Cleanup failed:', error);
-        }
-      });
-      cleanupFunctionsRef.current = [];
+      document.removeEventListener('click', handleClick);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener('mousemove', handleMouseMove);
+      clearInterval(timeInterval);
     };
-  }, [location.pathname, trackPageView, trackClick, trackScrollDepth, trackTimeOnPage]);
+  }, [location.pathname, trackPageView, trackClick, trackScrollDepth, trackTimeOnPage, trackEvent]);
 
   return {
     trackEvent,

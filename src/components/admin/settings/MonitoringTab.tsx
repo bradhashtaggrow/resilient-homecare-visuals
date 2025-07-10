@@ -101,19 +101,19 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
   return (
     <div className="space-y-6">
       {/* Header with Refresh */}
-      <Card className="glass border-0 shadow-glow gradient-card">
+      <Card className="glass border-0 shadow-glow">
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg gradient-primary">
-                <BarChart3 className="h-5 w-5 text-white" />
+              <div className="p-2 rounded-lg bg-primary/10">
+                <BarChart3 className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <CardTitle className="text-xl font-semibold gradient-text font-apple">System Monitoring</CardTitle>
-                <p className="text-sm text-muted-foreground font-apple">Real-time performance and activity monitoring</p>
+                <CardTitle className="text-xl font-semibold">System Monitoring</CardTitle>
+                <p className="text-sm text-muted-foreground">Real-time performance and activity monitoring</p>
               </div>
             </div>
-            <Button onClick={onRefresh} variant="outline" size="sm" className="font-apple">
+            <Button onClick={onRefresh} variant="outline" size="sm">
               <RefreshCw className="h-4 w-4 mr-2" />
               Refresh Data
             </Button>
@@ -127,23 +127,23 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
           const Icon = metric.icon;
           return (
             <div key={metric.title} className="animate-scale-in" style={{ animationDelay: `${index * 0.1}s` }}>
-              <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 gradient-card group hover:scale-105">
+              <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg gradient-primary group-hover:opacity-90 transition-all duration-300">
-                        <Icon className="h-5 w-5 text-white" />
+                      <div className={`p-2 rounded-lg bg-${metric.color}/10`}>
+                        <Icon className={`h-5 w-5 text-${metric.color}`} />
                       </div>
                       <div>
-                        <CardTitle className="text-sm font-medium text-foreground font-apple">{metric.title}</CardTitle>
-                        <div className={`text-2xl font-bold gradient-text font-apple ${getStatusColor(metric.status)}`}>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">{metric.title}</CardTitle>
+                        <div className={`text-2xl font-bold ${getStatusColor(metric.status)}`}>
                           {metric.value}
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-1">
                       {getTrendIcon(metric.trend)}
-                      <span className={`text-xs font-apple ${metric.trend > 0 ? 'text-success' : metric.trend < 0 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                      <span className={`text-xs ${metric.trend > 0 ? 'text-success' : metric.trend < 0 ? 'text-destructive' : 'text-muted-foreground'}`}>
                         {Math.abs(metric.trend)}%
                       </span>
                     </div>
@@ -158,16 +158,16 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
       {/* Charts and Activity Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Performance Chart */}
-        <Card className="glass border-0 shadow-glow gradient-card">
+        <Card className="glass border-0 shadow-glow">
           <CardHeader className="pb-4">
-            <CardTitle className="text-lg font-semibold gradient-text font-apple">Performance Overview</CardTitle>
+            <CardTitle className="text-lg font-semibold">Performance Overview</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-64 flex items-center justify-center">
               <div className="text-center">
-                <BarChart3 className="h-16 w-16 mx-auto mb-4 text-primary" />
-                <h3 className="text-lg font-semibold mb-2 gradient-text font-apple">Performance Charts</h3>
-                <p className="text-muted-foreground text-sm font-apple">
+                <BarChart3 className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+                <h3 className="text-lg font-semibold mb-2">Performance Charts</h3>
+                <p className="text-muted-foreground text-sm">
                   Real-time performance visualization coming soon.
                   Will include CPU, memory, and response time trends.
                 </p>
@@ -177,37 +177,35 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
         </Card>
 
         {/* Recent Activity */}
-        <Card className="glass border-0 shadow-glow gradient-card">
+        <Card className="glass border-0 shadow-glow">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg gradient-primary">
-                <Activity className="h-5 w-5 text-white" />
-              </div>
-              <CardTitle className="text-lg font-semibold gradient-text font-apple">System Activity</CardTitle>
+              <Activity className="h-5 w-5 text-primary" />
+              <CardTitle className="text-lg font-semibold">System Activity</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-4 max-h-80 overflow-y-auto">
             {recentActivity.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
                 <Activity className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p className="font-apple">No recent activity</p>
+                <p>No recent activity</p>
               </div>
             ) : (
               recentActivity.map((activity) => (
-                <div key={activity.id} className="flex items-start space-x-4 p-3 glass border-0 rounded-xl gradient-card hover:opacity-90 transition-all duration-300">
-                  <div className="p-2 rounded-lg gradient-primary">
+                <div key={activity.id} className="flex items-start space-x-4 p-3 glass border-0 rounded-xl hover:bg-primary/5 transition-all duration-300">
+                  <div className="p-2 rounded-lg bg-muted/20">
                     {getActivityIcon(activity.activityType)}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-foreground truncate font-apple">
+                      <p className="text-sm font-medium text-foreground truncate">
                         {activity.activityDescription}
                       </p>
-                      <Badge variant="outline" className="text-xs ml-2 font-apple">
+                      <Badge variant="outline" className="text-xs ml-2">
                         {formatDistanceToNow(new Date(activity.createdAt), { addSuffix: true })}
                       </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1 capitalize font-apple">
+                    <p className="text-xs text-muted-foreground mt-1 capitalize">
                       {activity.activityType.replace('_', ' ')}
                     </p>
                   </div>
@@ -220,76 +218,76 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
 
       {/* System Health Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="glass border-0 shadow-glow border-success/20 bg-success/5 gradient-card">
+        <Card className="glass border-0 shadow-glow border-success/20 bg-success/5">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
               <CheckCircle className="h-5 w-5 text-success" />
-              <CardTitle className="text-lg font-semibold gradient-text font-apple">Database Health</CardTitle>
+              <CardTitle className="text-lg font-semibold">Database Health</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-sm font-apple">Connection Pool</span>
-                <Badge className="bg-success text-white font-apple">Optimal</Badge>
+                <span className="text-sm">Connection Pool</span>
+                <Badge className="bg-success text-white">Optimal</Badge>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm font-apple">Query Performance</span>
-                <Badge className="bg-success text-white font-apple">Fast</Badge>
+                <span className="text-sm">Query Performance</span>
+                <Badge className="bg-success text-white">Fast</Badge>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm font-apple">Storage Usage</span>
-                <Badge className="bg-primary text-white font-apple">Normal</Badge>
+                <span className="text-sm">Storage Usage</span>
+                <Badge className="bg-primary text-white">Normal</Badge>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="glass border-0 shadow-glow border-primary/20 bg-primary/5 gradient-card">
+        <Card className="glass border-0 shadow-glow border-primary/20 bg-primary/5">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
               <Zap className="h-5 w-5 text-primary" />
-              <CardTitle className="text-lg font-semibold gradient-text font-apple">API Health</CardTitle>
+              <CardTitle className="text-lg font-semibold">API Health</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-sm font-apple">Response Time</span>
-                <Badge className="bg-success text-white font-apple">Excellent</Badge>
+                <span className="text-sm">Response Time</span>
+                <Badge className="bg-success text-white">Excellent</Badge>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm font-apple">Error Rate</span>
-                <Badge className="bg-success text-white font-apple">0.01%</Badge>
+                <span className="text-sm">Error Rate</span>
+                <Badge className="bg-success text-white">0.01%</Badge>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm font-apple">Uptime</span>
-                <Badge className="bg-success text-white font-apple">99.9%</Badge>
+                <span className="text-sm">Uptime</span>
+                <Badge className="bg-success text-white">99.9%</Badge>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="glass border-0 shadow-glow border-chart-3/20 bg-chart-3/5 gradient-card">
+        <Card className="glass border-0 shadow-glow border-chart-3/20 bg-chart-3/5">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
               <Users className="h-5 w-5 text-chart-3" />
-              <CardTitle className="text-lg font-semibold gradient-text font-apple">User Activity</CardTitle>
+              <CardTitle className="text-lg font-semibold">User Activity</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-sm font-apple">Active Users</span>
-                <Badge className="bg-chart-3 text-white font-apple">{metrics.totalUsers}</Badge>
+                <span className="text-sm">Active Users</span>
+                <Badge className="bg-chart-3 text-white">{metrics.totalUsers}</Badge>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm font-apple">Sessions Today</span>
-                <Badge className="bg-primary text-white font-apple">47</Badge>
+                <span className="text-sm">Sessions Today</span>
+                <Badge className="bg-primary text-white">47</Badge>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm font-apple">Avg Session Time</span>
-                <Badge className="bg-success text-white font-apple">12 min</Badge>
+                <span className="text-sm">Avg Session Time</span>
+                <Badge className="bg-success text-white">12 min</Badge>
               </div>
             </div>
           </CardContent>
