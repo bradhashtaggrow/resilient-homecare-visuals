@@ -469,15 +469,15 @@ const BlogManager: React.FC = () => {
 
         <TabsContent value="posts" className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Published Posts ({blogPosts.filter(p => p.is_published).length})</h3>
+            <h3 className="text-lg font-semibold">Published Posts ({blogPosts.filter(p => p.is_published && p.source !== 'rss').length})</h3>
             <div className="flex gap-2">
-              <Badge variant="secondary">{blogPosts.length} Total</Badge>
-              <Badge variant="secondary">{blogPosts.filter(p => p.is_featured).length} Featured</Badge>
+              <Badge variant="secondary">{blogPosts.filter(p => p.source !== 'rss').length} Total</Badge>
+              <Badge variant="secondary">{blogPosts.filter(p => p.is_featured && p.source !== 'rss').length} Featured</Badge>
             </div>
           </div>
 
           <div className="grid gap-4">
-            {blogPosts.map((post) => (
+            {blogPosts.filter(post => post.source !== 'rss').map((post) => (
               <Card key={post.id} className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30 pointer-events-auto">
                 <CardHeader>
                   <div className="flex items-start justify-between">
