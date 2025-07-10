@@ -907,8 +907,19 @@ const BlogManager: React.FC = () => {
 
       {/* Edit Post Modal - Outside tabs so it's always visible */}
       {editingPost && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <Card className="w-full max-w-4xl max-h-[90vh] overflow-auto bg-white shadow-2xl">
+        <div 
+          className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+          onClick={(e) => {
+            // Close modal when clicking backdrop
+            if (e.target === e.currentTarget) {
+              cancelEditingPost();
+            }
+          }}
+        >
+          <Card 
+            className="w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white shadow-2xl"
+            onClick={(e) => e.stopPropagation()} // Prevent modal from closing when clicking inside
+          >
             <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
               <div className="flex items-center justify-between">
                 <div>
