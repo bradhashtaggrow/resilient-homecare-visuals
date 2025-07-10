@@ -54,10 +54,21 @@ serve(async (req) => {
       });
     }
 
+    console.log('Fetching RSS from URL:', feed.url);
+    
     // Fetch RSS content
     const rssResponse = await fetch(feed.url);
+    console.log('RSS response status:', rssResponse.status);
+    
     if (!rssResponse.ok) {
-      throw new Error(`Failed to fetch RSS feed: ${rssResponse.status}`);
+      console.error(`Failed to fetch RSS feed: ${rssResponse.status} ${rssResponse.statusText}`);
+      return new Response(JSON.stringify({ 
+        error: `Failed to fetch RSS feed: ${rssResponse.status} ${rssResponse.statusText}`,
+        url: feed.url 
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     const rssText = await rssResponse.text();
@@ -127,7 +138,10 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Error in fetch-rss-posts function:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ 
+      error: error.message,
+      details: error.toString()
+    }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });

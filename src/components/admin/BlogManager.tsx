@@ -348,7 +348,7 @@ const BlogManager: React.FC = () => {
 
       if (error) {
         console.error('RSS function error:', error);
-        throw error;
+        throw new Error(error.message || 'Unknown error occurred');
       }
       
       toast({
@@ -357,9 +357,10 @@ const BlogManager: React.FC = () => {
       });
     } catch (error) {
       console.error('Error fetching RSS posts:', error);
+      const errorMessage = error.message || error.details || "Failed to fetch posts from RSS feed";
       toast({
-        title: "Error fetching RSS posts",
-        description: error.message || "Failed to fetch posts from RSS feed",
+        title: "Error fetching RSS posts", 
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {
