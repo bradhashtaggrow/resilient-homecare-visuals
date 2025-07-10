@@ -127,6 +127,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
         .from('website_content')
         .upsert({
           ...contentData,
+          section_key: contentData.section_key || '',
           updated_at: new Date().toISOString()
         });
 
