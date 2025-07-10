@@ -902,6 +902,21 @@ const BlogManager: React.FC = () => {
                 />
               </div>
 
+              <div>
+                <Label className="text-black">Tags</Label>
+                <Input
+                  placeholder="Enter tags separated by commas (e.g., healthcare, AI, innovation)"
+                  value={newPost.tags?.join(', ') || ''}
+                  onChange={(e) => {
+                    const tagsString = e.target.value;
+                    const tagsArray = tagsString.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+                    setNewPost({...newPost, tags: tagsArray});
+                  }}
+                  className="border-primary focus:border-primary"
+                />
+                <p className="text-xs text-gray-500 mt-1">Separate multiple tags with commas</p>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <Label className="text-black">Category</Label>
