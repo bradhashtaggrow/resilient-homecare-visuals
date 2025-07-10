@@ -110,7 +110,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'care-at-home': 'care_at_home_',
       'patients': 'patients_',
       'news': 'news_',
-      'contact': 'contact_'
+      'contact': '' // No prefix for contact, use specific sections
     };
     return prefixes[page] || '';
   };
@@ -151,7 +151,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'articles': 3,
       'content': 3,
       'form': 3,
-      'locations': 4
+      'locations': 4,
+      'get_in_touch': 2
     };
     return order[baseKey as keyof typeof order] || 999;
   };
@@ -182,6 +183,9 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       if (selectedPage === 'home') {
         // For home page, get sections without prefixes and common sections
         query = query.or(`section_key.eq.hero,section_key.eq.patient_tabs,section_key.eq.services,section_key.eq.mobile_showcase,section_key.eq.value_proposition,section_key.eq.admin_dashboard,section_key.eq.founder,section_key.eq.stats,section_key.eq.lead_generation,section_key.eq.navigation,section_key.eq.footer`);
+      } else if (selectedPage === 'contact') {
+        // For contact page, get specific sections
+        query = query.or(`section_key.eq.get_in_touch,section_key.eq.footer`);
       } else {
         // For other pages, get sections with the page prefix
         query = query.like('section_key', `${prefix}%`);
@@ -324,10 +328,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'news_footer': 'Footer',
       
       // Contact
-      'contact_hero': 'Hero Section',
-      'contact_form': 'Contact Information',
-      'contact_locations': 'Our Locations',
-      'contact_footer': 'Footer'
+      'get_in_touch': 'Get in Touch Section',
+      'footer': 'Footer'
     };
     
     return nameMap[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
