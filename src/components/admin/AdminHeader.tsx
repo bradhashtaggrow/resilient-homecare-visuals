@@ -107,7 +107,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
             <Menu className="h-4 w-4" />
           </Button>
         )}
-        <h2 className="text-3xl font-bold text-foreground font-apple">
+        <h2 className="text-4xl sm:text-5xl font-bold font-apple gradient-text">
           {getSectionTitle(activeSection)}
         </h2>
         {activeSection === 'content' && onPageChange && (
