@@ -85,7 +85,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
 
   const renderMenuGroup = (title: string, items: typeof mainMenuItems) => (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-xs font-semibold text-foreground uppercase tracking-wider font-apple">
+      <SidebarGroupLabel className="text-sm font-bold text-foreground uppercase tracking-wider font-apple mb-2">
         {title}
       </SidebarGroupLabel>
       <SidebarGroupContent>
