@@ -386,6 +386,23 @@ const BlogManager: React.FC = () => {
   const updateExistingRSSImages = async () => {
     try {
       setIsFetching(true);
+      console.log('Starting RSS image update process...');
+      
+      // First check if we have any RSS posts without images
+      const rssPostsWithoutImages = blogPosts.filter(p => 
+        p.source === 'rss' && !p.featured_image_url
+      );
+      
+      console.log(`Found ${rssPostsWithoutImages.length} RSS posts without images:`, rssPostsWithoutImages.map(p => p.title));
+      
+      if (rssPostsWithoutImages.length === 0) {
+        toast({
+          title: "No posts to update",
+          description: "All RSS posts already have featured images or no RSS posts found.",
+        });
+        return;
+      }
+      
       console.log('Invoking update RSS images function...');
       
       const { data, error } = await supabase.functions.invoke('update-rss-images', {
