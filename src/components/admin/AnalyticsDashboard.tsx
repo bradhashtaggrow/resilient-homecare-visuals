@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart3, TrendingUp, Users, Eye, Wifi, WifiOff } from 'lucide-react';
-import LeadsManager from './LeadsManager';
 
 interface AnalyticsDashboardProps {
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
@@ -39,16 +38,11 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ syncStatus = 'd
         </Badge>
       </div>
 
-      <Tabs defaultValue="leads" className="w-full">
+      <Tabs defaultValue="traffic" className="w-full">
         <TabsList>
-          <TabsTrigger value="leads">Leads & Demos</TabsTrigger>
           <TabsTrigger value="traffic">Website Traffic</TabsTrigger>
           <TabsTrigger value="reports">Reports</TabsTrigger>
         </TabsList>
-        
-        <TabsContent value="leads">
-          <LeadsManager syncStatus={syncStatus} />
-        </TabsContent>
         
         <TabsContent value="traffic" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
