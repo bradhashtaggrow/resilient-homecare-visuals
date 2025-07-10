@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Wifi, WifiOff, RefreshCcw, Maximize2 } from 'lucide-react';
+import { RefreshCcw, Maximize2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface RealTimePreviewProps {
@@ -18,17 +18,6 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
   const [realTimeSyncStatus, setRealTimeSyncStatus] = useState<'connected' | 'disconnected' | 'syncing'>('disconnected');
   const [isLoading, setIsLoading] = useState(true);
   const refreshTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const getSyncStatusIcon = () => {
-    switch (realTimeSyncStatus) {
-      case 'connected':
-        return <Wifi className="h-4 w-4 text-green-600" />;
-      case 'syncing':
-        return <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />;
-      default:
-        return <WifiOff className="h-4 w-4 text-red-600" />;
-    }
-  };
 
   // Debounced refresh to prevent loops
   const debouncedRefresh = useCallback(() => {
@@ -139,17 +128,6 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
             )}
           </div>
           <div className="flex items-center gap-4">
-            <Badge variant="outline" className={`flex items-center gap-2 ${
-              realTimeSyncStatus === 'connected' ? 'bg-green-50 text-green-700 border-green-200' :
-              realTimeSyncStatus === 'syncing' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-              'bg-red-50 text-red-700 border-red-200'
-            }`}>
-              {getSyncStatusIcon()}
-              <span>
-                {realTimeSyncStatus === 'connected' ? 'Live Updates' : 
-                 realTimeSyncStatus === 'syncing' ? 'Connecting...' : 'Offline'}
-              </span>
-            </Badge>
             <Button
               variant="outline"
               size="sm"
