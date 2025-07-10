@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,9 +29,8 @@ export const AnalyticsHeader = () => {
 
   return (
     <div className="relative">
-      {/* Header card with gradient background */}
-      <Card className="gradient-card border-0 shadow-glow overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-chart-1/10"></div>
+      {/* Header card with white background */}
+      <Card className="glass border-0 shadow-glow overflow-hidden">
         <CardContent className="relative p-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className="space-y-4">
