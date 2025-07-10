@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -46,8 +45,10 @@ const Login = () => {
         title: "Welcome back!",
         description: "Redirecting to admin dashboard..."
       });
-      // Auto-redirect to admin dashboard
-      navigate('/admin');
+      // Force immediate redirect to admin dashboard
+      setTimeout(() => {
+        navigate('/admin', { replace: true });
+      }, 100);
     }
 
     setLoading(false);
@@ -97,7 +98,7 @@ const Login = () => {
             <p className="text-white/80 text-lg font-medium tracking-wide">
               Secure Dashboard Access
             </p>
-            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary-light rounded-full mx-auto mt-4" />
+            <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary rounded-full mx-auto mt-4" />
           </CardHeader>
           
           <CardContent className="px-8 pb-8">
@@ -105,7 +106,7 @@ const Login = () => {
               {/* Enhanced Email Field */}
               <div className="space-y-3">
                 <Label htmlFor="email" className="text-white/90 font-semibold text-sm tracking-wide flex items-center">
-                  <div className="w-2 h-2 bg-gradient-to-r from-primary to-primary-light rounded-full mr-2" />
+                  <div className="w-2 h-2 bg-gradient-to-r from-primary to-primary rounded-full mr-2" />
                   Email Address
                 </Label>
                 <div className="relative">
@@ -125,7 +126,7 @@ const Login = () => {
               {/* Enhanced Password Field */}
               <div className="space-y-3">
                 <Label htmlFor="password" className="text-white/90 font-semibold text-sm tracking-wide flex items-center">
-                  <div className="w-2 h-2 bg-gradient-to-r from-primary to-primary-light rounded-full mr-2" />
+                  <div className="w-2 h-2 bg-gradient-to-r from-primary to-primary rounded-full mr-2" />
                   Password
                 </Label>
                 <div className="relative">
@@ -174,7 +175,7 @@ const Login = () => {
             <div className="mt-8 p-6 bg-black/20 backdrop-blur-sm rounded-xl border border-white/10 hover:bg-black/30 transition-all duration-300">
               <div className="flex items-center mb-3">
                 <Shield className="h-4 w-4 text-green-400 mr-2" />
-                <p className="text-white/90 font-bold text-sm tracking-wide">Admin Credentials</p>
+                <p className="text-white font-bold text-sm tracking-wide">Admin Credentials</p>
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
