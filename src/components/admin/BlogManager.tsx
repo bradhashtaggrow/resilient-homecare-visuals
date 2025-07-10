@@ -917,71 +917,55 @@ const BlogManager: React.FC = () => {
 
       {/* Edit Post Modal */}
       {editingPost && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-lg shadow-2xl">
-            {/* Header */}
-            <div className="bg-orange-500 text-white p-4 rounded-t-lg">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold">Edit Blog Post</h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={cancelEditingPost}
-                  className="text-white hover:bg-white/20"
-                >
-                  <X className="h-5 w-5" />
-                </Button>
-              </div>
+        <div 
+          className="fixed inset-0 z-[9999] bg-black bg-opacity-50 flex items-center justify-center p-4"
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
+        >
+          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">Edit Post</h2>
+              <button 
+                onClick={cancelEditingPost}
+                className="text-gray-500 hover:text-gray-700 text-2xl"
+              >
+                ×
+              </button>
             </div>
-
-            {/* Content */}
-            <div className="p-6 space-y-4">
-              {/* Title */}
+            
+            <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                <Input
+                <label className="block text-sm font-medium mb-1">Title</label>
+                <input
+                  type="text"
                   value={editedPost.title || ''}
                   onChange={(e) => setEditedPost({...editedPost, title: e.target.value})}
-                  placeholder="Enter blog post title"
+                  className="w-full border border-gray-300 rounded px-3 py-2"
                 />
               </div>
-
-              {/* Author */}
+              
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Author</label>
-                <Input
-                  value={editedPost.author || ''}
-                  onChange={(e) => setEditedPost({...editedPost, author: e.target.value})}
-                  placeholder="Author name"
-                />
-              </div>
-
-              {/* Content */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
-                <Textarea
+                <label className="block text-sm font-medium mb-1">Content</label>
+                <textarea
                   value={editedPost.content || ''}
                   onChange={(e) => setEditedPost({...editedPost, content: e.target.value})}
-                  placeholder="Write your blog post content here..."
                   rows={10}
-                  className="font-mono text-sm"
+                  className="w-full border border-gray-300 rounded px-3 py-2"
                 />
               </div>
-
-              {/* Buttons */}
-              <div className="flex justify-end space-x-3 pt-4 border-t">
-                <Button 
-                  variant="outline" 
+              
+              <div className="flex justify-end gap-2">
+                <button 
                   onClick={cancelEditingPost}
+                  className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
                 >
                   Cancel
-                </Button>
-                <Button 
+                </button>
+                <button 
                   onClick={saveEditedPost}
-                  className="bg-orange-500 hover:bg-orange-600 text-white"
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
-                  Save Changes
-                </Button>
+                  Save
+                </button>
               </div>
             </div>
           </div>
