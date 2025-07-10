@@ -18,7 +18,7 @@ const Login = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Only redirect if already authenticated AND confirmed admin status
+  // Redirect if already authenticated
   if (user && isAdmin) {
     return <Navigate to="/admin" replace />;
   }
@@ -27,21 +27,39 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await signIn(email, password);
+    try {
+      const { error } = await signIn(email, password);
 
-    if (error) {
+      if (error) {
+        toast({
+          title: "Sign in failed",
+          description: error.message,
+          variant: "destructive"
+        });
+        setLoading(false);
+        return;
+      }
+
+      // Success - wait for auth state to update then redirect to admin
+      toast({
+        title: "Sign in successful",
+        description: "Redirecting to admin dashboard...",
+      });
+
+      // Give time for auth context to update, then redirect
+      setTimeout(() => {
+        navigate('/admin', { replace: true });
+        setLoading(false);
+      }, 500);
+
+    } catch (error) {
+      console.error('Login error:', error);
       toast({
         title: "Sign in failed",
-        description: error.message,
+        description: "An unexpected error occurred",
         variant: "destructive"
       });
       setLoading(false);
-    } else {
-      // Wait a moment for admin status to be determined, then navigate
-      setTimeout(() => {
-        setLoading(false);
-        navigate('/admin', { replace: true });
-      }, 100);
     }
   };
 
