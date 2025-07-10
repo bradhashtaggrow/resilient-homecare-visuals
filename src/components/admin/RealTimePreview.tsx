@@ -15,12 +15,14 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
   const [activeView, setActiveView] = useState<DeviceView>('desktop');
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [iframeKey, setIframeKey] = useState(0);
+  const [isIframeLoading, setIsIframeLoading] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const { isListening, lastUpdate } = useWebsiteSync();
 
   // Auto-refresh iframe when website data changes
   useEffect(() => {
     if (lastUpdate) {
+      setIsIframeLoading(true);
       setIframeKey(prev => prev + 1);
     }
   }, [lastUpdate]);
@@ -38,11 +40,16 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
 
   const getPreviewUrl = () => {
     const currentUrl = window.location.origin;
-    return `${currentUrl}?preview=true&t=${Date.now()}`;
+    return `${currentUrl}?preview=true&device=${activeView}&t=${Date.now()}`;
   };
 
   const refreshPreview = () => {
+    setIsIframeLoading(true);
     setIframeKey(prev => prev + 1);
+  };
+
+  const handleIframeLoad = () => {
+    setIsIframeLoading(false);
   };
 
   const deviceConfigs = {
@@ -51,39 +58,33 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
       resolution: '1920×1080',
       description: 'Full desktop experience',
       icon: Monitor,
+      frameClass: 'w-[800px] h-[500px]',
       frameImage: '/lovable-uploads/9909fcfb-d2bf-40c5-927d-20afb8f83059.png',
-      containerClass: 'w-full max-w-5xl mx-auto',
-      frameClass: 'w-full max-w-[900px] mx-auto',
-      screenClass: 'absolute top-[6%] left-[6.5%] right-[6.5%] bottom-[22%] rounded-t-md overflow-hidden',
-      iframeScale: 0.47,
-      viewportWidth: '1920px',
-      viewportHeight: '1080px'
+      screenClass: 'absolute top-[7%] left-[7%] right-[7%] bottom-[21%] overflow-hidden bg-white rounded-t-[6px] shadow-inner',
+      iframeClass: 'w-full h-full border-0 bg-white',
+      scale: 0.48
     },
     tablet: {
       title: 'Tablet',
       resolution: '768×1024',
       description: 'Tablet responsive design',
       icon: Tablet,
+      frameClass: 'w-[400px] h-[520px]',
       frameImage: '/lovable-uploads/4947099c-2181-4b87-8d5c-571a58986dc2.png',
-      containerClass: 'w-full max-w-md mx-auto',
-      frameClass: 'w-full max-w-[400px] mx-auto',
-      screenClass: 'absolute top-[4%] left-[6%] right-[6%] bottom-[4%] rounded-xl overflow-hidden',
-      iframeScale: 0.37,
-      viewportWidth: '768px',
-      viewportHeight: '1024px'
+      screenClass: 'absolute top-[4.5%] left-[6.5%] right-[6.5%] bottom-[4.5%] overflow-hidden bg-white rounded-[8px] shadow-inner',
+      iframeClass: 'w-full h-full border-0 bg-white',
+      scale: 0.38
     },
     mobile: {
       title: 'Mobile',
       resolution: '375×667',
       description: 'Mobile optimized',
       icon: Smartphone,
+      frameClass: 'w-[280px] h-[560px]',
       frameImage: '/lovable-uploads/a3abea8b-7fc0-4e67-bf4c-920d3d91e58c.png',
-      containerClass: 'w-full max-w-xs mx-auto',
-      frameClass: 'w-full max-w-[280px] mx-auto',
-      screenClass: 'absolute top-[7%] left-[11%] right-[11%] bottom-[7%] rounded-[24px] overflow-hidden',
-      iframeScale: 0.42,
-      viewportWidth: '375px',
-      viewportHeight: '667px'
+      screenClass: 'absolute top-[7%] left-[11%] right-[11%] bottom-[7%] overflow-hidden bg-white rounded-[22px] shadow-inner',
+      iframeClass: 'w-full h-full border-0 bg-white',
+      scale: 0.22
     }
   };
 
@@ -113,9 +114,10 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
             variant="outline"
             size="sm"
             onClick={refreshPreview}
+            disabled={isIframeLoading}
             className="flex items-center gap-2 hover:bg-gray-50"
           >
-            <RotateCcw className="h-4 w-4" />
+            <RotateCcw className={`h-4 w-4 ${isIframeLoading ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
         </div>
@@ -132,7 +134,10 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
                 key={key}
                 variant="ghost"
                 size="sm"
-                onClick={() => setActiveView(key as DeviceView)}
+                onClick={() => {
+                  setActiveView(key as DeviceView);
+                  setIsIframeLoading(true);
+                }}
                 className={`flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
                   isActive 
                     ? 'bg-white shadow-md text-blue-600 hover:bg-white scale-105' 
@@ -174,7 +179,7 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
               </div>
             </div>
             <div className="flex items-center gap-4">
-              {syncStatus === 'connected' && (
+              {syncStatus === 'connected' && !isIframeLoading && (
                 <div className="flex items-center gap-2 px-3 py-2 bg-green-50 rounded-lg border border-green-200">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-sm font-semibold text-green-700">Live</span>
@@ -194,33 +199,51 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
         </CardHeader>
         
         <CardContent className={`flex justify-center items-center ${isFullscreen ? 'min-h-[calc(100vh-250px)]' : 'min-h-[700px]'} p-12 bg-gradient-to-br from-gray-50 to-slate-100`}>
-          <div className={`${activeConfig.containerClass} transition-all duration-500`}>
-            <div className={`relative ${activeConfig.frameClass}`}>
-              {/* Device Frame */}
+          <div className="transition-all duration-500 ease-in-out">
+            {/* Device Frame Container */}
+            <div className={`relative ${activeConfig.frameClass} mx-auto`}>
+              {/* Screen Content - BEHIND the frame */}
+              <div className={`${activeConfig.screenClass} z-10`}>
+                <div 
+                  className="w-full h-full relative"
+                  style={{
+                    transform: `scale(${activeConfig.scale})`,
+                    transformOrigin: 'top left',
+                    width: `${100 / activeConfig.scale}%`,
+                    height: `${100 / activeConfig.scale}%`
+                  }}
+                >
+                  <iframe
+                    key={`${activeView}-${iframeKey}`}
+                    ref={iframeRef}
+                    src={getPreviewUrl()}
+                    className={`${activeConfig.iframeClass} absolute top-0 left-0`}
+                    title={`${activeConfig.title} Preview`}
+                    sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-downloads"
+                    loading="eager"
+                    onLoad={handleIframeLoad}
+                    onError={() => setIsIframeLoading(false)}
+                  />
+                  
+                  {/* Loading Overlay */}
+                  {isIframeLoading && (
+                    <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-20">
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm text-gray-600 font-medium">Loading preview...</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Device Frame - ON TOP of content */}
               <img 
                 src={activeConfig.frameImage}
                 alt={`${activeConfig.title} frame`}
-                className="w-full h-auto object-contain drop-shadow-2xl select-none"
+                className="absolute inset-0 w-full h-full object-contain drop-shadow-2xl select-none pointer-events-none z-20"
                 draggable={false}
               />
-              
-              {/* Screen Content */}
-              <div className={`${activeConfig.screenClass} bg-white border border-gray-200 shadow-2xl`}>
-                <iframe
-                  key={`${activeView}-${iframeKey}`}
-                  ref={iframeRef}
-                  src={getPreviewUrl()}
-                  className="w-full h-full border-0 bg-white origin-top-left"
-                  style={{ 
-                    transform: `scale(${activeConfig.iframeScale})`,
-                    width: `${100 / activeConfig.iframeScale}%`,
-                    height: `${100 / activeConfig.iframeScale}%`
-                  }}
-                  title={`${activeConfig.title} Preview`}
-                  sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
-                  loading="eager"
-                />
-              </div>
             </div>
           </div>
         </CardContent>
