@@ -41,11 +41,10 @@ const EditPostModal: React.FC<EditPostModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-black/50"
+      className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center pt-20"
       onClick={handleBackdropClick}
     >
-      <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-full max-w-4xl px-4">
-        <div className="bg-white rounded-3xl shadow-2xl max-h-[85vh] overflow-y-auto relative">
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl mx-4 max-h-[80vh] overflow-y-auto relative">
         {/* Close button */}
         <button
           onClick={onCancel}
@@ -219,7 +218,6 @@ const EditPostModal: React.FC<EditPostModalProps> = ({
               Save Changes
             </Button>
           </div>
-        </div>
         </div>
       </div>
     </div>
