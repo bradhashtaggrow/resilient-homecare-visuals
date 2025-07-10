@@ -227,10 +227,10 @@ export const SecurityPanel: React.FC<SecurityPanelProps> = ({ security, onSecuri
       </div>
 
       {/* Security Recommendations */}
-      <Card className="glass border-0 shadow-glow border-warning/20 bg-warning/5">
+      <Card className="glass border-0 shadow-glow border-primary/20 bg-primary/5">
         <CardHeader className="pb-4">
           <div className="flex items-center gap-3">
-            <AlertTriangle className="h-5 w-5 text-warning" />
+            <AlertTriangle className="h-5 w-5 text-primary" />
             <CardTitle className="text-lg font-semibold">Security Recommendations</CardTitle>
           </div>
         </CardHeader>
