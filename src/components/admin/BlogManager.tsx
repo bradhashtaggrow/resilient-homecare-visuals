@@ -30,7 +30,7 @@ import {
   Wifi,
   WifiOff
  } from 'lucide-react';
-import EditPostModal from './EditPostModal';
+import InlineEditForm from './InlineEditForm';
 
 interface BlogPost {
   id: string;
@@ -66,13 +66,9 @@ const BlogManager: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [rssFeeds, setRssFeeds] = useState<RSSFeed[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editingPost, setEditingPost] = useState<string | null>(null);
-  const [editedPost, setEditedPost] = useState<Partial<BlogPost>>({});
-  const [editTriggerRef, setEditTriggerRef] = useState<HTMLButtonElement | null>(null);
   
   // Debug logging for edit state
-  console.log('Current editingPost state:', editingPost);
-  console.log('Current editedPost state:', editedPost);
+  console.log('BlogManager component rendered');
   const [editingFeed, setEditingFeed] = useState<string | null>(null);
   const [newPost, setNewPost] = useState<Partial<BlogPost>>({
     title: '',
@@ -226,32 +222,8 @@ const BlogManager: React.FC = () => {
     }
   };
 
-  const startEditingPost = (post: BlogPost, buttonRef: HTMLButtonElement) => {
-    console.log('startEditingPost called with post:', post.id, post.title);
-    setEditingPost(post.id);
-    setEditTriggerRef(buttonRef);
-    setEditedPost({
-      title: post.title,
-      content: post.content,
-      excerpt: post.excerpt,
-      author: post.author,
-      category: post.category,
-      tags: post.tags,
-      featured_image_url: post.featured_image_url,
-      is_published: post.is_published,
-      is_featured: post.is_featured
-    });
-    console.log('editingPost state set to:', post.id);
-  };
-
-  const cancelEditingPost = () => {
-    setEditingPost(null);
-    setEditedPost({});
-    setEditTriggerRef(null);
-  };
-
-  const saveEditedPost = async () => {
-    if (!editingPost || !editedPost.title || !editedPost.content) {
+  const handlePostSave = async (postId: string, updates: Partial<BlogPost>) => {
+    if (!updates.title || !updates.content) {
       toast({
         title: "Missing required fields",
         description: "Title and content are required",
@@ -261,25 +233,25 @@ const BlogManager: React.FC = () => {
     }
 
     try {
-      const slug = generateSlug(editedPost.title);
-      const updates = {
-        title: editedPost.title,
-        content: editedPost.content,
-        excerpt: editedPost.excerpt || null,
-        author: editedPost.author || 'Resilient Healthcare',
+      const slug = generateSlug(updates.title);
+      const postUpdates = {
+        title: updates.title,
+        content: updates.content,
+        excerpt: updates.excerpt || null,
+        author: updates.author || 'Resilient Healthcare',
         slug,
-        category: editedPost.category || 'healthcare',
-        tags: editedPost.tags || [],
-        featured_image_url: editedPost.featured_image_url || null,
-        is_published: editedPost.is_published || false,
-        is_featured: editedPost.is_featured || false,
+        category: updates.category || 'healthcare',
+        tags: updates.tags || [],
+        featured_image_url: updates.featured_image_url || null,
+        is_published: updates.is_published || false,
+        is_featured: updates.is_featured || false,
         updated_at: new Date().toISOString()
       };
 
       const { error } = await supabase
         .from('blog_posts')
-        .update(updates)
-        .eq('id', editingPost);
+        .update(postUpdates)
+        .eq('id', postId);
 
       if (error) throw error;
 
@@ -287,10 +259,6 @@ const BlogManager: React.FC = () => {
         title: "Post updated",
         description: "Blog post has been updated successfully",
       });
-
-      setEditingPost(null);
-      setEditedPost({});
-      setEditTriggerRef(null);
     } catch (error) {
       console.error('Error updating blog post:', error);
       toast({
@@ -538,20 +506,10 @@ const BlogManager: React.FC = () => {
                     </div>
                      <div className="flex items-center gap-2 relative z-10"
                           style={{ pointerEvents: 'auto' }}>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            console.log('Edit button clicked for post:', post.id);
-                            startEditingPost(post, e.currentTarget);
-                          }}
-                          className="border-blue-200 text-blue-600 hover:bg-blue-50 relative z-10"
-                          style={{ pointerEvents: 'auto' }}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
+                        <InlineEditForm
+                          post={post}
+                          onSave={handlePostSave}
+                        />
                       <Button
                         variant="outline"
                         size="sm"
@@ -640,21 +598,10 @@ const BlogManager: React.FC = () => {
                       ))}
                     </div>
                      <div className="flex items-center gap-2 relative z-10" style={{ pointerEvents: 'auto' }}>
-                       <Button
-                         variant="outline"
-                         size="sm"
-                         onClick={(e) => {
-                           e.preventDefault();
-                           e.stopPropagation();
-                           console.log('RSS Edit button clicked for post:', post.id);
-                           startEditingPost(post, e.currentTarget);
-                         }}
-                         className="border-orange-200 text-orange-600 hover:bg-orange-50 relative z-10"
-                         style={{ pointerEvents: 'auto' }}
-                       >
-                         <Edit className="h-4 w-4" />
-                         Edit
-                       </Button>
+                       <InlineEditForm
+                         post={post}
+                         onSave={handlePostSave}
+                       />
                       <Button
                         variant="outline"
                         size="sm"
@@ -910,16 +857,6 @@ const BlogManager: React.FC = () => {
       </Tabs>
 
       {/* Edit Post Modal - Replace old modal with new component */}
-      {editingPost && (
-        <EditPostModal
-          post={blogPosts.find(p => p.id === editingPost)!}
-          editedPost={editedPost}
-          setEditedPost={setEditedPost}
-          onSave={saveEditedPost}
-          onCancel={cancelEditingPost}
-          triggerRef={editTriggerRef}
-        />
-      )}
     </div>
   );
 };
