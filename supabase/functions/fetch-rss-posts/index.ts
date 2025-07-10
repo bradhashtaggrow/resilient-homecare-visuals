@@ -54,10 +54,17 @@ serve(async (req) => {
       });
     }
 
-    console.log('Fetching RSS from URL:', feed.url);
+    // Ensure URL has proper protocol
+    let feedUrl = feed.url;
+    if (!feedUrl.startsWith('http://') && !feedUrl.startsWith('https://')) {
+      feedUrl = 'https://' + feedUrl;
+      console.log('Added https:// protocol to URL:', feedUrl);
+    }
+    
+    console.log('Fetching RSS from URL:', feedUrl);
     
     // Fetch RSS content
-    const rssResponse = await fetch(feed.url);
+    const rssResponse = await fetch(feedUrl);
     console.log('RSS response status:', rssResponse.status);
     
     if (!rssResponse.ok) {
