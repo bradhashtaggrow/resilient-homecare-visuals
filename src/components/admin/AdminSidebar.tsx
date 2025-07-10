@@ -18,11 +18,9 @@ import {
   BarChart3, 
   Users, 
   Cog,
-  Globe,
   Wifi,
   WifiOff,
   UserCheck,
-  Rss,
   Edit3,
   X
 } from 'lucide-react';
@@ -102,13 +100,11 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
       <SidebarHeader className="p-6 border-b border-border bg-background">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-              <Globe className="h-6 w-6 text-white" />
-            </div>
-            <div className="flex-1">
-              <h1 className="text-xl font-bold text-foreground font-apple">Healthcare Admin</h1>
-              <p className="text-sm text-muted-foreground font-apple">Content Management</p>
-            </div>
+            <img 
+              src="/lovable-uploads/30c729f3-ad9e-4d48-aabf-36d2418d944a.png" 
+              alt="Resilient Healthcare" 
+              className="h-8 w-auto"
+            />
           </div>
           <button
             onClick={onClose}
