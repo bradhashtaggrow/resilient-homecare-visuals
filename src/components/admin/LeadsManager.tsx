@@ -578,5 +578,6 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
    </div>
  </div>
  );
+};
 
 export default LeadsManager;
