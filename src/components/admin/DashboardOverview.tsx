@@ -71,12 +71,6 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
               <div className="p-2 rounded-lg bg-success/10">
                 {getSyncStatusIcon()}
               </div>
-              <Badge variant="outline" className="glass border-0 text-sm bg-gradient-to-r from-primary/10 to-primary-light/10 text-black border-primary/20">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
-                  {realTimeStats.systemHealth.realtime === 'connected' ? 'Live Data' : 'Offline'}
-                </div>
-              </Badge>
             </div>
           </div>
         </div>

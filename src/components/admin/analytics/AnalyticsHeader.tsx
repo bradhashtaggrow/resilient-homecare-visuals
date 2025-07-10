@@ -88,11 +88,8 @@ export const AnalyticsHeader: React.FC<AnalyticsHeaderProps> = ({
                 </div>
               </div>
               
+              
               <div className="flex items-center gap-4">
-                <Badge className="bg-success/10 text-black border-success/20 hover:bg-success/20">
-                  <div className="w-2 h-2 bg-success rounded-full mr-2 animate-pulse"></div>
-                  Live Data
-                </Badge>
                 <Badge variant="outline" className="border-chart-2/20 text-chart-2">
                   <Globe className="w-3 h-3 mr-1" />
                   Global Tracking
