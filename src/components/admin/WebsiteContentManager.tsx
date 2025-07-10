@@ -348,7 +348,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
               <CardHeader className="bg-white border-b">
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-lg font-semibold font-apple">
+                    <CardTitle className="text-black">
                       {formatSectionName(section.section_key)}
                     </CardTitle>
                     <p className="text-sm text-gray-600">
