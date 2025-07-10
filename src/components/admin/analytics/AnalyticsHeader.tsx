@@ -3,15 +3,50 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, RefreshCw, Calendar, Filter, TrendingUp, BarChart3, Globe, Zap } from 'lucide-react';
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Download, RefreshCw, Calendar as CalendarIcon, Filter, TrendingUp, BarChart3, Globe, Zap } from 'lucide-react';
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
-export const AnalyticsHeader = () => {
+interface AnalyticsHeaderProps {
+  onDateRangeChange?: (startDate: Date | undefined, endDate: Date | undefined) => void;
+  onRefresh?: () => void;
+  onFilterChange?: (filters: any) => void;
+}
+
+export const AnalyticsHeader: React.FC<AnalyticsHeaderProps> = ({ 
+  onDateRangeChange, 
+  onRefresh, 
+  onFilterChange 
+}) => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      onRefresh?.();
+      // Add a brief delay to show the refresh animation
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  const handleDateRangeChange = (newStartDate: Date | undefined, newEndDate: Date | undefined) => {
+    setStartDate(newStartDate);
+    setEndDate(newEndDate);
+    onDateRangeChange?.(newStartDate, newEndDate);
+  };
 
   const currentDate = currentTime.toLocaleDateString('en-US', {
     weekday: 'long',
@@ -71,16 +106,50 @@ export const AnalyticsHeader = () => {
             
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Date Range
-                </Button>
-                <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
+                      <CalendarIcon className="h-4 w-4 mr-2" />
+                      {startDate ? (
+                        endDate ? (
+                          `${format(startDate, "MMM d")} - ${format(endDate, "MMM d")}`
+                        ) : (
+                          format(startDate, "MMM d, yyyy")
+                        )
+                      ) : (
+                        "Date Range"
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="range"
+                      selected={{ from: startDate, to: endDate }}
+                      onSelect={(range) => handleDateRangeChange(range?.from, range?.to)}
+                      numberOfMonths={2}
+                      className="p-3"
+                    />
+                  </PopoverContent>
+                </Popover>
+                
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="hover:bg-primary/10 hover:text-primary"
+                  onClick={() => onFilterChange?.({})}
+                >
                   <Filter className="h-4 w-4 mr-2" />
                   Filter
                 </Button>
-                <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
-                  <RefreshCw className="h-4 w-4 mr-2" />
+                
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="hover:bg-primary/10 hover:text-primary"
+                  onClick={handleRefresh}
+                  disabled={isRefreshing}
+                >
+                  <RefreshCw className={cn("h-4 w-4 mr-2", isRefreshing && "animate-spin")} />
                   Refresh
                 </Button>
               </div>
