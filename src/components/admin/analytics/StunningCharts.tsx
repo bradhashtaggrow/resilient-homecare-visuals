@@ -42,42 +42,17 @@ interface StunningChartsProps {
 }
 
 const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
-  // Generate placeholder data if no real data is available
-  const placeholderData: AnalyticsData = {
-    hourlyTraffic: Array.from({ length: 24 }, (_, i) => ({
-      hour: i,
-      visitors: 0,
-      pageViews: 0
-    })),
-    topPages: [
-      { page: '/', views: 0 },
-      { page: '/about', views: 0 },
-      { page: '/services', views: 0 },
-      { page: '/contact', views: 0 },
-      { page: '/news', views: 0 }
-    ],
-    deviceBreakdown: [
-      { device: 'Desktop', sessions: 0 },
-      { device: 'Mobile', sessions: 0 },
-      { device: 'Tablet', sessions: 0 }
-    ],
-    trafficSources: [
-      { source: 'Direct', sessions: 0 },
-      { source: 'Google', sessions: 0 },
-      { source: 'Social', sessions: 0 },
-      { source: 'Email', sessions: 0 }
-    ],
-    bounceRateHistory: [],
-    conversionFunnel: [
-      { stage: 'Page Views', users: 0 },
-      { stage: 'Engagement', users: 0 },
-      { stage: 'Contact Forms', users: 0 },
-      { stage: 'Conversions', users: 0 }
-    ]
-  };
+  // Show empty state if no data
+  if (!data) {
+    return (
+      <div className="text-center py-16">
+        <h3 className="text-lg font-semibold mb-2">No Chart Data Available</h3>
+        <p className="text-muted-foreground">Charts will appear as users interact with your website.</p>
+      </div>
+    );
+  }
 
-  const chartData = data || placeholderData;
-  const isPlaceholder = !data;
+  const chartData = data;
   // Create gradient fills for charts
   const createGradient = (ctx: any, colorStart: string, colorEnd: string) => {
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -92,7 +67,7 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
     datasets: [
       {
         label: '👥 Visitors',
-        data: isPlaceholder ? Array(24).fill(Math.random() * 50 + 10) : chartData.hourlyTraffic.map(d => d.visitors),
+        data: chartData.hourlyTraffic.map(d => d.visitors),
         borderColor: '#3b82f6',
         backgroundColor: (context: any) => {
           const ctx = context.chart.ctx;
@@ -112,7 +87,7 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
       },
       {
         label: '📄 Page Views',
-        data: isPlaceholder ? Array(24).fill(Math.random() * 80 + 20) : chartData.hourlyTraffic.map(d => d.pageViews),
+        data: chartData.hourlyTraffic.map(d => d.pageViews),
         borderColor: '#8b5cf6',
         backgroundColor: (context: any) => {
           const ctx = context.chart.ctx;
@@ -139,7 +114,7 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
     datasets: [
       {
         label: '📊 Page Views',
-        data: isPlaceholder ? [245, 189, 167, 143, 98] : chartData.topPages.map(p => p.views),
+        data: chartData.topPages.map(p => p.views),
         backgroundColor: [
           'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
           'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
@@ -174,7 +149,7 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
     labels: chartData.deviceBreakdown.map(d => `${d.device} 💻📱📟`[d.device === 'Desktop' ? 0 : d.device === 'Mobile' ? 1 : 2]),
     datasets: [
       {
-        data: isPlaceholder ? [156, 89, 43] : chartData.deviceBreakdown.map(d => d.sessions),
+        data: chartData.deviceBreakdown.map(d => d.sessions),
         backgroundColor: [
           'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
@@ -195,7 +170,7 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
     datasets: [
       {
         label: '🚀 Sessions',
-        data: isPlaceholder ? [182, 134, 87, 65] : chartData.trafficSources.map(s => s.sessions),
+        data: chartData.trafficSources.map(s => s.sessions),
         backgroundColor: [
           'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
           'linear-gradient(90deg, #f093fb 0%, #f5576c 100%)',
@@ -486,34 +461,26 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
                       <span className="font-semibold text-sm">{stage.stage}</span>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-bold">
-                        {isPlaceholder ? '-' : stage.users.toLocaleString()} users
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        {isPlaceholder ? '0' : percentage}%
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative w-full bg-muted/50 rounded-full h-4 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-muted/20 to-muted/5 rounded-full"></div>
-                    <div 
-                      className={`h-4 rounded-full transition-all duration-1000 bg-gradient-to-r ${colors[index % colors.length]} to-transparent ${isPlaceholder ? 'w-1' : ''}`}
-                      style={!isPlaceholder ? { width: `${percentage}%` } : {}}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-full"></div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-            {isPlaceholder && (
-              <div className="text-center py-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/20 border border-muted/30">
-                  <div className="w-2 h-2 bg-muted-foreground/40 rounded-full animate-pulse"></div>
-                  <p className="text-xs text-muted-foreground">Conversion funnel will appear as users interact with your site</p>
-                </div>
-              </div>
-            )}
+                       <div className="text-sm font-bold">
+                         {stage.users.toLocaleString()} users
+                       </div>
+                       <div className="text-xs text-muted-foreground">
+                         {percentage}%
+                       </div>
+                     </div>
+                   </div>
+                   <div className="relative w-full bg-muted/50 rounded-full h-4 overflow-hidden">
+                     <div className="absolute inset-0 bg-gradient-to-r from-muted/20 to-muted/5 rounded-full"></div>
+                     <div 
+                       className={`h-4 rounded-full transition-all duration-1000 bg-gradient-to-r ${colors[index % colors.length]} to-transparent`}
+                       style={{ width: `${percentage}%` }}
+                     >
+                       <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-full"></div>
+                     </div>
+                   </div>
+                 </div>
+               );
+             })}
           </div>
         </div>
       </div>
