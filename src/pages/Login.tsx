@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,13 +18,9 @@ const Login = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Only redirect if already authenticated - no automatic redirects
+  // Only redirect if already authenticated AND confirmed admin status
   if (user && isAdmin) {
     return <Navigate to="/admin" replace />;
-  }
-
-  if (user && !isAdmin) {
-    return <Navigate to="/" replace />;
   }
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -42,9 +37,11 @@ const Login = () => {
       });
       setLoading(false);
     } else {
-      // Navigate directly to admin immediately after successful sign in
-      setLoading(false);
-      navigate('/admin', { replace: true });
+      // Wait a moment for admin status to be determined, then navigate
+      setTimeout(() => {
+        setLoading(false);
+        navigate('/admin', { replace: true });
+      }, 100);
     }
   };
 
