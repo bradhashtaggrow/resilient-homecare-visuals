@@ -80,10 +80,10 @@ const Login = () => {
             {/* Enhanced Logo Container */}
             <div className="flex items-center justify-center mb-6">
               <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 via-purple-600 to-blue-700 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30 hover:shadow-blue-400/50 transition-all duration-300 hover:scale-110">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-light rounded-2xl flex items-center justify-center shadow-xl shadow-primary/30 hover:shadow-primary/50 transition-all duration-300 hover:scale-110">
                   <Globe className="h-9 w-9 text-white drop-shadow-lg" />
                 </div>
-                <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-primary to-primary-light rounded-full flex items-center justify-center">
                   <Shield className="h-3 w-3 text-white" />
                 </div>
               </div>
