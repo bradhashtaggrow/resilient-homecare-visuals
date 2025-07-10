@@ -256,7 +256,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
               <div className="p-2 rounded-lg bg-success/10">
                 <Users className="h-5 w-5 text-success" />
               </div>
-              <Badge variant="outline" className="glass border-0 text-sm bg-gradient-to-r from-primary/10 to-primary-light/10 text-primary border-primary/20">
+              <Badge variant="outline" className="glass border-0 text-sm bg-gradient-to-r from-primary/10 to-primary-light/10 text-black border-primary/20">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
                   {syncStatus === 'connected' ? 'Live Data' : 'Offline'}
