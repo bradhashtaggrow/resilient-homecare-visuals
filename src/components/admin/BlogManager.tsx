@@ -522,7 +522,7 @@ const BlogManager: React.FC = () => {
                         </Badge>
                       ))}
                     </div>
-                     <div className="flex items-center gap-2 relative z-10"
+                     <div className="flex items-center gap-2 relative z-[1]"
                           style={{ pointerEvents: 'auto' }}>
                         <BlogEditDropdown post={post} onSave={handlePostSave}>
                           <Button
@@ -620,7 +620,7 @@ const BlogManager: React.FC = () => {
                         </Badge>
                       ))}
                     </div>
-                     <div className="flex items-center gap-2 relative z-10" style={{ pointerEvents: 'auto' }}>
+                     <div className="flex items-center gap-2 relative z-[1]" style={{ pointerEvents: 'auto' }}>
                         <RSSPostControls post={post} onSave={handlePostSave}>
                           <Button
                             variant="outline"
