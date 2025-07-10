@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -20,6 +19,12 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
     }
   };
 
+  const getPreviewUrl = () => {
+    // Get the current site URL for the iframe
+    const currentUrl = window.location.origin;
+    return currentUrl;
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -37,50 +42,118 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        {/* Desktop View - Laptop */}
+        <Card className="flex flex-col items-center">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 w-full">
             <CardTitle className="text-sm font-medium">Desktop View</CardTitle>
             <Monitor className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1920x1080</div>
-            <p className="text-xs text-muted-foreground">Full desktop experience</p>
+          <CardContent className="flex flex-col items-center space-y-4">
+            <div className="text-lg font-bold">1920x1080</div>
+            <p className="text-xs text-muted-foreground text-center">Full desktop experience</p>
+            
+            {/* Laptop Frame */}
+            <div className="relative w-80 h-52">
+              <img 
+                src="/lovable-uploads/9909fcfb-d2bf-40c5-927d-20afb8f83059.png" 
+                alt="Laptop frame"
+                className="w-full h-full object-contain"
+              />
+              {/* Screen content */}
+              <div className="absolute top-[8%] left-[8%] right-[8%] bottom-[32%] overflow-hidden rounded-t-lg">
+                <iframe
+                  src={getPreviewUrl()}
+                  className="w-full h-full border-0 bg-white scale-[0.25] origin-top-left"
+                  style={{ width: '400%', height: '400%' }}
+                  title="Desktop Preview"
+                />
+              </div>
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        {/* Tablet View - iPad */}
+        <Card className="flex flex-col items-center">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 w-full">
             <CardTitle className="text-sm font-medium">Tablet View</CardTitle>
             <Tablet className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">768x1024</div>
-            <p className="text-xs text-muted-foreground">Tablet responsive design</p>
+          <CardContent className="flex flex-col items-center space-y-4">
+            <div className="text-lg font-bold">768x1024</div>
+            <p className="text-xs text-muted-foreground text-center">Tablet responsive design</p>
+            
+            {/* Tablet Frame */}
+            <div className="relative w-56 h-72">
+              <img 
+                src="/lovable-uploads/4947099c-2181-4b87-8d5c-571a58986dc2.png" 
+                alt="Tablet frame"
+                className="w-full h-full object-contain"
+              />
+              {/* Screen content */}
+              <div className="absolute top-[6%] left-[8%] right-[8%] bottom-[6%] overflow-hidden rounded-lg">
+                <iframe
+                  src={getPreviewUrl()}
+                  className="w-full h-full border-0 bg-white scale-[0.2] origin-top-left"
+                  style={{ width: '500%', height: '500%' }}
+                  title="Tablet Preview"
+                />
+              </div>
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        {/* Mobile View - iPhone */}
+        <Card className="flex flex-col items-center">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 w-full">
             <CardTitle className="text-sm font-medium">Mobile View</CardTitle>
             <Smartphone className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">375x667</div>
-            <p className="text-xs text-muted-foreground">Mobile optimized</p>
+          <CardContent className="flex flex-col items-center space-y-4">
+            <div className="text-lg font-bold">375x667</div>
+            <p className="text-xs text-muted-foreground text-center">Mobile optimized</p>
+            
+            {/* Phone Frame */}
+            <div className="relative w-44 h-80">
+              <img 
+                src="/lovable-uploads/a3abea8b-7fc0-4e67-bf4c-920d3d91e58c.png" 
+                alt="Phone frame"
+                className="w-full h-full object-contain"
+              />
+              {/* Screen content */}
+              <div className="absolute top-[8%] left-[12%] right-[12%] bottom-[8%] overflow-hidden rounded-3xl">
+                <iframe
+                  src={getPreviewUrl()}
+                  className="w-full h-full border-0 bg-white scale-[0.15] origin-top-left"
+                  style={{ width: '667%', height: '667%' }}
+                  title="Mobile Preview"
+                />
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Live Website Preview</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Eye className="h-5 w-5" />
+            Real-Time Preview Status
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="bg-gray-100 rounded-lg p-8 text-center">
-            <Eye className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600">Live preview will be available once content is populated.</p>
-            <p className="text-sm text-gray-500 mt-2">Changes to website content will appear here in real-time.</p>
+          <div className="text-center py-4">
+            <p className="text-gray-600">
+              {syncStatus === 'connected' 
+                ? 'Live previews are active. Changes to your website will appear in real-time across all device views.'
+                : 'Previews are currently offline. Connect to see real-time updates.'
+              }
+            </p>
+            {syncStatus === 'connected' && (
+              <p className="text-sm text-gray-500 mt-2">
+                The previews above show your actual website as it appears on different devices.
+              </p>
+            )}
           </div>
         </CardContent>
       </Card>
