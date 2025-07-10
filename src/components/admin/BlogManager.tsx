@@ -906,7 +906,8 @@ const BlogManager: React.FC = () => {
 
       {/* Edit Post Modal - Outside tabs so it's always visible */}
       {editingPost && (
-        <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50/30 mt-6 fixed inset-x-4 top-4 bottom-auto max-h-[90vh] z-50 overflow-auto">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50/30 w-full max-w-4xl max-h-[90vh] overflow-auto">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-orange-900">Edit Blog Post</CardTitle>
@@ -1047,6 +1048,7 @@ const BlogManager: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+        </div>
       )}
     </div>
   );
