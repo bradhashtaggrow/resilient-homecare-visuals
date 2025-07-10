@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
@@ -9,6 +9,7 @@ import { Phone, Mail, Send, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +19,29 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+  const [content, setContent] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'get_in_touch')
+          .single();
+
+        if (error) throw error;
+        setContent(data);
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,18 +56,34 @@ const Contact = () => {
     });
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white font-apple flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-lg text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const contentData = content?.content_data || {};
+  const contactInfo = contentData.contact_info || {};
+  const formConfig = contentData.form || {};
+  const ctaConfig = contentData.cta || {};
+
   return (
     <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
       <HeroSection 
-        title="Get in"
+        title={content?.title || "Get in"}
         highlightedText="Touch"
       />
 
       <ContentSection 
-        title="Contact Us"
-        description="Ready to transform your healthcare delivery? Connect with our team to learn how Resilient Healthcare can help you expand your services, improve patient outcomes, and capture new revenue opportunities."
+        title={content?.subtitle || "Contact Us"}
+        description={content?.description || "Ready to transform your healthcare delivery? Connect with our team to learn how Resilient Healthcare can help you expand your services, improve patient outcomes, and capture new revenue opportunities."}
       />
 
       {/* Contact Information & Form */}
@@ -56,7 +96,7 @@ const Contact = () => {
               <div>
                 <h2 className="font-black tracking-tight font-apple mb-8" 
                     style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 0.9 }}>
-                  📍 Resilient Healthcare Headquarters
+                  {contactInfo.headquarters || "📍 Resilient Healthcare Headquarters"}
                 </h2>
                 
                 <div className="space-y-8">
@@ -66,8 +106,12 @@ const Contact = () => {
                         <Phone className="h-8 w-8 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">📞 Call</h3>
-                        <p className="text-gray-600 text-lg leading-relaxed font-apple">(732) 429-2102</p>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">
+                          {contactInfo.phone?.label || "📞 Call"}
+                        </h3>
+                        <p className="text-gray-600 text-lg leading-relaxed font-apple">
+                          {contactInfo.phone?.number || "(732) 429-2102"}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -78,8 +122,12 @@ const Contact = () => {
                         <Mail className="h-8 w-8 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">✉️ Email</h3>
-                        <p className="text-gray-600 text-lg leading-relaxed font-apple">jackleen@resilienthc.org</p>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">
+                          {contactInfo.email?.label || "✉️ Email"}
+                        </h3>
+                        <p className="text-gray-600 text-lg leading-relaxed font-apple">
+                          {contactInfo.email?.address || "jackleen@resilienthc.org"}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -93,7 +141,7 @@ const Contact = () => {
                 <MessageCircle className="h-8 w-8 text-blue-600 mr-3" />
                 <h2 className="font-black tracking-tight font-apple" 
                     style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: 900, lineHeight: 0.9 }}>
-                  Send us a Message
+                  {formConfig.title || "Send us a Message"}
                 </h2>
               </div>
               
@@ -101,76 +149,77 @@ const Contact = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
-                      Full Name *
+                      {formConfig.fields?.name?.label || "Full Name *"}
                     </label>
                     <Input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      required
+                      required={formConfig.fields?.name?.required !== false}
                       className="w-full h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
-                      placeholder="Your full name"
+                      placeholder={formConfig.fields?.name?.placeholder || "Your full name"}
                     />
                   </div>
                   
                   <div>
                     <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
-                      Phone Number
+                      {formConfig.fields?.phone?.label || "Phone Number"}
                     </label>
                     <Input
                       type="tel"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
+                      required={formConfig.fields?.phone?.required === true}
                       className="w-full h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
-                      placeholder="Your phone number"
+                      placeholder={formConfig.fields?.phone?.placeholder || "Your phone number"}
                     />
                   </div>
                 </div>
                 
                 <div>
                   <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
-                    Email Address *
+                    {formConfig.fields?.email?.label || "Email Address *"}
                   </label>
                   <Input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    required
+                    required={formConfig.fields?.email?.required !== false}
                     className="w-full h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
-                    placeholder="your.email@example.com"
+                    placeholder={formConfig.fields?.email?.placeholder || "your.email@example.com"}
                   />
                 </div>
                 
                 <div>
                   <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
-                    Subject *
+                    {formConfig.fields?.subject?.label || "Subject *"}
                   </label>
                   <Input
                     type="text"
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    required
+                    required={formConfig.fields?.subject?.required !== false}
                     className="w-full h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
-                    placeholder="What is this regarding?"
+                    placeholder={formConfig.fields?.subject?.placeholder || "What is this regarding?"}
                   />
                 </div>
                 
                 <div>
                   <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
-                    Message *
+                    {formConfig.fields?.message?.label || "Message *"}
                   </label>
                   <Textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    required
+                    required={formConfig.fields?.message?.required !== false}
                     rows={6}
                     className="w-full text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors resize-none"
-                    placeholder="Please provide details about your inquiry..."
+                    placeholder={formConfig.fields?.message?.placeholder || "Please provide details about your inquiry..."}
                   />
                 </div>
                 
@@ -209,7 +258,7 @@ const Contact = () => {
                 >
                   <span className="relative z-10 flex items-center justify-center">
                     <Send className="mr-3 h-6 w-6 group-hover:translate-x-1 transition-transform duration-300" />
-                    Send Message
+                    {formConfig.button_text || "Send Message"}
                   </span>
                 </Button>
               </form>
@@ -218,7 +267,27 @@ const Contact = () => {
         </div>
       </section>
 
-      <LeadGenSection />
+      {/* CTA Section */}
+      {ctaConfig.title && (
+        <section className="py-24 bg-gradient-to-br from-blue-50 to-indigo-100">
+          <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6 font-apple">
+              {ctaConfig.title}
+            </h2>
+            <p className="text-xl text-gray-600 mb-8 font-apple">
+              {ctaConfig.description}
+            </p>
+            {ctaConfig.button_text && (
+              <Button 
+                size="lg" 
+                className="px-8 py-4 text-lg font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                {ctaConfig.button_text}
+              </Button>
+            )}
+          </div>
+        </section>
+      )}
 
       <Footer />
     </div>
