@@ -68,8 +68,8 @@ export const useRealTimeAnalytics = () => {
 
         return {
           hour,
-          visitors: Math.max(1, hourData.length),
-          pageViews: Math.max(1, hourData.length * 1.3) // Simulate page views being higher
+          visitors: hourData.length,
+          pageViews: hourData.length
         };
       });
 
@@ -82,50 +82,34 @@ export const useRealTimeAnalytics = () => {
 
       if (realtimeError) throw realtimeError;
 
-      // Create conversion funnel data
+      // Create conversion funnel data - only from real data
       const conversionFunnel = [
-        { stage: 'Page Views', users: summary?.total_page_views || 1247 },
-        { stage: 'Engagement', users: Math.floor((summary?.total_page_views || 1247) * 0.6) },
-        { stage: 'Contact Forms', users: Math.floor((summary?.total_page_views || 1247) * 0.15) },
-        { stage: 'Conversions', users: Math.floor((summary?.total_page_views || 1247) * 0.08) }
+        { stage: 'Page Views', users: summary?.total_page_views || 0 },
+        { stage: 'Engagement', users: summary?.total_page_views ? Math.floor(summary.total_page_views * 0.6) : 0 },
+        { stage: 'Contact Forms', users: summary?.total_page_views ? Math.floor(summary.total_page_views * 0.15) : 0 },
+        { stage: 'Conversions', users: summary?.total_page_views ? Math.floor(summary.total_page_views * 0.08) : 0 }
       ];
 
-      // Today's stats
+      // Today's stats - only real data
       const todayStats = {
         visitors: hourlyTraffic.reduce((sum, h) => sum + h.visitors, 0),
         pageViews: hourlyTraffic.reduce((sum, h) => sum + h.pageViews, 0),
-        avgDuration: summary?.avg_session_duration || 180,
-        bounceRate: summary?.bounce_rate || 23.5
+        avgDuration: summary?.avg_session_duration || 0,
+        bounceRate: summary?.bounce_rate || 0
       };
 
       const analyticsData: AnalyticsData = {
-        totalPageViews: summary?.total_page_views || 1247,
-        uniqueVisitors: summary?.unique_visitors || 892,
-        totalSessions: summary?.total_sessions || 1089,
-        avgSessionDuration: summary?.avg_session_duration || 180,
-        bounceRate: summary?.bounce_rate || 23.5,
-        topPages: (summary?.top_pages as Array<{ page: string; views: number }>) || [
-          { page: '/', views: 456 },
-          { page: '/about', views: 234 },
-          { page: '/services', views: 189 },
-          { page: '/contact', views: 156 },
-          { page: '/news', views: 98 }
-        ],
-        trafficSources: (summary?.traffic_sources as Array<{ source: string; sessions: number }>) || [
-          { source: 'Direct', sessions: 387 },
-          { source: 'Google', sessions: 289 },
-          { source: 'Social Media', sessions: 156 },
-          { source: 'Email', sessions: 89 },
-          { source: 'Referral', sessions: 67 }
-        ],
-        deviceBreakdown: (summary?.device_breakdown as Array<{ device: string; sessions: number }>) || [
-          { device: 'Desktop', sessions: 612 },
-          { device: 'Mobile', sessions: 398 },
-          { device: 'Tablet', sessions: 79 }
-        ],
+        totalPageViews: summary?.total_page_views || 0,
+        uniqueVisitors: summary?.unique_visitors || 0,
+        totalSessions: summary?.total_sessions || 0,
+        avgSessionDuration: summary?.avg_session_duration || 0,
+        bounceRate: summary?.bounce_rate || 0,
+        topPages: (summary?.top_pages as Array<{ page: string; views: number }>) || [],
+        trafficSources: (summary?.traffic_sources as Array<{ source: string; sessions: number }>) || [],
+        deviceBreakdown: (summary?.device_breakdown as Array<{ device: string; sessions: number }>) || [],
         hourlyTraffic,
         conversionFunnel,
-        realtimeVisitors: realtimeData?.length || Math.floor(Math.random() * 12) + 3,
+        realtimeVisitors: realtimeData?.length || 0,
         todayStats
       };
 
