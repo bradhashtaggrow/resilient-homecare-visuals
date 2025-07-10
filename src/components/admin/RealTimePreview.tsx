@@ -8,9 +8,10 @@ import { supabase } from '@/integrations/supabase/client';
 
 interface RealTimePreviewProps {
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
+  isFullScreen?: boolean;
 }
 
-const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconnected' }) => {
+const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconnected', isFullScreen = false }) => {
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [iframeKey, setIframeKey] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -125,102 +126,144 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">Live Preview</h2>
-          <p className="text-gray-600">See your website changes in real-time</p>
-          {lastUpdate && (
-            <p className="text-xs text-gray-500 mt-1">
-              Last updated: {lastUpdate.toLocaleTimeString()}
-            </p>
-          )}
+    <div className={`${isFullScreen ? 'h-screen' : 'space-y-6'}`}>
+      {!isFullScreen && (
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Live Preview</h2>
+            <p className="text-gray-600">See your website changes in real-time</p>
+            {lastUpdate && (
+              <p className="text-xs text-gray-500 mt-1">
+                Last updated: {lastUpdate.toLocaleTimeString()}
+              </p>
+            )}
+          </div>
+          <div className="flex items-center gap-4">
+            <Badge variant="outline" className={`flex items-center gap-2 ${
+              realTimeSyncStatus === 'connected' ? 'bg-green-50 text-green-700 border-green-200' :
+              realTimeSyncStatus === 'syncing' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+              'bg-red-50 text-red-700 border-red-200'
+            }`}>
+              {getSyncStatusIcon()}
+              <span>
+                {realTimeSyncStatus === 'connected' ? 'Live Updates' : 
+                 realTimeSyncStatus === 'syncing' ? 'Connecting...' : 'Offline'}
+              </span>
+            </Badge>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={manualRefresh}
+              className="flex items-center gap-2"
+              disabled={isLoading}
+            >
+              <RefreshCcw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsFullscreen(!isFullscreen)}
+              className="flex items-center gap-2"
+            >
+              <Maximize2 className="h-4 w-4" />
+              {isFullscreen ? 'Exit' : 'Fullscreen'}
+            </Button>
+          </div>
         </div>
-        <div className="flex items-center gap-4">
-          <Badge variant="outline" className={`flex items-center gap-2 ${
-            realTimeSyncStatus === 'connected' ? 'bg-green-50 text-green-700 border-green-200' :
-            realTimeSyncStatus === 'syncing' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-            'bg-red-50 text-red-700 border-red-200'
-          }`}>
-            {getSyncStatusIcon()}
-            <span>
-              {realTimeSyncStatus === 'connected' ? 'Live Updates' : 
-               realTimeSyncStatus === 'syncing' ? 'Connecting...' : 'Offline'}
-            </span>
-          </Badge>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={manualRefresh}
-            className="flex items-center gap-2"
-            disabled={isLoading}
-          >
-            <RefreshCcw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsFullscreen(!isFullscreen)}
-            className="flex items-center gap-2"
-          >
-            <Maximize2 className="h-4 w-4" />
-            {isFullscreen ? 'Exit' : 'Fullscreen'}
-          </Button>
-        </div>
-      </div>
+      )}
 
-      <Card>
-        <CardContent className="p-0">
-          <div className={`${isFullscreen ? 'fixed inset-0 z-50 bg-white' : 'relative'}`}>
-            {isFullscreen && (
-              <div className="flex justify-between items-center p-4 border-b bg-white">
-                <h3 className="text-lg font-semibold">Website Preview</h3>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsFullscreen(false)}
-                >
-                  Exit Fullscreen
-                </Button>
+      <div className={`${isFullScreen ? 'h-full' : ''}`}>
+        {isFullScreen ? (
+          <div className="h-full w-full relative overflow-hidden bg-white">
+            {/* Loading overlay */}
+            {isLoading && (
+              <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
+                <div className="text-center">
+                  <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+                  <p className="text-gray-600">Loading website preview...</p>
+                </div>
               </div>
             )}
-            
-            <div className={`${isFullscreen ? 'h-full' : 'h-[800px]'} w-full relative overflow-hidden bg-white`}>
-              {/* Loading overlay */}
-              {isLoading && (
-                <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
-                  <div className="text-center">
-                    <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-                    <p className="text-gray-600">Loading website preview...</p>
-                  </div>
-                </div>
-              )}
 
-              <iframe
-                key={`preview-${iframeKey}`}
-                src={`${window.location.origin}?desktop=true`}
-                className="w-full h-full border-0"
-                onLoad={handleIframeLoad}
-                onError={handleIframeError}
-                sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"
-                loading="lazy"
-                width="100%"
-                height="100%"
-                style={{ 
-                  opacity: isLoading ? 0 : 1,
-                  transition: 'opacity 0.3s ease-in-out',
-                  minWidth: '1200px',
-                  zoom: 1
-                }}
-              />
-            </div>
+            <iframe
+              key={`preview-${iframeKey}`}
+              src={`${window.location.origin}?desktop=true`}
+              className="w-full h-full border-0"
+              onLoad={handleIframeLoad}
+              onError={handleIframeError}
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"
+              loading="lazy"
+              width="100%"
+              height="100%"
+              style={{ 
+                opacity: isLoading ? 0 : 1,
+                transition: 'opacity 0.3s ease-in-out',
+                transform: 'scale(0.8)',
+                transformOrigin: 'top left',
+                width: '125%',
+                height: '125%'
+              }}
+            />
           </div>
-        </CardContent>
-      </Card>
+        ) : (
+          <Card>
+            <CardContent className="p-0">
+              <div className={`${isFullscreen ? 'fixed inset-0 z-50 bg-white' : 'relative'}`}>
+                {isFullscreen && (
+                  <div className="flex justify-between items-center p-4 border-b bg-white">
+                    <h3 className="text-lg font-semibold">Website Preview</h3>
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsFullscreen(false)}
+                    >
+                      Exit Fullscreen
+                    </Button>
+                  </div>
+                )}
+                
+                <div className={`${isFullscreen ? 'h-full' : 'h-[800px]'} w-full relative overflow-hidden bg-white`}>
+                  {/* Loading overlay */}
+                  {isLoading && (
+                    <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
+                      <div className="text-center">
+                        <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+                        <p className="text-gray-600">Loading website preview...</p>
+                      </div>
+                    </div>
+                  )}
 
-      <div className="text-center text-sm text-gray-500">
-        <p>Changes to website content will appear here automatically.</p>
+                  <iframe
+                    key={`preview-${iframeKey}`}
+                    src={`${window.location.origin}?desktop=true`}
+                    className="w-full h-full border-0"
+                    onLoad={handleIframeLoad}
+                    onError={handleIframeError}
+                    sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"
+                    loading="lazy"
+                    width="100%"
+                    height="100%"
+                    style={{ 
+                      opacity: isLoading ? 0 : 1,
+                      transition: 'opacity 0.3s ease-in-out',
+                      transform: 'scale(0.8)',
+                      transformOrigin: 'top left',
+                      width: '125%',
+                      height: '125%'
+                    }}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
+
+      {!isFullScreen && (
+        <div className="text-center text-sm text-gray-500">
+          <p>Changes to website content will appear here automatically.</p>
+        </div>
+      )}
     </div>
   );
 };

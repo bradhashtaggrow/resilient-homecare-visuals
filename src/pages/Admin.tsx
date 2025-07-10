@@ -20,6 +20,7 @@ const Admin = () => {
   const [selectedPage, setSelectedPage] = useState('home');
   const [loading, setLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<'connected' | 'disconnected' | 'syncing'>('disconnected');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [stats, setStats] = useState({
     totalContent: 0,
     totalServices: 0,
@@ -139,7 +140,7 @@ const Admin = () => {
           <WebsiteContentManager syncStatus={syncStatus} /> :
           <PageContentManager syncStatus={syncStatus} selectedPage={selectedPage} />;
       case 'preview':
-        return <RealTimePreview syncStatus={syncStatus} />;
+        return <RealTimePreview syncStatus={syncStatus} isFullScreen={!sidebarOpen} />;
       case 'analytics':
         return <AnalyticsDashboard syncStatus={syncStatus} />;
       case 'blog':
@@ -154,13 +155,16 @@ const Admin = () => {
   };
 
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider defaultOpen={sidebarOpen}>
       <div className="flex min-h-screen w-full bg-gray-50">
-        <AdminSidebar 
-          activeSection={activeSection} 
-          onSectionChange={setActiveSection}
-          syncStatus={syncStatus}
-        />
+        {sidebarOpen && (
+          <AdminSidebar 
+            activeSection={activeSection} 
+            onSectionChange={setActiveSection}
+            syncStatus={syncStatus}
+            onClose={() => setSidebarOpen(false)}
+          />
+        )}
         <div className="flex-1 flex flex-col">
           <AdminHeader 
             activeSection={activeSection} 
@@ -168,9 +172,11 @@ const Admin = () => {
             user={user}
             selectedPage={selectedPage}
             onPageChange={setSelectedPage}
+            sidebarOpen={sidebarOpen}
+            onSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
           />
           <main className="flex-1 overflow-auto admin-scrollbar">
-            <div className="p-6">
+            <div className={`${sidebarOpen ? 'p-6' : 'p-0'}`}>
               {renderContent()}
             </div>
           </main>

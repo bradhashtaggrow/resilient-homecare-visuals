@@ -23,7 +23,8 @@ import {
   WifiOff,
   UserCheck,
   Rss,
-  Edit3
+  Edit3,
+  X
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
@@ -31,12 +32,14 @@ interface AdminSidebarProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
+  onClose: () => void;
 }
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ 
   activeSection, 
   onSectionChange, 
-  syncStatus = 'disconnected' 
+  syncStatus = 'disconnected',
+  onClose
 }) => {
   const mainMenuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -97,14 +100,23 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   return (
     <Sidebar className="border-r border-blue-100 bg-gradient-to-b from-white to-blue-50/50">
       <SidebarHeader className="p-6 border-b border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-            <Globe className="h-6 w-6 text-white" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+              <Globe className="h-6 w-6 text-white" />
+            </div>
+            <div className="flex-1">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Healthcare Admin</h1>
+              <p className="text-sm text-blue-600">Content Management</p>
+            </div>
           </div>
-          <div className="flex-1">
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Healthcare Admin</h1>
-            <p className="text-sm text-blue-600">Content Management</p>
-          </div>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-blue-100 rounded-lg transition-colors"
+            aria-label="Close sidebar"
+          >
+            <X className="h-5 w-5 text-blue-600" />
+          </button>
         </div>
         <div className="mt-3 flex items-center justify-center">
           <Badge variant="outline" className="text-xs bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border-blue-200">

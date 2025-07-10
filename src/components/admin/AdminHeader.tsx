@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bell, Search, User, Save, Wifi, WifiOff, LogOut, ChevronDown } from 'lucide-react';
+import { Bell, Search, User, Save, Wifi, WifiOff, LogOut, ChevronDown, Menu } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
 import { User as UserType } from '@supabase/supabase-js';
@@ -26,6 +26,8 @@ interface AdminHeaderProps {
   user?: UserType | null;
   selectedPage?: string;
   onPageChange?: (page: string) => void;
+  sidebarOpen?: boolean;
+  onSidebarToggle?: () => void;
 }
 
 const AdminHeader: React.FC<AdminHeaderProps> = ({ 
@@ -33,7 +35,9 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
   syncStatus = 'disconnected', 
   user,
   selectedPage = 'home',
-  onPageChange 
+  onPageChange,
+  sidebarOpen = true,
+  onSidebarToggle
 }) => {
   const { signOut } = useAuth();
 
@@ -90,6 +94,16 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
   return (
     <header className="h-16 border-b border-blue-100 bg-gradient-to-r from-white to-blue-50/50 px-6 flex items-center justify-between">
       <div className="flex items-center space-x-4">
+        {!sidebarOpen && onSidebarToggle && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onSidebarToggle}
+            className="p-2 hover:bg-blue-100 border-blue-200"
+          >
+            <Menu className="h-4 w-4 text-blue-600" />
+          </Button>
+        )}
         <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
           {getSectionTitle(activeSection)}
         </h2>
