@@ -101,39 +101,13 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
                      </div>
                    </div>
                  ))
-               ) : (
-                 // Show placeholder data when no real data is available
-                 [
-                   { page: '/', views: 0, name: 'Home' },
-                   { page: '/about', views: 0, name: 'About' },
-                   { page: '/services', views: 0, name: 'Services' },
-                   { page: '/contact', views: 0, name: 'Contact' },
-                   { page: '/news', views: 0, name: 'News' }
-                 ].map((page, index) => (
-                   <div key={index} className="space-y-2 opacity-50">
-                     <div className="flex items-center justify-between">
-                       <div className="flex items-center gap-3">
-                         <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
-                           <span className="text-xs font-medium text-muted-foreground">{index + 1}</span>
-                         </div>
-                         <div>
-                           <p className="font-medium text-sm text-muted-foreground">{page.name}</p>
-                           <p className="text-xs text-muted-foreground/70">{page.page}</p>
-                         </div>
-                       </div>
-                       <span className="text-sm font-medium text-muted-foreground">-</span>
-                     </div>
-                     <div className="w-full bg-muted rounded-full h-2">
-                       <div className="bg-muted h-2 rounded-full w-1"></div>
-                     </div>
-                   </div>
-                 ))
-               )}
-               {(!analytics?.top_pages || analytics.top_pages.length === 0) && (
-                 <div className="text-center py-2">
-                   <p className="text-xs text-muted-foreground">Page analytics will appear as users visit your site</p>
-                 </div>
-               )}
+                ) : (
+                  <div className="text-center py-16">
+                    <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">No Page Data Available</h3>
+                    <p className="text-muted-foreground">Page analytics will appear as users visit your website.</p>
+                  </div>
+                )}
              </div>
            </CardContent>
         </Card>
@@ -169,37 +143,13 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
                      </div>
                    </div>
                  ))
-               ) : (
-                 // Show placeholder data when no real data is available
-                 [
-                   { source: 'Direct', sessions: 0 },
-                   { source: 'Google', sessions: 0 },
-                   { source: 'Social Media', sessions: 0 },
-                   { source: 'Email', sessions: 0 },
-                   { source: 'Referral', sessions: 0 }
-                 ].map((source, index) => (
-                   <div key={index} className="space-y-2 opacity-50">
-                     <div className="flex items-center justify-between">
-                       <div className="flex items-center gap-3">
-                         <Globe className="h-4 w-4 text-muted-foreground" />
-                         <div>
-                           <p className="font-medium text-sm text-muted-foreground">{source.source}</p>
-                           <p className="text-xs text-muted-foreground/70">Referral source</p>
-                         </div>
-                       </div>
-                       <span className="text-sm font-medium text-muted-foreground">-</span>
-                     </div>
-                     <div className="w-full bg-muted rounded-full h-2">
-                       <div className="bg-muted h-2 rounded-full w-1"></div>
-                     </div>
-                   </div>
-                 ))
-               )}
-               {(!analytics?.traffic_sources || analytics.traffic_sources.length === 0) && (
-                 <div className="text-center py-2">
-                   <p className="text-xs text-muted-foreground">Traffic sources will appear as users visit your site</p>
-                 </div>
-               )}
+                ) : (
+                  <div className="text-center py-16">
+                    <Globe className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">No Traffic Source Data</h3>
+                    <p className="text-muted-foreground">Traffic sources will appear as users visit your website.</p>
+                  </div>
+                )}
              </div>
            </CardContent>
         </Card>
@@ -237,32 +187,12 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
                        </div>
                      </div>
                    ))
-                 ) : (
-                   // Show placeholder device data
-                   [
-                     { device: 'desktop', sessions: 0 },
-                     { device: 'mobile', sessions: 0 },
-                     { device: 'tablet', sessions: 0 }
-                   ].map((device, index) => (
-                     <div key={index} className="space-y-2 opacity-50">
-                       <div className="flex items-center justify-between">
-                         <div className="flex items-center gap-3">
-                           {getDeviceIcon(device.device)}
-                           <span className="font-medium capitalize text-sm text-muted-foreground">{device.device}</span>
-                         </div>
-                         <span className="text-sm font-medium text-muted-foreground">-</span>
-                       </div>
-                       <div className="w-full bg-muted rounded-full h-2">
-                         <div className="bg-muted h-2 rounded-full w-1"></div>
-                       </div>
-                     </div>
-                   ))
-                 )}
-                 {(!analytics?.device_breakdown || analytics.device_breakdown.length === 0) && (
-                   <div className="text-center py-2">
-                     <p className="text-xs text-muted-foreground">Device analytics will appear as users visit your site</p>
-                   </div>
-                 )}
+                  ) : (
+                    <div className="text-center py-8">
+                      <Monitor className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                      <p className="text-sm text-muted-foreground">Device analytics will appear as users visit your site</p>
+                    </div>
+                  )}
                </div>
             </div>
 
