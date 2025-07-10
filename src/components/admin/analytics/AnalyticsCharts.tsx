@@ -40,12 +40,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
     return Math.max((value / max) * 100, 5); // Minimum 5% for visibility
   };
 
-  // Generate some sample time-series data for hourly traffic
-  const hourlyData = Array.from({ length: 24 }, (_, i) => ({
-    hour: i,
-    visitors: Math.floor(Math.random() * 100) + 10,
-    pageViews: Math.floor(Math.random() * 200) + 20
-  }));
+  // No hourly data - show empty state
+  const hourlyData: Array<{ hour: number; visitors: number; pageViews: number }> = [];
 
   const maxHourlyVisitors = Math.max(...hourlyData.map(d => d.visitors));
   const maxTopPageViews = analytics?.top_pages ? Math.max(...analytics.top_pages.map(p => p.views)) : 0;
@@ -63,27 +59,10 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div className="flex justify-between text-sm text-muted-foreground">
-              <span>Hour</span>
-              <span>Visitors</span>
-            </div>
-            <div className="grid grid-cols-12 gap-2 h-32">
-              {hourlyData.map((data, index) => (
-                <div key={index} className="flex flex-col items-center gap-1">
-                  <div className="flex-1 w-full flex items-end">
-                    <div
-                      className="w-full bg-primary/20 hover:bg-primary/40 transition-colors rounded-t cursor-pointer"
-                      style={{ height: `${(data.visitors / maxHourlyVisitors) * 100}%` }}
-                      title={`${data.hour}:00 - ${data.visitors} visitors`}
-                    ></div>
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    {data.hour}
-                  </span>
-                </div>
-              ))}
-            </div>
+          <div className="text-center py-16">
+            <TrendingUp className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-semibold mb-2">No Hourly Data Available</h3>
+            <p className="text-muted-foreground">Hourly traffic data will appear as users visit your website.</p>
           </div>
         </CardContent>
       </Card>
@@ -287,32 +266,12 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ analytics }) => {
                </div>
             </div>
 
-            {/* Browser Breakdown (Sample) */}
+            {/* Browser Breakdown */}
             <div>
               <h4 className="font-medium mb-4">Top Browsers</h4>
-              <div className="space-y-4">
-                {[
-                  { name: 'Chrome', sessions: 156, color: 'bg-blue-500' },
-                  { name: 'Safari', sessions: 89, color: 'bg-gray-500' },
-                  { name: 'Firefox', sessions: 43, color: 'bg-orange-500' },
-                  { name: 'Edge', sessions: 28, color: 'bg-blue-600' }
-                ].map((browser, index) => (
-                  <div key={index} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-3 h-3 rounded-full ${browser.color}`}></div>
-                        <span className="font-medium text-sm">{browser.name}</span>
-                      </div>
-                      <span className="text-sm font-medium">{browser.sessions}</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div
-                        className={`h-2 rounded-full transition-all duration-500 ${browser.color}`}
-                        style={{ width: `${getProgressWidth(browser.sessions, 156)}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
+              <div className="text-center py-8">
+                <Globe className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground">Browser analytics will appear as users visit your site</p>
               </div>
             </div>
           </div>

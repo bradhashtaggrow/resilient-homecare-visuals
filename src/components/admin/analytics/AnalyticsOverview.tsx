@@ -102,8 +102,8 @@ export const AnalyticsOverview = () => {
       value: stats.currentActiveUsers.toLocaleString(),
       icon: Activity,
       gradient: "from-success to-success/80",
-      change: "+12%",
-      changeType: "positive",
+      change: stats.currentActiveUsers > 0 ? "+Live" : "No data",
+      changeType: stats.currentActiveUsers > 0 ? "positive" : "neutral",
       pulse: true
     },
     {
@@ -111,40 +111,40 @@ export const AnalyticsOverview = () => {
       value: stats.totalSessions.toLocaleString(),
       icon: Globe,
       gradient: "from-primary to-primary-light",
-      change: "+8%",
-      changeType: "positive"
+      change: stats.totalSessions > 0 ? "+Real data" : "No data",
+      changeType: stats.totalSessions > 0 ? "positive" : "neutral"
     },
     {
       title: "Page Views",
       value: stats.totalPageViews.toLocaleString(),
       icon: Eye,
       gradient: "from-chart-1 to-chart-1/80",
-      change: "+15%",
-      changeType: "positive"
+      change: stats.totalPageViews > 0 ? "+Real data" : "No data", 
+      changeType: stats.totalPageViews > 0 ? "positive" : "neutral"
     },
     {
       title: "Avg. Session",
       value: formatDuration(stats.avgSessionDuration),
       icon: Clock,
       gradient: "from-warning to-warning/80",
-      change: "-2%",
-      changeType: "negative"
+      change: stats.avgSessionDuration > 0 ? "+Real data" : "No data",
+      changeType: stats.avgSessionDuration > 0 ? "positive" : "neutral"
     },
     {
       title: "Bounce Rate",
       value: `${stats.bounceRate}%`,
       icon: MousePointer,
       gradient: "from-destructive to-destructive/80",
-      change: "-5%",
-      changeType: "positive"
+      change: stats.bounceRate >= 0 ? "+Real data" : "No data",
+      changeType: stats.bounceRate > 0 ? "positive" : "neutral"
     },
     {
       title: "Unique Visitors",
       value: stats.uniqueVisitors.toLocaleString(),
       icon: TrendingUp,
       gradient: "from-info to-info/80",
-      change: "+18%",
-      changeType: "positive"
+      change: stats.uniqueVisitors > 0 ? "+Real data" : "No data",
+      changeType: stats.uniqueVisitors > 0 ? "positive" : "neutral"
     }
   ];
 
@@ -189,10 +189,12 @@ export const AnalyticsOverview = () => {
                     className={`inline-flex items-center gap-1 text-xs font-medium ${
                       metric.changeType === 'positive' 
                         ? 'text-success border-success/20 bg-success/5' 
-                        : 'text-destructive border-destructive/20 bg-destructive/5'
+                        : metric.changeType === 'negative'
+                        ? 'text-destructive border-destructive/20 bg-destructive/5'
+                        : 'text-muted-foreground border-muted bg-muted/10'
                     }`}
                   >
-                    <TrendIcon className="w-3 h-3" />
+                    {metric.changeType !== 'neutral' && <TrendIcon className="w-3 h-3" />}
                     {metric.change}
                   </Badge>
                 </div>

@@ -4,7 +4,7 @@ import { EnhancedAnalyticsOverview } from './analytics/EnhancedAnalyticsOverview
 import RealtimeActivity from './analytics/RealtimeActivity';
 import AnalyticsCharts from './analytics/AnalyticsCharts';
 import { AnalyticsHeader } from './analytics/AnalyticsHeader';
-import AnalyticsInsights from './analytics/AnalyticsInsights';
+
 import StunningCharts from './analytics/StunningCharts';
 import { TrendingUp, Users, Eye, Clock, Zap, Globe } from 'lucide-react';
 import { useRealTimeAnalytics } from '@/hooks/useRealTimeAnalytics';
