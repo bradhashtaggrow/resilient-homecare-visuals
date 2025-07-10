@@ -31,6 +31,7 @@ import {
   WifiOff
  } from 'lucide-react';
 import BlogEditDropdown from './BlogEditDropdown';
+import RSSPostControls from './RSSPostControls';
 
 interface BlogPost {
   id: string;
@@ -223,30 +224,47 @@ const BlogManager: React.FC = () => {
   };
 
   const handlePostSave = async (postId: string, updates: Partial<BlogPost>) => {
-    if (!updates.title || !updates.content) {
-      toast({
-        title: "Missing required fields",
-        description: "Title and content are required",
-        variant: "destructive"
-      });
-      return;
-    }
-
     try {
-      const slug = generateSlug(updates.title);
-      const postUpdates = {
-        title: updates.title,
-        content: updates.content,
-        excerpt: updates.excerpt || null,
-        author: updates.author || 'Resilient Healthcare',
-        slug,
-        category: updates.category || 'healthcare',
-        tags: updates.tags || [],
-        featured_image_url: updates.featured_image_url || null,
-        is_published: updates.is_published || false,
-        is_featured: updates.is_featured || false,
-        updated_at: new Date().toISOString()
-      };
+      const post = blogPosts.find(p => p.id === postId);
+      if (!post) return;
+
+      let postUpdates;
+
+      if (post.source === 'rss') {
+        // For RSS posts, only update metadata fields
+        postUpdates = {
+          category: updates.category || post.category,
+          tags: updates.tags || post.tags,
+          is_published: updates.is_published !== undefined ? updates.is_published : post.is_published,
+          is_featured: updates.is_featured !== undefined ? updates.is_featured : post.is_featured,
+          updated_at: new Date().toISOString()
+        };
+      } else {
+        // For manual posts, validate and update all fields
+        if (!updates.title || !updates.content) {
+          toast({
+            title: "Missing required fields",
+            description: "Title and content are required",
+            variant: "destructive"
+          });
+          return;
+        }
+
+        const slug = generateSlug(updates.title);
+        postUpdates = {
+          title: updates.title,
+          content: updates.content,
+          excerpt: updates.excerpt || null,
+          author: updates.author || 'Resilient Healthcare',
+          slug,
+          category: updates.category || 'healthcare',
+          tags: updates.tags || [],
+          featured_image_url: updates.featured_image_url || null,
+          is_published: updates.is_published || false,
+          is_featured: updates.is_featured || false,
+          updated_at: new Date().toISOString()
+        };
+      }
 
       const { error } = await supabase
         .from('blog_posts')
@@ -257,7 +275,7 @@ const BlogManager: React.FC = () => {
 
       toast({
         title: "Post updated",
-        description: "Blog post has been updated successfully",
+        description: post.source === 'rss' ? "RSS post settings updated successfully" : "Blog post updated successfully",
       });
     } catch (error) {
       console.error('Error updating blog post:', error);
@@ -603,16 +621,16 @@ const BlogManager: React.FC = () => {
                       ))}
                     </div>
                      <div className="flex items-center gap-2 relative z-10" style={{ pointerEvents: 'auto' }}>
-                       <BlogEditDropdown post={post} onSave={handlePostSave}>
-                         <Button
-                           variant="outline"
-                           size="sm"
-                           className="border-orange-200 text-orange-600 hover:bg-orange-50"
-                         >
-                           <Edit className="h-4 w-4" />
-                           Edit
-                         </Button>
-                       </BlogEditDropdown>
+                        <RSSPostControls post={post} onSave={handlePostSave}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                          >
+                            <Edit className="h-4 w-4" />
+                            Settings
+                          </Button>
+                        </RSSPostControls>
                       <Button
                         variant="outline"
                         size="sm"
