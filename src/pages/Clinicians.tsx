@@ -10,7 +10,15 @@ import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap } from 'luc
 import { supabase } from '@/integrations/supabase/client';
 
 const Clinicians = () => {
-  const [content, setContent] = useState({
+  const [heroContent, setHeroContent] = useState({
+    title: "Enabling",
+    highlightedText: "seamless referrals"
+  });
+  const [contentSection, setContentSection] = useState({
+    title: "Clinicians",
+    description: "We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
+  });
+  const [tabsContent, setTabsContent] = useState({
     title: "The Future of Care",
     subtitle: "Experience healthcare like never before",
     description: "Every interaction reimagined."
@@ -34,28 +42,59 @@ const Clinicians = () => {
   };
 
   useEffect(() => {
-    // Load content from database
-    const loadContent = async () => {
+    // Load all content from database
+    const loadAllContent = async () => {
       try {
-        const { data, error } = await supabase
+        // Load hero content
+        const { data: heroData } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'clinicians_hero')
+          .eq('is_active', true)
+          .single();
+
+        if (heroData) {
+          setHeroContent({
+            title: heroData.title || "Enabling",
+            highlightedText: "seamless referrals"
+          });
+        }
+
+        // Load content section
+        const { data: contentData } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'clinicians_hero')
+          .eq('is_active', true)
+          .single();
+
+        if (contentData) {
+          setContentSection({
+            title: "Clinicians",
+            description: contentData.description || "We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home."
+          });
+        }
+
+        // Load tabs content
+        const { data: tabsData, error } = await supabase
           .from('website_content')
           .select('*')
           .eq('section_key', 'clinicians_mobile')
           .eq('is_active', true)
           .single();
 
-        if (data && !error) {
-          console.log('Loaded clinicians content:', data);
+        if (tabsData && !error) {
+          console.log('Loaded clinicians tabs content:', tabsData);
           
-          setContent({
-            title: data.title || "The Future of Care",
-            subtitle: data.subtitle || "Experience healthcare like never before",
-            description: data.description || "Every interaction reimagined."
+          setTabsContent({
+            title: tabsData.title || "The Future of Care",
+            subtitle: tabsData.subtitle || "Experience healthcare like never before",
+            description: tabsData.description || "Every interaction reimagined."
           });
 
           // Transform tabs data to services format
-          if (data.content_data && typeof data.content_data === 'object' && data.content_data !== null) {
-            const contentData = data.content_data as any;
+          if (tabsData.content_data && typeof tabsData.content_data === 'object' && tabsData.content_data !== null) {
+            const contentData = tabsData.content_data as any;
             if (contentData.tabs) {
               const transformedServices = contentData.tabs.map((tab: any) => ({
               id: tab.id,
@@ -67,17 +106,18 @@ const Clinicians = () => {
                 patient_image_url: tab.image_url || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
               }));
               setServices(transformedServices);
+              console.log('Transformed services:', transformedServices);
             }
           }
         } else {
-          console.log('No clinicians content found, using defaults');
+          console.log('No clinicians tabs content found, using defaults');
         }
       } catch (error) {
         console.error('Error loading clinicians content:', error);
       }
     };
 
-    loadContent();
+    loadAllContent();
 
     // Set up real-time subscription
     const channel = supabase
@@ -89,7 +129,7 @@ const Clinicians = () => {
         filter: 'section_key=eq.clinicians_mobile'
       }, (payload) => {
         console.log('Real-time clinicians content change:', payload);
-        loadContent();
+        loadAllContent();
       })
       .subscribe();
 
@@ -103,16 +143,16 @@ const Clinicians = () => {
       <Navigation />
       
       <HeroSection 
-        title="Enabling"
-        highlightedText="seamless referrals"
+        title={heroContent.title}
+        highlightedText={heroContent.highlightedText}
       />
 
       <ContentSection 
-        title="Clinicians"
-        description="We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
+        title={contentSection.title}
+        description={contentSection.description}
       />
 
-      {services.length > 0 && <TabsSection services={services} />}
+      <TabsSection services={services} />
 
       <LeadGenSection />
 
