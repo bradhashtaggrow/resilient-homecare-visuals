@@ -524,18 +524,12 @@ const BlogManager: React.FC = () => {
                         </Badge>
                       ))}
                     </div>
-                     <div className="flex items-center gap-2" style={{ zIndex: 10, position: 'relative' }}>
+                     <div className="flex items-center gap-2">
                        <Button
                          variant="outline"
                          size="sm"
-                         onClick={(e) => {
-                           console.log('Edit button clicked for post:', post.id);
-                           e.preventDefault();
-                           e.stopPropagation();
-                           startEditingPost(post);
-                         }}
-                         className="border-blue-200 text-blue-600 hover:bg-blue-50 cursor-pointer"
-                         style={{ pointerEvents: 'auto' }}
+                         onClick={() => startEditingPost(post)}
+                         className="border-blue-200 text-blue-600 hover:bg-blue-50"
                        >
                          <Edit className="h-4 w-4" />
                        </Button>
