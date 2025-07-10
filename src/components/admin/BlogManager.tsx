@@ -586,10 +586,8 @@ const BlogManager: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent font-apple">
-            Blog Management
-          </h2>
-          <p className="text-blue-600">Manage blog posts, AI generation, and RSS feeds</p>
+          <h2 className="text-2xl font-bold text-black font-apple">Blog Management</h2>
+          <p className="text-blue-600 font-apple">Manage blog posts, AI generation, and RSS feeds</p>
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border-green-200">

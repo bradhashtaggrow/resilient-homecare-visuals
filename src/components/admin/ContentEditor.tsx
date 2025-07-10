@@ -219,8 +219,8 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange,
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent font-apple">Content Management</h2>
-          <p className="text-blue-600">Edit and manage your website content with real-time sync</p>
+          <h2 className="text-2xl font-bold text-black font-apple">Content Management</h2>
+          <p className="text-blue-600 font-apple">Edit and manage your website content with real-time sync</p>
         </div>
         <div className="flex items-center gap-4">
           <Badge variant="outline" className={getSyncStatusColor()}>
