@@ -45,7 +45,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ onSectionChange, onR
       title: 'Preview Site',
       description: 'See live website changes',
       action: () => onSectionChange('preview'),
-      color: 'success'
+      color: 'primary'
     }
   ];
 
@@ -98,14 +98,14 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ onSectionChange, onR
         <div className="pt-2 border-t border-border/50">
           <button
             onClick={() => onSectionChange('users')}
-            className="w-full glass border-0 p-4 rounded-xl hover:bg-warning/5 transition-all duration-300 cursor-pointer group text-left border-warning/20"
+            className="w-full glass border-0 p-4 rounded-xl hover:bg-primary/5 transition-all duration-300 cursor-pointer group text-left"
           >
             <div className="flex items-center space-x-4">
-              <div className="p-2 rounded-lg bg-gradient-to-br from-warning/10 to-warning/20 group-hover:from-warning/20 group-hover:to-warning/30 transition-all duration-300">
-                <Settings className="h-5 w-5 text-warning" />
+              <div className="p-2 rounded-lg bg-gradient-to-br from-primary/10 to-primary/20 group-hover:from-primary/20 group-hover:to-primary/30 transition-all duration-300">
+                <Settings className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="font-medium text-foreground group-hover:text-warning transition-colors">
+                <p className="font-medium text-foreground group-hover:text-primary transition-colors">
                   User Management
                 </p>
                 <p className="text-sm text-muted-foreground">
