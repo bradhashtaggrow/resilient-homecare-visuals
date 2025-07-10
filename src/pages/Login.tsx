@@ -43,14 +43,8 @@ const Login = () => {
       });
       setLoading(false);
     } else {
-      toast({
-        title: "Welcome back!",
-        description: "Redirecting to admin dashboard..."
-      });
-      // Wait a moment for auth state to update, then navigate
-      setTimeout(() => {
-        navigate('/admin', { replace: true });
-      }, 100);
+      // Directly navigate to admin without any toast or delay
+      navigate('/admin', { replace: true });
     }
   };
 
