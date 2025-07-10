@@ -590,12 +590,6 @@ const BlogManager: React.FC = () => {
           <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">Blog Management</h2>
           <p className="text-lg text-black">Manage blog posts, AI generation, and RSS feeds</p>
         </div>
-        <div className="flex items-center gap-2">
-          <Badge variant="outline" className="bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border-green-200">
-            <Wifi className="h-4 w-4 mr-2" />
-            Real-time sync active
-          </Badge>
-        </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
