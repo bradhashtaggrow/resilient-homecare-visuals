@@ -85,7 +85,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
 
   const renderMenuGroup = (title: string, items: typeof mainMenuItems) => (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-sm font-bold text-foreground uppercase tracking-wider font-apple mb-2">
+      <SidebarGroupLabel className="text-xs font-semibold text-foreground uppercase tracking-wider font-apple">
         {title}
       </SidebarGroupLabel>
       <SidebarGroupContent>
@@ -95,14 +95,14 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
               <SidebarMenuButton
                 onClick={() => handleMenuClick(item.id)}
                 isActive={activeSection === item.id}
-                className={`w-full justify-start px-3 py-2.5 rounded-lg transition-all duration-200 font-apple text-sm ${
+                className={`w-full justify-start px-3 py-2.5 rounded-lg transition-all duration-200 font-apple ${
                   activeSection === item.id
-                    ? 'btn-3d-gradient text-white font-medium'
-                    : 'text-foreground hover:bg-accent hover:text-accent-foreground font-normal'
+                    ? 'btn-3d-gradient text-white'
+                    : 'text-foreground hover:bg-accent hover:text-accent-foreground'
                 }`}
               >
                 <item.icon className="h-5 w-5 mr-3" />
-                <span className="font-apple text-sm">{item.label}</span>
+                <span className="font-medium font-apple">{item.label}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
@@ -119,7 +119,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
             <img 
               src="/lovable-uploads/30c729f3-ad9e-4d48-aabf-36d2418d944a.png" 
               alt="Resilient Healthcare" 
-              className="h-12 w-auto"
+              className="h-10 w-auto"
             />
           </div>
           <button
@@ -131,9 +131,9 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           </button>
         </div>
         <div className="mt-3 flex items-center justify-center">
-          <Badge variant="outline" className="text-xs bg-background text-foreground border-border font-apple">
+          <Badge variant="outline" className="text-xs bg-background text-foreground border-border">
             {getSyncStatusIcon()}
-            <span className="ml-1 font-apple text-xs">
+            <span className="ml-1 font-apple">
               {syncStatus === 'connected' ? 'Connected' : 
                syncStatus === 'syncing' ? 'Syncing' : 'Offline'}
             </span>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -54,16 +53,16 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
 
   const getSectionTitle = (section: string) => {
     const titles: Record<string, string> = {
-      dashboard: 'Dashboard',
-      analytics: 'Analytics',
-      leads: 'Demo Requests',
+      dashboard: 'Overview',
+      analytics: 'Overview',
+      leads: 'Overview',
       content: 'Content Management',
       services: 'Content Management',
       media: 'Content Management',
       preview: 'Content Management',
       blog: 'Content Management',
       users: 'System Management',
-      settings: 'System Settings'
+      settings: 'System Management'
     };
     return titles[section] || 'Admin Dashboard';
   };
@@ -107,7 +106,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
             <Menu className="h-4 w-4" />
           </Button>
         )}
-        <h2 className="text-3xl font-bold text-foreground font-apple">
+        <h2 className="text-2xl font-bold text-foreground font-apple">
           {getSectionTitle(activeSection)}
         </h2>
         {activeSection === 'content' && onPageChange && (
