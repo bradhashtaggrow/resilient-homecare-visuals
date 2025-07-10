@@ -299,14 +299,14 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
             </Card>
           </div>
           <div className="animate-scale-in" style={{ animationDelay: '0.3s' }}>
-            <Card className="glass border-0 shadow-glow hover:shadow-chart-4/25 transition-all duration-300 group hover:scale-105">
+            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground mb-2">Qualified</p>
                     <p className="text-3xl font-bold text-foreground">{stats.qualified}</p>
                   </div>
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-4/10 to-chart-4/20 group-hover:from-chart-4/20 group-hover:to-chart-4/30 transition-all duration-300">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary/20 group-hover:from-primary/20 group-hover:to-primary/30 transition-all duration-300">
                     <Target className="h-8 w-8 text-primary" />
                   </div>
                 </div>
@@ -329,14 +329,14 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
             </Card>
           </div>
           <div className="animate-scale-in" style={{ animationDelay: '0.5s' }}>
-            <Card className="glass border-0 shadow-glow hover:shadow-success/25 transition-all duration-300 group hover:scale-105">
+            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground mb-2">Closed Won</p>
                     <p className="text-3xl font-bold text-foreground">{stats.closed_won}</p>
                   </div>
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-success/10 to-success/20 group-hover:from-success/20 group-hover:to-success/30 transition-all duration-300">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary/20 group-hover:from-primary/20 group-hover:to-primary/30 transition-all duration-300">
                     <TrendingUp className="h-8 w-8 text-primary" />
                   </div>
                 </div>
@@ -344,14 +344,14 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
             </Card>
           </div>
           <div className="animate-scale-in" style={{ animationDelay: '0.6s' }}>
-            <Card className="glass border-0 shadow-glow hover:shadow-destructive/25 transition-all duration-300 group hover:scale-105">
+            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground mb-2">Closed Lost</p>
                     <p className="text-3xl font-bold text-foreground">{stats.closed_lost}</p>
                   </div>
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-destructive/10 to-destructive/20 group-hover:from-destructive/20 group-hover:to-destructive/30 transition-all duration-300">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary/20 group-hover:from-primary/20 group-hover:to-primary/30 transition-all duration-300">
                     <StarOff className="h-8 w-8 text-primary" />
                   </div>
                 </div>
@@ -578,6 +578,5 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
    </div>
  </div>
  );
-};
 
 export default LeadsManager;
