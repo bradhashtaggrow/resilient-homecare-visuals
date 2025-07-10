@@ -37,22 +37,22 @@ const RequestDemo = () => {
           
           <div className="mt-12 grid md:grid-cols-3 gap-8 text-center">
             <div className="p-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-primary to-primary-light rounded-lg flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <span className="text-white font-bold">1</span>
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <span className="text-blue-600 font-bold">1</span>
               </div>
               <h3 className="font-semibold mb-2">Tell Us About Your Needs</h3>
               <p className="text-gray-600">Share information about your organization and challenges</p>
             </div>
             <div className="p-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-primary to-primary-light rounded-lg flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <span className="text-white font-bold">2</span>
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <span className="text-blue-600 font-bold">2</span>
               </div>
               <h3 className="font-semibold mb-2">Get a Customized Demo</h3>
               <p className="text-gray-600">Our experts will show you solutions tailored to your requirements</p>
             </div>
             <div className="p-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-primary to-primary-light rounded-lg flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <span className="text-white font-bold">3</span>
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <span className="text-blue-600 font-bold">3</span>
               </div>
               <h3 className="font-semibold mb-2">Start Your Journey</h3>
               <p className="text-gray-600">Begin implementing solutions that drive real results</p>

@@ -71,21 +71,21 @@ export const AnalyticsHeader = () => {
             
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <div className="flex items-center gap-2">
-                <Button variant="gradient" size="sm" className="rounded-xl">
+                <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
                   <Calendar className="h-4 w-4 mr-2" />
                   Date Range
                 </Button>
-                <Button variant="gradient" size="sm" className="rounded-xl">
+                <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
                   <Filter className="h-4 w-4 mr-2" />
                   Filter
                 </Button>
-                <Button variant="gradient" size="sm" className="rounded-xl">
+                <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Refresh
                 </Button>
               </div>
               
-              <Button variant="gradient" className="rounded-xl shadow-glow hover:shadow-xl transition-all duration-300">
+              <Button className="gradient-primary shadow-glow hover:shadow-xl transition-all duration-300">
                 <Download className="h-4 w-4 mr-2" />
                 Export Report
               </Button>

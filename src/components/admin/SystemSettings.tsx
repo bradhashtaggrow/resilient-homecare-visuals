@@ -86,21 +86,21 @@ const SystemSettings: React.FC<SystemSettingsProps> = ({ syncStatus = 'disconnec
               <TabsList className="grid w-full grid-cols-3 bg-transparent gap-2">
                 <TabsTrigger 
                   value="configuration" 
-                  className="glass border-0 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-light data-[state=active]:text-white font-apple rounded-xl"
+                  className="glass border-0 data-[state=active]:btn-3d-gradient data-[state=active]:text-white font-apple"
                 >
                   <Settings className="h-4 w-4 mr-2" />
                   Configuration
                 </TabsTrigger>
                 <TabsTrigger 
                   value="security" 
-                  className="glass border-0 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-light data-[state=active]:text-white font-apple rounded-xl"
+                  className="glass border-0 data-[state=active]:btn-3d-gradient data-[state=active]:text-white font-apple"
                 >
                   <Shield className="h-4 w-4 mr-2" />
                   Security
                 </TabsTrigger>
                 <TabsTrigger 
                   value="monitoring" 
-                  className="glass border-0 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-light data-[state=active]:text-white font-apple rounded-xl"
+                  className="glass border-0 data-[state=active]:btn-3d-gradient data-[state=active]:text-white font-apple"
                 >
                   <BarChart3 className="h-4 w-4 mr-2" />
                   Monitoring

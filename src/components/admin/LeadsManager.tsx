@@ -284,75 +284,75 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
             </Card>
           </div>
           <div className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
-            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
+            <Card className="glass border-0 shadow-glow hover:shadow-chart-3/25 transition-all duration-300 group hover:scale-105">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground mb-2">New</p>
-                    <p className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">{stats.new}</p>
+                    <p className="text-3xl font-bold bg-gradient-to-r from-chart-3 to-chart-4 bg-clip-text text-transparent">{stats.new}</p>
                   </div>
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/10 group-hover:from-primary/20 group-hover:to-primary-light/20 transition-all duration-300">
-                    <Star className="h-8 w-8 text-primary" />
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-3/10 to-chart-3/20 group-hover:from-chart-3/20 group-hover:to-chart-3/30 transition-all duration-300">
+                    <Star className="h-8 w-8 text-chart-3" />
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
           <div className="animate-scale-in" style={{ animationDelay: '0.3s' }}>
-            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
+            <Card className="glass border-0 shadow-glow hover:shadow-chart-4/25 transition-all duration-300 group hover:scale-105">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground mb-2">Qualified</p>
-                    <p className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">{stats.qualified}</p>
+                    <p className="text-3xl font-bold bg-gradient-to-r from-chart-4 to-chart-5 bg-clip-text text-transparent">{stats.qualified}</p>
                   </div>
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/10 group-hover:from-primary/20 group-hover:to-primary-light/20 transition-all duration-300">
-                    <Target className="h-8 w-8 text-primary" />
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-4/10 to-chart-4/20 group-hover:from-chart-4/20 group-hover:to-chart-4/30 transition-all duration-300">
+                    <Target className="h-8 w-8 text-chart-4" />
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
           <div className="animate-scale-in" style={{ animationDelay: '0.4s' }}>
-            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
+            <Card className="glass border-0 shadow-glow hover:shadow-chart-5/25 transition-all duration-300 group hover:scale-105">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground mb-2">Demo Scheduled</p>
-                    <p className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">{stats.demo_scheduled}</p>
+                    <p className="text-3xl font-bold bg-gradient-to-r from-chart-5 to-chart-1 bg-clip-text text-transparent">{stats.demo_scheduled}</p>
                   </div>
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/10 group-hover:from-primary/20 group-hover:to-primary-light/20 transition-all duration-300">
-                    <Calendar className="h-8 w-8 text-primary" />
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-5/10 to-chart-5/20 group-hover:from-chart-5/20 group-hover:to-chart-5/30 transition-all duration-300">
+                    <Calendar className="h-8 w-8 text-chart-5" />
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
           <div className="animate-scale-in" style={{ animationDelay: '0.5s' }}>
-            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
+            <Card className="glass border-0 shadow-glow hover:shadow-success/25 transition-all duration-300 group hover:scale-105">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground mb-2">Closed Won</p>
-                    <p className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">{stats.closed_won}</p>
+                    <p className="text-3xl font-bold text-success">{stats.closed_won}</p>
                   </div>
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/10 group-hover:from-primary/20 group-hover:to-primary-light/20 transition-all duration-300">
-                    <TrendingUp className="h-8 w-8 text-primary" />
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-success/10 to-success/20 group-hover:from-success/20 group-hover:to-success/30 transition-all duration-300">
+                    <TrendingUp className="h-8 w-8 text-success" />
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
           <div className="animate-scale-in" style={{ animationDelay: '0.6s' }}>
-            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
+            <Card className="glass border-0 shadow-glow hover:shadow-destructive/25 transition-all duration-300 group hover:scale-105">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground mb-2">Closed Lost</p>
-                    <p className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">{stats.closed_lost}</p>
+                    <p className="text-3xl font-bold text-destructive">{stats.closed_lost}</p>
                   </div>
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/10 group-hover:from-primary/20 group-hover:to-primary-light/20 transition-all duration-300">
-                    <StarOff className="h-8 w-8 text-primary" />
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-destructive/10 to-destructive/20 group-hover:from-destructive/20 group-hover:to-destructive/30 transition-all duration-300">
+                    <StarOff className="h-8 w-8 text-destructive" />
                   </div>
                 </div>
               </CardContent>

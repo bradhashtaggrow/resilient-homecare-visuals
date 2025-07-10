@@ -146,14 +146,14 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
         
         <NotificationDropdown />
         
-        <Button size="sm" variant="gradient" className="rounded-xl font-apple">
+        <Button size="sm" className="btn-3d-gradient font-apple">
           <Save className="h-4 w-4 mr-2" />
           Save Changes
         </Button>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="gradient" size="sm" className="flex items-center space-x-2 rounded-xl">
+            <Button variant="ghost" size="sm" className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                 <User className="h-4 w-4 text-white" />
               </div>

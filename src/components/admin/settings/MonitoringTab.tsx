@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -45,7 +44,7 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
       trend: -2.3,
       status: 'good',
       icon: Zap,
-      color: 'primary'
+      color: 'chart-1'
     },
     {
       title: 'Memory Usage',
@@ -53,7 +52,7 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
       trend: 1.8,
       status: 'good',
       icon: Database,
-      color: 'primary'
+      color: 'chart-2'
     },
     {
       title: 'Active Sessions',
@@ -61,7 +60,7 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
       trend: 5.2,
       status: 'good',
       icon: Users,
-      color: 'primary'
+      color: 'chart-3'
     },
     {
       title: 'Response Time',
@@ -69,13 +68,13 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
       trend: -12.5,
       status: 'excellent',
       icon: Clock,
-      color: 'primary'
+      color: 'success'
     }
   ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'excellent': return 'text-primary';
+      case 'excellent': return 'text-success';
       case 'good': return 'text-primary';
       case 'warning': return 'text-warning';
       case 'critical': return 'text-destructive';
@@ -84,8 +83,8 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
   };
 
   const getTrendIcon = (trend: number) => {
-    if (trend > 0) return <TrendingUp className="h-3 w-3 text-primary" />;
-    if (trend < 0) return <TrendingDown className="h-3 w-3 text-primary" />;
+    if (trend > 0) return <TrendingUp className="h-3 w-3 text-success" />;
+    if (trend < 0) return <TrendingDown className="h-3 w-3 text-destructive" />;
     return <div className="h-3 w-3" />;
   };
 
@@ -93,7 +92,7 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
     switch (type) {
       case 'configuration_update': return <CheckCircle className="h-4 w-4 text-primary" />;
       case 'security_update': return <AlertTriangle className="h-4 w-4 text-warning" />;
-      case 'user_login': return <Users className="h-4 w-4 text-primary" />;
+      case 'user_login': return <Users className="h-4 w-4 text-success" />;
       case 'system_error': return <AlertTriangle className="h-4 w-4 text-destructive" />;
       default: return <Activity className="h-4 w-4 text-muted-foreground" />;
     }
@@ -114,7 +113,7 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
                 <p className="text-sm text-muted-foreground">Real-time performance and activity monitoring</p>
               </div>
             </div>
-            <Button onClick={onRefresh} variant="gradient" size="sm" className="rounded-xl">
+            <Button onClick={onRefresh} variant="outline" size="sm">
               <RefreshCw className="h-4 w-4 mr-2" />
               Refresh Data
             </Button>
@@ -132,8 +131,8 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <Icon className="h-5 w-5 text-primary" />
+                      <div className={`p-2 rounded-lg bg-${metric.color}/10`}>
+                        <Icon className={`h-5 w-5 text-${metric.color}`} />
                       </div>
                       <div>
                         <CardTitle className="text-sm font-medium text-muted-foreground">{metric.title}</CardTitle>
@@ -144,7 +143,7 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
                     </div>
                     <div className="flex items-center gap-1">
                       {getTrendIcon(metric.trend)}
-                      <span className={`text-xs ${metric.trend > 0 ? 'text-primary' : metric.trend < 0 ? 'text-primary' : 'text-muted-foreground'}`}>
+                      <span className={`text-xs ${metric.trend > 0 ? 'text-success' : metric.trend < 0 ? 'text-destructive' : 'text-muted-foreground'}`}>
                         {Math.abs(metric.trend)}%
                       </span>
                     </div>
@@ -219,10 +218,10 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
 
       {/* System Health Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="glass border-0 shadow-glow border-primary/20 bg-primary/5">
+        <Card className="glass border-0 shadow-glow border-success/20 bg-success/5">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
-              <CheckCircle className="h-5 w-5 text-primary" />
+              <CheckCircle className="h-5 w-5 text-success" />
               <CardTitle className="text-lg font-semibold">Database Health</CardTitle>
             </div>
           </CardHeader>
@@ -230,11 +229,11 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm">Connection Pool</span>
-                <Badge className="bg-primary text-white">Optimal</Badge>
+                <Badge className="bg-success text-white">Optimal</Badge>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Query Performance</span>
-                <Badge className="bg-primary text-white">Fast</Badge>
+                <Badge className="bg-success text-white">Fast</Badge>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Storage Usage</span>
@@ -255,24 +254,24 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm">Response Time</span>
-                <Badge className="bg-primary text-white">Excellent</Badge>
+                <Badge className="bg-success text-white">Excellent</Badge>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Error Rate</span>
-                <Badge className="bg-primary text-white">0.01%</Badge>
+                <Badge className="bg-success text-white">0.01%</Badge>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Uptime</span>
-                <Badge className="bg-primary text-white">99.9%</Badge>
+                <Badge className="bg-success text-white">99.9%</Badge>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="glass border-0 shadow-glow border-primary/20 bg-primary/5">
+        <Card className="glass border-0 shadow-glow border-chart-3/20 bg-chart-3/5">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
-              <Users className="h-5 w-5 text-primary" />
+              <Users className="h-5 w-5 text-chart-3" />
               <CardTitle className="text-lg font-semibold">User Activity</CardTitle>
             </div>
           </CardHeader>
@@ -280,7 +279,7 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm">Active Users</span>
-                <Badge className="bg-primary text-white">{metrics.totalUsers}</Badge>
+                <Badge className="bg-chart-3 text-white">{metrics.totalUsers}</Badge>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Sessions Today</span>
@@ -288,7 +287,7 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Avg Session Time</span>
-                <Badge className="bg-primary text-white">12 min</Badge>
+                <Badge className="bg-success text-white">12 min</Badge>
               </div>
             </div>
           </CardContent>

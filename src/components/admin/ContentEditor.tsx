@@ -232,7 +232,7 @@ const ContentEditor: React.FC<ContentEditorProps> = ({ content, onContentChange,
               Last saved: {lastSaved.toLocaleTimeString()}
             </span>
           )}
-          <Button variant="gradient" onClick={handlePreview} className="rounded-xl">
+          <Button variant="outline" onClick={handlePreview} className="border-blue-200 text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50">
             <Eye className="h-4 w-4 mr-2" />
             Preview Website
           </Button>
