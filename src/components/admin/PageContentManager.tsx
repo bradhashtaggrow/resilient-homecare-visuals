@@ -293,8 +293,10 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       
       // About
       'about_hero': 'Hero Section',
+      'about_why_choose': 'Why Choose Resilient',
+      'about_for_hospitals': 'For Hospitals',
+      'about_for_clinicians': 'For Clinicians',
       'about_values': 'Our Core Values',
-      'about_team': 'Meet Our Team',
       'about_footer': 'Footer',
       
       // Clinicians
