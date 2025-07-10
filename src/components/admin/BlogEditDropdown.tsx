@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,8 +32,40 @@ interface BlogEditDropdownProps {
 const BlogEditDropdown: React.FC<BlogEditDropdownProps> = ({ children, post, onSave }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [editedPost, setEditedPost] = useState<Partial<BlogPost>>({});
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const triggerRef = useRef<HTMLDivElement>(null);
 
-  const handleOpen = () => {
+  const handleOpen = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+      
+      // Position dropdown to the right of the button, or center if not enough space
+      const windowWidth = window.innerWidth;
+      const dropdownWidth = 800; // Expected dropdown width
+      
+      let left = rect.right + scrollLeft + 10; // 10px gap from button
+      
+      // If dropdown would go off screen, position it to the left of the button
+      if (left + dropdownWidth > windowWidth) {
+        left = rect.left + scrollLeft - dropdownWidth - 10;
+      }
+      
+      // If still off screen, center it
+      if (left < 0) {
+        left = (windowWidth - dropdownWidth) / 2;
+      }
+      
+      setPosition({
+        top: rect.top + scrollTop,
+        left: left
+      });
+    }
+    
     setIsOpen(true);
     setEditedPost({
       title: post.title,
@@ -67,16 +99,30 @@ const BlogEditDropdown: React.FC<BlogEditDropdownProps> = ({ children, post, onS
 
   return (
     <>
-      <div onClick={handleOpen}>
+      <div ref={triggerRef} onClick={handleOpen}>
         {children}
       </div>
       
       {isOpen && (
-        <div 
-          className="fixed inset-0 flex items-center justify-center p-2 sm:p-4 z-50 bg-black/50 backdrop-blur-sm"
-          onClick={handleBackdropClick}
-        >
-          <Card className="border-orange-200 bg-white shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+            onClick={handleBackdropClick}
+          />
+          
+          {/* Dropdown positioned relative to trigger */}
+          <div 
+            className="fixed z-50"
+            style={{
+              top: `${position.top}px`,
+              left: `${position.left}px`,
+              maxHeight: '80vh',
+              width: '800px',
+              maxWidth: 'calc(100vw - 20px)'
+            }}
+          >
+            <Card className="border-orange-200 bg-white shadow-2xl overflow-auto max-h-[80vh]">
             {/* Close button */}
             <button
               onClick={handleClose}
@@ -215,8 +261,9 @@ const BlogEditDropdown: React.FC<BlogEditDropdownProps> = ({ children, post, onS
                 </Button>
               </div>
             </CardContent>
-          </Card>
-        </div>
+            </Card>
+          </div>
+        </>
       )}
     </>
   );
