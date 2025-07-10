@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import ImageUpload from './ImageUpload';
 import { 
   Plus, 
   Edit, 
@@ -503,7 +504,11 @@ const BlogManager: React.FC = () => {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => startEditingPost(post)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          startEditingPost(post);
+                        }}
                         className="border-blue-200 text-blue-600 hover:bg-blue-50"
                       >
                         <Edit className="h-4 w-4" />
@@ -580,15 +585,11 @@ const BlogManager: React.FC = () => {
                   </div>
                 </div>
 
-                <div>
-                  <Label className="text-orange-700">Featured Image URL</Label>
-                  <Input
-                    value={editedPost.featured_image_url || ''}
-                    onChange={(e) => setEditedPost({...editedPost, featured_image_url: e.target.value})}
-                    placeholder="https://example.com/image.jpg"
-                    className="border-orange-200 focus:border-orange-400"
-                  />
-                </div>
+                <ImageUpload
+                  currentImageUrl={editedPost.featured_image_url || ''}
+                  onImageUploaded={(url) => setEditedPost({...editedPost, featured_image_url: url})}
+                  onImageRemoved={() => setEditedPost({...editedPost, featured_image_url: ''})}
+                />
 
                 <div>
                   <Label className="text-orange-700">Excerpt</Label>
@@ -700,16 +701,22 @@ const BlogManager: React.FC = () => {
                 </div>
               </div>
 
-              <div>
-                <Label className="text-blue-700">Excerpt</Label>
-                <Textarea
-                  value={newPost.excerpt || ''}
-                  onChange={(e) => setNewPost({...newPost, excerpt: e.target.value})}
-                  placeholder="Brief excerpt or summary"
-                  rows={2}
-                  className="border-blue-200 focus:border-blue-400"
+                <ImageUpload
+                  currentImageUrl={newPost.featured_image_url || ''}
+                  onImageUploaded={(url) => setNewPost({...newPost, featured_image_url: url})}
+                  onImageRemoved={() => setNewPost({...newPost, featured_image_url: ''})}
                 />
-              </div>
+
+                <div>
+                  <Label className="text-blue-700">Excerpt</Label>
+                  <Textarea
+                    value={newPost.excerpt || ''}
+                    onChange={(e) => setNewPost({...newPost, excerpt: e.target.value})}
+                    placeholder="Brief excerpt or summary"
+                    rows={2}
+                    className="border-blue-200 focus:border-blue-400"
+                  />
+                </div>
 
               <div>
                 <Label className="text-blue-700">Content</Label>
