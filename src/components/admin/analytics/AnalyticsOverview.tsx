@@ -101,7 +101,7 @@ export const AnalyticsOverview = () => {
       title: "Active Users",
       value: stats.currentActiveUsers.toLocaleString(),
       icon: Activity,
-      gradient: "from-success to-success/80",
+      gradient: "from-primary to-primary-light",
       change: "+12%",
       changeType: "positive",
       pulse: true
@@ -118,7 +118,7 @@ export const AnalyticsOverview = () => {
       title: "Page Views",
       value: stats.totalPageViews.toLocaleString(),
       icon: Eye,
-      gradient: "from-chart-1 to-chart-1/80",
+      gradient: "from-primary to-primary-light",
       change: "+15%",
       changeType: "positive"
     },
@@ -126,7 +126,7 @@ export const AnalyticsOverview = () => {
       title: "Avg. Session",
       value: formatDuration(stats.avgSessionDuration),
       icon: Clock,
-      gradient: "from-warning to-warning/80",
+      gradient: "from-primary to-primary-light",
       change: "-2%",
       changeType: "negative"
     },
@@ -134,7 +134,7 @@ export const AnalyticsOverview = () => {
       title: "Bounce Rate",
       value: `${stats.bounceRate}%`,
       icon: MousePointer,
-      gradient: "from-destructive to-destructive/80",
+      gradient: "from-primary to-primary-light",
       change: "-5%",
       changeType: "positive"
     },
@@ -142,7 +142,7 @@ export const AnalyticsOverview = () => {
       title: "Unique Visitors",
       value: stats.uniqueVisitors.toLocaleString(),
       icon: TrendingUp,
-      gradient: "from-info to-info/80",
+      gradient: "from-primary to-primary-light",
       change: "+18%",
       changeType: "positive"
     }
