@@ -28,7 +28,8 @@ import {
   Tag,
   Globe,
   Wifi,
-  WifiOff
+  WifiOff,
+  Star
 } from 'lucide-react';
 
 interface BlogPost {
@@ -906,147 +907,192 @@ const BlogManager: React.FC = () => {
 
       {/* Edit Post Modal - Outside tabs so it's always visible */}
       {editingPost && (
-        <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50/30 mt-6 fixed inset-4 z-50 overflow-auto">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-orange-900">Edit Blog Post</CardTitle>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={cancelEditingPost}
-                className="border-gray-300 text-gray-600 hover:bg-gray-50"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label className="text-orange-700">Title</Label>
-                <Input
-                  value={editedPost.title || ''}
-                  onChange={(e) => setEditedPost({...editedPost, title: e.target.value})}
-                  placeholder="Blog post title"
-                  className="border-orange-200 focus:border-orange-400"
-                />
-              </div>
-              <div>
-                <Label className="text-orange-700">Author</Label>
-                <Input
-                  value={editedPost.author || ''}
-                  onChange={(e) => setEditedPost({...editedPost, author: e.target.value})}
-                  placeholder="Author name"
-                  className="border-orange-200 focus:border-orange-400"
-                />
-              </div>
-            </div>
-
-            <ImageUpload
-              currentImageUrl={editedPost.featured_image_url || ''}
-              onImageUploaded={(url) => setEditedPost({...editedPost, featured_image_url: url})}
-              onImageRemoved={() => setEditedPost({...editedPost, featured_image_url: ''})}
-            />
-
-            <div>
-              <Label className="text-orange-700">Excerpt</Label>
-              <Textarea
-                value={editedPost.excerpt || ''}
-                onChange={(e) => setEditedPost({...editedPost, excerpt: e.target.value})}
-                placeholder="Brief excerpt or summary"
-                rows={2}
-                className="border-orange-200 focus:border-orange-400"
-              />
-            </div>
-
-            <div>
-              <Label className="text-orange-700">Content</Label>
-              <Textarea
-                value={editedPost.content || ''}
-                onChange={(e) => setEditedPost({...editedPost, content: e.target.value})}
-                placeholder="Blog post content..."
-                rows={10}
-                className="border-orange-200 focus:border-orange-400"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <Label className="text-orange-700">Category</Label>
-                <Select 
-                  value={editedPost.category || 'healthcare'} 
-                  onValueChange={(value) => setEditedPost({...editedPost, category: value})}
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <Card className="w-full max-w-4xl max-h-[90vh] overflow-auto bg-white shadow-2xl">
+            <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-white text-xl">Edit Blog Post</CardTitle>
+                  <CardDescription className="text-orange-100">
+                    Make changes to your blog post content
+                  </CardDescription>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={cancelEditingPost}
+                  className="text-white hover:bg-white/20"
                 >
-                  <SelectTrigger className="border-orange-200">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="healthcare">Healthcare</SelectItem>
-                    <SelectItem value="ai">AI & Technology</SelectItem>
-                    <SelectItem value="telemedicine">Telemedicine</SelectItem>
-                    <SelectItem value="news">News</SelectItem>
-                    <SelectItem value="insights">Insights</SelectItem>
-                  </SelectContent>
-                </Select>
+                  <X className="h-5 w-5" />
+                </Button>
               </div>
-              <div>
-                <Label className="text-orange-700">Slug</Label>
-                <Input
-                  value={editedPost.slug || ''}
-                  onChange={(e) => setEditedPost({...editedPost, slug: e.target.value})}
-                  placeholder="url-friendly-slug"
-                  className="border-orange-200 focus:border-orange-400"
-                />
-              </div>
-              <div>
-                <Label className="text-orange-700">Tags</Label>
-                <Input
-                  value={editedPost.tags?.join(', ') || ''}
-                  onChange={(e) => setEditedPost({...editedPost, tags: e.target.value.split(',').map(tag => tag.trim()).filter(Boolean)})}
-                  placeholder="tag1, tag2, tag3"
-                  className="border-orange-200 focus:border-orange-400"
-                />
-              </div>
-            </div>
+            </CardHeader>
+            
+            <CardContent className="p-6 space-y-6">
+              {/* Image Preview Section */}
+              {editedPost.featured_image_url && (
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <Label className="text-sm font-medium text-gray-700 mb-2 block">Current Featured Image</Label>
+                  <img 
+                    src={editedPost.featured_image_url} 
+                    alt={editedPost.title || 'Featured image'}
+                    className="w-full max-w-md h-48 object-cover rounded-lg border shadow-sm"
+                  />
+                </div>
+              )}
 
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="published"
-                  checked={editedPost.is_published || false}
-                  onCheckedChange={(checked) => setEditedPost({...editedPost, is_published: checked as boolean})}
+              {/* Image Upload Section */}
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <Label className="text-sm font-medium text-blue-700 mb-2 block">Featured Image</Label>
+                <ImageUpload
+                  currentImageUrl={editedPost.featured_image_url || ''}
+                  onImageUploaded={(url) => setEditedPost({...editedPost, featured_image_url: url})}
+                  onImageRemoved={() => setEditedPost({...editedPost, featured_image_url: ''})}
                 />
-                <Label htmlFor="published" className="text-orange-700">Published</Label>
               </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="featured"
-                  checked={editedPost.is_featured || false}
-                  onCheckedChange={(checked) => setEditedPost({...editedPost, is_featured: checked as boolean})}
-                />
-                <Label htmlFor="featured" className="text-orange-700">Featured</Label>
-              </div>
-            </div>
 
-            <div className="flex justify-end space-x-2">
-              <Button 
-                onClick={saveEditedPost}
-                className="bg-orange-600 hover:bg-orange-700 text-white"
-              >
-                <Save className="h-4 w-4 mr-2" />
-                Save Changes
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={cancelEditingPost}
-                className="border-gray-300 text-gray-600 hover:bg-gray-50"
-              >
-                <X className="h-4 w-4 mr-2" />
-                Cancel
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+              {/* Basic Information */}
+              <div className="bg-gray-50 p-4 rounded-lg border">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Basic Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium text-gray-700">Title *</Label>
+                    <Input
+                      value={editedPost.title || ''}
+                      onChange={(e) => setEditedPost({...editedPost, title: e.target.value})}
+                      placeholder="Enter blog post title"
+                      className="mt-1 border-gray-300 focus:border-orange-400 focus:ring-orange-400"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-gray-700">Author</Label>
+                    <Input
+                      value={editedPost.author || ''}
+                      onChange={(e) => setEditedPost({...editedPost, author: e.target.value})}
+                      placeholder="Author name"
+                      className="mt-1 border-gray-300 focus:border-orange-400 focus:ring-orange-400"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Content Section */}
+              <div className="bg-gray-50 p-4 rounded-lg border">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Content</h3>
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-sm font-medium text-gray-700">Excerpt</Label>
+                    <Textarea
+                      value={editedPost.excerpt || ''}
+                      onChange={(e) => setEditedPost({...editedPost, excerpt: e.target.value})}
+                      placeholder="Brief description or summary of the post"
+                      rows={3}
+                      className="mt-1 border-gray-300 focus:border-orange-400 focus:ring-orange-400"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-gray-700">Content *</Label>
+                    <Textarea
+                      value={editedPost.content || ''}
+                      onChange={(e) => setEditedPost({...editedPost, content: e.target.value})}
+                      placeholder="Write your blog post content here..."
+                      rows={12}
+                      className="mt-1 border-gray-300 focus:border-orange-400 focus:ring-orange-400 font-mono text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Metadata Section */}
+              <div className="bg-gray-50 p-4 rounded-lg border">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Metadata & Settings</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <div>
+                    <Label className="text-sm font-medium text-gray-700">Category</Label>
+                    <Select 
+                      value={editedPost.category || 'healthcare'} 
+                      onValueChange={(value) => setEditedPost({...editedPost, category: value})}
+                    >
+                      <SelectTrigger className="mt-1 border-gray-300 focus:border-orange-400">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="healthcare">Healthcare</SelectItem>
+                        <SelectItem value="ai">AI & Technology</SelectItem>
+                        <SelectItem value="telemedicine">Telemedicine</SelectItem>
+                        <SelectItem value="news">News</SelectItem>
+                        <SelectItem value="insights">Insights</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-gray-700">URL Slug</Label>
+                    <Input
+                      value={editedPost.slug || ''}
+                      onChange={(e) => setEditedPost({...editedPost, slug: e.target.value})}
+                      placeholder="url-friendly-slug"
+                      className="mt-1 border-gray-300 focus:border-orange-400 focus:ring-orange-400"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-gray-700">Tags</Label>
+                    <Input
+                      value={editedPost.tags?.join(', ') || ''}
+                      onChange={(e) => setEditedPost({...editedPost, tags: e.target.value.split(',').map(tag => tag.trim()).filter(Boolean)})}
+                      placeholder="tag1, tag2, tag3"
+                      className="mt-1 border-gray-300 focus:border-orange-400 focus:ring-orange-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Status Toggles */}
+                <div className="flex items-center gap-6 p-4 bg-white rounded-lg border">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="published"
+                      checked={editedPost.is_published || false}
+                      onCheckedChange={(checked) => setEditedPost({...editedPost, is_published: checked as boolean})}
+                    />
+                    <Label htmlFor="published" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Eye className="h-4 w-4 mr-1 text-green-600" />
+                      Published
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="featured"
+                      checked={editedPost.is_featured || false}
+                      onCheckedChange={(checked) => setEditedPost({...editedPost, is_featured: checked as boolean})}
+                    />
+                    <Label htmlFor="featured" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Star className="h-4 w-4 mr-1 text-yellow-500" />
+                      Featured
+                    </Label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-3 pt-4 border-t">
+                <Button 
+                  variant="outline" 
+                  onClick={cancelEditingPost}
+                  className="border-gray-300 text-gray-600 hover:bg-gray-50"
+                >
+                  <X className="h-4 w-4 mr-2" />
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={saveEditedPost}
+                  className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
+                >
+                  <Save className="h-4 w-4 mr-2" />
+                  Save Changes
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );
