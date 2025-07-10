@@ -40,7 +40,7 @@ export const AnalyticsHeader = () => {
                 </div>
                 <div>
                   <h1 className="text-4xl font-bold tracking-tight gradient-text">
-                    Analytics Command Center
+                    Analytics
                   </h1>
                   <div className="flex items-center gap-4 mt-2">
                     <p className="text-muted-foreground text-lg">
