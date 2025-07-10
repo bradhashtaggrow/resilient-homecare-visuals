@@ -1,4 +1,5 @@
 import React from 'react';
+import { BarChart3 } from 'lucide-react';
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -37,10 +38,24 @@ interface AnalyticsData {
 }
 
 interface StunningChartsProps {
-  data: AnalyticsData;
+  data: AnalyticsData | null;
 }
 
 const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
+  // Early return if no data
+  if (!data) {
+    return (
+      <div className="h-80 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto">
+            <BarChart3 className="w-8 h-8 text-muted-foreground" />
+          </div>
+          <p className="text-sm text-muted-foreground">No analytics data available</p>
+          <p className="text-xs text-muted-foreground">Data will appear as analytics are collected</p>
+        </div>
+      </div>
+    );
+  }
   // Hourly Traffic Line Chart
   const hourlyTrafficData = {
     labels: data.hourlyTraffic.map(d => `${d.hour}:00`),
