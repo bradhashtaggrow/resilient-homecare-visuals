@@ -25,13 +25,46 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   trend,
   animationDelay = '0s'
 }) => {
+  // Map color names to actual Tailwind classes
+  const getColorClasses = (colorName: string) => {
+    const colorMap = {
+      'chart-1': {
+        bg: 'from-blue-500/10 to-blue-600/20 group-hover:from-blue-500/20 group-hover:to-blue-600/30',
+        text: 'text-blue-600'
+      },
+      'chart-2': {
+        bg: 'from-emerald-500/10 to-emerald-600/20 group-hover:from-emerald-500/20 group-hover:to-emerald-600/30',
+        text: 'text-emerald-600'
+      },
+      'chart-3': {
+        bg: 'from-purple-500/10 to-purple-600/20 group-hover:from-purple-500/20 group-hover:to-purple-600/30',
+        text: 'text-purple-600'
+      },
+      'chart-4': {
+        bg: 'from-orange-500/10 to-orange-600/20 group-hover:from-orange-500/20 group-hover:to-orange-600/30',
+        text: 'text-orange-600'
+      },
+      'primary': {
+        bg: 'from-primary/10 to-primary/20 group-hover:from-primary/20 group-hover:to-primary/30',
+        text: 'text-primary'
+      }
+    };
+    
+    return colorMap[colorName as keyof typeof colorMap] || {
+      bg: 'from-primary/10 to-primary/20 group-hover:from-primary/20 group-hover:to-primary/30',
+      text: 'text-primary'
+    };
+  };
+
+  const colorClasses = getColorClasses(color);
+
   return (
     <div className="animate-scale-in" style={{ animationDelay }}>
       <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <div className={`p-3 rounded-xl bg-gradient-to-br from-${color}/10 to-${color}/20 group-hover:from-${color}/20 group-hover:to-${color}/30 transition-all duration-300`}>
-              <Icon className={`h-6 w-6 text-${color}`} />
+            <div className={`p-3 rounded-xl bg-gradient-to-br ${colorClasses.bg} transition-all duration-300`}>
+              <Icon className={`h-6 w-6 ${colorClasses.text}`} />
             </div>
             <div className="text-right">
               <CardTitle className="text-sm font-medium text-muted-foreground mb-2">{title}</CardTitle>
