@@ -496,10 +496,10 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-black font-apple">
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">
             {selectedPage.charAt(0).toUpperCase() + selectedPage.slice(1).replace('-', ' ')} Page Content
           </h2>
-          <p className="text-blue-600 font-apple">Manage content sections, media, and settings</p>
+          <p className="text-lg text-muted-foreground">Manage content sections, media, and settings</p>
         </div>
         <div className="flex items-center space-x-2">
           {getSyncStatusIcon()}
