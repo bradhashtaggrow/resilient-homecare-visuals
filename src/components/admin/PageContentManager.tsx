@@ -512,7 +512,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
 
       <div className="w-full">
 
-        <TabsContent value="content" className="space-y-6 admin-scrollbar max-h-[calc(100vh-12rem)] overflow-y-auto bg-white p-4 rounded-lg">
+        <div className="space-y-6 admin-scrollbar max-h-[calc(100vh-12rem)] overflow-y-auto bg-white p-4 rounded-lg">
           <div className="grid gap-6">
             {content.map((section) => (
               <Card key={section.id} className="overflow-hidden">
@@ -1256,7 +1256,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
               </CardContent>
             </Card>
           )}
-        </TabsContent>
+        </div>
 
       </div>
     </div>
