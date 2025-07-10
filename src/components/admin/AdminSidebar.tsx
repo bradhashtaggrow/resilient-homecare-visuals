@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Sidebar, 
@@ -85,7 +84,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
 
   const renderMenuGroup = (title: string, items: typeof mainMenuItems) => (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-sm font-bold text-foreground uppercase tracking-wider font-apple mb-2">
+      <SidebarGroupLabel className="text-lg font-bold text-foreground uppercase tracking-wider font-apple mb-3 px-2">
         {title}
       </SidebarGroupLabel>
       <SidebarGroupContent>
