@@ -171,13 +171,10 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Live Website Preview</CardTitle>
-        </CardHeader>
         <CardContent className="p-0">
           <div className={`${isFullscreen ? 'fixed inset-0 z-50 bg-white' : 'relative'}`}>
             {isFullscreen && (
-              <div className="flex justify-between items-center p-4 border-b">
+              <div className="flex justify-between items-center p-4 border-b bg-white">
                 <h3 className="text-lg font-semibold">Website Preview</h3>
                 <Button
                   variant="outline"
@@ -188,10 +185,10 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
               </div>
             )}
             
-            <div className={`${isFullscreen ? 'h-full' : 'h-[600px]'} w-full relative overflow-hidden bg-gray-50`}>
+            <div className={`${isFullscreen ? 'h-full' : 'h-[800px]'} w-full relative overflow-hidden bg-white`}>
               {/* Loading overlay */}
               {isLoading && (
-                <div className="absolute inset-0 bg-gray-50 flex items-center justify-center z-10">
+                <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
                   <div className="text-center">
                     <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
                     <p className="text-gray-600">Loading website preview...</p>
@@ -209,7 +206,9 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
                 loading="lazy"
                 style={{ 
                   opacity: isLoading ? 0 : 1,
-                  transition: 'opacity 0.3s ease-in-out'
+                  transition: 'opacity 0.3s ease-in-out',
+                  transform: 'scale(1)',
+                  transformOrigin: 'top left'
                 }}
               />
             </div>
@@ -219,7 +218,6 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
 
       <div className="text-center text-sm text-gray-500">
         <p>Changes to website content will appear here automatically.</p>
-        <p>Manual refresh available if needed.</p>
       </div>
     </div>
   );
