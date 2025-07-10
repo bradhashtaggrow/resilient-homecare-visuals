@@ -82,9 +82,7 @@ const BlogManager: React.FC = () => {
     is_active: true
   });
   const [activeTab, setActiveTab] = useState('posts');
-  const [isGenerating, setIsGenerating] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
-  const [aiPrompt, setAiPrompt] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -219,61 +217,6 @@ const BlogManager: React.FC = () => {
     }
   };
 
-  const generateAIPost = async () => {
-    if (!aiPrompt.trim()) {
-      toast({
-        title: "Missing AI prompt",
-        description: "Please enter a prompt for AI generation",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    try {
-      setIsGenerating(true);
-      
-      const response = await fetch('https://iwgtwzpygoyohocbgqgm.supabase.co/functions/v1/generate-blog-post', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3Z3R3enB5Z295b2hvY2JncWdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1NTM4OTksImV4cCI6MjA2NzEyOTg5OX0.qAe2WDhB0K3r71mKwAFBXL9_gc2sPn8XwgM6mAS9iyI`
-        },
-        body: JSON.stringify({ prompt: aiPrompt })
-      });
-
-      if (!response.ok) throw new Error('Failed to generate blog post');
-      
-      const { title, content, excerpt, tags } = await response.json();
-      
-      setNewPost({
-        title,
-        content,
-        excerpt,
-        author: 'Resilient Healthcare AI',
-        category: 'healthcare',
-        tags: tags || [],
-        source: 'ai_generated',
-        is_published: false,
-        is_featured: false
-      });
-
-      setAiPrompt('');
-      
-      toast({
-        title: "AI blog post generated",
-        description: "Review and edit the generated content before publishing",
-      });
-    } catch (error) {
-      console.error('Error generating AI post:', error);
-      toast({
-        title: "Error generating blog post",
-        description: "Failed to generate AI blog post",
-        variant: "destructive"
-      });
-    } finally {
-      setIsGenerating(false);
-    }
-  };
 
   const saveFeed = async () => {
     try {
@@ -519,47 +462,6 @@ const BlogManager: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="create" className="space-y-6">
-          <Card className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
-            <CardHeader>
-              <CardTitle className="text-blue-900 flex items-center gap-2">
-                <Sparkles className="h-5 w-5" />
-                AI-Generated Blog Post
-              </CardTitle>
-              <CardDescription className="text-blue-600">
-                Generate healthcare and AI-focused blog content automatically
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label className="text-blue-700">AI Prompt</Label>
-                <Textarea
-                  value={aiPrompt}
-                  onChange={(e) => setAiPrompt(e.target.value)}
-                  placeholder="Write a blog post about the latest developments in AI-powered healthcare diagnostics..."
-                  rows={3}
-                  className="border-blue-200 focus:border-blue-400"
-                />
-              </div>
-              <Button 
-                onClick={generateAIPost} 
-                disabled={isGenerating || !aiPrompt.trim()}
-                className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
-              >
-                {isGenerating ? (
-                  <>
-                    <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4 mr-2" />
-                    Generate Blog Post
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-
           <Card className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
             <CardHeader>
               <CardTitle className="text-blue-900">Create Blog Post</CardTitle>
