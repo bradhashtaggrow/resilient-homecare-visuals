@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import MediaLibrary from './MediaLibrary';
+
 import { 
   Edit3, 
   Save, 
@@ -510,17 +510,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="content" className="flex items-center gap-2">
-            <Edit3 className="h-4 w-4" />
-            Content Management
-          </TabsTrigger>
-          <TabsTrigger value="media" className="flex items-center gap-2">
-            <Image className="h-4 w-4" />
-            Media Library
-          </TabsTrigger>
-        </TabsList>
+      <div className="w-full">
 
         <TabsContent value="content" className="space-y-6 admin-scrollbar max-h-[calc(100vh-12rem)] overflow-y-auto bg-white p-4 rounded-lg">
           <div className="grid gap-6">
@@ -1268,10 +1258,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
           )}
         </TabsContent>
 
-        <TabsContent value="media">
-          <MediaLibrary />
-        </TabsContent>
-      </Tabs>
+      </div>
     </div>
   );
 };
