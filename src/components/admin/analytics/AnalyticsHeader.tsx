@@ -89,7 +89,7 @@ export const AnalyticsHeader: React.FC<AnalyticsHeaderProps> = ({
               </div>
               
               <div className="flex items-center gap-4">
-                <Badge className="bg-success/10 text-success border-success/20 hover:bg-success/20">
+                <Badge className="bg-success/10 text-black border-success/20 hover:bg-success/20">
                   <div className="w-2 h-2 bg-success rounded-full mr-2 animate-pulse"></div>
                   Live Data
                 </Badge>
