@@ -28,6 +28,7 @@ interface SecuritySettings {
 interface SystemConfiguration {
   id?: string;
   siteName: string;
+  siteLogo: string;
   maintenance: boolean;
   debugMode: boolean;
   cacheEnabled: boolean;
@@ -69,6 +70,7 @@ export const useRealTimeSystemSettings = () => {
 
   const [config, setConfig] = useState<SystemConfiguration>({
     siteName: 'Healthcare Platform',
+    siteLogo: '/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png',
     maintenance: false,
     debugMode: false,
     cacheEnabled: true,
@@ -103,6 +105,7 @@ export const useRealTimeSystemSettings = () => {
         setConfig({
           id: configData.id,
           siteName: configData.site_name,
+          siteLogo: configData.site_logo,
           maintenance: configData.maintenance_mode,
           debugMode: configData.debug_mode,
           cacheEnabled: configData.cache_enabled,
@@ -229,6 +232,7 @@ export const useRealTimeSystemSettings = () => {
     try {
       const updateData = {
         site_name: newConfig.siteName,
+        site_logo: newConfig.siteLogo,
         maintenance_mode: newConfig.maintenance,
         debug_mode: newConfig.debugMode,
         cache_enabled: newConfig.cacheEnabled,

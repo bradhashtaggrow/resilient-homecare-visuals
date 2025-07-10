@@ -6,10 +6,12 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Settings, Globe, Database, Zap, Mail, Shield } from 'lucide-react';
+import { Settings, Globe, Database, Zap, Mail, Shield, Upload, Image } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface SystemConfiguration {
   siteName: string;
+  siteLogo: string;
   maintenance: boolean;
   debugMode: boolean;
   cacheEnabled: boolean;
@@ -39,6 +41,12 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
           label: 'Site Name',
           type: 'text',
           description: 'Display name for the healthcare platform'
+        },
+        {
+          key: 'siteLogo' as keyof SystemConfiguration,
+          label: 'Site Logo',
+          type: 'logo',
+          description: 'Upload and manage the site logo displayed in navigation'
         },
         {
           key: 'maintenance' as keyof SystemConfiguration,
@@ -100,6 +108,25 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
     }
   ];
 
+  const handleLogoUpload = async (file: File) => {
+    try {
+      const fileName = `logo-${Date.now()}.${file.name.split('.').pop()}`;
+      const { data, error } = await supabase.storage
+        .from('media')
+        .upload(fileName, file);
+
+      if (error) throw error;
+
+      const { data: urlData } = supabase.storage
+        .from('media')
+        .getPublicUrl(fileName);
+
+      onConfigUpdate({ siteLogo: urlData.publicUrl });
+    } catch (error) {
+      console.error('Error uploading logo:', error);
+    }
+  };
+
   const renderSetting = (setting: any) => {
     const value = config[setting.key];
 
@@ -151,6 +178,54 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
               </SelectContent>
             </Select>
             <p className="text-xs text-muted-foreground">{setting.description}</p>
+          </div>
+        );
+
+      case 'logo':
+        return (
+          <div className="space-y-4">
+            <Label className="text-sm font-medium">{setting.label}</Label>
+            
+            {/* Current Logo Preview */}
+            <div className="flex items-center gap-4 p-4 border-2 border-dashed border-muted rounded-lg">
+              <div className="flex-shrink-0">
+                <img 
+                  src={value as string} 
+                  alt="Current site logo" 
+                  className="h-12 w-auto object-contain rounded"
+                  onError={(e) => {
+                    e.currentTarget.src = '/placeholder.svg';
+                  }}
+                />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium">Current Logo</p>
+                <p className="text-xs text-muted-foreground break-all">{value}</p>
+              </div>
+            </div>
+
+            {/* Upload New Logo */}
+            <div className="space-y-2">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    handleLogoUpload(file);
+                  }
+                }}
+                className="hidden"
+                id="logo-upload"
+              />
+              <Label htmlFor="logo-upload" className="cursor-pointer">
+                <div className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-primary/20 rounded-lg hover:border-primary/40 transition-colors">
+                  <Upload className="h-4 w-4" />
+                  <span className="text-sm">Upload New Logo</span>
+                </div>
+              </Label>
+              <p className="text-xs text-muted-foreground">{setting.description}</p>
+            </div>
           </div>
         );
       

@@ -570,6 +570,7 @@ export type Database = {
           email_notifications: boolean
           id: string
           maintenance_mode: boolean
+          site_logo: string | null
           site_name: string
           updated_at: string
         }
@@ -581,6 +582,7 @@ export type Database = {
           email_notifications?: boolean
           id?: string
           maintenance_mode?: boolean
+          site_logo?: string | null
           site_name?: string
           updated_at?: string
         }
@@ -592,6 +594,7 @@ export type Database = {
           email_notifications?: boolean
           id?: string
           maintenance_mode?: boolean
+          site_logo?: string | null
           site_name?: string
           updated_at?: string
         }
