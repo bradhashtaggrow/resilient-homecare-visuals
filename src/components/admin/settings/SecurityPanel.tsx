@@ -92,15 +92,15 @@ export const SecurityPanel: React.FC<SecurityPanelProps> = ({ security, onSecuri
   return (
     <div className="space-y-6">
       {/* Security Overview */}
-      <Card className="glass border-0 shadow-glow">
+      <Card className="glass border-0 shadow-glow gradient-card">
         <CardHeader className="pb-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-success/10">
-              <Shield className="h-5 w-5 text-success" />
+            <div className="p-2 rounded-lg gradient-primary">
+              <Shield className="h-5 w-5 text-white" />
             </div>
             <div>
-              <CardTitle className="text-xl font-semibold">Security Center</CardTitle>
-              <p className="text-sm text-muted-foreground">Manage authentication and access controls</p>
+              <CardTitle className="text-xl font-semibold gradient-text font-apple">Security Center</CardTitle>
+              <p className="text-sm text-muted-foreground font-apple">Manage authentication and access controls</p>
             </div>
           </div>
         </CardHeader>
@@ -112,21 +112,23 @@ export const SecurityPanel: React.FC<SecurityPanelProps> = ({ security, onSecuri
           const Icon = metric.icon;
           return (
             <div key={metric.title} className="animate-scale-in" style={{ animationDelay: `${index * 0.1}s` }}>
-              <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300">
+              <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 gradient-card group hover:scale-105">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <Icon className="h-5 w-5 text-muted-foreground" />
-                      <CardTitle className="text-sm font-medium">{metric.title}</CardTitle>
+                      <div className="p-2 rounded-lg gradient-primary group-hover:opacity-90 transition-all duration-300">
+                        <Icon className="h-5 w-5 text-white" />
+                      </div>
+                      <CardTitle className="text-sm font-medium text-foreground font-apple">{metric.title}</CardTitle>
                     </div>
                     {getStatusIcon(metric.status)}
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <div className={`text-2xl font-bold mb-1 ${getStatusColor(metric.status)}`}>
+                  <div className={`text-2xl font-bold mb-1 gradient-text font-apple ${getStatusColor(metric.status)}`}>
                     {metric.value}
                   </div>
-                  <p className="text-xs text-muted-foreground">{metric.description}</p>
+                  <p className="text-xs text-muted-foreground font-apple">{metric.description}</p>
                 </CardContent>
               </Card>
             </div>
@@ -136,24 +138,24 @@ export const SecurityPanel: React.FC<SecurityPanelProps> = ({ security, onSecuri
 
       {/* Security Features */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="glass border-0 shadow-glow">
+        <Card className="glass border-0 shadow-glow gradient-card">
           <CardHeader className="pb-4">
-            <CardTitle className="text-lg font-semibold">Authentication Settings</CardTitle>
+            <CardTitle className="text-lg font-semibold gradient-text font-apple">Authentication Settings</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {securityFeatures.map((feature) => (
-              <div key={feature.title} className="p-4 glass border-0 rounded-xl">
+              <div key={feature.title} className="p-4 glass border-0 rounded-xl gradient-card">
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <Label className="text-sm font-medium">{feature.title}</Label>
+                      <Label className="text-sm font-medium text-foreground font-apple">{feature.title}</Label>
                       {feature.critical && (
-                        <Badge variant="outline" className="text-xs bg-warning/10 text-warning border-warning/20">
+                        <Badge variant="outline" className="text-xs bg-warning/10 text-warning border-warning/20 font-apple">
                           Critical
                         </Badge>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground">{feature.description}</p>
+                    <p className="text-xs text-muted-foreground font-apple">{feature.description}</p>
                   </div>
                   <Switch
                     checked={feature.enabled}
@@ -165,46 +167,48 @@ export const SecurityPanel: React.FC<SecurityPanelProps> = ({ security, onSecuri
           </CardContent>
         </Card>
 
-        <Card className="glass border-0 shadow-glow">
+        <Card className="glass border-0 shadow-glow gradient-card">
           <CardHeader className="pb-4">
-            <CardTitle className="text-lg font-semibold">Access Controls</CardTitle>
+            <CardTitle className="text-lg font-semibold gradient-text font-apple">Access Controls</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="p-4 glass border-0 rounded-xl">
+            <div className="p-4 glass border-0 rounded-xl gradient-card">
               <div className="space-y-3">
-                <Label className="text-sm font-medium">Session Timeout (minutes)</Label>
+                <Label className="text-sm font-medium text-foreground font-apple">Session Timeout (minutes)</Label>
                 <Input
                   type="number"
                   value={security.sessionTimeout}
                   onChange={(e) => onSecurityUpdate({ sessionTimeout: parseInt(e.target.value) || 30 })}
                   min={5}
                   max={180}
+                  className="font-apple"
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground font-apple">
                   Users will be logged out after this period of inactivity
                 </p>
               </div>
             </div>
 
-            <div className="p-4 glass border-0 rounded-xl">
+            <div className="p-4 glass border-0 rounded-xl gradient-card">
               <div className="space-y-3">
-                <Label className="text-sm font-medium">Maximum Login Attempts</Label>
+                <Label className="text-sm font-medium text-foreground font-apple">Maximum Login Attempts</Label>
                 <Input
                   type="number"
                   value={security.loginAttempts}
                   onChange={(e) => onSecurityUpdate({ loginAttempts: parseInt(e.target.value) || 5 })}
                   min={3}
                   max={10}
+                  className="font-apple"
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground font-apple">
                   Account locks after this many failed login attempts
                 </p>
               </div>
             </div>
 
-            <div className="p-4 glass border-0 rounded-xl">
+            <div className="p-4 glass border-0 rounded-xl gradient-card">
               <div className="space-y-3">
-                <Label className="text-sm font-medium">Minimum Password Length</Label>
+                <Label className="text-sm font-medium text-foreground font-apple">Minimum Password Length</Label>
                 <Input
                   type="number"
                   value={security.passwordPolicy.minLength}
@@ -216,8 +220,9 @@ export const SecurityPanel: React.FC<SecurityPanelProps> = ({ security, onSecuri
                   })}
                   min={6}
                   max={32}
+                  className="font-apple"
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground font-apple">
                   Minimum characters required for user passwords
                 </p>
               </div>
@@ -227,11 +232,11 @@ export const SecurityPanel: React.FC<SecurityPanelProps> = ({ security, onSecuri
       </div>
 
       {/* Security Recommendations */}
-      <Card className="glass border-0 shadow-glow border-warning/20 bg-warning/5">
+      <Card className="glass border-0 shadow-glow border-warning/20 bg-warning/5 gradient-card">
         <CardHeader className="pb-4">
           <div className="flex items-center gap-3">
             <AlertTriangle className="h-5 w-5 text-warning" />
-            <CardTitle className="text-lg font-semibold">Security Recommendations</CardTitle>
+            <CardTitle className="text-lg font-semibold gradient-text font-apple">Security Recommendations</CardTitle>
           </div>
         </CardHeader>
         <CardContent>
@@ -239,22 +244,22 @@ export const SecurityPanel: React.FC<SecurityPanelProps> = ({ security, onSecuri
             <div className="flex items-start gap-3">
               <CheckCircle className="h-4 w-4 text-success mt-0.5" />
               <div>
-                <p className="text-sm font-medium">Enable Two-Factor Authentication</p>
-                <p className="text-xs text-muted-foreground">Add an extra layer of security for admin accounts</p>
+                <p className="text-sm font-medium text-foreground font-apple">Enable Two-Factor Authentication</p>
+                <p className="text-xs text-muted-foreground font-apple">Add an extra layer of security for admin accounts</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <CheckCircle className="h-4 w-4 text-success mt-0.5" />
               <div>
-                <p className="text-sm font-medium">Regular Password Updates</p>
-                <p className="text-xs text-muted-foreground">Encourage users to update passwords regularly</p>
+                <p className="text-sm font-medium text-foreground font-apple">Regular Password Updates</p>
+                <p className="text-xs text-muted-foreground font-apple">Encourage users to update passwords regularly</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <CheckCircle className="h-4 w-4 text-success mt-0.5" />
               <div>
-                <p className="text-sm font-medium">Monitor Login Activity</p>
-                <p className="text-xs text-muted-foreground">Review access logs and suspicious activities</p>
+                <p className="text-sm font-medium text-foreground font-apple">Monitor Login Activity</p>
+                <p className="text-xs text-muted-foreground font-apple">Review access logs and suspicious activities</p>
               </div>
             </div>
           </div>
