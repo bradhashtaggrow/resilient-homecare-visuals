@@ -29,7 +29,8 @@ import {
   Globe,
   Wifi,
   WifiOff
-} from 'lucide-react';
+ } from 'lucide-react';
+import EditPostModal from './EditPostModal';
 
 interface BlogPost {
   id: string;
@@ -67,6 +68,7 @@ const BlogManager: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [editingPost, setEditingPost] = useState<string | null>(null);
   const [editedPost, setEditedPost] = useState<Partial<BlogPost>>({});
+  const [editTriggerRef, setEditTriggerRef] = useState<HTMLButtonElement | null>(null);
   
   // Debug logging for edit state
   console.log('Current editingPost state:', editingPost);
@@ -224,9 +226,10 @@ const BlogManager: React.FC = () => {
     }
   };
 
-  const startEditingPost = (post: BlogPost) => {
+  const startEditingPost = (post: BlogPost, buttonRef: HTMLButtonElement) => {
     console.log('startEditingPost called with post:', post.id, post.title);
     setEditingPost(post.id);
+    setEditTriggerRef(buttonRef);
     setEditedPost({
       title: post.title,
       content: post.content,
@@ -244,6 +247,7 @@ const BlogManager: React.FC = () => {
   const cancelEditingPost = () => {
     setEditingPost(null);
     setEditedPost({});
+    setEditTriggerRef(null);
   };
 
   const saveEditedPost = async () => {
@@ -286,6 +290,7 @@ const BlogManager: React.FC = () => {
 
       setEditingPost(null);
       setEditedPost({});
+      setEditTriggerRef(null);
     } catch (error) {
       console.error('Error updating blog post:', error);
       toast({
@@ -540,7 +545,7 @@ const BlogManager: React.FC = () => {
                             e.preventDefault();
                             e.stopPropagation();
                             console.log('Edit button clicked for post:', post.id);
-                            startEditingPost(post);
+                            startEditingPost(post, e.currentTarget);
                           }}
                           className="border-blue-200 text-blue-600 hover:bg-blue-50 relative z-10"
                           style={{ pointerEvents: 'auto' }}
@@ -642,7 +647,7 @@ const BlogManager: React.FC = () => {
                            e.preventDefault();
                            e.stopPropagation();
                            console.log('RSS Edit button clicked for post:', post.id);
-                           startEditingPost(post);
+                           startEditingPost(post, e.currentTarget);
                          }}
                          className="border-orange-200 text-orange-600 hover:bg-orange-50 relative z-10"
                          style={{ pointerEvents: 'auto' }}
@@ -904,151 +909,16 @@ const BlogManager: React.FC = () => {
         </TabsContent>
       </Tabs>
 
-      {/* Edit Post Modal - Outside tabs so it's always visible */}
+      {/* Edit Post Modal - Replace old modal with new component */}
       {editingPost && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50/30 w-full max-w-4xl max-h-[90vh] overflow-auto">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-orange-900">Edit Blog Post</CardTitle>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={cancelEditingPost}
-                className="border-gray-300 text-gray-600 hover:bg-gray-50"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label className="text-orange-700">Title</Label>
-                <Input
-                  value={editedPost.title || ''}
-                  onChange={(e) => setEditedPost({...editedPost, title: e.target.value})}
-                  placeholder="Blog post title"
-                  className="border-orange-200 focus:border-orange-400"
-                />
-              </div>
-              <div>
-                <Label className="text-orange-700">Author</Label>
-                <Input
-                  value={editedPost.author || ''}
-                  onChange={(e) => setEditedPost({...editedPost, author: e.target.value})}
-                  placeholder="Author name"
-                  className="border-orange-200 focus:border-orange-400"
-                />
-              </div>
-            </div>
-
-            <ImageUpload
-              currentImageUrl={editedPost.featured_image_url || ''}
-              onImageUploaded={(url) => setEditedPost({...editedPost, featured_image_url: url})}
-              onImageRemoved={() => setEditedPost({...editedPost, featured_image_url: ''})}
-            />
-
-            <div>
-              <Label className="text-orange-700">Excerpt</Label>
-              <Textarea
-                value={editedPost.excerpt || ''}
-                onChange={(e) => setEditedPost({...editedPost, excerpt: e.target.value})}
-                placeholder="Brief excerpt or summary"
-                rows={2}
-                className="border-orange-200 focus:border-orange-400"
-              />
-            </div>
-
-            <div>
-              <Label className="text-orange-700">Content</Label>
-              <Textarea
-                value={editedPost.content || ''}
-                onChange={(e) => setEditedPost({...editedPost, content: e.target.value})}
-                placeholder="Blog post content..."
-                rows={10}
-                className="border-orange-200 focus:border-orange-400"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <Label className="text-orange-700">Category</Label>
-                <Select 
-                  value={editedPost.category || 'healthcare'} 
-                  onValueChange={(value) => setEditedPost({...editedPost, category: value})}
-                >
-                  <SelectTrigger className="border-orange-200">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="healthcare">Healthcare</SelectItem>
-                    <SelectItem value="ai">AI & Technology</SelectItem>
-                    <SelectItem value="telemedicine">Telemedicine</SelectItem>
-                    <SelectItem value="news">News</SelectItem>
-                    <SelectItem value="insights">Insights</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label className="text-orange-700">Slug</Label>
-                <Input
-                  value={editedPost.slug || ''}
-                  onChange={(e) => setEditedPost({...editedPost, slug: e.target.value})}
-                  placeholder="url-friendly-slug"
-                  className="border-orange-200 focus:border-orange-400"
-                />
-              </div>
-              <div>
-                <Label className="text-orange-700">Tags</Label>
-                <Input
-                  value={editedPost.tags?.join(', ') || ''}
-                  onChange={(e) => setEditedPost({...editedPost, tags: e.target.value.split(',').map(tag => tag.trim()).filter(Boolean)})}
-                  placeholder="tag1, tag2, tag3"
-                  className="border-orange-200 focus:border-orange-400"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="published"
-                  checked={editedPost.is_published || false}
-                  onCheckedChange={(checked) => setEditedPost({...editedPost, is_published: checked as boolean})}
-                />
-                <Label htmlFor="published" className="text-orange-700">Published</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="featured"
-                  checked={editedPost.is_featured || false}
-                  onCheckedChange={(checked) => setEditedPost({...editedPost, is_featured: checked as boolean})}
-                />
-                <Label htmlFor="featured" className="text-orange-700">Featured</Label>
-              </div>
-            </div>
-
-            <div className="flex justify-end space-x-2">
-              <Button 
-                onClick={saveEditedPost}
-                className="bg-orange-600 hover:bg-orange-700 text-white"
-              >
-                <Save className="h-4 w-4 mr-2" />
-                Save Changes
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={cancelEditingPost}
-                className="border-gray-300 text-gray-600 hover:bg-gray-50"
-              >
-                <X className="h-4 w-4 mr-2" />
-                Cancel
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-        </div>
+        <EditPostModal
+          post={blogPosts.find(p => p.id === editingPost)!}
+          editedPost={editedPost}
+          setEditedPost={setEditedPost}
+          onSave={saveEditedPost}
+          onCancel={cancelEditingPost}
+          triggerRef={editTriggerRef}
+        />
       )}
     </div>
   );
