@@ -480,7 +480,7 @@ const BlogManager: React.FC = () => {
 
           <div className="grid gap-4">
             {blogPosts.map((post) => (
-              <Card key={post.id} className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
+              <Card key={post.id} className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30 pointer-events-auto">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -524,15 +524,22 @@ const BlogManager: React.FC = () => {
                         </Badge>
                       ))}
                     </div>
-                     <div className="flex items-center gap-2">
-                       <Button
-                         variant="outline"
-                         size="sm"
-                         onClick={() => startEditingPost(post)}
-                         className="border-blue-200 text-blue-600 hover:bg-blue-50"
-                       >
-                         <Edit className="h-4 w-4" />
-                       </Button>
+                     <div className="flex items-center gap-2 relative z-10"
+                          style={{ pointerEvents: 'auto' }}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('Edit button clicked for post:', post.id);
+                            startEditingPost(post);
+                          }}
+                          className="border-blue-200 text-blue-600 hover:bg-blue-50 relative z-10"
+                          style={{ pointerEvents: 'auto' }}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
                       <Button
                         variant="outline"
                         size="sm"
@@ -745,16 +752,22 @@ const BlogManager: React.FC = () => {
                         </Badge>
                       ))}
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => startEditingPost(post)}
-                        className="border-orange-200 text-orange-600 hover:bg-orange-50"
-                      >
-                        <Edit className="h-4 w-4" />
-                        Edit
-                      </Button>
+                     <div className="flex items-center gap-2 relative z-10" style={{ pointerEvents: 'auto' }}>
+                       <Button
+                         variant="outline"
+                         size="sm"
+                         onClick={(e) => {
+                           e.preventDefault();
+                           e.stopPropagation();
+                           console.log('RSS Edit button clicked for post:', post.id);
+                           startEditingPost(post);
+                         }}
+                         className="border-orange-200 text-orange-600 hover:bg-orange-50 relative z-10"
+                         style={{ pointerEvents: 'auto' }}
+                       >
+                         <Edit className="h-4 w-4" />
+                         Edit
+                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
