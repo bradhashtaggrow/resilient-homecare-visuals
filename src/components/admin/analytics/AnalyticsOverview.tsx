@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -101,7 +102,6 @@ export const AnalyticsOverview = () => {
       title: "Active Users",
       value: stats.currentActiveUsers.toLocaleString(),
       icon: Activity,
-      gradient: "from-primary to-primary-light",
       change: "+12%",
       changeType: "positive",
       pulse: true
@@ -110,7 +110,6 @@ export const AnalyticsOverview = () => {
       title: "Total Sessions", 
       value: stats.totalSessions.toLocaleString(),
       icon: Globe,
-      gradient: "from-primary to-primary-light",
       change: "+8%",
       changeType: "positive"
     },
@@ -118,7 +117,6 @@ export const AnalyticsOverview = () => {
       title: "Page Views",
       value: stats.totalPageViews.toLocaleString(),
       icon: Eye,
-      gradient: "from-primary to-primary-light",
       change: "+15%",
       changeType: "positive"
     },
@@ -126,7 +124,6 @@ export const AnalyticsOverview = () => {
       title: "Avg. Session",
       value: formatDuration(stats.avgSessionDuration),
       icon: Clock,
-      gradient: "from-primary to-primary-light",
       change: "-2%",
       changeType: "negative"
     },
@@ -134,7 +131,6 @@ export const AnalyticsOverview = () => {
       title: "Bounce Rate",
       value: `${stats.bounceRate}%`,
       icon: MousePointer,
-      gradient: "from-primary to-primary-light",
       change: "-5%",
       changeType: "positive"
     },
@@ -142,7 +138,6 @@ export const AnalyticsOverview = () => {
       title: "Unique Visitors",
       value: stats.uniqueVisitors.toLocaleString(),
       icon: TrendingUp,
-      gradient: "from-primary to-primary-light",
       change: "+18%",
       changeType: "positive"
     }
@@ -157,12 +152,9 @@ export const AnalyticsOverview = () => {
         return (
           <Card 
             key={metric.title} 
-            className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
+            className="glass border-0 shadow-glow hover:shadow-xl transition-all duration-300 group cursor-pointer"
             style={{ animationDelay: `${index * 0.1}s` }}
           >
-            {/* Gradient background */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${metric.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`}></div>
-            
             {/* Content */}
             <CardContent className="relative p-6">
               <div className="flex items-start justify-between">
@@ -176,7 +168,7 @@ export const AnalyticsOverview = () => {
                     )}
                   </div>
                   
-                  <p className="text-3xl font-bold tracking-tight">
+                  <p className="text-3xl font-bold tracking-tight text-foreground">
                     {loading ? (
                       <div className="w-16 h-8 bg-muted rounded animate-pulse"></div>
                     ) : (
@@ -198,8 +190,8 @@ export const AnalyticsOverview = () => {
                 </div>
                 
                 {/* Icon with gradient background */}
-                <div className={`p-4 rounded-2xl bg-gradient-to-br ${metric.gradient} shadow-lg`}>
-                  <Icon className="h-6 w-6 text-white" />
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/10 to-primary-light/10 shadow-lg">
+                  <Icon className="h-6 w-6 text-primary" />
                 </div>
               </div>
               
