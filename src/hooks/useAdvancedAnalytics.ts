@@ -31,6 +31,8 @@ export const useAdvancedAnalytics = () => {
   const pageStartTime = useRef<Date>(new Date());
   const scrollDepthRef = useRef<number>(0);
   const geolocationRef = useRef<GeolocationData | null>(null);
+  const isInitialized = useRef<boolean>(false);
+  const cleanupRef = useRef<(() => void) | null>(null);
 
   // Get or create session ID
   const getSessionId = useCallback(() => {
@@ -138,6 +140,11 @@ export const useAdvancedAnalytics = () => {
   // Track any event with enhanced data
   const trackEvent = useCallback(async (event: TrackingEvent) => {
     try {
+      // Skip if in development and HMR is active
+      if (process.env.NODE_ENV === 'development' && (window as any).__vite_plugin_react_preamble_installed__) {
+        return;
+      }
+
       const sessionId = getSessionId();
       const geoData = await getGeolocation();
       const deviceInfo = getDeviceInfo();
@@ -301,55 +308,98 @@ export const useAdvancedAnalytics = () => {
 
   // Set up global event listeners
   useEffect(() => {
+    // Prevent multiple initializations during HMR
+    if (isInitialized.current) {
+      return;
+    }
+
+    // Skip analytics in development mode during HMR
+    if (process.env.NODE_ENV === 'development' && (window as any).__vite_plugin_react_preamble_installed__) {
+      return;
+    }
+
+    isInitialized.current = true;
+
+    // Clean up previous listeners if they exist
+    if (cleanupRef.current) {
+      cleanupRef.current();
+    }
+
     // Track page view on route change
     trackPageView();
 
     // Track clicks on all interactive elements
     const handleClick = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (target && (target.tagName === 'BUTTON' || target.tagName === 'A' || target.onclick)) {
-        trackClick(target, {
-          mouse_position: { x: event.clientX, y: event.clientY }
-        });
+      try {
+        const target = event.target as HTMLElement;
+        if (target && (target.tagName === 'BUTTON' || target.tagName === 'A' || target.onclick)) {
+          trackClick(target, {
+            mouse_position: { x: event.clientX, y: event.clientY }
+          });
+        }
+      } catch (error) {
+        console.warn('Analytics click tracking error:', error);
       }
     };
 
     // Track scroll depth
     const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = window.scrollY;
-      const scrollDepth = Math.round((scrolled / scrollHeight) * 100);
-      trackScrollDepth(scrollDepth);
+      try {
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = window.scrollY;
+        const scrollDepth = Math.round((scrolled / scrollHeight) * 100);
+        trackScrollDepth(scrollDepth);
+      } catch (error) {
+        console.warn('Analytics scroll tracking error:', error);
+      }
     };
 
     // Track time on page intervals
-    const timeInterval = setInterval(trackTimeOnPage, 30000); // Every 30 seconds
+    const timeInterval = setInterval(() => {
+      try {
+        trackTimeOnPage();
+      } catch (error) {
+        console.warn('Analytics time tracking error:', error);
+      }
+    }, 30000); // Every 30 seconds
 
     // Track before page unload
     const handleBeforeUnload = () => {
-      trackTimeOnPage();
+      try {
+        trackTimeOnPage();
+      } catch (error) {
+        console.warn('Analytics unload tracking error:', error);
+      }
     };
 
     // Track visibility change
     const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        trackTimeOnPage();
+      try {
+        if (document.visibilityState === 'hidden') {
+          trackTimeOnPage();
+        }
+      } catch (error) {
+        console.warn('Analytics visibility tracking error:', error);
       }
     };
 
     // Track mouse movement (sampled)
     let mouseMoveCount = 0;
     const handleMouseMove = (event: MouseEvent) => {
-      mouseMoveCount++;
-      if (mouseMoveCount % 100 === 0) { // Sample every 100th movement
-        trackEvent({
-          event_type: 'interaction',
-          event_name: 'Mouse Movement',
-          mouse_position: { x: event.clientX, y: event.clientY },
-          properties: {
-            movement_count: mouseMoveCount
-          }
-        });
+      try {
+        mouseMoveCount++;
+        if (mouseMoveCount % 100 === 0) { // Sample every 100th movement
+          trackEvent({
+            event_type: 'interaction',
+            event_name: 'Mouse Movement',
+            mouse_position: { x: event.clientX, y: event.clientY },
+            properties: {
+              movement_count: mouseMoveCount
+            }
+          });
+        }
+      } catch (error) {
+        console.warn('Analytics mouse tracking error:', error);
       }
     };
 
@@ -360,7 +410,8 @@ export const useAdvancedAnalytics = () => {
     document.addEventListener('visibilitychange', handleVisibilityChange);
     document.addEventListener('mousemove', handleMouseMove);
 
-    return () => {
+    // Store cleanup function
+    const cleanup = () => {
       document.removeEventListener('click', handleClick);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('beforeunload', handleBeforeUnload);
@@ -368,7 +419,22 @@ export const useAdvancedAnalytics = () => {
       document.removeEventListener('mousemove', handleMouseMove);
       clearInterval(timeInterval);
     };
-  }, [location.pathname, trackPageView, trackClick, trackScrollDepth, trackTimeOnPage, trackEvent]);
+
+    cleanupRef.current = cleanup;
+
+    return cleanup;
+  }, [location.pathname]); // Remove other dependencies to prevent re-runs during HMR
+
+  // Reset initialization flag when component unmounts completely
+  useEffect(() => {
+    return () => {
+      isInitialized.current = false;
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
+    };
+  }, []);
 
   return {
     trackEvent,
