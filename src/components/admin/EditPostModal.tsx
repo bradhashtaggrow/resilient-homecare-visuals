@@ -33,25 +33,31 @@ const EditPostModal: React.FC<EditPostModalProps> = ({
   onSave,
   onCancel
 }) => {
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onCancel();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center z-50 pt-4">
-      <div className="w-full max-w-4xl h-fit bg-white rounded-lg shadow-2xl overflow-hidden">
+    <div 
+      className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/50"
+      onClick={handleBackdropClick}
+      style={{ paddingTop: '60px' }}
+    >
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-y-auto relative">
+        {/* Close button */}
+        <button
+          onClick={onCancel}
+          className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center z-10 transition-all duration-200"
+        >
+          <X className="h-4 w-4 text-gray-600" />
+        </button>
+        
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 rounded-t-lg">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-white text-xl font-bold">Edit Blog Post</h2>
-              <p className="text-orange-100">Make changes to your blog post content</p>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onCancel}
-              className="text-white hover:bg-white/20"
-            >
-              <X className="h-5 w-5" />
-            </Button>
-          </div>
+        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 rounded-t-3xl">
+          <h2 className="text-xl font-bold">Edit Blog Post</h2>
+          <p className="text-orange-100">Make changes to your blog post content</p>
         </div>
 
         {/* Content */}
