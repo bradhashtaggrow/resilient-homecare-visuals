@@ -31,28 +31,36 @@ export const useAdvancedAnalytics = () => {
   const pageStartTime = useRef<Date>(new Date());
   const scrollDepthRef = useRef<number>(0);
   const geolocationRef = useRef<GeolocationData | null>(null);
+  const isInitializedRef = useRef<boolean>(false);
 
-  // Get or create session ID
+  // Get or create session ID with error handling
   const getSessionId = useCallback(() => {
-    if (!sessionRef.current) {
-      let sessionId = sessionStorage.getItem('analytics_session_id');
-      if (!sessionId) {
-        sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-        sessionStorage.setItem('analytics_session_id', sessionId);
+    try {
+      if (!sessionRef.current) {
+        let sessionId = sessionStorage.getItem('analytics_session_id');
+        if (!sessionId) {
+          sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+          sessionStorage.setItem('analytics_session_id', sessionId);
+        }
+        sessionRef.current = sessionId;
       }
-      sessionRef.current = sessionId;
+      return sessionRef.current;
+    } catch (error) {
+      console.warn('SessionStorage not available, using temporary session ID:', error);
+      if (!sessionRef.current) {
+        sessionRef.current = `temp_session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      }
+      return sessionRef.current;
     }
-    return sessionRef.current;
   }, []);
 
-  // Get geolocation data from IP
+  // Get geolocation data with better error handling
   const getGeolocation = useCallback(async () => {
     if (geolocationRef.current) return geolocationRef.current;
     
     try {
-      // Using ipapi.co for IP geolocation (free tier)
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 3000); // Reduced timeout
       
       const response = await fetch('https://ipapi.co/json/', {
         signal: controller.signal,
@@ -80,9 +88,10 @@ export const useAdvancedAnalytics = () => {
       };
       
       geolocationRef.current = geoData;
+      console.log('Geolocation data loaded successfully:', geoData);
       return geoData;
     } catch (error) {
-      // Set fallback data to prevent repeated requests
+      console.warn('Geolocation service failed, using fallback:', error);
       const fallbackData: GeolocationData = {
         country: 'Unknown',
         city: 'Unknown',
@@ -92,57 +101,73 @@ export const useAdvancedAnalytics = () => {
       };
       
       geolocationRef.current = fallbackData;
-      console.warn('Geolocation service unavailable, using fallback data');
       return fallbackData;
     }
   }, []);
 
-  // Enhanced device detection
+  // Enhanced device detection with error handling
   const getDeviceInfo = useCallback(() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    
-    let deviceType = 'desktop';
-    if (/tablet|ipad|playbook|silk/i.test(userAgent)) {
-      deviceType = 'tablet';
-    } else if (/mobile|iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(userAgent)) {
-      deviceType = 'mobile';
+    try {
+      const userAgent = navigator.userAgent.toLowerCase();
+      
+      let deviceType = 'desktop';
+      if (/tablet|ipad|playbook|silk/i.test(userAgent)) {
+        deviceType = 'tablet';
+      } else if (/mobile|iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(userAgent)) {
+        deviceType = 'mobile';
+      }
+
+      let browser = 'Unknown';
+      if (userAgent.includes('firefox')) browser = 'Firefox';
+      else if (userAgent.includes('chrome')) browser = 'Chrome';
+      else if (userAgent.includes('safari')) browser = 'Safari';
+      else if (userAgent.includes('edge')) browser = 'Edge';
+      else if (userAgent.includes('opera')) browser = 'Opera';
+
+      let os = 'Unknown';
+      if (userAgent.includes('windows')) os = 'Windows';
+      else if (userAgent.includes('mac')) os = 'macOS';
+      else if (userAgent.includes('linux')) os = 'Linux';
+      else if (userAgent.includes('android')) os = 'Android';
+      else if (userAgent.includes('ios')) os = 'iOS';
+
+      return {
+        deviceType,
+        browser,
+        os,
+        screenResolution: `${screen.width}x${screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        colorDepth: screen.colorDepth,
+        language: navigator.language,
+        cookieEnabled: navigator.cookieEnabled,
+        onlineStatus: navigator.onLine
+      };
+    } catch (error) {
+      console.warn('Device info detection failed:', error);
+      return {
+        deviceType: 'unknown',
+        browser: 'unknown',
+        os: 'unknown',
+        screenResolution: 'unknown',
+        viewportSize: 'unknown',
+        colorDepth: 24,
+        language: 'en-US',
+        cookieEnabled: true,
+        onlineStatus: true
+      };
     }
-
-    let browser = 'Unknown';
-    if (userAgent.includes('firefox')) browser = 'Firefox';
-    else if (userAgent.includes('chrome')) browser = 'Chrome';
-    else if (userAgent.includes('safari')) browser = 'Safari';
-    else if (userAgent.includes('edge')) browser = 'Edge';
-    else if (userAgent.includes('opera')) browser = 'Opera';
-
-    let os = 'Unknown';
-    if (userAgent.includes('windows')) os = 'Windows';
-    else if (userAgent.includes('mac')) os = 'macOS';
-    else if (userAgent.includes('linux')) os = 'Linux';
-    else if (userAgent.includes('android')) os = 'Android';
-    else if (userAgent.includes('ios')) os = 'iOS';
-
-    return {
-      deviceType,
-      browser,
-      os,
-      screenResolution: `${screen.width}x${screen.height}`,
-      viewportSize: `${window.innerWidth}x${window.innerHeight}`,
-      colorDepth: screen.colorDepth,
-      language: navigator.language,
-      cookieEnabled: navigator.cookieEnabled,
-      onlineStatus: navigator.onLine
-    };
   }, []);
 
-  // Track any event with enhanced data
+  // Track any event with comprehensive error handling
   const trackEvent = useCallback(async (event: TrackingEvent) => {
     try {
+      console.log('Tracking event:', event.event_name);
+      
       const sessionId = getSessionId();
       const geoData = await getGeolocation();
       const deviceInfo = getDeviceInfo();
       
-      await supabase.from('analytics_events').insert({
+      const { error } = await supabase.from('analytics_events').insert({
         event_type: event.event_type,
         event_name: event.event_name,
         page_url: event.page_url || location.pathname,
@@ -169,60 +194,72 @@ export const useAdvancedAnalytics = () => {
           url_search: location.search
         }
       });
+
+      if (error) {
+        console.warn('Analytics tracking failed:', error);
+      } else {
+        console.log('Event tracked successfully:', event.event_name);
+      }
     } catch (error) {
-      console.error('Error tracking event:', error);
+      console.warn('Error tracking event:', error);
+      // Don't throw - analytics failures shouldn't break the app
     }
   }, [location, getSessionId, getGeolocation, getDeviceInfo]);
 
-  // Track page view with enhanced data
+  // Track page view with improved error handling
   const trackPageView = useCallback(async (customUrl?: string) => {
-    const pageUrl = customUrl || location.pathname;
-    pageStartTime.current = new Date();
-    scrollDepthRef.current = 0;
-
-    await trackEvent({
-      event_type: 'page_view',
-      event_name: 'Page View',
-      page_url: pageUrl,
-      properties: {
-        title: document.title,
-        page_load_time: performance.now(),
-        connection_type: (navigator as any).connection?.effectiveType || 'unknown'
-      }
-    });
-
-    // Update or create session
     try {
-      const sessionId = getSessionId();
-      const geoData = await getGeolocation();
-      const deviceInfo = getDeviceInfo();
+      const pageUrl = customUrl || location.pathname;
+      pageStartTime.current = new Date();
+      scrollDepthRef.current = 0;
 
-      const sessionData = {
-        session_id: sessionId,
-        entry_page: pageUrl,
-        referrer: document.referrer || null,
-        device_type: deviceInfo.deviceType,
-        browser: deviceInfo.browser,
-        os: deviceInfo.os,
-        country: geoData.country,
-        city: geoData.city
-      };
+      console.log('Tracking page view for:', pageUrl);
 
-      // Try to insert, if it fails (duplicate), update instead
-      const { error } = await supabase.from('analytics_sessions').insert(sessionData);
-      
-      if (error && error.code === '23505') {
-        // Session exists, update it
-        await supabase
-          .from('analytics_sessions')
-          .update({ 
-            page_count: 1, // Will be incremented by trigger
-            exit_page: pageUrl 
-          })
-          .eq('session_id', sessionId);
+      await trackEvent({
+        event_type: 'page_view',
+        event_name: 'Page View',
+        page_url: pageUrl,
+        properties: {
+          title: document.title,
+          page_load_time: performance.now(),
+          connection_type: (navigator as any).connection?.effectiveType || 'unknown'
+        }
+      });
+
+      // Update or create session with better error handling
+      try {
+        const sessionId = getSessionId();
+        const geoData = await getGeolocation();
+        const deviceInfo = getDeviceInfo();
+
+        const sessionData = {
+          session_id: sessionId,
+          entry_page: pageUrl,
+          referrer: document.referrer || null,
+          device_type: deviceInfo.deviceType,
+          browser: deviceInfo.browser,
+          os: deviceInfo.os,
+          country: geoData.country,
+          city: geoData.city
+        };
+
+        const { error } = await supabase.from('analytics_sessions').insert(sessionData);
+        
+        if (error && error.code === '23505') {
+          // Session exists, update it
+          await supabase
+            .from('analytics_sessions')
+            .update({ 
+              page_count: 1,
+              exit_page: pageUrl 
+            })
+            .eq('session_id', sessionId);
+        }
+      } catch (sessionError) {
+        console.warn('Session tracking failed:', sessionError);
       }
     } catch (error) {
-      console.error('Error updating session:', error);
+      console.warn('Page view tracking failed:', error);
     }
   }, [location, trackEvent, getSessionId, getGeolocation, getDeviceInfo]);
 
@@ -299,83 +336,144 @@ export const useAdvancedAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // Set up global event listeners
+  // Set up global event listeners with better error handling
   useEffect(() => {
-    // Track page view on route change
-    trackPageView();
+    if (isInitializedRef.current) return;
+    
+    try {
+      console.log('Initializing analytics for:', location.pathname);
+      
+      // Track page view on route change
+      trackPageView();
 
-    // Track clicks on all interactive elements
-    const handleClick = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (target && (target.tagName === 'BUTTON' || target.tagName === 'A' || target.onclick)) {
-        trackClick(target, {
-          mouse_position: { x: event.clientX, y: event.clientY }
-        });
-      }
-    };
-
-    // Track scroll depth
-    const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = window.scrollY;
-      const scrollDepth = Math.round((scrolled / scrollHeight) * 100);
-      trackScrollDepth(scrollDepth);
-    };
-
-    // Track time on page intervals
-    const timeInterval = setInterval(trackTimeOnPage, 30000); // Every 30 seconds
-
-    // Track before page unload
-    const handleBeforeUnload = () => {
-      trackTimeOnPage();
-    };
-
-    // Track visibility change
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        trackTimeOnPage();
-      }
-    };
-
-    // Track mouse movement (sampled)
-    let mouseMoveCount = 0;
-    const handleMouseMove = (event: MouseEvent) => {
-      mouseMoveCount++;
-      if (mouseMoveCount % 100 === 0) { // Sample every 100th movement
-        trackEvent({
-          event_type: 'interaction',
-          event_name: 'Mouse Movement',
-          mouse_position: { x: event.clientX, y: event.clientY },
-          properties: {
-            movement_count: mouseMoveCount
+      // Track clicks with error handling
+      const handleClick = (event: MouseEvent) => {
+        try {
+          const target = event.target as HTMLElement;
+          if (target && (target.tagName === 'BUTTON' || target.tagName === 'A' || target.onclick)) {
+            trackEvent({
+              event_type: 'click',
+              event_name: 'Element Click',
+              element_id: target.id,
+              element_type: target.tagName.toLowerCase(),
+              element_text: target.textContent?.trim() || '',
+              properties: {
+                mouse_position: { x: event.clientX, y: event.clientY }
+              }
+            });
           }
-        });
-      }
-    };
+        } catch (error) {
+          console.warn('Click tracking failed:', error);
+        }
+      };
 
-    // Add event listeners
-    document.addEventListener('click', handleClick);
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    document.addEventListener('mousemove', handleMouseMove);
+      // Track scroll with error handling
+      const handleScroll = () => {
+        try {
+          const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const scrolled = window.scrollY;
+          if (scrollHeight > 0) {
+            const scrollDepth = Math.round((scrolled / scrollHeight) * 100);
+            if (scrollDepth > scrollDepthRef.current) {
+              scrollDepthRef.current = scrollDepth;
+              
+              const milestones = [25, 50, 75, 100];
+              const milestone = milestones.find(m => scrollDepth >= m && scrollDepthRef.current < m);
+              
+              if (milestone) {
+                trackEvent({
+                  event_type: 'scroll',
+                  event_name: `Scroll ${milestone}%`,
+                  scroll_depth: scrollDepth,
+                  time_on_page: Math.floor((Date.now() - pageStartTime.current.getTime()) / 1000)
+                });
+              }
+            }
+          }
+        } catch (error) {
+          console.warn('Scroll tracking failed:', error);
+        }
+      };
 
-    return () => {
-      document.removeEventListener('click', handleClick);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      document.removeEventListener('mousemove', handleMouseMove);
-      clearInterval(timeInterval);
-    };
-  }, [location.pathname, trackPageView, trackClick, trackScrollDepth, trackTimeOnPage, trackEvent]);
+      // Add event listeners with error boundaries
+      document.addEventListener('click', handleClick);
+      window.addEventListener('scroll', handleScroll);
+      
+      isInitializedRef.current = true;
+      console.log('Analytics initialized successfully');
+
+      return () => {
+        document.removeEventListener('click', handleClick);
+        window.removeEventListener('scroll', handleScroll);
+        isInitializedRef.current = false;
+      };
+    } catch (error) {
+      console.error('Failed to initialize analytics:', error);
+      // Don't prevent app from loading
+    }
+  }, [location.pathname, trackPageView, trackEvent]);
 
   return {
     trackEvent,
     trackPageView,
-    trackClick,
-    trackScrollDepth,
-    trackTimeOnPage,
-    trackFormInteraction
+    trackClick: useCallback(async (element: HTMLElement, customProperties?: Record<string, any>) => {
+      try {
+        await trackEvent({
+          event_type: 'click',
+          event_name: 'Element Click',
+          element_id: element.id,
+          element_type: element.tagName.toLowerCase(),
+          element_text: element.textContent?.trim() || '',
+          properties: customProperties
+        });
+      } catch (error) {
+        console.warn('Manual click tracking failed:', error);
+      }
+    }, [trackEvent]),
+    trackScrollDepth: useCallback(async (depth: number) => {
+      try {
+        await trackEvent({
+          event_type: 'scroll',
+          event_name: `Scroll ${depth}%`,
+          scroll_depth: depth,
+          time_on_page: Math.floor((Date.now() - pageStartTime.current.getTime()) / 1000)
+        });
+      } catch (error) {
+        console.warn('Scroll depth tracking failed:', error);
+      }
+    }, [trackEvent]),
+    trackTimeOnPage: useCallback(async () => {
+      try {
+        const timeOnPage = Math.floor((Date.now() - pageStartTime.current.getTime()) / 1000);
+        await trackEvent({
+          event_type: 'engagement',
+          event_name: 'Time on Page',
+          time_on_page: timeOnPage,
+          scroll_depth: scrollDepthRef.current
+        });
+      } catch (error) {
+        console.warn('Time on page tracking failed:', error);
+      }
+    }, [trackEvent]),
+    trackFormInteraction: useCallback(async (formElement: HTMLFormElement, action: 'focus' | 'submit' | 'abandon') => {
+      try {
+        const formData = new FormData(formElement);
+        const formFields = Array.from(formData.keys());
+
+        await trackEvent({
+          event_type: 'form',
+          event_name: `Form ${action}`,
+          element_id: formElement.id,
+          element_type: 'form',
+          properties: {
+            form_fields: formFields,
+            form_action: formElement.action,
+            form_method: formElement.method
+          }
+        });
+      } catch (error) {
+        console.warn('Form interaction tracking failed:', error);
+      }
+    }, [trackEvent])
   };
 };
