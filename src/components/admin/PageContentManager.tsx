@@ -305,6 +305,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       
       // Patients
       'patients_hero': 'Hero Section',
+      'patients_footer': 'Footer',
       
       // News
       'news_hero': 'Hero Section',
