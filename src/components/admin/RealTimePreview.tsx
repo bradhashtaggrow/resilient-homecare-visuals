@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Wifi, WifiOff, RefreshCcw, Maximize2, Menu, X } from 'lucide-react';
+import { Wifi, WifiOff, RefreshCcw, Maximize2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface RealTimePreviewProps {
@@ -14,7 +14,6 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [iframeKey, setIframeKey] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [showMenu, setShowMenu] = useState(true);
   const [realTimeSyncStatus, setRealTimeSyncStatus] = useState<'connected' | 'disconnected' | 'syncing'>('disconnected');
   const [isLoading, setIsLoading] = useState(true);
   const refreshTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -176,18 +175,7 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
           <div className={`${isFullscreen ? 'fixed inset-0 z-50 bg-white' : 'relative'}`}>
             {isFullscreen && (
               <div className="flex justify-between items-center p-4 border-b bg-white">
-                <div className="flex items-center gap-4">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowMenu(!showMenu)}
-                    className="flex items-center gap-2"
-                  >
-                    {showMenu ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-                    {showMenu ? 'Hide Menu' : 'Show Menu'}
-                  </Button>
-                  <h3 className="text-lg font-semibold">Website Preview</h3>
-                </div>
+                <h3 className="text-lg font-semibold">Website Preview</h3>
                 <Button
                   variant="outline"
                   onClick={() => setIsFullscreen(false)}
@@ -197,7 +185,7 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
               </div>
             )}
             
-            <div className={`${isFullscreen ? 'h-full' : 'h-[800px]'} w-full relative overflow-hidden bg-white`} style={{ paddingTop: isFullscreen ? '60px' : '0' }}>
+            <div className={`${isFullscreen ? 'h-full' : 'h-[800px]'} w-full relative overflow-hidden bg-white`}>
               {/* Loading overlay */}
               {isLoading && (
                 <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
@@ -210,19 +198,19 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'disconn
 
               <iframe
                 key={`preview-${iframeKey}`}
-                src={`${window.location.origin}${showMenu ? '' : '?hideNav=true'}`}
+                src={`${window.location.origin}?desktop=true`}
                 className="w-full h-full border-0"
                 onLoad={handleIframeLoad}
                 onError={handleIframeError}
                 sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"
                 loading="lazy"
+                width="100%"
+                height="100%"
                 style={{ 
                   opacity: isLoading ? 0 : 1,
                   transition: 'opacity 0.3s ease-in-out',
-                  transform: 'scale(1)',
-                  transformOrigin: 'top left',
-                  minWidth: isFullscreen ? '100%' : '1200px',
-                  height: isFullscreen ? (showMenu ? '100%' : 'calc(100% - 60px)') : '100%'
+                  minWidth: '1200px',
+                  zoom: 1
                 }}
               />
             </div>
