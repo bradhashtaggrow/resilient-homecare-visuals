@@ -795,6 +795,19 @@ export type Database = {
         }
         Returns: boolean
       }
+      log_system_activity: {
+        Args: {
+          activity_type: string
+          activity_description: string
+          user_id?: string
+          metadata?: Json
+        }
+        Returns: string
+      }
+      record_system_metric: {
+        Args: { metric_name: string; metric_value: Json }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"

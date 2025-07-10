@@ -7,6 +7,7 @@ import { useRealTimeSystemSettings } from '@/hooks/useRealTimeSystemSettings';
 import { SystemMetricsGrid } from './settings/SystemMetricsGrid';
 import { ConfigurationPanel } from './settings/ConfigurationPanel';
 import { SecurityPanel } from './settings/SecurityPanel';
+import { MonitoringTab } from './settings/MonitoringTab';
 
 interface SystemSettingsProps {
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
@@ -15,6 +16,7 @@ interface SystemSettingsProps {
 const SystemSettings: React.FC<SystemSettingsProps> = ({ syncStatus = 'disconnected' }) => {
   const {
     metrics,
+    recentActivity,
     security,
     config,
     systemHealth,
@@ -129,21 +131,11 @@ const SystemSettings: React.FC<SystemSettingsProps> = ({ syncStatus = 'disconnec
             </TabsContent>
 
             <TabsContent value="monitoring" className="space-y-6">
-              <Card className="glass border-0 shadow-glow">
-                <CardHeader>
-                  <CardTitle className="text-xl font-semibold">System Monitoring</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-12">
-                    <BarChart3 className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-                    <h3 className="text-lg font-semibold mb-2">Advanced Monitoring</h3>
-                    <p className="text-muted-foreground">
-                      Detailed system monitoring and analytics dashboard coming soon.
-                      This will include real-time performance metrics, error logs, and system health reports.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+              <MonitoringTab 
+                metrics={metrics}
+                recentActivity={recentActivity}
+                onRefresh={refreshMetrics}
+              />
             </TabsContent>
           </Tabs>
         </div>
