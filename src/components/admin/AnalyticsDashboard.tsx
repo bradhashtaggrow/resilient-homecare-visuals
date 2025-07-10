@@ -6,7 +6,6 @@ import AnalyticsCharts from './analytics/AnalyticsCharts';
 import { AnalyticsHeader } from './analytics/AnalyticsHeader';
 import AnalyticsInsights from './analytics/AnalyticsInsights';
 import StunningCharts from './analytics/StunningCharts';
-import LiveVisitorMap from './analytics/LiveVisitorMap';
 import { TrendingUp, Users, Eye, Clock } from 'lucide-react';
 
 const AnalyticsDashboard = () => {
@@ -64,11 +63,6 @@ const AnalyticsDashboard = () => {
             <div className="animate-scale-in" style={{ animationDelay: '0.4s' }}>
               <StunningCharts data={null} />
             </div>
-          </div>
-          
-          {/* Interactive visitor map */}
-          <div className="animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-            <LiveVisitorMap visitors={[]} activeUsers={0} />
           </div>
           
           {/* AI-powered insights */}
