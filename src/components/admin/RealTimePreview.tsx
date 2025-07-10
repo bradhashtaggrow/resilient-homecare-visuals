@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Eye, Monitor, Smartphone, Tablet, Wifi, WifiOff, Maximize2, RotateCcw } from 'lucide-react';
-import { useWebsiteSync } from '@/hooks/useWebsiteSync';
+import { supabase } from '@/integrations/supabase/client';
 
 interface RealTimePreviewProps {
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
@@ -15,20 +15,82 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
   const [activeView, setActiveView] = useState<DeviceView>('desktop');
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [iframeKey, setIframeKey] = useState(0);
-  const [isIframeLoading, setIsIframeLoading] = useState(true);
+  const [realTimeSyncStatus, setRealTimeSyncStatus] = useState<'connected' | 'disconnected'>('disconnected');
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const { isListening, lastUpdate } = useWebsiteSync();
 
-  // Auto-refresh iframe when website data changes
+  // Real-time database sync
   useEffect(() => {
-    if (lastUpdate) {
-      setIsIframeLoading(true);
-      setIframeKey(prev => prev + 1);
-    }
-  }, [lastUpdate]);
+    const setupRealTimeSync = async () => {
+      try {
+        // Create channel for real-time updates
+        const channel = supabase
+          .channel('website-preview-updates')
+          .on('postgres_changes', {
+            event: '*',
+            schema: 'public',
+            table: 'website_content'
+          }, (payload) => {
+            console.log('Website content updated:', payload);
+            setLastUpdate(new Date());
+            setIframeKey(prev => prev + 1);
+          })
+          .on('postgres_changes', {
+            event: '*',
+            schema: 'public',
+            table: 'services'
+          }, (payload) => {
+            console.log('Services updated:', payload);
+            setLastUpdate(new Date());
+            setIframeKey(prev => prev + 1);
+          })
+          .on('postgres_changes', {
+            event: '*',
+            schema: 'public',
+            table: 'blog_posts'
+          }, (payload) => {
+            console.log('Blog posts updated:', payload);
+            setLastUpdate(new Date());
+            setIframeKey(prev => prev + 1);
+          })
+          .subscribe((status) => {
+            console.log('Real-time subscription status:', status);
+            setRealTimeSyncStatus(status === 'SUBSCRIBED' ? 'connected' : 'disconnected');
+          });
+
+        // Cleanup function
+        return () => {
+          supabase.removeChannel(channel);
+        };
+      } catch (error) {
+        console.error('Error setting up real-time sync:', error);
+        setRealTimeSyncStatus('disconnected');
+      }
+    };
+
+    const cleanup = setupRealTimeSync();
+    
+    return () => {
+      if (cleanup) {
+        cleanup.then(fn => fn && fn());
+      }
+    };
+  }, []);
+
+  // Auto-refresh iframe periodically for persistent sync
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (realTimeSyncStatus === 'connected') {
+        setIframeKey(prev => prev + 1);
+      }
+    }, 30000); // Refresh every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [realTimeSyncStatus]);
 
   const getSyncStatusIcon = () => {
-    switch (syncStatus) {
+    const currentStatus = realTimeSyncStatus === 'connected' ? 'connected' : syncStatus;
+    switch (currentStatus) {
       case 'connected':
         return <Wifi className="h-4 w-4 text-green-600" />;
       case 'syncing':
@@ -40,16 +102,11 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
 
   const getPreviewUrl = () => {
     const currentUrl = window.location.origin;
-    return `${currentUrl}?preview=true&device=${activeView}&t=${Date.now()}`;
+    return `${currentUrl}?preview=true&device=${activeView}&realtime=${Date.now()}`;
   };
 
   const refreshPreview = () => {
-    setIsIframeLoading(true);
     setIframeKey(prev => prev + 1);
-  };
-
-  const handleIframeLoad = () => {
-    setIsIframeLoading(false);
   };
 
   const deviceConfigs = {
@@ -58,66 +115,71 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
       resolution: '1920×1080',
       description: 'Full desktop experience',
       icon: Monitor,
-      frameClass: 'w-[800px] h-[500px]',
-      frameImage: '/lovable-uploads/9909fcfb-d2bf-40c5-927d-20afb8f83059.png',
-      screenClass: 'absolute top-[7%] left-[7%] right-[7%] bottom-[21%] overflow-hidden bg-white rounded-t-[6px] shadow-inner',
-      iframeClass: 'w-full h-full border-0 bg-white',
-      scale: 0.48
+      frameClass: 'w-[1200px] h-[750px]', // Much larger laptop
+      frameImage: '/lovable-uploads/84cc2dfb-c230-4c3a-9c47-646317ef95d8.png', // New clean laptop frame
+      screenClass: 'absolute top-[5%] left-[6%] right-[6%] bottom-[18%] overflow-hidden bg-white rounded-t-[8px]',
+      iframeClass: 'w-full h-full border-0 bg-white transform origin-top-left',
+      scale: 0.65
     },
     tablet: {
       title: 'Tablet',
       resolution: '768×1024',
       description: 'Tablet responsive design',
       icon: Tablet,
-      frameClass: 'w-[400px] h-[520px]',
+      frameClass: 'w-[450px] h-[600px]',
       frameImage: '/lovable-uploads/4947099c-2181-4b87-8d5c-571a58986dc2.png',
-      screenClass: 'absolute top-[4.5%] left-[6.5%] right-[6.5%] bottom-[4.5%] overflow-hidden bg-white rounded-[8px] shadow-inner',
-      iframeClass: 'w-full h-full border-0 bg-white',
-      scale: 0.38
+      screenClass: 'absolute top-[4%] left-[6%] right-[6%] bottom-[4%] overflow-hidden bg-white rounded-[12px]',
+      iframeClass: 'w-full h-full border-0 bg-white transform origin-top-left',
+      scale: 0.42
     },
     mobile: {
       title: 'Mobile',
       resolution: '375×667',
       description: 'Mobile optimized',
       icon: Smartphone,
-      frameClass: 'w-[280px] h-[560px]',
+      frameClass: 'w-[320px] h-[640px]',
       frameImage: '/lovable-uploads/a3abea8b-7fc0-4e67-bf4c-920d3d91e58c.png',
-      screenClass: 'absolute top-[7%] left-[11%] right-[11%] bottom-[7%] overflow-hidden bg-white rounded-[22px] shadow-inner',
-      iframeClass: 'w-full h-full border-0 bg-white',
-      scale: 0.22
+      screenClass: 'absolute top-[6%] left-[10%] right-[10%] bottom-[6%] overflow-hidden bg-white rounded-[28px]',
+      iframeClass: 'w-full h-full border-0 bg-white transform origin-top-left',
+      scale: 0.25
     }
   };
 
   const activeConfig = deviceConfigs[activeView];
   const IconComponent = activeConfig.icon;
+  const currentStatus = realTimeSyncStatus === 'connected' ? 'connected' : syncStatus;
 
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold text-gray-900">Live Preview</h2>
-          <p className="text-gray-600 mt-1">See your website changes in real-time across all devices</p>
+          <p className="text-gray-600 mt-1">Real-time database sync • Persistent preview updates</p>
+          {lastUpdate && (
+            <p className="text-xs text-gray-500 mt-1">
+              Last updated: {lastUpdate.toLocaleTimeString()}
+            </p>
+          )}
         </div>
         <div className="flex items-center gap-3">
-          <Badge variant="outline" className={`flex items-center gap-2 px-3 py-1 transition-colors ${
-            syncStatus === 'connected' ? 'bg-green-50 text-green-700 border-green-200' :
-            syncStatus === 'syncing' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-            'bg-red-50 text-red-700 border-red-200'
+          <Badge variant="outline" className={`flex items-center gap-2 px-3 py-1 transition-all duration-300 ${
+            currentStatus === 'connected' ? 'bg-green-50 text-green-700 border-green-300 shadow-md' :
+            currentStatus === 'syncing' ? 'bg-blue-50 text-blue-700 border-blue-300' :
+            'bg-red-50 text-red-700 border-red-300'
           }`}>
             {getSyncStatusIcon()}
-            <span className="font-medium">
-              {syncStatus === 'connected' ? 'Live Updates' : 
-               syncStatus === 'syncing' ? 'Syncing...' : 'Offline'}
+            <span className="font-semibold">
+              {currentStatus === 'connected' ? 'Live Sync Active' : 
+               currentStatus === 'syncing' ? 'Syncing...' : 'Offline'}
             </span>
           </Badge>
           <Button
             variant="outline"
             size="sm"
             onClick={refreshPreview}
-            disabled={isIframeLoading}
             className="flex items-center gap-2 hover:bg-gray-50"
           >
-            <RotateCcw className={`h-4 w-4 ${isIframeLoading ? 'animate-spin' : ''}`} />
+            <RotateCcw className="h-4 w-4" />
             Refresh
           </Button>
         </div>
@@ -134,10 +196,7 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
                 key={key}
                 variant="ghost"
                 size="sm"
-                onClick={() => {
-                  setActiveView(key as DeviceView);
-                  setIsIframeLoading(true);
-                }}
+                onClick={() => setActiveView(key as DeviceView)}
                 className={`flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
                   isActive 
                     ? 'bg-white shadow-md text-blue-600 hover:bg-white scale-105' 
@@ -179,10 +238,10 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
               </div>
             </div>
             <div className="flex items-center gap-4">
-              {syncStatus === 'connected' && !isIframeLoading && (
+              {currentStatus === 'connected' && (
                 <div className="flex items-center gap-2 px-3 py-2 bg-green-50 rounded-lg border border-green-200">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm font-semibold text-green-700">Live</span>
+                  <span className="text-sm font-semibold text-green-700">Real-Time</span>
                 </div>
               )}
               <Button
@@ -198,46 +257,31 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
           </div>
         </CardHeader>
         
-        <CardContent className={`flex justify-center items-center ${isFullscreen ? 'min-h-[calc(100vh-250px)]' : 'min-h-[700px]'} p-12 bg-gradient-to-br from-gray-50 to-slate-100`}>
+        <CardContent className={`flex justify-center items-center ${isFullscreen ? 'min-h-[calc(100vh-250px)]' : 'min-h-[800px]'} p-8 bg-gradient-to-br from-gray-50 to-slate-100`}>
           <div className="transition-all duration-500 ease-in-out">
             {/* Device Frame Container */}
             <div className={`relative ${activeConfig.frameClass} mx-auto`}>
-              {/* Screen Content - BEHIND the frame */}
-              <div className={`${activeConfig.screenClass} z-10`}>
-                <div 
-                  className="w-full h-full relative"
+              {/* Screen Content - Positioned precisely within device frame */}
+              <div className={`${activeConfig.screenClass} z-10 bg-black`}>
+                <iframe
+                  key={`${activeView}-${iframeKey}`}
+                  ref={iframeRef}
+                  src={getPreviewUrl()}
+                  className={`${activeConfig.iframeClass}`}
                   style={{
                     transform: `scale(${activeConfig.scale})`,
-                    transformOrigin: 'top left',
                     width: `${100 / activeConfig.scale}%`,
                     height: `${100 / activeConfig.scale}%`
                   }}
-                >
-                  <iframe
-                    key={`${activeView}-${iframeKey}`}
-                    ref={iframeRef}
-                    src={getPreviewUrl()}
-                    className={`${activeConfig.iframeClass} absolute top-0 left-0`}
-                    title={`${activeConfig.title} Preview`}
-                    sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-downloads"
-                    loading="eager"
-                    onLoad={handleIframeLoad}
-                    onError={() => setIsIframeLoading(false)}
-                  />
-                  
-                  {/* Loading Overlay */}
-                  {isIframeLoading && (
-                    <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-20">
-                      <div className="flex flex-col items-center gap-3">
-                        <div className="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm text-gray-600 font-medium">Loading preview...</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                  title={`${activeConfig.title} Preview`}
+                  sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-downloads"
+                  loading="eager"
+                  frameBorder="0"
+                  scrolling="yes"
+                />
               </div>
               
-              {/* Device Frame - ON TOP of content */}
+              {/* Device Frame - Positioned on top */}
               <img 
                 src={activeConfig.frameImage}
                 alt={`${activeConfig.title} frame`}
@@ -249,16 +293,16 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
         </CardContent>
       </Card>
 
-      {/* Status Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Enhanced Status Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="bg-gradient-to-br from-green-50 to-emerald-100 border-green-200 shadow-lg hover:shadow-xl transition-shadow">
           <CardContent className="flex items-center gap-4 p-6">
             <div className="p-3 bg-gradient-to-br from-green-100 to-green-200 rounded-xl shadow-md">
               <Wifi className="h-6 w-6 text-green-700" />
             </div>
             <div>
-              <p className="font-bold text-green-900 text-lg">Real-Time Sync</p>
-              <p className="text-green-700">Changes update instantly</p>
+              <p className="font-bold text-green-900 text-lg">Database Sync</p>
+              <p className="text-green-700 text-sm">{realTimeSyncStatus === 'connected' ? 'Connected' : 'Disconnected'}</p>
             </div>
           </CardContent>
         </Card>
@@ -269,8 +313,8 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
               <Monitor className="h-6 w-6 text-blue-700" />
             </div>
             <div>
-              <p className="font-bold text-blue-900 text-lg">Responsive Design</p>
-              <p className="text-blue-700">All device views supported</p>
+              <p className="font-bold text-blue-900 text-lg">Responsive</p>
+              <p className="text-blue-700 text-sm">All devices</p>
             </div>
           </CardContent>
         </Card>
@@ -281,8 +325,20 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ syncStatus = 'connect
               <Eye className="h-6 w-6 text-purple-700" />
             </div>
             <div>
-              <p className="font-bold text-purple-900 text-lg">Live Website</p>
-              <p className="text-purple-700">Actual production preview</p>
+              <p className="font-bold text-purple-900 text-lg">Live Preview</p>
+              <p className="text-purple-700 text-sm">Real-time updates</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-orange-50 to-amber-100 border-orange-200 shadow-lg hover:shadow-xl transition-shadow">
+          <CardContent className="flex items-center gap-4 p-6">
+            <div className="p-3 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl shadow-md">
+              <RotateCcw className="h-6 w-6 text-orange-700" />
+            </div>
+            <div>
+              <p className="font-bold text-orange-900 text-lg">Auto-Refresh</p>
+              <p className="text-orange-700 text-sm">30s intervals</p>
             </div>
           </CardContent>
         </Card>
