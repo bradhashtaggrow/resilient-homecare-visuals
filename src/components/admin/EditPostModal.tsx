@@ -34,8 +34,8 @@ const EditPostModal: React.FC<EditPostModalProps> = ({
   onCancel
 }) => {
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="w-full max-w-4xl max-h-[80vh] overflow-y-auto bg-white rounded-lg shadow-2xl">
+    <div className="fixed inset-0 bg-black/50 flex justify-center z-50 pt-4">
+      <div className="w-full max-w-4xl h-fit bg-white rounded-lg shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 rounded-t-lg">
           <div className="flex items-center justify-between">
