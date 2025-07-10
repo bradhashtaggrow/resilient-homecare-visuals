@@ -121,7 +121,7 @@ export const SystemMetricsGrid: React.FC<SystemMetricsProps> = ({ metrics, syste
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className="text-2xl font-bold mb-1 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+                <div className="text-2xl font-bold mb-1 text-black">
                   {metric.value}
                 </div>
                 <p className="text-xs text-muted-foreground">{metric.subtitle}</p>
