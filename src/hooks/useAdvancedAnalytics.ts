@@ -51,24 +51,49 @@ export const useAdvancedAnalytics = () => {
     
     try {
       // Using ipapi.co for IP geolocation (free tier)
-      const response = await fetch('https://ipapi.co/json/');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      
+      const response = await fetch('https://ipapi.co/json/', {
+        signal: controller.signal,
+        headers: {
+          'Accept': 'application/json',
+        }
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      
       const data = await response.json();
       
       const geoData: GeolocationData = {
-        country: data.country_name,
-        city: data.city,
-        region: data.region,
-        latitude: parseFloat(data.latitude),
-        longitude: parseFloat(data.longitude),
-        timezone: data.timezone,
-        isp: data.org
+        country: data.country_name || 'Unknown',
+        city: data.city || 'Unknown',
+        region: data.region || 'Unknown',
+        latitude: data.latitude ? parseFloat(data.latitude) : undefined,
+        longitude: data.longitude ? parseFloat(data.longitude) : undefined,
+        timezone: data.timezone || 'Unknown',
+        isp: data.org || 'Unknown'
       };
       
       geolocationRef.current = geoData;
       return geoData;
     } catch (error) {
-      console.error('Failed to get geolocation:', error);
-      return {};
+      // Set fallback data to prevent repeated requests
+      const fallbackData: GeolocationData = {
+        country: 'Unknown',
+        city: 'Unknown',
+        region: 'Unknown',
+        timezone: 'Unknown',
+        isp: 'Unknown'
+      };
+      
+      geolocationRef.current = fallbackData;
+      console.warn('Geolocation service unavailable, using fallback data');
+      return fallbackData;
     }
   }, []);
 
