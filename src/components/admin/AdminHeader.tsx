@@ -53,14 +53,16 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
 
   const getSectionTitle = (section: string) => {
     const titles: Record<string, string> = {
-      dashboard: 'Dashboard Overview',
-      content: 'Website Content',
-      services: 'Service Lines',
-      media: 'Media Library',
-      preview: 'Live Preview',
-      analytics: 'Analytics & Reports',
-      users: 'User Management',
-      settings: 'System Settings'
+      dashboard: 'Overview',
+      analytics: 'Overview',
+      leads: 'Overview',
+      content: 'Content Management',
+      services: 'Content Management',
+      media: 'Content Management',
+      preview: 'Content Management',
+      blog: 'Content Management',
+      users: 'System Management',
+      settings: 'System Management'
     };
     return titles[section] || 'Admin Dashboard';
   };
