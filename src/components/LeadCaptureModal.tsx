@@ -46,7 +46,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
             </button>
             
             {/* Apple-style header */}
-            <div className="text-center pt-12 pb-8 px-8 bg-gradient-to-b from-white/90 to-transparent">
+            <div className="text-center pt-6 pb-4 px-6 bg-gradient-to-b from-white/90 to-transparent">
               <div className="mx-auto mb-6 flex justify-center">
                 <img 
                   src="/lovable-uploads/4b3af59c-60f1-4308-9e3b-e840a22af320.png" 
@@ -63,7 +63,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
             </div>
             
             {/* Form content */}
-            <div className="px-8 pb-8">
+            <div className="px-6 pb-6">
               <LeadCaptureForm 
                 onSuccess={handleSuccess}
                 onClose={handleClose}

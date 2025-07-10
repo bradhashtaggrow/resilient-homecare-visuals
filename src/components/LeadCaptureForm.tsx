@@ -168,8 +168,8 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 mb-2">
               <User className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Contact Information</h3>
             </div>
@@ -259,8 +259,8 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
 
       case 2:
         return (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 mb-2">
               <Building className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Company Information</h3>
             </div>
@@ -327,8 +327,8 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
 
       case 3:
         return (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 mb-2">
               <Target className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Requirements</h3>
             </div>
@@ -407,8 +407,8 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
 
       case 4:
         return (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 mb-2">
               <Calendar className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Schedule Your Demo</h3>
             </div>
