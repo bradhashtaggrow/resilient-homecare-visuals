@@ -20,15 +20,20 @@ const supabaseClient = createClient(
 );
 
 serve(async (req) => {
+  console.log('RSS fetch function called with method:', req.method);
+  
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { feedId } = await req.json();
+    const body = await req.json();
+    console.log('Request body:', body);
+    const { feedId } = body;
 
     if (!feedId) {
+      console.error('No feedId provided');
       return new Response(JSON.stringify({ error: 'Feed ID is required' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

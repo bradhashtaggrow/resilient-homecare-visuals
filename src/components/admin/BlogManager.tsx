@@ -338,22 +338,28 @@ const BlogManager: React.FC = () => {
   const fetchRSSPosts = async (feedId: string) => {
     try {
       setIsFetching(true);
+      console.log('Invoking RSS fetch function with feedId:', feedId);
       
       const { data, error } = await supabase.functions.invoke('fetch-rss-posts', {
         body: { feedId }
       });
 
-      if (error) throw error;
+      console.log('RSS function response:', { data, error });
+
+      if (error) {
+        console.error('RSS function error:', error);
+        throw error;
+      }
       
       toast({
         title: "RSS posts fetched",
-        description: `${data.count} new posts imported from RSS feed`,
+        description: `${data?.count || 0} new posts imported from RSS feed`,
       });
     } catch (error) {
       console.error('Error fetching RSS posts:', error);
       toast({
         title: "Error fetching RSS posts",
-        description: "Failed to fetch posts from RSS feed",
+        description: error.message || "Failed to fetch posts from RSS feed",
         variant: "destructive"
       });
     } finally {
