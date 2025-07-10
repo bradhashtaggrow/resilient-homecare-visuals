@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LucideIcon } from 'lucide-react';
@@ -33,8 +34,8 @@ export const MetricCard: React.FC<MetricCardProps> = ({
               <Icon className={`h-6 w-6 text-${color}`} />
             </div>
             <div className="text-right">
-              <CardTitle className="text-sm font-medium text-muted-foreground mb-2">{title}</CardTitle>
-              <div className={`text-3xl font-bold bg-gradient-to-r from-${color} to-primary bg-clip-text text-transparent`}>
+              <CardTitle className="text-sm font-medium text-foreground mb-2">{title}</CardTitle>
+              <div className="text-3xl font-bold text-foreground">
                 {value}
               </div>
               {trend && (
