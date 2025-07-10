@@ -142,7 +142,7 @@ const Admin = () => {
       case 'preview':
         return <RealTimePreview syncStatus={syncStatus} isFullScreen={!sidebarOpen} />;
       case 'analytics':
-        return <AnalyticsDashboard syncStatus={syncStatus} />;
+        return <AnalyticsDashboard />;
       case 'blog':
         return <BlogManager />;
       case 'users':

@@ -51,7 +51,7 @@ const AnalyticsDashboard = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <RealtimeActivity />
+                <RealtimeActivity events={[]} />
               </CardContent>
             </Card>
           </div>
@@ -59,21 +59,21 @@ const AnalyticsDashboard = () => {
           {/* Enhanced charts grid */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
             <div className="animate-scale-in" style={{ animationDelay: '0.3s' }}>
-              <AnalyticsCharts />
+              <AnalyticsCharts analytics={null} />
             </div>
             <div className="animate-scale-in" style={{ animationDelay: '0.4s' }}>
-              <StunningCharts />
+              <StunningCharts data={null} />
             </div>
           </div>
           
           {/* Interactive visitor map */}
           <div className="animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-            <LiveVisitorMap />
+            <LiveVisitorMap visitors={[]} activeUsers={0} />
           </div>
           
           {/* AI-powered insights */}
           <div className="animate-slide-in-right" style={{ animationDelay: '0.6s' }}>
-            <AnalyticsInsights />
+            <AnalyticsInsights analytics={null} />
           </div>
         </div>
         
