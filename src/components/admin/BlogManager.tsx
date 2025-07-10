@@ -66,6 +66,10 @@ const BlogManager: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [editingPost, setEditingPost] = useState<string | null>(null);
   const [editedPost, setEditedPost] = useState<Partial<BlogPost>>({});
+  
+  // Debug logging for edit state
+  console.log('Current editingPost state:', editingPost);
+  console.log('Current editedPost state:', editedPost);
   const [editingFeed, setEditingFeed] = useState<string | null>(null);
   const [newPost, setNewPost] = useState<Partial<BlogPost>>({
     title: '',
@@ -220,6 +224,7 @@ const BlogManager: React.FC = () => {
   };
 
   const startEditingPost = (post: BlogPost) => {
+    console.log('startEditingPost called with post:', post.id, post.title);
     setEditingPost(post.id);
     setEditedPost({
       title: post.title,
@@ -232,6 +237,7 @@ const BlogManager: React.FC = () => {
       is_published: post.is_published,
       is_featured: post.is_featured
     });
+    console.log('editingPost state set to:', post.id);
   };
 
   const cancelEditingPost = () => {
