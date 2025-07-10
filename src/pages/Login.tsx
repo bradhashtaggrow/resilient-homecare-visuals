@@ -55,15 +55,12 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Enhanced Video Background */}
+      {/* Video Background - No Overlay */}
       <div className="absolute inset-0 z-0">
         <OptimizedVideo
           src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4"
           className="absolute inset-0 w-full h-full object-cover scale-105"
         />
-        {/* Enhanced gradient overlay for better contrast */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-purple-900/20" />
       </div>
 
       {/* Floating particles effect */}
@@ -180,11 +177,11 @@ const Login = () => {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-white/70 text-sm">Email:</span>
-                  <code className="text-white bg-gradient-to-r from-primary to-primary-light px-2 py-1 rounded text-sm font-mono">admin@healthcare.com</code>
+                  <code className="text-white bg-black/30 px-2 py-1 rounded text-sm font-mono">admin@healthcare.com</code>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-white/70 text-sm">Password:</span>
-                  <code className="text-white bg-gradient-to-r from-primary to-primary-light px-2 py-1 rounded text-sm font-mono">Admin123!</code>
+                  <code className="text-white bg-black/30 px-2 py-1 rounded text-sm font-mono">Admin123!</code>
                 </div>
               </div>
             </div>
