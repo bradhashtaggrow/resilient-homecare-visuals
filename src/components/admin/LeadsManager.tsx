@@ -235,97 +235,143 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">Leads Management</h2>
-          <p className="text-gray-600">Track and manage your demo requests and leads</p>
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/5">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-chart-2/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-chart-3/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+      </div>
+      
+      <div className="relative z-10 space-y-8 p-8 max-w-7xl mx-auto">
+        <div className="animate-fade-in-up">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">
+                Leads Management
+              </h2>
+              <p className="text-lg text-muted-foreground">Track and manage your demo requests and leads</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-success/10">
+                <Users className="h-5 w-5 text-success" />
+              </div>
+              <Badge variant="outline" className="glass border-0 text-sm bg-gradient-to-r from-primary/10 to-primary-light/10 text-primary border-primary/20">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                  {syncStatus === 'connected' ? 'Live Data' : 'Offline'}
+                </div>
+              </Badge>
+            </div>
+          </div>
         </div>
-        <Badge variant="outline" className={`flex items-center gap-2 ${
-          syncStatus === 'connected' ? 'bg-green-50 text-green-700 border-green-200' :
-          syncStatus === 'syncing' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-          'bg-red-50 text-red-700 border-red-200'
-        }`}>
-          {syncStatus === 'connected' ? 'Live Data' : 'Offline'}
-        </Badge>
-      </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Total Leads</p>
-                <p className="text-2xl font-bold">{stats.total}</p>
-              </div>
-              <Users className="h-8 w-8 text-blue-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">New</p>
-                <p className="text-2xl font-bold">{stats.new}</p>
-              </div>
-              <Star className="h-8 w-8 text-yellow-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Qualified</p>
-                <p className="text-2xl font-bold">{stats.qualified}</p>
-              </div>
-              <Target className="h-8 w-8 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Demo Scheduled</p>
-                <p className="text-2xl font-bold">{stats.demo_scheduled}</p>
-              </div>
-              <Calendar className="h-8 w-8 text-purple-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Closed Won</p>
-                <p className="text-2xl font-bold">{stats.closed_won}</p>
-              </div>
-              <TrendingUp className="h-8 w-8 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Closed Lost</p>
-                <p className="text-2xl font-bold">{stats.closed_lost}</p>
-              </div>
-              <StarOff className="h-8 w-8 text-red-600" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+        {/* Enhanced Stats Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+          <div className="animate-scale-in" style={{ animationDelay: '0.1s' }}>
+            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Total Leads</p>
+                    <p className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">{stats.total}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/10 group-hover:from-primary/20 group-hover:to-primary-light/20 transition-all duration-300">
+                    <Users className="h-8 w-8 text-primary" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
+            <Card className="glass border-0 shadow-glow hover:shadow-chart-3/25 transition-all duration-300 group hover:scale-105">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">New</p>
+                    <p className="text-3xl font-bold bg-gradient-to-r from-chart-3 to-chart-4 bg-clip-text text-transparent">{stats.new}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-3/10 to-chart-3/20 group-hover:from-chart-3/20 group-hover:to-chart-3/30 transition-all duration-300">
+                    <Star className="h-8 w-8 text-chart-3" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="animate-scale-in" style={{ animationDelay: '0.3s' }}>
+            <Card className="glass border-0 shadow-glow hover:shadow-chart-4/25 transition-all duration-300 group hover:scale-105">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Qualified</p>
+                    <p className="text-3xl font-bold bg-gradient-to-r from-chart-4 to-chart-5 bg-clip-text text-transparent">{stats.qualified}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-4/10 to-chart-4/20 group-hover:from-chart-4/20 group-hover:to-chart-4/30 transition-all duration-300">
+                    <Target className="h-8 w-8 text-chart-4" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="animate-scale-in" style={{ animationDelay: '0.4s' }}>
+            <Card className="glass border-0 shadow-glow hover:shadow-chart-5/25 transition-all duration-300 group hover:scale-105">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Demo Scheduled</p>
+                    <p className="text-3xl font-bold bg-gradient-to-r from-chart-5 to-chart-1 bg-clip-text text-transparent">{stats.demo_scheduled}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-5/10 to-chart-5/20 group-hover:from-chart-5/20 group-hover:to-chart-5/30 transition-all duration-300">
+                    <Calendar className="h-8 w-8 text-chart-5" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="animate-scale-in" style={{ animationDelay: '0.5s' }}>
+            <Card className="glass border-0 shadow-glow hover:shadow-success/25 transition-all duration-300 group hover:scale-105">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Closed Won</p>
+                    <p className="text-3xl font-bold text-success">{stats.closed_won}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-success/10 to-success/20 group-hover:from-success/20 group-hover:to-success/30 transition-all duration-300">
+                    <TrendingUp className="h-8 w-8 text-success" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="animate-scale-in" style={{ animationDelay: '0.6s' }}>
+            <Card className="glass border-0 shadow-glow hover:shadow-destructive/25 transition-all duration-300 group hover:scale-105">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Closed Lost</p>
+                    <p className="text-3xl font-bold text-destructive">{stats.closed_lost}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-destructive/10 to-destructive/20 group-hover:from-destructive/20 group-hover:to-destructive/30 transition-all duration-300">
+                    <StarOff className="h-8 w-8 text-destructive" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
 
-      {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Leads List</CardTitle>
-        </CardHeader>
-        <CardContent>
+        {/* Enhanced Filters */}
+        <div className="animate-slide-in-right" style={{ animationDelay: '0.7s' }}>
+          <Card className="glass border-0 shadow-glow">
+            <CardHeader className="pb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Filter className="h-5 w-5 text-primary" />
+                </div>
+                <CardTitle className="text-xl font-semibold">Leads List</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
           <div className="flex gap-4 mb-6">
             <div className="flex-1">
               <Input
@@ -350,8 +396,8 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
             </Select>
           </div>
 
-          {/* Leads Table */}
-          <div className="rounded-md border">
+              {/* Enhanced Leads Table */}
+              <div className="glass border-0 rounded-xl overflow-hidden">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -514,19 +560,24 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                                 </TabsContent>
                               </Tabs>
                             )}
-                          </DialogContent>
-                        </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
+                           </DialogContent>
+                         </Dialog>
+                       </TableCell>
+                     </TableRow>
+                   ))
+                 )}
+               </TableBody>
+             </Table>
+           </div>
+         </CardContent>
+       </Card>
+     </div>
+     
+     {/* Bottom spacing for better UX */}
+     <div className="h-16"></div>
+   </div>
+ </div>
+ );
 };
 
 export default LeadsManager;

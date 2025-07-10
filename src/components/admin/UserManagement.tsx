@@ -383,11 +383,11 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
   const getSyncStatusIcon = () => {
     switch (syncStatus) {
       case 'connected':
-        return <Wifi className="h-4 w-4 text-green-600" />;
+        return <Wifi className="h-3 w-3 text-success" />;
       case 'syncing':
-        return <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />;
+        return <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />;
       default:
-        return <WifiOff className="h-4 w-4 text-red-600" />;
+        return <WifiOff className="h-3 w-3 text-muted-foreground" />;
     }
   };
 
@@ -454,149 +454,203 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">User Management</h2>
-          <p className="text-gray-600">Manage user accounts, roles, and permissions</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <Button onClick={() => setIsAddDialogOpen(true)} className="flex items-center gap-2">
-            <UserPlus className="h-4 w-4" />
-            Add User
-          </Button>
-          <Badge variant="outline" className={`flex items-center gap-2 ${
-            syncStatus === 'connected' ? 'bg-green-50 text-green-700 border-green-200' :
-            syncStatus === 'syncing' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-            'bg-red-50 text-red-700 border-red-200'
-          }`}>
-            {getSyncStatusIcon()}
-            <span>{syncStatus === 'connected' ? 'Live Updates' : 'Offline'}</span>
-          </Badge>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/5">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-chart-2/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-chart-3/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{users.length}</div>
-            <p className="text-xs text-muted-foreground">
-              {users.length === 1 ? 'Registered user' : 'Registered users'}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Administrators</CardTitle>
-            <Crown className="h-4 w-4 text-yellow-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {users.filter(user => user.role === 'admin').length}
+      
+      <div className="relative z-10 space-y-8 p-8 max-w-7xl mx-auto">
+        <div className="animate-fade-in-up">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">
+                User Management
+              </h2>
+              <p className="text-lg text-muted-foreground">Manage user accounts, roles, and permissions</p>
             </div>
-            <p className="text-xs text-muted-foreground">Admin users</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Moderators</CardTitle>
-            <Shield className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {users.filter(user => user.role === 'moderator').length}
+            <div className="flex items-center gap-4">
+              <Button onClick={() => setIsAddDialogOpen(true)} className="glass border-0 bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary shadow-glow hover:shadow-primary/25 transition-all duration-300">
+                <UserPlus className="h-4 w-4 mr-2" />
+                Add User
+              </Button>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-success/10">
+                  {getSyncStatusIcon()}
+                </div>
+                <Badge variant="outline" className="glass border-0 text-sm bg-gradient-to-r from-primary/10 to-primary-light/10 text-primary border-primary/20">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                    {syncStatus === 'connected' ? 'Live Updates' : 'Offline'}
+                  </div>
+                </Badge>
+              </div>
             </div>
-            <p className="text-xs text-muted-foreground">Moderator users</p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="animate-scale-in" style={{ animationDelay: '0.1s' }}>
+            <Card className="glass border-0 shadow-glow hover:shadow-primary/25 transition-all duration-300 group hover:scale-105">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/10 group-hover:from-primary/20 group-hover:to-primary-light/20 transition-all duration-300">
+                    <Users className="h-6 w-6 text-primary" />
+                  </div>
+                  <div className="text-right">
+                    <CardTitle className="text-sm font-medium text-muted-foreground mb-2">Total Users</CardTitle>
+                    <div className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+                      {users.length}
+                    </div>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <p className="text-xs text-muted-foreground">
+                  {users.length === 1 ? 'Registered user' : 'Registered users'}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
+            <Card className="glass border-0 shadow-glow hover:shadow-chart-3/25 transition-all duration-300 group hover:scale-105">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-3/10 to-chart-3/20 group-hover:from-chart-3/20 group-hover:to-chart-3/30 transition-all duration-300">
+                    <Crown className="h-6 w-6 text-chart-3" />
+                  </div>
+                  <div className="text-right">
+                    <CardTitle className="text-sm font-medium text-muted-foreground mb-2">Administrators</CardTitle>
+                    <div className="text-3xl font-bold bg-gradient-to-r from-chart-3 to-chart-4 bg-clip-text text-transparent">
+                      {users.filter(user => user.role === 'admin').length}
+                    </div>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <p className="text-xs text-muted-foreground">System administrators</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="animate-scale-in" style={{ animationDelay: '0.3s' }}>
+            <Card className="glass border-0 shadow-glow hover:shadow-chart-5/25 transition-all duration-300 group hover:scale-105">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-5/10 to-chart-5/20 group-hover:from-chart-5/20 group-hover:to-chart-5/30 transition-all duration-300">
+                    <Settings className="h-6 w-6 text-chart-5" />
+                  </div>
+                  <div className="text-right">
+                    <CardTitle className="text-sm font-medium text-muted-foreground mb-2">Active Roles</CardTitle>
+                    <div className="text-3xl font-bold bg-gradient-to-r from-chart-5 to-chart-1 bg-clip-text text-transparent">
+                      {users.filter(user => user.role !== 'user').length}
+                    </div>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <p className="text-xs text-muted-foreground">Special permissions granted</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <div className="animate-slide-in-right" style={{ animationDelay: '0.4s' }}>
+          <Card className="glass border-0 shadow-glow">
+            <CardHeader className="pb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Users className="h-5 w-5 text-primary" />
+                </div>
+                <CardTitle className="text-xl font-semibold">User Directory</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                <div className="flex items-center justify-center h-32">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                </div>
+              ) : users.length === 0 ? (
+                <div className="text-center py-8">
+                  <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">No users found</p>
+                </div>
+              ) : (
+                <div className="glass border-0 rounded-xl overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>User</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Employee Type</TableHead>
+                        <TableHead>Role</TableHead>
+                        <TableHead>Permissions</TableHead>
+                        <TableHead>Joined</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {users.map((user) => (
+                        <TableRow key={user.id}>
+                          <TableCell className="font-medium">
+                            {user.full_name || 'No name set'}
+                          </TableCell>
+                          <TableCell>{user.email}</TableCell>
+                          <TableCell>
+                            <Badge variant="outline" className={`flex items-center gap-1 w-fit ${getEmployeeTypeBadgeColor(user.employee_type || 'customer_service')}`}>
+                              {getEmployeeTypeIcon(user.employee_type || 'customer_service')}
+                              {employeeTypes.find(et => et.value === user.employee_type)?.label || 'Customer Service'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline" className={`flex items-center gap-1 w-fit ${getRoleBadgeColor(user.role || 'user')}`}>
+                              {getRoleIcon(user.role || 'user')}
+                              {user.role || 'user'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="text-sm text-muted-foreground">
+                              {user.permissions?.length || 0} permissions
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {new Date(user.created_at).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex items-center gap-2 justify-end">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleEditUser(user)}
+                              >
+                                <Edit3 className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => deleteUser(user.id)}
+                                className="text-destructive hover:text-destructive"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+        
+        {/* Bottom spacing for better UX */}
+        <div className="h-16"></div>
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>User List</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {loading ? (
-            <div className="flex items-center justify-center h-32">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            </div>
-          ) : users.length === 0 ? (
-            <div className="text-center py-8">
-              <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">No users found</p>
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>User</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Employee Type</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Permissions</TableHead>
-                  <TableHead>Joined</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell className="font-medium">
-                      {user.full_name || 'No name set'}
-                    </TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className={`flex items-center gap-1 w-fit ${getEmployeeTypeBadgeColor(user.employee_type || 'customer_service')}`}>
-                        {getEmployeeTypeIcon(user.employee_type || 'customer_service')}
-                        {employeeTypes.find(et => et.value === user.employee_type)?.label || 'Customer Service'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className={`flex items-center gap-1 w-fit ${getRoleBadgeColor(user.role || 'user')}`}>
-                        {getRoleIcon(user.role || 'user')}
-                        {user.role || 'user'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm text-gray-600">
-                        {user.permissions?.length || 0} permissions
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {new Date(user.created_at).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center gap-2 justify-end">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleEditUser(user)}
-                        >
-                          <Edit3 className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => deleteUser(user.id)}
-                          className="text-red-600 hover:text-red-700"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
 
       {/* Add User Dialog */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
