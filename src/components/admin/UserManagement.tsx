@@ -472,7 +472,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
               <p className="text-lg text-muted-foreground">Manage user accounts, roles, and permissions</p>
             </div>
             <div className="flex items-center gap-4">
-              <Button onClick={() => setIsAddDialogOpen(true)} className="glass border-0 bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary shadow-glow hover:shadow-primary/25 transition-all duration-300">
+              <Button onClick={() => setIsAddDialogOpen(true)} variant="gradient" className="rounded-xl">
                 <UserPlus className="h-4 w-4 mr-2" />
                 Add User
               </Button>
@@ -622,17 +622,18 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
                           <TableCell className="text-right">
                             <div className="flex items-center gap-2 justify-end">
                               <Button
-                                variant="outline"
+                                variant="gradient"
                                 size="sm"
                                 onClick={() => handleEditUser(user)}
+                                className="rounded-xl"
                               >
                                 <Edit3 className="h-4 w-4" />
                               </Button>
                               <Button
-                                variant="outline"
+                                variant="gradient"
                                 size="sm"
                                 onClick={() => deleteUser(user.id)}
-                                className="text-destructive hover:text-destructive"
+                                className="rounded-xl"
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
@@ -787,7 +788,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
             <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={createUser} disabled={!newUserForm.email || !newUserForm.password || !newUserForm.full_name}>
+            <Button variant="gradient" onClick={createUser} disabled={!newUserForm.email || !newUserForm.password || !newUserForm.full_name} className="rounded-xl">
               Create User
             </Button>
           </DialogFooter>
@@ -839,7 +840,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
             <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleSaveRole}>
+            <Button variant="gradient" onClick={handleSaveRole} className="rounded-xl">
               Save Changes
             </Button>
           </DialogFooter>

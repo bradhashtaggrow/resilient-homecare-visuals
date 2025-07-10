@@ -361,7 +361,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                     </Badge>
                     {editingSection === section.section_key ? (
                       <div className="flex space-x-2">
-                        <Button size="sm" onClick={handleSave} className="btn-3d-gradient">
+                        <Button size="sm" onClick={handleSave} variant="gradient" className="rounded-xl">
                           <Save className="h-4 w-4 mr-1" />
                           Save
                         </Button>
@@ -371,7 +371,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                         </Button>
                       </div>
                     ) : (
-                      <Button size="sm" variant="outline" onClick={() => handleEdit(section)}>
+                      <Button size="sm" variant="gradient" onClick={() => handleEdit(section)} className="rounded-xl">
                         <Edit3 className="h-4 w-4 mr-1" />
                         Edit
                       </Button>

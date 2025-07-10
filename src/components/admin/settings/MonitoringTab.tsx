@@ -114,7 +114,7 @@ export const MonitoringTab: React.FC<MonitoringTabProps> = ({
                 <p className="text-sm text-muted-foreground">Real-time performance and activity monitoring</p>
               </div>
             </div>
-            <Button onClick={onRefresh} variant="outline" size="sm">
+            <Button onClick={onRefresh} variant="gradient" size="sm" className="rounded-xl">
               <RefreshCw className="h-4 w-4 mr-2" />
               Refresh Data
             </Button>

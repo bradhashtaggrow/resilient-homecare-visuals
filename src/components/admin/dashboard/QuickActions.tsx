@@ -60,10 +60,10 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ onSectionChange, onR
             <CardTitle className="text-xl font-semibold">Quick Actions</CardTitle>
           </div>
           <Button
-            variant="ghost"
+            variant="gradient"
             size="sm"
             onClick={onRefresh}
-            className="hover:bg-primary/10 hover:text-primary"
+            className="rounded-xl"
           >
             <RefreshCw className="h-4 w-4" />
           </Button>

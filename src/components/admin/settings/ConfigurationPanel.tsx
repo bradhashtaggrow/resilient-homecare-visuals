@@ -256,7 +256,7 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
                   Maintenance Mode
                 </Badge>
               )}
-              <Button onClick={onRefreshSystem} className="btn-3d-gradient font-apple">
+              <Button onClick={onRefreshSystem} variant="gradient" className="rounded-xl font-apple">
                 <Zap className="h-4 w-4 mr-2" />
                 Refresh System
               </Button>
