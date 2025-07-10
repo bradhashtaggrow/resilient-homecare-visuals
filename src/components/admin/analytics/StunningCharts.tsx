@@ -78,142 +78,139 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
 
   const chartData = data || placeholderData;
   const isPlaceholder = !data;
-  // Hourly Traffic Line Chart
+  // Create gradient fills for charts
+  const createGradient = (ctx: any, colorStart: string, colorEnd: string) => {
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, colorStart);
+    gradient.addColorStop(1, colorEnd);
+    return gradient;
+  };
+
+  // Hourly Traffic Line Chart with stunning gradients
   const hourlyTrafficData = {
     labels: chartData.hourlyTraffic.map(d => `${d.hour}:00`),
     datasets: [
       {
-        label: 'Visitors',
-        data: chartData.hourlyTraffic.map(d => d.visitors),
-        borderColor: isPlaceholder ? 'hsl(var(--muted))' : 'hsl(var(--primary))',
-        backgroundColor: isPlaceholder ? 'hsl(var(--muted) / 0.1)' : 'hsl(var(--primary) / 0.1)',
-        borderWidth: 3,
+        label: '👥 Visitors',
+        data: isPlaceholder ? Array(24).fill(Math.random() * 50 + 10) : chartData.hourlyTraffic.map(d => d.visitors),
+        borderColor: '#3b82f6',
+        backgroundColor: (context: any) => {
+          const ctx = context.chart.ctx;
+          return createGradient(ctx, 'rgba(59, 130, 246, 0.4)', 'rgba(59, 130, 246, 0.05)');
+        },
+        borderWidth: 4,
         fill: true,
         tension: 0.4,
-        pointBackgroundColor: isPlaceholder ? 'hsl(var(--muted))' : 'hsl(var(--primary))',
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2,
-        pointRadius: 6,
-        pointHoverRadius: 8
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#ffffff',
+        pointBorderWidth: 3,
+        pointRadius: 8,
+        pointHoverRadius: 12,
+        pointHoverBackgroundColor: '#1d4ed8',
+        pointHoverBorderWidth: 4,
+        cubicInterpolationMode: 'monotone' as const
       },
       {
-        label: 'Page Views',
-        data: chartData.hourlyTraffic.map(d => d.pageViews),
-        borderColor: isPlaceholder ? 'hsl(var(--muted-foreground))' : 'hsl(var(--secondary))',
-        backgroundColor: isPlaceholder ? 'hsl(var(--muted-foreground) / 0.1)' : 'hsl(var(--secondary) / 0.1)',
-        borderWidth: 3,
+        label: '📄 Page Views',
+        data: isPlaceholder ? Array(24).fill(Math.random() * 80 + 20) : chartData.hourlyTraffic.map(d => d.pageViews),
+        borderColor: '#8b5cf6',
+        backgroundColor: (context: any) => {
+          const ctx = context.chart.ctx;
+          return createGradient(ctx, 'rgba(139, 92, 246, 0.3)', 'rgba(139, 92, 246, 0.02)');
+        },
+        borderWidth: 4,
         fill: true,
         tension: 0.4,
-        pointBackgroundColor: isPlaceholder ? 'hsl(var(--muted-foreground))' : 'hsl(var(--secondary))',
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2,
-        pointRadius: 6,
-        pointHoverRadius: 8
+        pointBackgroundColor: '#8b5cf6',
+        pointBorderColor: '#ffffff',
+        pointBorderWidth: 3,
+        pointRadius: 8,
+        pointHoverRadius: 12,
+        pointHoverBackgroundColor: '#7c3aed',
+        pointHoverBorderWidth: 4,
+        cubicInterpolationMode: 'monotone' as const
       }
     ]
   };
 
-  // Top Pages Bar Chart
+  // Top Pages Bar Chart with vibrant gradients
   const topPagesData = {
-    labels: chartData.topPages.map(p => p.page),
+    labels: chartData.topPages.map(p => p.page.replace('/', 'Home') || 'Home'),
     datasets: [
       {
-        label: 'Page Views',
-        data: chartData.topPages.map(p => p.views),
-        backgroundColor: isPlaceholder ? [
-          'hsl(var(--muted) / 0.8)',
-          'hsl(var(--muted) / 0.6)',
-          'hsl(var(--muted) / 0.4)',
-          'hsl(var(--muted) / 0.3)',
-          'hsl(var(--muted) / 0.2)'
-        ] : [
-          'hsl(var(--primary) / 0.8)',
-          'hsl(var(--secondary) / 0.8)',
-          'hsl(var(--accent) / 0.8)',
-          'hsl(var(--muted) / 0.8)',
-          'hsl(220 70% 50% / 0.8)'
+        label: '📊 Page Views',
+        data: isPlaceholder ? [245, 189, 167, 143, 98] : chartData.topPages.map(p => p.views),
+        backgroundColor: [
+          'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+          'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
+          'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+          'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+          'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
         ],
-        borderColor: isPlaceholder ? [
-          'hsl(var(--muted))',
-          'hsl(var(--muted))',
-          'hsl(var(--muted))',
-          'hsl(var(--muted))',
-          'hsl(var(--muted))'
-        ] : [
-          'hsl(var(--primary))',
-          'hsl(var(--secondary))',
-          'hsl(var(--accent))',
-          'hsl(var(--muted))',
-          'hsl(220 70% 50%)'
-        ],
-        borderWidth: 2,
-        borderRadius: 8,
-        borderSkipped: false
-      }
-    ]
-  };
-
-  // Device Breakdown Doughnut Chart
-  const deviceData = {
-    labels: chartData.deviceBreakdown.map(d => d.device),
-    datasets: [
-      {
-        data: chartData.deviceBreakdown.map(d => d.sessions),
-        backgroundColor: isPlaceholder ? [
-          'hsl(var(--muted) / 0.8)',
-          'hsl(var(--muted) / 0.6)',
-          'hsl(var(--muted) / 0.4)'
-        ] : [
-          'hsl(var(--primary) / 0.8)',
-          'hsl(var(--secondary) / 0.8)',
-          'hsl(var(--accent) / 0.8)'
-        ],
-        borderColor: isPlaceholder ? [
-          'hsl(var(--muted))',
-          'hsl(var(--muted))',
-          'hsl(var(--muted))'
-        ] : [
-          'hsl(var(--primary))',
-          'hsl(var(--secondary))',
-          'hsl(var(--accent))'
+        borderColor: [
+          '#6366f1',
+          '#06b6d4',
+          '#10b981',
+          '#f59e0b',
+          '#ef4444'
         ],
         borderWidth: 3,
-        hoverOffset: 15
+        borderRadius: 12,
+        borderSkipped: false,
+        hoverBackgroundColor: [
+          'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+          'linear-gradient(135deg, #0891b2 0%, #1d4ed8 100%)',
+          'linear-gradient(135deg, #047857 0%, #065f46 100%)',
+          'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+          'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'
+        ],
+        hoverBorderWidth: 4
       }
     ]
   };
 
-  // Traffic Sources Polar Area Chart
-  const trafficSourcesData = {
-    labels: chartData.trafficSources.map(s => s.source),
+  // Device Breakdown Doughnut Chart with stunning colors
+  const deviceData = {
+    labels: chartData.deviceBreakdown.map(d => `${d.device} 💻📱📟`[d.device === 'Desktop' ? 0 : d.device === 'Mobile' ? 1 : 2]),
     datasets: [
       {
-        data: chartData.trafficSources.map(s => s.sessions),
-        backgroundColor: isPlaceholder ? [
-          'hsl(var(--muted) / 0.7)',
-          'hsl(var(--muted) / 0.6)',
-          'hsl(var(--muted) / 0.5)',
-          'hsl(var(--muted) / 0.4)'
-        ] : [
-          'hsl(var(--primary) / 0.7)',
-          'hsl(var(--secondary) / 0.7)',
-          'hsl(var(--accent) / 0.7)',
-          'hsl(var(--muted) / 0.7)',
-          'hsl(220 70% 50% / 0.7)'
+        data: isPlaceholder ? [156, 89, 43] : chartData.deviceBreakdown.map(d => d.sessions),
+        backgroundColor: [
+          'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+          'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
         ],
-        borderColor: isPlaceholder ? [
-          'hsl(var(--muted))',
-          'hsl(var(--muted))',
-          'hsl(var(--muted))',
-          'hsl(var(--muted))'
-        ] : [
-          'hsl(var(--primary))',
-          'hsl(var(--secondary))',
-          'hsl(var(--accent))',
-          'hsl(var(--muted))',
-          'hsl(220 70% 50%)'
+        borderColor: ['#667eea', '#f093fb', '#4facfe'],
+        borderWidth: 4,
+        hoverOffset: 20,
+        hoverBorderWidth: 6,
+        cutout: '65%'
+      }
+    ]
+  };
+
+  // Traffic Sources Bar Chart with modern styling
+  const trafficSourcesData = {
+    labels: chartData.trafficSources.map(s => `${s.source} ${s.source === 'Direct' ? '🔗' : s.source === 'Google' ? '🔍' : s.source === 'Social' ? '📱' : '📧'}`),
+    datasets: [
+      {
+        label: '🚀 Sessions',
+        data: isPlaceholder ? [182, 134, 87, 65] : chartData.trafficSources.map(s => s.sessions),
+        backgroundColor: [
+          'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
+          'linear-gradient(90deg, #f093fb 0%, #f5576c 100%)',
+          'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
+          'linear-gradient(90deg, #43e97b 0%, #38f9d7 100%)'
         ],
-        borderWidth: 2
+        borderColor: ['#667eea', '#f093fb', '#4facfe', '#43e97b'],
+        borderWidth: 3,
+        borderRadius: 8,
+        hoverBackgroundColor: [
+          'linear-gradient(90deg, #5a67d8 0%, #6b46c1 100%)',
+          'linear-gradient(90deg, #e53e3e 0%, #c53030 100%)',
+          'linear-gradient(90deg, #3182ce 0%, #2c5282 100%)',
+          'linear-gradient(90deg, #38a169 0%, #2f855a 100%)'
+        ]
       }
     ]
   };
@@ -221,52 +218,122 @@ const StunningCharts: React.FC<StunningChartsProps> = ({ data }) => {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      intersect: false,
+      mode: 'index' as const,
+    },
+    elements: {
+      point: {
+        hoverRadius: 12,
+        hoverBorderWidth: 4,
+      },
+      bar: {
+        borderRadius: 8,
+        borderSkipped: false,
+      }
+    },
     plugins: {
       legend: {
         position: 'top' as const,
+        align: 'center' as const,
         labels: {
           usePointStyle: true,
-          padding: 20,
+          pointStyle: 'circle',
+          padding: 25,
           font: {
-            size: 12,
-            weight: 'normal' as const
-          }
+            size: 14,
+            weight: 600,
+            family: 'Inter, system-ui, sans-serif'
+          },
+          color: '#1f2937',
+          boxWidth: 12,
+          boxHeight: 12,
         }
       },
       tooltip: {
-        backgroundColor: 'hsl(var(--popover))',
-        titleColor: 'hsl(var(--popover-foreground))',
-        bodyColor: 'hsl(var(--popover-foreground))',
-        borderColor: 'hsl(var(--border))',
+        enabled: true,
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
         borderWidth: 1,
-        cornerRadius: 8,
-        padding: 12
+        cornerRadius: 12,
+        padding: 16,
+        titleFont: {
+          size: 14,
+          weight: 'bold' as const
+        },
+        bodyFont: {
+          size: 13,
+          weight: 'normal' as const
+        },
+        displayColors: true,
+        boxPadding: 8,
+        usePointStyle: true,
+        callbacks: {
+          labelColor: function(context: any) {
+            return {
+              borderColor: context.dataset.borderColor,
+              backgroundColor: context.dataset.backgroundColor,
+              borderWidth: 2,
+              borderRadius: 6,
+            };
+          }
+        }
       }
     },
     scales: {
       x: {
         grid: {
-          color: 'hsl(var(--border))',
-          drawBorder: false
+          color: 'rgba(148, 163, 184, 0.1)',
+          lineWidth: 1,
+          drawBorder: false,
+          drawTicks: false,
         },
         ticks: {
-          color: 'hsl(var(--muted-foreground))',
+          color: '#64748b',
           font: {
-            size: 11
-          }
+            size: 12,
+            weight: 500,
+            family: 'Inter, system-ui, sans-serif'
+          },
+          padding: 12,
+        },
+        border: {
+          display: false,
         }
       },
       y: {
         grid: {
-          color: 'hsl(var(--border))',
-          drawBorder: false
+          color: 'rgba(148, 163, 184, 0.1)',
+          lineWidth: 1,
+          drawBorder: false,
+          drawTicks: false,
         },
         ticks: {
-          color: 'hsl(var(--muted-foreground))',
+          color: '#64748b',
           font: {
-            size: 11
+            size: 12,
+            weight: 500,
+            family: 'Inter, system-ui, sans-serif'
+          },
+          padding: 12,
+          callback: function(value: any) {
+            return typeof value === 'number' ? value.toLocaleString() : value;
           }
-        }
+        },
+        border: {
+          display: false,
+        },
+        beginAtZero: true,
+      }
+    },
+    layout: {
+      padding: {
+        top: 10,
+        right: 10,
+        bottom: 10,
+        left: 10,
       }
     }
   };
