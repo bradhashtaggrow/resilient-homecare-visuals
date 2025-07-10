@@ -18,6 +18,7 @@ import Admin from "@/pages/Admin";
 import Login from "@/pages/Login";
 import News from "@/pages/News";
 import NotFound from "@/pages/NotFound";
+import AnalyticsWrapper from "@/components/analytics/AnalyticsWrapper";
 import "./App.css";
 
 const queryClient = new QueryClient({
@@ -110,7 +111,9 @@ const App = () => {
           <Sonner />
           <AuthProvider>
             <BrowserRouter>
-              <AppContent />
+              <AnalyticsWrapper>
+                <AppContent />
+              </AnalyticsWrapper>
             </BrowserRouter>
           </AuthProvider>
         </TooltipProvider>

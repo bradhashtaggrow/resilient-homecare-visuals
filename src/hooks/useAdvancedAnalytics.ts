@@ -31,48 +31,71 @@ export const useAdvancedAnalytics = () => {
   const pageStartTime = useRef<Date>(new Date());
   const scrollDepthRef = useRef<number>(0);
   const geolocationRef = useRef<GeolocationData | null>(null);
+  const isInitializedRef = useRef<boolean>(false);
+  const cleanupFunctionsRef = useRef<(() => void)[]>([]);
 
-  // Get or create session ID
+  // Get or create session ID with error handling
   const getSessionId = useCallback(() => {
-    if (!sessionRef.current) {
-      let sessionId = sessionStorage.getItem('analytics_session_id');
-      if (!sessionId) {
-        sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-        sessionStorage.setItem('analytics_session_id', sessionId);
+    try {
+      if (!sessionRef.current) {
+        let sessionId = sessionStorage.getItem('analytics_session_id');
+        if (!sessionId) {
+          sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+          sessionStorage.setItem('analytics_session_id', sessionId);
+        }
+        sessionRef.current = sessionId;
       }
-      sessionRef.current = sessionId;
+      return sessionRef.current;
+    } catch (error) {
+      // Fallback if sessionStorage fails
+      if (!sessionRef.current) {
+        sessionRef.current = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      }
+      return sessionRef.current;
     }
-    return sessionRef.current;
   }, []);
 
-  // Get geolocation data from IP
-  const getGeolocation = useCallback(async () => {
+  // Get geolocation data with proper error handling
+  const getGeolocation = useCallback(async (): Promise<GeolocationData> => {
     if (geolocationRef.current) return geolocationRef.current;
     
+    const fallbackData: GeolocationData = {
+      country: 'Unknown',
+      city: 'Unknown',
+      region: 'Unknown',
+      timezone: 'Unknown',
+      isp: 'Unknown'
+    };
+    
     try {
-      // Skip geolocation API calls to prevent errors
-      const fallbackData: GeolocationData = {
-        country: 'Unknown',
-        city: 'Unknown',
-        region: 'Unknown',
-        timezone: 'Unknown',
-        isp: 'Unknown'
-      };
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
       
-      geolocationRef.current = fallbackData;
-      return fallbackData;
+      const response = await fetch('https://ipapi.co/json/', {
+        signal: controller.signal,
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (response.ok) {
+        const data = await response.json();
+        const geoData: GeolocationData = {
+          country: data.country_name || 'Unknown',
+          city: data.city || 'Unknown',
+          region: data.region || 'Unknown',
+          timezone: data.timezone || 'Unknown',
+          isp: data.org || 'Unknown'
+        };
+        geolocationRef.current = geoData;
+        return geoData;
+      }
     } catch (error) {
-      const fallbackData: GeolocationData = {
-        country: 'Unknown',
-        city: 'Unknown',
-        region: 'Unknown',
-        timezone: 'Unknown',
-        isp: 'Unknown'
-      };
-      
-      geolocationRef.current = fallbackData;
-      return fallbackData;
+      // Silent fail, use fallback
     }
+    
+    geolocationRef.current = fallbackData;
+    return fallbackData;
   }, []);
 
   // Enhanced device detection
@@ -113,15 +136,17 @@ export const useAdvancedAnalytics = () => {
     };
   }, []);
 
-  // Track any event with enhanced data
+  // Track any event with robust error handling
   const trackEvent = useCallback(async (event: TrackingEvent) => {
+    // Don't track during initialization or if already cleaning up
+    if (!isInitializedRef.current) return;
+    
     try {
       const sessionId = getSessionId();
       const geoData = await getGeolocation();
       const deviceInfo = getDeviceInfo();
       
-      // Simplified database insert with error handling
-      const { error } = await supabase.from('analytics_events').insert({
+      const eventData = {
         event_type: event.event_type,
         event_name: event.event_name,
         page_url: event.page_url || location.pathname,
@@ -135,18 +160,28 @@ export const useAdvancedAnalytics = () => {
         os: deviceInfo.os,
         properties: {
           ...event.properties,
+          element_id: event.element_id,
+          element_type: event.element_type,
+          element_text: event.element_text,
+          scroll_depth: event.scroll_depth,
+          time_on_page: event.time_on_page,
+          mouse_position: event.mouse_position,
           timestamp: new Date().toISOString()
         }
-      });
-      
-      if (error) {
-        console.warn('Analytics tracking failed:', error.message);
-      }
+      };
+
+      // Use timeout to prevent hanging
+      const insertPromise = supabase.from('analytics_events').insert(eventData);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Request timeout')), 5000)
+      );
+
+      await Promise.race([insertPromise, timeoutPromise]);
     } catch (error) {
-      // Silent fail to prevent app crashes
-      console.warn('Analytics tracking error:', error);
+      // Silent fail - analytics should never break the app
+      console.warn('Analytics event failed:', error);
     }
-  }, [location, getSessionId, getGeolocation, getDeviceInfo]);
+  }, [location.pathname, getSessionId, getGeolocation, getDeviceInfo]);
 
   // Track page view with enhanced data
   const trackPageView = useCallback(async (customUrl?: string) => {
@@ -270,64 +305,93 @@ export const useAdvancedAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // Set up global event listeners
+  // Set up analytics with proper initialization and cleanup
   useEffect(() => {
-    // Track page view on route change
-    try {
-      trackPageView();
-    } catch (error) {
-      console.warn('Page view tracking failed:', error);
-    }
-
-    // Simplified click tracking
-    const handleClick = (event: MouseEvent) => {
+    // Prevent multiple initializations
+    if (isInitializedRef.current) return;
+    
+    // Initialize after a small delay to ensure DOM is ready
+    const initTimer = setTimeout(() => {
       try {
-        const target = event.target as HTMLElement;
-        if (target && (target.tagName === 'BUTTON' || target.tagName === 'A')) {
-          trackClick(target, {
-            mouse_position: { x: event.clientX, y: event.clientY }
-          }).catch(e => console.warn('Click tracking failed:', e));
-        }
+        isInitializedRef.current = true;
+        
+        // Track initial page view
+        trackPageView().catch(() => {
+          console.warn('Initial page view tracking failed');
+        });
+
+        // Set up event listeners with proper error handling
+        const handleClick = (event: MouseEvent) => {
+          try {
+            const target = event.target as HTMLElement;
+            if (target && (target.tagName === 'BUTTON' || target.tagName === 'A')) {
+              trackClick(target, {
+                mouse_position: { x: event.clientX, y: event.clientY }
+              }).catch(() => {
+                // Silent fail
+              });
+            }
+          } catch (error) {
+            console.warn('Click tracking failed:', error);
+          }
+        };
+
+        const handleScroll = () => {
+          try {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = window.scrollY;
+            if (scrollHeight > 0) {
+              const scrollDepth = Math.round((scrolled / scrollHeight) * 100);
+              trackScrollDepth(scrollDepth).catch(() => {
+                // Silent fail
+              });
+            }
+          } catch (error) {
+            console.warn('Scroll tracking failed:', error);
+          }
+        };
+
+        const handleBeforeUnload = () => {
+          try {
+            trackTimeOnPage().catch(() => {
+              // Silent fail
+            });
+          } catch (error) {
+            console.warn('Time tracking failed:', error);
+          }
+        };
+
+        // Add event listeners
+        document.addEventListener('click', handleClick);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        // Store cleanup functions
+        cleanupFunctionsRef.current = [
+          () => document.removeEventListener('click', handleClick),
+          () => window.removeEventListener('scroll', handleScroll),
+          () => window.removeEventListener('beforeunload', handleBeforeUnload)
+        ];
+        
       } catch (error) {
-        console.warn('Click handler error:', error);
+        console.warn('Analytics initialization failed:', error);
+        isInitializedRef.current = false;
       }
-    };
-
-    // Simplified scroll tracking with throttling
-    let scrollTimeout: NodeJS.Timeout;
-    const handleScroll = () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        try {
-          const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-          const scrolled = window.scrollY;
-          const scrollDepth = Math.round((scrolled / scrollHeight) * 100);
-          trackScrollDepth(scrollDepth).catch(e => console.warn('Scroll tracking failed:', e));
-        } catch (error) {
-          console.warn('Scroll handler error:', error);
-        }
-      }, 250);
-    };
-
-    // Simplified cleanup tracking
-    const handleBeforeUnload = () => {
-      try {
-        trackTimeOnPage().catch(e => console.warn('Time tracking failed:', e));
-      } catch (error) {
-        console.warn('Before unload error:', error);
-      }
-    };
-
-    // Add essential event listeners only
-    document.addEventListener('click', handleClick);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    }, 100);
 
     return () => {
-      document.removeEventListener('click', handleClick);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      clearTimeout(scrollTimeout);
+      clearTimeout(initTimer);
+      isInitializedRef.current = false;
+      
+      // Clean up all event listeners
+      cleanupFunctionsRef.current.forEach(cleanup => {
+        try {
+          cleanup();
+        } catch (error) {
+          console.warn('Cleanup failed:', error);
+        }
+      });
+      cleanupFunctionsRef.current = [];
     };
   }, [location.pathname, trackPageView, trackClick, trackScrollDepth, trackTimeOnPage]);
 
