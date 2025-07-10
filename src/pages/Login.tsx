@@ -47,8 +47,10 @@ const Login = () => {
         title: "Welcome back!",
         description: "Redirecting to admin dashboard..."
       });
-      // Force immediate redirect to admin dashboard
-      navigate('/admin', { replace: true });
+      // Wait a moment for auth state to update, then navigate
+      setTimeout(() => {
+        navigate('/admin', { replace: true });
+      }, 100);
     }
   };
 
