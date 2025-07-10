@@ -342,21 +342,48 @@ export type Database = {
         }
         Relationships: []
       }
+      user_permissions: {
+        Row: {
+          created_at: string
+          granted_by: string | null
+          id: string
+          permission: Database["public"]["Enums"]["permission_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          permission: Database["public"]["Enums"]["permission_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          permission?: Database["public"]["Enums"]["permission_type"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
+          employee_type: Database["public"]["Enums"]["employee_type"] | null
           id: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
           created_at?: string
+          employee_type?: Database["public"]["Enums"]["employee_type"] | null
           id?: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
           created_at?: string
+          employee_type?: Database["public"]["Enums"]["employee_type"] | null
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
@@ -458,6 +485,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_default_permissions: {
+        Args: { _employee_type: Database["public"]["Enums"]["employee_type"] }
+        Returns: Database["public"]["Enums"]["permission_type"][]
+      }
+      has_permission: {
+        Args: {
+          _user_id: string
+          _permission: Database["public"]["Enums"]["permission_type"]
+        }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _user_id: string
@@ -468,6 +506,27 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      employee_type:
+        | "admin"
+        | "manager"
+        | "content_editor"
+        | "marketing_specialist"
+        | "customer_service"
+        | "demo_coordinator"
+      permission_type:
+        | "dashboard_view"
+        | "analytics_view"
+        | "leads_view"
+        | "leads_manage"
+        | "content_view"
+        | "content_edit"
+        | "blog_view"
+        | "blog_edit"
+        | "preview_view"
+        | "user_management_view"
+        | "user_management_edit"
+        | "system_settings_view"
+        | "system_settings_edit"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -596,6 +655,29 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      employee_type: [
+        "admin",
+        "manager",
+        "content_editor",
+        "marketing_specialist",
+        "customer_service",
+        "demo_coordinator",
+      ],
+      permission_type: [
+        "dashboard_view",
+        "analytics_view",
+        "leads_view",
+        "leads_manage",
+        "content_view",
+        "content_edit",
+        "blog_view",
+        "blog_edit",
+        "preview_view",
+        "user_management_view",
+        "user_management_edit",
+        "system_settings_view",
+        "system_settings_edit",
+      ],
     },
   },
 } as const
