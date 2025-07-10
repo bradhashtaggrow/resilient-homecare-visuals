@@ -85,10 +85,6 @@ export const AnalyticsHeader = () => {
                 </Button>
               </div>
               
-              <Button className="gradient-primary shadow-glow hover:shadow-xl transition-all duration-300">
-                <Download className="h-4 w-4 mr-2" />
-                Export Report
-              </Button>
             </div>
           </div>
         </CardContent>
