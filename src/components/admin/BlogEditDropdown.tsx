@@ -39,16 +39,17 @@ const BlogEditDropdown: React.FC<BlogEditDropdownProps> = ({ children, post, onS
     e.preventDefault();
     e.stopPropagation();
     
-    // Always center the form in the current viewport
+    // Always center the form perfectly in the viewport (like the Testing form)
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
     
-    // Center the form in the visible viewport
+    // Fixed form dimensions
     const dropdownWidth = 800;
-    const dropdownHeight = Math.min(windowHeight * 0.85, 600); // Max 85% of viewport height
+    const dropdownHeight = 600;
     
+    // Perfect center calculation - exactly like Testing form
     setPosition({
       top: scrollTop + (windowHeight - dropdownHeight) / 2,
       left: scrollLeft + (windowWidth - dropdownWidth) / 2
@@ -93,24 +94,25 @@ const BlogEditDropdown: React.FC<BlogEditDropdownProps> = ({ children, post, onS
       
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop with highest z-index */}
           <div 
-            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[9998]"
             onClick={handleBackdropClick}
           />
           
-          {/* Dropdown always centered in viewport */}
+          {/* Dropdown with top layer z-index */}
           <div 
-            className="fixed z-50"
+            className="fixed z-[9999]"
             style={{
               top: `${position.top}px`,
               left: `${position.left}px`,
               width: '800px',
+              height: '600px',
               maxWidth: 'calc(100vw - 40px)',
               maxHeight: 'calc(100vh - 40px)'
             }}
           >
-            <Card className="border-orange-200 bg-white shadow-2xl overflow-auto h-full">
+            <Card className="border-orange-200 bg-white shadow-2xl overflow-auto h-full w-full">
             {/* Close button */}
             <button
               onClick={handleClose}
