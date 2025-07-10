@@ -14,6 +14,162 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          browser: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          device_type: string | null
+          event_name: string
+          event_type: string
+          id: string
+          ip_address: unknown | null
+          os: string | null
+          page_url: string | null
+          properties: Json | null
+          referrer: string | null
+          session_id: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          device_type?: string | null
+          event_name: string
+          event_type: string
+          id?: string
+          ip_address?: unknown | null
+          os?: string | null
+          page_url?: string | null
+          properties?: Json | null
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          device_type?: string | null
+          event_name?: string
+          event_type?: string
+          id?: string
+          ip_address?: unknown | null
+          os?: string | null
+          page_url?: string | null
+          properties?: Json | null
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      analytics_page_views: {
+        Row: {
+          avg_session_duration: number | null
+          bounce_rate: number | null
+          created_at: string
+          id: string
+          page_url: string
+          unique_visitors: number | null
+          updated_at: string
+          view_count: number | null
+          view_date: string
+        }
+        Insert: {
+          avg_session_duration?: number | null
+          bounce_rate?: number | null
+          created_at?: string
+          id?: string
+          page_url: string
+          unique_visitors?: number | null
+          updated_at?: string
+          view_count?: number | null
+          view_date: string
+        }
+        Update: {
+          avg_session_duration?: number | null
+          bounce_rate?: number | null
+          created_at?: string
+          id?: string
+          page_url?: string
+          unique_visitors?: number | null
+          updated_at?: string
+          view_count?: number | null
+          view_date?: string
+        }
+        Relationships: []
+      }
+      analytics_sessions: {
+        Row: {
+          browser: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          device_type: string | null
+          duration_seconds: number | null
+          ended_at: string | null
+          entry_page: string | null
+          exit_page: string | null
+          id: string
+          is_bounce: boolean | null
+          os: string | null
+          page_count: number | null
+          referrer: string | null
+          session_id: string
+          started_at: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          device_type?: string | null
+          duration_seconds?: number | null
+          ended_at?: string | null
+          entry_page?: string | null
+          exit_page?: string | null
+          id?: string
+          is_bounce?: boolean | null
+          os?: string | null
+          page_count?: number | null
+          referrer?: string | null
+          session_id: string
+          started_at?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          device_type?: string | null
+          duration_seconds?: number | null
+          ended_at?: string | null
+          entry_page?: string | null
+          exit_page?: string | null
+          id?: string
+          is_bounce?: boolean | null
+          os?: string | null
+          page_count?: number | null
+          referrer?: string | null
+          session_id?: string
+          started_at?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           author: string
@@ -485,6 +641,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_analytics_summary: {
+        Args: { start_date?: string; end_date?: string }
+        Returns: {
+          total_page_views: number
+          unique_visitors: number
+          total_sessions: number
+          avg_session_duration: number
+          bounce_rate: number
+          top_pages: Json
+          traffic_sources: Json
+          device_breakdown: Json
+        }[]
+      }
       get_default_permissions: {
         Args: { _employee_type: Database["public"]["Enums"]["employee_type"] }
         Returns: Database["public"]["Enums"]["permission_type"][]

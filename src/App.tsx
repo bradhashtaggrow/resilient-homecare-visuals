@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Admin from "./pages/Admin";
@@ -20,6 +21,12 @@ import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
+// Analytics wrapper component
+const AnalyticsWrapper = ({ children }: { children: React.ReactNode }) => {
+  useAnalytics();
+  return <>{children}</>;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -27,24 +34,26 @@ const App = () => (
       <Sonner />
       <AuthProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/request-demo" element={<RequestDemo />} />
-            <Route path="/care-at-home" element={<CareAtHome />} />
-            <Route path="/clinicians" element={<Clinicians />} />
-            <Route path="/patients" element={<Patients />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/admin" element={
-              <ProtectedRoute requireAdmin={true}>
-                <Admin />
-              </ProtectedRoute>
-            } />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AnalyticsWrapper>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/request-demo" element={<RequestDemo />} />
+              <Route path="/care-at-home" element={<CareAtHome />} />
+              <Route path="/clinicians" element={<Clinicians />} />
+              <Route path="/patients" element={<Patients />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/admin" element={
+                <ProtectedRoute requireAdmin={true}>
+                  <Admin />
+                </ProtectedRoute>
+              } />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AnalyticsWrapper>
         </BrowserRouter>
       </AuthProvider>
     </TooltipProvider>
