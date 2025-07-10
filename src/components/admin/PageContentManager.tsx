@@ -34,7 +34,8 @@ import {
   BarChart3,
   Database,
   Lock,
-  BookOpen
+  BookOpen,
+  Lightbulb
 } from 'lucide-react';
 
 interface WebsiteContent {
@@ -92,7 +93,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     BarChart3,
     Database,
     Lock,
-    BookOpen
+    BookOpen,
+    Lightbulb
   };
 
   const getIconComponent = (iconName: string) => {
@@ -296,10 +298,16 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       
       // About
       'about_hero': 'Hero Section',
-      'about_why_choose': 'Why Choose Resilient',
+      'about_why_choose_header': 'Why Choose Resilient Header',
+      'about_why_choose_rain': 'RAIN-Powered AI Infrastructure',
+      'about_why_choose_integrated': 'Fully Integrated With Hospital Systems',
+      'about_why_choose_workforce': 'Flexible Workforce Model',
       'about_for_hospitals': 'For Hospitals',
       'about_for_clinicians': 'For Clinicians',
-      'about_values': 'Our Core Values',
+      'about_core_values_header': 'Our Core Values Header',
+      'about_core_values_compassionate_care': 'Compassionate Care',
+      'about_core_values_excellence': 'Excellence',
+      'about_core_values_innovation': 'Innovation',
       'about_footer': 'Footer',
       
       // Clinicians
