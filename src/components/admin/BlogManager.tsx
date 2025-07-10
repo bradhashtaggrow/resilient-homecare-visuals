@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import ImageUpload from './ImageUpload';
@@ -67,6 +68,7 @@ const BlogManager: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [rssFeeds, setRssFeeds] = useState<RSSFeed[]>([]);
   const [loading, setLoading] = useState(true);
+  const [viewingPost, setViewingPost] = useState<BlogPost | null>(null);
   
   // Debug logging for edit state
   console.log('BlogManager component rendered');
@@ -621,14 +623,36 @@ const BlogManager: React.FC = () => {
                       ))}
                     </div>
                      <div className="flex items-center gap-2" style={{ pointerEvents: 'auto' }}>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="border-blue-200 text-blue-600 hover:bg-blue-50"
-                        title="View full post content"
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                            title="View post content"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                          <DialogHeader>
+                            <DialogTitle>{post.title}</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            {post.featured_image_url && (
+                              <img 
+                                src={post.featured_image_url} 
+                                alt={post.title}
+                                className="w-full h-48 object-cover rounded-lg"
+                              />
+                            )}
+                            <div className="prose max-w-none">
+                              <p className="text-gray-600 italic">{post.excerpt}</p>
+                              <div className="mt-4 whitespace-pre-wrap">{post.content}</div>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                         <RSSPostControls post={post} onSave={handlePostSave}>
                           <Button
                             variant="outline"
