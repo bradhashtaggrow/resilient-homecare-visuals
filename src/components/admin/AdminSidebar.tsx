@@ -22,9 +22,11 @@ import {
   WifiOff,
   UserCheck,
   Edit3,
-  X
+  X,
+  LogOut
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface AdminSidebarProps {
   activeSection: string;
@@ -39,6 +41,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   syncStatus = 'disconnected',
   onClose
 }) => {
+  const { signOut } = useAuth();
+
   const mainMenuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
@@ -56,6 +60,10 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
     { id: 'settings', label: 'System Settings', icon: Cog },
   ];
 
+  const accountMenuItems = [
+    { id: 'logout', label: 'Log Out', icon: LogOut },
+  ];
+
   const getSyncStatusIcon = () => {
     switch (syncStatus) {
       case 'connected':
@@ -64,6 +72,14 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
         return <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />;
       default:
         return <WifiOff className="h-3 w-3 text-muted-foreground" />;
+    }
+  };
+
+  const handleMenuClick = async (itemId: string) => {
+    if (itemId === 'logout') {
+      await signOut();
+    } else {
+      onSectionChange(itemId);
     }
   };
 
@@ -77,7 +93,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           {items.map((item) => (
             <SidebarMenuItem key={item.id}>
               <SidebarMenuButton
-                onClick={() => onSectionChange(item.id)}
+                onClick={() => handleMenuClick(item.id)}
                 isActive={activeSection === item.id}
                 className={`w-full justify-start px-3 py-2.5 rounded-lg transition-all duration-200 font-apple ${
                   activeSection === item.id
@@ -129,6 +145,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
         {renderMenuGroup('Overview', mainMenuItems)}
         {renderMenuGroup('Content Management', contentMenuItems)}
         {renderMenuGroup('System', managementMenuItems)}
+        {renderMenuGroup('Account', accountMenuItems)}
       </SidebarContent>
     </Sidebar>
   );
