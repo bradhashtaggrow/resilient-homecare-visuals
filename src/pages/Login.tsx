@@ -19,12 +19,11 @@ const Login = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Redirect if already authenticated and is admin
+  // Only redirect if already authenticated - no automatic redirects
   if (user && isAdmin) {
     return <Navigate to="/admin" replace />;
   }
 
-  // Redirect if authenticated but not admin
   if (user && !isAdmin) {
     return <Navigate to="/" replace />;
   }
@@ -43,7 +42,8 @@ const Login = () => {
       });
       setLoading(false);
     } else {
-      // Directly navigate to admin without any toast or delay
+      // Navigate directly to admin immediately after successful sign in
+      setLoading(false);
       navigate('/admin', { replace: true });
     }
   };
