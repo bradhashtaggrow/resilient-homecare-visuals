@@ -76,26 +76,33 @@ const AdminLaptopVisualization = ({
                 >
                   <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                 </video>
-                {/* Minimal dark overlay for text readability */}
-                <div className="absolute inset-0 bg-black/30 rounded-2xl" />
+                {/* Dark overlay for better contrast */}
+                <div className="absolute inset-0 bg-black/50 rounded-2xl" />
               </div>
 
               {/* Admin Login Interface - Enhanced Glassmorphism */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-[320px] w-full mx-4 backdrop-blur-2xl bg-white/[0.08] border border-white/30 shadow-2xl rounded-2xl p-8 relative overflow-hidden">
-                  {/* Enhanced glass effect with multiple layers */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent rounded-2xl pointer-events-none" />
-                  <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/10 via-transparent to-purple-500/10 rounded-2xl pointer-events-none" />
+                <div className="max-w-[320px] w-full mx-4 relative overflow-hidden rounded-3xl">
+                  {/* Multi-layered glassmorphism background */}
+                  <div className="absolute inset-0 backdrop-blur-3xl bg-white/[0.15] rounded-3xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-white/5 to-transparent rounded-3xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/20 via-transparent to-purple-500/20 rounded-3xl"></div>
                   
-                  {/* Content with higher z-index */}
-                  <div className="relative z-10">
+                  {/* Glass border effect */}
+                  <div className="absolute inset-0 rounded-3xl border border-white/40 shadow-2xl shadow-black/50"></div>
+                  
+                  {/* Inner glass reflection */}
+                  <div className="absolute inset-1 rounded-3xl bg-gradient-to-br from-white/10 via-transparent to-transparent"></div>
+                  
+                  {/* Content container */}
+                  <div className="relative z-10 p-8">
                     {/* Resilient Healthcare Logo */}
                     <div className="text-center mb-6">
                       <div className="flex items-center justify-center mb-4">
                         <img 
                           src="/lovable-uploads/7c1e9f2c-e9a3-484c-9ce9-0e5ce0293c0e.png" 
                           alt="Resilient Healthcare" 
-                          className="h-8 w-auto drop-shadow-lg"
+                          className="h-8 w-auto drop-shadow-lg filter brightness-110"
                         />
                       </div>
                     </div>
