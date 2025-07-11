@@ -234,27 +234,20 @@ const MobileShowcase = () => {
                         
                         <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-black rounded-full z-20"></div>
                         
-                        <div className="p-8 pt-16 h-full flex flex-col relative z-10">
+                        <div className="p-8 pt-12 h-full flex flex-col relative z-10 justify-center">
                           {/* Enhanced Logo Container */}
-                          <div className="text-center mb-6">
-                            <div className="flex items-center justify-center mb-4">
+                          <div className="text-center mb-8">
+                            <div className="flex items-center justify-center mb-6">
                               <img 
                                 src="/lovable-uploads/205d7687-abc6-4b5d-94a8-cb89d5e02209.png" 
                                 alt="Resilient Healthcare Logo" 
                                 className="w-40 h-40 object-contain"
                               />
                             </div>
-                            <h3 className="text-white text-xl font-black mb-1 tracking-tight">
-                              <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-                                Healthcare Admin
-                              </span>
-                            </h3>
-                            <p className="text-white/80 text-sm font-medium tracking-wide">Secure Dashboard Access</p>
-                            <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mx-auto mt-2" />
                           </div>
 
                           {/* Login Form */}
-                          <div className="space-y-4 flex-1">
+                          <div className="space-y-6 flex-1 flex flex-col justify-center">
                             {/* Email Field */}
                             <div className="space-y-2">
                               <label className="text-white/90 font-semibold text-xs tracking-wide flex items-center">
@@ -289,11 +282,11 @@ const MobileShowcase = () => {
                             </button>
 
                             {/* Biometric */}
-                            <div className="text-center py-2">
+                            <div className="text-center py-4">
                               <div className="w-10 h-10 bg-white/25 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
                                 <div className="w-6 h-6 border-2 border-blue-400 rounded-full animate-pulse"></div>
                               </div>
-                              <p className="text-white/60 text-xs mt-1">Touch ID / Face ID</p>
+                              <p className="text-white/60 text-xs mt-2">Touch ID / Face ID</p>
                             </div>
                           </div>
                         </div>
