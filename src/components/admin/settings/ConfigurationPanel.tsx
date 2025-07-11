@@ -249,14 +249,18 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
                 <p className="text-sm text-muted-foreground font-apple">Real-time system configuration</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               {config.maintenance && (
                 <Badge variant="destructive" className="animate-pulse font-apple">
                   <Shield className="h-3 w-3 mr-1" />
                   Maintenance Mode
                 </Badge>
               )}
-              <Button onClick={onRefreshSystem} className="btn-3d-gradient font-apple">
+              <Button 
+                onClick={onRefreshSystem} 
+                className="btn-3d-gradient font-apple min-h-[44px] touch-manipulation w-full sm:w-auto"
+                style={{ touchAction: 'manipulation' }}
+              >
                 <Zap className="h-4 w-4 mr-2" />
                 Refresh System
               </Button>
