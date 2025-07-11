@@ -208,15 +208,6 @@ const Login = () => {
           </p>
         </div>
       </div>
-
-      {/* Enhanced scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="animate-bounce-gentle">
-          <div className="w-8 h-12 border-2 border-white/30 rounded-full flex justify-center relative overflow-hidden hover:border-white/50 transition-colors duration-300">
-            <div className="w-1.5 h-4 bg-white/50 rounded-full mt-3 animate-pulse-slow" />
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
