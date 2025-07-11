@@ -460,7 +460,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                               <Eye className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-[95vw] sm:max-w-[85vw] md:max-w-4xl max-h-[70vh] overflow-hidden rounded-xl">
+                          <DialogContent className="max-w-[95vw] sm:max-w-[85vw] md:max-w-4xl max-h-[70vh] overflow-hidden rounded-xl data-[state=open]:duration-300">
                             <DialogDescription className="sr-only">
                               View detailed information about the lead including contact details, company information, and requirements.
                             </DialogDescription>
