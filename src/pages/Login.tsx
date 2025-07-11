@@ -180,24 +180,6 @@ const Login = () => {
                 )}
               </Button>
             </form>
-            
-            {/* Enhanced Credentials Display */}
-            <div className="mt-8 p-6 bg-black/20 backdrop-blur-sm rounded-xl border border-white/10 hover:bg-black/30 transition-all duration-300">
-              <div className="flex items-center mb-3">
-                <Shield className="h-4 w-4 text-green-400 mr-2" />
-                <p className="text-white font-bold text-sm tracking-wide">Admin Credentials</p>
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-white/70 text-sm">Email:</span>
-                  <code className="text-white bg-black/30 px-2 py-1 rounded text-sm font-mono">admin@healthcare.com</code>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-white/70 text-sm">Password:</span>
-                  <code className="text-white bg-black/30 px-2 py-1 rounded text-sm font-mono">Admin123!</code>
-                </div>
-              </div>
-            </div>
           </CardContent>
         </Card>
 
