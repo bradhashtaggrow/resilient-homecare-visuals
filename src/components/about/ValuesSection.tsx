@@ -22,12 +22,8 @@ const ValuesSection = () => {
   ];
 
   return (
-    <section className="py-12 md:py-16 lg:py-24 bg-white relative overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-cover bg-center opacity-5"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')" }}
-      />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <section className="py-12 md:py-16 lg:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 md:mb-12 lg:mb-16">
           <h2 className="font-black tracking-tight font-apple mb-4 md:mb-6" 
               style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
