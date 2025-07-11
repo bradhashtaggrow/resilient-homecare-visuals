@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -116,7 +115,7 @@ const Contact = () => {
                     </div>
                   </div>
                   
-                  <div className="group p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-green-50 to-white border border-green-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+                  <div className="group p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-blue-50 to-white border border-blue-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
                     <div className="flex items-start space-x-4 sm:space-x-6">
                       <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,45%)] rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 group-hover:from-[hsl(214,100%,65%)] group-hover:to-[hsl(214,100%,50%)]">
                         <Mail className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
