@@ -36,13 +36,14 @@ const HospitalBenefitsSection = () => {
               ))}
             </div>
           </div>
-          <div className="order-1 lg:order-2 relative">
-            <div className="aspect-square overflow-hidden rounded-2xl lg:rounded-3xl shadow-2xl">
+          <div className="order-1 lg:order-2 relative group">
+            <div className="aspect-square overflow-hidden rounded-2xl lg:rounded-3xl shadow-2xl relative">
               <img 
                 src="https://images.unsplash.com/photo-1527576539890-dfa815648363?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                 alt="Hospital technology"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#4285F4]/80 to-[#1565C0]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
             </div>
             <div className="absolute -bottom-4 -right-4 lg:-bottom-6 lg:-right-6 w-24 h-24 lg:w-32 lg:h-32 bg-gradient-to-br from-blue-600/20 to-transparent rounded-full blur-2xl" />
           </div>
