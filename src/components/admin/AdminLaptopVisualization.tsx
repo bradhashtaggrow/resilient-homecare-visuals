@@ -80,70 +80,63 @@ const AdminLaptopVisualization = ({
                 <div className="absolute inset-0 bg-black/30 rounded-2xl" />
               </div>
 
-              {/* Admin Login Interface - Matching reference image exactly */}
+              {/* Admin Login Interface - Exact mobile phone replica */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-xs w-full mx-8 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 rounded-xl p-6">
-                  {/* Logo Container */}
-                  <div className="text-center mb-6">
+                <div className="max-w-xs w-full mx-8 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl rounded-xl p-8">
+                  {/* Resilient Healthcare Logo */}
+                  <div className="text-center mb-12">
                     <div className="flex items-center justify-center mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-                        <Shield className="h-6 w-6 text-white" />
-                      </div>
+                      <svg width="180" height="60" viewBox="0 0 180 60" className="text-blue-500">
+                        <path d="M10 20L20 10L30 20L40 10L50 20" stroke="currentColor" strokeWidth="3" fill="none"/>
+                        <text x="60" y="25" fontSize="18" fontWeight="bold" fill="currentColor">Resilient</text>
+                        <text x="60" y="45" fontSize="12" fill="currentColor" opacity="0.8">HEALTHCARE</text>
+                      </svg>
                     </div>
-                    
-                    {/* Title */}
-                    <h3 className="text-xl font-bold text-white mb-1">
-                      Healthcare Admin
-                    </h3>
-                    <p className="text-white/70 text-xs mb-3">
-                      Secure Dashboard Access
-                    </p>
-                    <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mx-auto" />
                   </div>
 
                   {/* Login Form */}
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {/* Email Field */}
-                    <div className="space-y-1">
-                      <label className="text-white/80 font-medium text-xs flex items-center">
-                        <div className="w-1 h-1 bg-blue-400 rounded-full mr-2" />
+                    <div className="space-y-3">
+                      <label className="text-white/90 font-medium text-sm flex items-center">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full mr-3" />
                         Email Address
                       </label>
                       <input 
                         type="text" 
                         placeholder="admin@healthcare.com"
-                        className="w-full p-2.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm"
+                        className="w-full p-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-base"
                         defaultValue="admin@healthcare.com"
                       />
                     </div>
                     
                     {/* Password Field */}
-                    <div className="space-y-1">
-                      <label className="text-white/80 font-medium text-xs flex items-center">
-                        <div className="w-1 h-1 bg-blue-400 rounded-full mr-2" />
+                    <div className="space-y-3">
+                      <label className="text-white/90 font-medium text-sm flex items-center">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full mr-3" />
                         Password
                       </label>
                       <input 
                         type="password" 
                         placeholder="••••••••"
-                        className="w-full p-2.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm"
+                        className="w-full p-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-base"
                         defaultValue="••••••••"
                       />
                     </div>
                     
                     {/* Sign In Button */}
-                    <div className="pt-2">
-                      <button className="w-full py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg text-white font-semibold text-sm transition-all duration-200">
+                    <div className="pt-4">
+                      <button className="w-full py-4 bg-blue-500 hover:bg-blue-600 rounded-2xl text-white font-semibold text-base transition-all duration-200">
                         Sign In
                       </button>
                     </div>
 
-                    {/* Biometric */}
-                    <div className="text-center pt-3">
-                      <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center mb-2">
-                        <div className="w-5 h-5 border border-white/60 rounded-full animate-pulse"></div>
+                    {/* Touch ID / Face ID */}
+                    <div className="text-center pt-8">
+                      <div className="w-12 h-12 bg-white/30 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center mb-3 border border-white/20">
+                        <div className="w-8 h-8 border-2 border-white/60 rounded-full"></div>
                       </div>
-                      <p className="text-white/50 text-xs">Touch ID / Face ID</p>
+                      <p className="text-white/70 text-sm font-medium">Touch ID / Face ID</p>
                     </div>
                   </div>
                 </div>
