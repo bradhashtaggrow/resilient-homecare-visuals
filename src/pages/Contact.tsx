@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -270,18 +268,22 @@ const Contact = () => {
 
       {/* CTA Section */}
       {ctaConfig.title && (
-        <section className="py-24 bg-gradient-to-br from-blue-500 to-blue-700 overflow-hidden">
-          <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-            <h2 className="text-4xl font-bold text-white mb-6 font-apple">
+        <section className="relative py-24 bg-white overflow-hidden">
+          {/* Blue Bubble Decorations */}
+          <div className="absolute -top-32 -left-32 w-64 h-64 bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,50%)] rounded-full opacity-10 blur-3xl"></div>
+          <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-gradient-to-br from-[hsl(214,100%,50%)] to-[hsl(214,100%,40%)] rounded-full opacity-15 blur-3xl"></div>
+          
+          <div className="relative max-w-4xl mx-auto px-6 lg:px-8 text-center">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6 font-apple">
               {ctaConfig.title}
             </h2>
-            <p className="text-xl text-white/90 mb-8 font-apple">
+            <p className="text-xl text-gray-600 mb-8 font-apple">
               {ctaConfig.description}
             </p>
             {ctaConfig.button_text && (
               <Button 
                 size="lg" 
-                className="px-8 py-4 text-lg font-semibold rounded-xl bg-white text-blue-600 hover:bg-gray-100 transition-colors"
+                className="px-8 py-4 text-lg font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white"
               >
                 {ctaConfig.button_text}
               </Button>
@@ -296,4 +298,3 @@ const Contact = () => {
 };
 
 export default Contact;
-
