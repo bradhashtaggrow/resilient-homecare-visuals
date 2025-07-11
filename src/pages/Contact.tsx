@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -100,33 +99,33 @@ const Contact = () => {
                 </h2>
                 
                 <div className="space-y-6 lg:space-y-8">
-                  <div className="group p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-blue-50 to-white border border-blue-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+                  <div className="group p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,45%)] border border-blue-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1 hover:from-[hsl(214,100%,65%)] hover:to-[hsl(214,100%,50%)]">
                     <div className="flex items-start space-x-4 sm:space-x-6">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                         <Phone className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4 font-apple">
-                          {contactInfo.phone?.label || "📞 Call"}
+                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2 sm:mb-4 font-apple">
+                          📞 Call Us
                         </h3>
-                        <p className="text-gray-600 text-base sm:text-lg leading-relaxed font-apple">
-                          {contactInfo.phone?.number || "(732) 429-2102"}
+                        <p className="text-white/90 text-base sm:text-lg leading-relaxed font-apple">
+                          (555) 123-4567
                         </p>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="group p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-green-50 to-white border border-green-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+                  <div className="group p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,45%)] border border-blue-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1 hover:from-[hsl(214,100%,65%)] hover:to-[hsl(214,100%,50%)]">
                     <div className="flex items-start space-x-4 sm:space-x-6">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                         <Mail className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4 font-apple">
-                          {contactInfo.email?.label || "✉️ Email"}
+                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2 sm:mb-4 font-apple">
+                          ✉️ Email Us
                         </h3>
-                        <p className="text-gray-600 text-base sm:text-lg leading-relaxed font-apple break-all">
-                          {contactInfo.email?.address || "jackleen@resilienthc.org"}
+                        <p className="text-white/90 text-base sm:text-lg leading-relaxed font-apple break-all">
+                          contact@resilienthealthcare.com
                         </p>
                       </div>
                     </div>
