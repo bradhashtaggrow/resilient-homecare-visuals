@@ -88,10 +88,10 @@ const Navigation = () => {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-white">
-          <div className="flex flex-col h-full">
+        <div className="lg:hidden fixed inset-0 z-50">
+          <div className="flex flex-col h-full bg-white">
             {/* Mobile Header */}
-            <div className="flex justify-between items-center p-6 border-b">
+            <div className="flex justify-between items-center p-6 border-b bg-white">
               <Link to="/" onClick={() => setMobileMenuOpen(false)}>
                 <img 
                   src="/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png" 
@@ -110,7 +110,7 @@ const Navigation = () => {
             </div>
 
             {/* Mobile Navigation Links */}
-            <div className="flex-1 flex flex-col justify-center space-y-8 px-6">
+            <div className="flex-1 flex flex-col justify-center space-y-8 px-6 bg-white">
               <Link 
                 to="/care-at-home" 
                 className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
@@ -156,7 +156,7 @@ const Navigation = () => {
             </div>
 
             {/* Mobile Action Buttons */}
-            <div className="p-6 space-y-4 border-t">
+            <div className="p-6 space-y-4 border-t bg-white">
               <LeadCaptureModal source="mobile-navigation">
                 <Button 
                   className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4"
