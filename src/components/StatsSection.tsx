@@ -325,7 +325,7 @@ const StatsSection = () => {
               <div className="group relative">
                 <div className="bg-white/10 backdrop-blur-sm p-6 sm:p-8 rounded-xl lg:rounded-2xl hover-lift border border-white/20 h-full transition-all duration-500 hover:bg-white/20">
                   {/* Icon */}
-                  <div className={`inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl mb-4 sm:mb-6 ${getGradientClass(stat.color)} text-white shadow-xl group-hover:scale-110 transition-transform duration-300`}>
+                  <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl mb-4 sm:mb-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-xl group-hover:scale-110 transition-transform duration-300">
                     {stat.icon}
                   </div>
                   
