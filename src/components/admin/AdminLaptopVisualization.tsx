@@ -76,106 +76,81 @@ const AdminLaptopVisualization = ({
                 >
                   <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                 </video>
-                {/* Contrast overlay to match website brightness */}
-                <div className="absolute inset-0 bg-black/40 rounded-2xl" />
+                {/* Dark overlay for text readability */}
+                <div className="absolute inset-0 bg-black/60 rounded-2xl" />
               </div>
 
-              {/* Floating particles effect */}
-              <div className="absolute inset-0 z-10">
-                <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-white/20 rounded-full animate-ping" style={{ animationDelay: '0s' }} />
-                <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-blue-300/30 rounded-full animate-ping" style={{ animationDelay: '2s' }} />
-                <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-purple-300/25 rounded-full animate-ping" style={{ animationDelay: '4s' }} />
-              </div>
+              {/* Admin Login Interface - With Resilient logo */}
+              <div className="relative z-10 w-full h-full flex items-center justify-center">
+                <div className="max-w-[320px] w-full mx-4 relative">
+                  {/* Gradient blur background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/20 to-white/10 backdrop-blur-xl rounded-xl" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-white/10 rounded-xl" />
+                  
+                  {/* Form content */}
+                  <div className="relative border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 rounded-xl p-6">
+                    {/* Resilient Healthcare Logo */}
+                    <div className="text-center mb-6">
+                      <div className="flex items-center justify-center mb-4">
+                        <img 
+                          src="/lovable-uploads/7c1e9f2c-e9a3-484c-9ce9-0e5ce0293c0e.png" 
+                          alt="Resilient Healthcare" 
+                          className="h-8 w-auto"
+                        />
+                      </div>
+                    </div>
 
-              {/* Login Card - Using exact glassmorphism from Login page */}
-              <div className="relative z-20 w-full h-full flex items-center justify-center px-4">
-                <div className="w-full max-w-md">
-                  <div className="backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/15 rounded-lg">
-                    <div className="text-center pb-8 pt-8 flex flex-col space-y-1.5 p-6">
-                      {/* Enhanced Logo Container */}
-                      <div className="flex items-center justify-center mb-6">
+                    {/* Login Form */}
+                    <div className="space-y-4">
+                      {/* Email Field */}
+                      <div className="space-y-2">
+                        <label className="text-white/90 font-medium text-sm flex items-center">
+                          <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2" />
+                          Email Address
+                        </label>
                         <div className="relative">
-                          <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-light rounded-2xl flex items-center justify-center shadow-xl shadow-primary/30 hover:shadow-primary/50 transition-all duration-300 hover:scale-110">
-                            <div className="h-9 w-9 text-white drop-shadow-lg">
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
-                                <path d="M2 12h20"/>
-                              </svg>
-                            </div>
-                          </div>
-                          <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-primary to-primary-light rounded-full flex items-center justify-center">
-                            <Shield className="h-3 w-3 text-white" />
-                          </div>
+                          <input 
+                            type="text" 
+                            placeholder="admin@healthcare.com"
+                            className="w-full h-12 p-3 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-xl text-sm"
+                            defaultValue="admin@healthcare.com"
+                          />
                         </div>
                       </div>
                       
-                      {/* Enhanced Title */}
-                      <h3 className="text-3xl font-black text-white mb-2 tracking-tight text-2xl font-semibold leading-none tracking-tight">
-                        <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-                          Healthcare Admin
-                        </span>
-                      </h3>
-                      <p className="text-white/80 text-lg font-medium tracking-wide">
-                        Secure Dashboard Access
-                      </p>
-                      <div className="w-16 h-1 bg-gradient-to-r from-primary to-primary rounded-full mx-auto mt-4" />
-                    </div>
-                    
-                    <div className="px-8 pb-8 p-6 pt-0">
-                      <form className="space-y-6">
-                        {/* Enhanced Email Field */}
-                        <div className="space-y-3">
-                          <label htmlFor="email" className="text-white/90 font-semibold text-sm tracking-wide flex items-center text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                            <div className="w-2 h-2 bg-gradient-to-r from-primary to-primary rounded-full mr-2" />
-                            Email Address
-                          </label>
-                          <div className="relative">
-                            <input
-                              id="email"
-                              type="email"
-                              required
-                              className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                              placeholder="Enter your email"
-                            />
-                          </div>
+                      {/* Password Field */}
+                      <div className="space-y-2">
+                        <label className="text-white/90 font-medium text-sm flex items-center">
+                          <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2" />
+                          Password
+                        </label>
+                        <div className="relative">
+                          <input 
+                            type="password" 
+                            placeholder="••••••••"
+                            className="w-full h-12 p-3 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-xl text-sm"
+                            defaultValue="••••••••"
+                          />
                         </div>
-                        
-                        {/* Enhanced Password Field */}
-                        <div className="space-y-3">
-                          <label htmlFor="password" className="text-white/90 font-semibold text-sm tracking-wide flex items-center text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                            <div className="w-2 h-2 bg-gradient-to-r from-primary to-primary rounded-full mr-2" />
-                            Password
-                          </label>
-                          <div className="relative">
-                            <input
-                              id="password"
-                              type="password"
-                              required
-                              className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 pr-12 flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                              placeholder="Enter your password"
-                            />
-                            <button
-                              type="button"
-                              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white/90 transition-colors"
-                            >
-                              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                <circle cx="12" cy="12" r="3"/>
-                              </svg>
-                            </button>
+                      </div>
+                      
+                      {/* Sign In Button */}
+                      <div className="pt-2">
+                        <button className="w-full h-14 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-xl text-white font-bold text-sm transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 shadow-lg">
+                          <div className="flex items-center justify-center">
+                            <div className="mr-2 h-4 w-4 border border-white rounded"></div>
+                            Access Admin Dashboard
                           </div>
-                        </div>
-                        
-                        {/* Enhanced Submit Button */}
-                        <button 
-                          type="submit" 
-                          className="w-full h-14 text-lg font-bold transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-gradient-to-r from-[hsl(214,100%,60%)] to-[hsl(214,100%,45%)] text-white hover:from-[hsl(214,100%,55%)] hover:to-[hsl(214,100%,40%)] border-0 shadow-lg" 
-                        >
-                          <Lock className="mr-3 h-5 w-5" />
-                          <span className="tracking-wide">Access Admin Dashboard</span>
                         </button>
-                      </form>
+                      </div>
+
+                      {/* Touch ID / Face ID */}
+                      <div className="text-center pt-4">
+                        <div className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center mb-2 border border-white/20">
+                          <div className="w-6 h-6 border border-white/60 rounded-full"></div>
+                        </div>
+                        <p className="text-white/70 text-sm">Touch ID / Face ID</p>
+                      </div>
                     </div>
                   </div>
                 </div>
