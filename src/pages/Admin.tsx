@@ -21,7 +21,7 @@ const Admin = () => {
   const [selectedPage, setSelectedPage] = useState('home');
   const [loading, setLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<'connected' | 'disconnected' | 'syncing'>('disconnected');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 1024);
   const [stats, setStats] = useState({
     totalContent: 0,
     totalServices: 0,
@@ -35,6 +35,18 @@ const Admin = () => {
   useEffect(() => {
     loadData();
     setupStorageMonitoring();
+    
+    // Handle responsive sidebar behavior
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const loadData = async () => {
@@ -160,14 +172,35 @@ const Admin = () => {
   return (
     <SidebarProvider defaultOpen={sidebarOpen}>
       <div className="flex min-h-screen w-full bg-gray-50">
-        {sidebarOpen && (
+        {/* Mobile overlay */}
+        {sidebarOpen && window.innerWidth < 1024 && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+        
+        {/* Sidebar */}
+        <div className={`${
+          sidebarOpen 
+            ? window.innerWidth < 1024 
+              ? 'fixed left-0 top-0 z-50 lg:relative lg:z-auto' 
+              : 'relative'
+            : 'hidden'
+        }`}>
           <AdminSidebar 
             activeSection={activeSection} 
-            onSectionChange={setActiveSection}
+            onSectionChange={(section) => {
+              setActiveSection(section);
+              // Auto-close sidebar on mobile after selection
+              if (window.innerWidth < 1024) {
+                setSidebarOpen(false);
+              }
+            }}
             syncStatus={syncStatus}
             onClose={() => setSidebarOpen(false)}
           />
-        )}
+        </div>
         <div className="flex-1 flex flex-col min-w-0">
           <AdminHeader 
             activeSection={activeSection} 

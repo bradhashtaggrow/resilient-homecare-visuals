@@ -96,12 +96,26 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
   return (
     <header className="h-14 sm:h-16 border-b border-border bg-background px-3 sm:px-4 lg:px-6 flex items-center justify-between">
       <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
+        {/* Show hamburger menu on mobile/tablet or when sidebar is closed */}
+        {(!sidebarOpen || window.innerWidth < 1024) && onSidebarToggle && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onSidebarToggle}
+            className="p-2 flex-shrink-0 lg:hidden"
+            aria-label="Toggle sidebar"
+          >
+            <Menu className="h-4 w-4" />
+          </Button>
+        )}
+        {/* Always show on larger screens when sidebar is closed */}
         {!sidebarOpen && onSidebarToggle && (
           <Button
             variant="outline"
             size="sm"
             onClick={onSidebarToggle}
-            className="p-2 flex-shrink-0"
+            className="p-2 flex-shrink-0 hidden lg:flex"
+            aria-label="Open sidebar"
           >
             <Menu className="h-4 w-4" />
           </Button>
