@@ -276,10 +276,10 @@ const MobileShowcase = () => {
                   <div className="absolute -top-6 -right-6 w-14 h-14 btn-3d-gradient rounded-full flex items-center justify-center animate-float shadow-xl">
                     <Shield className="h-7 w-7 text-white" />
                   </div>
-                  <div className="absolute -bottom-6 -left-6 w-12 h-12 healthcare-gradient-secondary rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
+                  <div className="absolute -bottom-6 -left-6 w-12 h-12 btn-3d-gradient rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
                     <Lock className="h-6 w-6 text-white" />
                   </div>
-                  <div className="absolute top-1/3 -right-8 w-10 h-10 healthcare-gradient-primary rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
+                  <div className="absolute top-1/3 -right-8 w-10 h-10 btn-3d-gradient rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
                     <Database className="h-5 w-5 text-white" />
                   </div>
                 </div>
