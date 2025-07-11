@@ -460,7 +460,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                               <Eye className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-[90vw] w-full sm:max-w-[85vw] md:max-w-3xl max-h-[85vh] overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-[10%] data-[state=open]:slide-in-from-top-[10%] sm:data-[state=closed]:slide-out-to-bottom-[10%] sm:data-[state=open]:slide-in-from-bottom-[10%] md:data-[state=closed]:slide-out-to-top-[5%] md:data-[state=open]:slide-in-from-top-[5%]">
+                          <DialogContent className="max-w-[90vw] w-full sm:max-w-[85vw] md:max-w-3xl max-h-[85vh] overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-[10%] data-[state=open]:slide-in-from-top-[10%] md:data-[state=closed]:slide-out-to-top-[5%] md:data-[state=open]:slide-in-from-top-[5%]">
                             <div className="flex flex-col h-full">
                               <DialogHeader className="border-b border-border pb-4 mb-6 flex-shrink-0">
                                 <div className="flex items-center justify-between">
