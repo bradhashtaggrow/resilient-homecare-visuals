@@ -462,7 +462,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                           </DialogTrigger>
                           <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
                             <div className="flex flex-col h-full">
-                              <DialogHeader className="border-b border-border pb-4 mb-6">
+                              <DialogHeader className="border-b border-border pb-4 mb-6 flex-shrink-0">
                                 <div className="flex items-center justify-between">
                                   <div>
                                     <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
@@ -486,13 +486,13 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                               </DialogHeader>
 
                               <div className="flex-1 overflow-auto">
-                                <Tabs defaultValue="details" className="w-full">
-                                  <TabsList className="grid w-full grid-cols-2 mb-6">
+                                <Tabs defaultValue="details" className="w-full h-full">
+                                  <TabsList className="grid w-full grid-cols-2 mb-6 flex-shrink-0">
                                     <TabsTrigger value="details" className="text-sm font-medium">Details</TabsTrigger>
                                     <TabsTrigger value="notes" className="text-sm font-medium">Notes</TabsTrigger>
                                   </TabsList>
 
-                                  <TabsContent value="details" className="space-y-6">
+                                  <TabsContent value="details" className="space-y-6 overflow-auto max-h-[calc(90vh-200px)]">
                                     <div className="grid md:grid-cols-2 gap-6">
                                       {/* Contact Information Card */}
                                       <Card className="glass border-0 shadow-sm">
