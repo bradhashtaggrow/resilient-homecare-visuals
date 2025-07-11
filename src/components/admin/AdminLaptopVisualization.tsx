@@ -82,66 +82,67 @@ const AdminLaptopVisualization = ({
 
               {/* Admin Login Interface - With Resilient logo */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-[400px] w-full mx-4 backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl rounded-3xl p-8 relative">
-                  {/* Subtle glass overlay effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-white/3 to-white/1 rounded-3xl pointer-events-none backdrop-blur-md"></div>
-                  
-                  <div className="relative z-10">
-                    {/* Blue Globe/Shield Icon */}
-                    <div className="text-center mb-8">
-                      <div className="w-20 h-20 bg-blue-500 rounded-3xl mx-auto mb-6 flex items-center justify-center shadow-lg relative">
-                        <div className="w-10 h-10 border-2 border-white rounded-full flex items-center justify-center">
-                          <div className="w-6 h-6 border border-white rounded-full flex items-center justify-center">
-                            <div className="w-2 h-2 bg-white rounded-full"></div>
-                          </div>
-                        </div>
-                        <Shield className="w-4 h-4 text-white absolute top-2 right-2" />
-                      </div>
-                      <h2 className="text-white text-2xl font-bold mb-3">Healthcare Admin</h2>
-                      <p className="text-white/60 text-base mb-4">Secure Dashboard Access</p>
-                      <div className="w-16 h-1 bg-blue-500 mx-auto rounded-full"></div>
+                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl rounded-xl p-6">
+                  {/* Resilient Healthcare Logo */}
+                  <div className="text-center mb-6">
+                    <div className="flex items-center justify-center mb-4">
+                      <img 
+                        src="/lovable-uploads/7c1e9f2c-e9a3-484c-9ce9-0e5ce0293c0e.png" 
+                        alt="Resilient Healthcare" 
+                        className="h-8 w-auto"
+                      />
                     </div>
+                  </div>
 
-                    {/* Login Form */}
-                    <div className="space-y-6">
-                      {/* Email Field */}
-                      <div className="space-y-3">
-                        <label className="text-white/90 font-medium text-sm flex items-center">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-3" />
-                          Email Address
-                        </label>
+                  {/* Login Form */}
+                  <div className="space-y-4">
+                    {/* Email Field */}
+                    <div className="space-y-2">
+                      <label className="text-white/90 font-medium text-sm flex items-center">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2" />
+                        Email Address
+                      </label>
+                      <div className="relative">
                         <input 
                           type="text" 
-                          placeholder="Enter your email"
-                          className="w-full p-4 bg-white/8 backdrop-blur-sm border border-white/15 rounded-2xl text-white placeholder-white/40 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-base"
+                          placeholder="admin@healthcare.com"
+                          className="w-full p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm shadow-inner"
+                          defaultValue="admin@healthcare.com"
                         />
+                        <div className="absolute inset-0 bg-white/5 rounded-xl pointer-events-none"></div>
                       </div>
-                      
-                      {/* Password Field */}
-                      <div className="space-y-3">
-                        <label className="text-white/90 font-medium text-sm flex items-center">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-3" />
-                          Password
-                        </label>
-                        <div className="relative">
-                          <input 
-                            type="password" 
-                            placeholder="Enter your password"
-                            className="w-full p-4 bg-white/8 backdrop-blur-sm border border-white/15 rounded-2xl text-white placeholder-white/40 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-base pr-14"
-                          />
-                          <button className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white/70">
-                            <Brain className="w-5 h-5" />
-                          </button>
-                        </div>
+                    </div>
+                    
+                    {/* Password Field */}
+                    <div className="space-y-2">
+                      <label className="text-white/90 font-medium text-sm flex items-center">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2" />
+                        Password
+                      </label>
+                      <div className="relative">
+                        <input 
+                          type="password" 
+                          placeholder="••••••••"
+                          className="w-full p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm shadow-inner"
+                          defaultValue="••••••••"
+                        />
+                        <div className="absolute inset-0 bg-white/5 rounded-xl pointer-events-none"></div>
                       </div>
-                      
-                      {/* Access Button */}
-                      <div className="pt-6">
-                        <button className="w-full py-4 bg-blue-500 hover:bg-blue-600 rounded-2xl text-white font-semibold text-base transition-all duration-200 flex items-center justify-center gap-3">
-                          <Lock className="w-5 h-5" />
-                          Access Admin Dashboard
-                        </button>
+                    </div>
+                    
+                    {/* Sign In Button */}
+                    <div className="pt-2">
+                      <button className="w-full py-3 bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-semibold text-sm transition-all duration-200">
+                        Sign In
+                      </button>
+                    </div>
+
+                    {/* Touch ID / Face ID */}
+                    <div className="text-center pt-4">
+                      <div className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center mb-2 border border-white/20">
+                        <div className="w-6 h-6 border border-white/60 rounded-full"></div>
                       </div>
+                      <p className="text-white/70 text-sm">Touch ID / Face ID</p>
                     </div>
                   </div>
                 </div>
