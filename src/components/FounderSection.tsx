@@ -188,9 +188,9 @@ const FounderSection = () => {
                 {/* Enhanced Achievement Badges with Mobile Optimization */}
                 {content.achievements?.map((achievement, index) => {
                   const positions = [
-                    { className: "absolute -top-2 sm:-top-4 -right-2 sm:-right-4", bgColor: "bg-blue-600 hover:bg-blue-700" },
-                    { className: "absolute top-1/2 -left-4 sm:-left-6 transform -translate-y-1/2", bgColor: "bg-blue-500 hover:bg-blue-600" },
-                    { className: "absolute -bottom-2 sm:-bottom-4 -right-6 sm:-right-8", bgColor: "bg-blue-700 hover:bg-blue-800" }
+                    { className: "absolute -top-1 sm:-top-2 -right-1 sm:-right-2", bgColor: "bg-blue-600 hover:bg-blue-700" },
+                    { className: "absolute top-1/2 -left-2 sm:-left-3 transform -translate-y-1/2", bgColor: "bg-blue-500 hover:bg-blue-600" },
+                    { className: "absolute -bottom-1 sm:-bottom-2 -right-3 sm:-right-4", bgColor: "bg-blue-700 hover:bg-blue-800" }
                   ];
                   const position = positions[index] || positions[0];
                   
