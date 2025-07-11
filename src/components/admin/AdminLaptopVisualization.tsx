@@ -87,7 +87,7 @@ const AdminLaptopVisualization = ({
                 <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-purple-300/25 rounded-full animate-ping" style={{ animationDelay: '4s' }} />
               </div>
 
-              {/* Login Card - Using exact code from Login page */}
+              {/* Login Card - Using exact glassmorphism from Login page */}
               <div className="relative z-20 w-full h-full flex items-center justify-center px-4">
                 <div className="w-full max-w-md">
                   <div className="backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/15 rounded-lg">
