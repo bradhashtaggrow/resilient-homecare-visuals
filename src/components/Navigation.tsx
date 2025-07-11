@@ -60,7 +60,7 @@ const Navigation = () => {
             </Link>
             
             <LeadCaptureModal source="navigation">
-              <Button className="btn-3d-gradient font-apple text-sm font-semibold px-4 py-2">
+              <Button className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white hover:from-[#5a95f5] hover:to-[#2576d1] font-apple text-sm font-semibold px-4 py-2 rounded-lg shadow-lg transition-all duration-200">
                 Request Demo
               </Button>
             </LeadCaptureModal>
@@ -167,7 +167,7 @@ const Navigation = () => {
                   <div className="flex flex-col items-center space-y-4 pt-8">
                     <LeadCaptureModal source="mobile-navigation">
                       <Button 
-                        className="btn-3d-gradient font-apple text-lg font-semibold px-8 py-4"
+                        className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white hover:from-[#5a95f5] hover:to-[#2576d1] font-apple text-lg font-semibold px-8 py-4 rounded-lg shadow-lg transition-all duration-200"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Request Demo
