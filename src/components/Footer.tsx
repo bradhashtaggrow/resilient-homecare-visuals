@@ -66,22 +66,14 @@ const Footer = () => {
 
   const footerLinks = {
     Company: [
-      { name: 'About Us', href: '#' },
-      { name: 'Careers', href: '#' },
-      { name: 'Press', href: '#' },
-      { name: 'Contact', href: '#' }
+      { name: 'About Us', href: '/about' },
+      { name: 'Contact', href: '/contact' },
+      { name: 'News', href: '/news' }
     ],
-    Product: [
-      { name: 'Platform', href: '#' },
-      { name: 'Integrations', href: '#' },
-      { name: 'Security', href: '#' },
-      { name: 'Pricing', href: '#' }
-    ],
-    Resources: [
-      { name: 'Documentation', href: '#' },
-      { name: 'Support', href: '#' },
-      { name: 'Blog', href: '#' },
-      { name: 'Webinars', href: '#' }
+    Services: [
+      { name: 'Care at Home', href: '/care-at-home' },
+      { name: 'For Clinicians', href: '/clinicians' },
+      { name: 'For Patients', href: '/patients' }
     ],
     Legal: [
       { name: 'Privacy Policy', href: '#' },
@@ -144,7 +136,7 @@ const Footer = () => {
           </div>
 
           {/* Links Columns */}
-          <div className="grid grid-cols-2 gap-6 sm:gap-8 lg:col-span-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:col-span-3 lg:grid-cols-3">
             {Object.entries(footerLinks).map(([category, links]) => (
               <div key={category} className="text-center lg:text-left">
                 <h3 className="text-white/90 font-medium tracking-wide mb-3 sm:mb-4 text-sm sm:text-base lg:text-lg">
