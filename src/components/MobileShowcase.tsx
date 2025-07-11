@@ -258,7 +258,7 @@ const MobileShowcase = () => {
                                 type="text" 
                                 placeholder="admin@healthcare.com"
                                 className="w-full p-3 bg-white/10 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 transition-all shadow-lg text-sm"
-                                defaultValue="admin@healthcare.com"
+                                defaultValue="admin@resilienthc.com"
                               />
                             </div>
                             
