@@ -130,7 +130,7 @@ const AdminLaptopVisualization = ({
                     {/* Enhanced Submit Button */}
                     <button className="w-full p-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 rounded-lg text-sm flex items-center justify-center">
                       <Lock className="mr-2 h-4 w-4" />
-                      <span className="tracking-wide">Access Admin Dashboard</span>
+                      <span className="tracking-wide">Sign In</span>
                     </button>
 
                     {/* Biometric */}
