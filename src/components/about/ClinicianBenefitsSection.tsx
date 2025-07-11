@@ -25,10 +25,10 @@ const ClinicianBenefitsSection = () => {
           </div>
           <div className="order-2 lg:order-2">
             <div className="flex items-center mb-6 lg:mb-8">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-xl lg:rounded-2xl flex items-center justify-center mr-3 lg:mr-4 flex-shrink-0">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,45%)] rounded-xl lg:rounded-2xl flex items-center justify-center mr-3 lg:mr-4 flex-shrink-0">
                 <UserCheck className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-white" />
               </div>
-              <span className="text-green-600 font-bold text-lg sm:text-xl font-apple">For Clinicians</span>
+              <span className="text-blue-600 font-bold text-lg sm:text-xl font-apple">For Clinicians</span>
             </div>
             <h2 className="font-black tracking-tight font-apple mb-6 lg:mb-8" 
                 style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 0.9 }}>
@@ -37,8 +37,8 @@ const ClinicianBenefitsSection = () => {
             <div className="space-y-4 lg:space-y-6">
               {clinicianBenefits.map((benefit, index) => (
                 <div key={index} className="flex items-start space-x-3 lg:space-x-4 group">
-                  <div className="flex-shrink-0 w-6 h-6 lg:w-8 lg:h-8 bg-green-100 rounded-full flex items-center justify-center mt-1 group-hover:bg-green-200 transition-colors duration-300">
-                    <CheckCircle className="h-4 w-4 lg:h-5 lg:w-5 text-green-600" />
+                  <div className="flex-shrink-0 w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,45%)] rounded-full flex items-center justify-center mt-1 group-hover:from-[hsl(214,100%,65%)] group-hover:to-[hsl(214,100%,50%)] transition-all duration-300">
+                    <CheckCircle className="h-4 w-4 lg:h-5 lg:w-5 text-white" />
                   </div>
                   <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed font-apple">{benefit}</p>
                 </div>
