@@ -83,28 +83,13 @@ const AdminLaptopVisualization = ({
               {/* Admin Login Interface - Real UI from /login */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
                 <div className="max-w-xs w-full mx-6 rounded-xl p-6">
-                  {/* Enhanced Logo Container */}
+                  {/* Resilient Healthcare Logo */}
                   <div className="text-center mb-6">
-                    <div className="flex items-center justify-center mb-4">
-                      <div className="relative">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30">
-                          <Shield className="h-6 w-6 text-white drop-shadow-lg" />
-                        </div>
-                        <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                          <Shield className="h-2 w-2 text-white" />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Enhanced Title */}
-                    <h3 className="text-2xl font-black text-white mb-1 tracking-tight">
-                      <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-                        Healthcare Admin
-                      </span>
-                    </h3>
-                    <p className="text-white/80 text-sm font-medium tracking-wide">
-                      Secure Dashboard Access
-                    </p>
+                    <img 
+                      src="/lovable-uploads/5a772b80-d2b2-4229-9e36-55d6ed4eb178.png" 
+                      alt="Resilient Healthcare"
+                      className="h-16 mx-auto mb-4"
+                    />
                     <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mx-auto mt-2" />
                   </div>
 
