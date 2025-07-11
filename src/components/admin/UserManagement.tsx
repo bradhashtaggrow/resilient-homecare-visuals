@@ -28,7 +28,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Users, Wifi, WifiOff, UserPlus, Edit3, Trash2, Crown, Shield, User, Settings, Eye, FileText, BarChart3 } from 'lucide-react';
+import { Users, UserPlus, Edit3, Trash2, Crown, Shield, User, Settings, Eye, FileText, BarChart3 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
