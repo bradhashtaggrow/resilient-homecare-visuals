@@ -584,114 +584,119 @@ const BlogManager: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6 p-1 sm:p-0">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
         <div>
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">Blog Management</h2>
-          <p className="text-lg text-black">Manage blog posts, AI generation, and RSS feeds</p>
+          <h2 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">Blog Management</h2>
+          <p className="text-sm sm:text-lg text-black">Manage blog posts, AI generation, and RSS feeds</p>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="posts">Blog Posts</TabsTrigger>
-          <TabsTrigger value="rss-posts">RSS Posts</TabsTrigger>
-          <TabsTrigger value="create">Create Post</TabsTrigger>
-          <TabsTrigger value="rss">RSS Feeds</TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto">
+          <TabsList className="grid grid-cols-4 w-full min-w-[300px]">
+            <TabsTrigger value="posts" className="text-xs sm:text-sm px-2 sm:px-4">Posts</TabsTrigger>
+            <TabsTrigger value="rss-posts" className="text-xs sm:text-sm px-2 sm:px-4">RSS</TabsTrigger>
+            <TabsTrigger value="create" className="text-xs sm:text-sm px-2 sm:px-4">Create</TabsTrigger>
+            <TabsTrigger value="rss" className="text-xs sm:text-sm px-2 sm:px-4">Feeds</TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="posts" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">Published Posts ({blogPosts.filter(p => p.is_published && p.source !== 'rss').length})</h3>
-            <div className="flex gap-2">
-              <Badge variant="secondary">{blogPosts.filter(p => p.source !== 'rss').length} Total</Badge>
-              <Badge variant="secondary">{blogPosts.filter(p => p.is_featured && p.source !== 'rss').length} Featured</Badge>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+            <h3 className="text-base sm:text-lg font-semibold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">Published Posts ({blogPosts.filter(p => p.is_published && p.source !== 'rss').length})</h3>
+            <div className="flex flex-wrap gap-1 sm:gap-2">
+              <Badge variant="secondary" className="text-xs">{blogPosts.filter(p => p.source !== 'rss').length} Total</Badge>
+              <Badge variant="secondary" className="text-xs">{blogPosts.filter(p => p.is_featured && p.source !== 'rss').length} Featured</Badge>
             </div>
           </div>
 
           <div className="grid gap-4">
             {blogPosts.filter(post => post.source !== 'rss').map((post) => (
               <Card key={post.id} className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30 pointer-events-auto">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-black">{post.title}</CardTitle>
-                      <CardDescription className="text-black">
+                <CardHeader className="pb-3">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-0">
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-black text-sm sm:text-base line-clamp-2">{post.title}</CardTitle>
+                      <CardDescription className="text-black text-xs sm:text-sm">
                         By {post.author} • {new Date(post.created_at).toLocaleDateString()}
                       </CardDescription>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant={post.source === 'ai_generated' ? 'default' : post.source === 'rss' ? 'secondary' : 'outline'}>
+                    <div className="flex items-center flex-wrap gap-1 sm:gap-2">
+                      <Badge variant={post.source === 'ai_generated' ? 'default' : post.source === 'rss' ? 'secondary' : 'outline'} className="text-xs">
                         {post.source === 'ai_generated' && <Sparkles className="h-3 w-3 mr-1" />}
                         {post.source === 'rss' && <Rss className="h-3 w-3 mr-1" />}
                         {post.source.replace('_', ' ')}
                       </Badge>
-                      {post.is_featured && <Badge className="bg-yellow-500">Featured</Badge>}
+                      {post.is_featured && <Badge className="bg-yellow-500 text-xs">Featured</Badge>}
                       {post.is_published ? (
-                        <Badge className="bg-green-500"><Eye className="h-3 w-3 mr-1" />Published</Badge>
+                        <Badge className="bg-green-500 text-xs"><Eye className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />Published</Badge>
                       ) : (
-                        <Badge variant="outline"><EyeOff className="h-3 w-3 mr-1" />Draft</Badge>
+                        <Badge variant="outline" className="text-xs"><EyeOff className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />Draft</Badge>
                       )}
                     </div>
                   </div>
                 </CardHeader>
-                 <CardContent>
+                 <CardContent className="pt-0">
                    {post.featured_image_url && (
                      <div className="mb-4">
                        <img 
                          src={post.featured_image_url} 
                          alt={post.title}
-                         className="w-full h-32 object-cover rounded-lg border"
+                         className="w-full h-24 sm:h-32 object-cover rounded-lg border"
                        />
                      </div>
                    )}
-                   <p className="text-black mb-4 line-clamp-2">{post.excerpt}</p>
-                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {post.tags && post.tags.map((tag, index) => (
+                   <p className="text-black mb-4 line-clamp-2 text-sm sm:text-base">{post.excerpt}</p>
+                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="flex items-center gap-1 flex-wrap">
+                      {post.tags && post.tags.slice(0, 2).map((tag, index) => (
                         <Badge key={index} variant="outline" className="text-xs">
-                          <Tag className="h-3 w-3 mr-1" />
+                          <Tag className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
                           {tag}
                         </Badge>
                       ))}
+                      {post.tags && post.tags.length > 2 && (
+                        <Badge variant="outline" className="text-xs">+{post.tags.length - 2}</Badge>
+                      )}
                     </div>
-                     <div className="flex items-center gap-2"
+                     <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1"
                           style={{ pointerEvents: 'auto' }}>
                         <BlogEditDropdown post={post} onSave={handlePostSave}>
                           <Button
                             variant="outline"
                             size="sm"
-                            className="border-primary text-primary hover:bg-primary/10"
+                            className="border-primary text-primary hover:bg-primary/10 flex-shrink-0"
                           >
-                            <Edit className="h-4 w-4" />
+                            <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
                         </BlogEditDropdown>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => togglePostStatus(post.id, 'is_featured')}
-                        className="border-yellow-200 text-yellow-600 hover:bg-yellow-50"
+                        className="border-yellow-200 text-yellow-600 hover:bg-yellow-50 flex-shrink-0"
                         title={post.is_featured ? 'Remove from featured' : 'Mark as featured'}
                       >
-                        <Star className={`h-4 w-4 ${post.is_featured ? 'fill-current' : ''}`} />
+                        <Star className={`h-3 w-3 sm:h-4 sm:w-4 ${post.is_featured ? 'fill-current' : ''}`} />
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => togglePostStatus(post.id, 'is_published')}
-                        className={post.is_published ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-green-600 hover:bg-green-50'}
+                        className={`${post.is_published ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-green-600 hover:bg-green-50'} flex-shrink-0`}
                         title={post.is_published ? 'Unpublish post' : 'Publish post'}
                       >
-                        {post.is_published ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {post.is_published ? <EyeOff className="h-3 w-3 sm:h-4 sm:w-4" /> : <Eye className="h-3 w-3 sm:h-4 sm:w-4" />}
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => deletePost(post.id)}
-                        className="border-red-200 text-red-600 hover:bg-red-50"
+                        className="border-red-200 text-red-600 hover:bg-red-50 flex-shrink-0"
                         title="Delete post"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
                     </div>
                   </div>
@@ -703,112 +708,115 @@ const BlogManager: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="rss-posts" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">RSS Imported Posts ({blogPosts.filter(p => p.source === 'rss').length})</h3>
-            <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+            <h3 className="text-base sm:text-lg font-semibold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">RSS Imported Posts ({blogPosts.filter(p => p.source === 'rss').length})</h3>
+            <div className="flex flex-wrap gap-1 sm:gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={updateExistingRSSImages}
                 disabled={isFetching}
-                className="bg-gradient-to-r from-primary to-primary-light text-white hover:from-primary/90 hover:to-primary-light/90"
+                className="bg-gradient-to-r from-primary to-primary-light text-white hover:from-primary/90 hover:to-primary-light/90 text-xs sm:text-sm"
                 title="Add missing images to existing RSS posts"
               >
                 {isFetching ? (
-                  <RefreshCw className="h-4 w-4 animate-spin mr-2" />
+                  <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4 animate-spin mr-1 sm:mr-2" />
                 ) : (
-                  <RefreshCw className="h-4 w-4 mr-2" />
+                  <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 )}
                 Update Images
               </Button>
-              <Badge variant="secondary">{blogPosts.filter(p => p.source === 'rss' && p.is_published).length} Published</Badge>
-              <Badge variant="secondary">{blogPosts.filter(p => p.source === 'rss' && !p.is_published).length} Drafts</Badge>
+              <Badge variant="secondary" className="text-xs">{blogPosts.filter(p => p.source === 'rss' && p.is_published).length} Published</Badge>
+              <Badge variant="secondary" className="text-xs">{blogPosts.filter(p => p.source === 'rss' && !p.is_published).length} Drafts</Badge>
             </div>
           </div>
 
           <div className="grid gap-4">
             {blogPosts.filter(p => p.source === 'rss').map((post) => (
               <Card key={post.id} className="border-orange-100 bg-gradient-to-br from-white to-orange-50/30">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-black">{post.title}</CardTitle>
-                      <CardDescription className="text-black">
+                <CardHeader className="pb-3">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-0">
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-black text-sm sm:text-base line-clamp-2">{post.title}</CardTitle>
+                      <CardDescription className="text-black text-xs sm:text-sm">
                         By {post.author} • {new Date(post.created_at).toLocaleDateString()}
                       </CardDescription>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="secondary">
-                        <Rss className="h-3 w-3 mr-1" />
+                    <div className="flex items-center flex-wrap gap-1 sm:gap-2">
+                      <Badge variant="secondary" className="text-xs">
+                        <Rss className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
                         RSS
                       </Badge>
-                      {post.is_featured && <Badge className="bg-yellow-500">Featured</Badge>}
+                      {post.is_featured && <Badge className="bg-yellow-500 text-xs">Featured</Badge>}
                       {post.is_published ? (
-                        <Badge className="bg-green-500"><Eye className="h-3 w-3 mr-1" />Published</Badge>
+                        <Badge className="bg-green-500 text-xs"><Eye className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />Published</Badge>
                       ) : (
-                        <Badge variant="outline"><EyeOff className="h-3 w-3 mr-1" />Draft</Badge>
+                        <Badge variant="outline" className="text-xs"><EyeOff className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />Draft</Badge>
                       )}
                     </div>
                   </div>
                 </CardHeader>
-                 <CardContent>
+                 <CardContent className="pt-0">
                    {post.featured_image_url && (
                      <div className="mb-4">
                        <img 
                          src={post.featured_image_url} 
                          alt={post.title}
-                         className="w-full h-32 object-cover rounded-lg border"
+                         className="w-full h-24 sm:h-32 object-cover rounded-lg border"
                        />
                      </div>
                    )}
-                   <p className="text-black mb-4 line-clamp-3">{post.excerpt}</p>
-                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {post.tags && post.tags.map((tag, index) => (
+                   <p className="text-black mb-4 line-clamp-3 text-sm sm:text-base">{post.excerpt}</p>
+                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="flex items-center gap-1 flex-wrap">
+                      {post.tags && post.tags.slice(0, 2).map((tag, index) => (
                         <Badge key={index} variant="outline" className="text-xs">
-                          <Tag className="h-3 w-3 mr-1" />
+                          <Tag className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
                           {tag}
                         </Badge>
                       ))}
+                      {post.tags && post.tags.length > 2 && (
+                        <Badge variant="outline" className="text-xs">+{post.tags.length - 2}</Badge>
+                      )}
                     </div>
-                     <div className="flex items-center gap-2" style={{ pointerEvents: 'auto' }}>
+                     <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1" style={{ pointerEvents: 'auto' }}>
                       <ViewPostDropdown post={post}>
                         <Button
                           variant="outline"
                           size="sm"
-                           className="border-primary text-primary hover:bg-primary/10"
+                           className="border-primary text-primary hover:bg-primary/10 flex-shrink-0"
                           title="View post content"
                         >
-                          <Eye className="h-4 w-4" />
+                          <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                       </ViewPostDropdown>
                         <RSSPostControls post={post} onSave={handlePostSave}>
                           <Button
                             variant="outline"
                             size="sm"
-                             className="border-primary text-primary hover:bg-primary/10"
+                             className="border-primary text-primary hover:bg-primary/10 flex-shrink-0"
                             title="Edit post settings"
                           >
-                            <Edit className="h-4 w-4" />
+                            <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
                         </RSSPostControls>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => togglePostStatus(post.id, 'is_published')}
-                        className={post.is_published ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-green-600 hover:bg-green-50'}
+                        className={`${post.is_published ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-green-600 hover:bg-green-50'} flex-shrink-0`}
                         title={post.is_published ? 'Remove from website' : 'Approve and publish to website'}
                       >
-                        {post.is_published ? <X className="h-4 w-4" /> : <Globe className="h-4 w-4" />}
+                        {post.is_published ? <X className="h-3 w-3 sm:h-4 sm:w-4" /> : <Globe className="h-3 w-3 sm:h-4 sm:w-4" />}
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => deletePost(post.id)}
-                        className="border-red-200 text-red-600 hover:bg-red-50"
+                        className="border-red-200 text-red-600 hover:bg-red-50 flex-shrink-0"
                         title="Delete post permanently"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
                     </div>
                   </div>
@@ -821,8 +829,8 @@ const BlogManager: React.FC = () => {
             <Card className="border-gray-200 bg-gray-50">
               <CardContent className="text-center py-8">
                 <Rss className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-black mb-2">No RSS posts yet</h3>
-                <p className="text-black mb-4">
+                <h3 className="text-base sm:text-lg font-medium text-black mb-2">No RSS posts yet</h3>
+                <p className="text-black mb-4 text-sm sm:text-base">
                   Import posts from RSS feeds to see them here. You can then publish them to your website.
                 </p>
                 <Button 
@@ -838,32 +846,32 @@ const BlogManager: React.FC = () => {
           )}
         </TabsContent>
 
-        <TabsContent value="create" className="space-y-6">
+        <TabsContent value="create" className="space-y-4 sm:space-y-6">
           <Card className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
             <CardHeader>
-              <CardTitle className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">Create Blog Post</CardTitle>
-              <CardDescription className="text-black">
+              <CardTitle className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent text-lg sm:text-xl">Create Blog Post</CardTitle>
+              <CardDescription className="text-black text-sm sm:text-base">
                 Create and publish new blog content
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-black">Title</Label>
+                  <Label className="text-black text-sm sm:text-base">Title</Label>
                   <Input
                     value={newPost.title || ''}
                     onChange={(e) => setNewPost({...newPost, title: e.target.value})}
                     placeholder="Blog post title"
-                    className="border-primary focus:border-primary"
+                    className="border-primary focus:border-primary text-sm sm:text-base"
                   />
                 </div>
                 <div>
-                  <Label className="text-black">Author</Label>
+                  <Label className="text-black text-sm sm:text-base">Author</Label>
                   <Input
                     value={newPost.author || ''}
                     onChange={(e) => setNewPost({...newPost, author: e.target.value})}
                     placeholder="Author name"
-                    className="border-primary focus:border-primary"
+                    className="border-primary focus:border-primary text-sm sm:text-base"
                   />
                 </div>
               </div>
@@ -875,45 +883,45 @@ const BlogManager: React.FC = () => {
                 />
 
                 <div>
-                  <Label className="text-black">Excerpt</Label>
+                  <Label className="text-black text-sm sm:text-base">Excerpt</Label>
                   <Textarea
                     value={newPost.excerpt || ''}
                     onChange={(e) => setNewPost({...newPost, excerpt: e.target.value})}
                     placeholder="Brief excerpt or summary"
                     rows={2}
-                    className="border-primary focus:border-primary"
+                    className="border-primary focus:border-primary text-sm sm:text-base"
                   />
                 </div>
 
               <div>
-                <Label className="text-black">Content</Label>
+                <Label className="text-black text-sm sm:text-base">Content</Label>
                 <Textarea
                   value={newPost.content || ''}
                   onChange={(e) => setNewPost({...newPost, content: e.target.value})}
                   placeholder="Blog post content..."
-                  rows={10}
-                  className="border-primary focus:border-primary"
+                  rows={8}
+                  className="border-primary focus:border-primary text-sm sm:text-base"
                 />
               </div>
 
               <div>
-                <Label className="text-black">Tags</Label>
+                <Label className="text-black text-sm sm:text-base">Tags</Label>
                 <Input
-                  placeholder="Enter tags separated by commas (e.g., healthcare, AI, innovation)"
+                  placeholder="healthcare, AI, innovation"
                   value={newPost.tags?.join(', ') || ''}
                   onChange={(e) => {
                     const tagsString = e.target.value;
                     const tagsArray = tagsString.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
                     setNewPost({...newPost, tags: tagsArray});
                   }}
-                  className="border-primary focus:border-primary"
+                  className="border-primary focus:border-primary text-sm sm:text-base"
                 />
                 <p className="text-xs text-gray-500 mt-1">Separate multiple tags with commas</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <Label className="text-black">Category</Label>
+                  <Label className="text-black text-sm sm:text-base">Category</Label>
                   <Select 
                     value={newPost.category || 'healthcare'} 
                     onValueChange={(value) => setNewPost({...newPost, category: value})}
@@ -935,7 +943,7 @@ const BlogManager: React.FC = () => {
                     checked={newPost.is_published || false}
                     onCheckedChange={(checked) => setNewPost({...newPost, is_published: checked})}
                   />
-                  <Label htmlFor="published" className="text-black">Publish immediately</Label>
+                  <Label htmlFor="published" className="text-black text-sm sm:text-base">Publish immediately</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Switch
@@ -943,13 +951,13 @@ const BlogManager: React.FC = () => {
                     checked={newPost.is_featured || false}
                     onCheckedChange={(checked) => setNewPost({...newPost, is_featured: checked})}
                   />
-                  <Label htmlFor="featured" className="text-black">Featured post</Label>
+                  <Label htmlFor="featured" className="text-black text-sm sm:text-base">Featured post</Label>
                 </div>
               </div>
 
               <Button 
                 onClick={savePost} 
-                className="bg-gradient-to-r from-primary to-primary-light hover:from-primary/90 hover:to-primary-light/90"
+                className="bg-gradient-to-r from-primary to-primary-light hover:from-primary/90 hover:to-primary-light/90 w-full sm:w-auto"
               >
                 <Save className="h-4 w-4 mr-2" />
                 Create Blog Post
@@ -958,50 +966,50 @@ const BlogManager: React.FC = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="rss" className="space-y-6">
+        <TabsContent value="rss" className="space-y-4 sm:space-y-6">
           <Card className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
             <CardHeader>
-              <CardTitle className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">Add RSS Feed</CardTitle>
-              <CardDescription className="text-black">
+              <CardTitle className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent text-lg sm:text-xl">Add RSS Feed</CardTitle>
+              <CardDescription className="text-black text-sm sm:text-base">
                 Add healthcare and tech RSS feeds to automatically import content
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-black">Feed Name</Label>
+                  <Label className="text-black text-sm sm:text-base">Feed Name</Label>
                   <Input
                     value={newFeed.name || ''}
                     onChange={(e) => setNewFeed({...newFeed, name: e.target.value})}
                     placeholder="Healthcare News RSS"
-                    className="border-primary focus:border-primary"
+                    className="border-primary focus:border-primary text-sm sm:text-base"
                   />
                 </div>
                 <div>
-                  <Label className="text-black">RSS URL</Label>
+                  <Label className="text-black text-sm sm:text-base">RSS URL</Label>
                   <Input
                     value={newFeed.url || ''}
                     onChange={(e) => setNewFeed({...newFeed, url: e.target.value})}
                     placeholder="https://example.com/rss"
-                    className="border-primary focus:border-primary"
+                    className="border-primary focus:border-primary text-sm sm:text-base"
                   />
                 </div>
               </div>
 
               <div>
-                <Label className="text-black">Description</Label>
+                <Label className="text-black text-sm sm:text-base">Description</Label>
                 <Textarea
                   value={newFeed.description || ''}
                   onChange={(e) => setNewFeed({...newFeed, description: e.target.value})}
                   placeholder="Description of the RSS feed"
                   rows={2}
-                  className="border-primary focus:border-primary"
+                  className="border-primary focus:border-primary text-sm sm:text-base"
                 />
               </div>
 
               <Button 
                 onClick={saveFeed} 
-                className="bg-gradient-to-r from-primary to-primary-light hover:from-primary/90 hover:to-primary-light/90"
+                className="bg-gradient-to-r from-primary to-primary-light hover:from-primary/90 hover:to-primary-light/90 w-full sm:w-auto"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add RSS Feed
@@ -1010,46 +1018,46 @@ const BlogManager: React.FC = () => {
           </Card>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">RSS Feeds ({rssFeeds.length})</h3>
+            <h3 className="text-base sm:text-lg font-semibold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">RSS Feeds ({rssFeeds.length})</h3>
             {rssFeeds.map((feed) => (
               <Card key={feed.id} className="border-blue-100 bg-gradient-to-br from-white to-blue-50/30">
                 <CardContent className="pt-6">
                   {editingFeed === feed.id ? (
                     <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <Label className="text-black">Feed Name</Label>
+                          <Label className="text-black text-sm sm:text-base">Feed Name</Label>
                           <Input
                             value={editFeedData.name || feed.name}
                             onChange={(e) => setEditFeedData({...editFeedData, name: e.target.value})}
                             placeholder="Healthcare News RSS"
-                            className="border-primary focus:border-primary"
+                            className="border-primary focus:border-primary text-sm sm:text-base"
                           />
                         </div>
                         <div>
-                          <Label className="text-black">RSS URL</Label>
+                          <Label className="text-black text-sm sm:text-base">RSS URL</Label>
                           <Input
                             value={editFeedData.url || feed.url}
                             onChange={(e) => setEditFeedData({...editFeedData, url: e.target.value})}
                             placeholder="https://example.com/rss"
-                            className="border-primary focus:border-primary"
+                            className="border-primary focus:border-primary text-sm sm:text-base"
                           />
                         </div>
                       </div>
                       <div>
-                        <Label className="text-black">Description</Label>
+                        <Label className="text-black text-sm sm:text-base">Description</Label>
                         <Textarea
                           value={editFeedData.description !== undefined ? editFeedData.description : (feed.description || '')}
                           onChange={(e) => setEditFeedData({...editFeedData, description: e.target.value})}
                           placeholder="Description of the RSS feed"
                           rows={2}
-                          className="border-primary focus:border-primary"
+                          className="border-primary focus:border-primary text-sm sm:text-base"
                         />
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
                         <Button
                           onClick={() => saveEditedFeed(feed.id, editFeedData)}
-                          className="bg-gradient-to-r from-primary to-primary-light hover:from-primary/90 hover:to-primary-light/90"
+                          className="bg-gradient-to-r from-primary to-primary-light hover:from-primary/90 hover:to-primary-light/90 w-full sm:w-auto"
                         >
                           <Save className="h-4 w-4 mr-2" />
                           Save Changes
@@ -1060,7 +1068,7 @@ const BlogManager: React.FC = () => {
                             setEditingFeed(null);
                             setEditFeedData({});
                           }}
-                          className="border-black text-black hover:bg-gray-50"
+                          className="border-black text-black hover:bg-gray-50 w-full sm:w-auto"
                         >
                           <X className="h-4 w-4 mr-2" />
                           Cancel
@@ -1068,12 +1076,12 @@ const BlogManager: React.FC = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <h4 className="text-lg font-medium text-black">{feed.name}</h4>
-                        <p className="text-sm text-black">{feed.url}</p>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-base sm:text-lg font-medium text-black line-clamp-1">{feed.name}</h4>
+                        <p className="text-xs sm:text-sm text-black break-all line-clamp-1">{feed.url}</p>
                         {feed.description && (
-                          <p className="text-sm text-black mt-1">{feed.description}</p>
+                          <p className="text-xs sm:text-sm text-black mt-1 line-clamp-2">{feed.description}</p>
                         )}
                         {feed.last_fetched_at && (
                           <p className="text-xs text-black mt-2">
@@ -1081,14 +1089,15 @@ const BlogManager: React.FC = () => {
                           </p>
                         )}
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1">
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => updateFeedStatus(feed.id, !feed.is_active)}
-                          className={feed.is_active ? 'border-primary text-primary hover:bg-primary/10' : 'border-primary text-primary hover:bg-primary/10'}
+                          className={`${feed.is_active ? 'border-primary text-primary hover:bg-primary/10' : 'border-primary text-primary hover:bg-primary/10'} flex-shrink-0`}
+                          title={feed.is_active ? 'Deactivate feed' : 'Activate feed'}
                         >
-                          {feed.is_active ? <WifiOff className="h-4 w-4" /> : <Wifi className="h-4 w-4" />}
+                          {feed.is_active ? <WifiOff className="h-3 w-3 sm:h-4 sm:w-4" /> : <Wifi className="h-3 w-3 sm:h-4 sm:w-4" />}
                         </Button>
                         <Button
                           variant="outline"
@@ -1101,31 +1110,33 @@ const BlogManager: React.FC = () => {
                               description: feed.description
                             });
                           }}
-                          className="border-primary text-primary hover:bg-primary/10"
+                          className="border-primary text-primary hover:bg-primary/10 flex-shrink-0"
+                          title="Edit feed"
                         >
-                          <Edit className="h-4 w-4" />
+                          <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => fetchRSSPosts(feed.id)}
                           disabled={fetchingFeeds.has(feed.id)}
-                          className="border-primary text-primary hover:bg-primary/10"
+                          className="border-primary text-primary hover:bg-primary/10 flex-shrink-0"
+                          title="Fetch new posts"
                         >
                           {fetchingFeeds.has(feed.id) ? (
-                            <RefreshCw className="h-4 w-4 animate-spin" />
+                            <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
                           ) : (
-                            <Rss className="h-4 w-4" />
+                            <Rss className="h-3 w-3 sm:h-4 sm:w-4" />
                           )}
-                          Fetch
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => deleteFeed(feed.id)}
-                          className="border-red-200 text-red-600 hover:bg-red-50"
+                          className="border-red-200 text-red-600 hover:bg-red-50 flex-shrink-0"
+                          title="Delete feed"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                       </div>
                     </div>
