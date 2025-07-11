@@ -82,7 +82,7 @@ const AdminLaptopVisualization = ({
 
               {/* Admin Login Interface - Real UI from /login */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-xs w-full mx-6 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 rounded-xl p-6">
+                <div className="max-w-xs w-full mx-6 rounded-xl p-6">
                   {/* Enhanced Logo Container */}
                   <div className="text-center mb-6">
                     <div className="flex items-center justify-center mb-4">
