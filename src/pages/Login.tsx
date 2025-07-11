@@ -203,7 +203,7 @@ const Login = () => {
         {/* Enhanced Footer Text */}
         <div className="text-center mt-6">
           <p className="text-white/60 text-sm">
-            Secured by <span className="text-blue-300 font-semibold">Healthcare Platform</span>
+            
           </p>
         </div>
       </div>
