@@ -11,8 +11,8 @@ import { Globe, Loader2, Eye, EyeOff, Shield, Lock } from 'lucide-react';
 import OptimizedVideo from '@/components/OptimizedVideo';
 
 const Login = () => {
-  const [email, setEmail] = useState('admin@healthcare.com');
-  const [password, setPassword] = useState('Admin123!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { signIn, user, isAdmin } = useAuth();
