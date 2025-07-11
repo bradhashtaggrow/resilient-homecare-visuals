@@ -80,24 +80,21 @@ const AdminLaptopVisualization = ({
                 <div className="absolute inset-0 bg-black/30 rounded-2xl" />
               </div>
 
-              {/* Admin Login Interface - Real UI from /login */}
+              {/* Admin Login Interface - Matching reference design */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-xs w-full mx-6 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 rounded-xl p-6">
+                <div className="max-w-sm w-full mx-8 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 rounded-xl p-8">
                   {/* Enhanced Logo Container */}
-                  <div className="text-center mb-6">
-                    <div className="flex items-center justify-center mb-4">
+                  <div className="text-center mb-8">
+                    <div className="flex items-center justify-center mb-6">
                       <div className="relative">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30">
-                          <Shield className="h-6 w-6 text-white drop-shadow-lg" />
-                        </div>
-                        <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                          <Shield className="h-2 w-2 text-white" />
+                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30">
+                          <Shield className="h-8 w-8 text-white drop-shadow-lg" />
                         </div>
                       </div>
                     </div>
                     
                     {/* Enhanced Title */}
-                    <h3 className="text-2xl font-black text-white mb-1 tracking-tight">
+                    <h3 className="text-2xl font-black text-white mb-2 tracking-tight">
                       <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
                         Healthcare Admin
                       </span>
@@ -105,11 +102,11 @@ const AdminLaptopVisualization = ({
                     <p className="text-white/80 text-sm font-medium tracking-wide">
                       Secure Dashboard Access
                     </p>
-                    <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mx-auto mt-2" />
+                    <div className="w-16 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mx-auto mt-3" />
                   </div>
 
                   {/* Login Form */}
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {/* Enhanced Email Field */}
                     <div className="space-y-2">
                       <label className="text-white/90 font-semibold text-xs tracking-wide flex items-center">
@@ -120,7 +117,7 @@ const AdminLaptopVisualization = ({
                         <input 
                           type="text" 
                           placeholder="Enter your email"
-                          className="w-full p-3 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-lg border text-sm"
+                          className="w-full px-4 py-3 bg-white/10 border border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-lg text-sm"
                           defaultValue="admin@healthcare.com"
                         />
                       </div>
@@ -136,24 +133,24 @@ const AdminLaptopVisualization = ({
                         <input 
                           type="password" 
                           placeholder="Enter your password"
-                          className="w-full p-3 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-lg border text-sm"
+                          className="w-full px-4 py-3 bg-white/10 border border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-lg text-sm"
                           defaultValue="••••••••"
                         />
                       </div>
                     </div>
                     
                     {/* Enhanced Submit Button */}
-                    <button className="w-full p-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 rounded-lg text-sm flex items-center justify-center">
+                    <button className="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 rounded-lg text-sm flex items-center justify-center">
                       <Lock className="mr-2 h-4 w-4" />
                       <span className="tracking-wide">Access Admin Dashboard</span>
                     </button>
 
                     {/* Biometric */}
-                    <div className="text-center py-2">
-                      <div className="w-10 h-10 bg-white/25 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
-                        <div className="w-6 h-6 border-2 border-blue-400 rounded-full animate-pulse"></div>
+                    <div className="text-center py-4">
+                      <div className="w-12 h-12 bg-white/25 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg border border-white/20">
+                        <div className="w-8 h-8 border-2 border-blue-400 rounded-full animate-pulse"></div>
                       </div>
-                      <p className="text-white/60 text-xs mt-1">Touch ID / Face ID</p>
+                      <p className="text-white/60 text-xs mt-2">Touch ID / Face ID</p>
                     </div>
                   </div>
                 </div>
