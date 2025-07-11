@@ -93,12 +93,15 @@ const News = () => {
           ) : (
             <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
               {blogPosts.map((post) => (
-                <article key={post.id} className="bg-white rounded-xl sm:rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
-                  <img 
-                    src={post.featured_image_url || 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'} 
-                    alt={post.title}
-                    className="w-full h-40 sm:h-48 object-cover"
-                  />
+                <article key={post.id} className="bg-white rounded-xl sm:rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow group">
+                  <div className="relative overflow-hidden">
+                    <img 
+                      src={post.featured_image_url || 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'} 
+                      alt={post.title}
+                      className="w-full h-40 sm:h-48 object-cover hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#4285F4]/80 to-[#1565C0]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
+                  </div>
                   <div className="p-4 sm:p-6 lg:p-8">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
                       <span className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white px-2 sm:px-3 py-1 rounded-full font-medium self-start">
