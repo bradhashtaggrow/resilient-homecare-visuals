@@ -460,98 +460,263 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                               <Eye className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-                            <DialogHeader>
-                              <DialogTitle>Lead Details - {lead.first_name} {lead.last_name}</DialogTitle>
-                            </DialogHeader>
-                            {selectedLead && (
-                              <Tabs defaultValue="details" className="w-full">
-                                <TabsList>
-                                  <TabsTrigger value="details">Details</TabsTrigger>
-                                  <TabsTrigger value="notes">Notes</TabsTrigger>
-                                </TabsList>
-                                <TabsContent value="details" className="space-y-4">
-                                  <div className="grid grid-cols-2 gap-6">
-                                    <div className="space-y-4">
-                                      <h4 className="font-semibold flex items-center gap-2">
-                                        <Users className="h-4 w-4" />
-                                        Contact Information
-                                      </h4>
-                                      <div className="space-y-2 text-sm">
-                                        <p><strong>Name:</strong> {selectedLead.first_name} {selectedLead.last_name}</p>
-                                        <p><strong>Email:</strong> {selectedLead.email}</p>
-                                        <p><strong>Phone:</strong> {selectedLead.phone || 'Not provided'}</p>
-                                        <p><strong>Job Title:</strong> {selectedLead.job_title || 'Not provided'}</p>
-                                      </div>
-                                    </div>
-                                    <div className="space-y-4">
-                                      <h4 className="font-semibold flex items-center gap-2">
-                                        <Building className="h-4 w-4" />
-                                        Company Information
-                                      </h4>
-                                      <div className="space-y-2 text-sm">
-                                        <p><strong>Company:</strong> {selectedLead.company}</p>
-                                        <p><strong>Industry:</strong> {selectedLead.industry || 'Not provided'}</p>
-                                        <p><strong>Company Size:</strong> {selectedLead.company_size || 'Not provided'}</p>
-                                        <p><strong>Annual Revenue:</strong> {selectedLead.annual_revenue || 'Not provided'}</p>
-                                      </div>
-                                    </div>
+                          <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+                            <div className="flex flex-col h-full">
+                              <DialogHeader className="border-b border-border pb-4 mb-6">
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+                                      Lead Details - {lead.first_name} {lead.last_name}
+                                    </DialogTitle>
+                                    <p className="text-muted-foreground mt-1">
+                                      {lead.job_title} at {lead.company}
+                                    </p>
                                   </div>
-                                  <div className="grid grid-cols-2 gap-6">
-                                    <div className="space-y-4">
-                                      <h4 className="font-semibold flex items-center gap-2">
-                                        <Target className="h-4 w-4" />
-                                        Requirements
-                                      </h4>
-                                      <div className="space-y-2 text-sm">
-                                        <p><strong>Primary Challenge:</strong> {selectedLead.primary_challenge || 'Not provided'}</p>
-                                        <p><strong>Timeline:</strong> {selectedLead.timeline || 'Not provided'}</p>
-                                        <p><strong>Budget Range:</strong> {selectedLead.budget_range || 'Not provided'}</p>
-                                        <p><strong>Decision Maker:</strong> {selectedLead.decision_maker ? 'Yes' : 'No'}</p>
-                                        {selectedLead.interested_services && selectedLead.interested_services.length > 0 && (
+                                  <div className="flex items-center gap-2">
+                                    <Badge variant={getStatusBadgeVariant(lead.status)} className="text-sm px-3 py-1">
+                                      {getStatusLabel(lead.status)}
+                                    </Badge>
+                                    {lead.decision_maker && (
+                                      <Badge variant="outline" className="text-sm px-3 py-1">
+                                        Decision Maker
+                                      </Badge>
+                                    )}
+                                  </div>
+                                </div>
+                              </DialogHeader>
+
+                              <div className="flex-1 overflow-auto">
+                                <Tabs defaultValue="details" className="w-full">
+                                  <TabsList className="grid w-full grid-cols-2 mb-6">
+                                    <TabsTrigger value="details" className="text-sm font-medium">Details</TabsTrigger>
+                                    <TabsTrigger value="notes" className="text-sm font-medium">Notes</TabsTrigger>
+                                  </TabsList>
+
+                                  <TabsContent value="details" className="space-y-6">
+                                    <div className="grid md:grid-cols-2 gap-6">
+                                      {/* Contact Information Card */}
+                                      <Card className="glass border-0 shadow-sm">
+                                        <CardHeader className="pb-4">
+                                          <div className="flex items-center gap-3">
+                                            <div className="p-2 rounded-lg bg-primary/10">
+                                              <Users className="h-5 w-5 text-primary" />
+                                            </div>
+                                            <CardTitle className="text-lg font-semibold">Contact Information</CardTitle>
+                                          </div>
+                                        </CardHeader>
+                                        <CardContent className="space-y-4">
                                           <div>
-                                            <strong>Interested Services:</strong>
-                                            <div className="flex flex-wrap gap-1 mt-1">
-                                              {selectedLead.interested_services.map((service, index) => (
-                                                <Badge key={index} variant="outline" className="text-xs">{service}</Badge>
-                                              ))}
+                                            <Label className="text-sm font-medium text-muted-foreground">Name</Label>
+                                            <p className="text-base font-medium mt-1">{lead.first_name} {lead.last_name}</p>
+                                          </div>
+                                          <div>
+                                            <Label className="text-sm font-medium text-muted-foreground">Email</Label>
+                                            <div className="flex items-center gap-2 mt-1">
+                                              <Mail className="h-4 w-4 text-primary" />
+                                              <a href={`mailto:${lead.email}`} className="text-base text-primary hover:underline">
+                                                {lead.email}
+                                              </a>
                                             </div>
                                           </div>
-                                        )}
-                                      </div>
+                                          {lead.phone && (
+                                            <div>
+                                              <Label className="text-sm font-medium text-muted-foreground">Phone</Label>
+                                              <div className="flex items-center gap-2 mt-1">
+                                                <Phone className="h-4 w-4 text-primary" />
+                                                <a href={`tel:${lead.phone}`} className="text-base text-primary hover:underline">
+                                                  {lead.phone}
+                                                </a>
+                                              </div>
+                                            </div>
+                                          )}
+                                          {lead.job_title && (
+                                            <div>
+                                              <Label className="text-sm font-medium text-muted-foreground">Job Title</Label>
+                                              <p className="text-base font-medium mt-1">{lead.job_title}</p>
+                                            </div>
+                                          )}
+                                        </CardContent>
+                                      </Card>
+
+                                      {/* Company Information Card */}
+                                      <Card className="glass border-0 shadow-sm">
+                                        <CardHeader className="pb-4">
+                                          <div className="flex items-center gap-3">
+                                            <div className="p-2 rounded-lg bg-chart-2/10">
+                                              <Building className="h-5 w-5 text-chart-2" />
+                                            </div>
+                                            <CardTitle className="text-lg font-semibold">Company Information</CardTitle>
+                                          </div>
+                                        </CardHeader>
+                                        <CardContent className="space-y-4">
+                                          <div>
+                                            <Label className="text-sm font-medium text-muted-foreground">Company</Label>
+                                            <p className="text-base font-medium mt-1">{lead.company}</p>
+                                          </div>
+                                          {lead.industry && (
+                                            <div>
+                                              <Label className="text-sm font-medium text-muted-foreground">Industry</Label>
+                                              <p className="text-base mt-1">{lead.industry}</p>
+                                            </div>
+                                          )}
+                                          {lead.company_size && (
+                                            <div>
+                                              <Label className="text-sm font-medium text-muted-foreground">Company Size</Label>
+                                              <p className="text-base mt-1">{lead.company_size}</p>
+                                            </div>
+                                          )}
+                                          {lead.annual_revenue && (
+                                            <div>
+                                              <Label className="text-sm font-medium text-muted-foreground">Annual Revenue</Label>
+                                              <div className="flex items-center gap-2 mt-1">
+                                                <DollarSign className="h-4 w-4 text-chart-2" />
+                                                <p className="text-base">{lead.annual_revenue}</p>
+                                              </div>
+                                            </div>
+                                          )}
+                                        </CardContent>
+                                      </Card>
                                     </div>
-                                    <div className="space-y-4">
-                                      <h4 className="font-semibold flex items-center gap-2">
-                                        <Calendar className="h-4 w-4" />
-                                        Demo Scheduling
-                                      </h4>
-                                      <div className="space-y-2 text-sm">
-                                        <p><strong>Preferred Date:</strong> {selectedLead.preferred_date || 'Not provided'}</p>
-                                        <p><strong>Preferred Time:</strong> {selectedLead.preferred_time || 'Not provided'}</p>
-                                        <p><strong>Timezone:</strong> {selectedLead.timezone || 'Not provided'}</p>
-                                        <p><strong>Demo Type:</strong> {selectedLead.demo_type || 'Virtual'}</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </TabsContent>
-                                <TabsContent value="notes">
-                                  <div className="space-y-4">
-                                    <Label htmlFor="notes">Notes</Label>
-                                    <Textarea
-                                      id="notes"
-                                      placeholder="Add notes about this lead..."
-                                      value={selectedLead.notes || ''}
-                                      onChange={(e) => setSelectedLead({...selectedLead, notes: e.target.value})}
-                                      rows={8}
-                                    />
-                                    <Button onClick={() => updateLeadNotes(selectedLead.id, selectedLead.notes || '')}>
-                                      Save Notes
-                                    </Button>
-                                  </div>
-                                </TabsContent>
-                              </Tabs>
-                            )}
-                           </DialogContent>
+
+                                    {/* Requirements Section */}
+                                    <Card className="glass border-0 shadow-sm">
+                                      <CardHeader className="pb-4">
+                                        <div className="flex items-center gap-3">
+                                          <div className="p-2 rounded-lg bg-chart-3/10">
+                                            <Target className="h-5 w-5 text-chart-3" />
+                                          </div>
+                                          <CardTitle className="text-lg font-semibold">Requirements</CardTitle>
+                                        </div>
+                                      </CardHeader>
+                                      <CardContent>
+                                        <div className="grid md:grid-cols-2 gap-6">
+                                          <div className="space-y-4">
+                                            {lead.primary_challenge && (
+                                              <div>
+                                                <Label className="text-sm font-medium text-muted-foreground">Primary Challenge</Label>
+                                                <p className="text-base mt-1">{lead.primary_challenge}</p>
+                                              </div>
+                                            )}
+                                            {lead.timeline && (
+                                              <div>
+                                                <Label className="text-sm font-medium text-muted-foreground">Timeline</Label>
+                                                <p className="text-base mt-1">{lead.timeline}</p>
+                                              </div>
+                                            )}
+                                            {lead.budget_range && (
+                                              <div>
+                                                <Label className="text-sm font-medium text-muted-foreground">Budget Range</Label>
+                                                <p className="text-base mt-1">{lead.budget_range}</p>
+                                              </div>
+                                            )}
+                                          </div>
+                                          <div className="space-y-4">
+                                            <div>
+                                              <Label className="text-sm font-medium text-muted-foreground">Decision Maker</Label>
+                                              <p className="text-base mt-1">{lead.decision_maker ? 'Yes' : 'No'}</p>
+                                            </div>
+                                            {lead.interested_services && lead.interested_services.length > 0 && (
+                                              <div>
+                                                <Label className="text-sm font-medium text-muted-foreground">Interested Services</Label>
+                                                <div className="flex flex-wrap gap-2 mt-2">
+                                                  {lead.interested_services.map((service, index) => (
+                                                    <Badge key={index} variant="outline" className="text-xs">
+                                                      {service}
+                                                    </Badge>
+                                                  ))}
+                                                </div>
+                                              </div>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </CardContent>
+                                    </Card>
+
+                                    {/* Demo Scheduling Section */}
+                                    {(lead.preferred_date || lead.preferred_time || lead.demo_type) && (
+                                      <Card className="glass border-0 shadow-sm">
+                                        <CardHeader className="pb-4">
+                                          <div className="flex items-center gap-3">
+                                            <div className="p-2 rounded-lg bg-chart-4/10">
+                                              <Calendar className="h-5 w-5 text-chart-4" />
+                                            </div>
+                                            <CardTitle className="text-lg font-semibold">Demo Scheduling</CardTitle>
+                                          </div>
+                                        </CardHeader>
+                                        <CardContent>
+                                          <div className="grid md:grid-cols-2 gap-6">
+                                            <div className="space-y-4">
+                                              {lead.preferred_date && (
+                                                <div>
+                                                  <Label className="text-sm font-medium text-muted-foreground">Preferred Date</Label>
+                                                  <p className="text-base mt-1">{format(new Date(lead.preferred_date), 'PPP')}</p>
+                                                </div>
+                                              )}
+                                              {lead.preferred_time && (
+                                                <div>
+                                                  <Label className="text-sm font-medium text-muted-foreground">Preferred Time</Label>
+                                                  <div className="flex items-center gap-2 mt-1">
+                                                    <Clock className="h-4 w-4 text-chart-4" />
+                                                    <p className="text-base">{lead.preferred_time}</p>
+                                                  </div>
+                                                </div>
+                                              )}
+                                            </div>
+                                            <div className="space-y-4">
+                                              {lead.timezone && (
+                                                <div>
+                                                  <Label className="text-sm font-medium text-muted-foreground">Timezone</Label>
+                                                  <p className="text-base mt-1">{lead.timezone}</p>
+                                                </div>
+                                              )}
+                                              {lead.demo_type && (
+                                                <div>
+                                                  <Label className="text-sm font-medium text-muted-foreground">Demo Type</Label>
+                                                  <p className="text-base mt-1 capitalize">{lead.demo_type}</p>
+                                                </div>
+                                              )}
+                                            </div>
+                                          </div>
+                                        </CardContent>
+                                      </Card>
+                                    )}
+                                  </TabsContent>
+
+                                  <TabsContent value="notes" className="space-y-4">
+                                    <Card className="glass border-0 shadow-sm">
+                                      <CardHeader>
+                                        <CardTitle className="text-lg font-semibold">Lead Notes</CardTitle>
+                                      </CardHeader>
+                                      <CardContent>
+                                        <Textarea
+                                          placeholder="Add notes about this lead..."
+                                          value={selectedLead?.notes || ''}
+                                          onChange={(e) => {
+                                            if (selectedLead) {
+                                              setSelectedLead({ ...selectedLead, notes: e.target.value });
+                                            }
+                                          }}
+                                          className="min-h-[200px] resize-none"
+                                        />
+                                        <div className="flex justify-end mt-4">
+                                          <Button
+                                            onClick={() => {
+                                              if (selectedLead) {
+                                                updateLeadNotes(selectedLead.id, selectedLead.notes || '');
+                                              }
+                                            }}
+                                            className="btn-3d-gradient"
+                                          >
+                                            Save Notes
+                                          </Button>
+                                        </div>
+                                      </CardContent>
+                                    </Card>
+                                  </TabsContent>
+                                </Tabs>
+                              </div>
+                            </div>
+                          </DialogContent>
                          </Dialog>
                        </TableCell>
                      </TableRow>
