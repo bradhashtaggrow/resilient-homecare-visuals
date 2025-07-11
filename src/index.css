@@ -258,44 +258,70 @@ body {
   }
 }
 
-/* Custom scrollbar styles */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Magic Scroll Effect - Hide scrollbars but keep functionality */
+.magic-scroll {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
-::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
-  border-radius: 4px;
+.magic-scroll::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for WebKit browsers */
 }
 
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
+/* Apply magic scroll to body and main containers */
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
+body::-webkit-scrollbar {
+  display: none;
 }
 
-/* Admin-specific scrollbar */
-.admin-scrollbar::-webkit-scrollbar {
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* Apply to common scrollable containers */
+.overflow-auto,
+.overflow-y-auto,
+.overflow-x-auto,
+.overflow-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.overflow-auto::-webkit-scrollbar,
+.overflow-y-auto::-webkit-scrollbar,
+.overflow-x-auto::-webkit-scrollbar,
+.overflow-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Legacy scrollbar styles for specific admin areas that need visible scrollbars */
+.admin-scrollbar-visible::-webkit-scrollbar {
   width: 6px;
+  display: block;
 }
 
-.admin-scrollbar::-webkit-scrollbar-track {
+.admin-scrollbar-visible::-webkit-scrollbar-track {
   background: hsl(var(--background));
   border-radius: 3px;
 }
 
-.admin-scrollbar::-webkit-scrollbar-thumb {
+.admin-scrollbar-visible::-webkit-scrollbar-thumb {
   background: hsl(var(--primary) / 0.2);
   border-radius: 3px;
   transition: all 0.2s ease;
 }
 
-.admin-scrollbar::-webkit-scrollbar-thumb:hover {
+.admin-scrollbar-visible::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--primary) / 0.4);
 }
 
