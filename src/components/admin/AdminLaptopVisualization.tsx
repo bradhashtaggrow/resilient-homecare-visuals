@@ -83,21 +83,17 @@ const AdminLaptopVisualization = ({
               {/* Admin Login Interface - Matching phone design exactly */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
                 <div className="max-w-sm w-full mx-8 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 rounded-xl p-8">
-                  {/* Enhanced Logo Container */}
+                  {/* Logo Container - Matching phone exactly */}
                   <div className="text-center mb-8">
                     <div className="flex items-center justify-center mb-6">
-                      <div className="relative">
-                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30">
-                          <Shield className="h-8 w-8 text-white drop-shadow-lg" />
-                        </div>
+                      <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30">
+                        <Shield className="h-8 w-8 text-white drop-shadow-lg" />
                       </div>
                     </div>
                     
-                    {/* Enhanced Title */}
+                    {/* Title */}
                     <h3 className="text-2xl font-black text-white mb-2 tracking-tight">
-                      <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-                        Healthcare Admin
-                      </span>
+                      Healthcare Admin
                     </h3>
                     <p className="text-white/80 text-sm font-medium tracking-wide">
                       Secure Dashboard Access
@@ -107,7 +103,7 @@ const AdminLaptopVisualization = ({
 
                   {/* Login Form - Matching phone version exactly */}
                   <div className="space-y-6">
-                    {/* Enhanced Email Field */}
+                    {/* Email Field */}
                     <div className="space-y-2">
                       <label className="text-white/90 font-semibold text-xs tracking-wide flex items-center">
                         <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mr-2" />
@@ -123,7 +119,7 @@ const AdminLaptopVisualization = ({
                       </div>
                     </div>
                     
-                    {/* Enhanced Password Field */}
+                    {/* Password Field */}
                     <div className="space-y-2">
                       <label className="text-white/90 font-semibold text-xs tracking-wide flex items-center">
                         <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mr-2" />
