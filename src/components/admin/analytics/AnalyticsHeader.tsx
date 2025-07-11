@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Download, RefreshCw, Calendar as CalendarIcon, Filter, TrendingUp, BarChart3, Globe, Zap } from 'lucide-react';
+import { Download, RefreshCw, Calendar as CalendarIcon, TrendingUp, BarChart3, Globe, Zap } from 'lucide-react';
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
@@ -128,16 +128,6 @@ export const AnalyticsHeader: React.FC<AnalyticsHeaderProps> = ({
                     />
                   </PopoverContent>
                 </Popover>
-                
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="hover:bg-primary/10 hover:text-primary"
-                  onClick={() => onFilterChange?.({})}
-                >
-                  <Filter className="h-4 w-4 mr-2" />
-                  Filter
-                </Button>
                 
                 <Button 
                   variant="ghost" 
