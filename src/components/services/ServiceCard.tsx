@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ArrowRight, LucideIcon } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 
 interface ServiceCardProps {
   id: string;
@@ -72,55 +72,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)', lineHeight: 1.4 }}>
               {description}
             </p>
-
-            {/* CTA Button */}
-            <div className="relative">
-              <button className="
-                relative px-8 py-4 font-semibold text-white rounded-xl font-apple
-                transform transition-all duration-300 ease-out
-                hover:scale-105 hover:-translate-y-1
-                before:absolute before:inset-0 before:rounded-xl
-                before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300
-                after:absolute after:inset-0 after:rounded-xl after:shadow-inner
-                after:bg-gradient-to-t after:from-white/10 after:to-transparent
-                group overflow-hidden
-              "
-              style={{ 
-                fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)',
-                background: 'linear-gradient(145deg, #4285F4 0%, #1565C0 30%, #0D47A1 100%)',
-                boxShadow: `
-                  0 12px 32px rgba(66, 133, 244, 0.4),
-                  0 4px 16px rgba(0, 0, 0, 0.3),
-                  inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                  inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-                `,
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `
-                  0 20px 48px rgba(66, 133, 244, 0.6),
-                  0 8px 24px rgba(0, 0, 0, 0.4),
-                  inset 0 2px 0 rgba(255, 255, 255, 0.3),
-                  inset 0 -2px 12px rgba(0, 0, 0, 0.2)
-                `;
-                e.currentTarget.style.background = 'linear-gradient(145deg, #5A95F5 0%, #1976D2 30%, #1565C0 100%)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = `
-                  0 12px 32px rgba(66, 133, 244, 0.4),
-                  0 4px 16px rgba(0, 0, 0, 0.3),
-                  inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                  inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-                `;
-                e.currentTarget.style.background = 'linear-gradient(145deg, #4285F4 0%, #1565C0 30%, #0D47A1 100%)';
-              }}>
-                <span className="relative z-10 flex items-center gap-2">
-                  Learn More
-                  <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 text-white drop-shadow-lg" />
-                </span>
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/20 to-blue-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </button>
-            </div>
           </div>
         </div>
 
