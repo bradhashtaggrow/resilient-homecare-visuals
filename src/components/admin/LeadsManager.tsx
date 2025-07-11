@@ -460,27 +460,27 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                               <Eye className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="w-[95vw] sm:w-[85vw] md:w-[90vw] lg:max-w-4xl h-[90vh] sm:h-[85vh] md:h-[80vh] overflow-hidden rounded-xl fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-0 border shadow-lg bg-background">
+                          <DialogContent className="max-w-[95vw] sm:max-w-[85vw] md:max-w-4xl max-h-[70vh] overflow-hidden rounded-xl">
                             <DialogDescription className="sr-only">
                               View detailed information about the lead including contact details, company information, and requirements.
                             </DialogDescription>
-                            <div className="flex flex-col h-full">
-                              <DialogHeader className="border-b border-border pb-4 mb-6 flex-shrink-0">
+                            <div className="flex flex-col max-h-[70vh]">
+                              <DialogHeader className="border-b border-border pb-4 mb-4 flex-shrink-0">
                                 <div className="flex items-center justify-between">
                                   <div>
-                                    <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+                                    <DialogTitle className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
                                       Lead Details - {lead.first_name} {lead.last_name}
                                     </DialogTitle>
-                                    <p className="text-muted-foreground mt-1">
+                                    <p className="text-sm md:text-base text-muted-foreground mt-1">
                                       {lead.job_title} at {lead.company}
                                     </p>
                                   </div>
                                   <div className="flex items-center gap-2">
-                                    <Badge variant={getStatusBadgeVariant(lead.status)} className="text-sm px-3 py-1">
+                                    <Badge variant={getStatusBadgeVariant(lead.status)} className="text-xs md:text-sm px-2 md:px-3 py-1">
                                       {getStatusLabel(lead.status)}
                                     </Badge>
                                     {lead.decision_maker && (
-                                      <Badge variant="outline" className="text-sm px-3 py-1">
+                                      <Badge variant="outline" className="text-xs md:text-sm px-2 md:px-3 py-1">
                                         Decision Maker
                                       </Badge>
                                     )}
@@ -488,15 +488,15 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                                 </div>
                               </DialogHeader>
 
-                              <div className="flex-1 overflow-auto">
-                                <Tabs defaultValue="details" className="w-full h-full">
-                                  <TabsList className="grid w-full grid-cols-2 mb-6 flex-shrink-0">
+                              <div className="flex-1 overflow-auto px-1">
+                                <Tabs defaultValue="details" className="w-full">
+                                  <TabsList className="grid w-full grid-cols-2 mb-4 flex-shrink-0">
                                     <TabsTrigger value="details" className="text-xs md:text-sm font-medium">Details</TabsTrigger>
                                     <TabsTrigger value="notes" className="text-xs md:text-sm font-medium">Notes</TabsTrigger>
                                   </TabsList>
 
-                                   <TabsContent value="details" className="space-y-4 md:space-y-6 overflow-auto max-h-[calc(90vh-200px)]">
-                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                                  <TabsContent value="details" className="space-y-4 overflow-auto max-h-[50vh]">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                       {/* Contact Information Card */}
                                       <Card className="glass border-0 shadow-sm">
                                        <CardHeader className="pb-3 md:pb-4">
@@ -685,10 +685,10 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                                     )}
                                   </TabsContent>
 
-                                  <TabsContent value="notes" className="space-y-4">
+                                  <TabsContent value="notes" className="space-y-4 overflow-auto max-h-[50vh]">
                                     <Card className="glass border-0 shadow-sm">
-                                      <CardHeader>
-                                        <CardTitle className="text-lg font-semibold">Lead Notes</CardTitle>
+                                      <CardHeader className="pb-3">
+                                        <CardTitle className="text-base md:text-lg font-semibold">Lead Notes</CardTitle>
                                       </CardHeader>
                                       <CardContent>
                                         <Textarea
@@ -699,7 +699,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                                               setSelectedLead({ ...selectedLead, notes: e.target.value });
                                             }
                                           }}
-                                          className="min-h-[200px] resize-none"
+                                          className="min-h-[150px] resize-none text-sm"
                                         />
                                         <div className="flex justify-end mt-4">
                                           <Button
