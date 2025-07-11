@@ -102,12 +102,15 @@ const AdminLaptopVisualization = ({
                         <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2" />
                         Email Address
                       </label>
-                      <input 
-                        type="text" 
-                        placeholder="admin@healthcare.com"
-                        className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm"
-                        defaultValue="admin@healthcare.com"
-                      />
+                      <div className="relative">
+                        <input 
+                          type="text" 
+                          placeholder="admin@healthcare.com"
+                          className="w-full p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm shadow-inner"
+                          defaultValue="admin@healthcare.com"
+                        />
+                        <div className="absolute inset-0 bg-white/5 rounded-xl pointer-events-none"></div>
+                      </div>
                     </div>
                     
                     {/* Password Field */}
@@ -116,12 +119,15 @@ const AdminLaptopVisualization = ({
                         <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2" />
                         Password
                       </label>
-                      <input 
-                        type="password" 
-                        placeholder="••••••••"
-                        className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm"
-                        defaultValue="••••••••"
-                      />
+                      <div className="relative">
+                        <input 
+                          type="password" 
+                          placeholder="••••••••"
+                          className="w-full p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm shadow-inner"
+                          defaultValue="••••••••"
+                        />
+                        <div className="absolute inset-0 bg-white/5 rounded-xl pointer-events-none"></div>
+                      </div>
                     </div>
                     
                     {/* Sign In Button */}
