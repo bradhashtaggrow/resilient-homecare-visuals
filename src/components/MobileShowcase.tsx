@@ -241,7 +241,7 @@ const MobileShowcase = () => {
                               <img 
                                 src="/lovable-uploads/205d7687-abc6-4b5d-94a8-cb89d5e02209.png" 
                                 alt="Resilient Healthcare Logo" 
-                                className="w-20 h-20 object-contain"
+                                className="w-40 h-40 object-contain"
                               />
                             </div>
                             <h3 className="text-white text-xl font-black mb-1 tracking-tight">
