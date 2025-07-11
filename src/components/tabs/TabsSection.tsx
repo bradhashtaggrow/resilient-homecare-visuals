@@ -101,7 +101,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
         <div className="text-center pt-16 md:pt-24 lg:pt-32 pb-12 md:pb-16 lg:pb-20 px-4 md:px-6 lg:px-8">          
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4 md:mb-6 lg:mb-8 tracking-tight leading-none text-gray-900">
             The Future of{' '}
-            <span className="bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#4285F4] to-[#1976D2] bg-clip-text text-transparent">
               Care
             </span>
           </h2>
