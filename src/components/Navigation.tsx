@@ -164,10 +164,10 @@ const Navigation = () => {
                   </Link>
                   
                   {/* Mobile Action Buttons */}
-                  <div className="space-y-4 pt-8">
+                  <div className="flex flex-col items-center space-y-4 pt-8">
                     <LeadCaptureModal source="mobile-navigation">
                       <Button 
-                        className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4"
+                        className="btn-3d-gradient font-apple text-lg font-semibold px-8 py-4"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Request Demo
@@ -175,7 +175,7 @@ const Navigation = () => {
                     </LeadCaptureModal>
                     
                     <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                      <Button className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4">
+                      <Button className="btn-3d-gradient font-apple text-lg font-semibold px-8 py-4">
                         Login
                       </Button>
                     </Link>
