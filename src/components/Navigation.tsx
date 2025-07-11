@@ -1,12 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, LogIn } from 'lucide-react';
+import { ArrowRight, LogIn, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LeadCaptureModal from './LeadCaptureModal';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +39,7 @@ const Navigation = () => {
           </div>
           
           {/* Desktop Navigation */}
-          <div className="flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8">
             <Link to="/care-at-home" className="text-black hover:text-primary transition-colors font-medium font-apple">
               Care At Home
             </Link>
@@ -57,19 +60,121 @@ const Navigation = () => {
             </Link>
             
             <LeadCaptureModal source="navigation">
-              <Button className="btn-3d-gradient font-apple text-lg font-semibold">
+              <Button className="btn-3d-gradient font-apple text-sm font-semibold px-4 py-2">
                 Request Demo
               </Button>
             </LeadCaptureModal>
             
             <Link to="/login">
-              <Button className="btn-3d-gradient font-apple text-lg font-semibold">
+              <Button className="btn-3d-gradient font-apple text-sm font-semibold px-4 py-2">
                 Login
               </Button>
             </Link>
           </div>
+
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2"
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-white">
+          <div className="flex flex-col h-full">
+            {/* Mobile Header */}
+            <div className="flex justify-between items-center p-6 border-b">
+              <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+                <img 
+                  src="/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png" 
+                  alt="Resilient Healthcare" 
+                  className="h-10 w-auto"
+                />
+              </Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2"
+              >
+                <X className="h-6 w-6" />
+              </Button>
+            </div>
+
+            {/* Mobile Navigation Links */}
+            <div className="flex-1 flex flex-col justify-center space-y-8 px-6">
+              <Link 
+                to="/care-at-home" 
+                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Care At Home
+              </Link>
+              <Link 
+                to="/clinicians" 
+                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Clinicians
+              </Link>
+              <Link 
+                to="/patients" 
+                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Patients
+              </Link>
+              <Link 
+                to="/news" 
+                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                News
+              </Link>
+              <Link 
+                to="/about" 
+                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About Us
+              </Link>
+              <Link 
+                to="/contact" 
+                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
+            </div>
+
+            {/* Mobile Action Buttons */}
+            <div className="p-6 space-y-4 border-t">
+              <LeadCaptureModal source="mobile-navigation">
+                <Button 
+                  className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Request Demo
+                </Button>
+              </LeadCaptureModal>
+              
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                <Button className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4">
+                  Login
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

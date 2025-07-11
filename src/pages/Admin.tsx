@@ -168,7 +168,7 @@ const Admin = () => {
             onClose={() => setSidebarOpen(false)}
           />
         )}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-w-0">
           <AdminHeader 
             activeSection={activeSection} 
             syncStatus={syncStatus}
@@ -179,7 +179,7 @@ const Admin = () => {
             onSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
           />
           <main className="flex-1 overflow-auto admin-scrollbar">
-            <div className={`${sidebarOpen ? 'p-6' : 'p-0'}`}>
+            <div className={`${sidebarOpen ? 'p-3 sm:p-4 lg:p-6' : 'p-2 sm:p-3 lg:p-4'}`}>
               {renderContent()}
             </div>
           </main>

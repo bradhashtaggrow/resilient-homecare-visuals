@@ -76,9 +76,9 @@ const News = () => {
       />
 
       {/* News Articles Grid */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Latest News</h2>
+      <section className="py-12 sm:py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">Latest News</h2>
           
           {loading ? (
             <div className="flex items-center justify-center py-20">
@@ -90,40 +90,41 @@ const News = () => {
               <p className="text-gray-600">No news articles available at the moment.</p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
               {blogPosts.map((post) => (
-                <article key={post.id} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+                <article key={post.id} className="bg-white rounded-xl sm:rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
                   <img 
                     src={post.featured_image_url || 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'} 
                     alt={post.title}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-40 sm:h-48 object-cover"
                   />
-                  <div className="p-8">
-                    <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
-                      <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full font-medium">
+                  <div className="p-4 sm:p-6 lg:p-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
+                      <span className="bg-blue-100 text-blue-600 px-2 sm:px-3 py-1 rounded-full font-medium self-start">
                         {post.category || 'Healthcare'}
                       </span>
                       <div className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        {formatDate(post.published_at)}
+                        <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="hidden sm:inline">{formatDate(post.published_at)}</span>
+                        <span className="sm:hidden">{formatDate(post.published_at)?.split(',')[0]}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <User className="h-4 w-4" />
+                        <User className="h-3 w-3 sm:h-4 sm:w-4" />
                         {post.author}
                       </div>
                     </div>
                     
-                    <h3 className="text-xl font-semibold mb-4 hover:text-blue-600 cursor-pointer">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 hover:text-blue-600 cursor-pointer line-clamp-2">
                       {post.title}
                     </h3>
                     
-                    <p className="text-gray-600 mb-6">
+                    <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base line-clamp-3">
                       {post.excerpt}
                     </p>
                     
-                    <button className="text-blue-600 font-semibold hover:text-blue-700 inline-flex items-center">
+                    <button className="text-blue-600 font-semibold hover:text-blue-700 inline-flex items-center text-sm sm:text-base">
                       Read More
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                     </button>
                   </div>
                 </article>

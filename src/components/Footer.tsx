@@ -98,85 +98,88 @@ const Footer = () => {
         <div className="paper-texture-subtle w-full h-full"></div>
       </div>
       
-      <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative z-10">
         {/* Top Section */}
-        <div className="grid lg:grid-cols-5 gap-8 mb-12">
+        <div className="grid gap-8 sm:gap-12 lg:grid-cols-5 mb-8 sm:mb-12">
           {/* Brand Column */}
-          <div className="lg:col-span-2">
-            <div className="mb-6">
-              <div className="mb-3">
+          <div className="lg:col-span-2 text-center lg:text-left">
+            <div className="mb-4 sm:mb-6">
+              <div className="mb-2 sm:mb-3 flex justify-center lg:justify-start">
                 {content.background_image_url ? (
                   <img 
                     src={content.background_image_url} 
                     alt="Company Logo" 
-                    className="h-16 object-contain"
+                    className="h-12 sm:h-16 object-contain"
                   />
                 ) : (
-                  <div className="w-12 h-12 healthcare-gradient rounded-xl flex items-center justify-center">
-                    <Heart className="h-6 w-6 text-white" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                   </div>
                 )}
               </div>
               {content.subtitle && (
-                <div className="text-blue-300/90 font-medium tracking-wide"
+                <div className="text-blue-300/90 font-medium tracking-wide text-center lg:text-left"
                      style={{ fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', lineHeight: 1.3 }}>{content.subtitle}</div>
               )}
             </div>
             
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-center lg:text-left text-sm sm:text-base">
               {content.description}
             </p>
             
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Mail className="h-5 w-5 text-blue-400" />
-                <span className="text-gray-400">hello@resilientcare.com</span>
+            <div className="space-y-2 sm:space-y-3">
+              <div className="flex items-center space-x-2 sm:space-x-3 justify-center lg:justify-start">
+                <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 flex-shrink-0" />
+                <span className="text-gray-400 text-sm sm:text-base">hello@resilientcare.com</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="h-5 w-5 text-blue-400" />
-                <span className="text-gray-400">1-800-RESILIENT</span>
+              <div className="flex items-center space-x-2 sm:space-x-3 justify-center lg:justify-start">
+                <Phone className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 flex-shrink-0" />
+                <span className="text-gray-400 text-sm sm:text-base">1-800-RESILIENT</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <MapPin className="h-5 w-5 text-blue-400" />
-                <span className="text-gray-400">San Francisco, CA</span>
+              <div className="flex items-center space-x-2 sm:space-x-3 justify-center lg:justify-start">
+                <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 flex-shrink-0" />
+                <span className="text-gray-400 text-sm sm:text-base">San Francisco, CA</span>
               </div>
             </div>
           </div>
 
           {/* Links Columns */}
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h3 className="text-white/90 font-medium tracking-wide mb-4"
-                  style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', lineHeight: 1.3 }}>{category}</h3>
-              <ul className="space-y-2">
-                {links.map((link) => (
-                  <li key={link.name}>
-                    <a 
-                      href={link.href}
-                      className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div className="grid grid-cols-2 gap-6 sm:gap-8 lg:col-span-3 lg:grid-cols-4">
+            {Object.entries(footerLinks).map(([category, links]) => (
+              <div key={category} className="text-center lg:text-left">
+                <h3 className="text-white/90 font-medium tracking-wide mb-3 sm:mb-4 text-sm sm:text-base lg:text-lg">
+                  {category}
+                </h3>
+                <ul className="space-y-1 sm:space-y-2">
+                  {links.map((link) => (
+                    <li key={link.name}>
+                      <a 
+                        href={link.href}
+                        className="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-xs sm:text-sm lg:text-base"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
+        <div className="border-t border-gray-800 pt-6 sm:pt-8">
+          <div className="flex flex-col space-y-4 md:flex-row md:justify-between md:items-center md:space-y-0">
+            <div className="text-gray-400 text-xs sm:text-sm text-center md:text-left">
               © {currentYear} Resilient Healthcare. All rights reserved.
             </div>
             
-            <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2 text-sm text-gray-400">
+            <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4 lg:space-x-6 items-center">
+              <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-400">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse-slow" />
                 <span>HIPAA Compliant</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-400">
+              <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-400">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse-slow" />
                 <span>SOC 2 Certified</span>
               </div>

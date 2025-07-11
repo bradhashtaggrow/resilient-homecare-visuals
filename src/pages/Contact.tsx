@@ -87,45 +87,45 @@ const Contact = () => {
       />
 
       {/* Contact Information & Form */}
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16">
+      <section className="py-16 sm:py-24 lg:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
             
             {/* Contact Information */}
-            <div className="space-y-12">
+            <div className="space-y-8 lg:space-y-12 order-2 lg:order-1">
               <div>
-                <h2 className="font-black tracking-tight font-apple mb-8" 
+                <h2 className="font-black tracking-tight font-apple mb-6 lg:mb-8 text-center lg:text-left" 
                     style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 0.9 }}>
                   {contactInfo.headquarters || "📍 Resilient Healthcare Headquarters"}
                 </h2>
                 
-                <div className="space-y-8">
-                  <div className="group p-8 rounded-3xl bg-gradient-to-br from-blue-50 to-white border border-blue-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-                    <div className="flex items-start space-x-6">
-                      <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <Phone className="h-8 w-8 text-white" />
+                <div className="space-y-6 lg:space-y-8">
+                  <div className="group p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-blue-50 to-white border border-blue-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+                    <div className="flex items-start space-x-4 sm:space-x-6">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <Phone className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">
+                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4 font-apple">
                           {contactInfo.phone?.label || "📞 Call"}
                         </h3>
-                        <p className="text-gray-600 text-lg leading-relaxed font-apple">
+                        <p className="text-gray-600 text-base sm:text-lg leading-relaxed font-apple">
                           {contactInfo.phone?.number || "(732) 429-2102"}
                         </p>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="group p-8 rounded-3xl bg-gradient-to-br from-green-50 to-white border border-green-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-                    <div className="flex items-start space-x-6">
-                      <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <Mail className="h-8 w-8 text-white" />
+                  <div className="group p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-green-50 to-white border border-green-100/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+                    <div className="flex items-start space-x-4 sm:space-x-6">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <Mail className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">
+                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4 font-apple">
                           {contactInfo.email?.label || "✉️ Email"}
                         </h3>
-                        <p className="text-gray-600 text-lg leading-relaxed font-apple">
+                        <p className="text-gray-600 text-base sm:text-lg leading-relaxed font-apple break-all">
                           {contactInfo.email?.address || "jackleen@resilienthc.org"}
                         </p>
                       </div>
@@ -136,19 +136,19 @@ const Contact = () => {
             </div>
 
             {/* Contact Form */}
-            <div className="group p-12 rounded-3xl bg-gradient-to-br from-gray-50 to-white border border-gray-100/50 hover:shadow-xl transition-all duration-500">
-              <div className="flex items-center mb-8">
-                <MessageCircle className="h-8 w-8 text-blue-600 mr-3" />
+            <div className="group p-6 sm:p-8 lg:p-12 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-gray-50 to-white border border-gray-100/50 hover:shadow-xl transition-all duration-500 order-1 lg:order-2">
+              <div className="flex items-center mb-6 lg:mb-8">
+                <MessageCircle className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 mr-2 sm:mr-3" />
                 <h2 className="font-black tracking-tight font-apple" 
-                    style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: 900, lineHeight: 0.9 }}>
+                    style={{ fontSize: 'clamp(1.25rem, 4vw, 2rem)', fontWeight: 900, lineHeight: 0.9 }}>
                   {formConfig.title || "Send us a Message"}
                 </h2>
               </div>
               
-              <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="grid md:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="space-y-6 lg:space-y-8">
+                <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
+                    <label className="block text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3 font-apple">
                       {formConfig.fields?.name?.label || "Full Name *"}
                     </label>
                     <Input
@@ -157,13 +157,13 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required={formConfig.fields?.name?.required !== false}
-                      className="w-full h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
+                      className="w-full h-12 sm:h-14 text-base sm:text-lg rounded-lg sm:rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
                       placeholder={formConfig.fields?.name?.placeholder || "Your full name"}
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-lg font-semibold text-gray-900 mb-3 font-apple">
+                    <label className="block text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3 font-apple">
                       {formConfig.fields?.phone?.label || "Phone Number"}
                     </label>
                     <Input
@@ -172,7 +172,7 @@ const Contact = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required={formConfig.fields?.phone?.required === true}
-                      className="w-full h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
+                      className="w-full h-12 sm:h-14 text-base sm:text-lg rounded-lg sm:rounded-xl border-2 border-gray-200 focus:border-blue-500 transition-colors"
                       placeholder={formConfig.fields?.phone?.placeholder || "Your phone number"}
                     />
                   </div>

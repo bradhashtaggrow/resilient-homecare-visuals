@@ -94,36 +94,36 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
   };
 
   return (
-    <header className="h-16 border-b border-border bg-background px-6 flex items-center justify-between">
-      <div className="flex items-center space-x-4">
+    <header className="h-14 sm:h-16 border-b border-border bg-background px-3 sm:px-4 lg:px-6 flex items-center justify-between">
+      <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
         {!sidebarOpen && onSidebarToggle && (
           <Button
             variant="outline"
             size="sm"
             onClick={onSidebarToggle}
-            className="p-2"
+            className="p-2 flex-shrink-0"
           >
             <Menu className="h-4 w-4" />
           </Button>
         )}
-        <h2 className="text-2xl font-bold text-foreground font-apple">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground font-apple truncate">
           {getSectionTitle(activeSection)}
         </h2>
         {activeSection === 'content' && onPageChange && (
           <Select value={selectedPage} onValueChange={onPageChange}>
-            <SelectTrigger className="w-48 bg-background border-border">
+            <SelectTrigger className="w-32 sm:w-40 lg:w-48 bg-background border-border text-sm">
               <SelectValue placeholder="Select page" />
             </SelectTrigger>
             <SelectContent>
               {pages.map((page) => (
                 <SelectItem key={page.id} value={page.id}>
-                  {page.label}
+                  <span className="truncate">{page.label}</span>
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         )}
-        <Badge variant="outline" className={getSyncStatusColor()}>
+        <Badge variant="outline" className={`${getSyncStatusColor()} hidden sm:flex`}>
           {getSyncStatusIcon()}
           <span className="ml-2">
             {syncStatus === 'connected' ? 'Live' : 
@@ -132,26 +132,26 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
         </Badge>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
         <Button 
           variant="outline" 
           size="sm" 
-          className="text-foreground"
+          className="text-foreground hidden sm:flex"
           onClick={() => window.open('/', '_blank')}
         >
           <ExternalLink className="h-4 w-4 mr-2" />
-          Visit Site
+          <span className="hidden lg:inline">Visit Site</span>
         </Button>
         
         <NotificationDropdown />
         
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <User className="h-4 w-4 text-white" />
+            <Button variant="ghost" size="sm" className="flex items-center space-x-1 sm:space-x-2">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-full flex items-center justify-center">
+                <User className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
               </div>
-              <span className="text-sm font-medium text-foreground font-apple">
+              <span className="text-xs sm:text-sm font-medium text-foreground font-apple hidden md:inline truncate max-w-20 lg:max-w-none">
                 {user?.email?.split('@')[0] || 'Admin'}
               </span>
             </Button>

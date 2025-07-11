@@ -100,7 +100,7 @@ const LeadGenSection = () => {
   return (
     <section 
       id="lead-gen-section" 
-      className="py-4 sm:py-6 md:py-8 lg:py-10 relative overflow-hidden paper-texture-subtle flex items-center min-h-[50vh]"
+      className="py-8 sm:py-12 md:py-16 lg:py-20 relative overflow-hidden paper-texture-subtle flex items-center min-h-[50vh]"
     >
       {/* Background */}
       {content?.background_image_url ? (
@@ -120,30 +120,30 @@ const LeadGenSection = () => {
         <div className={`text-center transition-all duration-1200 transform ${
           isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
-          <div className="bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-white relative overflow-hidden bg-opacity-95 backdrop-blur-sm hover:scale-105 transition-all duration-700 hover:shadow-2xl group">
+          <div className="bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] rounded-xl sm:rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-12 text-white relative overflow-hidden bg-opacity-95 backdrop-blur-sm hover:scale-105 transition-all duration-700 hover:shadow-2xl group">
             {/* Animated Background Elements */}
-            <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 bg-white/10 rounded-full -translate-y-16 sm:-translate-y-24 translate-x-16 sm:translate-x-24 group-hover:scale-110 transition-transform duration-1000" />
-            <div className="absolute bottom-0 left-0 w-24 h-24 sm:w-36 sm:h-36 bg-white/5 rounded-full translate-y-12 sm:translate-y-18 -translate-x-12 sm:-translate-x-18 group-hover:scale-110 transition-transform duration-1000 delay-200" />
+            <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 lg:w-48 lg:h-48 bg-white/10 rounded-full -translate-y-12 sm:-translate-y-16 lg:-translate-y-24 translate-x-12 sm:translate-x-16 lg:translate-x-24 group-hover:scale-110 transition-transform duration-1000" />
+            <div className="absolute bottom-0 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-36 lg:h-36 bg-white/5 rounded-full translate-y-8 sm:translate-y-12 lg:translate-y-18 -translate-x-8 sm:-translate-x-12 lg:-translate-x-18 group-hover:scale-110 transition-transform duration-1000 delay-200" />
             
             <div className="relative z-10">
               <h3 className="text-white leading-none tracking-tight font-black mb-4 sm:mb-6 group-hover:scale-105 transition-transform duration-500"
-                  style={{ fontSize: 'clamp(1.5rem, 4vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                  style={{ fontSize: 'clamp(1.5rem, 6vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                 {content.title}
               </h3>
               {content.subtitle && (
-                <h4 className="text-white/80 mb-4 sm:mb-6 text-xl sm:text-2xl font-light tracking-wide">
+                <h4 className="text-white/80 mb-4 sm:mb-6 text-lg sm:text-xl lg:text-2xl font-light tracking-wide">
                   {content.subtitle}
                 </h4>
               )}
               <p className="text-white/90 mb-6 sm:mb-8 opacity-90 max-w-3xl mx-auto font-medium tracking-wide group-hover:text-white transition-colors duration-500"
-                 style={{ fontSize: 'clamp(0.875rem, 2.5vw, 2rem)', lineHeight: 1.3 }}>
+                 style={{ fontSize: 'clamp(0.875rem, 2.5vw, 1.25rem)', lineHeight: 1.3 }}>
                 {content.description}
               </p>
               
               {/* Enhanced Button with Mobile Optimization */}
               <Button 
                 size="lg" 
-                className="bg-white text-[#4F9CF9] hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-lg sm:text-xl font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto"
+                className="bg-white text-[#4F9CF9] hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg lg:text-xl font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto max-w-xs sm:max-w-none mx-auto"
                 onClick={handleButtonClick}
               >
                 <span className="flex items-center justify-center">
