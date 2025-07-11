@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -460,7 +460,10 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                               <Eye className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-[95vw] w-full sm:max-w-[85vw] md:max-w-3xl max-h-[90vh] sm:max-h-[85vh] overflow-hidden rounded-lg sm:rounded-xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-[2%] data-[state=open]:slide-in-from-top-[2%] md:data-[state=closed]:slide-out-to-top-[5%] md:data-[state=open]:slide-in-from-top-[5%]">
+                          <DialogContent className="w-[95vw] sm:w-[85vw] md:w-[90vw] lg:max-w-4xl h-[90vh] sm:h-[85vh] md:h-[80vh] overflow-hidden rounded-xl fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-0 border shadow-lg bg-background">
+                            <DialogDescription className="sr-only">
+                              View detailed information about the lead including contact details, company information, and requirements.
+                            </DialogDescription>
                             <div className="flex flex-col h-full">
                               <DialogHeader className="border-b border-border pb-4 mb-6 flex-shrink-0">
                                 <div className="flex items-center justify-between">
