@@ -80,57 +80,63 @@ const AdminLaptopVisualization = ({
                 <div className="absolute inset-0 bg-black/30 rounded-2xl" />
               </div>
 
-              {/* Admin Login Interface - Compact version for laptop */}
+              {/* Admin Login Interface - With Resilient logo */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-[280px] w-full mx-4 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl rounded-xl p-4">
-                  {/* Compact Logo */}
-                  <div className="text-center mb-4">
-                    <div className="text-blue-400 text-xs font-bold mb-2">HEALTHCARE</div>
+                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl rounded-xl p-6">
+                  {/* Resilient Healthcare Logo */}
+                  <div className="text-center mb-6">
+                    <div className="flex items-center justify-center mb-4">
+                      <img 
+                        src="/lovable-uploads/7c1e9f2c-e9a3-484c-9ce9-0e5ce0293c0e.png" 
+                        alt="Resilient Healthcare" 
+                        className="h-8 w-auto"
+                      />
+                    </div>
                   </div>
 
-                  {/* Compact Login Form */}
-                  <div className="space-y-3">
+                  {/* Login Form */}
+                  <div className="space-y-4">
                     {/* Email Field */}
-                    <div className="space-y-1">
-                      <label className="text-white/90 font-medium text-xs flex items-center">
+                    <div className="space-y-2">
+                      <label className="text-white/90 font-medium text-sm flex items-center">
                         <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2" />
                         Email Address
                       </label>
                       <input 
                         type="text" 
                         placeholder="admin@healthcare.com"
-                        className="w-full p-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-xs"
+                        className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm"
                         defaultValue="admin@healthcare.com"
                       />
                     </div>
                     
                     {/* Password Field */}
-                    <div className="space-y-1">
-                      <label className="text-white/90 font-medium text-xs flex items-center">
+                    <div className="space-y-2">
+                      <label className="text-white/90 font-medium text-sm flex items-center">
                         <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2" />
                         Password
                       </label>
                       <input 
                         type="password" 
                         placeholder="••••••••"
-                        className="w-full p-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-xs"
+                        className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm"
                         defaultValue="••••••••"
                       />
                     </div>
                     
                     {/* Sign In Button */}
                     <div className="pt-2">
-                      <button className="w-full py-2 bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-semibold text-xs transition-all duration-200">
+                      <button className="w-full py-3 bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-semibold text-sm transition-all duration-200">
                         Sign In
                       </button>
                     </div>
 
                     {/* Touch ID / Face ID */}
-                    <div className="text-center pt-3">
-                      <div className="w-8 h-8 bg-white/30 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center mb-1 border border-white/20">
-                        <div className="w-5 h-5 border border-white/60 rounded-full"></div>
+                    <div className="text-center pt-4">
+                      <div className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center mb-2 border border-white/20">
+                        <div className="w-6 h-6 border border-white/60 rounded-full"></div>
                       </div>
-                      <p className="text-white/70 text-xs">Touch ID / Face ID</p>
+                      <p className="text-white/70 text-sm">Touch ID / Face ID</p>
                     </div>
                   </div>
                 </div>
