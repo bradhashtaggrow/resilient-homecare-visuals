@@ -184,7 +184,7 @@ const Admin = () => {
         <div className={`${
           sidebarOpen 
             ? (isMobile || window.innerWidth < 1024)
-              ? 'fixed left-0 top-0 z-50 lg:relative lg:z-auto' 
+              ? 'fixed left-0 top-0 z-[60] w-64 h-full lg:relative lg:z-auto lg:w-auto' 
               : 'relative'
             : 'hidden'
         }`}>
