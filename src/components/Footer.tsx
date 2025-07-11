@@ -79,7 +79,7 @@ const Footer = () => {
       { name: 'Privacy Policy', href: '/privacy-policy' },
       { name: 'Terms of Service', href: '/terms-of-service' },
       { name: 'HIPAA Compliance', href: '/hipaa-compliance' },
-      { name: 'Data Security', href: '#' }
+      { name: 'Data Security', href: '/data-security' }
     ]
   };
 

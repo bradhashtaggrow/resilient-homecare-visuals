@@ -21,6 +21,7 @@ import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import HIPAACompliance from "./pages/HIPAACompliance";
+import DataSecurity from "./pages/DataSecurity";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ function AppContent() {
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/terms-of-service" element={<TermsOfService />} />
       <Route path="/hipaa-compliance" element={<HIPAACompliance />} />
+      <Route path="/data-security" element={<DataSecurity />} />
       <Route path="/admin" element={
         <ProtectedRoute requireAdmin={true}>
           <Admin />
