@@ -77,12 +77,12 @@ const AdminLaptopVisualization = ({
                   <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                 </video>
                 {/* Minimal dark overlay for text readability */}
-                <div className="absolute inset-0 bg-black/60 rounded-2xl" />
+                <div className="absolute inset-0 bg-black/30 rounded-2xl" />
               </div>
 
               {/* Admin Login Interface - With Resilient logo */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/15 rounded-xl p-6">
+                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-white/30 border border-white/30 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/35 rounded-xl p-6">
                   {/* Resilient Healthcare Logo */}
                   <div className="text-center mb-6">
                     <div className="flex items-center justify-center mb-4">
