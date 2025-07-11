@@ -99,11 +99,11 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
     <div className="w-full h-full bg-white border-r border-gray-200">
       <div className="p-6 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
-          <div className="flex items-center justify-center flex-1">
+          <div className="flex items-center justify-center w-full">
             <img 
               src="/lovable-uploads/30c729f3-ad9e-4d48-aabf-36d2418d944a.png" 
               alt="Resilient Healthcare" 
-              className="h-10 w-auto"
+              className="h-16 w-auto"
             />
           </div>
           <button
@@ -113,15 +113,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           >
             <X className="h-5 w-5 text-gray-600" />
           </button>
-        </div>
-        <div className="mt-3 flex items-center justify-center">
-          <div className="text-xs border border-gray-200 rounded px-2 py-1 bg-white">
-            {getSyncStatusIcon()}
-            <span className="ml-1 text-gray-600">
-              {syncStatus === 'connected' ? 'Connected' : 
-               syncStatus === 'syncing' ? 'Syncing' : 'Offline'}
-            </span>
-          </div>
         </div>
       </div>
 
