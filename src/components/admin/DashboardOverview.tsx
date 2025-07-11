@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Wifi, WifiOff } from 'lucide-react';
@@ -7,7 +6,7 @@ import { MetricCard } from './dashboard/MetricCard';
 import { ActivityFeed } from './dashboard/ActivityFeed';
 import { SystemHealth } from './dashboard/SystemHealth';
 import { QuickActions } from './dashboard/QuickActions';
-import { Users, Briefcase, FileText, User } from 'lucide-react';
+import { Users, Eye, FileText, User } from 'lucide-react';
 
 interface DashboardOverviewProps {
   syncStatus?: 'connected' | 'disconnected' | 'syncing';
@@ -84,11 +83,11 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           />
           
           <MetricCard
-            title="Services"
+            title="Page Views"
             value={realTimeStats.totalServices}
-            icon={Briefcase}
+            icon={Eye}
             color="chart-2"
-            subtitle="Available offerings"
+            subtitle="Website analytics"
             animationDelay="0.2s"
           />
           
