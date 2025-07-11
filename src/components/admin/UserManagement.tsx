@@ -463,8 +463,8 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
             </div>
             <div className="flex items-center gap-4">
               <Button onClick={() => setIsAddDialogOpen(true)} className="glass border-0 bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary shadow-glow hover:shadow-primary/25 transition-all duration-300">
-                <UserPlus className="h-4 w-4 mr-2" />
-                Add User
+                <UserPlus className="h-4 w-4 md:mr-2" />
+                <span className="hidden md:inline">Add User</span>
               </Button>
             </div>
           </div>

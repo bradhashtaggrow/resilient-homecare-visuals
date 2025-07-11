@@ -460,7 +460,7 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                               <Eye className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+                          <DialogContent className="max-w-[95vw] w-full md:max-w-4xl max-h-[90vh] overflow-hidden">
                             <div className="flex flex-col h-full">
                               <DialogHeader className="border-b border-border pb-4 mb-6 flex-shrink-0">
                                 <div className="flex items-center justify-between">
@@ -488,22 +488,22 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                               <div className="flex-1 overflow-auto">
                                 <Tabs defaultValue="details" className="w-full h-full">
                                   <TabsList className="grid w-full grid-cols-2 mb-6 flex-shrink-0">
-                                    <TabsTrigger value="details" className="text-sm font-medium">Details</TabsTrigger>
-                                    <TabsTrigger value="notes" className="text-sm font-medium">Notes</TabsTrigger>
+                                    <TabsTrigger value="details" className="text-xs md:text-sm font-medium">Details</TabsTrigger>
+                                    <TabsTrigger value="notes" className="text-xs md:text-sm font-medium">Notes</TabsTrigger>
                                   </TabsList>
 
-                                  <TabsContent value="details" className="space-y-6 overflow-auto max-h-[calc(90vh-200px)]">
-                                    <div className="grid md:grid-cols-2 gap-6">
+                                   <TabsContent value="details" className="space-y-4 md:space-y-6 overflow-auto max-h-[calc(90vh-200px)]">
+                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                                       {/* Contact Information Card */}
                                       <Card className="glass border-0 shadow-sm">
-                                        <CardHeader className="pb-4">
-                                          <div className="flex items-center gap-3">
-                                            <div className="p-2 rounded-lg bg-primary/10">
-                                              <Users className="h-5 w-5 text-primary" />
-                                            </div>
-                                            <CardTitle className="text-lg font-semibold">Contact Information</CardTitle>
-                                          </div>
-                                        </CardHeader>
+                                       <CardHeader className="pb-3 md:pb-4">
+                                           <div className="flex items-center gap-2 md:gap-3">
+                                             <div className="p-1.5 md:p-2 rounded-lg bg-primary/10">
+                                               <Users className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                                             </div>
+                                             <CardTitle className="text-base md:text-lg font-semibold">Contact Information</CardTitle>
+                                           </div>
+                                         </CardHeader>
                                         <CardContent className="space-y-4">
                                           <div>
                                             <Label className="text-sm font-medium text-muted-foreground">Name</Label>
@@ -540,14 +540,14 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
 
                                       {/* Company Information Card */}
                                       <Card className="glass border-0 shadow-sm">
-                                        <CardHeader className="pb-4">
-                                          <div className="flex items-center gap-3">
-                                            <div className="p-2 rounded-lg bg-chart-2/10">
-                                              <Building className="h-5 w-5 text-chart-2" />
-                                            </div>
-                                            <CardTitle className="text-lg font-semibold">Company Information</CardTitle>
-                                          </div>
-                                        </CardHeader>
+                                         <CardHeader className="pb-3 md:pb-4">
+                                           <div className="flex items-center gap-2 md:gap-3">
+                                             <div className="p-1.5 md:p-2 rounded-lg bg-chart-2/10">
+                                               <Building className="h-4 w-4 md:h-5 md:w-5 text-chart-2" />
+                                             </div>
+                                             <CardTitle className="text-base md:text-lg font-semibold">Company Information</CardTitle>
+                                           </div>
+                                         </CardHeader>
                                         <CardContent className="space-y-4">
                                           <div>
                                             <Label className="text-sm font-medium text-muted-foreground">Company</Label>
@@ -579,17 +579,17 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
                                     </div>
 
                                     {/* Requirements Section */}
-                                    <Card className="glass border-0 shadow-sm">
-                                      <CardHeader className="pb-4">
-                                        <div className="flex items-center gap-3">
-                                          <div className="p-2 rounded-lg bg-chart-3/10">
-                                            <Target className="h-5 w-5 text-chart-3" />
-                                          </div>
-                                          <CardTitle className="text-lg font-semibold">Requirements</CardTitle>
-                                        </div>
-                                      </CardHeader>
-                                      <CardContent>
-                                        <div className="grid md:grid-cols-2 gap-6">
+                                     <Card className="glass border-0 shadow-sm">
+                                       <CardHeader className="pb-3 md:pb-4">
+                                         <div className="flex items-center gap-2 md:gap-3">
+                                           <div className="p-1.5 md:p-2 rounded-lg bg-chart-3/10">
+                                             <Target className="h-4 w-4 md:h-5 md:w-5 text-chart-3" />
+                                           </div>
+                                           <CardTitle className="text-base md:text-lg font-semibold">Requirements</CardTitle>
+                                         </div>
+                                       </CardHeader>
+                                       <CardContent>
+                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                                           <div className="space-y-4">
                                             {lead.primary_challenge && (
                                               <div>
@@ -634,17 +634,17 @@ const LeadsManager: React.FC<LeadsManagerProps> = ({ syncStatus = 'disconnected'
 
                                     {/* Demo Scheduling Section */}
                                     {(lead.preferred_date || lead.preferred_time || lead.demo_type) && (
-                                      <Card className="glass border-0 shadow-sm">
-                                        <CardHeader className="pb-4">
-                                          <div className="flex items-center gap-3">
-                                            <div className="p-2 rounded-lg bg-chart-4/10">
-                                              <Calendar className="h-5 w-5 text-chart-4" />
-                                            </div>
-                                            <CardTitle className="text-lg font-semibold">Demo Scheduling</CardTitle>
-                                          </div>
-                                        </CardHeader>
-                                        <CardContent>
-                                          <div className="grid md:grid-cols-2 gap-6">
+                                       <Card className="glass border-0 shadow-sm">
+                                         <CardHeader className="pb-3 md:pb-4">
+                                           <div className="flex items-center gap-2 md:gap-3">
+                                             <div className="p-1.5 md:p-2 rounded-lg bg-chart-4/10">
+                                               <Calendar className="h-4 w-4 md:h-5 md:w-5 text-chart-4" />
+                                             </div>
+                                             <CardTitle className="text-base md:text-lg font-semibold">Demo Scheduling</CardTitle>
+                                           </div>
+                                         </CardHeader>
+                                         <CardContent>
+                                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                                             <div className="space-y-4">
                                               {lead.preferred_date && (
                                                 <div>
