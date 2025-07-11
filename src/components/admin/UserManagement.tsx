@@ -480,7 +480,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
                   </div>
                   <div className="text-right">
                     <CardTitle className="text-sm font-medium text-muted-foreground mb-2">Total Users</CardTitle>
-                    <div className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+                    <div className="text-3xl font-bold text-foreground">
                       {users.length}
                     </div>
                   </div>
@@ -503,7 +503,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
                   </div>
                   <div className="text-right">
                     <CardTitle className="text-sm font-medium text-muted-foreground mb-2">Administrators</CardTitle>
-                    <div className="text-3xl font-bold bg-gradient-to-r from-chart-3 to-chart-4 bg-clip-text text-transparent">
+                    <div className="text-3xl font-bold text-foreground">
                       {users.filter(user => user.role === 'admin').length}
                     </div>
                   </div>
@@ -524,7 +524,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
                   </div>
                   <div className="text-right">
                     <CardTitle className="text-sm font-medium text-muted-foreground mb-2">Active Roles</CardTitle>
-                    <div className="text-3xl font-bold bg-gradient-to-r from-chart-5 to-chart-1 bg-clip-text text-transparent">
+                    <div className="text-3xl font-bold text-foreground">
                       {users.filter(user => user.role !== 'user').length}
                     </div>
                   </div>
