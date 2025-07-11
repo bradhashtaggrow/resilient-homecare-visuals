@@ -587,8 +587,8 @@ const BlogManager: React.FC = () => {
     <div className="space-y-4 sm:space-y-6 p-1 sm:p-0">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
         <div>
-          <h2 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">Blog Management</h2>
-          <p className="text-sm sm:text-lg text-black">Manage blog posts, AI generation, and RSS feeds</p>
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">Blog Management</h2>
+          <p className="text-lg text-black">Manage blog posts, AI generation, and RSS feeds</p>
         </div>
       </div>
 
