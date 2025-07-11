@@ -284,9 +284,8 @@ const MobileShowcase = () => {
                             </div>
                             
                             {/* Login Button */}
-                            <button className="w-full p-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg text-white font-bold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg text-sm flex items-center justify-center">
-                              <Lock className="h-4 w-4 mr-2" />
-                              Access Admin Dashboard
+                            <button className="w-auto px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg text-white font-bold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg text-sm flex items-center justify-center mx-auto">
+                              Sign In
                             </button>
 
                             {/* Biometric */}
