@@ -15,13 +15,14 @@ import SystemSettings from '@/components/admin/SystemSettings';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Admin = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [selectedPage, setSelectedPage] = useState('home');
   const [loading, setLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<'connected' | 'disconnected' | 'syncing'>('disconnected');
-  const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 1024);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState({
     totalContent: 0,
     totalServices: 0,
@@ -30,24 +31,23 @@ const Admin = () => {
   });
   const { toast } = useToast();
   const { user } = useAuth();
+  const isMobile = useIsMobile();
 
   // Load initial data and stats
   useEffect(() => {
     loadData();
     setupStorageMonitoring();
-    
-    // Handle responsive sidebar behavior
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setSidebarOpen(false);
-      } else {
-        setSidebarOpen(true);
-      }
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Handle sidebar behavior based on screen size
+  useEffect(() => {
+    // On desktop, keep sidebar open by default; on mobile/tablet, keep it closed
+    if (!isMobile && window.innerWidth >= 1024) {
+      setSidebarOpen(true);
+    } else {
+      setSidebarOpen(false);
+    }
+  }, [isMobile]);
 
   const loadData = async () => {
     try {
@@ -172,8 +172,8 @@ const Admin = () => {
   return (
     <SidebarProvider defaultOpen={sidebarOpen}>
       <div className="flex min-h-screen w-full bg-gray-50">
-        {/* Mobile overlay */}
-        {sidebarOpen && window.innerWidth < 1024 && (
+        {/* Mobile/tablet overlay */}
+        {sidebarOpen && (isMobile || window.innerWidth < 1024) && (
           <div 
             className="fixed inset-0 bg-black/50 z-40 lg:hidden"
             onClick={() => setSidebarOpen(false)}
@@ -183,7 +183,7 @@ const Admin = () => {
         {/* Sidebar */}
         <div className={`${
           sidebarOpen 
-            ? window.innerWidth < 1024 
+            ? (isMobile || window.innerWidth < 1024)
               ? 'fixed left-0 top-0 z-50 lg:relative lg:z-auto' 
               : 'relative'
             : 'hidden'
@@ -192,8 +192,8 @@ const Admin = () => {
             activeSection={activeSection} 
             onSectionChange={(section) => {
               setActiveSection(section);
-              // Auto-close sidebar on mobile after selection
-              if (window.innerWidth < 1024) {
+              // Auto-close sidebar on mobile/tablet after selection
+              if (isMobile || window.innerWidth < 1024) {
                 setSidebarOpen(false);
               }
             }}
