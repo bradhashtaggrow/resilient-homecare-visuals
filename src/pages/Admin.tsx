@@ -170,55 +170,54 @@ const Admin = () => {
   };
 
   return (
-    <SidebarProvider defaultOpen={sidebarOpen}>
-      <div className="flex min-h-screen w-full bg-gray-50">
-        {/* Mobile/tablet overlay */}
-        {sidebarOpen && (isMobile || window.innerWidth < 1024) && (
-          <div 
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
-        
-        {/* Sidebar */}
-        <div className={`${
-          sidebarOpen 
-            ? (isMobile || window.innerWidth < 1024)
-              ? 'fixed left-0 top-0 z-50 w-80 h-full lg:relative lg:z-auto lg:w-auto lg:h-auto' 
-              : 'relative'
-            : 'hidden'
-        }`}>
-          <AdminSidebar 
-            activeSection={activeSection} 
-            onSectionChange={(section) => {
-              setActiveSection(section);
-              // Auto-close sidebar on mobile/tablet after selection
-              if (isMobile || window.innerWidth < 1024) {
-                setSidebarOpen(false);
-              }
-            }}
-            syncStatus={syncStatus}
-            onClose={() => setSidebarOpen(false)}
-          />
-        </div>
-        <div className="flex-1 flex flex-col min-w-0">
-          <AdminHeader 
-            activeSection={activeSection} 
-            syncStatus={syncStatus}
-            user={user}
-            selectedPage={selectedPage}
-            onPageChange={setSelectedPage}
-            sidebarOpen={sidebarOpen}
-            onSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
-          />
-          <main className="flex-1 overflow-auto admin-scrollbar">
-            <div className={`${sidebarOpen ? 'p-3 sm:p-4 lg:p-6' : 'p-2 sm:p-3 lg:p-4'}`}>
-              {renderContent()}
-            </div>
-          </main>
-        </div>
+    <div className="flex min-h-screen w-full bg-gray-50">
+      {/* Mobile/tablet overlay */}
+      {sidebarOpen && (isMobile || window.innerWidth < 1024) && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <div className={`${
+        sidebarOpen 
+          ? (isMobile || window.innerWidth < 1024)
+            ? 'fixed left-0 top-0 z-50 w-80 h-full bg-white shadow-lg' 
+            : 'relative w-80'
+          : 'hidden'
+      }`}>
+        <AdminSidebar 
+          activeSection={activeSection} 
+          onSectionChange={(section) => {
+            setActiveSection(section);
+            // Auto-close sidebar on mobile/tablet after selection
+            if (isMobile || window.innerWidth < 1024) {
+              setSidebarOpen(false);
+            }
+          }}
+          syncStatus={syncStatus}
+          onClose={() => setSidebarOpen(false)}
+        />
       </div>
-    </SidebarProvider>
+      
+      <div className="flex-1 flex flex-col min-w-0">
+        <AdminHeader 
+          activeSection={activeSection} 
+          syncStatus={syncStatus}
+          user={user}
+          selectedPage={selectedPage}
+          onPageChange={setSelectedPage}
+          sidebarOpen={sidebarOpen}
+          onSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
+        />
+        <main className="flex-1 overflow-auto admin-scrollbar">
+          <div className={`${sidebarOpen ? 'p-3 sm:p-4 lg:p-6' : 'p-2 sm:p-3 lg:p-4'}`}>
+            {renderContent()}
+          </div>
+        </main>
+      </div>
+    </div>
   );
 };
 

@@ -1,17 +1,6 @@
 
 import React from 'react';
 import { 
-  Sidebar, 
-  SidebarContent, 
-  SidebarHeader, 
-  SidebarMenu, 
-  SidebarMenuItem, 
-  SidebarMenuButton,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarGroupContent
-} from '@/components/ui/sidebar';
-import { 
   LayoutDashboard, 
   FileText, 
   Eye, 
@@ -25,7 +14,6 @@ import {
   X,
   LogOut
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface AdminSidebarProps {
@@ -84,36 +72,32 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   };
 
   const renderMenuGroup = (title: string, items: typeof mainMenuItems) => (
-    <SidebarGroup>
-      <SidebarGroupLabel className="text-xs font-semibold text-foreground uppercase tracking-wider font-apple">
+    <div>
+      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
         {title}
-      </SidebarGroupLabel>
-      <SidebarGroupContent>
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.id}>
-              <SidebarMenuButton
-                onClick={() => handleMenuClick(item.id)}
-                isActive={activeSection === item.id}
-                className={`w-full justify-start px-3 py-2.5 rounded-lg transition-all duration-200 font-apple ${
-                  activeSection === item.id
-                    ? 'btn-3d-gradient text-white'
-                    : 'text-foreground hover:bg-accent hover:text-accent-foreground'
-                }`}
-              >
-                <item.icon className="h-5 w-5 mr-3" />
-                <span className="font-medium font-apple">{item.label}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
+      </div>
+      <div className="space-y-1">
+        {items.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => handleMenuClick(item.id)}
+            className={`w-full flex items-center px-3 py-2.5 rounded-lg transition-all duration-200 text-left ${
+              activeSection === item.id
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            <item.icon className="h-5 w-5 mr-3 flex-shrink-0" />
+            <span className="font-medium">{item.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 
   return (
-    <Sidebar className="border-r border-border bg-background">
-      <SidebarHeader className="p-6 border-b border-border bg-background">
+    <div className="w-full h-full bg-white border-r border-gray-200">
+      <div className="p-6 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center flex-1">
             <img 
@@ -124,30 +108,30 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-accent rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             aria-label="Close sidebar"
           >
-            <X className="h-5 w-5 text-foreground" />
+            <X className="h-5 w-5 text-gray-600" />
           </button>
         </div>
         <div className="mt-3 flex items-center justify-center">
-          <Badge variant="outline" className="text-xs bg-background text-foreground border-border">
+          <div className="text-xs border border-gray-200 rounded px-2 py-1 bg-white">
             {getSyncStatusIcon()}
-            <span className="ml-1 font-apple">
+            <span className="ml-1 text-gray-600">
               {syncStatus === 'connected' ? 'Connected' : 
                syncStatus === 'syncing' ? 'Syncing' : 'Offline'}
             </span>
-          </Badge>
+          </div>
         </div>
-      </SidebarHeader>
+      </div>
 
-      <SidebarContent className="px-4 py-6 space-y-6 overflow-y-auto bg-background">
+      <div className="px-4 py-6 space-y-6 overflow-y-auto bg-white h-full">
         {renderMenuGroup('Overview', mainMenuItems)}
         {renderMenuGroup('Content Management', contentMenuItems)}
         {renderMenuGroup('System', managementMenuItems)}
         {renderMenuGroup('Account', accountMenuItems)}
-      </SidebarContent>
-    </Sidebar>
+      </div>
+    </div>
   );
 };
 
