@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
-import TabsSection from '@/components/tabs/TabsSection';
+import ServicesGrid from '@/components/services/ServicesGrid';
 import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -200,7 +200,7 @@ const Clinicians = () => {
         description={contentSection.description}
       />
 
-      <TabsSection services={services} />
+      <ServicesGrid services={services} />
 
       <LeadGenSection />
 
