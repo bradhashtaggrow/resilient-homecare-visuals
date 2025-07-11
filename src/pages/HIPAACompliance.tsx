@@ -12,7 +12,6 @@ const HIPAACompliance = () => {
       <HeroSection 
         title="HIPAA"
         highlightedText="Compliance"
-        useVideo={false}
       />
 
       <main className="pb-12">

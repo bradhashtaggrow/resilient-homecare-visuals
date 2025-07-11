@@ -18,7 +18,6 @@ const TermsOfService = () => {
       <HeroSection 
         title="Terms of"
         highlightedText="Service"
-        useVideo={false}
       />
 
       <main className="pb-12">

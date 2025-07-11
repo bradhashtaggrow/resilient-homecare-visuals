@@ -3,6 +3,7 @@ import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/hero/HeroSection';
+import OptimizedVideo from '@/components/OptimizedVideo';
 
 const PrivacyPolicy = () => {
   const currentDate = new Date().toLocaleDateString('en-US', { 
@@ -18,7 +19,6 @@ const PrivacyPolicy = () => {
       <HeroSection 
         title="Privacy"
         highlightedText="Policy"
-        useVideo={false}
       />
 
       <main className="pb-12">
