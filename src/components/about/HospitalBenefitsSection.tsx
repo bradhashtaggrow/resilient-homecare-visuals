@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Building2, CheckCircle } from 'lucide-react';
 
@@ -27,8 +28,8 @@ const HospitalBenefitsSection = () => {
             <div className="space-y-4 lg:space-y-6">
               {hospitalBenefits.map((benefit, index) => (
                 <div key={index} className="flex items-start space-x-3 lg:space-x-4 group">
-                  <div className="flex-shrink-0 w-6 h-6 lg:w-8 lg:h-8 bg-green-100 rounded-full flex items-center justify-center mt-1 group-hover:bg-green-200 transition-colors duration-300">
-                    <CheckCircle className="h-4 w-4 lg:h-5 lg:w-5 text-green-600" />
+                  <div className="flex-shrink-0 w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,45%)] rounded-full flex items-center justify-center mt-1 group-hover:from-[hsl(214,100%,65%)] group-hover:to-[hsl(214,100%,50%)] transition-all duration-300">
+                    <CheckCircle className="h-4 w-4 lg:h-5 lg:w-5 text-white" />
                   </div>
                   <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed font-apple">{benefit}</p>
                 </div>
