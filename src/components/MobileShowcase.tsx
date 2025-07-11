@@ -235,37 +235,69 @@ const MobileShowcase = () => {
                         <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-black rounded-full z-20"></div>
                         
                         <div className="p-8 pt-16 h-full flex flex-col relative z-10">
-                          <div className="text-center mb-8">
-                            <div className="w-16 h-16 healthcare-gradient rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
-                              <Shield className="h-8 w-8 text-white" />
+                          {/* Enhanced Logo Container */}
+                          <div className="text-center mb-6">
+                            <div className="flex items-center justify-center mb-4">
+                              <div className="relative">
+                                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300">
+                                  <Shield className="h-7 w-7 text-white drop-shadow-lg" />
+                                </div>
+                                <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                                  <Shield className="h-2.5 w-2.5 text-white" />
+                                </div>
+                              </div>
                             </div>
-                            <h3 className="text-white text-xl font-bold mb-2">Admin Portal</h3>
-                            <p className="text-gray-300 text-sm">Secure Healthcare Management</p>
+                            <h3 className="text-white text-xl font-black mb-1 tracking-tight">
+                              <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+                                Healthcare Admin
+                              </span>
+                            </h3>
+                            <p className="text-white/80 text-sm font-medium tracking-wide">Secure Dashboard Access</p>
+                            <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mx-auto mt-2" />
                           </div>
 
+                          {/* Login Form */}
                           <div className="space-y-4 flex-1">
-                            <input 
-                              type="text" 
-                              placeholder="Email Address"
-                              className="w-full p-4 bg-white/25 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-gray-200 focus:border-blue-400 transition-colors shadow-lg"
-                              defaultValue="admin@healthcare.com"
-                            />
-                            <input 
-                              type="password" 
-                              placeholder="Password"
-                              className="w-full p-4 bg-white/25 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-gray-200 focus:border-blue-400 transition-colors shadow-lg"
-                              defaultValue="••••••••"
-                            />
+                            {/* Email Field */}
+                            <div className="space-y-2">
+                              <label className="text-white/90 font-semibold text-xs tracking-wide flex items-center">
+                                <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mr-2" />
+                                Email Address
+                              </label>
+                              <input 
+                                type="text" 
+                                placeholder="admin@healthcare.com"
+                                className="w-full p-3 bg-white/10 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 transition-all shadow-lg text-sm"
+                                defaultValue="admin@healthcare.com"
+                              />
+                            </div>
                             
-                            <button className="w-full p-4 healthcare-gradient rounded-xl text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                              Secure Login
+                            {/* Password Field */}
+                            <div className="space-y-2">
+                              <label className="text-white/90 font-semibold text-xs tracking-wide flex items-center">
+                                <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mr-2" />
+                                Password
+                              </label>
+                              <input 
+                                type="password" 
+                                placeholder="••••••••"
+                                className="w-full p-3 bg-white/10 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 transition-all shadow-lg text-sm"
+                                defaultValue="••••••••"
+                              />
+                            </div>
+                            
+                            {/* Login Button */}
+                            <button className="w-full p-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg text-white font-bold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg text-sm flex items-center justify-center">
+                              <Lock className="h-4 w-4 mr-2" />
+                              Access Admin Dashboard
                             </button>
 
-                            <div className="text-center py-4">
-                              <div className="w-12 h-12 bg-white/25 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
-                                <div className="w-8 h-8 border-2 border-blue-400 rounded-full animate-pulse"></div>
+                            {/* Biometric */}
+                            <div className="text-center py-2">
+                              <div className="w-10 h-10 bg-white/25 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
+                                <div className="w-6 h-6 border-2 border-blue-400 rounded-full animate-pulse"></div>
                               </div>
-                              <p className="text-gray-200 text-xs mt-2">Touch ID / Face ID</p>
+                              <p className="text-white/60 text-xs mt-1">Touch ID / Face ID</p>
                             </div>
                           </div>
                         </div>
