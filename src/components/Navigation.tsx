@@ -66,7 +66,7 @@ const Navigation = () => {
             </LeadCaptureModal>
             
             <Link to="/login">
-              <Button className="btn-3d-gradient font-apple text-sm font-semibold px-4 py-2">
+              <Button className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white hover:from-[#5a95f5] hover:to-[#2576d1] font-apple text-sm font-semibold px-4 py-2 rounded-lg shadow-lg transition-all duration-200">
                 Login
               </Button>
             </Link>
@@ -175,7 +175,7 @@ const Navigation = () => {
                     </LeadCaptureModal>
                     
                     <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                      <Button className="btn-3d-gradient font-apple text-lg font-semibold px-8 py-4">
+                      <Button className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white hover:from-[#5a95f5] hover:to-[#2576d1] font-apple text-lg font-semibold px-8 py-4 rounded-lg shadow-lg transition-all duration-200">
                         Login
                       </Button>
                     </Link>
