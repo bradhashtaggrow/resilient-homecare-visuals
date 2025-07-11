@@ -41,13 +41,11 @@ const ValuesSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {values.map((value, index) => {
             const IconComponent = value.icon;
-            const colors = ['blue', 'amber', 'emerald'];
-            const color = colors[index];
             
             return (
               <div key={index} className="group text-center bg-white rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 lg:hover:-translate-y-4 border border-gray-100">
-                <div className={`w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 mx-auto mb-6 lg:mb-8 bg-gradient-to-br from-${color}-100 to-${color}-200 rounded-2xl lg:rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                  <IconComponent className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 text-${color}-600`} />
+                <div className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 mx-auto mb-6 lg:mb-8 bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,45%)] rounded-2xl lg:rounded-3xl flex items-center justify-center group-hover:from-[hsl(214,100%,65%)] group-hover:to-[hsl(214,100%,50%)] transition-all duration-300">
+                  <IconComponent className="h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 text-white" />
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold mb-4 lg:mb-6 font-apple text-gray-900">{value.title}</h3>
                 <p className="text-gray-600 leading-relaxed text-sm sm:text-base lg:text-lg">
