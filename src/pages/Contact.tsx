@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -268,8 +269,12 @@ const Contact = () => {
 
       {/* CTA Section */}
       {ctaConfig.title && (
-        <section className="py-24 bg-gradient-to-br from-blue-50 to-indigo-100">
-          <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+        <section className="relative py-24 bg-white overflow-hidden">
+          {/* Blue Bubble Decorations */}
+          <div className="absolute -top-32 -left-32 w-64 h-64 bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,50%)] rounded-full opacity-10 blur-3xl"></div>
+          <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-gradient-to-br from-[hsl(214,100%,50%)] to-[hsl(214,100%,40%)] rounded-full opacity-15 blur-3xl"></div>
+          
+          <div className="relative max-w-4xl mx-auto px-6 lg:px-8 text-center">
             <h2 className="text-4xl font-bold text-gray-900 mb-6 font-apple">
               {ctaConfig.title}
             </h2>
