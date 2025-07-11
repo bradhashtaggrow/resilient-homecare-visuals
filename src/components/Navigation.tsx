@@ -88,92 +88,101 @@ const Navigation = () => {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[60]">
-          <div className="flex flex-col h-full bg-white">
-            {/* Mobile Header */}
-            <div className="flex justify-between items-center p-6 border-b bg-white">
-              <Link to="/" onClick={() => setMobileMenuOpen(false)}>
-                <img 
-                  src="/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png" 
-                  alt="Resilient Healthcare" 
-                  className="h-10 w-auto"
-                />
-              </Link>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2"
-              >
-                <X className="h-6 w-6" />
-              </Button>
-            </div>
+        <>
+          {/* Backdrop */}
+          <div 
+            className="lg:hidden fixed inset-0 bg-black/50 z-50"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          
+          {/* Mobile Menu */}
+          <div className="lg:hidden fixed left-0 top-0 z-[60] w-full h-full bg-white shadow-lg">
+            <div className="w-full h-full bg-white">
+              {/* Mobile Header */}
+              <div className="flex justify-between items-center p-6 border-b border-gray-200 bg-white">
+                <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+                  <img 
+                    src="/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png" 
+                    alt="Resilient Healthcare" 
+                    className="h-10 w-auto"
+                  />
+                </Link>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X className="h-6 w-6 text-gray-600" />
+                </Button>
+              </div>
 
-            {/* Mobile Navigation Links */}
-            <div className="flex-1 flex flex-col justify-center space-y-8 px-6 bg-white">
-              <Link 
-                to="/care-at-home" 
-                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Care At Home
-              </Link>
-              <Link 
-                to="/clinicians" 
-                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Clinicians
-              </Link>
-              <Link 
-                to="/patients" 
-                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Patients
-              </Link>
-              <Link 
-                to="/news" 
-                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                News
-              </Link>
-              <Link 
-                to="/about" 
-                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About Us
-              </Link>
-              <Link 
-                to="/contact" 
-                className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contact
-              </Link>
-            </div>
-
-            {/* Mobile Action Buttons */}
-            <div className="p-6 space-y-4 border-t bg-white">
-              <LeadCaptureModal source="mobile-navigation">
-                <Button 
-                  className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4"
+              {/* Mobile Navigation Links */}
+              <div className="flex-1 flex flex-col justify-center space-y-8 px-6 bg-white overflow-y-auto h-full">
+                <Link 
+                  to="/care-at-home" 
+                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Request Demo
-                </Button>
-              </LeadCaptureModal>
-              
-              <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4">
-                  Login
-                </Button>
-              </Link>
+                  Care At Home
+                </Link>
+                <Link 
+                  to="/clinicians" 
+                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Clinicians
+                </Link>
+                <Link 
+                  to="/patients" 
+                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Patients
+                </Link>
+                <Link 
+                  to="/news" 
+                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  News
+                </Link>
+                <Link 
+                  to="/about" 
+                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  About Us
+                </Link>
+                <Link 
+                  to="/contact" 
+                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Contact
+                </Link>
+              </div>
+
+              {/* Mobile Action Buttons */}
+              <div className="p-6 space-y-4 border-t bg-white">
+                <LeadCaptureModal source="mobile-navigation">
+                  <Button 
+                    className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Request Demo
+                  </Button>
+                </LeadCaptureModal>
+                
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                  <Button className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4">
+                    Login
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </nav>
   );
