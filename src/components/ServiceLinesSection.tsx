@@ -205,13 +205,13 @@ const ServiceLinesSection = () => {
   return (
     <section 
       ref={elementRef}
-      className="py-32 bg-white relative overflow-hidden paper-texture-subtle will-change-transform"
+      className="py-16 sm:py-24 lg:py-32 bg-white relative overflow-hidden paper-texture-subtle will-change-transform"
     >
-      <div className="max-w-7xl mx-auto px-6 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header with dynamic content */}
-        <div className="text-center mb-20 opacity-100 translate-y-0">
-          <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-8"
-              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+        <div className="text-center mb-12 sm:mb-16 lg:mb-20 opacity-100 translate-y-0">
+          <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-6 lg:mb-8"
+              style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {content.title?.includes(',') ? (
               <>
                 {content.title.split(',')[0]},
@@ -224,18 +224,18 @@ const ServiceLinesSection = () => {
             )}
           </h2>
           {content.subtitle && (
-            <h3 className="text-xl text-gray-700 max-w-3xl mx-auto mb-6">
+            <h3 className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto mb-4 sm:mb-6 px-4">
               {content.subtitle}
             </h3>
           )}
-          <p className="text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide"
-             style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)', lineHeight: 1.3 }}>
+          <p className="text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide px-4"
+             style={{ fontSize: 'clamp(1rem, 2.5vw, 2rem)', lineHeight: 1.3 }}>
             {content.description}
           </p>
         </div>
 
         {/* Services Grid with Dynamic Data */}
-        <div className="space-y-16">
+        <div className="space-y-12 lg:space-y-16">
           {content.services?.map((service: any, index: number) => (
             <div 
               key={service.id || index}
@@ -248,15 +248,15 @@ const ServiceLinesSection = () => {
               }}
               onMouseEnter={() => setActiveService(index)}
             >
-              <div className={`grid lg:grid-cols-2 gap-12 items-center ${
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center ${
                 index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
               }`}>
                 {/* Content */}
-                <div className={`space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                  <div className="space-y-6 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-100/50 relative will-change-transform">
+                <div className={`space-y-6 lg:space-y-8 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
+                  <div className="space-y-4 sm:space-y-6 bg-white/90 backdrop-blur-sm rounded-2xl lg:rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100/50 relative will-change-transform">
                     {/* Service Icon */}
-                    <div className="absolute -top-6 -right-6 w-24 h-24">
-                      <div className={`w-full h-full rounded-2xl transition-all duration-300 ${
+                    <div className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24">
+                      <div className={`w-full h-full rounded-xl lg:rounded-2xl transition-all duration-300 ${
                         getColorClasses(service.color, activeService === index)
                       } flex items-center justify-center shadow-2xl`}>
                         {getIconComponent(service.icon)}
@@ -264,39 +264,41 @@ const ServiceLinesSection = () => {
                     </div>
 
                     {/* Title and Subtitle */}
-                    <div className="pr-16">
-                      <h3 className="text-gray-900 leading-none tracking-tight font-black mb-3"
-                          style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                    <div className="pr-12 sm:pr-16 lg:pr-20">
+                      <h3 className="text-gray-900 leading-none tracking-tight font-black mb-2 lg:mb-3"
+                          style={{ fontSize: 'clamp(1.25rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                         {service.title}
                       </h3>
                       <p className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent font-medium tracking-wide"
-                         style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
+                         style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                         {service.subtitle}
                       </p>
                     </div>
 
                     {/* Description */}
-                    <p className="text-lg text-gray-700 leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed">
                       {service.description}
                     </p>
 
                     {/* Benefits List with 3D Animated Icons */}
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {service.benefits?.map((benefit: any, benefitIndex: number) => (
-                        <div key={benefitIndex} className="flex items-start space-x-4">
-                          <AnimatedIcon3D 
-                            icon={getBenefitIcon(benefit.icon)} 
-                            delay={benefitIndex * 150} 
-                          />
-                          <span className="text-gray-700 leading-relaxed flex-1">{benefit.text}</span>
+                        <div key={benefitIndex} className="flex items-start space-x-3 sm:space-x-4">
+                          <div className="flex-shrink-0 mt-0.5">
+                            <AnimatedIcon3D 
+                              icon={getBenefitIcon(benefit.icon)} 
+                              delay={benefitIndex * 150} 
+                            />
+                          </div>
+                          <span className="text-sm sm:text-base text-gray-700 leading-relaxed flex-1">{benefit.text}</span>
                         </div>
                       ))}
                     </div>
 
                     {/* Note */}
                     {service.note && (
-                      <div className="bg-blue-50/90 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-[#0080ff]">
-                        <p className="text-gray-700 leading-relaxed">
+                      <div className="bg-blue-50/90 backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 sm:p-6 border-l-4 border-[#0080ff]">
+                        <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                           {service.note}
                         </p>
                       </div>
@@ -305,7 +307,7 @@ const ServiceLinesSection = () => {
                     {/* CTA Button with 3D Effects */}
                     <div className="relative">
                       <button className="
-                        relative px-8 py-4 text-lg font-semibold text-white rounded-xl
+                        relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white rounded-xl
                         bg-gradient-to-r from-[#0080ff] to-[#0066cc]
                         shadow-lg shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/40
                         transform transition-all duration-300 ease-out
@@ -317,9 +319,9 @@ const ServiceLinesSection = () => {
                         after:bg-gradient-to-t after:from-white/10 after:to-transparent
                         group overflow-hidden will-change-transform
                       ">
-                        <span className="relative z-10 flex items-center gap-2">
+                        <span className="relative z-10 flex items-center justify-center gap-2">
                           Learn More
-                          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 text-white drop-shadow-lg" />
+                          <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1 text-white drop-shadow-lg" />
                         </span>
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/20 to-blue-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </button>
@@ -328,9 +330,9 @@ const ServiceLinesSection = () => {
                 </div>
 
                 {/* Patient Image with Hover Overlay */}
-                <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
+                <div className={`order-first lg:order-none ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
                   <div className="relative group">
-                    <div className="w-full h-96 rounded-3xl shadow-2xl overflow-hidden relative">
+                    <div className="w-full h-64 sm:h-80 lg:h-96 rounded-2xl lg:rounded-3xl shadow-2xl overflow-hidden relative">
                       <img 
                         src={service.patient_image_url}
                         alt={`Patient receiving ${service.title} care`}

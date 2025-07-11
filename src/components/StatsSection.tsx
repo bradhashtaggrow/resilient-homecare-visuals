@@ -274,7 +274,7 @@ const StatsSection = () => {
   };
 
   return (
-    <section id="stats-section" className="py-32 relative overflow-hidden">
+    <section id="stats-section" className="py-16 sm:py-24 lg:py-32 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
@@ -298,22 +298,22 @@ const StatsSection = () => {
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative">
-        <div className={`text-center mb-20 transition-all duration-1200 ${
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className={`text-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-1200 ${
           isVisible ? 'animate-swoop-in' : 'opacity-0'
         }`}>
-          <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-8"
-              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+          <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6 lg:mb-8"
+              style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {content.title}
           </h2>
           {content.description && (
-            <p className="text-white/70 text-lg max-w-4xl mx-auto">
+            <p className="text-white/70 text-base sm:text-lg lg:text-xl max-w-4xl mx-auto px-4">
               {content.description}
             </p>
           )}
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {stats.map((stat, index) => (
             <div 
               key={index}
@@ -323,38 +323,38 @@ const StatsSection = () => {
               style={{animationDelay: `${index * 200}ms`}}
             >
               <div className="group relative">
-                <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl hover-lift border border-white/20 h-full transition-all duration-500 hover:bg-white/20">
+                <div className="bg-white/10 backdrop-blur-sm p-6 sm:p-8 rounded-xl lg:rounded-2xl hover-lift border border-white/20 h-full transition-all duration-500 hover:bg-white/20">
                   {/* Icon */}
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 ${getGradientClass(stat.color)} text-white shadow-xl group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl mb-4 sm:mb-6 ${getGradientClass(stat.color)} text-white shadow-xl group-hover:scale-110 transition-transform duration-300`}>
                     {stat.icon}
                   </div>
                   
                   {/* Animated Value */}
-                  <div className="text-white leading-none tracking-tight font-black mb-3 animate-count-up"
-                       style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                  <div className="text-white leading-none tracking-tight font-black mb-2 sm:mb-3 animate-count-up"
+                       style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                     {stat.value}
                   </div>
                   
                   {/* Label */}
-                  <div className="text-blue-100/90 font-medium tracking-wide mb-3"
-                       style={{ fontSize: 'clamp(1rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
+                  <div className="text-blue-100/90 font-medium tracking-wide mb-2 sm:mb-3"
+                       style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
                     {stat.label}
                   </div>
                   
                   {/* Description */}
-                  <div className="text-sm text-blue-200 mb-4 leading-relaxed">
+                  <div className="text-xs sm:text-sm text-blue-200 mb-3 sm:mb-4 leading-relaxed">
                     {stat.description}
                   </div>
                   
                   {/* Source/Trend */}
-                  <div className="inline-flex items-center space-x-2 bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-xs font-medium">
+                  <div className="inline-flex items-center space-x-2 bg-green-500/20 text-green-300 px-2 sm:px-3 py-1 rounded-full text-xs font-medium">
                     <TrendingUp className="h-3 w-3" />
-                    <span>{stat.trend}</span>
+                    <span className="truncate">{stat.trend}</span>
                   </div>
                 </div>
 
                 {/* Hover Glow Effect */}
-                <div className={`absolute inset-0 rounded-2xl ${getGradientClass(stat.color)} opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none blur-xl`} />
+                <div className={`absolute inset-0 rounded-xl lg:rounded-2xl ${getGradientClass(stat.color)} opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none blur-xl`} />
               </div>
             </div>
           ))}

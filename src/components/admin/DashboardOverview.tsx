@@ -56,15 +56,15 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-chart-3/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
       </div>
       
-      <div className="relative z-10 space-y-8 p-8 max-w-7xl mx-auto">
+      <div className="relative z-10 space-y-6 md:space-y-8 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         {/* Header */}
         <div className="animate-fade-in-up">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">
                 Dashboard
               </h2>
-              <p className="text-lg text-muted-foreground">Real-time healthcare platform management</p>
+              <p className="text-sm sm:text-base lg:text-lg text-muted-foreground">Real-time healthcare platform management</p>
             </div>
             <div className="flex items-center gap-3">
             </div>
@@ -72,7 +72,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           <MetricCard
             title="Total Leads"
             value={realTimeStats.totalLeads}
@@ -111,7 +111,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Quick Actions */}
           <div className="animate-slide-in-right" style={{ animationDelay: '0.5s' }}>
             <QuickActions onSectionChange={onSectionChange} onRefresh={refreshData} />
@@ -129,7 +129,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
         
         {/* Bottom spacing for better UX */}
-        <div className="h-16"></div>
+        <div className="h-8 lg:h-16"></div>
       </div>
     </div>
   );
