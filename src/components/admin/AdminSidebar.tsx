@@ -112,7 +112,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   );
 
   return (
-    <Sidebar className="border-r border-border bg-background w-80 h-full">
+    <Sidebar className="border-r border-border bg-background">
       <SidebarHeader className="p-6 border-b border-border bg-background">
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center flex-1">
