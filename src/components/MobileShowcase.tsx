@@ -239,11 +239,12 @@ const MobileShowcase = () => {
                           <div className="text-center mb-6">
                             <div className="flex items-center justify-center mb-4">
                               <div className="relative">
-                                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300">
-                                  <Shield className="h-7 w-7 text-white drop-shadow-lg" />
-                                </div>
-                                <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                                  <Shield className="h-2.5 w-2.5 text-white" />
+                                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300 p-2">
+                                  <img 
+                                    src="/lovable-uploads/205d7687-abc6-4b5d-94a8-cb89d5e02209.png" 
+                                    alt="Resilient Healthcare Logo" 
+                                    className="w-full h-full object-contain"
+                                  />
                                 </div>
                               </div>
                             </div>
@@ -303,16 +304,6 @@ const MobileShowcase = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="absolute -top-6 -right-6 w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl">
-                    <Shield className="h-7 w-7 text-white" />
-                  </div>
-                  <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '2s'}}>
-                    <Lock className="h-6 w-6 text-white" />
-                  </div>
-                  <div className="absolute top-1/3 -right-8 w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl" style={{animationDelay: '4s'}}>
-                    <Database className="h-5 w-5 text-white" />
                   </div>
                 </div>
               </div>
