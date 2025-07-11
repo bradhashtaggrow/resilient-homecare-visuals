@@ -80,19 +80,22 @@ const AdminLaptopVisualization = ({
                 <div className="absolute inset-0 bg-black/50 rounded-2xl" />
               </div>
 
-              {/* Admin Login Interface - Enhanced Glassmorphism */}
+              {/* Admin Login Interface - Ultra Blurry Glassmorphism */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
                 <div className="max-w-[320px] w-full mx-4 relative overflow-hidden rounded-3xl">
-                  {/* Multi-layered glassmorphism background */}
-                  <div className="absolute inset-0 backdrop-blur-3xl bg-white/[0.15] rounded-3xl"></div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-white/5 to-transparent rounded-3xl"></div>
-                  <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/20 via-transparent to-purple-500/20 rounded-3xl"></div>
+                  {/* Ultra-strong glassmorphism background - heavily blurred */}
+                  <div className="absolute inset-0 backdrop-blur-[40px] bg-white/[0.08] rounded-3xl saturate-150"></div>
+                  <div className="absolute inset-0 backdrop-blur-[60px] bg-white/[0.03] rounded-3xl"></div>
                   
-                  {/* Glass border effect */}
-                  <div className="absolute inset-0 rounded-3xl border border-white/40 shadow-2xl shadow-black/50"></div>
+                  {/* Frosted glass layers */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.15] via-white/[0.03] to-transparent rounded-3xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-tl from-blue-400/[0.08] via-transparent to-purple-400/[0.08] rounded-3xl"></div>
                   
-                  {/* Inner glass reflection */}
-                  <div className="absolute inset-1 rounded-3xl bg-gradient-to-br from-white/10 via-transparent to-transparent"></div>
+                  {/* Glass border with strong blur */}
+                  <div className="absolute inset-0 rounded-3xl border border-white/20 shadow-2xl shadow-black/60 backdrop-blur-sm"></div>
+                  
+                  {/* Inner glass reflection for depth */}
+                  <div className="absolute inset-[2px] rounded-3xl bg-gradient-to-br from-white/[0.06] via-transparent to-transparent backdrop-blur-md"></div>
                   
                   {/* Content container */}
                   <div className="relative z-10 p-8">
