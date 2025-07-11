@@ -281,8 +281,8 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           }}
                         />
                         
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/10" />
+                        {/* Updated Overlay with Blue Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#4285F4]/80 to-[#1565C0]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
                       </div>
 
                     </div>
