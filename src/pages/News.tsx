@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -82,7 +83,7 @@ const News = () => {
           
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <Loader className="h-8 w-8 animate-spin text-blue-600" />
+              <Loader className="h-8 w-8 animate-spin text-[#4285F4]" />
               <span className="ml-2 text-gray-600">Loading latest news...</span>
             </div>
           ) : blogPosts.length === 0 ? (
@@ -100,21 +101,21 @@ const News = () => {
                   />
                   <div className="p-4 sm:p-6 lg:p-8">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
-                      <span className="bg-blue-100 text-blue-600 px-2 sm:px-3 py-1 rounded-full font-medium self-start">
+                      <span className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white px-2 sm:px-3 py-1 rounded-full font-medium self-start">
                         {post.category || 'Healthcare'}
                       </span>
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 text-[#4285F4]">
                         <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                         <span className="hidden sm:inline">{formatDate(post.published_at)}</span>
                         <span className="sm:hidden">{formatDate(post.published_at)?.split(',')[0]}</span>
                       </div>
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 text-[#4285F4]">
                         <User className="h-3 w-3 sm:h-4 sm:w-4" />
                         {post.author}
                       </div>
                     </div>
                     
-                    <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 hover:text-blue-600 cursor-pointer line-clamp-2">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 hover:bg-gradient-to-r hover:from-[#4285F4] hover:to-[#1565C0] hover:bg-clip-text hover:text-transparent cursor-pointer line-clamp-2 transition-all duration-200">
                       {post.title}
                     </h3>
                     
@@ -122,7 +123,7 @@ const News = () => {
                       {post.excerpt}
                     </p>
                     
-                    <button className="text-blue-600 font-semibold hover:text-blue-700 inline-flex items-center text-sm sm:text-base">
+                    <button className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white font-semibold hover:from-[#5a95f5] hover:to-[#2576d1] inline-flex items-center text-sm sm:text-base px-4 py-2 rounded-lg transition-all duration-200">
                       Read More
                       <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                     </button>
