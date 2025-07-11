@@ -96,10 +96,10 @@ const Navigation = () => {
           />
           
           {/* Mobile Menu */}
-          <div className="lg:hidden fixed left-0 top-0 z-[60] w-full h-full bg-white shadow-lg">
-            <div className="w-full h-full bg-white">
+          <div className="lg:hidden fixed left-0 top-0 z-[60] w-full h-full">
+            <div className="w-full h-full bg-white border border-red-500">
               {/* Mobile Header */}
-              <div className="flex justify-between items-center p-6 border-b border-gray-200 bg-white">
+              <div className="flex justify-between items-center p-6 border-b border-gray-200 bg-blue-100">
                 <Link to="/" onClick={() => setMobileMenuOpen(false)}>
                   <img 
                     src="/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png" 
@@ -111,56 +111,76 @@ const Navigation = () => {
                   variant="ghost"
                   size="sm"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors bg-red-200"
                 >
                   <X className="h-6 w-6 text-gray-600" />
                 </Button>
               </div>
 
               {/* Mobile Navigation Links */}
-              <div className="flex-1 flex flex-col justify-center space-y-8 px-6 bg-white overflow-y-auto h-full">
-                <Link 
-                  to="/care-at-home" 
-                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Care At Home
-                </Link>
-                <Link 
-                  to="/clinicians" 
-                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Clinicians
-                </Link>
-                <Link 
-                  to="/patients" 
-                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Patients
-                </Link>
-                <Link 
-                  to="/news" 
-                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  News
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  About Us
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Contact
-                </Link>
+              <div className="px-6 py-8 bg-green-100 h-full overflow-y-auto">
+                <div className="space-y-6">
+                  <Link 
+                    to="/care-at-home" 
+                    className="block text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4 bg-yellow-200 rounded"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Care At Home
+                  </Link>
+                  <Link 
+                    to="/clinicians" 
+                    className="block text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4 bg-yellow-200 rounded"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Clinicians
+                  </Link>
+                  <Link 
+                    to="/patients" 
+                    className="block text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4 bg-yellow-200 rounded"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Patients
+                  </Link>
+                  <Link 
+                    to="/news" 
+                    className="block text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4 bg-yellow-200 rounded"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    News
+                  </Link>
+                  <Link 
+                    to="/about" 
+                    className="block text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4 bg-yellow-200 rounded"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    About Us
+                  </Link>
+                  <Link 
+                    to="/contact" 
+                    className="block text-2xl font-bold text-black hover:text-primary transition-colors font-apple text-center py-4 bg-yellow-200 rounded"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Contact
+                  </Link>
+                  
+                  {/* Mobile Action Buttons */}
+                  <div className="space-y-4 pt-8">
+                    <LeadCaptureModal source="mobile-navigation">
+                      <Button 
+                        className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Request Demo
+                      </Button>
+                    </LeadCaptureModal>
+                    
+                    <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                      <Button className="btn-3d-gradient font-apple text-lg font-semibold w-full py-4">
+                        Login
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
               </div>
 
               {/* Mobile Action Buttons */}
