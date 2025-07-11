@@ -82,9 +82,9 @@ const AdminLaptopVisualization = ({
 
               {/* Admin Login Interface - With Resilient logo */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-white/25 border border-white/30 shadow-2xl rounded-xl p-6 relative">
-                  {/* Glass overlay effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-white/5 rounded-xl pointer-events-none backdrop-blur-md"></div>
+                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-black/40 border border-white/20 shadow-2xl rounded-xl p-6 relative">
+                  {/* Dark glass overlay effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/40 to-black/50 rounded-xl pointer-events-none backdrop-blur-md"></div>
                   
                   <div className="relative z-10">
                     {/* Resilient Healthcare Logo */}
