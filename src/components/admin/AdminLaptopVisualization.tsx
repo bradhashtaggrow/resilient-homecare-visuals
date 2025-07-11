@@ -76,84 +76,84 @@ const AdminLaptopVisualization = ({
                 >
                   <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                 </video>
-                {/* Dark overlay for better contrast */}
-                <div className="absolute inset-0 bg-black/50 rounded-2xl" />
+                {/* Minimal dark overlay for text readability */}
+                <div className="absolute inset-0 bg-black/30 rounded-2xl" />
               </div>
 
-              {/* Admin Login Interface - Ultra Blurry Glassmorphism */}
+              {/* Admin Login Interface - Real UI from /login */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-[320px] w-full mx-4 relative overflow-hidden rounded-3xl">
-                  {/* Ultra-strong glassmorphism background - heavily blurred */}
-                  <div className="absolute inset-0 backdrop-blur-[40px] bg-white/[0.08] rounded-3xl saturate-150"></div>
-                  <div className="absolute inset-0 backdrop-blur-[60px] bg-white/[0.03] rounded-3xl"></div>
-                  
-                  {/* Frosted glass layers */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.15] via-white/[0.03] to-transparent rounded-3xl"></div>
-                  <div className="absolute inset-0 bg-gradient-to-tl from-blue-400/[0.08] via-transparent to-purple-400/[0.08] rounded-3xl"></div>
-                  
-                  {/* Glass border with strong blur */}
-                  <div className="absolute inset-0 rounded-3xl border border-white/20 shadow-2xl shadow-black/60 backdrop-blur-sm"></div>
-                  
-                  {/* Inner glass reflection for depth */}
-                  <div className="absolute inset-[2px] rounded-3xl bg-gradient-to-br from-white/[0.06] via-transparent to-transparent backdrop-blur-md"></div>
-                  
-                  {/* Content container */}
-                  <div className="relative z-10 p-8">
-                    {/* Resilient Healthcare Logo */}
-                    <div className="text-center mb-6">
-                      <div className="flex items-center justify-center mb-4">
-                        <img 
-                          src="/lovable-uploads/7c1e9f2c-e9a3-484c-9ce9-0e5ce0293c0e.png" 
-                          alt="Resilient Healthcare" 
-                          className="h-8 w-auto drop-shadow-lg filter brightness-110"
-                        />
+                <div className="max-w-xs w-full mx-6 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 rounded-xl p-6">
+                  {/* Enhanced Logo Container */}
+                  <div className="text-center mb-6">
+                    <div className="flex items-center justify-center mb-4">
+                      <div className="relative">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30">
+                          <Shield className="h-6 w-6 text-white drop-shadow-lg" />
+                        </div>
+                        <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                          <Shield className="h-2 w-2 text-white" />
+                        </div>
                       </div>
                     </div>
+                    
+                    {/* Enhanced Title */}
+                    <h3 className="text-2xl font-black text-white mb-1 tracking-tight">
+                      <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+                        Healthcare Admin
+                      </span>
+                    </h3>
+                    <p className="text-white/80 text-sm font-medium tracking-wide">
+                      Secure Dashboard Access
+                    </p>
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mx-auto mt-2" />
+                  </div>
 
-                    {/* Login Form */}
-                    <div className="space-y-4">
-                      {/* Email Field */}
-                      <div className="space-y-2">
-                        <label className="text-white/95 font-semibold text-sm flex items-center drop-shadow-sm">
-                          <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2 shadow-lg shadow-blue-400/50" />
-                          Email Address
-                        </label>
+                  {/* Login Form */}
+                  <div className="space-y-4">
+                    {/* Enhanced Email Field */}
+                    <div className="space-y-2">
+                      <label className="text-white/90 font-semibold text-xs tracking-wide flex items-center">
+                        <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mr-2" />
+                        Email Address
+                      </label>
+                      <div className="relative">
                         <input 
                           type="text" 
-                          placeholder="admin@healthcare.com"
-                          className="w-full p-3 bg-white/15 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-white/60 focus:border-blue-400/70 focus:ring-2 focus:ring-blue-400/30 transition-all text-sm shadow-lg"
+                          placeholder="Enter your email"
+                          className="w-full p-3 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-lg border text-sm"
                           defaultValue="admin@healthcare.com"
                         />
                       </div>
-                      
-                      {/* Password Field */}
-                      <div className="space-y-2">
-                        <label className="text-white/95 font-semibold text-sm flex items-center drop-shadow-sm">
-                          <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2 shadow-lg shadow-blue-400/50" />
-                          Password
-                        </label>
+                    </div>
+                    
+                    {/* Enhanced Password Field */}
+                    <div className="space-y-2">
+                      <label className="text-white/90 font-semibold text-xs tracking-wide flex items-center">
+                        <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mr-2" />
+                        Password
+                      </label>
+                      <div className="relative">
                         <input 
                           type="password" 
-                          placeholder="••••••••"
-                          className="w-full p-3 bg-white/15 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-white/60 focus:border-blue-400/70 focus:ring-2 focus:ring-blue-400/30 transition-all text-sm shadow-lg"
+                          placeholder="Enter your password"
+                          className="w-full p-3 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-lg border text-sm"
                           defaultValue="••••••••"
                         />
                       </div>
-                      
-                      {/* Sign In Button */}
-                      <div className="pt-2">
-                        <button className="w-full py-3 bg-gradient-to-r from-blue-500/90 to-blue-600/90 hover:from-blue-500 hover:to-blue-600 rounded-xl text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-blue-500/30 backdrop-blur-sm border border-blue-400/20">
-                          Sign In
-                        </button>
-                      </div>
+                    </div>
+                    
+                    {/* Enhanced Submit Button */}
+                    <button className="w-full p-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 rounded-lg text-sm flex items-center justify-center">
+                      <Lock className="mr-2 h-4 w-4" />
+                      <span className="tracking-wide">Access Admin Dashboard</span>
+                    </button>
 
-                      {/* Touch ID / Face ID */}
-                      <div className="text-center pt-4">
-                        <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center mb-2 border border-white/30 shadow-lg">
-                          <div className="w-6 h-6 border border-white/70 rounded-full shadow-inner"></div>
-                        </div>
-                        <p className="text-white/80 text-sm drop-shadow-sm">Touch ID / Face ID</p>
+                    {/* Biometric */}
+                    <div className="text-center py-2">
+                      <div className="w-10 h-10 bg-white/25 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
+                        <div className="w-6 h-6 border-2 border-blue-400 rounded-full animate-pulse"></div>
                       </div>
+                      <p className="text-white/60 text-xs mt-1">Touch ID / Face ID</p>
                     </div>
                   </div>
                 </div>
