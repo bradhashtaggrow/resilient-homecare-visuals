@@ -4,7 +4,41 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
+import TabsSection from '@/components/tabs/TabsSection';
+import LeadGenSection from '@/components/LeadGenSection';
+import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap, LucideIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+
+interface TabData {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  color: string;
+  icon_name: string;
+  image_url: string;
+}
+
+interface Service {
+  id: string;
+  icon: LucideIcon;
+  title: string;
+  subtitle: string;
+  description: string;
+  color: string;
+  patient_image_url: string;
+}
+
+// Icon mapping
+const iconMap: Record<string, LucideIcon> = {
+  Building2,
+  Heart,
+  Users,
+  Shield,
+  CheckCircle,
+  Activity,
+  Zap,
+};
 
 const Patients = () => {
   const [heroContent, setHeroContent] = useState({
@@ -15,6 +49,7 @@ const Patients = () => {
     title: "Patients",
     description: "We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
   });
+  const [services, setServices] = useState<Service[]>([]);
 
   useEffect(() => {
     console.log('Patients page - Loading content...');
@@ -34,21 +69,32 @@ const Patients = () => {
             title: heroData.title || "Patient-centered",
             highlightedText: "care at home"
           });
+          setContentSection({
+            title: "Patients",
+            description: heroData.description || "We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home."
+          });
         }
 
-        // Load content section
-        const { data: contentData } = await supabase
+        // Load mobile tabs content
+        const { data: mobileData } = await supabase
           .from('website_content')
           .select('*')
-          .eq('section_key', 'patients_hero')
+          .eq('section_key', 'patients_mobile')
           .eq('is_active', true)
           .single();
 
-        if (contentData) {
-          setContentSection({
-            title: "Patients",
-            description: contentData.description || "We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home."
-          });
+        if (mobileData && mobileData.content_data && typeof mobileData.content_data === 'object' && 'tabs' in mobileData.content_data) {
+          const tabsData = (mobileData.content_data as any).tabs as TabData[];
+          const transformedServices: Service[] = tabsData.map((tab) => ({
+            id: tab.id,
+            icon: iconMap[tab.icon_name] || Building2,
+            title: tab.title,
+            subtitle: tab.subtitle,
+            description: tab.description,
+            color: tab.color,
+            patient_image_url: tab.image_url
+          }));
+          setServices(transformedServices);
         }
 
       } catch (error) {
@@ -65,7 +111,7 @@ const Patients = () => {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=eq.patients_hero'
+        filter: 'section_key=in.(patients_hero,patients_mobile)'
       }, (payload) => {
         console.log('Real-time patients content change:', payload);
         loadAllContent();
@@ -90,6 +136,10 @@ const Patients = () => {
         title={contentSection.title}
         description={contentSection.description}
       />
+
+      {services.length > 0 && <TabsSection services={services} />}
+
+      <LeadGenSection />
 
       <Footer />
     </div>
