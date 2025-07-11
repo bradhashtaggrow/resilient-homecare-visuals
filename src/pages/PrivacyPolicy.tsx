@@ -2,6 +2,8 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import HeroSection from '@/components/hero/HeroSection';
+import OptimizedVideo from '@/components/OptimizedVideo';
 
 const PrivacyPolicy = () => {
   const currentDate = new Date().toLocaleDateString('en-US', { 
@@ -11,17 +13,22 @@ const PrivacyPolicy = () => {
   });
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
-      <main className="pt-20 pb-12">
+      <HeroSection 
+        title="Privacy"
+        highlightedText="Policy"
+      />
+
+      <main className="pb-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="prose prose-lg max-w-none">
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">Privacy Policy</h1>
-            
-            <p className="text-gray-600 mb-8">
-              <strong>Effective Date:</strong> {currentDate}
-            </p>
+            <div className="text-center mb-12">
+              <p className="text-gray-600 text-lg">
+                <strong>Effective Date:</strong> {currentDate}
+              </p>
+            </div>
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Introduction</h2>
@@ -147,9 +154,9 @@ const PrivacyPolicy = () => {
               </p>
               <div className="bg-gray-50 p-6 rounded-lg">
                 <p className="text-gray-700 mb-2"><strong>Resilient Healthcare</strong></p>
-                <p className="text-gray-700 mb-2">Email: privacy@resilientcare.com</p>
-                <p className="text-gray-700 mb-2">Phone: 1-800-RESILIENT</p>
-                <p className="text-gray-700">Address: San Francisco, CA</p>
+                <p className="text-gray-700 mb-2">Email: info@resilienthc.com</p>
+                <p className="text-gray-700 mb-2">Phone: +1 888-874-0852</p>
+                <p className="text-gray-700">Address: Dallas, TX</p>
               </div>
             </section>
           </div>
