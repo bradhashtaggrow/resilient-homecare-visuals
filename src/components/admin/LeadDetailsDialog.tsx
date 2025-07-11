@@ -98,7 +98,7 @@ const LeadDetailsDialog: React.FC<LeadDetailsDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[95vw] sm:max-w-[85vw] md:max-w-4xl max-h-[70vh] overflow-hidden rounded-xl fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 !m-0">
+      <DialogContent className="max-w-[95vw] sm:max-w-[85vw] md:max-w-4xl max-h-[70vh] overflow-hidden rounded-xl fixed inset-0 m-auto w-fit h-fit z-[100]">
         <DialogDescription className="sr-only">
           View detailed information about the lead including contact details, company information, and requirements.
         </DialogDescription>
