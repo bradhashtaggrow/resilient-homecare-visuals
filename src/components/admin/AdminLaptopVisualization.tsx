@@ -106,10 +106,10 @@ const AdminLaptopVisualization = ({
                         <input 
                           type="text" 
                           placeholder="admin@healthcare.com"
-                          className="w-full p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm shadow-inner"
+                          className="w-full p-3 bg-white/30 backdrop-blur-xl border border-white/40 rounded-xl text-white placeholder-white/60 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm shadow-lg"
                           defaultValue="admin@healthcare.com"
                         />
-                        <div className="absolute inset-0 bg-white/5 rounded-xl pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20 rounded-xl pointer-events-none backdrop-blur-md"></div>
                       </div>
                     </div>
                     
@@ -123,10 +123,10 @@ const AdminLaptopVisualization = ({
                         <input 
                           type="password" 
                           placeholder="••••••••"
-                          className="w-full p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm shadow-inner"
+                          className="w-full p-3 bg-white/30 backdrop-blur-xl border border-white/40 rounded-xl text-white placeholder-white/60 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm shadow-lg"
                           defaultValue="••••••••"
                         />
-                        <div className="absolute inset-0 bg-white/5 rounded-xl pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20 rounded-xl pointer-events-none backdrop-blur-md"></div>
                       </div>
                     </div>
                     
