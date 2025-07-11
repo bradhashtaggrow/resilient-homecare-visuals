@@ -88,7 +88,7 @@ const Navigation = () => {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50">
+        <div className="lg:hidden fixed inset-0 z-[60]">
           <div className="flex flex-col h-full bg-white">
             {/* Mobile Header */}
             <div className="flex justify-between items-center p-6 border-b bg-white">
