@@ -82,7 +82,7 @@ const AdminLaptopVisualization = ({
 
               {/* Admin Login Interface - With Resilient logo */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl rounded-xl p-6">
+                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-black/20 border border-white/30 shadow-2xl rounded-xl p-6">
                   {/* Resilient Healthcare Logo */}
                   <div className="text-center mb-6">
                     <div className="flex items-center justify-center mb-4">
