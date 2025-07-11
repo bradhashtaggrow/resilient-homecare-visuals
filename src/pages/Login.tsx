@@ -85,7 +85,7 @@ const Login = () => {
 
       {/* Enhanced Login Card */}
       <div className="relative z-20 w-full max-w-md px-4">
-        <Card className="backdrop-blur-3xl bg-white/25 border border-white/40 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/30">
+        <Card className="backdrop-blur-3xl bg-white/40 border border-white/40 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/45">
           <CardHeader className="text-center pb-8 pt-8">
             {/* Enhanced Logo Container */}
             <div className="flex items-center justify-center mb-6">
