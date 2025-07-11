@@ -83,7 +83,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
             onClick={() => handleMenuClick(item.id)}
             className={`w-full flex items-center px-3 py-2.5 rounded-lg transition-all duration-200 text-left ${
               activeSection === item.id
-                ? 'bg-blue-600 text-white'
+                ? 'bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white shadow-lg'
                 : 'text-gray-700 hover:bg-gray-100'
             }`}
           >

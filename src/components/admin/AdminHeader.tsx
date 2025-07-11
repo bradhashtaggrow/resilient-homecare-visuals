@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -72,9 +73,9 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
   const getSyncStatusIcon = () => {
     switch (syncStatus) {
       case 'connected':
-        return <Wifi className="h-3 w-3 text-primary" />;
+        return <Wifi className="h-3 w-3 text-[#4285F4]" />;
       case 'syncing':
-        return <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />;
+        return <div className="w-3 h-3 border-2 border-[#4285F4] border-t-transparent rounded-full animate-spin" />;
       default:
         return <WifiOff className="h-3 w-3 text-muted-foreground" />;
     }
@@ -110,7 +111,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
             <Menu className="h-4 w-4" />
           </Button>
         )}
-        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground font-apple truncate">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-[#4285F4] to-[#1565C0] bg-clip-text text-transparent font-apple truncate">
           {getSectionTitle(activeSection)}
         </h2>
         {activeSection === 'content' && onPageChange && (
@@ -152,7 +153,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="sm" className="flex items-center space-x-1 sm:space-x-2">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-full flex items-center justify-center">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-[#4285F4] to-[#1565C0] rounded-full flex items-center justify-center">
                 <User className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
               </div>
               <span className="text-xs sm:text-sm font-medium text-foreground font-apple hidden md:inline truncate max-w-20 lg:max-w-none">

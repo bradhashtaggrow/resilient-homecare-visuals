@@ -17,7 +17,7 @@ const CareAtHome = () => {
   });
   const [services, setServices] = useState([]);
 
-  // Available icons mapping
+  // Available icons mapping with consistent blue gradient styling
   const availableIcons = {
     Building2,
     Heart,
@@ -113,7 +113,6 @@ const CareAtHome = () => {
       />
 
       {services.length > 0 && <TabsSection services={services} />}
-
 
       <LeadGenSection />
 
