@@ -85,7 +85,7 @@ const Login = () => {
 
       {/* Enhanced Login Card */}
       <div className="relative z-20 w-full max-w-md px-4">
-        <Card className="backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/15">
+        <Card className="backdrop-blur-3xl bg-white/25 border border-white/40 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/30">
           <CardHeader className="text-center pb-8 pt-8">
             {/* Enhanced Logo Container */}
             <div className="flex items-center justify-center mb-6">
@@ -127,7 +127,7 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     disabled={loading}
-                    className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15"
+                    className="h-12 bg-white/20 border-white/40 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/25"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -147,7 +147,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     disabled={loading}
-                    className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 pr-12"
+                    className="h-12 bg-white/20 border-white/40 text-white placeholder:text-white/60 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/25 pr-12"
                     placeholder="Enter your password"
                   />
                   <button
