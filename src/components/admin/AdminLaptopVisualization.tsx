@@ -82,7 +82,7 @@ const AdminLaptopVisualization = ({
 
               {/* Admin Login Interface - With Resilient logo */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-white/20 border border-white/30 shadow-2xl rounded-xl p-6">
+                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/15 rounded-xl p-6">
                   {/* Resilient Healthcare Logo */}
                   <div className="text-center mb-6">
                     <div className="flex items-center justify-center mb-4">
@@ -106,10 +106,9 @@ const AdminLaptopVisualization = ({
                         <input 
                           type="text" 
                           placeholder="admin@healthcare.com"
-                          className="w-full p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm shadow-inner"
+                          className="w-full h-12 p-3 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-xl text-sm"
                           defaultValue="admin@healthcare.com"
                         />
-                        <div className="absolute inset-0 bg-white/5 rounded-xl pointer-events-none"></div>
                       </div>
                     </div>
                     
@@ -123,17 +122,19 @@ const AdminLaptopVisualization = ({
                         <input 
                           type="password" 
                           placeholder="••••••••"
-                          className="w-full p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm shadow-inner"
+                          className="w-full h-12 p-3 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-xl text-sm"
                           defaultValue="••••••••"
                         />
-                        <div className="absolute inset-0 bg-white/5 rounded-xl pointer-events-none"></div>
                       </div>
                     </div>
                     
                     {/* Sign In Button */}
                     <div className="pt-2">
-                      <button className="w-full py-3 bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-semibold text-sm transition-all duration-200">
-                        Sign In
+                      <button className="w-full h-14 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-xl text-white font-bold text-sm transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 shadow-lg">
+                        <div className="flex items-center justify-center">
+                          <div className="mr-2 h-4 w-4 border border-white rounded"></div>
+                          Access Admin Dashboard
+                        </div>
                       </button>
                     </div>
 
