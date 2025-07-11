@@ -80,63 +80,70 @@ const AdminLaptopVisualization = ({
                 <div className="absolute inset-0 bg-black/30 rounded-2xl" />
               </div>
 
-              {/* Admin Login Interface - With Resilient logo */}
+              {/* Admin Login Interface - Enhanced Glassmorphism */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="max-w-[320px] w-full mx-4 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl rounded-xl p-6">
-                  {/* Resilient Healthcare Logo */}
-                  <div className="text-center mb-6">
-                    <div className="flex items-center justify-center mb-4">
-                      <img 
-                        src="/lovable-uploads/7c1e9f2c-e9a3-484c-9ce9-0e5ce0293c0e.png" 
-                        alt="Resilient Healthcare" 
-                        className="h-8 w-auto"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Login Form */}
-                  <div className="space-y-4">
-                    {/* Email Field */}
-                    <div className="space-y-2">
-                      <label className="text-white/90 font-medium text-sm flex items-center">
-                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2" />
-                        Email Address
-                      </label>
-                      <input 
-                        type="text" 
-                        placeholder="admin@healthcare.com"
-                        className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm"
-                        defaultValue="admin@healthcare.com"
-                      />
-                    </div>
-                    
-                    {/* Password Field */}
-                    <div className="space-y-2">
-                      <label className="text-white/90 font-medium text-sm flex items-center">
-                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2" />
-                        Password
-                      </label>
-                      <input 
-                        type="password" 
-                        placeholder="••••••••"
-                        className="w-full p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/50 focus:border-blue-400 focus:ring-1 focus:ring-blue-400/50 transition-all text-sm"
-                        defaultValue="••••••••"
-                      />
-                    </div>
-                    
-                    {/* Sign In Button */}
-                    <div className="pt-2">
-                      <button className="w-full py-3 bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-semibold text-sm transition-all duration-200">
-                        Sign In
-                      </button>
-                    </div>
-
-                    {/* Touch ID / Face ID */}
-                    <div className="text-center pt-4">
-                      <div className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center mb-2 border border-white/20">
-                        <div className="w-6 h-6 border border-white/60 rounded-full"></div>
+                <div className="max-w-[320px] w-full mx-4 backdrop-blur-2xl bg-white/[0.08] border border-white/30 shadow-2xl rounded-2xl p-8 relative overflow-hidden">
+                  {/* Enhanced glass effect with multiple layers */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent rounded-2xl pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/10 via-transparent to-purple-500/10 rounded-2xl pointer-events-none" />
+                  
+                  {/* Content with higher z-index */}
+                  <div className="relative z-10">
+                    {/* Resilient Healthcare Logo */}
+                    <div className="text-center mb-6">
+                      <div className="flex items-center justify-center mb-4">
+                        <img 
+                          src="/lovable-uploads/7c1e9f2c-e9a3-484c-9ce9-0e5ce0293c0e.png" 
+                          alt="Resilient Healthcare" 
+                          className="h-8 w-auto drop-shadow-lg"
+                        />
                       </div>
-                      <p className="text-white/70 text-sm">Touch ID / Face ID</p>
+                    </div>
+
+                    {/* Login Form */}
+                    <div className="space-y-4">
+                      {/* Email Field */}
+                      <div className="space-y-2">
+                        <label className="text-white/95 font-semibold text-sm flex items-center drop-shadow-sm">
+                          <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2 shadow-lg shadow-blue-400/50" />
+                          Email Address
+                        </label>
+                        <input 
+                          type="text" 
+                          placeholder="admin@healthcare.com"
+                          className="w-full p-3 bg-white/15 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-white/60 focus:border-blue-400/70 focus:ring-2 focus:ring-blue-400/30 transition-all text-sm shadow-lg"
+                          defaultValue="admin@healthcare.com"
+                        />
+                      </div>
+                      
+                      {/* Password Field */}
+                      <div className="space-y-2">
+                        <label className="text-white/95 font-semibold text-sm flex items-center drop-shadow-sm">
+                          <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2 shadow-lg shadow-blue-400/50" />
+                          Password
+                        </label>
+                        <input 
+                          type="password" 
+                          placeholder="••••••••"
+                          className="w-full p-3 bg-white/15 backdrop-blur-sm border border-white/40 rounded-xl text-white placeholder-white/60 focus:border-blue-400/70 focus:ring-2 focus:ring-blue-400/30 transition-all text-sm shadow-lg"
+                          defaultValue="••••••••"
+                        />
+                      </div>
+                      
+                      {/* Sign In Button */}
+                      <div className="pt-2">
+                        <button className="w-full py-3 bg-gradient-to-r from-blue-500/90 to-blue-600/90 hover:from-blue-500 hover:to-blue-600 rounded-xl text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-blue-500/30 backdrop-blur-sm border border-blue-400/20">
+                          Sign In
+                        </button>
+                      </div>
+
+                      {/* Touch ID / Face ID */}
+                      <div className="text-center pt-4">
+                        <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center mb-2 border border-white/30 shadow-lg">
+                          <div className="w-6 h-6 border border-white/70 rounded-full shadow-inner"></div>
+                        </div>
+                        <p className="text-white/80 text-sm drop-shadow-sm">Touch ID / Face ID</p>
+                      </div>
                     </div>
                   </div>
                 </div>
