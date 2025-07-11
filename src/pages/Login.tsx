@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -213,7 +214,6 @@ const Login = () => {
         <div className="animate-bounce-gentle">
           <div className="w-8 h-12 border-2 border-white/30 rounded-full flex justify-center relative overflow-hidden hover:border-white/50 transition-colors duration-300">
             <div className="w-1.5 h-4 bg-white/50 rounded-full mt-3 animate-pulse-slow" />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-transparent" />
           </div>
         </div>
       </div>
