@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
-import { Phone, Mail, Send, MessageCircle } from 'lucide-react';
+import { Phone, Mail, Send, MessageCircle, ArrowRight, Star, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -268,26 +268,52 @@ const Contact = () => {
 
       {/* CTA Section */}
       {ctaConfig.title && (
-        <section className="relative py-24 bg-white overflow-hidden">
-          {/* Blue Bubble Decorations */}
-          <div className="absolute -top-32 -left-32 w-64 h-64 bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,50%)] rounded-full opacity-10 blur-3xl"></div>
-          <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-gradient-to-br from-[hsl(214,100%,50%)] to-[hsl(214,100%,40%)] rounded-full opacity-15 blur-3xl"></div>
-          
-          <div className="relative max-w-4xl mx-auto px-6 lg:px-8 text-center">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6 font-apple">
-              {ctaConfig.title}
-            </h2>
-            <p className="text-xl text-gray-600 mb-8 font-apple">
-              {ctaConfig.description}
-            </p>
-            {ctaConfig.button_text && (
-              <Button 
-                size="lg" 
-                className="px-8 py-4 text-lg font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                {ctaConfig.button_text}
-              </Button>
-            )}
+        <section 
+          className="py-8 sm:py-12 md:py-16 lg:py-20 relative overflow-hidden paper-texture-subtle flex items-center min-h-[50vh]"
+        >
+          {/* Background */}
+          <div className="absolute inset-0 bg-white" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
+            {/* Enhanced Trust Section with Improved Animations */}
+            <div className="text-center transition-all duration-1200 transform opacity-100 translate-y-0">
+              <div className="bg-gradient-to-r from-[#4F9CF9] to-[#183EC2] rounded-xl sm:rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-12 text-white relative overflow-hidden bg-opacity-95 backdrop-blur-sm hover:scale-105 transition-all duration-700 hover:shadow-2xl group">
+                {/* Animated Background Elements */}
+                <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 lg:w-48 lg:h-48 bg-white/10 rounded-full -translate-y-12 sm:-translate-y-16 lg:-translate-y-24 translate-x-12 sm:translate-x-16 lg:translate-x-24 group-hover:scale-110 transition-transform duration-1000" />
+                <div className="absolute bottom-0 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-36 lg:h-36 bg-white/5 rounded-full translate-y-8 sm:translate-y-12 lg:translate-y-18 -translate-x-8 sm:-translate-x-12 lg:-translate-x-18 group-hover:scale-110 transition-transform duration-1000 delay-200" />
+                
+                <div className="relative z-10">
+                  <h3 className="text-white leading-none tracking-tight font-black mb-4 sm:mb-6 group-hover:scale-105 transition-transform duration-500"
+                      style={{ fontSize: 'clamp(1.5rem, 6vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                    {ctaConfig.title}
+                  </h3>
+                  <p className="text-white/90 mb-6 sm:mb-8 opacity-90 max-w-3xl mx-auto font-medium tracking-wide group-hover:text-white transition-colors duration-500"
+                     style={{ fontSize: 'clamp(0.875rem, 2.5vw, 1.25rem)', lineHeight: 1.3 }}>
+                    {ctaConfig.description}
+                  </p>
+                  
+                  {/* Enhanced Button with Mobile Optimization */}
+                  {ctaConfig.button_text && (
+                    <Button 
+                      size="lg" 
+                      className="bg-white text-[#4F9CF9] hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg lg:text-xl font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto max-w-xs sm:max-w-none mx-auto"
+                    >
+                      <span className="flex items-center justify-center">
+                        {ctaConfig.button_text}
+                        <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                      </span>
+                    </Button>
+                  )}
+                </div>
+
+                {/* Floating Elements for Desktop */}
+                <div className="hidden lg:block absolute top-4 left-4 opacity-20 group-hover:opacity-40 transition-opacity duration-500">
+                  <Star className="h-8 w-8 text-white animate-pulse" />
+                </div>
+                <div className="hidden lg:block absolute bottom-4 right-4 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
+                  <Shield className="h-6 w-6 text-white animate-bounce-gentle" />
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       )}
