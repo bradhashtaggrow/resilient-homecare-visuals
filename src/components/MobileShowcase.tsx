@@ -9,7 +9,7 @@ const MobileShowcase = () => {
   const keyFeatures = [
     {
       icon: <Shield className="h-7 w-7" />,
-      title: "Enterprise Security",
+      title: "Enterprise Security", 
       description: "Bank-grade encryption with HIPAA compliance built-in"
     },
     {
@@ -238,15 +238,11 @@ const MobileShowcase = () => {
                           {/* Enhanced Logo Container */}
                           <div className="text-center mb-6">
                             <div className="flex items-center justify-center mb-4">
-                              <div className="relative">
-                                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300 p-2">
-                                  <img 
-                                    src="/lovable-uploads/205d7687-abc6-4b5d-94a8-cb89d5e02209.png" 
-                                    alt="Resilient Healthcare Logo" 
-                                    className="w-full h-full object-contain"
-                                  />
-                                </div>
-                              </div>
+                              <img 
+                                src="/lovable-uploads/205d7687-abc6-4b5d-94a8-cb89d5e02209.png" 
+                                alt="Resilient Healthcare Logo" 
+                                className="w-20 h-20 object-contain"
+                              />
                             </div>
                             <h3 className="text-white text-xl font-black mb-1 tracking-tight">
                               <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
