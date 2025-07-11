@@ -196,7 +196,7 @@ const FounderSection = () => {
                   
                   return (
                     <div key={index} className={`${position.className} hover:scale-110 transition-transform duration-300 z-20`}>
-                      <div className={`${position.bgColor} text-white rounded-full p-2 sm:p-3 shadow-lg transition-colors duration-300`}>
+                      <div className="bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full p-2 sm:p-3 shadow-lg transition-all duration-300">
                         {getAchievementIcon(achievement.icon)}
                       </div>
                     </div>
