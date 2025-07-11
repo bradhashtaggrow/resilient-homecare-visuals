@@ -80,15 +80,11 @@ const AdminLaptopVisualization = ({
                 <div className="absolute inset-0 bg-black/60 rounded-2xl" />
               </div>
 
-              {/* Admin Login Interface - With Resilient logo */}
+              {/* Admin Login Interface - With glassmorphism effect */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
                 <div className="max-w-[320px] w-full mx-4 relative">
-                  {/* Gradient blur background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/20 to-white/10 backdrop-blur-xl rounded-xl" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-white/10 rounded-xl" />
-                  
-                  {/* Form content */}
-                  <div className="relative border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 rounded-xl p-6">
+                  {/* Form content with glassmorphism */}
+                  <div className="relative backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 rounded-xl p-6">
                     {/* Resilient Healthcare Logo */}
                     <div className="text-center mb-6">
                       <div className="flex items-center justify-center mb-4">
