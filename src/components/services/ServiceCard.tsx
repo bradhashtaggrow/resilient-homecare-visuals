@@ -25,7 +25,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 }) => {
   const getColorClasses = (color: string) => {
     const colors = {
-      blue: 'text-blue-600 bg-blue-50 hover:bg-blue-100',
+      blue: 'text-[#4285F4] bg-gradient-to-r from-[#4285F4]/10 to-[#1565C0]/10 hover:from-[#4285F4] hover:to-[#1565C0] hover:text-white',
       green: 'text-green-600 bg-green-50 hover:bg-green-100', 
       purple: 'text-purple-600 bg-purple-50 hover:bg-purple-100',
       orange: 'text-orange-600 bg-orange-50 hover:bg-orange-100',
@@ -51,7 +51,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
               <div className={`w-full h-full rounded-2xl transition-all duration-300 ${
                 getColorClasses(color)
               } flex items-center justify-center shadow-2xl`}>
-                <Icon className="h-12 w-12" />
+                <Icon className="h-12 w-12 transition-colors duration-300" />
               </div>
             </div>
 
@@ -61,7 +61,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                   style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 0.85 }}>
                 {title}
               </h3>
-              <p className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent font-medium tracking-wide font-apple"
+              <p className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] bg-clip-text text-transparent font-medium tracking-wide font-apple"
                  style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', lineHeight: 1.3 }}>
                 {subtitle}
               </p>
@@ -87,9 +87,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
               "
               style={{ 
                 fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)',
-                background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
+                background: 'linear-gradient(145deg, #4285F4 0%, #1565C0 30%, #0D47A1 100%)',
                 boxShadow: `
-                  0 12px 32px rgba(0, 128, 255, 0.4),
+                  0 12px 32px rgba(66, 133, 244, 0.4),
                   0 4px 16px rgba(0, 0, 0, 0.3),
                   inset 0 2px 0 rgba(255, 255, 255, 0.2),
                   inset 0 -2px 8px rgba(0, 0, 0, 0.1)
@@ -98,21 +98,21 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.boxShadow = `
-                  0 20px 48px rgba(0, 128, 255, 0.6),
+                  0 20px 48px rgba(66, 133, 244, 0.6),
                   0 8px 24px rgba(0, 0, 0, 0.4),
                   inset 0 2px 0 rgba(255, 255, 255, 0.3),
                   inset 0 -2px 12px rgba(0, 0, 0, 0.2)
                 `;
-                e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
+                e.currentTarget.style.background = 'linear-gradient(145deg, #5A95F5 0%, #1976D2 30%, #1565C0 100%)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.boxShadow = `
-                  0 12px 32px rgba(0, 128, 255, 0.4),
+                  0 12px 32px rgba(66, 133, 244, 0.4),
                   0 4px 16px rgba(0, 0, 0, 0.3),
                   inset 0 2px 0 rgba(255, 255, 255, 0.2),
                   inset 0 -2px 8px rgba(0, 0, 0, 0.1)
                 `;
-                e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
+                e.currentTarget.style.background = 'linear-gradient(145deg, #4285F4 0%, #1565C0 30%, #0D47A1 100%)';
               }}>
                 <span className="relative z-10 flex items-center gap-2">
                   Learn More
@@ -136,7 +136,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-br from-[#0080ff]/80 to-[#0066cc]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#4285F4]/80 to-[#1565C0]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
             </div>
           </div>
         </div>

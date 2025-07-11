@@ -58,10 +58,10 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
 
   const getColorClasses = (color: string) => {
     const blueGradient = { 
-      primary: '#007FFF', 
-      gradient: 'from-[#007FFF] to-[#0066FF]',
-      shadow: 'shadow-[#007FFF]/30',
-      glow: 'drop-shadow-[0_0_20px_rgba(0,127,255,0.5)]'
+      primary: '#4285F4', 
+      gradient: 'from-[#4285F4] to-[#1565C0]',
+      shadow: 'shadow-[#4285F4]/30',
+      glow: 'drop-shadow-[0_0_20px_rgba(66,133,244,0.5)]'
     };
     return blueGradient;
   };
@@ -74,7 +74,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
         <div 
           className="absolute inset-0 opacity-5"
           style={{
-            background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(0,127,255,0.1) 0%, transparent 50%)`
+            background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(66,133,244,0.1) 0%, transparent 50%)`
           }}
         />
         {/* Responsive Floating Particles */}
@@ -101,7 +101,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
         <div className="text-center pt-16 md:pt-24 lg:pt-32 pb-12 md:pb-16 lg:pb-20 px-4 md:px-6 lg:px-8">          
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4 md:mb-6 lg:mb-8 tracking-tight leading-none text-gray-900">
             The Future of{' '}
-            <span className="bg-gradient-to-r from-[#007FFF] to-[#0066FF] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] bg-clip-text text-transparent">
               Care
             </span>
           </h2>
@@ -186,7 +186,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                         <div 
                           className="absolute -inset-4 rounded-2xl opacity-30 animate-pulse"
                           style={{ 
-                            background: `linear-gradient(45deg, #007FFF20, transparent)`,
+                            background: `linear-gradient(45deg, #4285F420, transparent)`,
                             filter: 'blur(20px)'
                           }}
                         />
@@ -253,7 +253,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           className={`
                             ${isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-2xl'} 
                             font-semibold mb-4 md:mb-6 
-                            bg-gradient-to-r from-[#007FFF] to-[#0066FF] bg-clip-text text-transparent
+                            bg-gradient-to-r from-[#4285F4] to-[#1565C0] bg-clip-text text-transparent
                           `}
                         >
                           {activeService.subtitle}
@@ -291,7 +291,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                     <div 
                       className="absolute inset-0 rounded-2xl md:rounded-3xl opacity-20 pointer-events-none"
                       style={{
-                        background: `linear-gradient(135deg, #007FFF10, transparent, #007FFF05)`,
+                        background: `linear-gradient(135deg, #4285F410, transparent, #4285F405)`,
                         filter: 'blur(1px)'
                       }}
                     />
