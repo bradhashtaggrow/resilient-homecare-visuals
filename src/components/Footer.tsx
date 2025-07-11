@@ -78,7 +78,7 @@ const Footer = () => {
     Legal: [
       { name: 'Privacy Policy', href: '/privacy-policy' },
       { name: 'Terms of Service', href: '/terms-of-service' },
-      { name: 'HIPAA Compliance', href: '#' },
+      { name: 'HIPAA Compliance', href: '/hipaa-compliance' },
       { name: 'Data Security', href: '#' }
     ]
   };
