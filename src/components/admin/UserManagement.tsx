@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -380,17 +381,6 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
     }
   };
 
-  const getSyncStatusIcon = () => {
-    switch (syncStatus) {
-      case 'connected':
-        return <Wifi className="h-3 w-3 text-success" />;
-      case 'syncing':
-        return <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />;
-      default:
-        return <WifiOff className="h-3 w-3 text-muted-foreground" />;
-    }
-  };
-
   const getEmployeeTypeIcon = (type: string) => {
     const employeeType = employeeTypes.find(et => et.value === type);
     if (employeeType) {
@@ -476,17 +466,6 @@ const UserManagement: React.FC<UserManagementProps> = ({ syncStatus = 'disconnec
                 <UserPlus className="h-4 w-4 mr-2" />
                 Add User
               </Button>
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-success/10">
-                  {getSyncStatusIcon()}
-                </div>
-                <Badge variant="outline" className="glass border-0 text-sm bg-gradient-to-r from-primary/10 to-primary-light/10 text-primary border-primary/20">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
-                    {syncStatus === 'connected' ? 'Live Updates' : 'Offline'}
-                  </div>
-                </Badge>
-              </div>
             </div>
           </div>
         </div>
