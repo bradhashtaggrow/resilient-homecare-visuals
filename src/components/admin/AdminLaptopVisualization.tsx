@@ -83,12 +83,13 @@ const AdminLaptopVisualization = ({
               {/* Admin Login Interface - With Resilient logo */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
                 <div className="max-w-[320px] w-full mx-4 relative">
-                  {/* Gradient blur background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/20 to-white/10 backdrop-blur-xl rounded-xl" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-white/10 rounded-xl" />
+                  {/* Ultra blurry gradient background */}
+                  <div className="absolute -inset-4 bg-gradient-to-br from-white/40 via-blue-100/30 to-purple-100/25 backdrop-blur-3xl rounded-2xl" />
+                  <div className="absolute -inset-2 bg-gradient-to-t from-gray-900/30 via-white/20 to-white/15 backdrop-blur-2xl rounded-xl" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-white/15 to-white/10 backdrop-blur-xl rounded-xl" />
                   
                   {/* Form content */}
-                  <div className="relative border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 rounded-xl p-6">
+                  <div className="relative border border-white/30 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 rounded-xl p-6">
                     {/* Resilient Healthcare Logo */}
                     <div className="text-center mb-6">
                       <div className="flex items-center justify-center mb-4">
