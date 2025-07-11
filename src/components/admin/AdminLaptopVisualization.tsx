@@ -133,24 +133,24 @@ const AdminLaptopVisualization = ({
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent rounded-3xl pointer-events-none" />
           </div>
           
-          {/* Floating Icons - Naturally distributed around laptop in a circle */}
+          {/* Floating Icons - Close to laptop edges */}
           {/* Top right */}
-          <div className="absolute w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-220px', right: '-150px', animationDelay: '1s' }}>
+          <div className="absolute w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-180px', right: '-40px', animationDelay: '1s' }}>
             <BarChart className="h-7 w-7 text-white" />
           </div>
           
           {/* Top left */}
-          <div className="absolute w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-220px', left: '-150px', animationDelay: '2s' }}>
+          <div className="absolute w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-2xl" style={{ top: '-180px', left: '-40px', animationDelay: '2s' }}>
             <Monitor className="h-7 w-7 text-white" />
           </div>
           
           {/* Right side */}
-          <div className="absolute w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-100px', right: '-200px', animationDelay: '3s' }}>
+          <div className="absolute w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-50px', right: '-30px', animationDelay: '3s' }}>
             <Shield className="h-6 w-6 text-white" />
           </div>
           
           {/* Left side */}
-          <div className="absolute w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-100px', left: '-200px', animationDelay: '4s' }}>
+          <div className="absolute w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-float shadow-xl" style={{ top: '-50px', left: '-30px', animationDelay: '4s' }}>
             <Lock className="h-6 w-6 text-white" />
           </div>
         </div>
