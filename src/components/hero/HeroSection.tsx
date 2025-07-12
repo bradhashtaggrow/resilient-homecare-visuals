@@ -25,7 +25,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText }) => 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-white leading-none tracking-tight font-black text-shadow-white transition-transform duration-500 hover:scale-105 font-apple" 
-              style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              style={{ fontSize: 'clamp(2rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {title}<br />
             <span className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] bg-clip-text text-transparent">{highlightedText}</span>
           </h1>
