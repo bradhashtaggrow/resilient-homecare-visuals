@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, CheckCircle, Star, Award, Shield, Zap } from 'lucide-react';
+import { CheckCircle, Star, Award, Shield, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface LeadGenContent {
@@ -148,7 +148,6 @@ const LeadGenSection = () => {
               >
                 <span className="flex items-center justify-center">
                   {content.button_text}
-                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </span>
               </Button>
             </div>
