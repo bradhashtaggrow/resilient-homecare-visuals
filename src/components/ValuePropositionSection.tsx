@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Building2, Database, Users, Target, TrendingUp, Heart, Activity, Shield, Award, MapPin, CheckCircle, Zap, Clock, BarChart3, Lock, BookOpen } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -48,10 +47,10 @@ const ValuePropositionSection = () => {
     delay: isVisible ? 500 : 0
   });
 
-  const { displayedText: secondSentenceTyped } = useTypingAnimation({
+  const { displayedText: secondSentenceTyped, isComplete: secondComplete } = useTypingAnimation({
     text: secondSentence,
     speed: 50,
-    delay: firstComplete ? 300 : 0
+    delay: firstComplete && isVisible ? 300 : 0
   });
 
   // Available icons mapping
@@ -183,7 +182,9 @@ const ValuePropositionSection = () => {
                     {secondSentenceTyped}
                   </span>
                 )}
-                <span className="inline-block w-0.5 h-12 bg-[#0080ff] ml-1 animate-pulse"></span>
+                {!secondComplete && (firstSentenceTyped || secondSentenceTyped) && (
+                  <span className="inline-block w-0.5 h-12 bg-[#0080ff] ml-1 animate-pulse"></span>
+                )}
               </>
             )}
           </h2>
