@@ -294,11 +294,29 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     const nameMap: Record<string, string> = {
       // Care at Home
       'care_at_home_hero': 'Hero Section',
+      'care_at_home_future': 'The Future of Care',
+      'care_at_home_hospitals': 'Leading Hospitals',
+      'care_at_home_referrals': 'Patient Referrals',
+      'care_at_home_delivery': 'Care Delivery',
+      'care_at_home_workflows': 'Simplified Workflows',
+      'care_at_home_payment': 'Per-Visit Payment',
       'care_at_home_mobile': 'The Future of Care',
       'care_at_home_services': 'Our Care Solutions',
       'care_at_home_value_prop': 'Partner with Leading Hospitals',
       'care_at_home_stats': 'Healthcare Excellence Metrics',
       'care_at_home_footer': 'Footer',
+      
+      // Clinicians
+      'clinicians_hero': 'Hero Section',
+      'clinicians_hospitals': 'Work with Leading Hospitals',
+      'clinicians_referrals': 'Patient Referrals',
+      'clinicians_delivery': 'Care Delivery',
+      'clinicians_workflows': 'Simplified Workflows',
+      'clinicians_payment': 'Per-Visit Payment',
+      'clinicians_join': 'Join Our Network',
+      'clinicians_tools': 'Clinical Tools & Features',
+      'clinicians_benefits': 'Why Clinicians Choose Us',
+      'clinicians_footer': 'Footer',
       
       // About
       'about_hero': 'Hero Section',
@@ -310,12 +328,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'about_for_clinicians': 'For Clinicians',
       'about_core_values': 'Our Core Values',
       'about_footer': 'Footer',
-      
-      // Clinicians
-      'clinicians_hero': 'Hero Section',
-      'clinicians_tools': 'Clinical Tools & Features',
-      'clinicians_benefits': 'Why Clinicians Choose Us',
-      'clinicians_footer': 'Footer',
       
       // Patients
       'patients_hero': 'Hero Section',
@@ -484,6 +496,47 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     await handlePatientImageUpload(file, serviceIndex);
   };
 
+  const handleThumbnailUpload = async (file: File, sectionId: string) => {
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `thumbnails/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('media')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('media')
+        .getPublicUrl(filePath);
+
+      // Update the background_image_url field for the section
+      const { error: updateError } = await supabase
+        .from('website_content')
+        .update({ background_image_url: data.publicUrl })
+        .eq('id', sectionId);
+
+      if (updateError) throw updateError;
+
+      toast({
+        title: "Thumbnail uploaded",
+        description: "Section thumbnail has been updated successfully",
+      });
+
+      // Reload content to show the new thumbnail
+      loadContent();
+    } catch (error) {
+      console.error('Error uploading thumbnail:', error);
+      toast({
+        title: "Upload failed",
+        description: "Failed to upload thumbnail",
+        variant: "destructive"
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -517,15 +570,52 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
             {content.map((section) => (
               <Card key={section.id} className="overflow-hidden">
                 <CardHeader className="bg-white border-b">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="text-black">
-                        {formatSectionName(section.section_key)}
-                      </CardTitle>
-                      <p className="text-sm text-gray-600">
-                        Section: {section.section_key}
-                      </p>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-4 flex-1">
+                      {/* Thumbnail display */}
+                      <div className="w-20 h-20 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors relative group">
+                        {section.background_image_url ? (
+                          <img 
+                            src={section.background_image_url} 
+                            alt="Section thumbnail"
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        ) : (
+                          <Image className="h-8 w-8 text-gray-400" />
+                        )}
+                        
+                        {/* Upload overlay - appears on hover */}
+                        <div className="absolute inset-0 bg-black/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleThumbnailUpload(file, section.id);
+                              }
+                            }}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          />
+                          <Image className="h-5 w-5 text-white" />
+                        </div>
+                      </div>
+
+                      <div className="flex-1">
+                        <CardTitle className="text-black">
+                          {formatSectionName(section.section_key)}
+                        </CardTitle>
+                        <p className="text-sm text-gray-600">
+                          Section: {section.section_key}
+                        </p>
+                        {section.title && (
+                          <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                            {section.title}
+                          </p>
+                        )}
+                      </div>
                     </div>
+                    
                     <div className="flex items-center space-x-2">
                       <Badge variant={section.is_active ? "default" : "secondary"}>
                         {section.is_active ? "Active" : "Inactive"}
