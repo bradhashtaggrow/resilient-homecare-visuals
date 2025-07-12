@@ -1,6 +1,5 @@
-
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle, LucideIcon } from 'lucide-react';
+import { Activity, Heart, Building2, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle, LucideIcon } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { supabase } from '@/integrations/supabase/client';
@@ -304,29 +303,6 @@ const ServiceLinesSection = () => {
                         </p>
                       </div>
                     )}
-
-                    {/* CTA Button with 3D Effects */}
-                    <div className="relative">
-                      <button className="
-                        relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white rounded-xl
-                        bg-gradient-to-r from-[#0080ff] to-[#0066cc]
-                        shadow-lg shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/40
-                        transform transition-all duration-300 ease-out
-                        hover:scale-105 hover:-translate-y-1
-                        before:absolute before:inset-0 before:rounded-xl
-                        before:bg-gradient-to-r before:from-[#1a8cff] before:to-[#0073e6]
-                        before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300
-                        after:absolute after:inset-0 after:rounded-xl after:shadow-inner
-                        after:bg-gradient-to-t after:from-white/10 after:to-transparent
-                        group overflow-hidden will-change-transform
-                      ">
-                        <span className="relative z-10 flex items-center justify-center gap-2">
-                          Learn More
-                          <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1 text-white drop-shadow-lg" />
-                        </span>
-                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/20 to-blue-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </button>
-                    </div>
                   </div>
                 </div>
 
