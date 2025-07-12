@@ -12,7 +12,7 @@ export const useTypingAnimation = ({ text, speed = 100, delay = 0 }: UseTypingAn
   const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    if (!text) return;
+    if (!text || delay === 0) return;
 
     // Trim the text to remove any trailing spaces
     const trimmedText = text.trim();

@@ -1,7 +1,9 @@
+
 import React, { useEffect, useState } from 'react';
 import { Building2, Database, Users, Target, TrendingUp, Heart, Activity, Shield, Award, MapPin, CheckCircle, Zap, Clock, BarChart3, Lock, BookOpen } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useTypingAnimation } from '@/hooks/useTypingAnimation';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 interface ValuePropContent {
   title?: string;
@@ -20,19 +22,36 @@ interface ValuePropFeature {
 }
 
 const ValuePropositionSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [content, setContent] = useState<ValuePropContent>({
     title: 'We manage the work. You own the program.',
     subtitle: '',
     description: ''
   });
   const [features, setFeatures] = useState<ValuePropFeature[]>([]);
+  
+  // Use intersection observer to trigger animation when scrolled into view
+  const { elementRef, isVisible } = useIntersectionObserver({
+    threshold: 0.3,
+    triggerOnce: true
+  });
 
-  // Typing animation for the title
-  const { displayedText: typedTitle } = useTypingAnimation({
-    text: content.title || 'We manage the work. You own the program.',
+  // Split title into two sentences
+  const titleText = content.title || 'We manage the work. You own the program.';
+  const sentences = titleText.split('.').filter(s => s.trim()).map(s => s.trim() + '.');
+  const firstSentence = sentences[0] || '';
+  const secondSentence = sentences[1] || '';
+
+  // Typing animations for each sentence
+  const { displayedText: firstSentenceTyped, isComplete: firstComplete } = useTypingAnimation({
+    text: firstSentence,
     speed: 50,
-    delay: 500
+    delay: isVisible ? 500 : 0
+  });
+
+  const { displayedText: secondSentenceTyped } = useTypingAnimation({
+    text: secondSentence,
+    speed: 50,
+    delay: firstComplete ? 300 : 0
   });
 
   // Available icons mapping
@@ -116,24 +135,6 @@ const ValuePropositionSection = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const element = document.getElementById('value-proposition-section');
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
-
   // Enhanced 3D Animated Icon Component with Correct Blue Gradient
   const AnimatedIcon3D = ({ icon: Icon, delay = 0 }) => {
     return (
@@ -164,7 +165,7 @@ const ValuePropositionSection = () => {
   };
 
   return (
-    <section id="value-proposition-section" className="py-16 sm:py-24 md:py-32 lg:py-40 bg-white relative overflow-hidden">
+    <section ref={elementRef} id="value-proposition-section" className="py-16 sm:py-24 md:py-32 lg:py-40 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Enhanced Header with Better Mobile Typography */}
         <div className={`text-center mb-12 sm:mb-20 transition-all duration-1200 transform ${
@@ -172,13 +173,19 @@ const ValuePropositionSection = () => {
         }`}>
           <h2 className="text-black leading-none tracking-tight font-black mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(2rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
-            <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent hover:from-[#1a8cff] hover:to-[#0073e6] transition-all duration-500">
-              {typedTitle.split('.')[0]}.
-            </span>
-            <span className="block text-gray-900 hover:text-gray-800 transition-colors duration-500">
-              {typedTitle.split('.').slice(1).join('.') || (typedTitle.includes('.') ? '' : 'You own the program.')}
-            </span>
-            <span className="inline-block w-0.5 h-12 bg-[#0080ff] ml-1 animate-pulse"></span>
+            {isVisible && (
+              <>
+                <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent hover:from-[#1a8cff] hover:to-[#0073e6] transition-all duration-500">
+                  {firstSentenceTyped}
+                </span>
+                {firstComplete && (
+                  <span className="block text-gray-900 hover:text-gray-800 transition-colors duration-500">
+                    {secondSentenceTyped}
+                  </span>
+                )}
+                <span className="inline-block w-0.5 h-12 bg-[#0080ff] ml-1 animate-pulse"></span>
+              </>
+            )}
           </h2>
           {content.subtitle && (
             <p className="text-xl text-gray-700 max-w-3xl mx-auto">
