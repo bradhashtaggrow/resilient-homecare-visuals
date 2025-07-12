@@ -10,6 +10,11 @@ import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap } from 'luc
 import { supabase } from '@/integrations/supabase/client';
 
 const Clinicians = () => {
+  const [heroContent, setHeroContent] = useState({
+    title: 'Enabling',
+    highlightedText: 'seamless referrals'
+  });
+  
   const [services, setServices] = useState([
     // Fallback services in case database doesn't load
     {
@@ -77,22 +82,39 @@ const Clinicians = () => {
 
   useEffect(() => {
     console.log('Clinicians page - Loading content...');
-    // Load content from database
+    
     const loadContent = async () => {
       try {
-        const { data, error } = await supabase
+        // Load hero content
+        const { data: heroData, error: heroError } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'clinicians_hero')
+          .eq('is_active', true)
+          .single();
+
+        if (heroData && !heroError) {
+          console.log('Loaded clinicians hero content:', heroData);
+          setHeroContent({
+            title: heroData.title || 'Enabling',
+            highlightedText: heroData.subtitle || 'seamless referrals'
+          });
+        }
+
+        // Load services content
+        const { data: servicesData, error: servicesError } = await supabase
           .from('website_content')
           .select('*')
           .eq('section_key', 'clinicians_mobile')
           .eq('is_active', true)
           .single();
 
-        if (data && !error) {
-          console.log('Loaded clinicians content:', data);
+        if (servicesData && !servicesError) {
+          console.log('Loaded clinicians services content:', servicesData);
 
           // Transform tabs data to services format
-          if (data.content_data && typeof data.content_data === 'object' && data.content_data !== null) {
-            const contentData = data.content_data as any;
+          if (servicesData.content_data && typeof servicesData.content_data === 'object' && servicesData.content_data !== null) {
+            const contentData = servicesData.content_data as any;
             if (contentData.tabs) {
               const transformedServices = contentData.tabs.map((tab: any) => ({
                 id: tab.id,
@@ -108,7 +130,7 @@ const Clinicians = () => {
             }
           }
         } else {
-          console.log('No clinicians content found, using defaults');
+          console.log('No clinicians services content found, using defaults');
         }
       } catch (error) {
         console.error('Error loading clinicians content:', error);
@@ -124,7 +146,7 @@ const Clinicians = () => {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=eq.clinicians_mobile'
+        filter: 'section_key=in.(clinicians_hero,clinicians_mobile)'
       }, (payload) => {
         console.log('Real-time clinicians content change:', payload);
         loadContent();
@@ -141,8 +163,8 @@ const Clinicians = () => {
       <Navigation />
       
       <HeroSection 
-        title="Enabling"
-        highlightedText="seamless referrals"
+        title={heroContent.title}
+        highlightedText={heroContent.highlightedText}
       />
 
       <ContentSection 
