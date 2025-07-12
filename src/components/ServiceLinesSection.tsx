@@ -26,90 +26,40 @@ const ServiceLinesSection = () => {
   });
 
   useEffect(() => {
-    // Load services and service lines content from database
-    const loadServicesContent = async () => {
+    // Load service lines content from database
+    const loadServiceLinesContent = async () => {
       try {
-        // Load title/description from website_content
-        const { data: contentData, error: contentError } = await supabase
+        const { data, error } = await supabase
           .from('website_content')
           .select('*')
           .eq('section_key', 'services')
           .eq('is_active', true)
           .single();
 
-        // Load services with benefits
-        const { data: servicesData, error: servicesError } = await supabase
-          .from('services')
-          .select(`
-            *,
-            service_benefits (
-              id,
-              benefit_text,
-              icon_name,
-              display_order
-            )
-          `)
-          .order('display_order');
-
-        if (servicesData && !servicesError) {
-          console.log('Loaded services from database:', servicesData);
+        if (data && !error) {
+          console.log('Loaded service lines content from database:', data);
           
-          // Transform services data to match component format
-          const transformedServices = servicesData.map(service => ({
-            id: service.id,
-            icon: service.icon_name,
-            title: service.title,
-            subtitle: service.subtitle,
-            description: service.description,
-            benefits: (service.service_benefits as any[])
-              ?.sort((a, b) => a.display_order - b.display_order)
-              .map(benefit => ({
-                text: benefit.benefit_text,
-                icon: benefit.icon_name
-              })) || [],
-            color: service.color,
-            patient_image_url: service.patient_image_url,
-            note: service.id === '3af8772a-3656-4acd-a369-0d7cf70b8c5e' ? 
-              "CMS waiver extended through September 2025. We help hospitals prepare for future program versions." : undefined
-          }));
-
           setContent({
-            title: contentData?.title || 'Fully Streamlined, Uncompromisingly Simple',
-            subtitle: contentData?.subtitle || '',
-            description: contentData?.description || 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.',
-            services: transformedServices
+            title: data.title || 'Fully Streamlined, Uncompromisingly Simple',
+            subtitle: data.subtitle || '',
+            description: data.description || 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.',
+            services: (data.content_data as any)?.services || getDefaultServices()
           });
         } else {
-          console.log('No services found in database, using defaults');
+          console.log('No service lines content found in database, using defaults');
           setContent(prev => ({ ...prev, services: getDefaultServices() }));
         }
       } catch (error) {
-        console.error('Error loading services content from database:', error);
+        console.error('Error loading service lines content from database:', error);
         setContent(prev => ({ ...prev, services: getDefaultServices() }));
       }
     };
 
-    loadServicesContent();
+    loadServiceLinesContent();
 
-    // Set up real-time subscription for both tables
-    const servicesChannel = supabase
-      .channel('services-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'services'
-      }, (payload) => {
-        console.log('Real-time services change:', payload);
-        loadServicesContent();
-      })
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'service_benefits'
-      }, (payload) => {
-        console.log('Real-time service benefits change:', payload);
-        loadServicesContent();
-      })
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('services-content-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
@@ -117,12 +67,12 @@ const ServiceLinesSection = () => {
         filter: 'section_key=eq.services'
       }, (payload) => {
         console.log('Real-time services content change:', payload);
-        loadServicesContent();
+        loadServiceLinesContent();
       })
       .subscribe();
 
     return () => {
-      supabase.removeChannel(servicesChannel);
+      supabase.removeChannel(channel);
     };
   }, []);
 

@@ -55,7 +55,7 @@ const MobileShowcase = () => {
         const { data, error } = await supabase
           .from('website_content')
           .select('*')
-          .eq('section_key', 'mobile')
+          .eq('section_key', 'mobile_showcase')
           .eq('is_active', true)
           .single();
 
@@ -87,7 +87,7 @@ const MobileShowcase = () => {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=eq.mobile'
+        filter: 'section_key=eq.mobile_showcase'
       }, (payload) => {
         console.log('Real-time mobile showcase content change:', payload);
         loadMobileShowcaseContent();
@@ -210,16 +210,18 @@ const MobileShowcase = () => {
                               alt="Mobile showcase"
                               className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
                             />
-                           ) : (
-                            <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-gray-900 rounded-[2.8rem] flex items-center justify-center">
-                              <div className="text-center text-white p-8">
-                                <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                  <Shield className="w-8 h-8" />
-                                </div>
-                                <p className="text-sm opacity-75">Secure Healthcare Platform</p>
-                              </div>
-                            </div>
-                           )}
+                          ) : (
+                            <video
+                              autoPlay
+                              muted
+                              loop
+                              playsInline
+                              preload="metadata"
+                              className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
+                            >
+                              <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+                            </video>
+                          )}
                           <div className="absolute inset-0 bg-black/30 rounded-[2.8rem]" />
                         </div>
                         
