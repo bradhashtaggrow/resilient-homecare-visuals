@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import LeadCaptureForm from './LeadCaptureForm';
 import { X } from 'lucide-react';
 
@@ -30,7 +31,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
         {children}
       </div>
       
-      {isOpen && (
+      {isOpen && createPortal(
         <div 
           className="fixed inset-0 flex items-center justify-center p-4 font-apple"
           onClick={handleBackdropClick}
@@ -42,7 +43,8 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
             right: 0,
             bottom: 0,
             width: '100vw',
-            height: '100vh'
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)'
           }}
         >
           <div 
@@ -86,7 +88,8 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
               />
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
