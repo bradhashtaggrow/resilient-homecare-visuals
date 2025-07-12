@@ -57,7 +57,13 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     'admin_dashboard',
     'founder',
     'stats',
-    'lead_generation'
+    'lead_generation',
+    'care_at_home',
+    'care_at_home_mobile',
+    'clinicians_tabs',
+    'patients_benefits',
+    'patients_hero',
+    'patients_mobile'
   ];
 
   const SECTION_LABELS = {
@@ -68,7 +74,13 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     'admin_dashboard': 'Admin Dashboard Section',
     'founder': 'Founder Section',
     'stats': 'Stats Section',
-    'lead_generation': 'Lead Generation Section'
+    'lead_generation': 'Lead Generation Section',
+    'care_at_home': 'Care at Home Section',
+    'care_at_home_mobile': 'Care at Home Mobile Section',
+    'clinicians_tabs': 'Clinicians Tabs Section',
+    'patients_benefits': 'Patients Benefits Section',
+    'patients_hero': 'Patients Hero Section',
+    'patients_mobile': 'Patients Mobile Section'
   };
 
   useEffect(() => {
@@ -88,22 +100,30 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   };
 
   const getSectionOrder = (sectionKey: string) => {
-    return SECTION_ORDER.indexOf(sectionKey) !== -1 ? SECTION_ORDER.indexOf(sectionKey) : 999;
+    const index = SECTION_ORDER.indexOf(sectionKey);
+    return index !== -1 ? index : 999;
+  };
+
+  const getSectionDisplayName = (key: string) => {
+    return SECTION_LABELS[key as keyof typeof SECTION_LABELS] || key.split('_').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
   };
 
   const loadContent = async () => {
     try {
       const { data, error } = await supabase
         .from('website_content')
-        .select('*')
-        .in('section_key', SECTION_ORDER);
+        .select('*');
 
       if (error) throw error;
       
-      // Sort by the defined order and filter only the sections we want
-      const sortedData = (data || [])
-        .filter(item => SECTION_ORDER.includes(item.section_key))
-        .sort((a, b) => getSectionOrder(a.section_key) - getSectionOrder(b.section_key));
+      // Sort by the defined order, but show all sections that exist
+      const sortedData = (data || []).sort((a, b) => {
+        const orderA = getSectionOrder(a.section_key);
+        const orderB = getSectionOrder(b.section_key);
+        return orderA - orderB;
+      });
       
       setContent(sortedData);
     } catch (error) {
@@ -183,8 +203,9 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     setEditForm({});
   };
 
-  const getSectionDisplayName = (key: string) => {
-    return SECTION_LABELS[key as keyof typeof SECTION_LABELS] || key;
+  const hasBackgroundMedia = (section: WebsiteContent) => {
+    // Check if this section type typically has background media
+    return ['hero', 'mobile_showcase', 'admin_dashboard', 'care_at_home', 'care_at_home_mobile', 'patients_hero', 'patients_mobile'].includes(section.section_key);
   };
 
   const handleImageUpload = async (file: File) => {
@@ -267,10 +288,6 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
         description: `Background ${type} uploaded successfully`,
       });
     }
-  };
-
-  const hasBackgroundMedia = (section: WebsiteContent) => {
-    return ['hero', 'mobile_showcase', 'admin_dashboard'].includes(section.section_key);
   };
 
   if (loading) {
