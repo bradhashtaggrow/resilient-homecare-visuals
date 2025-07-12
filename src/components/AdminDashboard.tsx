@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useCallback } from 'react';
 import AdminAnimatedBackground from './admin/AdminAnimatedBackground';
 import AdminLaptopVisualization from './admin/AdminLaptopVisualization';
@@ -171,7 +170,7 @@ const AdminDashboard = React.memo(() => {
           isVisible ? 'animate-swoop-in-reverse opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
-              style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {content.title?.includes('.') ? (
               <>
                 {content.title.split('.')[0]}.
