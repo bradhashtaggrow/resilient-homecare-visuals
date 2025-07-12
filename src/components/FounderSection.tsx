@@ -150,7 +150,7 @@ const FounderSection = () => {
           isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <h2 className="text-gray-900 leading-none tracking-tight font-black text-shadow-white mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
-              style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {content.title}
           </h2>
           <p className="text-blue-600/90 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide hover:text-blue-700 transition-colors duration-500"
