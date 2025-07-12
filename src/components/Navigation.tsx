@@ -38,8 +38,8 @@ const Navigation = () => {
   }, []);
 
   return (
-    <nav className={`fixed left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
-      visible ? 'top-0' : '-top-24'
+    <nav className={`fixed left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+      visible ? 'translate-y-0' : '-translate-y-full'
     } ${
       scrolled ? 'bg-white/95 backdrop-blur-md border-b border-black/10' : 'bg-white border-b border-black/10'
     }`}>
