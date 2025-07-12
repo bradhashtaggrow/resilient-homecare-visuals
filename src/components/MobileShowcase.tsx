@@ -143,7 +143,7 @@ const MobileShowcase = () => {
         {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <h2 className="text-white leading-none tracking-tight font-black mb-8"
-              style={{ fontSize: 'clamp(3rem, 8vw, 7rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {content.title}
           </h2>
           <p className="text-gray-300 max-w-4xl mx-auto leading-relaxed font-medium"
