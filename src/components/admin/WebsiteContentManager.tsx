@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { 
@@ -15,24 +14,7 @@ import {
   Video, 
   Wifi,
   WifiOff,
-  Eye,
-  Settings,
-  Activity,
-  Heart,
-  Building2,
-  TrendingUp,
-  Shield,
-  Target,
-  Award,
-  Users,
-  MapPin,
-  CheckCircle,
-  Zap,
-  Clock,
-  BarChart3,
-  Database,
-  Lock,
-  BookOpen
+  RefreshCw
 } from 'lucide-react';
 
 interface WebsiteContent {
@@ -64,33 +46,29 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const [editForm, setEditForm] = useState<Partial<WebsiteContent>>({});
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
-  const [uploadingPatientImage, setUploadingPatientImage] = useState<{[key: number]: boolean}>({});
-  const [hasNewVideoUpload, setHasNewVideoUpload] = useState(false);
   const { toast } = useToast();
 
-  // Available icons for selection
-  const availableIcons = {
-    Activity,
-    Heart,
-    Building2,
-    TrendingUp,
-    Shield,
-    Target,
-    Award,
-    Users,
-    MapPin,
-    CheckCircle,
-    Zap,
-    Clock,
-    BarChart3,
-    Database,
-    Lock,
-    BookOpen
-  };
+  // Define the correct section order matching the home page
+  const SECTION_ORDER = [
+    'hero',
+    'service_lines', 
+    'mobile_showcase',
+    'value_proposition',
+    'admin_dashboard',
+    'founder',
+    'stats',
+    'lead_generation'
+  ];
 
-  const getIconComponent = (iconName: string) => {
-    const IconComponent = availableIcons[iconName as keyof typeof availableIcons];
-    return IconComponent ? <IconComponent className="h-5 w-5" /> : <Activity className="h-5 w-5" />;
+  const SECTION_LABELS = {
+    'hero': 'Hero Section',
+    'service_lines': 'Service Lines Section',
+    'mobile_showcase': 'Mobile Showcase Section', 
+    'value_proposition': 'Value Proposition Section',
+    'admin_dashboard': 'Admin Dashboard Section',
+    'founder': 'Founder Section',
+    'stats': 'Stats Section',
+    'lead_generation': 'Lead Generation Section'
   };
 
   useEffect(() => {
@@ -110,33 +88,22 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   };
 
   const getSectionOrder = (sectionKey: string) => {
-    const order = {
-      'navigation': 1,
-      'hero': 2,
-      'services': 3,
-      'mobile_showcase': 4,
-      'value_proposition': 5,
-      'admin_dashboard': 6,
-      'founder': 7,
-      'stats': 8,
-      'lead_generation': 9,
-      'footer': 10
-    };
-    return order[sectionKey as keyof typeof order] || 999;
+    return SECTION_ORDER.indexOf(sectionKey) !== -1 ? SECTION_ORDER.indexOf(sectionKey) : 999;
   };
 
   const loadContent = async () => {
     try {
       const { data, error } = await supabase
         .from('website_content')
-        .select('*');
+        .select('*')
+        .in('section_key', SECTION_ORDER);
 
       if (error) throw error;
       
-      // Sort by the defined order
-      const sortedData = (data || []).sort((a, b) => 
-        getSectionOrder(a.section_key) - getSectionOrder(b.section_key)
-      );
+      // Sort by the defined order and filter only the sections we want
+      const sortedData = (data || [])
+        .filter(item => SECTION_ORDER.includes(item.section_key))
+        .sort((a, b) => getSectionOrder(a.section_key) - getSectionOrder(b.section_key));
       
       setContent(sortedData);
     } catch (error) {
@@ -153,7 +120,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
 
   const setupRealtimeSubscription = () => {
     const channel = supabase
-      .channel('website-content-changes')
+      .channel('website-content-realtime')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
@@ -161,6 +128,10 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
       }, (payload) => {
         console.log('Real-time content change:', payload);
         loadContent();
+        toast({
+          title: "Content synced",
+          description: "Website content updated in real-time",
+        });
       })
       .subscribe();
 
@@ -170,7 +141,6 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const handleEdit = (section: WebsiteContent) => {
     setEditingSection(section.section_key);
     setEditForm(section);
-    setHasNewVideoUpload(false);
   };
 
   const handleSave = async () => {
@@ -180,17 +150,12 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
       const { error } = await supabase
         .from('website_content')
         .update({
-          title: editForm.title,
-          subtitle: editForm.subtitle,
-          description: editForm.description,
-          button_text: editForm.button_text,
-          button_url: editForm.button_url,
-          background_image_url: editForm.background_image_url,
-          background_video_url: editForm.background_video_url,
-          mobile_background_url: editForm.mobile_background_url,
-          laptop_background_url: editForm.laptop_background_url,
-          content_data: editForm.content_data,
-          is_active: editForm.is_active
+          title: editForm.title?.trim() || null,
+          subtitle: editForm.subtitle?.trim() || null,
+          description: editForm.description?.trim() || null,
+          background_image_url: editForm.background_image_url || null,
+          background_video_url: editForm.background_video_url || null,
+          is_active: editForm.is_active ?? true
         })
         .eq('id', editForm.id);
 
@@ -198,7 +163,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
 
       toast({
         title: "Content updated",
-        description: "Website content has been saved successfully",
+        description: `${SECTION_LABELS[editingSection as keyof typeof SECTION_LABELS]} content saved successfully`,
       });
 
       setEditingSection(null);
@@ -216,13 +181,10 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const handleCancel = () => {
     setEditingSection(null);
     setEditForm({});
-    setHasNewVideoUpload(false);
   };
 
-  const formatSectionName = (key: string) => {
-    return key.split('_').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
+  const getSectionDisplayName = (key: string) => {
+    return SECTION_LABELS[key as keyof typeof SECTION_LABELS] || key;
   };
 
   const handleImageUpload = async (file: File) => {
@@ -230,8 +192,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
       setUploadingImage(true);
       
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `backgrounds/${fileName}`;
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = `website-content/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('media')
@@ -248,7 +210,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
       console.error('Error uploading image:', error);
       toast({
         title: "Upload failed",
-        description: "Failed to upload image",
+        description: "Failed to upload background image",
         variant: "destructive"
       });
       return null;
@@ -262,8 +224,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
       setUploadingVideo(true);
       
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `backgrounds/${fileName}`;
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = `website-content/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('media')
@@ -275,13 +237,12 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
         .from('media')
         .getPublicUrl(filePath);
 
-      setHasNewVideoUpload(true);
       return data.publicUrl;
     } catch (error) {
       console.error('Error uploading video:', error);
       toast({
         title: "Upload failed",
-        description: "Failed to upload video",
+        description: "Failed to upload background video",
         variant: "destructive"
       });
       return null;
@@ -296,25 +257,20 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
 
     const url = type === 'image' ? await handleImageUpload(file) : await handleVideoUpload(file);
     if (url) {
-      if (type === 'image') {
-        setEditForm({
-          ...editForm,
-          background_image_url: url,
-          mobile_background_url: url
-        });
-      } else {
-        setEditForm({
-          ...editForm,
-          background_video_url: url,
-          mobile_background_url: url
-        });
-      }
+      setEditForm({
+        ...editForm,
+        [type === 'image' ? 'background_image_url' : 'background_video_url']: url
+      });
       
       toast({
         title: "Upload successful",
         description: `Background ${type} uploaded successfully`,
       });
     }
+  };
+
+  const hasBackgroundMedia = (section: WebsiteContent) => {
+    return ['hero', 'mobile_showcase', 'admin_dashboard'].includes(section.section_key);
   };
 
   if (loading) {
@@ -329,23 +285,45 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-4xl font-bold font-apple bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-2">Website Content Manager</h2>
-          <p className="text-lg text-black">Manage all website sections, content, and media</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Website Content Manager</h2>
+          <p className="text-gray-600">Manage home page sections in real-time sync with database</p>
+        </div>
+        <div className="flex items-center space-x-2">
+          {getSyncStatusIcon()}
+          <span className="text-sm text-gray-600">
+            {syncStatus === 'connected' ? 'Real-time sync active' : 
+             syncStatus === 'syncing' ? 'Syncing...' : 'Disconnected'}
+          </span>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={loadContent}
+            disabled={loading}
+          >
+            <RefreshCw className={`h-4 w-4 mr-1 ${loading ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
         </div>
       </div>
 
-      <div className="space-y-6 admin-scrollbar max-h-[calc(100vh-12rem)] overflow-y-auto bg-white p-4 rounded-lg">
-        <div className="grid gap-6">
-          {content.map((section) => (
-            <Card key={section.id} className="overflow-hidden">
-              <CardHeader className="bg-white border-b">
+      <div className="space-y-4 max-h-[calc(100vh-12rem)] overflow-y-auto">
+        {content.length === 0 ? (
+          <Card>
+            <CardContent className="p-8 text-center">
+              <p className="text-gray-500">No website content sections found. Make sure the sections exist in the database.</p>
+            </CardContent>
+          </Card>
+        ) : (
+          content.map((section) => (
+            <Card key={section.id} className="overflow-hidden border border-gray-200">
+              <CardHeader className="bg-gray-50 border-b">
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-black">
-                      {formatSectionName(section.section_key)}
+                    <CardTitle className="text-gray-900 text-lg">
+                      {getSectionDisplayName(section.section_key)}
                     </CardTitle>
-                    <p className="text-sm text-gray-600">
-                      Section: {section.section_key}
+                    <p className="text-sm text-gray-500 mt-1">
+                      Order: {getSectionOrder(section.section_key) + 1} • Key: {section.section_key}
                     </p>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -354,7 +332,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                     </Badge>
                     {editingSection === section.section_key ? (
                       <div className="flex space-x-2">
-                        <Button size="sm" onClick={handleSave} className="btn-3d-gradient">
+                        <Button size="sm" onClick={handleSave}>
                           <Save className="h-4 w-4 mr-1" />
                           Save
                         </Button>
@@ -373,99 +351,143 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                 </div>
               </CardHeader>
               
-              <CardContent className="p-6 space-y-4 bg-white">
+              <CardContent className="p-6 bg-white">
                 {editingSection === section.section_key ? (
-                  <div className="grid gap-4">
+                  <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-black mb-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
                         Title
                       </label>
                       <Input
                         value={editForm.title || ''}
                         onChange={(e) => setEditForm({...editForm, title: e.target.value})}
-                        placeholder="Section title"
+                        placeholder="Enter section title"
+                        className="w-full"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Subtitle
+                      </label>
+                      <Input
+                        value={editForm.subtitle || ''}
+                        onChange={(e) => setEditForm({...editForm, subtitle: e.target.value})}
+                        placeholder="Enter section subtitle"
+                        className="w-full"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-black mb-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
                         Description
                       </label>
                       <Textarea
                         value={editForm.description || ''}
                         onChange={(e) => setEditForm({...editForm, description: e.target.value})}
-                        placeholder="Section description"
+                        placeholder="Enter section description"
                         rows={3}
+                        className="w-full"
                       />
                     </div>
 
-                    {/* File upload section */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-black mb-2">
-                          <Image className="h-4 w-4 inline mr-1" />
-                          Upload Background Image
-                        </label>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleFileChange(e, 'image')}
-                          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                        />
-                        {uploadingImage && (
-                          <div className="mt-2 text-sm text-blue-600">Uploading...</div>
-                        )}
-                      </div>
+                    {hasBackgroundMedia(section) && (
+                      <div className="space-y-4 pt-4 border-t">
+                        <h4 className="font-medium text-gray-900">Background Media</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <Image className="h-4 w-4 inline mr-1" />
+                              Background Image
+                            </label>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleFileChange(e, 'image')}
+                              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            />
+                            {uploadingImage && (
+                              <div className="mt-2 text-sm text-blue-600 flex items-center">
+                                <RefreshCw className="h-3 w-3 animate-spin mr-1" />
+                                Uploading image...
+                              </div>
+                            )}
+                            {editForm.background_image_url && (
+                              <div className="mt-2 text-sm text-green-600">✓ Image uploaded</div>
+                            )}
+                          </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-black mb-2">
-                          <Video className="h-4 w-4 inline mr-1" />
-                          Upload Background Video
-                        </label>
-                        <input
-                          type="file"
-                          accept="video/*"
-                          onChange={(e) => handleFileChange(e, 'video')}
-                          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                        />
-                        {uploadingVideo && (
-                          <div className="mt-2 text-sm text-blue-600">Uploading...</div>
-                        )}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <Video className="h-4 w-4 inline mr-1" />
+                              Background Video
+                            </label>
+                            <input
+                              type="file"
+                              accept="video/*"
+                              onChange={(e) => handleFileChange(e, 'video')}
+                              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            />
+                            {uploadingVideo && (
+                              <div className="mt-2 text-sm text-blue-600 flex items-center">
+                                <RefreshCw className="h-3 w-3 animate-spin mr-1" />
+                                Uploading video...
+                              </div>
+                            )}
+                            {editForm.background_video_url && (
+                              <div className="mt-2 text-sm text-green-600">✓ Video uploaded</div>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 ) : (
-                  <div className="space-y-2">
-                    {section.title && (
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <span className="font-semibold text-black">Title:</span> 
-                        <span className="text-black ml-2">{section.title}</span>
+                        <span className="text-sm font-medium text-gray-500">Title:</span>
+                        <p className="text-gray-900 mt-1">{section.title || 'Not set'}</p>
                       </div>
-                    )}
-                    {section.description && (
                       <div>
-                        <span className="font-semibold text-black">Description:</span> 
-                        <span className="text-black ml-2">{section.description}</span>
+                        <span className="text-sm font-medium text-gray-500">Subtitle:</span>
+                        <p className="text-gray-900 mt-1">{section.subtitle || 'Not set'}</p>
                       </div>
-                    )}
-                    {section.background_image_url && (
-                      <div>
-                        <span className="font-semibold text-black">Background Image:</span> 
-                        <span className="text-black ml-2">Available</span>
-                      </div>
-                    )}
-                    {section.background_video_url && (
-                      <div>
-                        <span className="font-semibold text-black">Background Video:</span> 
-                        <span className="text-black ml-2">Available</span>
+                    </div>
+                    
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Description:</span>
+                      <p className="text-gray-900 mt-1">{section.description || 'Not set'}</p>
+                    </div>
+
+                    {hasBackgroundMedia(section) && (
+                      <div className="pt-3 border-t">
+                        <span className="text-sm font-medium text-gray-500">Background Media:</span>
+                        <div className="mt-2 flex space-x-4">
+                          {section.background_image_url && (
+                            <span className="inline-flex items-center text-sm text-green-600">
+                              <Image className="h-4 w-4 mr-1" />
+                              Image available
+                            </span>
+                          )}
+                          {section.background_video_url && (
+                            <span className="inline-flex items-center text-sm text-green-600">
+                              <Video className="h-4 w-4 mr-1" />
+                              Video available
+                            </span>
+                          )}
+                          {!section.background_image_url && !section.background_video_url && (
+                            <span className="text-sm text-gray-400">No background media</span>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>
                 )}
               </CardContent>
             </Card>
-          ))}
-        </div>
+          ))
+        )}
       </div>
     </div>
   );
