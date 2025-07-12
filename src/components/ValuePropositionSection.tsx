@@ -1,7 +1,7 @@
-
 import React, { useEffect, useState } from 'react';
 import { Building2, Database, Users, Target, TrendingUp, Heart, Activity, Shield, Award, MapPin, CheckCircle, Zap, Clock, BarChart3, Lock, BookOpen } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useTypingAnimation } from '@/hooks/useTypingAnimation';
 
 interface ValuePropContent {
   title?: string;
@@ -27,6 +27,13 @@ const ValuePropositionSection = () => {
     description: ''
   });
   const [features, setFeatures] = useState<ValuePropFeature[]>([]);
+
+  // Typing animation for the title
+  const { displayedText: typedTitle } = useTypingAnimation({
+    text: content.title || 'We manage the work. You own the program.',
+    speed: 50,
+    delay: 500
+  });
 
   // Available icons mapping
   const availableIcons = {
@@ -166,11 +173,12 @@ const ValuePropositionSection = () => {
           <h2 className="text-black leading-none tracking-tight font-black mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(2rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent hover:from-[#1a8cff] hover:to-[#0073e6] transition-all duration-500">
-              {content.title?.split('.')[0]}.
+              {typedTitle.split('.')[0]}.
             </span>
             <span className="block text-gray-900 hover:text-gray-800 transition-colors duration-500">
-              {content.title?.split('.').slice(1).join('.') || 'You own the program.'}
+              {typedTitle.split('.').slice(1).join('.') || (typedTitle.includes('.') ? '' : 'You own the program.')}
             </span>
+            <span className="inline-block w-0.5 h-12 bg-[#0080ff] ml-1 animate-pulse"></span>
           </h2>
           {content.subtitle && (
             <p className="text-xl text-gray-700 max-w-3xl mx-auto">
