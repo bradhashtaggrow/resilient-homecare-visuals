@@ -65,9 +65,10 @@ const Patients = () => {
           .single();
 
         if (heroData) {
+          console.log('Loaded patients hero content:', heroData);
           setHeroContent({
             title: heroData.title || "Patient-centered",
-            highlightedText: "care at home"
+            highlightedText: heroData.subtitle || "care at home"
           });
           setContentSection({
             title: "Patients",
