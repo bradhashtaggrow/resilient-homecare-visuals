@@ -164,7 +164,7 @@ const ValuePropositionSection = () => {
           isVisible ? 'animate-swoop-in opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <h2 className="text-black leading-none tracking-tight font-black mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
-              style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              style={{ fontSize: 'clamp(2rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent hover:from-[#1a8cff] hover:to-[#0073e6] transition-all duration-500">
               {content.title?.split('.')[0]}.
             </span>
@@ -184,7 +184,7 @@ const ValuePropositionSection = () => {
           )}
         </div>
 
-  {/* Enhanced Value Propositions Grid with Glow Animation */}
+        {/* Enhanced Value Propositions Grid with Glow Animation */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {features.map((feature, index) => {
             const IconComponent = getIconComponent(feature.icon_name);
