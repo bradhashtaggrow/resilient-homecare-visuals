@@ -1,76 +1,228 @@
 
-import React from 'react';
-import { ArrowRight, Play } from 'lucide-react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from 'lucide-react';
+import OptimizedVideo from './OptimizedVideo';
 import LeadCaptureModal from './LeadCaptureModal';
+import { supabase } from '@/integrations/supabase/client';
 
-const HeroSection = () => {
+interface HeroContent {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  button_text?: string;
+  button_url?: string;
+  background_video_url?: string;
+  background_image_url?: string;
+  mobile_background_url?: string;
+}
+
+const HeroSection = React.memo(() => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [content, setContent] = useState<HeroContent>({
+    title: 'The Future of Healthcare',
+    description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
+    button_text: 'Request Demo',
+    button_url: '#',
+    background_video_url: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+  });
+
+  useEffect(() => {
+    // Load hero content from database
+    const loadHeroContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'hero')
+          .eq('is_active', true)
+          .single();
+
+        if (data && !error) {
+          console.log('Loaded hero content from database:', data);
+          
+          setContent({
+            title: data.title || 'The Future of Healthcare',
+            subtitle: data.subtitle || '',
+            description: data.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
+            button_text: data.button_text || 'Request Demo',
+            button_url: data.button_url || '#',
+            background_video_url: data.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+          });
+        } else {
+          console.log('No hero content found in database, using defaults');
+        }
+      } catch (error) {
+        console.error('Error loading hero content from database:', error);
+      }
+    };
+
+    loadHeroContent();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('hero-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.hero'
+      }, (payload) => {
+        console.log('Real-time hero content change:', payload);
+        loadHeroContent();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Use requestAnimationFrame for smoother animation timing
+    const timer = requestAnimationFrame(() => {
+      setIsVisible(true);
+    });
+    return () => cancelAnimationFrame(timer);
+  }, []);
+
+  const handleButtonHover = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.boxShadow = `
+      0 20px 48px rgba(0, 128, 255, 0.6),
+      0 8px 24px rgba(0, 0, 0, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -2px 12px rgba(0, 0, 0, 0.2)
+    `;
+    e.currentTarget.style.background = 'linear-gradient(145deg, #1a8cff 0%, #0073e6 30%, #0059b3 100%)';
+  }, []);
+
+  const handleButtonLeave = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.boxShadow = `
+      0 12px 32px rgba(0, 128, 255, 0.4),
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+    `;
+    e.currentTarget.style.background = 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)';
+  }, []);
+
+  const handleButtonClick = () => {
+    if (content.button_url && content.button_url !== '#') {
+      window.open(content.button_url, '_blank');
+    }
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='0.1'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
-      </div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
+      {/* Background Media */}
+      {content?.background_video_url ? (
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={content.background_video_url} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      ) : content?.background_image_url ? (
+        <div className="absolute inset-0 z-0">
+          <img
+            src={content.background_image_url}
+            alt="Hero background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 z-0">
+          <OptimizedVideo
+            src='https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      )}
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center max-w-6xl mx-auto">
-          {/* Main Heading */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 leading-tight tracking-tight">
-            <span className="block text-black font-apple">
-              Fully Streamlined,
-            </span>
-            <span className="block gradient-text font-apple">
-              Uncompromisingly Simple
-            </span>
-          </h1>
+      {/* Mobile Background */}
+      {content?.mobile_background_url && (
+        <div className="absolute inset-0 z-0 md:hidden">
+          <img
+            src={content.mobile_background_url}
+            alt="Mobile hero background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      )}
 
-          {/* Subheading */}
-          <p className="text-xl sm:text-2xl lg:text-3xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed font-medium">
-            Three core service lines designed to extend your hospital's reach, 
-            improve patient outcomes, and streamline operations
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-            <LeadCaptureModal source="hero-primary">
-              <button className="btn-3d-gradient text-lg px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-3">
-                Request Demo
-                <ArrowRight className="h-5 w-5" />
-              </button>
-            </LeadCaptureModal>
-            
-            <button className="flex items-center gap-3 text-lg font-semibold text-gray-700 hover:text-primary transition-colors duration-300 px-8 py-4 rounded-xl hover:bg-gray-50">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-                <Play className="h-5 w-5 text-white ml-1" />
-              </div>
-              Watch Overview
-            </button>
+      {/* Enhanced Hero Content with Mobile Optimization */}
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className={`transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          {/* Enhanced Apple-Style Title with Mobile Typography */}
+          <div className="mb-8 sm:mb-12">
+            <h1 className="text-white leading-none tracking-tight font-black text-shadow-white transition-transform duration-500 hover:scale-105" 
+                style={{ fontSize: 'clamp(2rem, 8vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              {content.title}
+            </h1>
+            {content.subtitle && (
+              <h2 className="text-white/80 mt-4 text-2xl sm:text-4xl font-light tracking-wide">
+                {content.subtitle}
+              </h2>
+            )}
           </div>
-
-          {/* Trust Indicators */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">99.9%</div>
-              <div className="text-gray-600">Uptime Guaranteed</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">HIPAA</div>
-              <div className="text-gray-600">Compliant Platform</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">24/7</div>
-              <div className="text-gray-600">Technical Support</div>
-            </div>
+          
+          {/* Enhanced Subtitle with Better Mobile Spacing */}
+          <p className="text-white/90 mb-12 sm:mb-16 max-w-4xl mx-auto leading-relaxed font-medium tracking-wide hover:text-white transition-colors duration-500"
+             style={{ fontSize: 'clamp(1rem, 3vw, 2rem)', lineHeight: 1.3 }}>
+            {content.description}
+          </p>
+          
+          {/* Enhanced 3D Animated Button with Mobile Optimization */}
+          <div className="flex justify-center items-center mb-12 sm:mb-16">
+            <LeadCaptureModal source="hero-button">
+              <Button 
+                size="lg" 
+                className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto max-w-xs sm:max-w-none will-change-transform"
+                style={{
+                  background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
+                  boxShadow: `
+                    0 12px 32px rgba(0, 128, 255, 0.4),
+                    0 4px 16px rgba(0, 0, 0, 0.3),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                    inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                  `,
+                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                }}
+                onMouseEnter={handleButtonHover}
+                onMouseLeave={handleButtonLeave}
+              >
+                <span className="relative z-10 flex items-center justify-center">
+                  {content.button_text}
+                  <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
+                </span>
+              </Button>
+            </LeadCaptureModal>
           </div>
         </div>
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-primary/10 rounded-full blur-xl"></div>
-      <div className="absolute bottom-20 right-10 w-32 h-32 bg-blue-400/10 rounded-full blur-xl"></div>
+      {/* Enhanced Modern Scroll Indicator with Mobile Optimization */}
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="animate-bounce-gentle hover:scale-110 transition-transform duration-300">
+          <div className="w-6 h-10 sm:w-8 sm:h-12 border-2 border-white/40 rounded-full flex justify-center relative overflow-hidden hover:border-white/60 transition-colors duration-300">
+            <div className="w-1 h-3 sm:w-1.5 sm:h-4 bg-white/60 rounded-full mt-2 sm:mt-3 animate-pulse-slow" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent" />
+          </div>
+        </div>
+      </div>
     </section>
   );
-};
+});
+
+HeroSection.displayName = 'HeroSection';
 
 export default HeroSection;
