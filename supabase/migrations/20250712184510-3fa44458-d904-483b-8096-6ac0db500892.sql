@@ -1,0 +1,10 @@
+-- Insert Clinicians page sections
+INSERT INTO website_content (section_key, title, subtitle, description, is_active) VALUES
+('clinicians_hero', 'Enabling seamless referrals', 'Clinicians', 'We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable.', true),
+('clinicians_hospitals', 'Work with leading hospitals', 'Partnership Excellence', 'Partner with top healthcare institutions to expand your reach and impact through our comprehensive network.', true),
+('clinicians_referrals', 'Get access to a consistent stream of patient referrals', 'Steady Patient Flow', 'Receive steady patient referrals through our integrated network of healthcare partners and streamlined referral system.', true),
+('clinicians_delivery', 'Support care delivery for inpatient at home and outpatient at home services', 'Comprehensive Home Care', 'Comprehensive support for both inpatient and outpatient care delivery in home settings with full clinical oversight.', true),
+('clinicians_workflows', 'Simplified workflows and credentialing through our platform', 'Streamlined Operations', 'Streamlined processes that reduce administrative complexity, save time, and ensure compliance with healthcare standards.', true),
+('clinicians_payment', 'We pay you per visit so no need to worry about administrative burden', 'Simple Payment Model', 'Simple per-visit payment structure that eliminates administrative hassles and ensures fair, transparent compensation.', true),
+('clinicians_join', 'Join 500+ Hospitals', 'Become Part of Our Network', 'Join hundreds of healthcare institutions already transforming patient care.', true)
+ON CONFLICT (section_key) DO NOTHING;
