@@ -60,7 +60,20 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     'lead_generation'
   ];
 
+  // Add About page sections
+  const ABOUT_PAGE_SECTIONS = [
+    'about_hero',
+    'about_why_choose',
+    'about_for_hospitals',
+    'about_for_clinicians',
+    'about_values',
+    'about_footer'
+  ];
+
+  const ALL_SECTIONS = [...HOME_PAGE_SECTIONS, ...ABOUT_PAGE_SECTIONS];
+
   const SECTION_LABELS = {
+    // Home page sections
     'hero': 'Hero Section',
     'service_lines': 'Services Section',
     'mobile_showcase': 'Mobile Section', 
@@ -68,7 +81,14 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     'admin_dashboard': 'Laptop Section',
     'founder': 'Founder Section',
     'stats': 'What Does the Research Say',
-    'lead_generation': 'Join 500+ Hospitals'
+    'lead_generation': 'Join 500+ Hospitals',
+    // About page sections
+    'about_hero': 'About - Hero Section',
+    'about_why_choose': 'About - Why Choose Resilient',
+    'about_for_hospitals': 'About - For Hospitals',
+    'about_for_clinicians': 'About - For Clinicians',
+    'about_values': 'About - Core Values',
+    'about_footer': 'About - Footer CTA'
   };
 
   useEffect(() => {
@@ -88,8 +108,13 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   };
 
   const getSectionOrder = (sectionKey: string) => {
-    const index = HOME_PAGE_SECTIONS.indexOf(sectionKey);
-    return index !== -1 ? index : 999;
+    const homeIndex = HOME_PAGE_SECTIONS.indexOf(sectionKey);
+    if (homeIndex !== -1) return homeIndex;
+    
+    const aboutIndex = ABOUT_PAGE_SECTIONS.indexOf(sectionKey);
+    if (aboutIndex !== -1) return HOME_PAGE_SECTIONS.length + aboutIndex;
+    
+    return 999;
   };
 
   const getSectionDisplayName = (key: string) => {
@@ -101,13 +126,13 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
       const { data, error } = await supabase
         .from('website_content')
         .select('*')
-        .in('section_key', HOME_PAGE_SECTIONS);
+        .in('section_key', ALL_SECTIONS);
 
       if (error) throw error;
       
-      // Sort by home page order and ONLY show home page sections
+      // Sort by order and show both home and about page sections
       const sortedData = (data || [])
-        .filter(item => HOME_PAGE_SECTIONS.includes(item.section_key))
+        .filter(item => ALL_SECTIONS.includes(item.section_key))
         .sort((a, b) => getSectionOrder(a.section_key) - getSectionOrder(b.section_key));
       
       setContent(sortedData);
@@ -115,7 +140,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
       console.error('Error loading content:', error);
       toast({
         title: "Error loading content",
-        description: "Failed to load home page content",
+        description: "Failed to load website content",
         variant: "destructive"
       });
     } finally {
@@ -287,8 +312,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Home Page Content Manager</h2>
-          <p className="text-gray-600">Manage home page sections in real-time sync with database</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Website Content Manager</h2>
+          <p className="text-gray-600">Manage home page and about page sections in real-time sync with database</p>
         </div>
         <div className="flex items-center space-x-2">
           {getSyncStatusIcon()}
