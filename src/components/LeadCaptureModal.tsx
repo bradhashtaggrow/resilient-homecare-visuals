@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import LeadCaptureForm from './LeadCaptureForm';
 import { X } from 'lucide-react';
 
@@ -25,58 +26,69 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
     }
   };
 
+  const modalContent = isOpen ? (
+    <div 
+      className="fixed inset-0 flex items-start justify-center p-4 font-apple"
+      onClick={handleBackdropClick}
+      style={{ 
+        paddingTop: '80px',
+        zIndex: 2147483647, // Maximum z-index value
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backdropFilter: 'blur(4px)'
+      }}
+    >
+      <div 
+        className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200" 
+        style={{ 
+          zIndex: 2147483647,
+          position: 'relative'
+        }}
+      >
+        {/* Apple-style close button */}
+        <button
+          onClick={handleClose}
+          className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100/80 hover:bg-gray-200/80 flex items-center justify-center z-10 transition-all duration-200 backdrop-blur-sm"
+        >
+          <X className="h-4 w-4 text-gray-600" />
+        </button>
+        
+        {/* Apple-style header */}
+        <div className="text-center pt-6 pb-4 px-6 bg-gradient-to-b from-white/90 to-transparent">
+          <div className="mx-auto mb-6 flex justify-center">
+            <img 
+              src="/lovable-uploads/4b3af59c-60f1-4308-9e3b-e840a22af320.png" 
+              alt="Resilient Healthcare" 
+              className="h-12"
+            />
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900 tracking-tight mb-3">
+            Request Your Demo
+          </h2>
+          <p className="text-gray-600 text-lg font-medium">
+            Experience the future of healthcare technology
+          </p>
+        </div>
+        
+        {/* Form content */}
+        <div className="px-6 pb-6">
+          <LeadCaptureForm 
+            onSuccess={handleSuccess}
+            onClose={handleClose}
+            source={source}
+          />
+        </div>
+      </div>
+    </div>
+  ) : null;
+
   return (
     <>
       <div onClick={() => setIsOpen(true)}>
         {children}
       </div>
       
-      {isOpen && (
-        <div 
-          className="fixed inset-0 flex items-start justify-center p-4 font-apple"
-          onClick={handleBackdropClick}
-          style={{ 
-            paddingTop: '80px',
-            zIndex: 999999
-          }}
-        >
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200" style={{ zIndex: 1000000 }}>
-            {/* Apple-style close button */}
-            <button
-              onClick={handleClose}
-              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100/80 hover:bg-gray-200/80 flex items-center justify-center z-10 transition-all duration-200 backdrop-blur-sm"
-            >
-              <X className="h-4 w-4 text-gray-600" />
-            </button>
-            
-            {/* Apple-style header */}
-            <div className="text-center pt-6 pb-4 px-6 bg-gradient-to-b from-white/90 to-transparent">
-              <div className="mx-auto mb-6 flex justify-center">
-                <img 
-                  src="/lovable-uploads/4b3af59c-60f1-4308-9e3b-e840a22af320.png" 
-                  alt="Resilient Healthcare" 
-                  className="h-12"
-                />
-              </div>
-              <h2 className="text-3xl font-bold text-gray-900 tracking-tight mb-3">
-                Request Your Demo
-              </h2>
-              <p className="text-gray-600 text-lg font-medium">
-                Experience the future of healthcare technology
-              </p>
-            </div>
-            
-            {/* Form content */}
-            <div className="px-6 pb-6">
-              <LeadCaptureForm 
-                onSuccess={handleSuccess}
-                onClose={handleClose}
-                source={source}
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Render modal in a portal to document.body */}
+      {modalContent && createPortal(modalContent, document.body)}
     </>
   );
 };
