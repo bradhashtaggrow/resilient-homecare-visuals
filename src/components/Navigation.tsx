@@ -22,51 +22,51 @@ const Navigation = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white/95 backdrop-blur-md border-b border-black/10 shadow-sm' : 'bg-white border-b border-black/10'
+    <nav className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
+      scrolled ? 'bg-white/95 backdrop-blur-md border-b border-black/10 shadow-lg' : 'bg-white/90 backdrop-blur-sm border-b border-black/5'
     }`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="transition-transform duration-200 hover:scale-105">
               <img 
                 src="/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png" 
                 alt="Resilient Healthcare" 
-                className="h-12 w-auto"
+                className="h-10 w-auto"
               />
             </Link>
           </div>
           
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
-            <Link to="/care-at-home" className="text-black hover:text-primary transition-colors font-medium font-apple">
+          <div className="hidden lg:flex items-center space-x-6">
+            <Link to="/care-at-home" className="text-black hover:text-primary transition-colors font-medium font-apple text-sm">
               Care At Home
             </Link>
-            <Link to="/clinicians" className="text-black hover:text-primary transition-colors font-medium font-apple">
+            <Link to="/clinicians" className="text-black hover:text-primary transition-colors font-medium font-apple text-sm">
               Clinicians
             </Link>
-            <Link to="/patients" className="text-black hover:text-primary transition-colors font-medium font-apple">
+            <Link to="/patients" className="text-black hover:text-primary transition-colors font-medium font-apple text-sm">
               Patients
             </Link>
-            <Link to="/news" className="text-black hover:text-primary transition-colors font-medium font-apple">
+            <Link to="/news" className="text-black hover:text-primary transition-colors font-medium font-apple text-sm">
               News
             </Link>
-            <Link to="/about" className="text-black hover:text-primary transition-colors font-medium font-apple">
+            <Link to="/about" className="text-black hover:text-primary transition-colors font-medium font-apple text-sm">
               About Us
             </Link>
-            <Link to="/contact" className="text-black hover:text-primary transition-colors font-medium font-apple">
+            <Link to="/contact" className="text-black hover:text-primary transition-colors font-medium font-apple text-sm">
               Contact
             </Link>
             
             <LeadCaptureModal source="navigation">
-              <Button className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white hover:from-[#5a95f5] hover:to-[#2576d1] font-apple text-sm font-semibold px-4 py-2 rounded-lg shadow-lg transition-all duration-200">
+              <Button className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white hover:from-[#5a95f5] hover:to-[#2576d1] font-apple text-sm font-semibold px-3 py-1.5 rounded-lg shadow-lg transition-all duration-200">
                 Request Demo
               </Button>
             </LeadCaptureModal>
             
             <Link to="/login">
-              <Button className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white hover:from-[#5a95f5] hover:to-[#2576d1] font-apple text-sm font-semibold px-4 py-2 rounded-lg shadow-lg transition-all duration-200">
+              <Button className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white hover:from-[#5a95f5] hover:to-[#2576d1] font-apple text-sm font-semibold px-3 py-1.5 rounded-lg shadow-lg transition-all duration-200">
                 Login
               </Button>
             </Link>

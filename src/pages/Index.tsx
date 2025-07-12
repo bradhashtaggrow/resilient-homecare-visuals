@@ -15,15 +15,18 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white paper-texture">
       <Navigation />
-      <HeroSection />
-      <ServiceLinesSection />
-      <MobileShowcase />
-      <ValuePropositionSection />
-      <AdminDashboard />
-      <FounderSection />
-      <StatsSection />
-      <LeadGenSection />
-      <Footer />
+      {/* Add top padding to account for fixed navigation */}
+      <div className="pt-16">
+        <HeroSection />
+        <ServiceLinesSection />
+        <MobileShowcase />
+        <ValuePropositionSection />
+        <AdminDashboard />
+        <FounderSection />
+        <StatsSection />
+        <LeadGenSection />
+        <Footer />
+      </div>
     </div>
   );
 };
