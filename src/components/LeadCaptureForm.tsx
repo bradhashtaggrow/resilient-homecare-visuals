@@ -175,7 +175,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="first_name" className="modern-label">First Name *</Label>
+                <Label htmlFor="first_name" className="modern-label text-left block">First Name *</Label>
                 <Input
                   id="first_name"
                   value={formData.first_name}
@@ -185,7 +185,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 />
               </div>
               <div>
-                <Label htmlFor="last_name" className="modern-label">Last Name *</Label>
+                <Label htmlFor="last_name" className="modern-label text-left block">Last Name *</Label>
                 <Input
                   id="last_name"
                   value={formData.last_name}
@@ -196,7 +196,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </div>
             </div>
             <div>
-              <Label htmlFor="email" className="modern-label">Email *</Label>
+              <Label htmlFor="email" className="modern-label text-left block">Email *</Label>
               <Input
                 id="email"
                 type="email"
@@ -207,7 +207,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               />
             </div>
             <div>
-              <Label htmlFor="phone" className="modern-label">Phone</Label>
+              <Label htmlFor="phone" className="modern-label text-left block">Phone</Label>
               <Input
                 id="phone"
                 value={formData.phone}
@@ -217,7 +217,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               />
             </div>
             <div>
-              <Label htmlFor="company" className="modern-label">Company *</Label>
+              <Label htmlFor="company" className="modern-label text-left block">Company *</Label>
               <Input
                 id="company"
                 value={formData.company}
@@ -227,7 +227,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               />
             </div>
             <div>
-              <Label htmlFor="job_title" className="modern-label">Job Title</Label>
+              <Label htmlFor="job_title" className="modern-label text-left block">Job Title</Label>
               <Select value={formData.job_title} onValueChange={(value) => updateFormData('job_title', value)}>
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select your role" />
@@ -265,7 +265,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               <h3 className="text-lg font-semibold">Company Information</h3>
             </div>
             <div>
-              <Label htmlFor="company_size" className="modern-label">Company Size *</Label>
+              <Label htmlFor="company_size" className="modern-label text-left block">Company Size *</Label>
               <Select value={formData.company_size} onValueChange={(value) => updateFormData('company_size', value)}>
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select company size" />
@@ -281,7 +281,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </Select>
             </div>
             <div>
-              <Label htmlFor="industry" className="modern-label">Industry *</Label>
+              <Label htmlFor="industry" className="modern-label text-left block">Industry *</Label>
               <Select value={formData.industry} onValueChange={(value) => updateFormData('industry', value)}>
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select industry" />
@@ -297,7 +297,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </Select>
             </div>
             <div>
-              <Label htmlFor="current_solution" className="modern-label">Current Solution</Label>
+              <Label htmlFor="current_solution" className="modern-label text-left block">Current Solution</Label>
               <Input
                 id="current_solution"
                 value={formData.current_solution}
@@ -307,7 +307,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               />
             </div>
             <div>
-              <Label htmlFor="annual_revenue" className="modern-label">Annual Revenue</Label>
+              <Label htmlFor="annual_revenue" className="modern-label text-left block">Annual Revenue</Label>
               <Select value={formData.annual_revenue} onValueChange={(value) => updateFormData('annual_revenue', value)}>
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select annual revenue" />
@@ -333,7 +333,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               <h3 className="text-lg font-semibold">Requirements</h3>
             </div>
             <div>
-              <Label htmlFor="primary_challenge" className="modern-label">Primary Challenge *</Label>
+              <Label htmlFor="primary_challenge" className="modern-label text-left block">Primary Challenge *</Label>
               <Select value={formData.primary_challenge} onValueChange={(value) => updateFormData('primary_challenge', value)}>
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="What's your biggest challenge?" />
@@ -349,7 +349,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </Select>
             </div>
             <div>
-              <Label className="modern-label">Interested Services * (Select all that apply)</Label>
+              <Label className="modern-label text-left block">Interested Services * (Select all that apply)</Label>
               <div className="grid grid-cols-2 gap-2 mt-2">
                 {['Remote Monitoring', 'Telemedicine', 'Home Healthcare', 'Clinical Analytics', 'Care Coordination', 'Patient Engagement'].map((service) => (
                   <div key={service} className="flex items-center space-x-2">
@@ -365,7 +365,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </div>
             </div>
             <div>
-              <Label htmlFor="timeline" className="modern-label">Implementation Timeline *</Label>
+              <Label htmlFor="timeline" className="modern-label text-left block">Implementation Timeline *</Label>
               <Select value={formData.timeline} onValueChange={(value) => updateFormData('timeline', value)}>
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="When do you need this?" />
@@ -379,7 +379,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </Select>
             </div>
             <div>
-              <Label htmlFor="budget_range" className="modern-label">Budget Range</Label>
+              <Label htmlFor="budget_range" className="modern-label text-left block">Budget Range</Label>
               <Select value={formData.budget_range} onValueChange={(value) => updateFormData('budget_range', value)}>
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select budget range" />
@@ -413,7 +413,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               <h3 className="text-lg font-semibold">Schedule Your Demo</h3>
             </div>
             <div>
-              <Label htmlFor="preferred_date" className="modern-label">Preferred Date *</Label>
+              <Label htmlFor="preferred_date" className="modern-label text-left block">Preferred Date *</Label>
               <Input
                 id="preferred_date"
                 type="date"
@@ -424,7 +424,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               />
             </div>
             <div>
-              <Label htmlFor="preferred_time" className="modern-label">Preferred Time *</Label>
+              <Label htmlFor="preferred_time" className="modern-label text-left block">Preferred Time *</Label>
               <Select value={formData.preferred_time} onValueChange={(value) => updateFormData('preferred_time', value)}>
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select time" />
@@ -443,7 +443,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </Select>
             </div>
             <div>
-              <Label htmlFor="timezone" className="modern-label">Timezone</Label>
+              <Label htmlFor="timezone" className="modern-label text-left block">Timezone</Label>
               <Input
                 id="timezone"
                 value={formData.timezone}
@@ -453,7 +453,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               />
             </div>
             <div>
-              <Label htmlFor="demo_type" className="modern-label">Demo Type</Label>
+              <Label htmlFor="demo_type" className="modern-label text-left block">Demo Type</Label>
               <Select value={formData.demo_type} onValueChange={(value) => updateFormData('demo_type', value)}>
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select demo type" />
