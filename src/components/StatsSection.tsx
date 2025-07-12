@@ -303,7 +303,7 @@ const StatsSection = () => {
           isVisible ? 'animate-swoop-in' : 'opacity-0'
         }`}>
           <h2 className="text-white leading-none tracking-tight font-black text-shadow-white mb-6 lg:mb-8"
-              style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {content.title}
           </h2>
           {content.description && (
