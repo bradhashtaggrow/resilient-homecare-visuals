@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Activity, Heart, Building2, ArrowRight, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle, LucideIcon } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -211,7 +212,7 @@ const ServiceLinesSection = () => {
         {/* Header with dynamic content */}
         <div className="text-center mb-12 sm:mb-16 lg:mb-20 opacity-100 translate-y-0">
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-6 lg:mb-8"
-              style={{ fontSize: 'clamp(1.5rem, 6vw, 8rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {content.title?.includes(',') ? (
               <>
                 {content.title.split(',')[0]},
@@ -266,11 +267,11 @@ const ServiceLinesSection = () => {
                     {/* Title and Subtitle */}
                     <div className="pr-12 sm:pr-16 lg:pr-20">
                       <h3 className="text-gray-900 leading-none tracking-tight font-black mb-2 lg:mb-3"
-                          style={{ fontSize: 'clamp(1.25rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                          style={{ fontSize: 'clamp(1.25rem, 3.5vw, 3rem)', fontWeight: 900, lineHeight: 0.85 }}>
                         {service.title}
                       </h3>
                       <p className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent font-medium tracking-wide"
-                         style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.3 }}>
+                         style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1.25rem)', lineHeight: 1.3 }}>
                         {service.subtitle}
                       </p>
                     </div>
