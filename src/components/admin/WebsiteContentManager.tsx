@@ -48,39 +48,27 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const { toast } = useToast();
 
-  // Define the correct section order matching the home page
-  const SECTION_ORDER = [
+  // Define the EXACT home page sections in the correct order
+  const HOME_PAGE_SECTIONS = [
     'hero',
-    'service_lines', 
-    'mobile_showcase',
+    'service_lines',
+    'mobile_showcase', 
     'value_proposition',
     'admin_dashboard',
     'founder',
     'stats',
-    'lead_generation',
-    'care_at_home',
-    'care_at_home_mobile',
-    'clinicians_tabs',
-    'patients_benefits',
-    'patients_hero',
-    'patients_mobile'
+    'lead_generation'
   ];
 
   const SECTION_LABELS = {
     'hero': 'Hero Section',
-    'service_lines': 'Service Lines Section',
-    'mobile_showcase': 'Mobile Showcase Section', 
-    'value_proposition': 'Value Proposition Section',
-    'admin_dashboard': 'Admin Dashboard Section',
+    'service_lines': 'Services Section',
+    'mobile_showcase': 'Mobile Section', 
+    'value_proposition': 'Value Proposition - We Manage the Work',
+    'admin_dashboard': 'Laptop Section',
     'founder': 'Founder Section',
-    'stats': 'Stats Section',
-    'lead_generation': 'Lead Generation Section',
-    'care_at_home': 'Care at Home Section',
-    'care_at_home_mobile': 'Care at Home Mobile Section',
-    'clinicians_tabs': 'Clinicians Tabs Section',
-    'patients_benefits': 'Patients Benefits Section',
-    'patients_hero': 'Patients Hero Section',
-    'patients_mobile': 'Patients Mobile Section'
+    'stats': 'What Does the Research Say',
+    'lead_generation': 'Join 500+ Hospitals'
   };
 
   useEffect(() => {
@@ -100,37 +88,34 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   };
 
   const getSectionOrder = (sectionKey: string) => {
-    const index = SECTION_ORDER.indexOf(sectionKey);
+    const index = HOME_PAGE_SECTIONS.indexOf(sectionKey);
     return index !== -1 ? index : 999;
   };
 
   const getSectionDisplayName = (key: string) => {
-    return SECTION_LABELS[key as keyof typeof SECTION_LABELS] || key.split('_').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
+    return SECTION_LABELS[key as keyof typeof SECTION_LABELS] || key;
   };
 
   const loadContent = async () => {
     try {
       const { data, error } = await supabase
         .from('website_content')
-        .select('*');
+        .select('*')
+        .in('section_key', HOME_PAGE_SECTIONS);
 
       if (error) throw error;
       
-      // Sort by the defined order, but show all sections that exist
-      const sortedData = (data || []).sort((a, b) => {
-        const orderA = getSectionOrder(a.section_key);
-        const orderB = getSectionOrder(b.section_key);
-        return orderA - orderB;
-      });
+      // Sort by home page order and ONLY show home page sections
+      const sortedData = (data || [])
+        .filter(item => HOME_PAGE_SECTIONS.includes(item.section_key))
+        .sort((a, b) => getSectionOrder(a.section_key) - getSectionOrder(b.section_key));
       
       setContent(sortedData);
     } catch (error) {
       console.error('Error loading content:', error);
       toast({
         title: "Error loading content",
-        description: "Failed to load website content",
+        description: "Failed to load home page content",
         variant: "destructive"
       });
     } finally {
@@ -204,8 +189,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   };
 
   const hasBackgroundMedia = (section: WebsiteContent) => {
-    // Check if this section type typically has background media
-    return ['hero', 'mobile_showcase', 'admin_dashboard', 'care_at_home', 'care_at_home_mobile', 'patients_hero', 'patients_mobile'].includes(section.section_key);
+    // Only hero, mobile, and laptop (admin_dashboard) sections have background media
+    return ['hero', 'mobile_showcase', 'admin_dashboard'].includes(section.section_key);
   };
 
   const handleImageUpload = async (file: File) => {
@@ -302,7 +287,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Website Content Manager</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Home Page Content Manager</h2>
           <p className="text-gray-600">Manage home page sections in real-time sync with database</p>
         </div>
         <div className="flex items-center space-x-2">
@@ -327,7 +312,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
         {content.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center">
-              <p className="text-gray-500">No website content sections found. Make sure the sections exist in the database.</p>
+              <p className="text-gray-500">No home page sections found. Make sure the home page sections exist in the database.</p>
             </CardContent>
           </Card>
         ) : (
