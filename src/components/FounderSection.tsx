@@ -159,7 +159,7 @@ const FounderSection = () => {
           </p>
         </div>
 
-        {/* Enhanced Professional Portrait Section with Subtle Gradient Border */}
+        {/* Enhanced Professional Portrait Section with Fixed Achievement Badges */}
         <div className="mb-12 sm:mb-16 flex justify-center">
           <div className={`transition-all duration-1500 transform ${
             isVisible ? 'animate-slide-up opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
@@ -185,18 +185,39 @@ const FounderSection = () => {
                   loading="lazy"
                 />
                 
-                {/* Enhanced Achievement Badges with Mobile Optimization */}
+                {/* Fixed Achievement Badges with Proper Floating Animation */}
                 {content.achievements?.map((achievement, index) => {
                   const positions = [
-                    { className: "absolute -top-1 sm:-top-2 -right-1 sm:-right-2", bgColor: "bg-blue-600 hover:bg-blue-700" },
-                    { className: "absolute top-1/2 -left-2 sm:-left-3 transform -translate-y-1/2", bgColor: "bg-blue-500 hover:bg-blue-600" },
-                    { className: "absolute -bottom-1 sm:-bottom-2 -right-3 sm:-right-4", bgColor: "bg-blue-700 hover:bg-blue-800" }
+                    { 
+                      className: "absolute -top-4 -right-4 sm:-top-6 sm:-right-6", 
+                      bgColor: "bg-blue-600 hover:bg-blue-700",
+                      delay: "0s"
+                    },
+                    { 
+                      className: "absolute top-1/2 -left-4 sm:-left-6 transform -translate-y-1/2", 
+                      bgColor: "bg-blue-500 hover:bg-blue-600",
+                      delay: "0.5s"
+                    },
+                    { 
+                      className: "absolute -bottom-4 -right-8 sm:-bottom-6 sm:-right-12", 
+                      bgColor: "bg-blue-700 hover:bg-blue-800",
+                      delay: "1s"
+                    }
                   ];
+                  
                   const position = positions[index] || positions[0];
                   
                   return (
-                    <div key={index} className={`${position.className} hover:scale-110 transition-transform duration-300 z-20`}>
-                      <div className="bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full p-2 sm:p-3 shadow-lg transition-all duration-300">
+                    <div 
+                      key={index} 
+                      className={`${position.className} z-20 animate-float hover:scale-110 transition-transform duration-300`}
+                      style={{ 
+                        animationDelay: position.delay,
+                        animationDuration: '3s',
+                        animationIterationCount: 'infinite'
+                      }}
+                    >
+                      <div className="bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full p-3 sm:p-4 shadow-xl transition-all duration-300 border-2 border-white/20">
                         {getAchievementIcon(achievement.icon)}
                       </div>
                     </div>
