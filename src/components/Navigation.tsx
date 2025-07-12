@@ -10,32 +10,29 @@ const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const isMobile = useIsMobile();
 
   useEffect(() => {
+    let lastScrollY = 0;
+    
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const isScrolled = currentScrollY > 10;
       
-      console.log('Scroll data:', { currentScrollY, lastScrollY, visible });
-      
       // Show menu when scrolling up, hide when scrolling down
       if (currentScrollY < lastScrollY || currentScrollY < 100) {
-        console.log('Setting visible to true');
         setVisible(true);
       } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        console.log('Setting visible to false');
         setVisible(false);
       }
       
       setScrolled(isScrolled);
-      setLastScrollY(currentScrollY);
+      lastScrollY = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []); // Remove lastScrollY dependency
 
   return (
     <nav className={`fixed left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
