@@ -15,8 +15,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white paper-texture">
       <Navigation />
-      {/* Add top padding to account for fixed navigation */}
-      <div className="pt-16">
+      {/* Remove the pt-16 padding and let each section handle its own spacing */}
+      <div>
         <HeroSection />
         <ServiceLinesSection />
         <MobileShowcase />

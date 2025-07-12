@@ -22,9 +22,9 @@ const Navigation = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
-      scrolled ? 'bg-white/95 backdrop-blur-md border-b border-black/10 shadow-lg' : 'bg-white/90 backdrop-blur-sm border-b border-black/5'
-    }`}>
+    <nav className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-300 ${
+      scrolled ? 'bg-white/98 backdrop-blur-lg border-b border-black/20 shadow-xl' : 'bg-white/95 backdrop-blur-md border-b border-black/10'
+    }`} style={{ position: 'fixed' }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
