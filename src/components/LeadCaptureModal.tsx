@@ -35,11 +35,22 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
           className="fixed inset-0 flex items-center justify-center p-4 font-apple"
           onClick={handleBackdropClick}
           style={{ 
-            zIndex: 999999,
-            backgroundColor: 'rgba(0, 0, 0, 0.75)'
+            zIndex: 99999999,
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
           }}
         >
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200" style={{ zIndex: 1000000 }}>
+          <div 
+            className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200" 
+            style={{ 
+              zIndex: 999999999,
+              position: 'relative'
+            }}
+          >
             {/* Apple-style close button */}
             <button
               onClick={handleClose}
