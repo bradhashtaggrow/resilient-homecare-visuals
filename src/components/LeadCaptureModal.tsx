@@ -33,9 +33,9 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       const rect = triggerRef.current.getBoundingClientRect();
       const scrollY = window.scrollY;
       
-      // Position modal very close to the button
+      // Position modal slightly above the button
       setModalPosition({
-        top: rect.top + scrollY + 5, // Just 5px below the button instead of above
+        top: rect.top + scrollY - 15, // 15px above the button
         left: rect.left + rect.width / 2 // Center horizontally on button
       });
     }
@@ -59,7 +59,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
           position: 'absolute',
           top: `${modalPosition.top}px`,
           left: '50%',
-          transform: 'translate(-50%, 0)', // Center horizontally, no vertical offset
+          transform: 'translate(-50%, -100%)', // Center horizontally and position above
           minWidth: '400px'
         }}
       >
