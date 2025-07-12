@@ -33,9 +33,9 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       const rect = triggerRef.current.getBoundingClientRect();
       const scrollY = window.scrollY;
       
-      // Position modal above the button with some spacing
+      // Position modal closer to the button
       setModalPosition({
-        top: rect.top + scrollY - 20, // 20px above the button
+        top: rect.top + scrollY - 10, // Reduced from 20px to 10px above the button
         left: rect.left + rect.width / 2 // Center horizontally on button
       });
     }
