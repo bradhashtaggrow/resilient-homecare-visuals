@@ -201,7 +201,6 @@ const HeroSection = React.memo(() => {
               >
                 <span className="relative z-10 flex items-center justify-center">
                   {content.button_text}
-                  <ArrowRight className="ml-2 sm:ml-4 h-6 w-6 sm:h-8 sm:w-8 group-hover:translate-x-3 transition-transform duration-500" />
                 </span>
               </Button>
             </LeadCaptureModal>
