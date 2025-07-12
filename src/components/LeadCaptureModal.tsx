@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import LeadCaptureForm from './LeadCaptureForm';
 import { X } from 'lucide-react';
@@ -32,11 +33,14 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       
       {isOpen && (
         <div 
-          className="fixed inset-0 flex items-start justify-center p-4 z-50 font-apple"
+          className="fixed inset-0 flex items-start justify-center p-4 font-apple"
           onClick={handleBackdropClick}
-          style={{ paddingTop: '80px' }}
+          style={{ 
+            paddingTop: '80px',
+            zIndex: 9999
+          }}
         >
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200" style={{ zIndex: 10000 }}>
             {/* Apple-style close button */}
             <button
               onClick={handleClose}
