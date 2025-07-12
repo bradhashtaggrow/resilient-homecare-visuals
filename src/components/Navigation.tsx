@@ -23,19 +23,20 @@ const Navigation = () => {
 
   return (
     <>
-      {/* Fixed Navigation Bar */}
-      <header 
-        className={`fixed top-0 left-0 right-0 w-full transition-all duration-300 ease-in-out z-[99999] ${
+      {/* Fixed Navigation Bar - Always stays at top */}
+      <div 
+        className={`fixed top-0 left-0 right-0 w-full transition-all duration-300 ease-in-out ${
           scrolled 
             ? 'bg-white/95 backdrop-blur-xl border-b border-gray-200/50 shadow-lg' 
             : 'bg-white/90 backdrop-blur-md border-b border-gray-100/30'
         }`}
         style={{ 
           position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 99999
+          top: '0px',
+          left: '0px',
+          right: '0px',
+          zIndex: 999999,
+          width: '100%'
         }}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -118,7 +119,7 @@ const Navigation = () => {
             </div>
           </div>
         </nav>
-      </header>
+      </div>
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
