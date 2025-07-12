@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, LogIn, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -9,38 +9,20 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const lastScrollY = useRef(0);
   const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const isScrolled = currentScrollY > 10;
-      
-      console.log('Scroll:', { current: currentScrollY, last: lastScrollY.current, visible });
-      
-      // Show menu when scrolling up, hide when scrolling down
-      if (currentScrollY < lastScrollY.current || currentScrollY < 100) {
-        console.log('Showing menu');
-        setVisible(true);
-      } else if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        console.log('Hiding menu');
-        setVisible(false);
-      }
-      
+      const isScrolled = window.scrollY > 10;
       setScrolled(isScrolled);
-      lastScrollY.current = currentScrollY;
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
-      visible ? 'translate-y-0' : '-translate-y-full'
-    } ${
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled ? 'bg-white/95 backdrop-blur-md border-b border-black/10' : 'bg-white border-b border-black/10'
     }`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
