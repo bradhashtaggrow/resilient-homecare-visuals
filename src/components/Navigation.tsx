@@ -116,19 +116,10 @@ const Navigation = () => {
             </div>
           </div>
         </nav>
-      </div>
 
-      {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[99998]">
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-          
-          {/* Mobile Menu Panel */}
-          <div className="fixed top-16 left-0 right-0 bg-white border-b border-gray-200 shadow-xl">
+        {/* Mobile Menu Panel - Now attached to navigation */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-xl z-[99998] animate-fade-in">
             <div className="px-6 py-8">
               <div className="space-y-6">
                 <Link 
@@ -197,8 +188,8 @@ const Navigation = () => {
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };
