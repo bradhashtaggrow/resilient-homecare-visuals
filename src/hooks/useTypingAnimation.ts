@@ -14,6 +14,9 @@ export const useTypingAnimation = ({ text, speed = 100, delay = 0 }: UseTypingAn
   useEffect(() => {
     if (!text) return;
 
+    // Trim the text to remove any trailing spaces
+    const trimmedText = text.trim();
+    
     setDisplayedText('');
     setIsComplete(false);
 
@@ -21,8 +24,8 @@ export const useTypingAnimation = ({ text, speed = 100, delay = 0 }: UseTypingAn
       let currentIndex = 0;
       
       const typeInterval = setInterval(() => {
-        if (currentIndex < text.length) {
-          setDisplayedText(text.slice(0, currentIndex + 1));
+        if (currentIndex < trimmedText.length) {
+          setDisplayedText(trimmedText.slice(0, currentIndex + 1));
           currentIndex++;
         } else {
           setIsComplete(true);
