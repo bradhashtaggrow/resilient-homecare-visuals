@@ -174,16 +174,20 @@ const ValuePropositionSection = () => {
           <h2 className="text-black leading-none tracking-tight font-black mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(2rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {isVisible && (
-              <div className="min-h-[2.5em] flex flex-col justify-center">
-                <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent hover:from-[#1a8cff] hover:to-[#0073e6] transition-all duration-500">
-                  {firstSentenceTyped}
-                </span>
-                <span className="text-gray-900 hover:text-gray-800 transition-colors duration-500">
-                  {firstComplete && secondSentenceTyped}
-                  {!secondComplete && (firstSentenceTyped || secondSentenceTyped) && (
-                    <span className="inline-block w-0.5 h-12 bg-[#0080ff] ml-1 animate-pulse"></span>
-                  )}
-                </span>
+              <div className="min-h-[2.5em] flex flex-col justify-start">
+                <div className="min-h-[1.2em] flex items-center">
+                  <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent hover:from-[#1a8cff] hover:to-[#0073e6] transition-all duration-500">
+                    {firstSentenceTyped}
+                  </span>
+                </div>
+                <div className="min-h-[1.2em] flex items-center">
+                  <span className="text-gray-900 hover:text-gray-800 transition-colors duration-500">
+                    {firstComplete && secondSentenceTyped}
+                    {!secondComplete && (firstSentenceTyped || secondSentenceTyped) && (
+                      <span className="inline-block w-0.5 h-12 bg-[#0080ff] ml-1 animate-pulse"></span>
+                    )}
+                  </span>
+                </div>
               </div>
             )}
           </h2>
