@@ -496,47 +496,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     await handlePatientImageUpload(file, serviceIndex);
   };
 
-  const handleThumbnailUpload = async (file: File, sectionId: string) => {
-    try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `thumbnails/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('media')
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data } = supabase.storage
-        .from('media')
-        .getPublicUrl(filePath);
-
-      // Update the background_image_url field for the section
-      const { error: updateError } = await supabase
-        .from('website_content')
-        .update({ background_image_url: data.publicUrl })
-        .eq('id', sectionId);
-
-      if (updateError) throw updateError;
-
-      toast({
-        title: "Thumbnail uploaded",
-        description: "Section thumbnail has been updated successfully",
-      });
-
-      // Reload content to show the new thumbnail
-      loadContent();
-    } catch (error) {
-      console.error('Error uploading thumbnail:', error);
-      toast({
-        title: "Upload failed",
-        description: "Failed to upload thumbnail",
-        variant: "destructive"
-      });
-    }
-  };
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -572,33 +531,32 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                 <CardHeader className="bg-white border-b">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-4 flex-1">
-                      {/* Thumbnail display */}
-                      <div className="w-20 h-20 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors relative group">
-                        {section.background_image_url ? (
-                          <img 
-                            src={section.background_image_url} 
-                            alt="Section thumbnail"
-                            className="w-full h-full object-cover rounded-lg"
-                          />
+                      {/* Thumbnail display for stored media */}
+                      <div className="w-20 h-20 rounded-lg border border-gray-200 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        {section.section_key.includes('hero') && section.background_video_url ? (
+                          // For hero sections with video - show video thumbnail
+                          <div className="relative w-full h-full">
+                            <video 
+                              src={section.background_video_url}
+                              className="w-full h-full object-cover"
+                              muted
+                            />
+                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                              <Video className="h-6 w-6 text-white" />
+                            </div>
+                          </div>
                         ) : (
-                          <Image className="h-8 w-8 text-gray-400" />
+                          // For other sections - show image thumbnail
+                          section.background_image_url || section.mobile_background_url || section.laptop_background_url ? (
+                            <img 
+                              src={section.background_image_url || section.mobile_background_url || section.laptop_background_url} 
+                              alt="Section thumbnail"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <Image className="h-8 w-8 text-gray-400" />
+                          )
                         )}
-                        
-                        {/* Upload overlay - appears on hover */}
-                        <div className="absolute inset-0 bg-black/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) {
-                                handleThumbnailUpload(file, section.id);
-                              }
-                            }}
-                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                          />
-                          <Image className="h-5 w-5 text-white" />
-                        </div>
                       </div>
 
                       <div className="flex-1">
@@ -613,6 +571,21 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                             {section.title}
                           </p>
                         )}
+                        {/* Show media type indicator */}
+                        <div className="flex items-center gap-2 mt-2">
+                          {section.section_key.includes('hero') && section.background_video_url && (
+                            <Badge variant="outline" className="text-xs">
+                              <Video className="h-3 w-3 mr-1" />
+                              Video
+                            </Badge>
+                          )}
+                          {(section.background_image_url || section.mobile_background_url || section.laptop_background_url) && (
+                            <Badge variant="outline" className="text-xs">
+                              <Image className="h-3 w-3 mr-1" />
+                              Image
+                            </Badge>
+                          )}
+                        </div>
                       </div>
                     </div>
                     
