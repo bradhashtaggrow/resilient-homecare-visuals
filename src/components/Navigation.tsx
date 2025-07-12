@@ -23,20 +23,17 @@ const Navigation = () => {
 
   return (
     <>
-      {/* Fixed Navigation Bar - Always stays at top */}
+      {/* Sticky Navigation that follows scroll */}
       <div 
-        className={`fixed top-0 left-0 right-0 w-full transition-all duration-300 ease-in-out ${
+        className={`sticky top-0 w-full transition-all duration-300 ease-in-out ${
           scrolled 
             ? 'bg-white/95 backdrop-blur-xl border-b border-gray-200/50 shadow-lg' 
             : 'bg-white/90 backdrop-blur-md border-b border-gray-100/30'
         }`}
         style={{ 
-          position: 'fixed',
-          top: '0px',
-          left: '0px',
-          right: '0px',
-          zIndex: 999999,
-          width: '100%'
+          position: 'sticky',
+          top: 0,
+          zIndex: 9999999
         }}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
