@@ -212,7 +212,7 @@ const AdminDashboard = React.memo(() => {
           <LeadCaptureModal source="admin-dashboard">
             <Button 
               size="lg"
-              className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto cursor-pointer"
+              className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto"
               style={{
                 background: 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)',
                 boxShadow: `
@@ -221,8 +221,7 @@ const AdminDashboard = React.memo(() => {
                   inset 0 2px 0 rgba(255, 255, 255, 0.2),
                   inset 0 -2px 8px rgba(0, 0, 0, 0.1)
                 `,
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
-                pointerEvents: 'auto'
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
               }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
