@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import LeadCaptureForm from './LeadCaptureForm';
@@ -36,7 +35,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       // Position modal based on source - hero button below, lead gen button above
       if (source === 'hero-button') {
         setModalPosition({
-          top: rect.bottom + scrollY + 15, // 15px below the button
+          top: rect.bottom + scrollY + 5, // 5px below the button (moved up from 15px)
           left: rect.left + rect.width / 2 // Center horizontally on button
         });
       } else {
