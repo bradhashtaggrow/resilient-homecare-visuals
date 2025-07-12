@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import LeadCaptureForm from './LeadCaptureForm';
@@ -32,10 +33,10 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       const rect = triggerRef.current.getBoundingClientRect();
       const scrollY = window.scrollY;
       
-      // Position modal based on source - hero button below, lead gen button above
+      // Position modal based on source - hero button below and centered, lead gen button above
       if (source === 'hero-button') {
         setModalPosition({
-          top: rect.bottom + scrollY + 5, // 5px below the button (moved up from 15px)
+          top: rect.bottom + scrollY - 140, // Bring up 2 inches (approximately 144px, using 140px)
           left: rect.left + rect.width / 2 // Center horizontally on button
         });
       } else {
@@ -65,7 +66,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
           position: 'absolute',
           top: `${modalPosition.top}px`,
           left: '50%',
-          transform: source === 'hero-button' ? 'translate(-50%, 0)' : 'translate(-50%, -100%)',
+          transform: 'translate(-50%, 0)', // Always center horizontally
           minWidth: '400px'
         }}
       >
