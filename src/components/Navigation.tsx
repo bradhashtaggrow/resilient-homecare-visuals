@@ -18,10 +18,14 @@ const Navigation = () => {
       const currentScrollY = window.scrollY;
       const isScrolled = currentScrollY > 10;
       
+      console.log('Scroll data:', { currentScrollY, lastScrollY, visible });
+      
       // Show menu when scrolling up, hide when scrolling down
       if (currentScrollY < lastScrollY || currentScrollY < 100) {
+        console.log('Setting visible to true');
         setVisible(true);
       } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        console.log('Setting visible to false');
         setVisible(false);
       }
       
