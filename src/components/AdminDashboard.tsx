@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useCallback } from 'react';
 import AdminAnimatedBackground from './admin/AdminAnimatedBackground';
 import AdminLaptopVisualization from './admin/AdminLaptopVisualization';
@@ -22,7 +21,7 @@ const AdminDashboard = React.memo(() => {
   const [laptopOpen, setLaptopOpen] = useState(false);
   const [activeDemo, setActiveDemo] = useState(0);
   const [content, setContent] = useState<AdminDashboardContent>({
-    title: 'Take Control Of Your Business.',
+    title: 'Take Control Of Your Business',
     description: 'Next-generation management tools with AI-powered insights that give administrators unprecedented visibility and control.',
     button_text: 'Request Demo',
     button_url: '#'
