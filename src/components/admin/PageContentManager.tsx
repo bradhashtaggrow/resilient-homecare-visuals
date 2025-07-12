@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -352,7 +351,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     try {
       setUploadingImage(true);
       
-      const fileExt = file.name.split('.').Pop();
+      const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `backgrounds/${fileName}`;
 
@@ -617,10 +616,666 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                 
                 <CardContent className="p-6 space-y-4 bg-white">
                   {editingSection === section.section_key ? (
-                    // Show only a simple view mode instead of the full editing form
-                    <div className="space-y-3 text-center">
-                      <p className="text-gray-600">Editing mode removed</p>
-                      <p className="text-sm text-gray-500">Content editing functionality has been simplified</p>
+                    <div className="grid gap-4">
+                      {/* Universal form fields for all sections */}
+                      <div className="grid grid-cols-1 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Title
+                          </label>
+                          <Input
+                            value={editForm.title || ''}
+                            onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                            placeholder="Section title"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Subtitle
+                        </label>
+                        <Input
+                          value={editForm.subtitle || ''}
+                          onChange={(e) => setEditForm({...editForm, subtitle: e.target.value})}
+                          placeholder="Section subtitle"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Description
+                        </label>
+                        <Textarea
+                          value={editForm.description || ''}
+                          onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                          placeholder="Section description"
+                          rows={3}
+                        />
+                      </div>
+
+                      {/* Only show button fields for non-hero sections and non-mobile */}
+                      {!section.section_key.includes('hero') && !section.section_key.includes('mobile') && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Button Text
+                            </label>
+                            <Input
+                              value={editForm.button_text || ''}
+                              onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
+                              placeholder="Button text"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Button URL
+                            </label>
+                            <Input
+                              value={editForm.button_url || ''}
+                              onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
+                              placeholder="Button URL"
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Background media uploads - hide for mobile sections */}
+                      {!section.section_key.includes('mobile') && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <Image className="h-4 w-4 inline mr-1" />
+                            Upload Background Image
+                          </label>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleFileChange(e, 'image')}
+                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            disabled={uploadingImage}
+                          />
+                          {uploadingImage && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
+                          {editForm.background_image_url && (
+                            <div className="mt-2">
+                              <img 
+                                src={editForm.background_image_url} 
+                                alt="Background preview" 
+                                className="w-full h-32 object-cover rounded border"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <Video className="h-4 w-4 inline mr-1" />
+                            Upload Background Video
+                          </label>
+                          <input
+                            type="file"
+                            accept="video/*"
+                            onChange={(e) => handleFileChange(e, 'video')}
+                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            disabled={uploadingVideo}
+                          />
+                          {uploadingVideo && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
+                          {editForm.background_video_url && (
+                            <div className="mt-2">
+                              <video 
+                                src={editForm.background_video_url} 
+                                className="w-full h-60 object-cover rounded border"
+                                controls
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      )}
+
+                      {/* Tabs management for care_at_home_mobile, clinicians_mobile, and patients_mobile sections */}
+                      {(section.section_key === 'care_at_home_mobile' || section.section_key === 'clinicians_mobile' || section.section_key === 'patients_mobile') && (
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Future of Care Tabs</h4>
+                          {((editForm.content_data as any)?.tabs || []).map((tab: any, index: number) => (
+                            <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
+                              <div className="flex items-center justify-between">
+                                <h5 className="font-medium text-gray-800">Tab {index + 1}</h5>
+                                <Badge variant="outline">{tab.display_order}</Badge>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Tab Title
+                                  </label>
+                                  <Input
+                                    value={tab.title || ''}
+                                    onChange={(e) => {
+                                      const newTabs = [...((editForm.content_data as any)?.tabs || [])];
+                                      newTabs[index] = { ...newTabs[index], title: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, tabs: newTabs }
+                                      });
+                                    }}
+                                    placeholder="Tab title"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Subtitle
+                                  </label>
+                                  <Input
+                                    value={tab.subtitle || ''}
+                                    onChange={(e) => {
+                                      const newTabs = [...((editForm.content_data as any)?.tabs || [])];
+                                      newTabs[index] = { ...newTabs[index], subtitle: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, tabs: newTabs }
+                                      });
+                                    }}
+                                    placeholder="Tab subtitle"
+                                  />
+                                </div>
+                              </div>
+
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Description
+                                </label>
+                                <Textarea
+                                  value={tab.description || ''}
+                                  onChange={(e) => {
+                                    const newTabs = [...((editForm.content_data as any)?.tabs || [])];
+                                    newTabs[index] = { ...newTabs[index], description: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: { ...editForm.content_data, tabs: newTabs }
+                                    });
+                                  }}
+                                  placeholder="Tab description"
+                                  rows={3}
+                                />
+                              </div>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Icon
+                                  </label>
+                                  <Select
+                                    value={tab.icon_name || 'Activity'}
+                                    onValueChange={(value) => {
+                                      const newTabs = [...((editForm.content_data as any)?.tabs || [])];
+                                      newTabs[index] = { ...newTabs[index], icon_name: value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, tabs: newTabs }
+                                      });
+                                    }}
+                                  >
+                                    <SelectTrigger>
+                                      <SelectValue>
+                                        <div className="flex items-center gap-2">
+                                          {getIconComponent(tab.icon_name || 'Activity')}
+                                          <span>{tab.icon_name || 'Activity'}</span>
+                                        </div>
+                                      </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {Object.keys(availableIcons).map((iconName) => (
+                                        <SelectItem key={iconName} value={iconName}>
+                                          <div className="flex items-center gap-2">
+                                            {getIconComponent(iconName)}
+                                            <span>{iconName}</span>
+                                          </div>
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Tab Image
+                                  </label>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => handlePatientImageChange(e, index)}
+                                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                    disabled={uploadingPatientImage[index]}
+                                  />
+                                  {uploadingPatientImage[index] && <p className="text-sm text-blue-600 mt-1">Uploading...</p>}
+                                  {tab.image_url && (
+                                    <div className="mt-2">
+                                      <img 
+                                        src={tab.image_url} 
+                                        alt="Tab preview" 
+                                        className="w-full h-32 object-cover rounded border"
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Pillars management for about_why_choose section */}
+                      {section.section_key === 'about_why_choose' && (
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Why Choose Resilient Pillars</h4>
+                          {((editForm.content_data as any)?.pillars || []).map((pillar: any, index: number) => (
+                            <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
+                              <div className="flex items-center justify-between">
+                                <h5 className="font-medium text-gray-800">Pillar {index + 1}</h5>
+                                <Badge variant="outline">{pillar.id}</Badge>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Pillar Title
+                                  </label>
+                                  <Input
+                                    value={pillar.title || ''}
+                                    onChange={(e) => {
+                                      const newPillars = [...((editForm.content_data as any)?.pillars || [])];
+                                      newPillars[index] = { ...newPillars[index], title: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, pillars: newPillars }
+                                      });
+                                    }}
+                                    placeholder="Pillar title"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Subtitle
+                                  </label>
+                                  <Input
+                                    value={pillar.subtitle || ''}
+                                    onChange={(e) => {
+                                      const newPillars = [...((editForm.content_data as any)?.pillars || [])];
+                                      newPillars[index] = { ...newPillars[index], subtitle: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, pillars: newPillars }
+                                      });
+                                    }}
+                                    placeholder="Pillar subtitle"
+                                  />
+                                </div>
+                              </div>
+
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Description
+                                </label>
+                                <Textarea
+                                  value={pillar.description || ''}
+                                  onChange={(e) => {
+                                    const newPillars = [...((editForm.content_data as any)?.pillars || [])];
+                                    newPillars[index] = { ...newPillars[index], description: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: { ...editForm.content_data, pillars: newPillars }
+                                    });
+                                  }}
+                                  placeholder="Pillar description"
+                                  rows={3}
+                                />
+                              </div>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Icon
+                                  </label>
+                                  <Select
+                                    value={pillar.icon_name || 'Activity'}
+                                    onValueChange={(value) => {
+                                      const newPillars = [...((editForm.content_data as any)?.pillars || [])];
+                                      newPillars[index] = { ...newPillars[index], icon_name: value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, pillars: newPillars }
+                                      });
+                                    }}
+                                  >
+                                    <SelectTrigger>
+                                      <SelectValue>
+                                        <div className="flex items-center gap-2">
+                                          {getIconComponent(pillar.icon_name || 'Activity')}
+                                          <span>{pillar.icon_name || 'Activity'}</span>
+                                        </div>
+                                      </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {Object.keys(availableIcons).map((iconName) => (
+                                        <SelectItem key={iconName} value={iconName}>
+                                          <div className="flex items-center gap-2">
+                                            {getIconComponent(iconName)}
+                                            <span>{iconName}</span>
+                                          </div>
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Pillar Image
+                                  </label>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (!file) return;
+                                      
+                                      // Handle pillar image upload
+                                      const handlePillarImageUpload = async (file: File, pillarIndex: number) => {
+                                        try {
+                                          const fileExt = file.name.split('.').pop();
+                                          const fileName = `${Math.random()}.${fileExt}`;
+                                          const filePath = `pillar-images/${fileName}`;
+
+                                          const { error: uploadError } = await supabase.storage
+                                            .from('media')
+                                            .upload(filePath, file);
+
+                                          if (uploadError) throw uploadError;
+
+                                          const { data } = supabase.storage
+                                            .from('media')
+                                            .getPublicUrl(filePath);
+
+                                          const newPillars = [...((editForm.content_data as any)?.pillars || [])];
+                                          newPillars[pillarIndex] = { ...newPillars[pillarIndex], image_url: data.publicUrl };
+                                          setEditForm({
+                                            ...editForm,
+                                            content_data: { ...editForm.content_data, pillars: newPillars }
+                                          });
+
+                                          toast({
+                                            title: "Upload successful",
+                                            description: "Pillar image uploaded successfully",
+                                          });
+                                        } catch (error) {
+                                          console.error('Error uploading pillar image:', error);
+                                          toast({
+                                            title: "Upload failed",
+                                            description: "Failed to upload pillar image",
+                                            variant: "destructive"
+                                          });
+                                        }
+                                      };
+                                      
+                                      handlePillarImageUpload(file, index);
+                                    }}
+                                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                  />
+                                  {pillar.image_url && (
+                                    <div className="mt-2">
+                                      <img 
+                                        src={pillar.image_url} 
+                                        alt="Pillar preview" 
+                                        className="w-full h-32 object-cover rounded border"
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                       )}
+
+                      {/* Values management for about_core_values section */}
+                      {section.section_key === 'about_core_values' && (
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Core Values</h4>
+                          {((editForm.content_data as any)?.values || []).map((value: any, index: number) => (
+                            <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
+                              <div className="flex items-center justify-between">
+                                <h5 className="font-medium text-gray-800">Value {index + 1}</h5>
+                                <Badge variant="outline">{value.id}</Badge>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Value Title
+                                  </label>
+                                  <Input
+                                    value={value.title || ''}
+                                    onChange={(e) => {
+                                      const newValues = [...((editForm.content_data as any)?.values || [])];
+                                      newValues[index] = { ...newValues[index], title: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, values: newValues }
+                                      });
+                                    }}
+                                    placeholder="Value title"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Icon
+                                  </label>
+                                  <Select
+                                    value={value.icon_name || 'Activity'}
+                                    onValueChange={(value_icon) => {
+                                      const newValues = [...((editForm.content_data as any)?.values || [])];
+                                      newValues[index] = { ...newValues[index], icon_name: value_icon };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, values: newValues }
+                                      });
+                                    }}
+                                  >
+                                    <SelectTrigger>
+                                      <SelectValue>
+                                        <div className="flex items-center gap-2">
+                                          {getIconComponent(value.icon_name || 'Activity')}
+                                          <span>{value.icon_name || 'Activity'}</span>
+                                        </div>
+                                      </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {Object.keys(availableIcons).map((iconName) => (
+                                        <SelectItem key={iconName} value={iconName}>
+                                          <div className="flex items-center gap-2">
+                                            {getIconComponent(iconName)}
+                                            <span>{iconName}</span>
+                                          </div>
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </div>
+
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Description
+                                </label>
+                                <Textarea
+                                  value={value.description || ''}
+                                  onChange={(e) => {
+                                    const newValues = [...((editForm.content_data as any)?.values || [])];
+                                    newValues[index] = { ...newValues[index], description: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: { ...editForm.content_data, values: newValues }
+                                    });
+                                  }}
+                                  placeholder="Value description"
+                                  rows={3}
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Contact Information management for get_in_touch section */}
+                      {section.section_key === 'get_in_touch' && (
+                        <div className="space-y-6 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Contact Information</h4>
+                          
+                          {/* Headquarters */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Headquarters Text
+                            </label>
+                            <Input
+                              value={((editForm.content_data as any)?.contact_info?.headquarters) || ''}
+                              onChange={(e) => {
+                                const newContactInfo = {
+                                  ...((editForm.content_data as any)?.contact_info || {}),
+                                  headquarters: e.target.value
+                                };
+                                setEditForm({
+                                  ...editForm,
+                                  content_data: { 
+                                    ...editForm.content_data, 
+                                    contact_info: newContactInfo 
+                                  }
+                                });
+                              }}
+                              placeholder="📍 Resilient Healthcare Headquarters"
+                            />
+                          </div>
+
+                          {/* Phone */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Phone Label
+                              </label>
+                              <Input
+                                value={((editForm.content_data as any)?.contact_info?.phone?.label) || ''}
+                                onChange={(e) => {
+                                  const newContactInfo = {
+                                    ...((editForm.content_data as any)?.contact_info || {}),
+                                    phone: {
+                                      ...((editForm.content_data as any)?.contact_info?.phone || {}),
+                                      label: e.target.value
+                                    }
+                                  };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { 
+                                      ...editForm.content_data, 
+                                      contact_info: newContactInfo 
+                                    }
+                                  });
+                                }}
+                                placeholder="📞 Call"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Phone Number
+                              </label>
+                              <Input
+                                value={((editForm.content_data as any)?.contact_info?.phone?.number) || ''}
+                                onChange={(e) => {
+                                  const newContactInfo = {
+                                    ...((editForm.content_data as any)?.contact_info || {}),
+                                    phone: {
+                                      ...((editForm.content_data as any)?.contact_info?.phone || {}),
+                                      number: e.target.value
+                                    }
+                                  };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { 
+                                      ...editForm.content_data, 
+                                      contact_info: newContactInfo 
+                                    }
+                                  });
+                                }}
+                                placeholder="(732) 429-2102"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Email */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Email Label
+                              </label>
+                              <Input
+                                value={((editForm.content_data as any)?.contact_info?.email?.label) || ''}
+                                onChange={(e) => {
+                                  const newContactInfo = {
+                                    ...((editForm.content_data as any)?.contact_info || {}),
+                                    email: {
+                                      ...((editForm.content_data as any)?.contact_info?.email || {}),
+                                      label: e.target.value
+                                    }
+                                  };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { 
+                                      ...editForm.content_data, 
+                                      contact_info: newContactInfo 
+                                    }
+                                  });
+                                }}
+                                placeholder="✉️ Email"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Email Address
+                              </label>
+                              <Input
+                                value={((editForm.content_data as any)?.contact_info?.email?.address) || ''}
+                                onChange={(e) => {
+                                  const newContactInfo = {
+                                    ...((editForm.content_data as any)?.contact_info || {}),
+                                    email: {
+                                      ...((editForm.content_data as any)?.contact_info?.email || {}),
+                                      address: e.target.value
+                                    }
+                                  };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: { 
+                                      ...editForm.content_data, 
+                                      contact_info: newContactInfo 
+                                    }
+                                  });
+                                }}
+                                placeholder="jackleen@resilienthc.org"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Active toggle */}
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="is_active"
+                          checked={editForm.is_active || false}
+                          onChange={(e) => setEditForm({...editForm, is_active: e.target.checked})}
+                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        />
+                        <label htmlFor="is_active" className="text-sm font-medium text-gray-700">
+                          Active Section
+                        </label>
+                      </div>
                     </div>
                   ) : (
                     <div className="space-y-4">
