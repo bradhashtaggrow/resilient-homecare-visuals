@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import LeadCaptureForm from './LeadCaptureForm';
 import { X } from 'lucide-react';
@@ -11,6 +11,8 @@ interface LeadCaptureModalProps {
 
 const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 'button' }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const triggerRef = useRef<HTMLDivElement>(null);
 
   const handleSuccess = () => {
     setIsOpen(false);
@@ -26,9 +28,23 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
     }
   };
 
+  const handleOpen = () => {
+    if (triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      const scrollY = window.scrollY;
+      
+      // Position modal above the button with some spacing
+      setModalPosition({
+        top: rect.top + scrollY - 20, // 20px above the button
+        left: rect.left + rect.width / 2 // Center horizontally on button
+      });
+    }
+    setIsOpen(true);
+  };
+
   const modalContent = isOpen ? (
     <div 
-      className="fixed inset-0 flex items-center justify-center p-4 font-apple"
+      className="fixed inset-0 font-apple"
       onClick={handleBackdropClick}
       style={{ 
         zIndex: 2147483647, // Maximum z-index value
@@ -37,10 +53,14 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       }}
     >
       <div 
-        className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-gray-200" 
+        className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-gray-200 absolute" 
         style={{ 
           zIndex: 2147483647,
-          position: 'relative'
+          position: 'absolute',
+          top: `${modalPosition.top}px`,
+          left: '50%',
+          transform: 'translate(-50%, -100%)', // Center horizontally and position above
+          minWidth: '400px'
         }}
       >
         {/* Apple-style close button */}
@@ -82,7 +102,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
 
   return (
     <>
-      <div onClick={() => setIsOpen(true)}>
+      <div ref={triggerRef} onClick={handleOpen}>
         {children}
       </div>
       
