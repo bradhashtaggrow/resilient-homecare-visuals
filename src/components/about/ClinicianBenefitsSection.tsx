@@ -30,10 +30,11 @@ const ClinicianBenefitsSection = () => {
         .single();
 
       if (data && data.content_data) {
+        const contentData = data.content_data as { benefits?: string[] };
         setContent({
           title: data.title || "For Clinicians",
           subtitle: data.subtitle || "More Flexibility, More Earnings, More Patient Impact",
-          benefits: data.content_data.benefits || []
+          benefits: contentData.benefits || []
         });
       }
     } catch (error) {

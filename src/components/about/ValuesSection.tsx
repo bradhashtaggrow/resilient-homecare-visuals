@@ -38,10 +38,11 @@ const ValuesSection = () => {
         .single();
 
       if (data && data.content_data) {
+        const contentData = data.content_data as { values?: Value[] };
         setContent({
           title: data.title || "Our Core Values",
           subtitle: data.subtitle || "The principles that guide everything we do in transforming healthcare delivery",
-          values: data.content_data.values || []
+          values: contentData.values || []
         });
       }
     } catch (error) {

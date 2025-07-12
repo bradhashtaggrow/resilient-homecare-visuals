@@ -98,7 +98,7 @@ const About = () => {
         schema: 'public',
         table: 'website_content',
         filter: 'section_key=in.(about_hero,about_footer)'
-      }, (payload) => {
+      }, (payload: any) => {
         if (payload.new?.section_key === 'about_hero') {
           loadHeroContent();
         } else if (payload.new?.section_key === 'about_footer') {

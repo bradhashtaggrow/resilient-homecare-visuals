@@ -39,10 +39,11 @@ const WhyResilientSection = () => {
         .single();
 
       if (data && data.content_data) {
+        const contentData = data.content_data as { pillars?: Pillar[] };
         setContent({
           title: data.title || "Why Choose Resilient?",
           subtitle: data.subtitle || "Three core pillars that make us the leader in home-based healthcare solutions",
-          pillars: data.content_data.pillars || []
+          pillars: contentData.pillars || []
         });
       }
     } catch (error) {

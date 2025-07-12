@@ -32,11 +32,12 @@ const HospitalBenefitsSection = () => {
         .single();
 
       if (data && data.content_data) {
+        const contentData = data.content_data as { benefits?: string[], images?: string[] };
         setContent({
           title: data.title || "For Hospitals",
           subtitle: data.subtitle || "Expand Home-Based Care Without Disrupting Workflows",
-          benefits: data.content_data.benefits || [],
-          images: data.content_data.images || []
+          benefits: contentData.benefits || [],
+          images: contentData.images || []
         });
       }
     } catch (error) {
