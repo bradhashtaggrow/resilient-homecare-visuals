@@ -4,6 +4,7 @@ import AdminLaptopVisualization from './admin/AdminLaptopVisualization';
 import { useDemoScreens } from './admin/AdminDemoScreens';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
+import LeadCaptureModal from './LeadCaptureModal';
 
 interface AdminDashboardContent {
   title?: string;
@@ -126,12 +127,6 @@ const AdminDashboard = React.memo(() => {
     e.currentTarget.style.background = 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)';
   }, []);
 
-  const handleButtonClick = () => {
-    if (content.button_url && content.button_url !== '#') {
-      window.open(content.button_url, '_blank');
-    }
-  };
-
   return (
     <section id="admin-dashboard" className="py-20 sm:py-24 md:py-32 lg:py-40 relative overflow-hidden min-h-screen">
       {/* Background Media */}
@@ -213,27 +208,29 @@ const AdminDashboard = React.memo(() => {
              style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.4 }}>
             {content.content_data?.cta_description || 'Join forward-thinking healthcare organizations who\'ve already revolutionized their operations. See our comprehensive platform in action with a personalized demonstration.'}
           </p>
-          <Button 
-            size="lg"
-            className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto"
-            style={{
-              background: 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)',
-              boxShadow: `
-                0 12px 32px hsl(210 100% 50% / 0.4),
-                0 4px 16px rgba(0, 0, 0, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                inset 0 -2px 8px rgba(0, 0, 0, 0.1)
-              `,
-              textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-            }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleButtonClick}
-          >
-            <span className="relative z-10 flex items-center justify-center">
-              {content.button_text}
-            </span>
-          </Button>
+          
+          <LeadCaptureModal source="admin-dashboard">
+            <Button 
+              size="lg"
+              className="group relative px-8 sm:px-16 py-6 sm:py-8 text-lg sm:text-2xl font-bold rounded-2xl sm:rounded-3xl text-white border-0 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 w-full sm:w-auto"
+              style={{
+                background: 'linear-gradient(145deg, hsl(210 100% 50%) 0%, hsl(210 100% 37%) 30%, hsl(210 100% 27%) 100%)',
+                boxShadow: `
+                  0 12px 32px hsl(210 100% 50% / 0.4),
+                  0 4px 16px rgba(0, 0, 0, 0.3),
+                  inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                  inset 0 -2px 8px rgba(0, 0, 0, 0.1)
+                `,
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+              }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <span className="relative z-10 flex items-center justify-center">
+                {content.button_text}
+              </span>
+            </Button>
+          </LeadCaptureModal>
         </div>
       </div>
     </section>
