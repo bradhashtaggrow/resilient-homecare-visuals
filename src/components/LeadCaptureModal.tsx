@@ -33,11 +33,18 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       const rect = triggerRef.current.getBoundingClientRect();
       const scrollY = window.scrollY;
       
-      // Position modal slightly above the button
-      setModalPosition({
-        top: rect.top + scrollY - 15, // 15px above the button
-        left: rect.left + rect.width / 2 // Center horizontally on button
-      });
+      // Position modal based on source - hero button below, lead gen button above
+      if (source === 'hero-button') {
+        setModalPosition({
+          top: rect.bottom + scrollY + 15, // 15px below the button
+          left: rect.left + rect.width / 2 // Center horizontally on button
+        });
+      } else {
+        setModalPosition({
+          top: rect.top + scrollY - 15, // 15px above the button for other sources
+          left: rect.left + rect.width / 2 // Center horizontally on button
+        });
+      }
     }
     setIsOpen(true);
   };
@@ -59,7 +66,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
           position: 'absolute',
           top: `${modalPosition.top}px`,
           left: '50%',
-          transform: 'translate(-50%, -100%)', // Center horizontally and position above
+          transform: source === 'hero-button' ? 'translate(-50%, 0)' : 'translate(-50%, -100%)',
           minWidth: '400px'
         }}
       >
