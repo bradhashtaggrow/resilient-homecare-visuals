@@ -33,11 +33,11 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       const rect = triggerRef.current.getBoundingClientRect();
       const scrollY = window.scrollY;
       
-      // Position modal based on source - hero button below and centered, lead gen button above
+      // Position modal based on source - hero button centered on screen, lead gen button above
       if (source === 'hero-button') {
         setModalPosition({
-          top: rect.bottom + scrollY - 140, // Bring up 2 inches (approximately 144px, using 140px)
-          left: rect.left + rect.width / 2 // Center horizontally on button
+          top: scrollY + window.innerHeight / 2, // Center vertically on viewport
+          left: window.innerWidth / 2 // Center horizontally on viewport
         });
       } else {
         setModalPosition({
@@ -65,8 +65,8 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
           zIndex: 2147483647,
           position: 'absolute',
           top: `${modalPosition.top}px`,
-          left: '50%',
-          transform: 'translate(-50%, 0)', // Always center horizontally
+          left: `${modalPosition.left}px`,
+          transform: 'translate(-50%, -50%)', // Center both horizontally and vertically
           minWidth: '400px'
         }}
       >
