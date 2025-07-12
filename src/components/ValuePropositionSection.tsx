@@ -174,13 +174,13 @@ const ValuePropositionSection = () => {
           <h2 className="text-black leading-none tracking-tight font-black mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
               style={{ fontSize: 'clamp(2rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {isVisible && (
-              <div className="min-h-[2.5em] flex flex-col justify-start">
-                <div className="min-h-[1.2em] flex items-center">
+              <div className="min-h-[2.5em] flex flex-col justify-start items-center">
+                <div className="min-h-[1.2em] flex items-center justify-center w-full">
                   <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent hover:from-[#1a8cff] hover:to-[#0073e6] transition-all duration-500">
                     {firstSentenceTyped}
                   </span>
                 </div>
-                <div className="min-h-[1.2em] flex items-center">
+                <div className="min-h-[1.2em] flex items-center justify-center w-full">
                   <span className="text-gray-900 hover:text-gray-800 transition-colors duration-500">
                     {firstComplete && secondSentenceTyped}
                     {!secondComplete && (firstSentenceTyped || secondSentenceTyped) && (
