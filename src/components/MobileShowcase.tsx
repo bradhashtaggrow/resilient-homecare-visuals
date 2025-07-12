@@ -40,7 +40,7 @@ const MobileShowcase = () => {
   ];
 
   const [content, setContent] = useState({
-    title: 'Go Mobile With Your Patients This Year',
+    title: 'Go Mobile With Your Patients',
     subtitle: '',
     description: 'Enterprise-grade mobile platform that connects your entire healthcare ecosystem with military-grade security and real-time insights.',
     features: keyFeatures,
@@ -64,7 +64,7 @@ const MobileShowcase = () => {
           const contentData = data.content_data as any;
           
           setContent({
-            title: data.title || 'Go Mobile With Your Patients This Year',
+            title: data.title || 'Go Mobile With Your Patients',
             subtitle: data.subtitle || '',
             description: data.description || 'Enterprise-grade mobile platform that connects your entire healthcare ecosystem with military-grade security and real-time insights.',
             features: contentData?.features || keyFeatures,
@@ -81,7 +81,6 @@ const MobileShowcase = () => {
 
     loadMobileShowcaseContent();
 
-    // Set up real-time subscription
     const channel = supabase
       .channel('mobile-showcase-content-changes')
       .on('postgres_changes', {
@@ -132,7 +131,6 @@ const MobileShowcase = () => {
 
   return (
     <section id="mobile-showcase" className="py-32 bg-gradient-to-br from-slate-900 via-gray-900 to-black relative overflow-hidden">
-      {/* Video Background Effect */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 healthcare-gradient opacity-20" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,hsl(210_100%_27%/0.15),transparent_50%)]" />
@@ -140,7 +138,6 @@ const MobileShowcase = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative">
-        {/* Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
           <h2 className="text-white leading-none tracking-tight font-black mb-8"
               style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
@@ -152,9 +149,7 @@ const MobileShowcase = () => {
           </p>
         </div>
 
-        {/* Main Content Grid */}
         <div className="grid lg:grid-cols-12 gap-16 items-center">
-          {/* Left Features */}
           <div className="lg:col-span-4 space-y-8">
             {keyFeatures.slice(0, 3).map((feature, index) => (
               <div 
@@ -182,7 +177,6 @@ const MobileShowcase = () => {
             ))}
           </div>
 
-          {/* Center - Phone */}
           <div className="lg:col-span-4 flex justify-center">
             <div className={`transition-all duration-1000 delay-500 ${
               isVisible ? 'animate-scale-in opacity-100' : 'opacity-0'
@@ -195,7 +189,6 @@ const MobileShowcase = () => {
                     transformStyle: 'preserve-3d'
                   }}
                 >
-                  {/* iPhone Frame */}
                   <div className="relative w-80 h-[650px] bg-gradient-to-b from-gray-800 to-black rounded-[3.5rem] p-2 shadow-2xl">
                     <div className="w-full h-full bg-black rounded-[3rem] p-1">
                       <div className="w-full h-full bg-gradient-to-br from-slate-900 to-gray-900 rounded-[2.8rem] relative overflow-hidden">
@@ -235,7 +228,6 @@ const MobileShowcase = () => {
                         <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-black rounded-full z-20"></div>
                         
                         <div className="p-8 pt-12 h-full flex flex-col relative z-10 justify-center">
-                          {/* Enhanced Logo Container */}
                           <div className="text-center mb-8">
                             <div className="flex items-center justify-center mb-6">
                               <img 
@@ -246,9 +238,7 @@ const MobileShowcase = () => {
                             </div>
                           </div>
 
-                          {/* Login Form */}
                           <div className="space-y-6 flex-1 flex flex-col justify-center">
-                            {/* Email Field */}
                             <div className="space-y-2">
                               <label className="text-white/90 font-semibold text-xs tracking-wide flex items-center">
                                 <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mr-2" />
@@ -262,7 +252,6 @@ const MobileShowcase = () => {
                               />
                             </div>
                             
-                            {/* Password Field */}
                             <div className="space-y-2">
                               <label className="text-white/90 font-semibold text-xs tracking-wide flex items-center">
                                 <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mr-2" />
@@ -276,12 +265,10 @@ const MobileShowcase = () => {
                               />
                             </div>
                             
-                            {/* Login Button */}
                             <button className="w-auto px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg text-white font-bold hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg text-sm flex items-center justify-center mx-auto">
                               Sign In
                             </button>
 
-                            {/* Biometric */}
                             <div className="text-center py-4">
                               <div className="w-10 h-10 bg-white/25 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center shadow-lg">
                                 <div className="w-6 h-6 border-2 border-blue-400 rounded-full animate-pulse"></div>
@@ -298,7 +285,6 @@ const MobileShowcase = () => {
             </div>
           </div>
 
-          {/* Right Features */}
           <div className="lg:col-span-4 space-y-8">
             {keyFeatures.slice(3, 6).map((feature, index) => (
               <div 
