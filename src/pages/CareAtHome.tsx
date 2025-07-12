@@ -10,11 +10,6 @@ import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap } from 'luc
 import { supabase } from '@/integrations/supabase/client';
 
 const CareAtHome = () => {
-  const [content, setContent] = useState({
-    title: "The Future of Care",
-    subtitle: "Experience healthcare like never before",
-    description: "Every interaction reimagined."
-  });
   const [services, setServices] = useState([]);
 
   // Available icons mapping with consistent blue gradient styling
@@ -46,24 +41,18 @@ const CareAtHome = () => {
 
         if (data && !error) {
           console.log('Loaded care at home content:', data);
-          
-          setContent({
-            title: data.title || "The Future of Care",
-            subtitle: data.subtitle || "Experience healthcare like never before",
-            description: data.description || "Every interaction reimagined."
-          });
 
           // Transform tabs data to services format
           if (data.content_data && typeof data.content_data === 'object' && data.content_data !== null) {
             const contentData = data.content_data as any;
             if (contentData.tabs) {
               const transformedServices = contentData.tabs.map((tab: any) => ({
-              id: tab.id,
-              icon: getIconComponent(tab.icon_name),
-              title: tab.title,
-              subtitle: tab.subtitle,
-              description: tab.description,
-              color: "blue", // Default color
+                id: tab.id,
+                icon: getIconComponent(tab.icon_name),
+                title: tab.title,
+                subtitle: tab.subtitle,
+                description: tab.description,
+                color: "blue", // Default color
                 patient_image_url: tab.image_url || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
               }));
               setServices(transformedServices);
