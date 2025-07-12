@@ -35,19 +35,20 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
           className="fixed inset-0 flex items-center justify-center p-4 font-apple"
           onClick={handleBackdropClick}
           style={{ 
-            zIndex: 99999999,
-            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            zIndex: 2147483647,
             position: 'fixed',
             top: 0,
             left: 0,
             right: 0,
-            bottom: 0
+            bottom: 0,
+            width: '100vw',
+            height: '100vh'
           }}
         >
           <div 
             className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-gray-200" 
             style={{ 
-              zIndex: 999999999,
+              zIndex: 2147483647,
               position: 'relative'
             }}
           >
