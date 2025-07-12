@@ -11,14 +11,58 @@ import { Tables } from '@/integrations/supabase/types';
 
 type BlogPost = Tables<'blog_posts'>;
 
+interface HeroContent {
+  title: string;
+  highlightedText: string;
+}
+
+interface ContentSectionData {
+  title: string;
+  description: string;
+}
+
 const News = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [heroContent, setHeroContent] = useState<HeroContent>({
+    title: "Healthcare",
+    highlightedText: "News & Updates"
+  });
+  const [contentSection, setContentSection] = useState<ContentSectionData>({
+    title: "News",
+    description: "Stay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
+  });
 
   useEffect(() => {
     loadBlogPosts();
+    loadHeroContent();
     setupRealtimeSubscription();
   }, []);
+
+  const loadHeroContent = async () => {
+    try {
+      const { data: heroData, error } = await supabase
+        .from('website_content')
+        .select('*')
+        .eq('section_key', 'news_hero')
+        .eq('is_active', true)
+        .single();
+
+      if (heroData) {
+        console.log('Loaded news hero content:', heroData);
+        setHeroContent({
+          title: heroData.title || "Healthcare",
+          highlightedText: heroData.subtitle || "News & Updates"
+        });
+        setContentSection({
+          title: "News",
+          description: heroData.description || "Stay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
+        });
+      }
+    } catch (error) {
+      console.error('Error loading news hero content:', error);
+    }
+  };
 
   const loadBlogPosts = async () => {
     try {
@@ -39,7 +83,7 @@ const News = () => {
 
   const setupRealtimeSubscription = () => {
     const channel = supabase
-      .channel('news-blog-changes')
+      .channel('news-content-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
@@ -47,6 +91,14 @@ const News = () => {
         filter: 'is_published=eq.true'
       }, () => {
         loadBlogPosts();
+      })
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.news_hero'
+      }, () => {
+        loadHeroContent();
       })
       .subscribe();
 
@@ -67,13 +119,13 @@ const News = () => {
       <Navigation />
       
       <HeroSection 
-        title="Healthcare"
-        highlightedText="News & Updates"
+        title={heroContent.title}
+        highlightedText={heroContent.highlightedText}
       />
 
       <ContentSection 
-        title="News"
-        description="Stay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
+        title={contentSection.title}
+        description={contentSection.description}
       />
 
       {/* News Articles Grid */}
