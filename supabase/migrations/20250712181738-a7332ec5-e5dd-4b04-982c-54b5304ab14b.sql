@@ -1,0 +1,10 @@
+-- Insert Care at Home page sections
+INSERT INTO website_content (section_key, title, subtitle, description, is_active) VALUES
+('care_at_home_hero', 'What is Resilient Community?', 'Connecting Healthcare Professionals', 'We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable.', true),
+('care_at_home_future', 'The Future of Care', 'Experience healthcare like never before. Every interaction reimagined.', 'Advanced healthcare delivery reimagined for the modern world.', true),
+('care_at_home_hospitals', 'Leading Hospitals', 'Work with leading hospitals', 'Partner with top-tier healthcare institutions to deliver exceptional patient care at home. Our network includes leading hospitals that trust our platform for their home-based care programs.', true),
+('care_at_home_referrals', 'Patient Referrals', 'Get access to a consistent stream of patient referrals', 'Enjoy a steady flow of patient referrals through our established hospital partnerships. Our platform ensures you have consistent work opportunities.', true),
+('care_at_home_delivery', 'Care Delivery', 'Support care delivery for inpatient at home and outpatient at home services', 'Comprehensive support for both inpatient and outpatient home care services. Our platform provides all the tools and resources you need for successful care delivery.', true),
+('care_at_home_workflows', 'Simplified Workflows', 'Simplified workflows and credentialing through our platform', 'Streamlined processes and easy credentialing make it simple to get started and focus on patient care rather than administrative tasks.', true),
+('care_at_home_payment', 'Per-Visit Payment', 'We pay you per visit so no need to worry about administrative burden', 'Simple per-visit payment structure eliminates administrative hassles. Focus on providing quality care while we handle the billing and payment processing.', true)
+ON CONFLICT (section_key) DO NOTHING;
