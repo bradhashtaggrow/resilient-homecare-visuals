@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CheckCircle, Star, Award, Shield, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import LeadCaptureModal from './LeadCaptureModal';
 
 interface LeadGenContent {
   title?: string;
@@ -140,16 +140,17 @@ const LeadGenSection = () => {
                 {content.description}
               </p>
               
-              {/* Enhanced Button with Mobile Optimization */}
-              <Button 
-                size="lg" 
-                className="bg-white text-[#4F9CF9] hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg lg:text-xl font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto max-w-xs sm:max-w-none mx-auto"
-                onClick={handleButtonClick}
-              >
-                <span className="flex items-center justify-center">
-                  {content.button_text}
-                </span>
-              </Button>
+              {/* Enhanced Button with Modal */}
+              <LeadCaptureModal source="lead_generation">
+                <Button 
+                  size="lg" 
+                  className="bg-white text-[#4F9CF9] hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg lg:text-xl font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto max-w-xs sm:max-w-none mx-auto"
+                >
+                  <span className="flex items-center justify-center">
+                    {content.button_text}
+                  </span>
+                </Button>
+              </LeadCaptureModal>
             </div>
 
             {/* Floating Elements for Desktop */}
