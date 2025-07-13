@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { TrendingUp, Users, Shield, Target, Award, CheckCircle, Clock, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useTypingAnimation } from '@/hooks/useTypingAnimation';
@@ -170,15 +169,17 @@ const ValuePropositionSection = () => {
               const IconComponent = getIcon(proposition.icon);
               return (
                 <Card key={index} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm hover:bg-white hover:scale-105 transform">
-                  <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="h-8 w-8 text-white" />
+                  <div className="p-8 text-center">
+                    <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <IconComponent className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">
+                      {proposition.title}
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      {proposition.description}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">
-                    {proposition.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {proposition.description}
-                  </p>
                 </Card>
               );
             })}
