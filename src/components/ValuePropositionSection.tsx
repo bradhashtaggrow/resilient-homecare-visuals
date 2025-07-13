@@ -161,12 +161,6 @@ const ValuePropositionSection = () => {
               )}
             </h2>
           </div>
-          
-          <div className={`transition-all duration-1000 delay-1000 ${isComplete ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-              {content.description}
-            </p>
-          </div>
         </div>
 
         {/* Value Propositions Grid */}
