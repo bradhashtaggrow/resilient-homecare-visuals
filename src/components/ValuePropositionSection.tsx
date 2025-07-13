@@ -65,11 +65,12 @@ const ValuePropositionSection = () => {
 
         if (data && !error) {
           console.log('Loaded value proposition content:', data);
+          const contentData = data.content_data as any;
           setContent({
             title: data.title || 'We Manage the Work',
             subtitle: data.subtitle || 'So You Can Focus on Care',
             description: data.description || 'Our comprehensive approach delivers measurable outcomes for hospitals, patients, and communities.',
-            propositions: data.content_data?.propositions || content.propositions
+            propositions: contentData?.propositions || content.propositions
           });
         }
       } catch (error) {
