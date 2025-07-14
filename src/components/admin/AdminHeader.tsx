@@ -54,7 +54,8 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
     { id: 'contact', label: 'Contact Us' },
     { id: 'privacy-policy', label: 'Privacy Policy' },
     { id: 'terms-of-service', label: 'Terms of Service' },
-    { id: 'hipaa-compliance', label: 'HIPAA Compliance' }
+    { id: 'hipaa-compliance', label: 'HIPAA Compliance' },
+    { id: 'data-security', label: 'Data Security' }
   ];
 
   const getSectionTitle = (section: string) => {

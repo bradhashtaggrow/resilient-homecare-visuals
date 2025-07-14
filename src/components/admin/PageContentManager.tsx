@@ -113,7 +113,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'contact': '', // No prefix for contact, use specific sections
       'privacy-policy': 'privacy_',
       'terms-of-service': 'terms_',
-      'hipaa-compliance': 'hipaa_'
+      'hipaa-compliance': 'hipaa_',
+      'data-security': 'security_'
     };
     return prefixes[page] || '';
   };
@@ -176,6 +177,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       contentFilter = 'section_key=in.(terms_hero,terms_body)';
     } else if (selectedPage === 'hipaa-compliance') {
       contentFilter = 'section_key=in.(hipaa_hero,hipaa_body)';
+    } else if (selectedPage === 'data-security') {
+      contentFilter = 'section_key=in.(security_hero,security_body)';
     } else {
       const prefix = getPagePrefix(selectedPage);
       contentFilter = `section_key.like.${prefix}%`;
@@ -240,6 +243,9 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       } else if (selectedPage === 'hipaa-compliance') {
         // For HIPAA compliance page, show hero and body sections only
         query = query.or(`section_key.eq.hipaa_hero,section_key.eq.hipaa_body`);
+      } else if (selectedPage === 'data-security') {
+        // For data security page, show hero and body sections only
+        query = query.or(`section_key.eq.security_hero,section_key.eq.security_body`);
       } else {
         // For other pages, get sections with the page prefix
         query = query.like('section_key', `${prefix}%`);
@@ -387,6 +393,10 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       // HIPAA Compliance
       'hipaa_hero': 'Hero Section',
       'hipaa_body': 'Body',
+      
+      // Data Security
+      'security_hero': 'Hero Section',
+      'security_body': 'Body',
       
       'footer': 'Footer'
     };
