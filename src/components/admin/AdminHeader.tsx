@@ -52,7 +52,8 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
     { id: 'news', label: 'News' },
     { id: 'about', label: 'About Us' },
     { id: 'contact', label: 'Contact Us' },
-    { id: 'privacy-policy', label: 'Privacy Policy' }
+    { id: 'privacy-policy', label: 'Privacy Policy' },
+    { id: 'terms-of-service', label: 'Terms of Service' }
   ];
 
   const getSectionTitle = (section: string) => {

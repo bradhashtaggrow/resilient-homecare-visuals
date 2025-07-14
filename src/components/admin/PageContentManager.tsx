@@ -111,7 +111,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'patients': 'patients_',
       'news': 'news_',
       'contact': '', // No prefix for contact, use specific sections
-      'privacy-policy': 'privacy_'
+      'privacy-policy': 'privacy_',
+      'terms-of-service': 'terms_'
     };
     return prefixes[page] || '';
   };
@@ -170,6 +171,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       contentFilter = 'section_key=in.(contact_hero,footer)';
     } else if (selectedPage === 'privacy-policy') {
       contentFilter = 'section_key=in.(privacy_hero,privacy_body)';
+    } else if (selectedPage === 'terms-of-service') {
+      contentFilter = 'section_key=in.(terms_hero,terms_body)';
     } else {
       const prefix = getPagePrefix(selectedPage);
       contentFilter = `section_key.like.${prefix}%`;
@@ -228,6 +231,9 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       } else if (selectedPage === 'privacy-policy') {
         // For privacy policy page, show hero and body sections only
         query = query.or(`section_key.eq.privacy_hero,section_key.eq.privacy_body`);
+      } else if (selectedPage === 'terms-of-service') {
+        // For terms of service page, show hero and body sections only
+        query = query.or(`section_key.eq.terms_hero,section_key.eq.terms_body`);
       } else {
         // For other pages, get sections with the page prefix
         query = query.like('section_key', `${prefix}%`);
@@ -367,6 +373,10 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       // Privacy Policy
       'privacy_hero': 'Hero Section',
       'privacy_body': 'Body',
+      
+      // Terms of Service
+      'terms_hero': 'Hero Section',
+      'terms_body': 'Body',
       
       'footer': 'Footer'
     };
