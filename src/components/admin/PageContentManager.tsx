@@ -855,29 +855,29 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                       {section.section_key === 'about_why_choose' && (
                         <div className="space-y-4 border-t pt-4">
                           <h4 className="text-lg font-semibold text-gray-900">Why Choose Resilient Pillars</h4>
-                          {((editForm.content_data as any)?.pillars || []).map((pillar: any, index: number) => (
+                          {((editForm.content_data as any)?.features || []).map((feature: any, index: number) => (
                             <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
                               <div className="flex items-center justify-between">
-                                <h5 className="font-medium text-gray-800">Pillar {index + 1}</h5>
-                                <Badge variant="outline">{pillar.id}</Badge>
+                                <h5 className="font-medium text-gray-800">Feature {index + 1}</h5>
+                                <Badge variant="outline">{feature.icon}</Badge>
                               </div>
                               
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Pillar Title
+                                    Feature Title
                                   </label>
                                   <Input
-                                    value={pillar.title || ''}
+                                    value={feature.title || ''}
                                     onChange={(e) => {
-                                      const newPillars = [...((editForm.content_data as any)?.pillars || [])];
-                                      newPillars[index] = { ...newPillars[index], title: e.target.value };
+                                      const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                      newFeatures[index] = { ...newFeatures[index], title: e.target.value };
                                       setEditForm({
                                         ...editForm,
-                                        content_data: { ...editForm.content_data, pillars: newPillars }
+                                        content_data: { ...editForm.content_data, features: newFeatures }
                                       });
                                     }}
-                                    placeholder="Pillar title"
+                                    placeholder="Feature title"
                                   />
                                 </div>
                                 <div>
@@ -885,16 +885,16 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                     Subtitle
                                   </label>
                                   <Input
-                                    value={pillar.subtitle || ''}
+                                    value={feature.subtitle || ''}
                                     onChange={(e) => {
-                                      const newPillars = [...((editForm.content_data as any)?.pillars || [])];
-                                      newPillars[index] = { ...newPillars[index], subtitle: e.target.value };
+                                      const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                      newFeatures[index] = { ...newFeatures[index], subtitle: e.target.value };
                                       setEditForm({
                                         ...editForm,
-                                        content_data: { ...editForm.content_data, pillars: newPillars }
+                                        content_data: { ...editForm.content_data, features: newFeatures }
                                       });
                                     }}
-                                    placeholder="Pillar subtitle"
+                                    placeholder="Feature subtitle"
                                   />
                                 </div>
                               </div>
@@ -904,16 +904,16 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                   Description
                                 </label>
                                 <Textarea
-                                  value={pillar.description || ''}
+                                  value={feature.description || ''}
                                   onChange={(e) => {
-                                    const newPillars = [...((editForm.content_data as any)?.pillars || [])];
-                                    newPillars[index] = { ...newPillars[index], description: e.target.value };
+                                    const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                    newFeatures[index] = { ...newFeatures[index], description: e.target.value };
                                     setEditForm({
                                       ...editForm,
-                                      content_data: { ...editForm.content_data, pillars: newPillars }
+                                      content_data: { ...editForm.content_data, features: newFeatures }
                                     });
                                   }}
-                                  placeholder="Pillar description"
+                                  placeholder="Feature description"
                                   rows={3}
                                 />
                               </div>
@@ -924,21 +924,21 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                     Icon
                                   </label>
                                   <Select
-                                    value={pillar.icon_name || 'Activity'}
+                                    value={feature.icon || 'Activity'}
                                     onValueChange={(value) => {
-                                      const newPillars = [...((editForm.content_data as any)?.pillars || [])];
-                                      newPillars[index] = { ...newPillars[index], icon_name: value };
+                                      const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                      newFeatures[index] = { ...newFeatures[index], icon: value };
                                       setEditForm({
                                         ...editForm,
-                                        content_data: { ...editForm.content_data, pillars: newPillars }
+                                        content_data: { ...editForm.content_data, features: newFeatures }
                                       });
                                     }}
                                   >
                                     <SelectTrigger>
                                       <SelectValue>
                                         <div className="flex items-center gap-2">
-                                          {getIconComponent(pillar.icon_name || 'Activity')}
-                                          <span>{pillar.icon_name || 'Activity'}</span>
+                                          {getIconComponent(feature.icon || 'Activity')}
+                                          <span>{feature.icon || 'Activity'}</span>
                                         </div>
                                       </SelectValue>
                                     </SelectTrigger>
@@ -956,7 +956,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                 </div>
                                 <div>
                                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Pillar Image
+                                    Feature Image
                                   </label>
                                   <input
                                     type="file"
@@ -965,12 +965,12 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                       const file = e.target.files?.[0];
                                       if (!file) return;
                                       
-                                      // Handle pillar image upload
-                                      const handlePillarImageUpload = async (file: File, pillarIndex: number) => {
+                                      // Handle feature image upload
+                                      const handleFeatureImageUpload = async (file: File, featureIndex: number) => {
                                         try {
                                           const fileExt = file.name.split('.').pop();
                                           const fileName = `${Math.random()}.${fileExt}`;
-                                          const filePath = `pillar-images/${fileName}`;
+                                          const filePath = `feature-images/${fileName}`;
 
                                           const { error: uploadError } = await supabase.storage
                                             .from('media')
@@ -982,36 +982,36 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                             .from('media')
                                             .getPublicUrl(filePath);
 
-                                          const newPillars = [...((editForm.content_data as any)?.pillars || [])];
-                                          newPillars[pillarIndex] = { ...newPillars[pillarIndex], image_url: data.publicUrl };
+                                          const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                          newFeatures[featureIndex] = { ...newFeatures[featureIndex], image_url: data.publicUrl };
                                           setEditForm({
                                             ...editForm,
-                                            content_data: { ...editForm.content_data, pillars: newPillars }
+                                            content_data: { ...editForm.content_data, features: newFeatures }
                                           });
 
                                           toast({
                                             title: "Upload successful",
-                                            description: "Pillar image uploaded successfully",
+                                            description: "Feature image uploaded successfully",
                                           });
                                         } catch (error) {
-                                          console.error('Error uploading pillar image:', error);
+                                          console.error('Error uploading feature image:', error);
                                           toast({
                                             title: "Upload failed",
-                                            description: "Failed to upload pillar image",
+                                            description: "Failed to upload feature image",
                                             variant: "destructive"
                                           });
                                         }
                                       };
                                       
-                                      handlePillarImageUpload(file, index);
+                                      handleFeatureImageUpload(file, index);
                                     }}
                                     className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                                   />
-                                  {pillar.image_url && (
+                                  {feature.image_url && (
                                     <div className="mt-2">
                                       <img 
-                                        src={pillar.image_url} 
-                                        alt="Pillar preview" 
+                                        src={feature.image_url} 
+                                        alt="Feature preview" 
                                         className="w-full h-32 object-cover rounded border"
                                       />
                                     </div>
