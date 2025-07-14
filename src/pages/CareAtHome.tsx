@@ -11,6 +11,8 @@ import { supabase } from '@/integrations/supabase/client';
 
 const CareAtHome = () => {
   const [services, setServices] = useState([]);
+  const [heroContent, setHeroContent] = useState({ title: '', subtitle: '', background_video_url: '' });
+  const [footerContent, setFooterContent] = useState({ title: '', subtitle: '', background_image_url: '' });
 
   // Available icons mapping with consistent blue gradient styling
   const availableIcons = {
@@ -29,22 +31,23 @@ const CareAtHome = () => {
   };
 
   useEffect(() => {
-    // Load content from database
+    // Load all content from database
     const loadContent = async () => {
       try {
-        const { data, error } = await supabase
+        // Load mobile tabs content
+        const { data: mobileData, error: mobileError } = await supabase
           .from('website_content')
           .select('*')
           .eq('section_key', 'care_at_home_mobile')
           .eq('is_active', true)
           .single();
 
-        if (data && !error) {
-          console.log('Loaded care at home content:', data);
+        if (mobileData && !mobileError) {
+          console.log('Loaded care at home mobile content:', mobileData);
 
           // Transform tabs data to services format
-          if (data.content_data && typeof data.content_data === 'object' && data.content_data !== null) {
-            const contentData = data.content_data as any;
+          if (mobileData.content_data && typeof mobileData.content_data === 'object' && mobileData.content_data !== null) {
+            const contentData = mobileData.content_data as any;
             if (contentData.tabs) {
               const transformedServices = contentData.tabs.map((tab: any) => ({
                 id: tab.id,
@@ -58,9 +61,40 @@ const CareAtHome = () => {
               setServices(transformedServices);
             }
           }
-        } else {
-          console.log('No care at home content found, using defaults');
         }
+
+        // Load hero content
+        const { data: heroData, error: heroError } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'care_at_home_hero')
+          .eq('is_active', true)
+          .single();
+
+        if (heroData && !heroError) {
+          setHeroContent({
+            title: heroData.title || 'What is',
+            subtitle: heroData.subtitle || 'Resilient Community?',
+            background_video_url: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+          });
+        }
+
+        // Load footer content
+        const { data: footerData, error: footerError } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'care_at_home_footer')
+          .eq('is_active', true)
+          .single();
+
+        if (footerData && !footerError) {
+          setFooterContent({
+            title: footerData.title || 'Resilient Healthcare',
+            subtitle: footerData.subtitle || 'Leading Innovation in Healthcare Solutions',
+            background_image_url: footerData.background_image_url || '/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png'
+          });
+        }
+
       } catch (error) {
         console.error('Error loading care at home content:', error);
       }
@@ -68,14 +102,14 @@ const CareAtHome = () => {
 
     loadContent();
 
-    // Set up real-time subscription
+    // Set up real-time subscription for all care at home sections
     const channel = supabase
-      .channel('care-at-home-changes')
+      .channel('care-at-home-all-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=eq.care_at_home_mobile'
+        filter: 'section_key=in.(care_at_home_mobile,care_at_home_hero,care_at_home_footer)'
       }, (payload) => {
         console.log('Real-time care at home content change:', payload);
         loadContent();
@@ -92,8 +126,9 @@ const CareAtHome = () => {
       <Navigation />
       
       <HeroSection 
-        title="What is"
-        highlightedText="Resilient Community?"
+        title={heroContent.title || "What is"}
+        highlightedText={heroContent.subtitle || "Resilient Community?"}
+        backgroundVideoUrl={heroContent.background_video_url}
       />
 
       <ContentSection 
