@@ -109,6 +109,11 @@ const Footer = () => {
                   </div>
                 )}
               </div>
+              {content.title && (
+                <h2 className="text-white font-semibold text-xl sm:text-2xl mb-2 text-center lg:text-left">
+                  {content.title}
+                </h2>
+              )}
               {content.subtitle && (
                 <div className="text-blue-300/90 font-medium tracking-wide text-center lg:text-left"
                      style={{ fontSize: 'clamp(0.8rem, 1.5vw, 1rem)', lineHeight: 1.3 }}>{content.subtitle}</div>
