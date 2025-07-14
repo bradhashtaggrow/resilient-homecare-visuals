@@ -26,47 +26,49 @@ const Contact = () => {
     backgroundVideoUrl: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
   });
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        // Load contact content
-        const { data, error } = await supabase
-          .from('website_content')
-          .select('*')
-          .eq('section_key', 'get_in_touch')
-          .single();
+  const loadContent = async (skipLoading = false) => {
+    try {
+      if (!skipLoading) setLoading(true);
+      
+      // Load contact content
+      const { data, error } = await supabase
+        .from('website_content')
+        .select('*')
+        .eq('section_key', 'get_in_touch')
+        .single();
 
-        if (error) throw error;
-        setContent(data);
+      if (error) throw error;
+      setContent(data);
 
-        // Load hero content
-        const { data: heroData, error: heroError } = await supabase
-          .from('website_content')
-          .select('*')
-          .eq('section_key', 'contact_hero')
-          .eq('is_active', true)
-          .single();
+      // Load hero content
+      const { data: heroData, error: heroError } = await supabase
+        .from('website_content')
+        .select('*')
+        .eq('section_key', 'contact_hero')
+        .eq('is_active', true)
+        .single();
 
-        if (heroData && !heroError) {
-          console.log('Loaded contact hero content:', heroData);
-          const newHeroContent = {
-            title: heroData.title || 'Get in',
-            highlightedText: heroData.subtitle || 'Touch',
-            backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
-          };
-          console.log('Setting new contact hero content:', newHeroContent);
-          setHeroContent(newHeroContent);
-        } else {
-          console.log('No contact hero content found or error:', heroError);
-        }
-      } catch (error) {
-        console.error('Error fetching content:', error);
-      } finally {
-        setLoading(false);
+      if (heroData && !heroError) {
+        console.log('Loaded contact hero content:', heroData);
+        const newHeroContent = {
+          title: heroData.title || 'Get in',
+          highlightedText: heroData.subtitle || 'Touch',
+          backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+        };
+        console.log('Setting new contact hero content:', newHeroContent);
+        setHeroContent(newHeroContent);
+      } else {
+        console.log('No contact hero content found or error:', heroError);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching content:', error);
+    } finally {
+      if (!skipLoading) setLoading(false);
+    }
+  };
 
-    fetchContent();
+  useEffect(() => {
+    loadContent();
 
     // Set up real-time subscription
     const channel = supabase
@@ -78,7 +80,7 @@ const Contact = () => {
         filter: 'section_key=in.(get_in_touch,contact_hero)'
       }, (payload) => {
         console.log('Real-time contact content change:', payload);
-        fetchContent(); // Now this function is in scope
+        loadContent(true); // Skip loading state for real-time updates
       })
       .subscribe();
 
