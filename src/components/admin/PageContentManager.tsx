@@ -161,14 +161,26 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
   useEffect(() => {
     loadContent();
     
+    // Set up filtered real-time subscription based on selected page
+    let contentFilter = '';
+    if (selectedPage === 'home') {
+      contentFilter = 'section_key=in.(hero,patient_tabs,services,mobile_showcase,value_proposition,admin_dashboard,founder,stats,lead_generation,navigation,footer)';
+    } else if (selectedPage === 'contact') {
+      contentFilter = 'section_key=in.(contact_hero,footer)';
+    } else {
+      const prefix = getPagePrefix(selectedPage);
+      contentFilter = `section_key.like.${prefix}%`;
+    }
+    
     const channel = supabase
-      .channel('website-content-changes')
+      .channel(`website-content-changes-${selectedPage}`)
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
-        table: 'website_content'
+        table: 'website_content',
+        filter: contentFilter
       }, (payload) => {
-        console.log('Real-time content change:', payload);
+        console.log(`Real-time ${selectedPage} content change:`, payload);
         loadContent();
       })
       .on('postgres_changes', {
