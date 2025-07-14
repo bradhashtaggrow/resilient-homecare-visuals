@@ -179,17 +179,17 @@ const AdminDashboard = React.memo(() => {
           </div>
         </div>
 
-        {/* Missing CTA Section after laptop */}
+        {/* CTA Section after laptop - using database content */}
         <div className={`text-center mb-8 sm:mb-12 transition-all duration-1200 transform ${
           isVisible ? 'animate-swoop-in-reverse opacity-100' : 'opacity-0'
         }`} style={{animationDelay: '600ms'}}>
           <h3 className="text-white leading-none tracking-tight font-black text-shadow-white mb-3 sm:mb-4 hover:scale-105 transition-transform duration-500"
               style={{ fontSize: 'clamp(1.25rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 0.9 }}>
-            Ready to Transform Your Healthcare Operations?
+            {content.content_data?.cta_headline || 'Ready to Transform Your Healthcare Operations?'}
           </h3>
           <p className="text-white/90 max-w-3xl mx-auto leading-relaxed font-medium tracking-wide hover:text-white transition-colors duration-500"
              style={{ fontSize: 'clamp(0.875rem, 2vw, 1.25rem)', lineHeight: 1.4 }}>
-            Join forward-thinking healthcare organizations who've already revolutionized their operations. See our comprehensive platform in action with a personalized demonstration.
+            {content.content_data?.cta_description || 'Join forward-thinking healthcare organizations who\'ve already revolutionized their operations. See our comprehensive platform in action with a personalized demonstration.'}
           </p>
         </div>
 
