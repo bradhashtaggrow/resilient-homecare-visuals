@@ -565,7 +565,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                         <Button
                           type="button"
                           variant="outline"
-                          onClick={() => {
+                          onClick={async () => {
                             const defaultFeatures = [
                               { icon: 'Shield', title: 'Enterprise Security', description: 'Bank-grade encryption with HIPAA compliance built-in' },
                               { icon: 'BarChart3', title: 'Real-Time Analytics', description: 'Live dashboard with predictive insights and KPI tracking' },
@@ -577,14 +577,38 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             
                             const currentFeatures = editForm.content_data?.features || [];
                             if (currentFeatures.length === 0) {
-                              // Initialize with all default features if none exist
+                              // Initialize with all default features and save immediately
+                              const updatedContentData = {
+                                ...editForm.content_data,
+                                features: defaultFeatures
+                              };
+                              
                               setEditForm({
                                 ...editForm,
-                                content_data: {
-                                  ...editForm.content_data,
-                                  features: defaultFeatures
-                                }
+                                content_data: updatedContentData
                               });
+
+                              // Immediately save to database
+                              try {
+                                const { error } = await supabase
+                                  .from('website_content')
+                                  .update({ content_data: updatedContentData })
+                                  .eq('id', editForm.id);
+
+                                if (error) throw error;
+                                
+                                toast({
+                                  title: "Features initialized",
+                                  description: "All 6 default mobile features have been saved",
+                                });
+                              } catch (error) {
+                                console.error('Error saving features:', error);
+                                toast({
+                                  title: "Save failed",
+                                  description: "Failed to save default features",
+                                  variant: "destructive"
+                                });
+                              }
                             } else {
                               // Add a new blank feature
                               const newFeature = {
