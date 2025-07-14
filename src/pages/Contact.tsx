@@ -23,7 +23,7 @@ const Contact = () => {
   const [heroContent, setHeroContent] = useState({
     title: "Get in",
     highlightedText: "Touch",
-    backgroundVideoUrl: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+    backgroundVideoUrl: ''
   });
 
   const loadContent = async (skipLoading = false) => {
@@ -50,14 +50,17 @@ const Contact = () => {
       if (heroData && !heroError) {
         console.log('Loaded contact hero content:', heroData);
         console.log('Background video URL from DB:', heroData.background_video_url);
-        setHeroContent({
-          title: heroData.title || 'Get in',
-          highlightedText: heroData.subtitle || 'Touch',
-          backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
-        });
+        const videoUrl = heroData.background_video_url;
+        if (videoUrl) {
+          setHeroContent({
+            title: heroData.title || 'Get in',
+            highlightedText: heroData.subtitle || 'Touch',
+            backgroundVideoUrl: videoUrl
+          });
+          console.log('Set hero content with video URL:', videoUrl);
+        }
       } else {
         console.log('No contact hero content found or error:', heroError);
-        // Keep default values if no data found
       }
     } catch (error) {
       console.error('Error fetching content:', error);
