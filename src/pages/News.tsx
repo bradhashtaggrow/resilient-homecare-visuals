@@ -28,7 +28,7 @@ const News = () => {
   const [heroContent, setHeroContent] = useState<HeroContent>({
     title: "Healthcare",
     highlightedText: "News & Updates",
-    backgroundVideoUrl: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+    backgroundVideoUrl: '' // Start empty, only show database video
   });
   const [contentSection, setContentSection] = useState<ContentSectionData>({
     title: "News",
@@ -55,7 +55,7 @@ const News = () => {
         const newHeroContent = {
           title: heroData.title || "Healthcare",
           highlightedText: heroData.subtitle || "News & Updates",
-          backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+          backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
         };
         console.log('Setting new news hero content:', newHeroContent);
         setHeroContent(newHeroContent);
