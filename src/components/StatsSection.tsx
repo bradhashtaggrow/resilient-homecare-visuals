@@ -174,12 +174,12 @@ const StatsSection = () => {
     if (isVisible && content.content_data?.stats) {
       const statsData = content.content_data.stats;
       
-      // Extract percentage values from database content
+      // Extract percentage values from database content with proper null checks
       const targets = {
-        costSavings: parseInt(statsData[0]?.value.replace('%', '') || '38'),
-        readmissionReduction: parseInt(statsData[1]?.value.replace('%', '') || '70'),
-        patientPreference: parseInt(statsData[2]?.value.replace('%', '') || '91'),
-        lessStress: parseInt(statsData[3]?.value.replace('%', '') || '95')
+        costSavings: parseInt((statsData[0]?.value?.replace('%', '') || '38')),
+        readmissionReduction: parseInt((statsData[1]?.value?.replace('%', '') || '70')),
+        patientPreference: parseInt((statsData[2]?.value?.replace('%', '') || '91')),
+        lessStress: parseInt((statsData[3]?.value?.replace('%', '') || '95'))
       };
 
       const duration = 3000;
