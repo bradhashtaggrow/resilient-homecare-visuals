@@ -23,6 +23,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText }) => 
           .eq('is_active', true)
           .single();
 
+        console.log('Hero background media loaded:', data);
+        
         if (data && !error) {
           setBackgroundVideoUrl(data.background_video_url || '');
           setBackgroundImageUrl(data.background_image_url || '');
