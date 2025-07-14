@@ -122,6 +122,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     const order = {
       'navigation': 1,
       'hero': 2,
+      'contact_hero': 2, // Contact hero comes first
       'mobile': 3,
       'services': 4,
       'mobile_showcase': 5,
@@ -137,7 +138,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'for_hospitals': 4,
       'for_clinicians': 5,
       'core_values': 6,
-      'footer': 7,
+      'footer': 99, // Footer comes last
       'team': 8,
       'tools': 3,
       'benefits': 4,
@@ -152,7 +153,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'content': 3,
       'form': 3,
       'locations': 4,
-      'get_in_touch': 2
+      'get_in_touch': 98 // Removed from display but keeping order high
     };
     return order[baseKey as keyof typeof order] || 999;
   };
