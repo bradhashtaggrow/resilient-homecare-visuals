@@ -78,7 +78,7 @@ const Contact = () => {
         filter: 'section_key=in.(get_in_touch,contact_hero)'
       }, (payload) => {
         console.log('Real-time contact content change:', payload);
-        fetchContent();
+        fetchContent(); // Now this function is in scope
       })
       .subscribe();
 
