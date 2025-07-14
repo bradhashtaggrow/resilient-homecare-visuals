@@ -26,55 +26,53 @@ const Contact = () => {
     backgroundVideoUrl: ''
   });
 
-  const loadContent = async (skipLoading = false) => {
-    try {
-      if (!skipLoading) setLoading(true);
-      
-      // Load contact content
-      const { data, error } = await supabase
-        .from('website_content')
-        .select('*')
-        .eq('section_key', 'get_in_touch')
-        .single();
+  useEffect(() => {
+    // Load content from database
+    const loadContent = async () => {
+      try {
+        // Load contact content
+        const { data, error } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'get_in_touch')
+          .single();
 
-      if (error) throw error;
-      setContent(data);
+        if (error) throw error;
+        setContent(data);
 
-      // Load hero content
-      const { data: heroData, error: heroError } = await supabase
-        .from('website_content')
-        .select('*')
-        .eq('section_key', 'contact_hero')
-        .maybeSingle();
+        // Load hero content
+        const { data: heroData, error: heroError } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'contact_hero')
+          .eq('is_active', true)
+          .single();
 
-      if (heroData && !heroError) {
-        console.log('Loaded contact hero content:', heroData);
-        console.log('Background video URL from DB:', heroData.background_video_url);
-        const videoUrl = heroData.background_video_url;
-        if (videoUrl) {
-          setHeroContent({
+        if (heroData && !heroError) {
+          console.log('Loaded contact hero content:', heroData);
+          console.log('Background video URL from DB:', heroData.background_video_url);
+          const newHeroContent = {
             title: heroData.title || 'Get in',
             highlightedText: heroData.subtitle || 'Touch',
-            backgroundVideoUrl: videoUrl
-          });
-          console.log('Set hero content with video URL:', videoUrl);
+            backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+          };
+          console.log('Setting new contact hero content:', newHeroContent);
+          setHeroContent(newHeroContent);
+        } else {
+          console.log('No contact hero content found or error:', heroError);
         }
-      } else {
-        console.log('No contact hero content found or error:', heroError);
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error fetching content:', error);
-    } finally {
-      if (!skipLoading) setLoading(false);
-    }
-  };
+    };
 
-  useEffect(() => {
     loadContent();
 
-    // Set up real-time subscription for contact hero
-    const heroChannel = supabase
-      .channel('contact-hero-changes')
+    // Set up real-time subscription for both hero and contact sections
+    const channel = supabase
+      .channel('contact-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
@@ -82,13 +80,8 @@ const Contact = () => {
         filter: 'section_key=eq.contact_hero'
       }, (payload) => {
         console.log('Real-time contact hero change:', payload);
-        loadContent(true); // Skip loading state for real-time updates
+        loadContent();
       })
-      .subscribe();
-
-    // Set up real-time subscription for contact content
-    const contentChannel = supabase
-      .channel('contact-content-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
@@ -96,13 +89,12 @@ const Contact = () => {
         filter: 'section_key=eq.get_in_touch'
       }, (payload) => {
         console.log('Real-time contact content change:', payload);
-        loadContent(true); // Skip loading state for real-time updates
+        loadContent();
       })
       .subscribe();
 
     return () => {
-      supabase.removeChannel(heroChannel);
-      supabase.removeChannel(contentChannel);
+      supabase.removeChannel(channel);
     };
   }, []);
 
