@@ -42,7 +42,6 @@ const HeroSection = React.memo(() => {
           
           setContent({
             title: data.title || 'The Future of Healthcare',
-            subtitle: data.subtitle || '',
             description: data.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
             button_text: data.button_text || 'Request Demo',
             button_url: data.button_url || '#',
