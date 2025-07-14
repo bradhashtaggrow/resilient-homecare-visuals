@@ -1188,7 +1188,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               </Button>
                             </div>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Value (e.g., 95%)</label>
                                 <Input
@@ -1209,7 +1209,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               </div>
                               
                               <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Label</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
                                 <Input
                                   value={stat.label || ''}
                                   onChange={(e) => {
@@ -1225,6 +1225,42 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                   }}
                                   placeholder="Support Available"
                                 />
+                              </div>
+
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                                <Select
+                                  value={stat.icon || 'TrendingUp'}
+                                  onValueChange={(value) => {
+                                    const newStats = [...(editForm.content_data?.stats || [])];
+                                    newStats[index] = { ...stat, icon: value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        stats: newStats
+                                      }
+                                    });
+                                  }}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select an icon" />
+                                  </SelectTrigger>
+                                  <SelectContent className="bg-white border shadow-lg z-50">
+                                    <SelectItem value="TrendingUp">TrendingUp - Growth</SelectItem>
+                                    <SelectItem value="DollarSign">DollarSign - Financial</SelectItem>
+                                    <SelectItem value="Users">Users - People</SelectItem>
+                                    <SelectItem value="Heart">Heart - Healthcare</SelectItem>
+                                    <SelectItem value="Shield">Shield - Protection</SelectItem>
+                                    <SelectItem value="Target">Target - Goals</SelectItem>
+                                    <SelectItem value="Award">Award - Achievement</SelectItem>
+                                    <SelectItem value="Activity">Activity - Performance</SelectItem>
+                                    <SelectItem value="BarChart3">BarChart3 - Analytics</SelectItem>
+                                    <SelectItem value="CheckCircle">CheckCircle - Success</SelectItem>
+                                    <SelectItem value="Clock">Clock - Time</SelectItem>
+                                    <SelectItem value="Globe">Globe - Global</SelectItem>
+                                  </SelectContent>
+                                </Select>
                               </div>
                             </div>
                             
@@ -1245,25 +1281,6 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                 }}
                                 placeholder="Round-the-clock clinical and technical support"
                                 rows={2}
-                              />
-                            </div>
-                            
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">Source/Category</label>
-                              <Input
-                                value={stat.source || ''}
-                                onChange={(e) => {
-                                  const newStats = [...(editForm.content_data?.stats || [])];
-                                  newStats[index] = { ...stat, source: e.target.value };
-                                  setEditForm({
-                                    ...editForm,
-                                    content_data: {
-                                      ...editForm.content_data,
-                                      stats: newStats
-                                    }
-                                  });
-                                }}
-                                placeholder="Support Available"
                               />
                             </div>
                           </div>
