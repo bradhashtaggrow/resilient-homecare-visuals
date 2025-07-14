@@ -105,7 +105,25 @@ const StatsSection = () => {
           // Try to parse content_data if it exists and has the right structure
           try {
             if (data.content_data && typeof data.content_data === 'object' && 'stats' in data.content_data) {
-              parsedContentData = data.content_data as typeof parsedContentData;
+              console.log('Database content_data.stats:', data.content_data.stats);
+              
+              // Convert old structure to new structure if needed
+              const dbStats = (data.content_data as any).stats;
+              if (dbStats && Array.isArray(dbStats)) {
+                parsedContentData = {
+                  stats: dbStats.map((stat: any, index: number) => {
+                    const defaultIcons = ['DollarSign', 'TrendingUp', 'Heart', 'Users'];
+                    return {
+                      value: stat.value || '',
+                      title: stat.title || stat.label || '', // Handle both new (title) and old (label) structure
+                      description: stat.description || '',
+                      icon: stat.icon || defaultIcons[index] || 'DollarSign'
+                    };
+                  })
+                };
+              } else {
+                parsedContentData = data.content_data as typeof parsedContentData;
+              }
             }
           } catch (e) {
             console.log('Using default stats data due to parsing error:', e);
@@ -271,6 +289,9 @@ const StatsSection = () => {
   const stats = statsData.map((stat, index) => {
     const IconComponent = getIconComponent(stat.icon);
     const colors = ['primary', 'secondary', 'accent', 'primary'];
+    
+    console.log(`Stat ${index}:`, stat);
+    console.log(`Title being used: "${stat.title}"`);
     
     return {
       icon: React.createElement(IconComponent, { className: "h-10 w-10" }),
