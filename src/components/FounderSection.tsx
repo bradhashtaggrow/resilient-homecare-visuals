@@ -56,21 +56,33 @@ const FounderSection = () => {
           console.log('Loaded founder content from database:', data);
           const contentData = data.content_data as any;
           
+          // Parse the description field which contains the full story
+          let parsedContent = {
+            quote: "Dad's in the hospital, again...",
+            quote_subtitle: "That call became all too familiar.",
+            story: [] as string[],
+            closing: "We are Resilient. And so are you."
+          };
+
+          if (data.description) {
+            const paragraphs = data.description.split('\n\n').filter(p => p.trim());
+            if (paragraphs.length > 0) {
+              parsedContent.quote = paragraphs[0];
+              parsedContent.quote_subtitle = paragraphs[1] || "That call became all too familiar.";
+              parsedContent.story = paragraphs.slice(2, -1);
+              parsedContent.closing = paragraphs[paragraphs.length - 1] || "We are Resilient. And so are you.";
+            }
+          }
+          
           setContent({
             title: data.title || "Founder's Story",
             subtitle: data.subtitle || 'from Dr. Jackleen Samuel, PT, DPT | Founder & CEO',
             description: data.description || '',
             founder_image: contentData?.founder_image || "/lovable-uploads/0e13c6b2-1822-4376-ae28-4c9ed2e5f0c7.png",
-            quote: contentData?.quote || "Dad's in the hospital, again...",
-            quote_subtitle: contentData?.quote_subtitle || "That call became all too familiar.",
-            story: contentData?.story || [
-              "Over the last four years of my dad's life, he cycled through hospitals, rehab centers, and specialists. After his first stroke at 61, things never really stabilized. His chronic conditions—diabetes, hypertension, high cholesterol—were poorly managed, and each hospital stay left him weaker than before. Eventually, he couldn't return home at all.",
-              "As a physical therapist, I knew the system was broken—but as a daughter, I lived it. We were constantly exhausted, worried, and navigating a healthcare system that felt more fragmented and reactive than healing.",
-              "I built this company because families—and hospitals—deserve better.",
-              "At Resilient, we partner with hospitals to extend their care into the home. Whether it's primary care, rehab, or hospital-level services, we bring the team to the patient—without burning out clinicians or placing the burden on families. We built the infrastructure, technology, and clinical support so hospitals can deliver exceptional care anywhere.",
-              "Because patients want to stay home. Clinicians want to do what they were trained to do—without drowning in paperwork or unsustainable workloads. And hospitals need a better way to serve them both."
-            ],
-            closing: contentData?.closing || "We are Resilient. And so are you.",
+            quote: contentData?.quote || parsedContent.quote,
+            quote_subtitle: contentData?.quote_subtitle || parsedContent.quote_subtitle,
+            story: contentData?.story || parsedContent.story,
+            closing: contentData?.closing || parsedContent.closing,
             achievements: contentData?.achievements || [
               { icon: "BookOpen", title: "PT, DPT", subtitle: "Physical Therapist" },
               { icon: "Users", title: "Founder", subtitle: "& CEO" },
