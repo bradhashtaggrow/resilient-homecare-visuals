@@ -43,7 +43,8 @@ const iconMap: Record<string, LucideIcon> = {
 const Patients = () => {
   const [heroContent, setHeroContent] = useState({
     title: "Patient-centered",
-    highlightedText: "care at home"
+    highlightedText: "care at home",
+    backgroundVideoUrl: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
   });
   const [contentSection, setContentSection] = useState({
     title: "Patients",
@@ -66,14 +67,19 @@ const Patients = () => {
 
         if (heroData) {
           console.log('Loaded patients hero content:', heroData);
-          setHeroContent({
+          const newHeroContent = {
             title: heroData.title || "Patient-centered",
-            highlightedText: heroData.subtitle || "care at home"
-          });
+            highlightedText: heroData.subtitle || "care at home",
+            backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+          };
+          console.log('Setting new patients hero content:', newHeroContent);
+          setHeroContent(newHeroContent);
           setContentSection({
             title: "Patients",
             description: heroData.description || "We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home."
           });
+        } else {
+          console.log('No patients hero content found');
         }
 
         // Load mobile tabs content
@@ -131,6 +137,7 @@ const Patients = () => {
       <HeroSection 
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
+        backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
       <ContentSection 
