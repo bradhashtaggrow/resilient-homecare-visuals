@@ -137,6 +137,7 @@ const Contact = () => {
       <Navigation />
       
       <HeroSection 
+        key={`hero-${heroContent.backgroundVideoUrl}-${Date.now()}`} // Force re-render with timestamp
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
         backgroundVideoUrl={heroContent.backgroundVideoUrl}
