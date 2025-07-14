@@ -143,7 +143,7 @@ const ValuePropositionSection = () => {
   };
 
   return (
-    <section id="value-proposition-section" className="py-24 bg-gradient-to-br from-blue-50 via-white to-indigo-50/30 relative overflow-hidden">
+    <section id="value-proposition-section" className="py-24 bg-gradient-to-br from-blue-50 via-white to-indigo-50/30 relative">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl animate-pulse-slow"></div>
