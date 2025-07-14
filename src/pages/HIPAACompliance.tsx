@@ -1,17 +1,238 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/hero/HeroSection';
+import { supabase } from '@/integrations/supabase/client';
 
 const HIPAACompliance = () => {
+  const [content, setContent] = useState({
+    hero: {
+      title: 'HIPAA',
+      highlightedText: 'Compliance',
+      backgroundVideoUrl: null as string | null
+    },
+    body: {
+      subtitle: 'Effective Date: July 14, 2025',
+      description: `Effective Date: July 14, 2025
+
+1. Our Commitment to HIPAA Compliance
+Resilient Healthcare is committed to maintaining the highest standards of data protection and privacy in accordance with the Health Insurance Portability and Accountability Act (HIPAA) of 1996 and its implementing regulations.
+
+2. Protected Health Information (PHI)
+We understand that Protected Health Information (PHI) is any information that can identify an individual and relates to their health condition, healthcare provision, or payment for healthcare services. This includes:
+
+• Medical records and clinical data
+• Billing and payment information
+• Patient demographics and contact details
+• Health plan enrollment information
+• Electronic health records (EHR) data
+
+3. Administrative Safeguards
+Our administrative safeguards include:
+
+• Designated HIPAA Security Officer responsible for developing and implementing security policies
+• Regular workforce training on HIPAA compliance and data protection
+• Assigned security responsibilities to all workforce members
+• Information access management procedures
+• Regular security evaluations and risk assessments
+• Incident response and breach notification procedures
+
+4. Physical Safeguards
+We implement physical safeguards to protect electronic PHI:
+
+• Secure facility access controls and visitor management
+• Workstation and device access controls
+• Secure disposal of PHI-containing media
+• Assigned workstation use policies
+• Environmental controls for server rooms and data centers
+
+5. Technical Safeguards
+Our technical safeguards include:
+
+• Access control systems with unique user identification
+• Role-based access controls and audit logs
+• Encryption of PHI in transit and at rest
+• Multi-factor authentication for system access
+• Regular software updates and security patching
+• Automatic logoff procedures for inactive sessions
+
+6. Business Associate Agreements
+We maintain Business Associate Agreements (BAAs) with all third-party vendors and partners who may have access to PHI. These agreements ensure that all business associates comply with HIPAA requirements and maintain appropriate safeguards.
+
+7. Risk Assessment and Management
+We conduct regular risk assessments to:
+
+• Identify potential vulnerabilities in our systems
+• Evaluate the likelihood and impact of potential threats
+• Implement appropriate security measures to mitigate risks
+• Monitor and review security controls effectiveness
+• Update policies and procedures as needed
+
+8. Breach Notification
+In the event of a breach involving PHI, we follow strict protocols:
+
+• Immediate containment and assessment of the breach
+• Notification to affected individuals within 60 days
+• Notification to the Department of Health and Human Services
+• Documentation and analysis for prevention measures
+• Implementation of corrective actions
+
+9. Employee Training and Awareness
+All Resilient Healthcare employees receive comprehensive HIPAA training that covers:
+
+• Understanding of PHI and its protection requirements
+• Proper handling and disposal of sensitive information
+• Recognizing and reporting potential security incidents
+• Understanding penalties for HIPAA violations
+• Regular updates on policy changes and best practices
+
+10. Patient Rights
+Under HIPAA, patients have specific rights regarding their PHI:
+
+• Right to access their own health information
+• Right to request amendments to their records
+• Right to request restrictions on PHI use and disclosure
+• Right to receive an accounting of PHI disclosures
+• Right to request alternative communication methods
+
+11. Compliance Monitoring
+We maintain ongoing compliance through:
+
+• Regular internal audits and assessments
+• Third-party security evaluations
+• Continuous monitoring of access logs and system activities
+• Review and update of policies and procedures
+• Staff compliance monitoring and corrective actions
+
+12. Contact Information
+For questions about our HIPAA compliance practices or to report potential violations, please contact:
+
+HIPAA Privacy Officer
+Resilient Healthcare
+Email: privacy@resilienthc.com
+Phone: +1 888-874-0852
+Address: Dallas, TX`
+    }
+  });
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        // Load hero section
+        const { data: heroData } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'hipaa_hero')
+          .eq('is_active', true)
+          .single();
+
+        // Load body section
+        const { data: bodyData } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'hipaa_body')
+          .eq('is_active', true)
+          .single();
+
+        if (heroData) {
+          setContent(prev => ({
+            ...prev,
+            hero: {
+              title: heroData.title?.split(' ')[0] || 'HIPAA',
+              highlightedText: heroData.title?.split(' ')[1] || 'Compliance',
+              backgroundVideoUrl: heroData.background_video_url
+            }
+          }));
+        }
+
+        if (bodyData) {
+          setContent(prev => ({
+            ...prev,
+            body: {
+              subtitle: bodyData.subtitle || 'Effective Date: July 14, 2025',
+              description: bodyData.description || prev.body.description
+            }
+          }));
+        }
+      } catch (error) {
+        console.error('Error loading HIPAA compliance content:', error);
+      }
+    };
+
+    loadContent();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('hipaa-compliance-changes')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.hipaa_hero' },
+        () => loadContent()
+      )
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.hipaa_body' },
+        () => loadContent()
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const formatHIPAAContent = (text: string) => {
+    const sections = text.split(/(\d+\.\s+[^\n]+)/g).filter(Boolean);
+    
+    return sections.map((section, index) => {
+      if (/^\d+\.\s+/.test(section)) {
+        // This is a section header
+        return (
+          <h2 key={index} className="text-2xl font-semibold text-gray-900 mb-4 mt-8">
+            {section}
+          </h2>
+        );
+      } else {
+        // This is content - split by bullet points and paragraphs
+        const paragraphs = section.split('\n\n').filter(Boolean);
+        
+        return paragraphs.map((paragraph, pIndex) => {
+          if (paragraph.includes('•')) {
+            // This contains bullet points
+            const parts = paragraph.split('•').filter(Boolean);
+            const intro = parts[0].trim();
+            const bullets = parts.slice(1);
+            
+            return (
+              <div key={`${index}-${pIndex}`} className="mb-6">
+                {intro && <p className="text-gray-700 leading-relaxed mb-4">{intro}</p>}
+                <ul className="list-disc pl-6 text-gray-700 mb-4">
+                  {bullets.map((bullet, bIndex) => (
+                    <li key={bIndex}>{bullet.trim()}</li>
+                  ))}
+                </ul>
+              </div>
+            );
+          } else {
+            // Regular paragraph
+            return (
+              <p key={`${index}-${pIndex}`} className="text-gray-700 leading-relaxed mb-4">
+                {paragraph.trim()}
+              </p>
+            );
+          }
+        });
+      }
+    });
+  };
+
   return (
     <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
       <HeroSection 
-        title="HIPAA"
-        highlightedText="Compliance"
+        title={content.hero.title}
+        highlightedText={content.hero.highlightedText}
+        backgroundVideoUrl={content.hero.backgroundVideoUrl}
       />
 
       <main className="pb-12">
@@ -19,201 +240,20 @@ const HIPAACompliance = () => {
           <div className="prose prose-lg max-w-none">
             <div className="text-center mb-12">
               <p className="text-gray-600 text-lg">
-                <strong>Last updated:</strong> {new Date().toLocaleDateString()}
+                <strong>{content.body.subtitle}</strong>
               </p>
             </div>
 
-            <div className="space-y-8">
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Our Commitment to HIPAA Compliance
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  Resilient Healthcare is committed to protecting the privacy and security of Protected Health Information (PHI) 
-                  in accordance with the Health Insurance Portability and Accountability Act (HIPAA) and its implementing regulations. 
-                  This HIPAA Compliance Agreement outlines our policies, procedures, and safeguards to ensure the confidentiality, 
-                  integrity, and availability of all PHI we create, receive, maintain, or transmit.
-                </p>
-              </section>
+            <div className="space-y-6">
+              {formatHIPAAContent(content.body.description)}
+            </div>
 
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Business Associate Agreement
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  When Resilient Healthcare provides services to covered entities, we enter into Business Associate Agreements 
-                  that establish our responsibilities for protecting PHI. These agreements include:
-                </p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>Use and disclosure limitations for PHI</li>
-                  <li>Appropriate safeguards to prevent unauthorized use or disclosure</li>
-                  <li>Reporting procedures for security incidents</li>
-                  <li>Return or destruction of PHI upon contract termination</li>
-                  <li>Compliance with HIPAA Security Rule requirements</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Administrative Safeguards
-                </h2>
-                <div className="space-y-4 text-gray-700">
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Security Officer</h3>
-                    <p>We have designated a Security Officer responsible for developing and implementing security policies and procedures.</p>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Workforce Training</h3>
-                    <p>All workforce members receive HIPAA training upon hire and annually thereafter, covering privacy and security requirements.</p>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Access Management</h3>
-                    <p>We implement unique user identification, emergency access procedures, automatic logoff, and encryption controls.</p>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Physical Safeguards
-                </h2>
-                <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>Controlled facility access with authorized personnel only</li>
-                  <li>Workstation security controls to restrict access to PHI</li>
-                  <li>Media controls for electronic media containing PHI</li>
-                  <li>Secure disposal and reuse of electronic media</li>
-                  <li>Environmental controls to protect systems and equipment</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Technical Safeguards
-                </h2>
-                <div className="space-y-4 text-gray-700">
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Access Control</h3>
-                    <p>Implementation of technical policies and procedures that allow only authorized persons access to PHI.</p>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Audit Controls</h3>
-                    <p>Hardware, software, and procedural mechanisms for recording access to PHI systems.</p>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Integrity Controls</h3>
-                    <p>Measures to ensure PHI is not improperly altered or destroyed.</p>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Transmission Security</h3>
-                    <p>Technical controls to guard against unauthorized access to PHI transmitted over networks.</p>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Data Encryption and Security
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Resilient Healthcare employs industry-standard security measures to protect PHI:
-                </p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>AES-256 encryption for data at rest</li>
-                  <li>TLS 1.3 encryption for data in transit</li>
-                  <li>Multi-factor authentication for system access</li>
-                  <li>Regular security assessments and penetration testing</li>
-                  <li>Continuous monitoring and logging of system activities</li>
-                  <li>Secure backup and disaster recovery procedures</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Incident Response
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  In the event of a security incident involving PHI:
-                </p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>Immediate containment and assessment of the incident</li>
-                  <li>Notification to affected covered entities within 24 hours</li>
-                  <li>Documentation of the incident and response actions</li>
-                  <li>Implementation of corrective measures to prevent recurrence</li>
-                  <li>Cooperation with regulatory investigations as required</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Employee Responsibilities
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  All Resilient Healthcare employees and contractors must:
-                </p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>Complete HIPAA training and acknowledge understanding of policies</li>
-                  <li>Use PHI only for authorized purposes</li>
-                  <li>Report suspected security incidents immediately</li>
-                  <li>Maintain confidentiality of login credentials</li>
-                  <li>Follow minimum necessary standards when accessing PHI</li>
-                  <li>Securely dispose of PHI when no longer needed</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Third-Party Vendors
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  We ensure that all third-party vendors who may have access to PHI sign appropriate Business Associate Agreements 
-                  and maintain HIPAA-compliant security measures. Regular assessments are conducted to verify ongoing compliance.
-                </p>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Compliance Monitoring
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Resilient Healthcare maintains ongoing compliance through:
-                </p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>Regular risk assessments and security evaluations</li>
-                  <li>Annual policy reviews and updates</li>
-                  <li>Continuous workforce training and education</li>
-                  <li>Third-party security audits and certifications</li>
-                  <li>Documentation of all compliance activities</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Contact Information
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  For questions about our HIPAA compliance program or to report a security incident, please contact:
-                </p>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <p className="text-gray-700 mb-2">
-                    <strong>HIPAA Security Officer</strong><br />
-                    Resilient Healthcare<br />
-                    Email: info@resilienthc.com<br />
-                    Phone: +1 888-874-0852<br />
-                    Address: Dallas, TX
-                  </p>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Updates to This Agreement
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  This HIPAA Compliance Agreement may be updated periodically to reflect changes in regulations, 
-                  technology, or our business practices. We will notify covered entities of any material changes 
-                  that may affect their PHI protection.
-                </p>
-              </section>
+            <div className="bg-gray-50 p-6 rounded-lg mt-8">
+              <p className="text-gray-700 mb-2"><strong>HIPAA Privacy Officer</strong></p>
+              <p className="text-gray-700 mb-2"><strong>Resilient Healthcare</strong></p>
+              <p className="text-gray-700 mb-2">Email: privacy@resilienthc.com</p>
+              <p className="text-gray-700 mb-2">Phone: +1 888-874-0852</p>
+              <p className="text-gray-700">Address: Dallas, TX</p>
             </div>
           </div>
         </div>
