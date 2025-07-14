@@ -368,6 +368,69 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     await handleServiceImageUpload(file, serviceIndex);
   };
 
+  const handleFounderImageUpload = async (file: File) => {
+    try {
+      setUploadingImage(true);
+      
+      const fileExt = file.name.split('.').pop();
+      const fileName = `founder-${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = `website-content/founder/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('media')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('media')
+        .getPublicUrl(filePath);
+
+      // Update the founder image URL in the form
+      const updatedContentData = {
+        ...editForm.content_data,
+        founder_image: data.publicUrl
+      };
+
+      // Immediately save to database for real-time sync
+      const { error: updateError } = await supabase
+        .from('website_content')
+        .update({ content_data: updatedContentData })
+        .eq('id', editForm.id);
+
+      if (updateError) throw updateError;
+
+      setEditForm({
+        ...editForm,
+        content_data: updatedContentData
+      });
+
+      toast({
+        title: "Upload successful",
+        description: "Founder image uploaded and saved in real-time",
+      });
+
+      return data.publicUrl;
+    } catch (error) {
+      console.error('Error uploading founder image:', error);
+      toast({
+        title: "Upload failed",
+        description: "Failed to upload founder image",
+        variant: "destructive"
+      });
+      return null;
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleFounderImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    await handleFounderImageUpload(file);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -681,6 +744,54 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             rows={3}
                             className="w-full"
                           />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Founder Image Upload for founder section */}
+                    {section.section_key === 'founder' && (
+                      <div className="space-y-4 pt-4 border-t">
+                        <h4 className="font-medium text-gray-900">Founder Profile Image</h4>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <Image className="h-4 w-4 inline mr-1" />
+                            Founder Photo
+                          </label>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleFounderImageChange(e)}
+                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                          />
+                          {uploadingImage && (
+                            <div className="mt-2 text-sm text-blue-600 flex items-center">
+                              <RefreshCw className="h-3 w-3 animate-spin mr-1" />
+                              Uploading founder image...
+                            </div>
+                          )}
+                          {editForm.content_data?.founder_image && (
+                            <div className="mt-2 space-y-2">
+                              <div className="text-sm text-green-600">✓ Founder image available</div>
+                              <div className="relative w-32 h-32 rounded-full overflow-hidden bg-gray-100 border-2 border-blue-200">
+                                <img 
+                                  src={editForm.content_data.founder_image}
+                                  alt="Founder image preview"
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.style.display = 'none';
+                                  }}
+                                />
+                                <div className="absolute top-1 right-1 bg-black/50 rounded px-1">
+                                  <Image className="h-3 w-3 text-white" />
+                                </div>
+                              </div>
+                              <div className="text-xs text-gray-500 break-all">
+                                {editForm.content_data.founder_image.split('/').pop()}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
