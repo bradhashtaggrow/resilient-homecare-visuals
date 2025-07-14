@@ -2,19 +2,22 @@
 import React from 'react';
 import { BarChart, Monitor, Brain, Shield } from 'lucide-react';
 import { DemoScreen } from './AdminDemoScreens';
+import OptimizedVideo from '../OptimizedVideo';
 
 interface AdminLaptopVisualizationProps {
   isVisible: boolean;
   laptopOpen: boolean;
   activeDemo: number;
   demoScreens: DemoScreen[];
+  backgroundVideoUrl?: string;
 }
 
 const AdminLaptopVisualization = ({ 
   isVisible, 
   laptopOpen, 
   activeDemo, 
-  demoScreens 
+  demoScreens,
+  backgroundVideoUrl
 }: AdminLaptopVisualizationProps) => {
   return (
     <div className="flex justify-center bg-gray-900">
@@ -64,18 +67,13 @@ const AdminLaptopVisualization = ({
           >
             {/* Screen Content with HD Video Background */}
             <div className="w-full h-full relative overflow-hidden rounded-2xl">
-              {/* HD Video Background - Same as landing page */}
+              {/* HD Video Background inside laptop screen */}
               <div className="absolute inset-0 z-0">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
+                <OptimizedVideo
+                  key={backgroundVideoUrl || 'fallback'} // Force re-render when URL changes
+                  src={backgroundVideoUrl || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'}
                   className="absolute inset-0 w-full h-full object-cover rounded-2xl"
-                >
-                  <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
-                </video>
+                />
                 {/* Minimal dark overlay for text readability */}
                 <div className="absolute inset-0 bg-black/30 rounded-2xl" />
               </div>
