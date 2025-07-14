@@ -135,34 +135,9 @@ const AdminDashboard = React.memo(() => {
 
   return (
     <section id="admin-dashboard" className="py-20 sm:py-24 md:py-32 lg:py-40 relative overflow-hidden min-h-screen">
-      {/* Background Media */}
-      {content?.background_video_url ? (
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src={content.background_video_url} type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
-      ) : content?.background_image_url ? (
-        <div className="absolute inset-0 z-0">
-          <img
-            src={content.background_image_url}
-            alt="Admin dashboard background"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
-      ) : (
-        <div className="absolute inset-0 bg-gray-900">
-          <AdminAnimatedBackground />
-        </div>
-      )}
+      <div className="absolute inset-0 bg-gray-900">
+        <AdminAnimatedBackground />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Enhanced Title with Mobile Optimization - Using reverse swoop */}

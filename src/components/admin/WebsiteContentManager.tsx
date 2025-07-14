@@ -189,8 +189,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   };
 
   const hasBackgroundMedia = (section: WebsiteContent) => {
-    // Only hero, mobile, and laptop (admin_dashboard) sections have background media
-    return ['hero', 'mobile_showcase', 'admin_dashboard'].includes(section.section_key);
+    // Only hero and mobile sections have background media
+    return ['hero', 'mobile_showcase'].includes(section.section_key);
   };
 
   const handleImageUpload = async (file: File) => {
