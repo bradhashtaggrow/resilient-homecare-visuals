@@ -66,10 +66,11 @@ const StatsSection = () => {
           .select('*')
           .eq('section_key', 'stats')
           .eq('is_active', true)
-          .single();
+          .maybeSingle();
 
         if (data && !error) {
           console.log('Loaded stats content from database:', data);
+          console.log('Raw content_data:', data.content_data);
           
           // Safely handle content_data conversion
           let parsedContentData = {
@@ -259,11 +260,13 @@ const StatsSection = () => {
 
   // Use database content or fallback to default stats
   const statsData = content.content_data?.stats || [
-    { value: '38%', title: 'Cost Savings', description: 'Default description', icon: 'DollarSign' },
-    { value: '70%', title: 'Reduction in Readmissions', description: 'Default description', icon: 'TrendingUp' },
-    { value: '91%', title: 'Patient Preference', description: 'Default description', icon: 'Heart' },
-    { value: '95%', title: 'Less Stress', description: 'Default description', icon: 'Users' }
+    { value: '38%', title: 'Healthcare Organizations', description: 'Leading hospitals and health systems trust our platform', icon: 'DollarSign' },
+    { value: '70%', title: 'Patient Satisfaction', description: 'Patients prefer care delivered at home', icon: 'DollarSign' },
+    { value: '91%', title: 'Cost Reduction', description: 'Average savings compared to traditional care models', icon: 'DollarSign' },
+    { value: '95%', title: 'Support Available', description: 'Round-the-clock clinical and technical support', icon: 'DollarSign' }
   ];
+
+  console.log('Final statsData being used:', statsData);
 
   const stats = statsData.map((stat, index) => {
     const IconComponent = getIconComponent(stat.icon);
