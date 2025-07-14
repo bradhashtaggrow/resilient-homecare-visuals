@@ -1,16 +1,250 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/hero/HeroSection';
+import { supabase } from '@/integrations/supabase/client';
 
 const DataSecurity = () => {
+  const [content, setContent] = useState({
+    hero: {
+      title: 'Data',
+      highlightedText: 'Security',
+      backgroundVideoUrl: null as string | null
+    },
+    body: {
+      subtitle: 'Effective Date: July 14, 2025',
+      description: `Effective Date: July 14, 2025
+
+1. Our Commitment to Data Security
+Resilient Healthcare is committed to implementing and maintaining the highest standards of data security to protect sensitive healthcare information and ensure the confidentiality, integrity, and availability of all data entrusted to us.
+
+2. Data Classification and Handling
+We classify data based on sensitivity levels and apply appropriate security controls:
+
+• Public Data - Information available to the general public
+• Internal Data - Information intended for internal use within the organization
+• Confidential Data - Sensitive business information requiring protection
+• Restricted Data - Highly sensitive data including PHI requiring the highest level of protection
+
+3. Encryption Standards
+We employ industry-leading encryption technologies to protect data:
+
+• AES-256 encryption for data at rest
+• TLS 1.3 encryption for data in transit
+• End-to-end encryption for sensitive communications
+• Hardware Security Modules (HSMs) for key management
+• Regular encryption key rotation and management
+• Zero-knowledge architecture for maximum privacy
+
+4. Access Controls and Authentication
+Our access control framework includes:
+
+• Multi-factor authentication (MFA) for all user accounts
+• Role-based access control (RBAC) with principle of least privilege
+• Just-in-time access provisioning for temporary elevated permissions
+• Continuous authentication monitoring and anomaly detection
+• Regular access reviews and certification processes
+• Automated account deprovisioning for terminated users
+
+5. Network Security
+We maintain robust network security measures:
+
+• Next-generation firewalls with deep packet inspection
+• Network segmentation and micro-segmentation
+• Intrusion detection and prevention systems (IDS/IPS)
+• DDoS protection and traffic analysis
+• Virtual private networks (VPNs) for secure remote access
+• Network monitoring and threat intelligence integration
+
+6. Vulnerability Management
+Our vulnerability management program includes:
+
+• Continuous vulnerability scanning and assessment
+• Regular penetration testing by certified security professionals
+• Automated patch management and testing
+• Security configuration management
+• Threat modeling and risk assessment
+• Bug bounty programs for external security research
+
+7. Incident Response and Recovery
+We maintain a comprehensive incident response capability:
+
+• 24/7 security operations center (SOC) monitoring
+• Incident response team with defined roles and responsibilities
+• Automated threat detection and response capabilities
+• Forensic analysis and evidence preservation procedures
+• Business continuity and disaster recovery planning
+• Regular incident response drills and tabletop exercises
+
+8. Data Backup and Recovery
+Our data protection strategy includes:
+
+• Automated daily backups with multiple retention periods
+• Geographically distributed backup storage locations
+• Regular backup testing and restoration procedures
+• Point-in-time recovery capabilities
+• Immutable backup storage to prevent ransomware attacks
+• Recovery time objectives (RTO) and recovery point objectives (RPO)
+
+9. Security Monitoring and Analytics
+We employ advanced security monitoring:
+
+• Security Information and Event Management (SIEM) systems
+• User and Entity Behavior Analytics (UEBA)
+• Machine learning-based threat detection
+• Real-time security alerting and notification
+• Compliance monitoring and reporting
+• Integration with threat intelligence feeds
+
+10. Compliance and Auditing
+We maintain compliance with security standards:
+
+• SOC 2 Type II compliance and annual audits
+• HIPAA Security Rule compliance
+• Regular internal and external security assessments
+• Compliance monitoring and reporting dashboards
+• Evidence collection and audit trail maintenance
+• Third-party security certifications and validations
+
+11. Employee Security Training
+All employees receive comprehensive security training:
+
+• Security awareness training upon hiring
+• Annual security training updates and refreshers
+• Phishing simulation and testing programs
+• Role-specific security training for technical staff
+• Incident reporting and escalation procedures
+• Security policy acknowledgment and compliance
+
+12. Contact Information
+For security-related inquiries or to report security incidents, please contact:
+
+Chief Information Security Officer
+Resilient Healthcare
+Email: security@resilienthc.com
+Phone: +1 888-874-0852
+Security Hotline: Available 24/7
+Address: Dallas, TX`
+    }
+  });
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        // Load hero section
+        const { data: heroData } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'security_hero')
+          .eq('is_active', true)
+          .single();
+
+        // Load body section
+        const { data: bodyData } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'security_body')
+          .eq('is_active', true)
+          .single();
+
+        if (heroData) {
+          setContent(prev => ({
+            ...prev,
+            hero: {
+              title: heroData.title?.split(' ')[0] || 'Data',
+              highlightedText: heroData.title?.split(' ')[1] || 'Security',
+              backgroundVideoUrl: heroData.background_video_url
+            }
+          }));
+        }
+
+        if (bodyData) {
+          setContent(prev => ({
+            ...prev,
+            body: {
+              subtitle: bodyData.subtitle || 'Effective Date: July 14, 2025',
+              description: bodyData.description || prev.body.description
+            }
+          }));
+        }
+      } catch (error) {
+        console.error('Error loading data security content:', error);
+      }
+    };
+
+    loadContent();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('data-security-changes')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.security_hero' },
+        () => loadContent()
+      )
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.security_body' },
+        () => loadContent()
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const formatSecurityContent = (text: string) => {
+    const sections = text.split(/(\d+\.\s+[^\n]+)/g).filter(Boolean);
+    
+    return sections.map((section, index) => {
+      if (/^\d+\.\s+/.test(section)) {
+        // This is a section header
+        return (
+          <h2 key={index} className="text-2xl font-semibold text-gray-900 mb-4 mt-8">
+            {section}
+          </h2>
+        );
+      } else {
+        // This is content - split by bullet points and paragraphs
+        const paragraphs = section.split('\n\n').filter(Boolean);
+        
+        return paragraphs.map((paragraph, pIndex) => {
+          if (paragraph.includes('•')) {
+            // This contains bullet points
+            const parts = paragraph.split('•').filter(Boolean);
+            const intro = parts[0].trim();
+            const bullets = parts.slice(1);
+            
+            return (
+              <div key={`${index}-${pIndex}`} className="mb-6">
+                {intro && <p className="text-gray-700 leading-relaxed mb-4">{intro}</p>}
+                <ul className="list-disc pl-6 text-gray-700 mb-4">
+                  {bullets.map((bullet, bIndex) => (
+                    <li key={bIndex}>{bullet.trim()}</li>
+                  ))}
+                </ul>
+              </div>
+            );
+          } else {
+            // Regular paragraph
+            return (
+              <p key={`${index}-${pIndex}`} className="text-gray-700 leading-relaxed mb-4">
+                {paragraph.trim()}
+              </p>
+            );
+          }
+        });
+      }
+    });
+  };
+
   return (
     <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
       <HeroSection 
-        title="Data"
-        highlightedText="Security"
+        title={content.hero.title}
+        highlightedText={content.hero.highlightedText}
+        backgroundVideoUrl={content.hero.backgroundVideoUrl}
       />
 
       <main className="pb-12">
@@ -18,324 +252,21 @@ const DataSecurity = () => {
           <div className="prose prose-lg max-w-none">
             <div className="text-center mb-12">
               <p className="text-gray-600 text-lg">
-                <strong>Last updated:</strong> {new Date().toLocaleDateString()}
+                <strong>{content.body.subtitle}</strong>
               </p>
             </div>
 
-            <div className="space-y-8">
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Our Commitment to Data Security
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  At Resilient Healthcare, we understand that protecting patient data and sensitive healthcare information 
-                  is not just a regulatory requirement—it's fundamental to maintaining trust and ensuring the highest 
-                  standards of care. Our comprehensive data security framework implements multiple layers of protection 
-                  to safeguard all information entrusted to our platform.
-                </p>
-              </section>
+            <div className="space-y-6">
+              {formatSecurityContent(content.body.description)}
+            </div>
 
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Enterprise-Grade Security Infrastructure
-                </h2>
-                <div className="space-y-4 text-gray-700">
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Cloud Security Architecture</h3>
-                    <p>Our platform is built on industry-leading cloud infrastructure with enterprise-grade security controls:</p>
-                    <ul className="list-disc pl-6 mt-2 space-y-1">
-                      <li>SOC 2 Type II certified data centers</li>
-                      <li>Multi-region redundancy and disaster recovery</li>
-                      <li>24/7 security monitoring and incident response</li>
-                      <li>Regular third-party security audits and penetration testing</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Network Security</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Web Application Firewall (WAF) protection</li>
-                      <li>DDoS protection and traffic filtering</li>
-                      <li>Virtual Private Cloud (VPC) isolation</li>
-                      <li>Network segmentation and microsegmentation</li>
-                      <li>Intrusion detection and prevention systems</li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Data Encryption and Protection
-                </h2>
-                <div className="space-y-4 text-gray-700">
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Encryption Standards</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li><strong>Data at Rest:</strong> AES-256 encryption for all stored data</li>
-                      <li><strong>Data in Transit:</strong> TLS 1.3 encryption for all communications</li>
-                      <li><strong>Database Encryption:</strong> Transparent data encryption (TDE)</li>
-                      <li><strong>Backup Encryption:</strong> All backups encrypted with separate keys</li>
-                      <li><strong>Key Management:</strong> Hardware Security Module (HSM) protected keys</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Data Classification</h3>
-                    <p>We implement a comprehensive data classification system:</p>
-                    <ul className="list-disc pl-6 mt-2 space-y-1">
-                      <li>Protected Health Information (PHI) - Highest security level</li>
-                      <li>Personally Identifiable Information (PII) - High security level</li>
-                      <li>Business confidential data - Medium security level</li>
-                      <li>Public information - Standard security level</li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Access Control and Authentication
-                </h2>
-                <div className="space-y-4 text-gray-700">
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Multi-Factor Authentication (MFA)</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Mandatory MFA for all user accounts</li>
-                      <li>Support for authenticator apps, SMS, and hardware tokens</li>
-                      <li>Adaptive authentication based on risk assessment</li>
-                      <li>Single Sign-On (SSO) integration with enterprise systems</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Role-Based Access Control (RBAC)</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Principle of least privilege access</li>
-                      <li>Granular permissions based on job functions</li>
-                      <li>Regular access reviews and certifications</li>
-                      <li>Automated deprovisioning for inactive accounts</li>
-                      <li>Privileged access management for administrative functions</li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Security Monitoring and Compliance
-                </h2>
-                <div className="space-y-4 text-gray-700">
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Continuous Monitoring</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>24/7 Security Operations Center (SOC)</li>
-                      <li>Real-time threat detection and response</li>
-                      <li>Comprehensive audit logging and retention</li>
-                      <li>Behavioral analytics and anomaly detection</li>
-                      <li>Automated security incident response workflows</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Compliance Certifications</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>HIPAA compliance with Business Associate Agreements</li>
-                      <li>SOC 2 Type II certification</li>
-                      <li>GDPR compliance for international operations</li>
-                      <li>CCPA compliance for California residents</li>
-                      <li>FedRAMP authorization in progress</li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Application Security
-                </h2>
-                <div className="space-y-4 text-gray-700">
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Secure Development Lifecycle</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Security by design principles</li>
-                      <li>Static and dynamic application security testing</li>
-                      <li>Code review and vulnerability scanning</li>
-                      <li>Dependency management and vulnerability patching</li>
-                      <li>Container security and image scanning</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Runtime Protection</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Runtime application self-protection (RASP)</li>
-                      <li>API security and rate limiting</li>
-                      <li>Input validation and sanitization</li>
-                      <li>Cross-site scripting (XSS) protection</li>
-                      <li>SQL injection prevention</li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Data Backup and Recovery
-                </h2>
-                <div className="space-y-4 text-gray-700">
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Backup Strategy</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Automated daily backups with point-in-time recovery</li>
-                      <li>Cross-region replication for disaster recovery</li>
-                      <li>Encrypted backup storage with separate access controls</li>
-                      <li>Regular backup testing and restoration procedures</li>
-                      <li>Long-term archival with immutable storage</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Business Continuity</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>99.9% uptime SLA with automatic failover</li>
-                      <li>Disaster recovery testing every quarter</li>
-                      <li>Recovery Time Objective (RTO): 4 hours</li>
-                      <li>Recovery Point Objective (RPO): 1 hour</li>
-                      <li>Comprehensive incident response procedures</li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Employee Security Training
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Our team undergoes comprehensive security training to ensure they understand their role in maintaining data security:
-                </p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>Annual security awareness training for all employees</li>
-                  <li>Specialized HIPAA and PHI handling training</li>
-                  <li>Phishing simulation and response training</li>
-                  <li>Secure coding practices for development teams</li>
-                  <li>Incident response and escalation procedures</li>
-                  <li>Regular security updates and threat briefings</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Third-Party Security
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  We carefully vet all third-party vendors and partners to ensure they meet our security standards:
-                </p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>Comprehensive vendor security assessments</li>
-                  <li>Business Associate Agreements with all healthcare vendors</li>
-                  <li>Regular security reviews and audits of partners</li>
-                  <li>Contractual security requirements and SLAs</li>
-                  <li>Continuous monitoring of third-party access</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Incident Response and Breach Notification
-                </h2>
-                <div className="space-y-4 text-gray-700">
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Incident Response Process</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Immediate containment and assessment within 1 hour</li>
-                      <li>Forensic investigation and root cause analysis</li>
-                      <li>Coordination with law enforcement when required</li>
-                      <li>Regular incident response drills and tabletop exercises</li>
-                      <li>Post-incident review and improvement process</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Breach Notification</h3>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Customer notification within 24 hours of confirmed breach</li>
-                      <li>Regulatory notification as required by applicable laws</li>
-                      <li>Transparent communication about impact and remediation</li>
-                      <li>Support for affected customers and individuals</li>
-                      <li>Credit monitoring services when appropriate</li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Data Retention and Disposal
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  We maintain strict policies for data retention and secure disposal:
-                </p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>Data retention schedules based on regulatory requirements</li>
-                  <li>Automated data lifecycle management</li>
-                  <li>Secure data destruction using NIST standards</li>
-                  <li>Certificate of destruction for sensitive data disposal</li>
-                  <li>Regular purging of temporary and cache data</li>
-                  <li>Customer data portability and deletion upon request</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Transparency and Reporting
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  We believe in transparency regarding our security practices:
-                </p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>Annual security and compliance reports</li>
-                  <li>Real-time security dashboard for enterprise customers</li>
-                  <li>Regular security webinars and updates</li>
-                  <li>Open communication about security improvements</li>
-                  <li>Customer security advisory board participation</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Contact Our Security Team
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  For security-related questions, concerns, or to report a potential security issue:
-                </p>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <p className="text-gray-700 mb-2">
-                    <strong>Security Team</strong><br />
-                    Resilient Healthcare<br />
-                    Email: security@resilientcare.com<br />
-                    Phone: 1-800-RESILIENT (Emergency Line)<br />
-                    Address: San Francisco, CA
-                  </p>
-                  <p className="text-sm text-gray-600 mt-4">
-                    For urgent security matters, please call our 24/7 emergency line. 
-                    For non-urgent security questions, email responses are typically provided within 24 hours.
-                  </p>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Continuous Improvement
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  Our data security framework is continuously evolving to address emerging threats and incorporate 
-                  industry best practices. We regularly review and update our security policies, conduct risk 
-                  assessments, and invest in new technologies to maintain the highest levels of protection for 
-                  our customers' data.
-                </p>
-              </section>
+            <div className="bg-gray-50 p-6 rounded-lg mt-8">
+              <p className="text-gray-700 mb-2"><strong>Chief Information Security Officer</strong></p>
+              <p className="text-gray-700 mb-2"><strong>Resilient Healthcare</strong></p>
+              <p className="text-gray-700 mb-2">Email: security@resilienthc.com</p>
+              <p className="text-gray-700 mb-2">Phone: +1 888-874-0852</p>
+              <p className="text-gray-700 mb-2">Security Hotline: Available 24/7</p>
+              <p className="text-gray-700">Address: Dallas, TX</p>
             </div>
           </div>
         </div>
