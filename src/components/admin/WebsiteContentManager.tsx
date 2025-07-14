@@ -181,8 +181,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
         is_active: editForm.is_active ?? true
       };
 
-      // Include content_data for service_lines and mobile_showcase sections
-      if ((editingSection === 'service_lines' || editingSection === 'mobile_showcase') && editForm.content_data) {
+      // Include content_data for sections that use it
+      if ((editingSection === 'service_lines' || editingSection === 'mobile_showcase' || editingSection === 'admin_dashboard') && editForm.content_data) {
         updateData.content_data = editForm.content_data;
       }
 
@@ -640,6 +640,50 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                         className="w-full"
                       />
                     </div>
+
+                    {/* CTA Fields for admin_dashboard section */}
+                    {section.section_key === 'admin_dashboard' && (
+                      <div className="space-y-4 pt-4 border-t">
+                        <h4 className="font-medium text-gray-900">Call to Action Section</h4>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            CTA Headline
+                          </label>
+                          <Input
+                            value={editForm.content_data?.cta_headline || ''}
+                            onChange={(e) => setEditForm({
+                              ...editForm,
+                              content_data: {
+                                ...editForm.content_data,
+                                cta_headline: e.target.value
+                              }
+                            })}
+                            placeholder="Ready to Transform Your Healthcare Operations?"
+                            className="w-full"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            CTA Description
+                          </label>
+                          <Textarea
+                            value={editForm.content_data?.cta_description || ''}
+                            onChange={(e) => setEditForm({
+                              ...editForm,
+                              content_data: {
+                                ...editForm.content_data,
+                                cta_description: e.target.value
+                              }
+                            })}
+                            placeholder="Join forward-thinking healthcare organizations who've already revolutionized their operations. See our comprehensive platform in action with a personalized demonstration."
+                            rows={3}
+                            className="w-full"
+                          />
+                        </div>
+                      </div>
+                    )}
 
                     {/* Tab Editor for service_lines section */}
                     {section.section_key === 'service_lines' && (
