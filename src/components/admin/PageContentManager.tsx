@@ -169,7 +169,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     } else if (selectedPage === 'contact') {
       contentFilter = 'section_key=in.(contact_hero,footer)';
     } else if (selectedPage === 'privacy-policy') {
-      contentFilter = 'section_key=in.(privacy_hero,privacy_body,footer)';
+      contentFilter = 'section_key=in.(privacy_hero,privacy_body)';
     } else {
       const prefix = getPagePrefix(selectedPage);
       contentFilter = `section_key.like.${prefix}%`;
@@ -226,8 +226,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
         // For contact page, show hero section first then footer
         query = query.or(`section_key.eq.contact_hero,section_key.eq.footer`);
       } else if (selectedPage === 'privacy-policy') {
-        // For privacy policy page, show hero and body sections then footer
-        query = query.or(`section_key.eq.privacy_hero,section_key.eq.privacy_body,section_key.eq.footer`);
+        // For privacy policy page, show hero and body sections only
+        query = query.or(`section_key.eq.privacy_hero,section_key.eq.privacy_body`);
       } else {
         // For other pages, get sections with the page prefix
         query = query.like('section_key', `${prefix}%`);
