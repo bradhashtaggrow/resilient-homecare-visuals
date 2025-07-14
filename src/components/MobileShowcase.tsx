@@ -65,7 +65,7 @@ const MobileShowcase = () => {
           const contentData = data.content_data as any;
           
           setContent({
-            title: 'Go Mobile With Your Patients',
+            title: data.title || 'Go Mobile With Your Patients',
             subtitle: data.subtitle || '',
             description: data.description || 'Enterprise-grade mobile platform that connects your entire healthcare ecosystem with military-grade security and real-time insights.',
             features: contentData?.features || keyFeatures,
