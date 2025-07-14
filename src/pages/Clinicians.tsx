@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
@@ -14,12 +13,6 @@ const Clinicians = () => {
     title: 'Enabling',
     highlightedText: 'seamless referrals',
     background_video_url: ''
-  });
-  
-  const [footerContent, setFooterContent] = useState({
-    title: 'Resilient Healthcare',
-    subtitle: 'Empowering Clinicians Everywhere',
-    background_image_url: ''
   });
   
   const [services, setServices] = useState([
@@ -109,21 +102,6 @@ const Clinicians = () => {
           });
         }
 
-        // Load footer content
-        const { data: footerData, error: footerError } = await supabase
-          .from('website_content')
-          .select('*')
-          .eq('section_key', 'clinicians_footer')
-          .eq('is_active', true)
-          .single();
-
-        if (footerData && !footerError) {
-          setFooterContent({
-            title: footerData.title || 'Resilient Healthcare',
-            subtitle: footerData.subtitle || 'Empowering Clinicians Everywhere',
-            background_image_url: footerData.background_image_url || '/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png'
-          });
-        }
 
         // Load services content
         const { data: servicesData, error: servicesError } = await supabase
@@ -170,7 +148,7 @@ const Clinicians = () => {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=in.(clinicians_hero,clinicians_mobile,clinicians_footer)'
+        filter: 'section_key=in.(clinicians_hero,clinicians_mobile)'
       }, (payload) => {
         console.log('Real-time clinicians content change:', payload);
         loadContent();
@@ -200,8 +178,6 @@ const Clinicians = () => {
       <ServicesGrid services={services} />
 
       <LeadGenSection />
-
-      <Footer />
     </div>
   );
 };

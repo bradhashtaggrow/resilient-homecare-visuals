@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
@@ -12,7 +11,6 @@ import { supabase } from '@/integrations/supabase/client';
 const CareAtHome = () => {
   const [services, setServices] = useState([]);
   const [heroContent, setHeroContent] = useState({ title: '', subtitle: '', background_video_url: '' });
-  const [footerContent, setFooterContent] = useState({ title: '', subtitle: '', background_image_url: '' });
 
   // Available icons mapping with consistent blue gradient styling
   const availableIcons = {
@@ -79,21 +77,6 @@ const CareAtHome = () => {
           });
         }
 
-        // Load footer content
-        const { data: footerData, error: footerError } = await supabase
-          .from('website_content')
-          .select('*')
-          .eq('section_key', 'care_at_home_footer')
-          .eq('is_active', true)
-          .single();
-
-        if (footerData && !footerError) {
-          setFooterContent({
-            title: footerData.title || 'Resilient Healthcare',
-            subtitle: footerData.subtitle || 'Leading Innovation in Healthcare Solutions',
-            background_image_url: footerData.background_image_url || '/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png'
-          });
-        }
 
       } catch (error) {
         console.error('Error loading care at home content:', error);
@@ -109,7 +92,7 @@ const CareAtHome = () => {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=in.(care_at_home_mobile,care_at_home_hero,care_at_home_footer)'
+        filter: 'section_key=in.(care_at_home_mobile,care_at_home_hero)'
       }, (payload) => {
         console.log('Real-time care at home content change:', payload);
         loadContent();
@@ -139,8 +122,6 @@ const CareAtHome = () => {
       {services.length > 0 && <TabsSection services={services} />}
 
       <LeadGenSection />
-
-      <Footer />
     </div>
   );
 };
