@@ -110,7 +110,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'care-at-home': 'care_at_home_',
       'patients': 'patients_',
       'news': 'news_',
-      'contact': '' // No prefix for contact, use specific sections
+      'contact': '', // No prefix for contact, use specific sections
+      'privacy-policy': 'privacy_'
     };
     return prefixes[page] || '';
   };
@@ -167,6 +168,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       contentFilter = 'section_key=in.(hero,patient_tabs,services,mobile_showcase,value_proposition,admin_dashboard,founder,stats,lead_generation,navigation,footer)';
     } else if (selectedPage === 'contact') {
       contentFilter = 'section_key=in.(contact_hero,footer)';
+    } else if (selectedPage === 'privacy-policy') {
+      contentFilter = 'section_key=in.(privacy_hero,privacy_body,footer)';
     } else {
       const prefix = getPagePrefix(selectedPage);
       contentFilter = `section_key.like.${prefix}%`;
@@ -222,6 +225,9 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       } else if (selectedPage === 'contact') {
         // For contact page, show hero section first then footer
         query = query.or(`section_key.eq.contact_hero,section_key.eq.footer`);
+      } else if (selectedPage === 'privacy-policy') {
+        // For privacy policy page, show hero and body sections then footer
+        query = query.or(`section_key.eq.privacy_hero,section_key.eq.privacy_body,section_key.eq.footer`);
       } else {
         // For other pages, get sections with the page prefix
         query = query.like('section_key', `${prefix}%`);
@@ -357,6 +363,11 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       
       // Contact
       'get_in_touch': 'Get in Touch Section',
+      
+      // Privacy Policy
+      'privacy_hero': 'Hero Section',
+      'privacy_body': 'Body',
+      
       'footer': 'Footer'
     };
     
