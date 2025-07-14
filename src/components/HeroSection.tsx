@@ -116,15 +116,11 @@ const HeroSection = React.memo(() => {
       {/* Background Media */}
       {content?.background_video_url ? (
         <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
+          <OptimizedVideo
+            key={content.background_video_url} // Force re-render when URL changes
+            src={content.background_video_url}
             className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src={content.background_video_url} type="video/mp4" />
-          </video>
+          />
           <div className="absolute inset-0 bg-black/30" />
         </div>
       ) : content?.background_image_url ? (
