@@ -27,7 +27,7 @@ const News = () => {
   const [loading, setLoading] = useState(true);
   const [heroContent, setHeroContent] = useState<HeroContent>({
     title: "Healthcare",
-    highlightedText: "News & Updates",
+    highlightedText: "", // Start empty, only use database content
     backgroundVideoUrl: '' // Start empty, only show database video
   });
   const [contentSection, setContentSection] = useState<ContentSectionData>({
@@ -54,7 +54,7 @@ const News = () => {
         console.log('Loaded news hero content:', heroData);
         const newHeroContent = {
           title: heroData.title || "Healthcare",
-          highlightedText: heroData.subtitle || "News & Updates",
+          highlightedText: heroData.subtitle || '', // No hardcoded fallback, use database value only
           backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
         };
         console.log('Setting new news hero content:', newHeroContent);
