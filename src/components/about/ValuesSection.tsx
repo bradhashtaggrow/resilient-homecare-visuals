@@ -1,25 +1,71 @@
 
-import React from 'react';
-import { Heart, Award, TrendingUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Heart, Award, TrendingUp, Lightbulb } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+const iconMap = {
+  Heart,
+  Award,
+  TrendingUp,
+  Lightbulb,
+};
 
 const ValuesSection = () => {
-  const values = [
-    {
-      title: "Compassionate Care",
-      description: "Every interaction is guided by empathy, respect, and genuine concern for patient well-being.",
-      icon: Heart,
-    },
-    {
-      title: "Excellence",
-      description: "We maintain the highest standards in everything we do, from clinical care to customer service.",
-      icon: Award,
-    },
-    {
-      title: "Innovation",
-      description: "Continuously improving healthcare delivery through technology and creative solutions.",
-      icon: TrendingUp,
-    }
-  ];
+  const [content, setContent] = useState({
+    title: 'Our Core Values',
+    subtitle: 'The principles that guide everything we do in transforming healthcare delivery',
+    values: [
+      {
+        title: "Compassionate Care",
+        description: "Every interaction is guided by empathy, respect, and genuine concern for patient well-being.",
+        icon_name: "Heart",
+      },
+      {
+        title: "Excellence",
+        description: "We maintain the highest standards in everything we do, from clinical care to customer service.",
+        icon_name: "Award",
+      },
+      {
+        title: "Innovation",
+        description: "Continuously improving healthcare delivery through technology and creative solutions.",
+        icon_name: "TrendingUp",
+      }
+    ]
+  });
+
+  useEffect(() => {
+    const loadContent = async () => {
+      const { data } = await supabase
+        .from('website_content')
+        .select('*')
+        .eq('section_key', 'about_core_values')
+        .eq('is_active', true)
+        .single();
+
+      if (data) {
+        const contentData = data.content_data as any;
+        setContent({
+          title: data.title || 'Our Core Values',
+          subtitle: data.subtitle || 'The principles that guide everything we do in transforming healthcare delivery',
+          values: contentData?.values || content.values
+        });
+      }
+    };
+
+    loadContent();
+
+    const channel = supabase
+      .channel('core-values-changes')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.about_core_values' },
+        () => loadContent()
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   return (
     <section className="py-12 md:py-16 lg:py-24 bg-white">
@@ -27,16 +73,16 @@ const ValuesSection = () => {
         <div className="text-center mb-8 md:mb-12 lg:mb-16">
           <h2 className="font-black tracking-tight font-apple mb-4 md:mb-6" 
               style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
-            Our Core Values
+            {content.title}
           </h2>
           <p className="text-base md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
-            The principles that guide everything we do in transforming healthcare delivery
+            {content.subtitle}
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {values.map((value, index) => {
-            const IconComponent = value.icon;
+          {content.values.map((value, index) => {
+            const IconComponent = iconMap[value.icon_name as keyof typeof iconMap] || Heart;
             
             return (
               <div key={index} className="group text-center bg-white rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 lg:hover:-translate-y-4 border border-gray-100">
