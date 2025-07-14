@@ -26,15 +26,45 @@ const ValuePropositionSection = () => {
   });
 
   const [isVisible, setIsVisible] = useState(false);
+  const [currentLine, setCurrentLine] = useState(0);
+  const [displayedFirstLine, setDisplayedFirstLine] = useState('');
+  const [displayedSecondLine, setDisplayedSecondLine] = useState('');
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
 
-  // Combine title and subtitle for typing animation
-  const fullText = `${content.title}\n${content.subtitle}`;
-  
-  const { displayedText, isComplete } = useTypingAnimation({
-    text: fullText,
-    speed: 50,
-    delay: isVisible ? 500 : 0
-  });
+  const firstLineText = content.title || '';
+  const secondLineText = content.subtitle || '';
+
+  // Custom typing animation effect
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let timeoutId: NodeJS.Timeout;
+    
+    const typeText = () => {
+      if (currentLine === 0) {
+        // Type first line
+        if (displayedFirstLine.length < firstLineText.length) {
+          setDisplayedFirstLine(firstLineText.slice(0, displayedFirstLine.length + 1));
+        } else {
+          // Move to second line after a brief pause
+          timeoutId = setTimeout(() => setCurrentLine(1), 300);
+        }
+      } else if (currentLine === 1) {
+        // Type second line
+        if (displayedSecondLine.length < secondLineText.length) {
+          setDisplayedSecondLine(secondLineText.slice(0, displayedSecondLine.length + 1));
+        } else {
+          setIsTypingComplete(true);
+        }
+      }
+    };
+
+    if (!isTypingComplete) {
+      timeoutId = setTimeout(typeText, 80);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [isVisible, currentLine, displayedFirstLine, displayedSecondLine, firstLineText, secondLineText, isTypingComplete]);
 
   useEffect(() => {
     const loadContent = async () => {
@@ -112,9 +142,6 @@ const ValuePropositionSection = () => {
     return icons[iconName as keyof typeof icons] || TrendingUp;
   };
 
-  // Split the displayed text by newlines for proper rendering
-  const textLines = displayedText.split('\n');
-
   return (
     <section id="value-proposition-section" className="py-24 bg-gradient-to-br from-blue-50 via-white to-indigo-50/30 relative overflow-hidden">
       {/* Background Pattern */}
@@ -129,19 +156,18 @@ const ValuePropositionSection = () => {
         <div className="text-center mb-20">
           <div className="min-h-[160px] flex flex-col items-center justify-center">
             <h2 className="text-6xl font-black text-gray-900 leading-tight mb-4 font-apple">
-              {textLines[0] && (
-                <span className="block">
-                  {textLines[0]}
-                </span>
-              )}
-              {textLines[1] && (
-                <span className="block bg-gradient-to-r from-[#4285F4] to-[#1565C0] bg-clip-text text-transparent">
-                  {textLines[1]}
-                </span>
-              )}
-              {isVisible && !isComplete && (
-                <span className="animate-pulse">|</span>
-              )}
+              <span className="block">
+                {displayedFirstLine}
+                {currentLine === 0 && !isTypingComplete && (
+                  <span className="animate-pulse">|</span>
+                )}
+              </span>
+              <span className="block bg-gradient-to-r from-[#4285F4] to-[#1565C0] bg-clip-text text-transparent">
+                {displayedSecondLine}
+                {currentLine === 1 && !isTypingComplete && (
+                  <span className="animate-pulse">|</span>
+                )}
+              </span>
             </h2>
           </div>
         </div>
