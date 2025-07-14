@@ -44,7 +44,7 @@ const AdminDashboard = React.memo(() => {
           console.log('Loaded admin dashboard content from database:', data);
           
           setContent({
-            title: data.title || 'Take Full Control Your Business',
+            title: 'Take Full Control Your Business',
             subtitle: data.subtitle || '',
             description: data.description || 'Next-generation management tools with AI-powered insights that give administrators unprecedented visibility and control.',
             button_text: data.button_text || 'Request Demo',
