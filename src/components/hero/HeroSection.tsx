@@ -14,6 +14,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText, backg
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <OptimizedVideo
+          key={backgroundVideoUrl} // Force re-render when URL changes
           src={backgroundVideoUrl || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'}
           className="absolute inset-0 w-full h-full object-cover"
         />

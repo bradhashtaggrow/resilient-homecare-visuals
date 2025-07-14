@@ -47,11 +47,15 @@ const CareAtHome = () => {
 
         if (heroData && !heroError) {
           console.log('Loaded care at home hero content:', heroData);
-          setHeroContent({
+          const newHeroContent = {
             title: heroData.title || 'What is',
             highlightedText: heroData.subtitle || 'Resilient Community?',
             backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
-          });
+          };
+          console.log('Setting new hero content:', newHeroContent);
+          setHeroContent(newHeroContent);
+        } else {
+          console.log('No hero content found or error:', heroError);
         }
 
         // Load mobile content

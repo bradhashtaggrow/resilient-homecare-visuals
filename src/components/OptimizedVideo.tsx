@@ -18,6 +18,20 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
 
+  // Reload video when src changes
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video && isLoaded) {
+      console.log('Video src changed, reloading:', src);
+      video.load();
+      if (isInView) {
+        video.play().catch(() => {
+          // Handle autoplay policy restrictions silently
+        });
+      }
+    }
+  }, [src]);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -28,6 +42,7 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
         
         if (entry.isIntersecting && !isLoaded) {
           // Preload video when it comes into view
+          console.log('Loading video:', src);
           video.load();
           setIsLoaded(true);
         }
@@ -40,7 +55,7 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
 
     observer.observe(video);
     return () => observer.unobserve(video);
-  }, [isLoaded]);
+  }, [isLoaded, src]);
 
   useEffect(() => {
     const video = videoRef.current;
