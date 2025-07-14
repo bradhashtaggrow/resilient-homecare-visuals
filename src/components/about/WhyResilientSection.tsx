@@ -7,6 +7,7 @@ interface WhyChooseFeature {
   title: string;
   description: string;
   icon: string;
+  image_url?: string;
 }
 
 interface WhyChooseContent {
@@ -30,16 +31,6 @@ const WhyResilientSection = () => {
       Hospital: Building2 // fallback for Hospital icon
     };
     return icons[iconName as keyof typeof icons] || Brain;
-  };
-
-  const getFeatureImage = (title: string) => {
-    if (title.includes('AI') || title.includes('RAIN')) {
-      return "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
-    } else if (title.includes('Hospital') || title.includes('Systems')) {
-      return "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
-    } else {
-      return "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
-    }
   };
 
   useEffect(() => {
@@ -114,7 +105,7 @@ const WhyResilientSection = () => {
               <div key={index} className="group bg-white rounded-xl lg:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 lg:hover:-translate-y-3">
                 <div className="aspect-video overflow-hidden relative">
                   <img 
-                    src={getFeatureImage(feature.title)} 
+                    src={feature.image_url || 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'} 
                     alt={feature.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
