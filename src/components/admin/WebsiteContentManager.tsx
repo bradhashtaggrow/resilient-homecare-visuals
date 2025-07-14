@@ -437,10 +437,18 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               </div>
                             )}
                             {(editForm.background_video_url || section.background_video_url) && (
-                              <div className="mt-2 space-y-1">
+                              <div className="mt-2 space-y-2">
                                 <div className="text-sm text-green-600">✓ Video available</div>
-                                <div className="text-xs text-gray-500 break-all">
-                                  {editForm.background_video_url || section.background_video_url}
+                                <div className="relative w-32 h-20 rounded-lg overflow-hidden bg-gray-100">
+                                  <video 
+                                    src={editForm.background_video_url || section.background_video_url}
+                                    className="w-full h-full object-cover"
+                                    muted
+                                    preload="metadata"
+                                  />
+                                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                                    <Video className="h-6 w-6 text-white" />
+                                  </div>
                                 </div>
                               </div>
                             )}
