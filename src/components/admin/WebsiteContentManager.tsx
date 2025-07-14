@@ -597,8 +597,27 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                 Uploading image...
                               </div>
                             )}
-                            {editForm.background_image_url && (
-                              <div className="mt-2 text-sm text-green-600">✓ Image uploaded</div>
+                            {(editForm.background_image_url || section.background_image_url) && (
+                              <div className="mt-2 space-y-2">
+                                <div className="text-sm text-green-600">✓ Image available</div>
+                                <div className="relative w-32 h-20 rounded-lg overflow-hidden bg-gray-100 border">
+                                  <img 
+                                    src={editForm.background_image_url || section.background_image_url}
+                                    alt="Background image preview"
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.style.display = 'none';
+                                    }}
+                                  />
+                                  <div className="absolute top-1 right-1 bg-black/50 rounded px-1">
+                                    <Image className="h-3 w-3 text-white" />
+                                  </div>
+                                </div>
+                                <div className="text-xs text-gray-500 break-all">
+                                  {(editForm.background_image_url || section.background_image_url)?.split('/').pop()}
+                                </div>
+                              </div>
                             )}
                           </div>
 
@@ -622,16 +641,23 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             {(editForm.background_video_url || section.background_video_url) && (
                               <div className="mt-2 space-y-2">
                                 <div className="text-sm text-green-600">✓ Video available</div>
-                                <div className="relative w-32 h-20 rounded-lg overflow-hidden bg-gray-100">
+                                <div className="relative w-32 h-20 rounded-lg overflow-hidden bg-gray-100 border">
                                   <video 
                                     src={editForm.background_video_url || section.background_video_url}
                                     className="w-full h-full object-cover"
                                     muted
                                     preload="metadata"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLVideoElement;
+                                      target.style.display = 'none';
+                                    }}
                                   />
                                   <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
                                     <Video className="h-6 w-6 text-white" />
                                   </div>
+                                </div>
+                                <div className="text-xs text-gray-500 break-all">
+                                  {(editForm.background_video_url || section.background_video_url)?.split('/').pop()}
                                 </div>
                               </div>
                             )}
