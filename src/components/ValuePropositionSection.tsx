@@ -143,7 +143,7 @@ const ValuePropositionSection = () => {
   };
 
   return (
-    <section id="value-proposition-section" className="py-24 bg-gradient-to-br from-blue-50 via-white to-indigo-50/30 relative">
+    <section id="value-proposition-section" className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50/30 relative flex items-center justify-center">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl animate-pulse-slow"></div>
@@ -151,10 +151,10 @@ const ValuePropositionSection = () => {
         <div className="absolute -bottom-8 left-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl animate-pulse-slow animation-delay-4000"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 overflow-visible">
-        {/* Header with Typing Animation */}
-        <div className="text-center mb-20 overflow-visible">
-          <div className="min-h-[250px] flex flex-col items-center justify-center pb-12 relative z-50">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 overflow-visible w-full">
+        {/* Header with Typing Animation - Centered Vertically */}
+        <div className="text-center flex items-center justify-center min-h-screen">
+          <div className="flex flex-col items-center justify-center relative z-50">
             <h2 className="text-8xl font-black text-gray-900 leading-tight mb-4 font-apple">
               <span className="block mb-2">
                 {displayedFirstLine}
@@ -171,7 +171,6 @@ const ValuePropositionSection = () => {
             </h2>
           </div>
         </div>
-
       </div>
     </section>
   );
