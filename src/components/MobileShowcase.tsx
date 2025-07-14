@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Shield, BarChart3, Users, Zap, Database, Lock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import OptimizedVideo from './OptimizedVideo';
 
 const MobileShowcase = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -194,16 +195,11 @@ const MobileShowcase = () => {
                       <div className="w-full h-full bg-gradient-to-br from-slate-900 to-gray-900 rounded-[2.8rem] relative overflow-hidden">
                         <div className="absolute inset-0 z-0">
                           {content?.background_video_url ? (
-                            <video
-                              autoPlay
-                              muted
-                              loop
-                              playsInline
-                              preload="metadata"
+                            <OptimizedVideo
+                              key={content.background_video_url} // Force re-render when URL changes
+                              src={content.background_video_url}
                               className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
-                            >
-                              <source src={content.background_video_url} type="video/mp4" />
-                            </video>
+                            />
                           ) : content?.background_image_url ? (
                             <img
                               src={content.background_image_url}
@@ -211,16 +207,10 @@ const MobileShowcase = () => {
                               className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
                             />
                           ) : (
-                            <video
-                              autoPlay
-                              muted
-                              loop
-                              playsInline
-                              preload="metadata"
+                            <OptimizedVideo
+                              src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4"
                               className="absolute inset-0 w-full h-full object-cover rounded-[2.8rem]"
-                            >
-                              <source src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4" type="video/mp4" />
-                            </video>
+                            />
                           )}
                           <div className="absolute inset-0 bg-black/30 rounded-[2.8rem]" />
                         </div>
