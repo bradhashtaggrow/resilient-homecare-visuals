@@ -322,17 +322,28 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
       // Update the service image URL in the form
       const newServices = [...(editForm.content_data?.services || [])];
       newServices[serviceIndex] = { ...newServices[serviceIndex], patient_image_url: data.publicUrl };
+      
+      const updatedContentData = {
+        ...editForm.content_data,
+        services: newServices
+      };
+
+      // Immediately save to database for real-time sync
+      const { error: updateError } = await supabase
+        .from('website_content')
+        .update({ content_data: updatedContentData })
+        .eq('id', editForm.id);
+
+      if (updateError) throw updateError;
+
       setEditForm({
         ...editForm,
-        content_data: {
-          ...editForm.content_data,
-          services: newServices
-        }
+        content_data: updatedContentData
       });
 
       toast({
         title: "Upload successful",
-        description: "Service image uploaded successfully",
+        description: "Service image uploaded and saved in real-time",
       });
 
       return data.publicUrl;
