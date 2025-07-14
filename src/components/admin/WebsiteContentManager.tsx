@@ -284,25 +284,34 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 p-6 font-apple">
+      {/* Header with improved styling matching your screenshots */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Home Page Content Manager</h2>
-          <p className="text-gray-600">Manage home page sections in real-time sync with database</p>
+          <h1 className="text-3xl font-black text-gray-900 tracking-tight">
+            Home Page Content Manager
+          </h1>
+          <p className="text-gray-600 font-medium mt-2">
+            Manage home page sections in real-time sync with database
+          </p>
         </div>
-        <div className="flex items-center space-x-2">
-          {getSyncStatusIcon()}
-          <span className="text-sm text-gray-600">
-            {syncStatus === 'connected' ? 'Real-time sync active' : 
-             syncStatus === 'syncing' ? 'Syncing...' : 'Disconnected'}
-          </span>
+        
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 bg-white/80 px-3 py-2 rounded-lg border">
+            {getSyncStatusIcon()}
+            <span className="text-sm font-medium">
+              {syncStatus === 'connected' ? 'Real-time sync active' : 
+               syncStatus === 'syncing' ? 'Syncing...' : 'Real-time sync inactive'}
+            </span>
+          </div>
           <Button
             size="sm"
             variant="outline"
             onClick={loadContent}
             disabled={loading}
+            className="bg-white hover:bg-gray-50 border-blue-200"
           >
-            <RefreshCw className={`h-4 w-4 mr-1 ${loading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
         </div>
@@ -317,35 +326,40 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
           </Card>
         ) : (
           content.map((section) => (
-            <Card key={section.id} className="overflow-hidden border border-gray-200">
-              <CardHeader className="bg-gray-50 border-b">
+            <Card key={section.id} className="overflow-hidden border border-blue-100 shadow-lg hover:shadow-xl transition-shadow duration-200">
+              <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="text-gray-900 text-lg">
-                      {getSectionDisplayName(section.section_key)}
-                    </CardTitle>
-                    <p className="text-sm text-gray-500 mt-1">
-                      Order: {getSectionOrder(section.section_key) + 1} • Key: {section.section_key}
-                    </p>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">{getSectionOrder(section.section_key) + 1}</span>
+                    </div>
+                    <div>
+                      <CardTitle className="text-gray-900 text-lg font-black">
+                        {getSectionDisplayName(section.section_key)}
+                      </CardTitle>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Section: {section.section_key}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Badge variant={section.is_active ? "default" : "secondary"}>
+                  <div className="flex items-center space-x-3">
+                    <Badge variant={section.is_active ? "default" : "secondary"} className="bg-green-100 text-green-800 border-green-200">
                       {section.is_active ? "Active" : "Inactive"}
                     </Badge>
                     {editingSection === section.section_key ? (
                       <div className="flex space-x-2">
-                        <Button size="sm" onClick={handleSave}>
-                          <Save className="h-4 w-4 mr-1" />
+                        <Button size="sm" onClick={handleSave} className="bg-blue-600 hover:bg-blue-700">
+                          <Save className="h-4 w-4 mr-2" />
                           Save
                         </Button>
-                        <Button size="sm" variant="outline" onClick={handleCancel}>
-                          <X className="h-4 w-4 mr-1" />
+                        <Button size="sm" variant="outline" onClick={handleCancel} className="border-gray-300">
+                          <X className="h-4 w-4 mr-2" />
                           Cancel
                         </Button>
                       </div>
                     ) : (
-                      <Button size="sm" variant="outline" onClick={() => handleEdit(section)}>
-                        <Edit3 className="h-4 w-4 mr-1" />
+                      <Button size="sm" variant="outline" onClick={() => handleEdit(section)} className="border-blue-200 text-blue-600 hover:bg-blue-50">
+                        <Edit3 className="h-4 w-4 mr-2" />
                         Edit
                       </Button>
                     )}
