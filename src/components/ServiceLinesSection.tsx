@@ -32,7 +32,7 @@ const ServiceLinesSection = () => {
         const { data, error } = await supabase
           .from('website_content')
           .select('*')
-          .eq('section_key', 'services')
+          .eq('section_key', 'service_lines')
           .eq('is_active', true)
           .single();
 
@@ -64,7 +64,7 @@ const ServiceLinesSection = () => {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=eq.services'
+        filter: 'section_key=eq.service_lines'
       }, (payload) => {
         console.log('Real-time services content change:', payload);
         loadServiceLinesContent();
