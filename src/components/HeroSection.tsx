@@ -167,11 +167,6 @@ const HeroSection = React.memo(() => {
                 style={{ fontSize: 'clamp(2rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
               {content.title}
             </h1>
-            {content.subtitle && (
-              <h2 className="text-white/80 mt-4 text-2xl sm:text-4xl font-light tracking-wide">
-                {content.subtitle}
-              </h2>
-            )}
           </div>
           
           {/* Enhanced Subtitle with Better Mobile Spacing */}
