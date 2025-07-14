@@ -154,7 +154,7 @@ const ValuePropositionSection = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         {/* Header with Typing Animation */}
         <div className="text-center mb-20">
-          <div className="min-h-[250px] flex flex-col items-center justify-center pb-12">
+          <div className="min-h-[250px] flex flex-col items-center justify-center pb-12 relative z-50">
             <h2 className="text-8xl font-black text-gray-900 leading-loose mb-4 font-apple">
               <span className="block">
                 {displayedFirstLine}
