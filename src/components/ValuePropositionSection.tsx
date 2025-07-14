@@ -155,8 +155,8 @@ const ValuePropositionSection = () => {
         {/* Header with Typing Animation */}
         <div className="text-center mb-20 overflow-visible">
           <div className="min-h-[250px] flex flex-col items-center justify-center pb-12 relative z-50">
-            <h2 className="text-8xl font-black text-gray-900 leading-loose mb-4 font-apple">
-              <span className="block">
+            <h2 className="text-8xl font-black text-gray-900 leading-tight mb-4 font-apple">
+              <span className="block mb-2">
                 {displayedFirstLine}
                 {currentLine === 0 && !isTypingComplete && (
                   <span className="animate-pulse">|</span>
