@@ -159,7 +159,30 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
 
   useEffect(() => {
     loadContent();
-    setupRealtimeSubscription();
+    
+    const channel = supabase
+      .channel('website-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content'
+      }, (payload) => {
+        console.log('Real-time content change:', payload);
+        loadContent();
+      })
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'media_library'
+      }, (payload) => {
+        console.log('Real-time media change:', payload);
+        loadContent();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [selectedPage]);
 
   const getSyncStatusIcon = () => {
@@ -213,30 +236,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     }
   };
 
-  const setupRealtimeSubscription = () => {
-    const channel = supabase
-      .channel('website-content-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content'
-      }, (payload) => {
-        console.log('Real-time content change:', payload);
-        loadContent();
-      })
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'media_library'
-      }, (payload) => {
-        console.log('Real-time media change:', payload);
-        // Refresh content to show updated media thumbnails
-        loadContent();
-      })
-      .subscribe();
-
-    return () => supabase.removeChannel(channel);
-  };
 
   const handleEdit = (section: WebsiteContent) => {
     setEditingSection(section.section_key);
@@ -267,6 +266,9 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
 
       if (error) throw error;
 
+      // Force reload content to ensure real-time sync
+      await loadContent();
+
       toast({
         title: "Content updated",
         description: "Website content has been saved successfully",
@@ -274,6 +276,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
 
       setEditingSection(null);
       setEditForm({});
+      setHasNewVideoUpload(false);
     } catch (error) {
       console.error('Error saving content:', error);
       toast({
