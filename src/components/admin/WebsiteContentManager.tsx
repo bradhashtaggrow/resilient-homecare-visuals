@@ -394,6 +394,24 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                       />
                     </div>
 
+                    {/* Special editor for service_lines section */}
+                    {section.section_key === 'service_lines' && (
+                      <div className="space-y-4 pt-4 border-t">
+                        <h4 className="font-medium text-gray-900">Services Configuration</h4>
+                        <p className="text-sm text-gray-600">
+                          The services data is managed through the database migration. 
+                          The current services (Outpatient PT Anywhere, Primary Care at Home, Acute Hospital-at-Home) 
+                          are configured with their benefits, icons, and patient images.
+                        </p>
+                        <div className="bg-blue-50 p-4 rounded-lg">
+                          <p className="text-sm text-blue-800">
+                            <strong>Current Services:</strong> 3 service lines with tabbed interface, 
+                            benefits lists, patient images, and CMS compliance note.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
                     {hasBackgroundMedia(section) && (
                       <div className="space-y-4 pt-4 border-t">
                         <h4 className="font-medium text-gray-900">Background Media</h4>
