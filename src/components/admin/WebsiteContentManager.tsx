@@ -732,48 +732,106 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             {/* Service Benefits */}
                             <div className="space-y-3">
                               <h6 className="font-medium text-gray-700">Service Benefits</h6>
-                              {(service.benefits || []).map((benefit: string, benefitIndex: number) => (
-                                <div key={benefitIndex} className="flex items-center gap-2">
-                                  <Input
-                                    value={benefit}
-                                    onChange={(e) => {
-                                      const newServices = [...(editForm.content_data?.services || [])];
-                                      const newBenefits = [...(service.benefits || [])];
-                                      newBenefits[benefitIndex] = e.target.value;
-                                      newServices[index] = { ...service, benefits: newBenefits };
-                                      setEditForm({
-                                        ...editForm,
-                                        content_data: {
-                                          ...editForm.content_data,
-                                          services: newServices
-                                        }
-                                      });
-                                    }}
-                                    placeholder="Enter benefit (e.g., Generate new outpatient therapy revenue)"
-                                    className="flex-1"
-                                  />
-                                  <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => {
-                                      const newServices = [...(editForm.content_data?.services || [])];
-                                      const newBenefits = [...(service.benefits || [])];
-                                      newBenefits.splice(benefitIndex, 1);
-                                      newServices[index] = { ...service, benefits: newBenefits };
-                                      setEditForm({
-                                        ...editForm,
-                                        content_data: {
-                                          ...editForm.content_data,
-                                          services: newServices
-                                        }
-                                      });
-                                    }}
-                                  >
-                                    Remove
-                                  </Button>
-                                </div>
-                              ))}
+                              {(service.benefits || []).map((benefit: any, benefitIndex: number) => {
+                                // Handle both string and object formats
+                                const benefitText = typeof benefit === 'string' ? benefit : (benefit.text || '');
+                                const benefitIcon = typeof benefit === 'string' ? 'CheckCircle' : (benefit.icon || 'CheckCircle');
+                                
+                                return (
+                                  <div key={benefitIndex} className="border rounded-lg p-3 space-y-3 bg-gray-50">
+                                    <div className="flex justify-between items-center">
+                                      <h6 className="font-medium text-gray-700">Benefit {benefitIndex + 1}</h6>
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                          const newServices = [...(editForm.content_data?.services || [])];
+                                          const newBenefits = [...(service.benefits || [])];
+                                          newBenefits.splice(benefitIndex, 1);
+                                          newServices[index] = { ...service, benefits: newBenefits };
+                                          setEditForm({
+                                            ...editForm,
+                                            content_data: {
+                                              ...editForm.content_data,
+                                              services: newServices
+                                            }
+                                          });
+                                        }}
+                                      >
+                                        Remove
+                                      </Button>
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                      <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Benefit Text</label>
+                                        <Input
+                                          value={benefitText}
+                                          onChange={(e) => {
+                                            const newServices = [...(editForm.content_data?.services || [])];
+                                            const newBenefits = [...(service.benefits || [])];
+                                            newBenefits[benefitIndex] = {
+                                              text: e.target.value,
+                                              icon: benefitIcon
+                                            };
+                                            newServices[index] = { ...service, benefits: newBenefits };
+                                            setEditForm({
+                                              ...editForm,
+                                              content_data: {
+                                                ...editForm.content_data,
+                                                services: newServices
+                                              }
+                                            });
+                                          }}
+                                          placeholder="Enter benefit text"
+                                        />
+                                      </div>
+                                      
+                                      <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                                        <Select
+                                          value={benefitIcon}
+                                          onValueChange={(value) => {
+                                            const newServices = [...(editForm.content_data?.services || [])];
+                                            const newBenefits = [...(service.benefits || [])];
+                                            newBenefits[benefitIndex] = {
+                                              text: benefitText,
+                                              icon: value
+                                            };
+                                            newServices[index] = { ...service, benefits: newBenefits };
+                                            setEditForm({
+                                              ...editForm,
+                                              content_data: {
+                                                ...editForm.content_data,
+                                                services: newServices
+                                              }
+                                            });
+                                          }}
+                                        >
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Select an icon" />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="TrendingUp">TrendingUp - Growth/Revenue</SelectItem>
+                                            <SelectItem value="Shield">Shield - Protection/Security</SelectItem>
+                                            <SelectItem value="Target">Target - Goals/Outcomes</SelectItem>
+                                            <SelectItem value="Award">Award - Achievement/Quality</SelectItem>
+                                            <SelectItem value="Users">Users - Community/Patients</SelectItem>
+                                            <SelectItem value="MapPin">MapPin - Location/Access</SelectItem>
+                                            <SelectItem value="CheckCircle">CheckCircle - Success/Completion</SelectItem>
+                                            <SelectItem value="Zap">Zap - Speed/Efficiency</SelectItem>
+                                            <SelectItem value="Clock">Clock - Time/Schedule</SelectItem>
+                                            <SelectItem value="Heart">Heart - Care/Health</SelectItem>
+                                            <SelectItem value="Activity">Activity - Performance/Monitoring</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                              
                               <div className="flex gap-2">
                                 <Button
                                   type="button"
@@ -781,7 +839,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                   size="sm"
                                   onClick={() => {
                                     const newServices = [...(editForm.content_data?.services || [])];
-                                    const newBenefits = [...(service.benefits || []), ''];
+                                    const newBenefits = [...(service.benefits || []), { text: '', icon: 'CheckCircle' }];
                                     newServices[index] = { ...service, benefits: newBenefits };
                                     setEditForm({
                                       ...editForm,
@@ -801,20 +859,20 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                     size="sm"
                                     onClick={() => {
                                       const defaultBenefits = index === 0 ? [
-                                        'Generate new outpatient therapy revenue',
-                                        'Reduce costly post-acute placements',
-                                        'Improve patient outcomes with early intervention',
-                                        'Prepare for value-based care programs'
+                                        { text: 'Generate new outpatient therapy revenue', icon: 'TrendingUp' },
+                                        { text: 'Reduce costly post-acute placements', icon: 'Shield' },
+                                        { text: 'Improve patient outcomes with early intervention', icon: 'Target' },
+                                        { text: 'Prepare for value-based care programs', icon: 'Award' }
                                       ] : index === 1 ? [
-                                        'Extend primary care reach to rural communities',
-                                        'Support aging in place initiatives',
-                                        'Reduce emergency department visits',
-                                        'Improve chronic disease management'
+                                        { text: 'Extend primary care reach to rural communities', icon: 'MapPin' },
+                                        { text: 'Support aging in place initiatives', icon: 'Users' },
+                                        { text: 'Reduce emergency department visits', icon: 'Shield' },
+                                        { text: 'Improve chronic disease management', icon: 'Activity' }
                                       ] : [
-                                        'Provide 24/7 acute-level care at home',
-                                        'Reduce hospital readmissions',
-                                        'Lower healthcare costs significantly',
-                                        'Improve patient satisfaction scores'
+                                        { text: 'Provide 24/7 acute-level care at home', icon: 'Clock' },
+                                        { text: 'Reduce hospital readmissions', icon: 'CheckCircle' },
+                                        { text: 'Lower healthcare costs significantly', icon: 'TrendingUp' },
+                                        { text: 'Improve patient satisfaction scores', icon: 'Heart' }
                                       ];
                                       
                                       const newServices = [...(editForm.content_data?.services || [])];
