@@ -638,29 +638,45 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                 Uploading video...
                               </div>
                             )}
-                            {(editForm.background_video_url || section.background_video_url) && (
-                              <div className="mt-2 space-y-2">
-                                <div className="text-sm text-green-600">✓ Video available</div>
-                                <div className="relative w-32 h-20 rounded-lg overflow-hidden bg-gray-100 border">
-                                  <video 
-                                    src={editForm.background_video_url || section.background_video_url}
-                                    className="w-full h-full object-cover"
-                                    muted
-                                    preload="metadata"
-                                    onError={(e) => {
-                                      const target = e.target as HTMLVideoElement;
-                                      target.style.display = 'none';
-                                    }}
-                                  />
-                                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                                    <Video className="h-6 w-6 text-white" />
+                            {(() => {
+                              const videoUrl = editForm.background_video_url || section.background_video_url || 
+                                (section.section_key === 'hero' ? 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4' : null);
+                              
+                              if (!videoUrl) return null;
+                              
+                              const isCustom = editForm.background_video_url || section.background_video_url;
+                              
+                              return (
+                                <div className="mt-2 space-y-2">
+                                  <div className="text-sm text-green-600">
+                                    ✓ Video available {!isCustom && '(using fallback)'}
                                   </div>
+                                  <div className="relative w-32 h-20 rounded-lg overflow-hidden bg-gray-100 border">
+                                    <video 
+                                      src={videoUrl}
+                                      className="w-full h-full object-cover"
+                                      muted
+                                      preload="metadata"
+                                      onError={(e) => {
+                                        const target = e.target as HTMLVideoElement;
+                                        target.style.display = 'none';
+                                      }}
+                                    />
+                                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                                      <Video className="h-6 w-6 text-white" />
+                                    </div>
+                                  </div>
+                                  <div className="text-xs text-gray-500 break-all">
+                                    {videoUrl.split('/').pop()}
+                                  </div>
+                                  {!isCustom && (
+                                    <div className="text-xs text-amber-600">
+                                      Fallback video - upload custom video to replace
+                                    </div>
+                                  )}
                                 </div>
-                                <div className="text-xs text-gray-500 break-all">
-                                  {(editForm.background_video_url || section.background_video_url)?.split('/').pop()}
-                                </div>
-                              </div>
-                            )}
+                              );
+                            })()}
                           </div>
                         </div>
                       </div>
