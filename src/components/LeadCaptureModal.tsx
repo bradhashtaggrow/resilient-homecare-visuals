@@ -32,10 +32,26 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       const rect = triggerRef.current.getBoundingClientRect();
       const scrollY = window.scrollY;
       
-      // Position modal based on source - hero button below, lead gen button above
-      if (source === 'hero-button') {
+      // Position modal centered to navigation menu for navigation source
+      if (source === 'navigation') {
+        // Get the navigation bar element
+        const navElement = document.querySelector('nav');
+        if (navElement) {
+          const navRect = navElement.getBoundingClientRect();
+          setModalPosition({
+            top: navRect.bottom + scrollY + 10, // 10px below the navigation bar
+            left: window.innerWidth / 2 // Center horizontally on the page
+          });
+        } else {
+          // Fallback to center if nav not found
+          setModalPosition({
+            top: scrollY + 80, // Standard nav height + margin
+            left: window.innerWidth / 2
+          });
+        }
+      } else if (source === 'hero-button') {
         setModalPosition({
-          top: rect.bottom + scrollY + 5, // 5px below the button (moved up from 15px)
+          top: rect.bottom + scrollY + 5, // 5px below the button
           left: rect.left + rect.width / 2 // Center horizontally on button
         });
       } else {
@@ -65,7 +81,9 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
           position: 'absolute',
           top: `${modalPosition.top}px`,
           left: '50%',
-          transform: source === 'hero-button' ? 'translate(-50%, 0)' : 'translate(-50%, -100%)',
+          transform: source === 'hero-button' ? 'translate(-50%, 0)' : 
+                    source === 'navigation' ? 'translate(-50%, 0)' : 
+                    'translate(-50%, -100%)',
           minWidth: '400px'
         }}
       >
