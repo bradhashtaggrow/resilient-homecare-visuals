@@ -46,6 +46,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
   const [editForm, setEditForm] = useState<Partial<WebsiteContent>>({});
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [uploadingServiceImage, setUploadingServiceImage] = useState<number | null>(null);
   const { toast } = useToast();
 
   // Define the EXACT home page sections in the correct order
@@ -300,6 +301,61 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     }
   };
 
+  const handleServiceImageUpload = async (file: File, serviceIndex: number) => {
+    try {
+      setUploadingServiceImage(serviceIndex);
+      
+      const fileExt = file.name.split('.').pop();
+      const fileName = `service-${serviceIndex}-${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = `website-content/services/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('media')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('media')
+        .getPublicUrl(filePath);
+
+      // Update the service image URL in the form
+      const newServices = [...(editForm.content_data?.services || [])];
+      newServices[serviceIndex] = { ...newServices[serviceIndex], patient_image_url: data.publicUrl };
+      setEditForm({
+        ...editForm,
+        content_data: {
+          ...editForm.content_data,
+          services: newServices
+        }
+      });
+
+      toast({
+        title: "Upload successful",
+        description: "Service image uploaded successfully",
+      });
+
+      return data.publicUrl;
+    } catch (error) {
+      console.error('Error uploading service image:', error);
+      toast({
+        title: "Upload failed",
+        description: "Failed to upload service image",
+        variant: "destructive"
+      });
+      return null;
+    } finally {
+      setUploadingServiceImage(null);
+    }
+  };
+
+  const handleServiceImageChange = async (e: React.ChangeEvent<HTMLInputElement>, serviceIndex: number) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    await handleServiceImageUpload(file, serviceIndex);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -546,22 +602,44 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               </div>
                               
                               <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
-                                <Input
-                                  value={service.patient_image_url || ''}
-                                  onChange={(e) => {
-                                    const newServices = [...(editForm.content_data?.services || [])];
-                                    newServices[index] = { ...service, patient_image_url: e.target.value };
-                                    setEditForm({
-                                      ...editForm,
-                                      content_data: {
-                                        ...editForm.content_data,
-                                        services: newServices
-                                      }
-                                    });
-                                  }}
-                                  placeholder="Image URL"
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  <Image className="h-4 w-4 inline mr-1" />
+                                  Service Image
+                                </label>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => handleServiceImageChange(e, index)}
+                                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                                 />
+                                {uploadingServiceImage === index && (
+                                  <div className="mt-2 text-sm text-blue-600 flex items-center">
+                                    <RefreshCw className="h-3 w-3 animate-spin mr-1" />
+                                    Uploading image...
+                                  </div>
+                                )}
+                                {service.patient_image_url && (
+                                  <div className="mt-2 space-y-2">
+                                    <div className="text-sm text-green-600">✓ Image available</div>
+                                    <div className="relative w-32 h-20 rounded-lg overflow-hidden bg-gray-100 border">
+                                      <img 
+                                        src={service.patient_image_url}
+                                        alt={`${service.title} preview`}
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                          const target = e.target as HTMLImageElement;
+                                          target.style.display = 'none';
+                                        }}
+                                      />
+                                      <div className="absolute top-1 right-1 bg-black/50 rounded px-1">
+                                        <Image className="h-3 w-3 text-white" />
+                                      </div>
+                                    </div>
+                                    <div className="text-xs text-gray-500 break-all">
+                                      {service.patient_image_url.split('/').pop()}
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
