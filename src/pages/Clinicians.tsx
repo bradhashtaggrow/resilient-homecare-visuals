@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
@@ -11,8 +12,7 @@ import { supabase } from '@/integrations/supabase/client';
 const Clinicians = () => {
   const [heroContent, setHeroContent] = useState({
     title: 'Enabling',
-    highlightedText: 'seamless referrals',
-    background_video_url: ''
+    highlightedText: 'seamless referrals'
   });
   
   const [services, setServices] = useState([
@@ -97,11 +97,9 @@ const Clinicians = () => {
           console.log('Loaded clinicians hero content:', heroData);
           setHeroContent({
             title: heroData.title || 'Enabling',
-            highlightedText: heroData.subtitle || 'seamless referrals',
-            background_video_url: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            highlightedText: heroData.subtitle || 'seamless referrals'
           });
         }
-
 
         // Load services content
         const { data: servicesData, error: servicesError } = await supabase
@@ -141,9 +139,9 @@ const Clinicians = () => {
 
     loadContent();
 
-    // Set up real-time subscription for all clinicians sections
+    // Set up real-time subscription
     const channel = supabase
-      .channel('clinicians-all-changes')
+      .channel('clinicians-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
@@ -167,7 +165,6 @@ const Clinicians = () => {
       <HeroSection 
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
-        backgroundVideoUrl={heroContent.background_video_url}
       />
 
       <ContentSection 
@@ -178,6 +175,8 @@ const Clinicians = () => {
       <ServicesGrid services={services} />
 
       <LeadGenSection />
+
+      <Footer />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
@@ -10,7 +11,6 @@ import { supabase } from '@/integrations/supabase/client';
 
 const CareAtHome = () => {
   const [services, setServices] = useState([]);
-  const [heroContent, setHeroContent] = useState({ title: '', subtitle: '', background_video_url: '' });
 
   // Available icons mapping with consistent blue gradient styling
   const availableIcons = {
@@ -29,23 +29,22 @@ const CareAtHome = () => {
   };
 
   useEffect(() => {
-    // Load all content from database
+    // Load content from database
     const loadContent = async () => {
       try {
-        // Load mobile tabs content
-        const { data: mobileData, error: mobileError } = await supabase
+        const { data, error } = await supabase
           .from('website_content')
           .select('*')
           .eq('section_key', 'care_at_home_mobile')
           .eq('is_active', true)
           .single();
 
-        if (mobileData && !mobileError) {
-          console.log('Loaded care at home mobile content:', mobileData);
+        if (data && !error) {
+          console.log('Loaded care at home content:', data);
 
           // Transform tabs data to services format
-          if (mobileData.content_data && typeof mobileData.content_data === 'object' && mobileData.content_data !== null) {
-            const contentData = mobileData.content_data as any;
+          if (data.content_data && typeof data.content_data === 'object' && data.content_data !== null) {
+            const contentData = data.content_data as any;
             if (contentData.tabs) {
               const transformedServices = contentData.tabs.map((tab: any) => ({
                 id: tab.id,
@@ -59,25 +58,9 @@ const CareAtHome = () => {
               setServices(transformedServices);
             }
           }
+        } else {
+          console.log('No care at home content found, using defaults');
         }
-
-        // Load hero content
-        const { data: heroData, error: heroError } = await supabase
-          .from('website_content')
-          .select('*')
-          .eq('section_key', 'care_at_home_hero')
-          .eq('is_active', true)
-          .single();
-
-        if (heroData && !heroError) {
-          setHeroContent({
-            title: heroData.title || 'What is',
-            subtitle: heroData.subtitle || 'Resilient Community?',
-            background_video_url: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
-          });
-        }
-
-
       } catch (error) {
         console.error('Error loading care at home content:', error);
       }
@@ -85,14 +68,14 @@ const CareAtHome = () => {
 
     loadContent();
 
-    // Set up real-time subscription for all care at home sections
+    // Set up real-time subscription
     const channel = supabase
-      .channel('care-at-home-all-changes')
+      .channel('care-at-home-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=in.(care_at_home_mobile,care_at_home_hero)'
+        filter: 'section_key=eq.care_at_home_mobile'
       }, (payload) => {
         console.log('Real-time care at home content change:', payload);
         loadContent();
@@ -109,9 +92,8 @@ const CareAtHome = () => {
       <Navigation />
       
       <HeroSection 
-        title={heroContent.title || "What is"}
-        highlightedText={heroContent.subtitle || "Resilient Community?"}
-        backgroundVideoUrl={heroContent.background_video_url}
+        title="What is"
+        highlightedText="Resilient Community?"
       />
 
       <ContentSection 
@@ -122,6 +104,8 @@ const CareAtHome = () => {
       {services.length > 0 && <TabsSection services={services} />}
 
       <LeadGenSection />
+
+      <Footer />
     </div>
   );
 };
