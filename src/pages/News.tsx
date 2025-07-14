@@ -14,6 +14,7 @@ type BlogPost = Tables<'blog_posts'>;
 interface HeroContent {
   title: string;
   highlightedText: string;
+  backgroundVideoUrl: string;
 }
 
 interface ContentSectionData {
@@ -26,7 +27,8 @@ const News = () => {
   const [loading, setLoading] = useState(true);
   const [heroContent, setHeroContent] = useState<HeroContent>({
     title: "Healthcare",
-    highlightedText: "News & Updates"
+    highlightedText: "News & Updates",
+    backgroundVideoUrl: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
   });
   const [contentSection, setContentSection] = useState<ContentSectionData>({
     title: "News",
@@ -50,14 +52,19 @@ const News = () => {
 
       if (heroData) {
         console.log('Loaded news hero content:', heroData);
-        setHeroContent({
+        const newHeroContent = {
           title: heroData.title || "Healthcare",
-          highlightedText: heroData.subtitle || "News & Updates"
-        });
+          highlightedText: heroData.subtitle || "News & Updates",
+          backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+        };
+        console.log('Setting new news hero content:', newHeroContent);
+        setHeroContent(newHeroContent);
         setContentSection({
           title: "News",
           description: heroData.description || "Stay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
         });
+      } else {
+        console.log('No news hero content found');
       }
     } catch (error) {
       console.error('Error loading news hero content:', error);
@@ -121,6 +128,7 @@ const News = () => {
       <HeroSection 
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
+        backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
       <ContentSection 
