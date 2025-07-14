@@ -5,15 +5,16 @@ import OptimizedVideo from '@/components/OptimizedVideo';
 interface HeroSectionProps {
   title: string;
   highlightedText: string;
+  backgroundVideoUrl?: string;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText, backgroundVideoUrl }) => {
   return (
     <section className="pt-32 pb-32 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden h-[600px] flex items-center">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <OptimizedVideo
-          src='https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+          src={backgroundVideoUrl || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'}
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/30" />
