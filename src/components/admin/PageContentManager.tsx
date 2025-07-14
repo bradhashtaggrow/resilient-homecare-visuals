@@ -207,8 +207,8 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
         // For home page, get sections without prefixes and common sections
         query = query.or(`section_key.eq.hero,section_key.eq.patient_tabs,section_key.eq.services,section_key.eq.mobile_showcase,section_key.eq.value_proposition,section_key.eq.admin_dashboard,section_key.eq.founder,section_key.eq.stats,section_key.eq.lead_generation,section_key.eq.navigation,section_key.eq.footer`);
       } else if (selectedPage === 'contact') {
-        // For contact page, get specific sections including hero
-        query = query.or(`section_key.eq.contact_hero,section_key.eq.get_in_touch,section_key.eq.footer`);
+        // For contact page, show hero section first then footer
+        query = query.or(`section_key.eq.contact_hero,section_key.eq.footer`);
       } else {
         // For other pages, get sections with the page prefix
         query = query.like('section_key', `${prefix}%`);
