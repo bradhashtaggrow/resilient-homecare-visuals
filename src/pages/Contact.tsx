@@ -45,8 +45,7 @@ const Contact = () => {
         .from('website_content')
         .select('*')
         .eq('section_key', 'contact_hero')
-        .eq('is_active', true)
-        .single();
+        .maybeSingle();
 
       if (heroData && !heroError) {
         console.log('Loaded contact hero content:', heroData);
