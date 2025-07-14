@@ -59,7 +59,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     'admin_dashboard',
     'founder',
     'stats',
-    'lead_generation'
+    'lead_generation',
+    'footer'
   ];
 
   const SECTION_LABELS = {
@@ -70,7 +71,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     'admin_dashboard': 'Laptop Section',
     'founder': 'Founder Section',
     'stats': 'What Does the Research Say',
-    'lead_generation': 'Join 500+ Hospitals'
+    'lead_generation': 'Join 500+ Hospitals',
+    'footer': 'Footer Section'
   };
 
   useEffect(() => {
