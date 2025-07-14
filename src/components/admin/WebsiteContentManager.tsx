@@ -775,12 +775,18 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               <div className="text-sm text-green-600">✓ Founder image available</div>
                               <div className="relative w-32 h-32 rounded-full overflow-hidden bg-gray-100 border-2 border-blue-200">
                                 <img 
-                                  src={editForm.content_data.founder_image}
+                                  src={editForm.content_data.founder_image.startsWith('/') ? 
+                                    `${window.location.origin}${editForm.content_data.founder_image}` : 
+                                    editForm.content_data.founder_image}
                                   alt="Founder image preview"
                                   className="w-full h-full object-cover"
                                   onError={(e) => {
                                     const target = e.target as HTMLImageElement;
+                                    console.error('Failed to load founder image:', editForm.content_data.founder_image);
                                     target.style.display = 'none';
+                                  }}
+                                  onLoad={() => {
+                                    console.log('Successfully loaded founder image:', editForm.content_data.founder_image);
                                   }}
                                 />
                                 <div className="absolute top-1 right-1 bg-black/50 rounded px-1">
