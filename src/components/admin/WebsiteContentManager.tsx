@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { 
@@ -502,12 +503,12 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                             
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Icon Name</label>
-                                <Input
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                                <Select
                                   value={feature.icon || ''}
-                                  onChange={(e) => {
+                                  onValueChange={(value) => {
                                     const newFeatures = [...(editForm.content_data?.features || [])];
-                                    newFeatures[index] = { ...feature, icon: e.target.value };
+                                    newFeatures[index] = { ...feature, icon: value };
                                     setEditForm({
                                       ...editForm,
                                       content_data: {
@@ -516,8 +517,25 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                       }
                                     });
                                   }}
-                                  placeholder="Icon name (e.g., Shield)"
-                                />
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select an icon" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="Shield">Shield - Security</SelectItem>
+                                    <SelectItem value="BarChart3">BarChart3 - Analytics</SelectItem>
+                                    <SelectItem value="Users">Users - Multi-Tenant</SelectItem>
+                                    <SelectItem value="Zap">Zap - API/Platform</SelectItem>
+                                    <SelectItem value="Database">Database - Infrastructure</SelectItem>
+                                    <SelectItem value="Lock">Lock - Access Control</SelectItem>
+                                    <SelectItem value="Activity">Activity - Monitoring</SelectItem>
+                                    <SelectItem value="Cpu">Cpu - Performance</SelectItem>
+                                    <SelectItem value="Globe">Globe - Network</SelectItem>
+                                    <SelectItem value="Settings">Settings - Configuration</SelectItem>
+                                    <SelectItem value="Heart">Heart - Healthcare</SelectItem>
+                                    <SelectItem value="CheckCircle">CheckCircle - Reliability</SelectItem>
+                                  </SelectContent>
+                                </Select>
                               </div>
                               
                               <div>
