@@ -261,9 +261,9 @@ const StatsSection = () => {
   // Use database content or fallback to default stats
   const statsData = content.content_data?.stats || [
     { value: '38%', title: 'Healthcare Organizations', description: 'Leading hospitals and health systems trust our platform', icon: 'DollarSign' },
-    { value: '70%', title: 'Patient Satisfaction', description: 'Patients prefer care delivered at home', icon: 'DollarSign' },
-    { value: '91%', title: 'Cost Reduction', description: 'Average savings compared to traditional care models', icon: 'DollarSign' },
-    { value: '95%', title: 'Support Available', description: 'Round-the-clock clinical and technical support', icon: 'DollarSign' }
+    { value: '70%', title: 'Patient Satisfaction', description: 'Patients prefer care delivered at home', icon: 'TrendingUp' },
+    { value: '91%', title: 'Cost Reduction', description: 'Average savings compared to traditional care models', icon: 'Heart' },
+    { value: '95%', title: 'Support Available', description: 'Round-the-clock clinical and technical support', icon: 'Users' }
   ];
 
   console.log('Final statsData being used:', statsData);
