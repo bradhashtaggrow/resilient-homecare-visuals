@@ -23,7 +23,7 @@ const HeroSection = React.memo(() => {
     description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
     button_text: 'Request Demo',
     button_url: '#',
-    background_video_url: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+    background_video_url: '' // Start empty, only show database video
   });
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const HeroSection = React.memo(() => {
             description: data.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
             button_text: data.button_text || 'Request Demo',
             button_url: data.button_url || '#',
-            background_video_url: data.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            background_video_url: data.background_video_url || '' // No fallback, only database video
           });
         } else {
           console.log('No hero content found in database, using defaults');
@@ -133,13 +133,8 @@ const HeroSection = React.memo(() => {
           <div className="absolute inset-0 bg-black/30" />
         </div>
       ) : (
-        <div className="absolute inset-0 z-0">
-          <OptimizedVideo
-            src='https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/30" />
-        </div>
+        // Show gradient background only when no media
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-blue-50 via-white to-blue-50/30" />
       )}
 
       {/* Mobile Background */}

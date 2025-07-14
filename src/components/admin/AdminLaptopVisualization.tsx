@@ -67,16 +67,17 @@ const AdminLaptopVisualization = ({
           >
             {/* Screen Content with HD Video Background */}
             <div className="w-full h-full relative overflow-hidden rounded-2xl">
-              {/* HD Video Background inside laptop screen */}
-              <div className="absolute inset-0 z-0">
-                <OptimizedVideo
-                  key={backgroundVideoUrl || 'fallback'} // Force re-render when URL changes
-                  src={backgroundVideoUrl || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'}
-                  className="absolute inset-0 w-full h-full object-cover rounded-2xl"
-                />
-                {/* Minimal dark overlay for text readability */}
-                <div className="absolute inset-0 bg-black/30 rounded-2xl" />
-              </div>
+              {backgroundVideoUrl && (
+                <div className="absolute inset-0 z-0">
+                  <OptimizedVideo
+                    key={backgroundVideoUrl} // Force re-render when URL changes
+                    src={backgroundVideoUrl}
+                    className="absolute inset-0 w-full h-full object-cover rounded-2xl"
+                  />
+                  {/* Minimal dark overlay for text readability */}
+                  <div className="absolute inset-0 bg-black/30 rounded-2xl" />
+                </div>
+              )}
 
               {/* Admin Login Interface - Real UI from /login */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
