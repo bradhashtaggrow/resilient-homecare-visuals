@@ -20,10 +20,16 @@ const Contact = () => {
   });
   const [content, setContent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [heroContent, setHeroContent] = useState({
+    title: "Get in",
+    highlightedText: "Touch",
+    backgroundVideoUrl: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+  });
 
   useEffect(() => {
     const fetchContent = async () => {
       try {
+        // Load contact content
         const { data, error } = await supabase
           .from('website_content')
           .select('*')
@@ -32,6 +38,27 @@ const Contact = () => {
 
         if (error) throw error;
         setContent(data);
+
+        // Load hero content
+        const { data: heroData, error: heroError } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'contact_hero')
+          .eq('is_active', true)
+          .single();
+
+        if (heroData && !heroError) {
+          console.log('Loaded contact hero content:', heroData);
+          const newHeroContent = {
+            title: heroData.title || 'Get in',
+            highlightedText: heroData.subtitle || 'Touch',
+            backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+          };
+          console.log('Setting new contact hero content:', newHeroContent);
+          setHeroContent(newHeroContent);
+        } else {
+          console.log('No contact hero content found or error:', heroError);
+        }
       } catch (error) {
         console.error('Error fetching content:', error);
       } finally {
@@ -40,6 +67,24 @@ const Contact = () => {
     };
 
     fetchContent();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('contact-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=in.(get_in_touch,contact_hero)'
+      }, (payload) => {
+        console.log('Real-time contact content change:', payload);
+        fetchContent();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -76,8 +121,9 @@ const Contact = () => {
       <Navigation />
       
       <HeroSection 
-        title={content?.title || "Get in"}
-        highlightedText="Touch"
+        title={heroContent.title}
+        highlightedText={heroContent.highlightedText}
+        backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
       <ContentSection 
