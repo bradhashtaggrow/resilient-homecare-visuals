@@ -1023,6 +1023,146 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         </div>
                        )}
 
+                      {/* Hospital image management for about_for_hospitals section */}
+                      {section.section_key === 'about_for_hospitals' && (
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Section Image</h4>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Upload Hospital Section Image
+                            </label>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+                                
+                                const handleHospitalImageUpload = async (file: File) => {
+                                  try {
+                                    const fileExt = file.name.split('.').pop();
+                                    const fileName = `${Math.random()}.${fileExt}`;
+                                    const filePath = `hospital-images/${fileName}`;
+
+                                    const { error: uploadError } = await supabase.storage
+                                      .from('media')
+                                      .upload(filePath, file);
+
+                                    if (uploadError) throw uploadError;
+
+                                    const { data } = supabase.storage
+                                      .from('media')
+                                      .getPublicUrl(filePath);
+
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: { 
+                                        ...editForm.content_data, 
+                                        image_url: data.publicUrl 
+                                      }
+                                    });
+
+                                    toast({
+                                      title: "Upload successful",
+                                      description: "Hospital section image uploaded successfully",
+                                    });
+                                  } catch (error) {
+                                    console.error('Error uploading hospital image:', error);
+                                    toast({
+                                      title: "Upload failed",
+                                      description: "Failed to upload hospital image",
+                                      variant: "destructive"
+                                    });
+                                  }
+                                };
+                                
+                                handleHospitalImageUpload(file);
+                              }}
+                              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            />
+                            {(editForm.content_data as any)?.image_url && (
+                              <div className="mt-2">
+                                <img 
+                                  src={(editForm.content_data as any)?.image_url} 
+                                  alt="Hospital section preview" 
+                                  className="w-full h-32 object-cover rounded border"
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Clinician image management for about_for_clinicians section */}
+                      {section.section_key === 'about_for_clinicians' && (
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Section Image</h4>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Upload Clinician Section Image
+                            </label>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+                                
+                                const handleClinicianImageUpload = async (file: File) => {
+                                  try {
+                                    const fileExt = file.name.split('.').pop();
+                                    const fileName = `${Math.random()}.${fileExt}`;
+                                    const filePath = `clinician-images/${fileName}`;
+
+                                    const { error: uploadError } = await supabase.storage
+                                      .from('media')
+                                      .upload(filePath, file);
+
+                                    if (uploadError) throw uploadError;
+
+                                    const { data } = supabase.storage
+                                      .from('media')
+                                      .getPublicUrl(filePath);
+
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: { 
+                                        ...editForm.content_data, 
+                                        image_url: data.publicUrl 
+                                      }
+                                    });
+
+                                    toast({
+                                      title: "Upload successful",
+                                      description: "Clinician section image uploaded successfully",
+                                    });
+                                  } catch (error) {
+                                    console.error('Error uploading clinician image:', error);
+                                    toast({
+                                      title: "Upload failed",
+                                      description: "Failed to upload clinician image",
+                                      variant: "destructive"
+                                    });
+                                  }
+                                };
+                                
+                                handleClinicianImageUpload(file);
+                              }}
+                              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            />
+                            {(editForm.content_data as any)?.image_url && (
+                              <div className="mt-2">
+                                <img 
+                                  src={(editForm.content_data as any)?.image_url} 
+                                  alt="Clinician section preview" 
+                                  className="w-full h-32 object-cover rounded border"
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
                       {/* Values management for about_core_values section */}
                       {section.section_key === 'about_core_values' && (
                         <div className="space-y-4 border-t pt-4">
