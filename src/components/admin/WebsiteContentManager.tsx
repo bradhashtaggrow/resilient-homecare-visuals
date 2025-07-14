@@ -729,14 +729,14 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               />
                             </div>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Icon Name</label>
-                                <Input
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                                <Select
                                   value={service.icon_name || ''}
-                                  onChange={(e) => {
+                                  onValueChange={(value) => {
                                     const newServices = [...(editForm.content_data?.services || [])];
-                                    newServices[index] = { ...service, icon_name: e.target.value };
+                                    newServices[index] = { ...service, icon_name: value };
                                     setEditForm({
                                       ...editForm,
                                       content_data: {
@@ -745,28 +745,27 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                       }
                                     });
                                   }}
-                                  placeholder="Icon name (e.g., Activity)"
-                                />
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select an icon" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="Activity">Activity - Healthcare</SelectItem>
+                                    <SelectItem value="Heart">Heart - Health/Care</SelectItem>
+                                    <SelectItem value="Stethoscope">Stethoscope - Medical</SelectItem>
+                                    <SelectItem value="Hospital">Hospital - Facility</SelectItem>
+                                    <SelectItem value="Ambulance">Ambulance - Emergency</SelectItem>
+                                    <SelectItem value="Users">Users - Community</SelectItem>
+                                    <SelectItem value="Home">Home - Home Care</SelectItem>
+                                    <SelectItem value="Shield">Shield - Protection</SelectItem>
+                                    <SelectItem value="Phone">Phone - Telemedicine</SelectItem>
+                                    <SelectItem value="Monitor">Monitor - Monitoring</SelectItem>
+                                    <SelectItem value="Clock">Clock - Time/Schedule</SelectItem>
+                                    <SelectItem value="MapPin">MapPin - Location</SelectItem>
+                                  </SelectContent>
+                                </Select>
                               </div>
                               
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Color</label>
-                                <Input
-                                  value={service.color || ''}
-                                  onChange={(e) => {
-                                    const newServices = [...(editForm.content_data?.services || [])];
-                                    newServices[index] = { ...service, color: e.target.value };
-                                    setEditForm({
-                                      ...editForm,
-                                      content_data: {
-                                        ...editForm.content_data,
-                                        services: newServices
-                                      }
-                                    });
-                                  }}
-                                  placeholder="Color (e.g., blue)"
-                                />
-                              </div>
                               
                               <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
