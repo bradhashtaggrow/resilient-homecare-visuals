@@ -19,26 +19,10 @@ interface ValuePropositionContent {
 
 const ValuePropositionSection = () => {
   const [content, setContent] = useState<ValuePropositionContent>({
-    title: 'We Manage the Work',
-    subtitle: 'So You Can Focus on Care',
+    title: 'We Manage The Work.',
+    subtitle: 'You Own The Program.',
     description: 'Our comprehensive approach delivers measurable outcomes for hospitals, patients, and communities.',
-    propositions: [
-      {
-        icon: 'TrendingUp',
-        title: 'Revenue Growth',
-        description: 'Generate new revenue streams while optimizing existing resources'
-      },
-      {
-        icon: 'Users',
-        title: 'Patient Satisfaction',
-        description: 'Deliver care in the comfort of patients\' homes with better outcomes'
-      },
-      {
-        icon: 'Shield',
-        title: 'Risk Reduction',
-        description: 'Reduce readmissions and post-acute placement costs'
-      }
-    ]
+    propositions: []
   });
 
   const [isVisible, setIsVisible] = useState(false);
@@ -66,8 +50,8 @@ const ValuePropositionSection = () => {
           console.log('Loaded value proposition content:', data);
           const contentData = data.content_data as any;
           setContent({
-            title: data.title || 'We Manage the Work',
-            subtitle: data.subtitle || 'So You Can Focus on Care',
+            title: data.title || 'We Manage The Work.',
+            subtitle: data.subtitle || 'You Own The Program.',
             description: data.description || 'Our comprehensive approach delivers measurable outcomes for hospitals, patients, and communities.',
             propositions: contentData?.propositions || content.propositions
           });
@@ -162,27 +146,6 @@ const ValuePropositionSection = () => {
           </div>
         </div>
 
-        {/* Value Propositions Grid */}
-        <div className={`transition-all duration-1000 delay-1500 ${isComplete ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {content.propositions?.map((proposition, index) => {
-              const IconComponent = getIcon(proposition.icon);
-              return (
-                <Card key={index} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm hover:bg-white hover:scale-105 transform p-8 text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">
-                    {proposition.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {proposition.description}
-                  </p>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
       </div>
     </section>
   );
