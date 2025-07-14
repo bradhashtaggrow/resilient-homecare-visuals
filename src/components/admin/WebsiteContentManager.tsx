@@ -729,6 +729,111 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               />
                             </div>
                             
+                            {/* Service Benefits */}
+                            <div className="space-y-3">
+                              <h6 className="font-medium text-gray-700">Service Benefits</h6>
+                              {(service.benefits || []).map((benefit: string, benefitIndex: number) => (
+                                <div key={benefitIndex} className="flex items-center gap-2">
+                                  <Input
+                                    value={benefit}
+                                    onChange={(e) => {
+                                      const newServices = [...(editForm.content_data?.services || [])];
+                                      const newBenefits = [...(service.benefits || [])];
+                                      newBenefits[benefitIndex] = e.target.value;
+                                      newServices[index] = { ...service, benefits: newBenefits };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: {
+                                          ...editForm.content_data,
+                                          services: newServices
+                                        }
+                                      });
+                                    }}
+                                    placeholder="Enter benefit (e.g., Generate new outpatient therapy revenue)"
+                                    className="flex-1"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      const newServices = [...(editForm.content_data?.services || [])];
+                                      const newBenefits = [...(service.benefits || [])];
+                                      newBenefits.splice(benefitIndex, 1);
+                                      newServices[index] = { ...service, benefits: newBenefits };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: {
+                                          ...editForm.content_data,
+                                          services: newServices
+                                        }
+                                      });
+                                    }}
+                                  >
+                                    Remove
+                                  </Button>
+                                </div>
+                              ))}
+                              <div className="flex gap-2">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    const newServices = [...(editForm.content_data?.services || [])];
+                                    const newBenefits = [...(service.benefits || []), ''];
+                                    newServices[index] = { ...service, benefits: newBenefits };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        services: newServices
+                                      }
+                                    });
+                                  }}
+                                >
+                                  Add Benefit
+                                </Button>
+                                {(!service.benefits || service.benefits.length === 0) && (
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      const defaultBenefits = index === 0 ? [
+                                        'Generate new outpatient therapy revenue',
+                                        'Reduce costly post-acute placements',
+                                        'Improve patient outcomes with early intervention',
+                                        'Prepare for value-based care programs'
+                                      ] : index === 1 ? [
+                                        'Extend primary care reach to rural communities',
+                                        'Support aging in place initiatives',
+                                        'Reduce emergency department visits',
+                                        'Improve chronic disease management'
+                                      ] : [
+                                        'Provide 24/7 acute-level care at home',
+                                        'Reduce hospital readmissions',
+                                        'Lower healthcare costs significantly',
+                                        'Improve patient satisfaction scores'
+                                      ];
+                                      
+                                      const newServices = [...(editForm.content_data?.services || [])];
+                                      newServices[index] = { ...service, benefits: defaultBenefits };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: {
+                                          ...editForm.content_data,
+                                          services: newServices
+                                        }
+                                      });
+                                    }}
+                                  >
+                                    Initialize Default Benefits
+                                  </Button>
+                                )}
+                              </div>
+                            </div>
+                            
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>

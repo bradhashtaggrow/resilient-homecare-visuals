@@ -282,17 +282,23 @@ const ServiceLinesSection = () => {
 
                     {/* Benefits List with 3D Animated Icons */}
                     <div className="space-y-3 sm:space-y-4">
-                      {service.benefits?.map((benefit: any, benefitIndex: number) => (
-                        <div key={benefitIndex} className="flex items-start space-x-3 sm:space-x-4">
-                          <div className="flex-shrink-0 mt-0.5">
-                            <AnimatedIcon3D 
-                              icon={getBenefitIcon(benefit.icon)} 
-                              delay={benefitIndex * 150} 
-                            />
+                      {service.benefits?.map((benefit: any, benefitIndex: number) => {
+                        // Handle both string benefits and object benefits for backward compatibility
+                        const benefitText = typeof benefit === 'string' ? benefit : benefit.text;
+                        const benefitIcon = typeof benefit === 'string' ? 'CheckCircle' : benefit.icon;
+                        
+                        return (
+                          <div key={benefitIndex} className="flex items-start space-x-3 sm:space-x-4">
+                            <div className="flex-shrink-0 mt-0.5">
+                              <AnimatedIcon3D 
+                                icon={getBenefitIcon(benefitIcon)} 
+                                delay={benefitIndex * 150} 
+                              />
+                            </div>
+                            <span className="text-sm sm:text-base text-gray-700 leading-relaxed flex-1">{benefitText}</span>
                           </div>
-                          <span className="text-sm sm:text-base text-gray-700 leading-relaxed flex-1">{benefit.text}</span>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
 
                     {/* Note */}
