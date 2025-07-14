@@ -1160,6 +1160,182 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                       </div>
                     )}
 
+                    {/* Stats Editor for stats section */}
+                    {section.section_key === 'stats' && (
+                      <div className="space-y-4 pt-4 border-t">
+                        <h4 className="font-medium text-gray-900">Statistics</h4>
+                        {editForm.content_data?.stats?.map((stat: any, index: number) => (
+                          <div key={index} className="border rounded-lg p-4 space-y-3 bg-gray-50">
+                            <div className="flex justify-between items-center">
+                              <h5 className="font-medium text-gray-700">Statistic {index + 1}</h5>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  const newStats = [...(editForm.content_data?.stats || [])];
+                                  newStats.splice(index, 1);
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: {
+                                      ...editForm.content_data,
+                                      stats: newStats
+                                    }
+                                  });
+                                }}
+                              >
+                                Remove Stat
+                              </Button>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Value (e.g., 95%)</label>
+                                <Input
+                                  value={stat.value || ''}
+                                  onChange={(e) => {
+                                    const newStats = [...(editForm.content_data?.stats || [])];
+                                    newStats[index] = { ...stat, value: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        stats: newStats
+                                      }
+                                    });
+                                  }}
+                                  placeholder="95%"
+                                />
+                              </div>
+                              
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Label</label>
+                                <Input
+                                  value={stat.label || ''}
+                                  onChange={(e) => {
+                                    const newStats = [...(editForm.content_data?.stats || [])];
+                                    newStats[index] = { ...stat, label: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        stats: newStats
+                                      }
+                                    });
+                                  }}
+                                  placeholder="Support Available"
+                                />
+                              </div>
+                            </div>
+                            
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                              <Textarea
+                                value={stat.description || ''}
+                                onChange={(e) => {
+                                  const newStats = [...(editForm.content_data?.stats || [])];
+                                  newStats[index] = { ...stat, description: e.target.value };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: {
+                                      ...editForm.content_data,
+                                      stats: newStats
+                                    }
+                                  });
+                                }}
+                                placeholder="Round-the-clock clinical and technical support"
+                                rows={2}
+                              />
+                            </div>
+                            
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">Source/Category</label>
+                              <Input
+                                value={stat.source || ''}
+                                onChange={(e) => {
+                                  const newStats = [...(editForm.content_data?.stats || [])];
+                                  newStats[index] = { ...stat, source: e.target.value };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: {
+                                      ...editForm.content_data,
+                                      stats: newStats
+                                    }
+                                  });
+                                }}
+                                placeholder="Support Available"
+                              />
+                            </div>
+                          </div>
+                        ))}
+                        
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => {
+                            const defaultStats = [
+                              {
+                                value: '38%',
+                                label: 'Healthcare Organizations',
+                                description: 'Leading hospitals and health systems trust our platform',
+                                source: 'Healthcare Organizations'
+                              },
+                              {
+                                value: '70%',
+                                label: 'Patient Satisfaction',
+                                description: 'Patients prefer care delivered at home',
+                                source: 'Patient Satisfaction'
+                              },
+                              {
+                                value: '91%',
+                                label: 'Cost Reduction',
+                                description: 'Average savings compared to traditional care models',
+                                source: 'Cost Reduction'
+                              },
+                              {
+                                value: '95%',
+                                label: 'Support Available',
+                                description: 'Round-the-clock clinical and technical support',
+                                source: 'Support Available'
+                              }
+                            ];
+                            
+                            const currentStats = editForm.content_data?.stats || [];
+                            if (currentStats.length === 0) {
+                              // Initialize with default stats if none exist
+                              setEditForm({
+                                ...editForm,
+                                content_data: {
+                                  ...editForm.content_data,
+                                  stats: defaultStats
+                                }
+                              });
+                            } else {
+                              // Add a new blank stat
+                              const newStat = {
+                                value: '0%',
+                                label: 'New Statistic',
+                                description: 'Description for new statistic',
+                                source: 'Source'
+                              };
+                              setEditForm({
+                                ...editForm,
+                                content_data: {
+                                  ...editForm.content_data,
+                                  stats: [...currentStats, newStat]
+                                }
+                              });
+                            }
+                          }}
+                        >
+                          {(!editForm.content_data?.stats || editForm.content_data.stats.length === 0) 
+                            ? 'Initialize Default Statistics' 
+                            : 'Add New Statistic'
+                          }
+                        </Button>
+                      </div>
+                    )}
+
                     {hasBackgroundMedia(section) && (
                       <div className="space-y-4 pt-4 border-t">
                         <h4 className="font-medium text-gray-900">Background Media</h4>
