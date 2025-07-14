@@ -14,7 +14,7 @@ import { supabase } from '@/integrations/supabase/client';
 const About = () => {
   const [heroContent, setHeroContent] = useState({
     title: "About",
-    highlightedText: "Resilient Healthcare",
+    highlightedText: "", // Start empty, only use database content
     backgroundVideoUrl: '' // Start empty, only show database video
   });
   
@@ -40,7 +40,7 @@ const About = () => {
           console.log('Loaded about hero content:', heroData);
           const newHeroContent = {
             title: heroData.title || 'About',
-            highlightedText: heroData.subtitle || 'Resilient Healthcare',
+            highlightedText: heroData.subtitle || '', // No hardcoded fallback, use database value only
             backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
           };
           console.log('Setting new about hero content:', newHeroContent);
