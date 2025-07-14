@@ -14,7 +14,7 @@ const CareAtHome = () => {
   const [heroContent, setHeroContent] = useState({
     title: 'What is',
     highlightedText: 'Resilient Community?',
-    backgroundVideoUrl: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+    backgroundVideoUrl: '' // Start empty, only show database video
   });
 
   // Available icons mapping with consistent blue gradient styling
@@ -50,7 +50,7 @@ const CareAtHome = () => {
           const newHeroContent = {
             title: heroData.title || 'What is',
             highlightedText: heroData.subtitle || 'Resilient Community?',
-            backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
           };
           console.log('Setting new hero content:', newHeroContent);
           setHeroContent(newHeroContent);

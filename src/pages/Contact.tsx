@@ -14,7 +14,7 @@ const Contact = () => {
   const [heroContent, setHeroContent] = useState({
     title: "Get in",
     highlightedText: "Touch",
-    backgroundVideoUrl: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+    backgroundVideoUrl: '' // Start empty, only show database video
   });
   
   const [contentSection, setContentSection] = useState({
@@ -48,7 +48,7 @@ const Contact = () => {
           const newHeroContent = {
             title: heroData.title || 'Get in',
             highlightedText: heroData.subtitle || 'Touch',
-            backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
           };
           console.log('Setting new contact hero content:', newHeroContent);
           setHeroContent(newHeroContent);

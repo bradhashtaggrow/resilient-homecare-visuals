@@ -15,7 +15,7 @@ const About = () => {
   const [heroContent, setHeroContent] = useState({
     title: "About",
     highlightedText: "Resilient Healthcare",
-    backgroundVideoUrl: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+    backgroundVideoUrl: '' // Start empty, only show database video
   });
   
   const [contentSection, setContentSection] = useState({
@@ -41,7 +41,7 @@ const About = () => {
           const newHeroContent = {
             title: heroData.title || 'About',
             highlightedText: heroData.subtitle || 'Resilient Healthcare',
-            backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
           };
           console.log('Setting new about hero content:', newHeroContent);
           setHeroContent(newHeroContent);

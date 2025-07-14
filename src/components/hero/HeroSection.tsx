@@ -11,15 +11,17 @@ interface HeroSectionProps {
 const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText, backgroundVideoUrl }) => {
   return (
     <section className="pt-32 pb-32 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden h-[600px] flex items-center">
-      {/* Video Background */}
-      <div className="absolute inset-0 z-0">
-        <OptimizedVideo
-          key={backgroundVideoUrl} // Force re-render when URL changes
-          src={backgroundVideoUrl || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/30" />
-      </div>
+      {/* Video Background - only render if video URL exists */}
+      {backgroundVideoUrl && (
+        <div className="absolute inset-0 z-0">
+          <OptimizedVideo
+            key={backgroundVideoUrl} // Force re-render when URL changes
+            src={backgroundVideoUrl}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      )}
       
       {/* Bottom blur gradient effect that extends beyond section */}
       <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/20 to-transparent backdrop-blur-sm z-20" />
