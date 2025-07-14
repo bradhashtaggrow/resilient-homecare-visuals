@@ -152,16 +152,23 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     if (!editingSection || !editForm.id) return;
 
     try {
+      const updateData: any = {
+        title: editForm.title?.trim() || null,
+        subtitle: editForm.subtitle?.trim() || null,
+        description: editForm.description?.trim() || null,
+        background_image_url: editForm.background_image_url || null,
+        background_video_url: editForm.background_video_url || null,
+        is_active: editForm.is_active ?? true
+      };
+
+      // Include content_data for service_lines section
+      if (editingSection === 'service_lines' && editForm.content_data) {
+        updateData.content_data = editForm.content_data;
+      }
+
       const { error } = await supabase
         .from('website_content')
-        .update({
-          title: editForm.title?.trim() || null,
-          subtitle: editForm.subtitle?.trim() || null,
-          description: editForm.description?.trim() || null,
-          background_image_url: editForm.background_image_url || null,
-          background_video_url: editForm.background_video_url || null,
-          is_active: editForm.is_active ?? true
-        })
+        .update(updateData)
         .eq('id', editForm.id);
 
       if (error) throw error;
@@ -392,6 +399,182 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                         className="w-full"
                       />
                     </div>
+
+                    {/* Tab Editor for service_lines section */}
+                    {section.section_key === 'service_lines' && (
+                      <div className="space-y-4 pt-4 border-t">
+                        <h4 className="font-medium text-gray-900">Service Lines Tabs</h4>
+                        {editForm.content_data?.services?.map((service: any, index: number) => (
+                          <div key={service.id || index} className="border rounded-lg p-4 space-y-3 bg-gray-50">
+                            <div className="flex justify-between items-center">
+                              <h5 className="font-medium text-gray-700">Tab {index + 1}</h5>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  const newServices = [...(editForm.content_data?.services || [])];
+                                  newServices.splice(index, 1);
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: {
+                                      ...editForm.content_data,
+                                      services: newServices
+                                    }
+                                  });
+                                }}
+                              >
+                                Remove Tab
+                              </Button>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Tab Title</label>
+                                <Input
+                                  value={service.title || ''}
+                                  onChange={(e) => {
+                                    const newServices = [...(editForm.content_data?.services || [])];
+                                    newServices[index] = { ...service, title: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        services: newServices
+                                      }
+                                    });
+                                  }}
+                                  placeholder="Enter tab title"
+                                />
+                              </div>
+                              
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Subtitle</label>
+                                <Input
+                                  value={service.subtitle || ''}
+                                  onChange={(e) => {
+                                    const newServices = [...(editForm.content_data?.services || [])];
+                                    newServices[index] = { ...service, subtitle: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        services: newServices
+                                      }
+                                    });
+                                  }}
+                                  placeholder="Enter subtitle"
+                                />
+                              </div>
+                            </div>
+                            
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                              <Textarea
+                                value={service.description || ''}
+                                onChange={(e) => {
+                                  const newServices = [...(editForm.content_data?.services || [])];
+                                  newServices[index] = { ...service, description: e.target.value };
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: {
+                                      ...editForm.content_data,
+                                      services: newServices
+                                    }
+                                  });
+                                }}
+                                placeholder="Enter description"
+                                rows={3}
+                              />
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Icon Name</label>
+                                <Input
+                                  value={service.icon_name || ''}
+                                  onChange={(e) => {
+                                    const newServices = [...(editForm.content_data?.services || [])];
+                                    newServices[index] = { ...service, icon_name: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        services: newServices
+                                      }
+                                    });
+                                  }}
+                                  placeholder="Icon name (e.g., Activity)"
+                                />
+                              </div>
+                              
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                                <Input
+                                  value={service.color || ''}
+                                  onChange={(e) => {
+                                    const newServices = [...(editForm.content_data?.services || [])];
+                                    newServices[index] = { ...service, color: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        services: newServices
+                                      }
+                                    });
+                                  }}
+                                  placeholder="Color (e.g., blue)"
+                                />
+                              </div>
+                              
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                                <Input
+                                  value={service.patient_image_url || ''}
+                                  onChange={(e) => {
+                                    const newServices = [...(editForm.content_data?.services || [])];
+                                    newServices[index] = { ...service, patient_image_url: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        services: newServices
+                                      }
+                                    });
+                                  }}
+                                  placeholder="Image URL"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => {
+                            const newTab = {
+                              id: `service-${Date.now()}`,
+                              title: 'New Service',
+                              subtitle: 'Service Subtitle',
+                              description: 'Service description',
+                              icon_name: 'Activity',
+                              color: 'blue',
+                              patient_image_url: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80'
+                            };
+                            setEditForm({
+                              ...editForm,
+                              content_data: {
+                                ...editForm.content_data,
+                                services: [...(editForm.content_data?.services || []), newTab]
+                              }
+                            });
+                          }}
+                        >
+                          Add New Tab
+                        </Button>
+                      </div>
+                    )}
 
                     {hasBackgroundMedia(section) && (
                       <div className="space-y-4 pt-4 border-t">
