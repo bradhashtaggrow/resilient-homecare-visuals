@@ -80,7 +80,16 @@ const Contact = () => {
         filter: 'section_key=eq.contact_hero'
       }, (payload) => {
         console.log('Real-time contact hero change:', payload);
-        loadContent();
+        if (payload.new && (payload.new as any).background_video_url) {
+          // Update hero content directly from real-time payload
+          setHeroContent(prev => ({
+            ...prev,
+            backgroundVideoUrl: (payload.new as any).background_video_url
+          }));
+          console.log('Updated hero video URL from real-time:', (payload.new as any).background_video_url);
+        } else {
+          loadContent();
+        }
       })
       .on('postgres_changes', {
         event: '*',
