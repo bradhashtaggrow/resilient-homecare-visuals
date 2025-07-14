@@ -73,8 +73,45 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
 
   useEffect(() => {
     loadContent();
-    setupRealtimeSubscription();
-  }, []);
+    
+    const channel = supabase
+      .channel('website-content-realtime')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content'
+      }, (payload) => {
+        console.log('Real-time content change:', payload);
+        
+        // Handle different event types
+        if (payload.eventType === 'UPDATE' && payload.new) {
+          // Update specific record in state immediately
+          setContent(prevContent => 
+            prevContent.map(item => 
+              item.id === payload.new.id ? { ...item, ...payload.new } : item
+            )
+          );
+          
+          // Also update editForm if we're currently editing this section
+          if (editingSection === payload.new.section_key) {
+            setEditForm(prev => ({ ...prev, ...payload.new }));
+          }
+        } else {
+          // For INSERT/DELETE, reload all content
+          loadContent();
+        }
+        
+        toast({
+          title: "Content synced",
+          description: "Website content updated in real-time",
+        });
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [editingSection]);
 
   const getSyncStatusIcon = () => {
     switch (syncStatus) {
@@ -123,25 +160,6 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     }
   };
 
-  const setupRealtimeSubscription = () => {
-    const channel = supabase
-      .channel('website-content-realtime')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content'
-      }, (payload) => {
-        console.log('Real-time content change:', payload);
-        loadContent();
-        toast({
-          title: "Content synced",
-          description: "Website content updated in real-time",
-        });
-      })
-      .subscribe();
-
-    return () => supabase.removeChannel(channel);
-  };
 
   const handleEdit = (section: WebsiteContent) => {
     setEditingSection(section.section_key);
