@@ -531,34 +531,6 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                 <CardHeader className="bg-white border-b">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-4 flex-1">
-                      {/* Thumbnail display for stored media */}
-                      <div className="w-20 h-20 rounded-lg border border-gray-200 flex items-center justify-center bg-gray-50 overflow-hidden">
-                        {section.section_key.includes('hero') && section.background_video_url ? (
-                          // For hero sections with video - show video thumbnail
-                          <div className="relative w-full h-full">
-                            <video 
-                              src={section.background_video_url}
-                              className="w-full h-full object-cover"
-                              muted
-                            />
-                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                              <Video className="h-6 w-6 text-white" />
-                            </div>
-                          </div>
-                        ) : (
-                          // For other sections - show image thumbnail
-                          section.background_image_url || section.mobile_background_url || section.laptop_background_url ? (
-                            <img 
-                              src={section.background_image_url || section.mobile_background_url || section.laptop_background_url} 
-                              alt="Section thumbnail"
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <Image className="h-8 w-8 text-gray-400" />
-                          )
-                        )}
-                      </div>
-
                       <div className="flex-1">
                         <CardTitle className="text-black">
                           {formatSectionName(section.section_key)}
