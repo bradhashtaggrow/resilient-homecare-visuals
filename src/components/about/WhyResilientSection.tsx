@@ -54,11 +54,19 @@ const WhyResilientSection = () => {
 
         if (data && !error) {
           console.log('Loaded why choose content:', data);
+          console.log('Content data:', data.content_data);
+          console.log('Features:', (data.content_data as any)?.features);
+          
+          const features = (data.content_data as any)?.features || [];
+          console.log('Processed features:', features);
+          
           setContent({
             title: data.title || "Why Choose Resilient?",
             subtitle: data.subtitle || "Three core pillars that make us the leader in home-based healthcare solutions",
-            features: (data.content_data as any)?.features || []
+            features: features
           });
+        } else {
+          console.error('Error loading why choose content:', error);
         }
       } catch (error) {
         console.error('Error loading why choose content:', error);
