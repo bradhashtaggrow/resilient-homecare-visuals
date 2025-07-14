@@ -436,8 +436,13 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                 Uploading video...
                               </div>
                             )}
-                            {editForm.background_video_url && (
-                              <div className="mt-2 text-sm text-green-600">✓ Video uploaded</div>
+                            {(editForm.background_video_url || section.background_video_url) && (
+                              <div className="mt-2 space-y-1">
+                                <div className="text-sm text-green-600">✓ Video available</div>
+                                <div className="text-xs text-gray-500 break-all">
+                                  {editForm.background_video_url || section.background_video_url}
+                                </div>
+                              </div>
                             )}
                           </div>
                         </div>
