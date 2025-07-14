@@ -12,7 +12,14 @@ import { supabase } from '@/integrations/supabase/client';
 const Clinicians = () => {
   const [heroContent, setHeroContent] = useState({
     title: 'Enabling',
-    highlightedText: 'seamless referrals'
+    highlightedText: 'seamless referrals',
+    background_video_url: ''
+  });
+  
+  const [footerContent, setFooterContent] = useState({
+    title: 'Resilient Healthcare',
+    subtitle: 'Empowering Clinicians Everywhere',
+    background_image_url: ''
   });
   
   const [services, setServices] = useState([
@@ -97,7 +104,24 @@ const Clinicians = () => {
           console.log('Loaded clinicians hero content:', heroData);
           setHeroContent({
             title: heroData.title || 'Enabling',
-            highlightedText: heroData.subtitle || 'seamless referrals'
+            highlightedText: heroData.subtitle || 'seamless referrals',
+            background_video_url: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+          });
+        }
+
+        // Load footer content
+        const { data: footerData, error: footerError } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'clinicians_footer')
+          .eq('is_active', true)
+          .single();
+
+        if (footerData && !footerError) {
+          setFooterContent({
+            title: footerData.title || 'Resilient Healthcare',
+            subtitle: footerData.subtitle || 'Empowering Clinicians Everywhere',
+            background_image_url: footerData.background_image_url || '/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png'
           });
         }
 
@@ -139,14 +163,14 @@ const Clinicians = () => {
 
     loadContent();
 
-    // Set up real-time subscription
+    // Set up real-time subscription for all clinicians sections
     const channel = supabase
-      .channel('clinicians-changes')
+      .channel('clinicians-all-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=in.(clinicians_hero,clinicians_mobile)'
+        filter: 'section_key=in.(clinicians_hero,clinicians_mobile,clinicians_footer)'
       }, (payload) => {
         console.log('Real-time clinicians content change:', payload);
         loadContent();
@@ -165,6 +189,7 @@ const Clinicians = () => {
       <HeroSection 
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
+        backgroundVideoUrl={heroContent.background_video_url}
       />
 
       <ContentSection 
