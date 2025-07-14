@@ -12,7 +12,8 @@ import { supabase } from '@/integrations/supabase/client';
 const Clinicians = () => {
   const [heroContent, setHeroContent] = useState({
     title: 'Enabling',
-    highlightedText: 'seamless referrals'
+    highlightedText: 'seamless referrals',
+    backgroundVideoUrl: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
   });
   
   const [services, setServices] = useState([
@@ -95,10 +96,15 @@ const Clinicians = () => {
 
         if (heroData && !heroError) {
           console.log('Loaded clinicians hero content:', heroData);
-          setHeroContent({
+          const newHeroContent = {
             title: heroData.title || 'Enabling',
-            highlightedText: heroData.subtitle || 'seamless referrals'
-          });
+            highlightedText: heroData.subtitle || 'seamless referrals',
+            backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+          };
+          console.log('Setting new clinicians hero content:', newHeroContent);
+          setHeroContent(newHeroContent);
+        } else {
+          console.log('No clinicians hero content found or error:', heroError);
         }
 
         // Load services content
@@ -165,6 +171,7 @@ const Clinicians = () => {
       <HeroSection 
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
+        backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
       <ContentSection 
