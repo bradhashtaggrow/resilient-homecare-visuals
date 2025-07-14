@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TrendingUp, Heart, Users, DollarSign, Award, Target } from 'lucide-react';
+import { TrendingUp, Heart, Users, DollarSign, Award, Target, Star, Zap, Shield, Activity } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface StatsContent {
@@ -8,9 +8,9 @@ interface StatsContent {
   content_data?: {
     stats?: Array<{
       value: string;
-      label: string;
+      title: string;
       description: string;
-      source: string;
+      icon: string;
     }>;
   };
 }
@@ -31,27 +31,27 @@ const StatsSection = () => {
       stats: [
         {
           value: '38%',
-          label: 'Cost Savings',
+          title: 'Cost Savings',
           description: 'A study published in JAMA Internal Medicine found that hospital-at-home care reduced costs by 38% compared to traditional inpatient care.',
-          source: 'JAMA Internal Medicine'
+          icon: 'DollarSign'
         },
         {
           value: '70%',
-          label: 'Reduction in Readmissions',
+          title: 'Reduction in Readmissions',
           description: 'A study published in JAMA Internal Medicine reported a 70% reduction in 30-day readmission rates among hospital-at-home patients compared to traditional inpatient care.',
-          source: '30-day readmissions'
+          icon: 'TrendingUp'
         },
         {
           value: '91%',
-          label: 'Patient Preference',
+          title: 'Patient Preference',
           description: 'A survey published in the Annals of Internal Medicine found that 91% of patients who received hospital-level care at home would choose this option again for similar medical conditions.',
-          source: 'Annals of Internal Medicine'
+          icon: 'Heart'
         },
         {
           value: '95%',
-          label: 'Less Stress',
+          title: 'Less Stress',
           description: 'A study published in BMJ Open Quality reported that 95% of patients felt less stressed receiving care at home compared to inpatient hospital care.',
-          source: 'BMJ Open Quality'
+          icon: 'Users'
         }
       ]
     }
@@ -76,27 +76,27 @@ const StatsSection = () => {
             stats: [
               {
                 value: '38%',
-                label: 'Cost Savings',
+                title: 'Cost Savings',
                 description: 'A study published in JAMA Internal Medicine found that hospital-at-home care reduced costs by 38% compared to traditional inpatient care.',
-                source: 'JAMA Internal Medicine'
+                icon: 'DollarSign'
               },
               {
                 value: '70%',
-                label: 'Reduction in Readmissions',
+                title: 'Reduction in Readmissions',
                 description: 'A study published in JAMA Internal Medicine reported a 70% reduction in 30-day readmission rates among hospital-at-home patients compared to traditional inpatient care.',
-                source: '30-day readmissions'
+                icon: 'TrendingUp'
               },
               {
                 value: '91%',
-                label: 'Patient Preference',
+                title: 'Patient Preference',
                 description: 'A survey published in the Annals of Internal Medicine found that 91% of patients who received hospital-level care at home would choose this option again for similar medical conditions.',
-                source: 'Annals of Internal Medicine'
+                icon: 'Heart'
               },
               {
                 value: '95%',
-                label: 'Less Stress',
+                title: 'Less Stress',
                 description: 'A study published in BMJ Open Quality reported that 95% of patients felt less stressed receiving care at home compared to inpatient hospital care.',
-                source: 'BMJ Open Quality'
+                icon: 'Users'
               }
             ]
           };
@@ -240,27 +240,43 @@ const StatsSection = () => {
 
   const stars = generateStars();
 
+  // Icon mapping
+  const getIconComponent = (iconName: string) => {
+    const icons: { [key: string]: any } = {
+      DollarSign,
+      TrendingUp,
+      Heart,
+      Users,
+      Award,
+      Target,
+      Star,
+      Zap,
+      Shield,
+      Activity
+    };
+    return icons[iconName] || DollarSign;
+  };
+
   // Use database content or fallback to default stats
   const statsData = content.content_data?.stats || [
-    { value: '38%', label: 'Cost Savings', description: 'Default description', source: 'JAMA Internal Medicine' },
-    { value: '70%', label: 'Reduction in Readmissions', description: 'Default description', source: '30-day readmissions' },
-    { value: '91%', label: 'Patient Preference', description: 'Default description', source: 'Annals of Internal Medicine' },
-    { value: '95%', label: 'Less Stress', description: 'Default description', source: 'BMJ Open Quality' }
+    { value: '38%', title: 'Cost Savings', description: 'Default description', icon: 'DollarSign' },
+    { value: '70%', title: 'Reduction in Readmissions', description: 'Default description', icon: 'TrendingUp' },
+    { value: '91%', title: 'Patient Preference', description: 'Default description', icon: 'Heart' },
+    { value: '95%', title: 'Less Stress', description: 'Default description', icon: 'Users' }
   ];
 
   const stats = statsData.map((stat, index) => {
-    const icons = [DollarSign, TrendingUp, Heart, Users];
+    const IconComponent = getIconComponent(stat.icon);
     const colors = ['primary', 'secondary', 'accent', 'primary'];
     
     return {
-      icon: React.createElement(icons[index], { className: "h-10 w-10" }),
+      icon: React.createElement(IconComponent, { className: "h-10 w-10" }),
       value: counts[Object.keys(counts)[index] as keyof typeof counts] > 0 
         ? `${counts[Object.keys(counts)[index] as keyof typeof counts]}%` 
         : stat.value,
-      label: stat.label,
+      label: stat.title,
       description: stat.description,
-      color: colors[index],
-      trend: stat.source
+      color: colors[index]
     };
   });
 
@@ -346,10 +362,10 @@ const StatsSection = () => {
                     {stat.description}
                   </div>
                   
-                  {/* Source/Trend */}
+                  {/* Trend indicator */}
                   <div className="inline-flex items-center space-x-2 bg-green-500/20 text-green-300 px-2 sm:px-3 py-1 rounded-full text-xs font-medium">
                     <TrendingUp className="h-3 w-3" />
-                    <span className="truncate">{stat.trend}</span>
+                    <span>Research Based</span>
                   </div>
                 </div>
 
