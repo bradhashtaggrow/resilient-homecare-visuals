@@ -70,14 +70,28 @@ const Contact = () => {
   useEffect(() => {
     loadContent();
 
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('contact-changes')
+    // Set up real-time subscription for contact hero
+    const heroChannel = supabase
+      .channel('contact-hero-changes')
       .on('postgres_changes', {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=in.(get_in_touch,contact_hero)'
+        filter: 'section_key=eq.contact_hero'
+      }, (payload) => {
+        console.log('Real-time contact hero change:', payload);
+        loadContent(true); // Skip loading state for real-time updates
+      })
+      .subscribe();
+
+    // Set up real-time subscription for contact content
+    const contentChannel = supabase
+      .channel('contact-content-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=eq.get_in_touch'
       }, (payload) => {
         console.log('Real-time contact content change:', payload);
         loadContent(true); // Skip loading state for real-time updates
@@ -85,7 +99,8 @@ const Contact = () => {
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(heroChannel);
+      supabase.removeChannel(contentChannel);
     };
   }, []);
 
