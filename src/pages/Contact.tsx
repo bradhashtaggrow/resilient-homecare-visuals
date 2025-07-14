@@ -49,15 +49,15 @@ const Contact = () => {
 
       if (heroData && !heroError) {
         console.log('Loaded contact hero content:', heroData);
-        const newHeroContent = {
+        console.log('Background video URL from DB:', heroData.background_video_url);
+        setHeroContent({
           title: heroData.title || 'Get in',
           highlightedText: heroData.subtitle || 'Touch',
           backgroundVideoUrl: heroData.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
-        };
-        console.log('Setting new contact hero content:', newHeroContent);
-        setHeroContent(newHeroContent);
+        });
       } else {
         console.log('No contact hero content found or error:', heroError);
+        // Keep default values if no data found
       }
     } catch (error) {
       console.error('Error fetching content:', error);
