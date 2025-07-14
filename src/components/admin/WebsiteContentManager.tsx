@@ -173,7 +173,6 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
 
       setEditingSection(null);
       setEditForm({});
-      await loadContent(); // Reload content to reflect changes
     } catch (error) {
       console.error('Error saving content:', error);
       toast({
