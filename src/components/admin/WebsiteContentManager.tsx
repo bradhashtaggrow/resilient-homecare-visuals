@@ -180,8 +180,8 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
         is_active: editForm.is_active ?? true
       };
 
-      // Include content_data for service_lines section
-      if (editingSection === 'service_lines' && editForm.content_data) {
+      // Include content_data for service_lines and mobile_showcase sections
+      if ((editingSection === 'service_lines' || editingSection === 'mobile_showcase') && editForm.content_data) {
         updateData.content_data = editForm.content_data;
       }
 
@@ -471,6 +471,144 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                         className="w-full"
                       />
                     </div>
+
+                    {/* Mobile Features Editor for mobile_showcase section */}
+                    {section.section_key === 'mobile_showcase' && (
+                      <div className="space-y-4 pt-4 border-t">
+                        <h4 className="font-medium text-gray-900">Mobile Section Features</h4>
+                        {editForm.content_data?.features?.map((feature: any, index: number) => (
+                          <div key={index} className="border rounded-lg p-4 space-y-3 bg-gray-50">
+                            <div className="flex justify-between items-center">
+                              <h5 className="font-medium text-gray-700">Feature {index + 1}</h5>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  const newFeatures = [...(editForm.content_data?.features || [])];
+                                  newFeatures.splice(index, 1);
+                                  setEditForm({
+                                    ...editForm,
+                                    content_data: {
+                                      ...editForm.content_data,
+                                      features: newFeatures
+                                    }
+                                  });
+                                }}
+                              >
+                                Remove Feature
+                              </Button>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Icon Name</label>
+                                <Input
+                                  value={feature.icon || ''}
+                                  onChange={(e) => {
+                                    const newFeatures = [...(editForm.content_data?.features || [])];
+                                    newFeatures[index] = { ...feature, icon: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        features: newFeatures
+                                      }
+                                    });
+                                  }}
+                                  placeholder="Icon name (e.g., Shield)"
+                                />
+                              </div>
+                              
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Feature Title</label>
+                                <Input
+                                  value={feature.title || ''}
+                                  onChange={(e) => {
+                                    const newFeatures = [...(editForm.content_data?.features || [])];
+                                    newFeatures[index] = { ...feature, title: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        features: newFeatures
+                                      }
+                                    });
+                                  }}
+                                  placeholder="Enter feature title"
+                                />
+                              </div>
+                              
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <Textarea
+                                  value={feature.description || ''}
+                                  onChange={(e) => {
+                                    const newFeatures = [...(editForm.content_data?.features || [])];
+                                    newFeatures[index] = { ...feature, description: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...editForm.content_data,
+                                        features: newFeatures
+                                      }
+                                    });
+                                  }}
+                                  placeholder="Enter feature description"
+                                  rows={2}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => {
+                            const defaultFeatures = [
+                              { icon: 'Shield', title: 'Enterprise Security', description: 'Bank-grade encryption with HIPAA compliance built-in' },
+                              { icon: 'BarChart3', title: 'Real-Time Analytics', description: 'Live dashboard with predictive insights and KPI tracking' },
+                              { icon: 'Users', title: 'Multi-Tenant Architecture', description: 'Scalable infrastructure supporting unlimited organizations' },
+                              { icon: 'Zap', title: 'API-First Platform', description: 'Seamless integration with existing healthcare systems' },
+                              { icon: 'Database', title: 'Cloud Infrastructure', description: '99.9% uptime with automatic scaling and backup' },
+                              { icon: 'Lock', title: 'Access Control', description: 'Granular permissions with role-based authentication' }
+                            ];
+                            
+                            const currentFeatures = editForm.content_data?.features || [];
+                            if (currentFeatures.length === 0) {
+                              // Initialize with all default features if none exist
+                              setEditForm({
+                                ...editForm,
+                                content_data: {
+                                  ...editForm.content_data,
+                                  features: defaultFeatures
+                                }
+                              });
+                            } else {
+                              // Add a new blank feature
+                              const newFeature = {
+                                icon: 'Shield',
+                                title: 'New Feature',
+                                description: 'Feature description'
+                              };
+                              setEditForm({
+                                ...editForm,
+                                content_data: {
+                                  ...editForm.content_data,
+                                  features: [...currentFeatures, newFeature]
+                                }
+                              });
+                            }
+                          }}
+                        >
+                          {(!editForm.content_data?.features || editForm.content_data.features.length === 0) 
+                            ? 'Initialize Default Features' 
+                            : 'Add New Feature'
+                          }
+                        </Button>
+                      </div>
+                    )}
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">

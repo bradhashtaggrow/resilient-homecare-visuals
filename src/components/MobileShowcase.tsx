@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Shield, BarChart3, Users, Zap, Database, Lock } from 'lucide-react';
+import { Shield, BarChart3, Users, Zap, Database, Lock, LucideIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import OptimizedVideo from './OptimizedVideo';
 
@@ -130,6 +130,21 @@ const MobileShowcase = () => {
     }
   }, [isVisible]);
 
+  // Helper function to get icon component from string name
+  const getIconComponent = (iconName: string) => {
+    const iconMap: Record<string, LucideIcon> = {
+      Shield,
+      BarChart3,
+      Users,
+      Zap,
+      Database,
+      Lock
+    };
+    
+    const IconComponent = iconMap[iconName] || Shield;
+    return <IconComponent className="h-7 w-7" />;
+  };
+
   return (
     <section id="mobile-showcase" className="py-32 bg-gradient-to-br from-slate-900 via-gray-900 to-black relative overflow-hidden">
       <div className="absolute inset-0">
@@ -152,18 +167,18 @@ const MobileShowcase = () => {
 
         <div className="grid lg:grid-cols-12 gap-16 items-center">
           <div className="lg:col-span-4 space-y-8">
-            {keyFeatures.slice(0, 3).map((feature, index) => (
+            {content.features.slice(0, 3).map((feature, index) => (
               <div 
                 key={index}
                 className={`transition-all duration-1000 delay-${index * 200} ${
                   isVisible ? 'animate-slide-in-left opacity-100' : 'opacity-0'
                 }`}
               >
-                <div className="group p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:transform hover:scale-105">
-                  <div className="flex items-start space-x-5">
-                    <div className="flex-shrink-0 p-3 rounded-xl btn-3d-gradient text-white group-hover:scale-110 transition-transform duration-500">
-                      {feature.icon}
-                    </div>
+                  <div className="group p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:transform hover:scale-105">
+                    <div className="flex items-start space-x-5">
+                      <div className="flex-shrink-0 p-3 rounded-xl btn-3d-gradient text-white group-hover:scale-110 transition-transform duration-500">
+                        {typeof feature.icon === 'string' ? getIconComponent(feature.icon) : feature.icon}
+                      </div>
                     <div>
                       <h4 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">
                         {feature.title}
@@ -276,18 +291,18 @@ const MobileShowcase = () => {
           </div>
 
           <div className="lg:col-span-4 space-y-8">
-            {keyFeatures.slice(3, 6).map((feature, index) => (
+            {content.features.slice(3, 6).map((feature, index) => (
               <div 
                 key={index + 3}
                 className={`transition-all duration-1000 delay-${(index + 3) * 200} ${
                   isVisible ? 'animate-slide-in-right opacity-100' : 'opacity-0'
                 }`}
               >
-                <div className="group p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:transform hover:scale-105">
-                  <div className="flex items-start space-x-5">
-                    <div className="flex-shrink-0 p-3 rounded-xl btn-3d-gradient text-white group-hover:scale-110 transition-transform duration-500">
-                      {feature.icon}
-                    </div>
+                  <div className="group p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:transform hover:scale-105">
+                    <div className="flex items-start space-x-5">
+                      <div className="flex-shrink-0 p-3 rounded-xl btn-3d-gradient text-white group-hover:scale-110 transition-transform duration-500">
+                        {typeof feature.icon === 'string' ? getIconComponent(feature.icon) : feature.icon}
+                      </div>
                     <div>
                       <h4 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">
                         {feature.title}
