@@ -8,7 +8,7 @@ import ContentSection from '@/components/content/ContentSection';
 import { Calendar, User, ArrowRight, Loader, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Tables } from '@/integrations/supabase/types';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
 type BlogPost = Tables<'blog_posts'>;
@@ -222,8 +222,8 @@ const News = () => {
 
       {/* Blog Post Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white">
-          <DialogHeader className="space-y-4 pb-6">
+        <DialogContent className="max-w-4xl h-[90vh] flex flex-col bg-white overflow-hidden">
+          <DialogHeader className="space-y-4 pb-6 flex-shrink-0">
             <div className="flex justify-between items-start">
               <DialogTitle className="text-2xl sm:text-3xl font-bold text-gray-900 pr-8 leading-tight">
                 {selectedPost?.title}
@@ -257,7 +257,12 @@ const News = () => {
             )}
           </DialogHeader>
           
-          {selectedPost && (
+          <DialogDescription className="sr-only">
+            Full article content for {selectedPost?.title}
+          </DialogDescription>
+          
+          <div className="flex-1 overflow-y-auto px-1">
+            {selectedPost && (
             <div className="space-y-6">
               {selectedPost.featured_image_url && (
                 <div className="relative w-full h-64 sm:h-80 rounded-lg overflow-hidden">
@@ -299,8 +304,9 @@ const News = () => {
                   </div>
                 </div>
               )}
-            </div>
-          )}
+             </div>
+             )}
+           </div>
         </DialogContent>
       </Dialog>
     </div>
