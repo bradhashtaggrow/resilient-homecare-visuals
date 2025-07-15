@@ -137,11 +137,15 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'stats': 9,
       'lead_generation': 10,
       'lead_gen': 10,
-      // Page specific sections
-      'why_choose': 3,
-      'for_hospitals': 4,
-      'for_clinicians': 5,
-      'core_values': 6,
+      // Page specific sections - About
+      'rain_section': 3,
+      'why_choose_resilient': 4,
+      'for_hospitals': 5,
+      'for_clinicians': 6,
+      'core_values_header': 7,
+      'core_values_compassionate': 8,
+      'core_values_excellence': 9,
+      'core_values_innovation': 10,
       'footer': 99, // Footer comes last
       'team': 8,
       'tools': 3,
@@ -360,13 +364,14 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       
       // About
       'about_hero': 'Hero Section',
-      'about_why_choose_header': 'Why Choose Resilient Header',
-      'about_why_choose_rain': 'RAIN-Powered AI Infrastructure',
-      'about_why_choose_integrated': 'Fully Integrated With Hospital Systems',
-      'about_why_choose_workforce': 'Flexible Workforce Model',
+      'about_rain_section': 'RAIN Section',
+      'about_why_choose_resilient': 'Why Choose Resilient?',
       'about_for_hospitals': 'For Hospitals',
-      'about_for_clinicians': 'For Clinicians',
-      'about_core_values': 'Our Core Values',
+      'about_for_clinicians': 'For Clinicians', 
+      'about_core_values_header': 'Our Core Values Header',
+      'about_core_values_compassionate': 'Compassionate Care',
+      'about_core_values_excellence': 'Excellence',
+      'about_core_values_innovation': 'Innovation',
       'about_footer': 'Footer',
       
       // Patients
