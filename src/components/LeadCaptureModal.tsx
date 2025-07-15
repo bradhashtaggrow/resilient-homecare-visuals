@@ -69,7 +69,6 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       className="fixed inset-0 font-apple"
       onClick={handleBackdropClick}
       style={{ 
-        zIndex: 2147483647, // Maximum z-index value
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         backdropFilter: 'blur(4px)'
       }}
