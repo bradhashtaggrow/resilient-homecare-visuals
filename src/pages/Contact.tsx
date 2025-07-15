@@ -117,7 +117,7 @@ const Contact = () => {
       />
 
       {/* Contact Form Section */}
-      <section className="py-24 bg-gradient-to-br from-slate-50 to-blue-50/30">
+      <section className="py-24 bg-gradient-to-br from-[#0080ff]/5 to-[#0066cc]/10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Contact Information */}
@@ -132,7 +132,7 @@ const Contact = () => {
 
               <div className="space-y-6">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#0080ff] to-[#0066cc] rounded-xl flex items-center justify-center">
                     <Phone className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -142,7 +142,7 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#0080ff] to-[#0066cc] rounded-xl flex items-center justify-center">
                     <Mail className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -152,7 +152,7 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#0080ff] to-[#0066cc] rounded-xl flex items-center justify-center">
                     <MessageCircle className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -260,7 +260,7 @@ const Contact = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl group"
+                  className="w-full bg-gradient-to-r from-[#0080ff] to-[#0066cc] hover:from-[#0066cc] hover:to-[#004499] text-white py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl group"
                 >
                   Send Message
                   <Send className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
