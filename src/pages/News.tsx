@@ -61,6 +61,9 @@ const News = () => {
 
       if (heroData) {
         console.log('Loaded news hero content:', heroData);
+        console.log('Content data:', heroData.content_data);
+        console.log('Additional content:', ((heroData.content_data as any)?.additional_content));
+        
         // Split the title properly - the CMS stores "Healthcare News & Insights"
         const fullTitle = heroData.title || 'Healthcare News & Insights';
         const parts = fullTitle.split(' & ');
@@ -118,7 +121,8 @@ const News = () => {
         schema: 'public',
         table: 'website_content',
         filter: 'section_key=eq.news_hero'
-      }, () => {
+      }, (payload) => {
+        console.log('Real-time update received for news_hero:', payload);
         loadHeroContent();
       })
       .subscribe();
