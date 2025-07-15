@@ -40,7 +40,7 @@ const Navigation = () => {
           <div className="flex items-center h-16">
             {/* Logo and Navigation - Left Side */}
             <div className="flex items-center space-x-12 flex-1">
-              <Link to="/" className="transition-transform duration-200 hover:scale-105">
+              <Link to="/" className="transition-transform duration-200 hover:scale-105 flex items-center">
                 <img 
                   src="/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png" 
                   alt="Resilient Healthcare" 
@@ -49,40 +49,40 @@ const Navigation = () => {
               </Link>
               
               {/* Desktop Navigation */}
-              <div className="hidden lg:flex items-center space-x-8">
+              <div className="hidden lg:flex items-center space-x-8 h-full">
                 <Link 
                   to="/care-at-home" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
                 >
                   Care At Home
                 </Link>
                 <Link 
                   to="/clinicians" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
                 >
                   Clinicians
                 </Link>
                 <Link 
                   to="/patients" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
                 >
                   Patients
                 </Link>
                 <Link 
                   to="/news" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
                 >
                   News
                 </Link>
                 <Link 
                   to="/about" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
                 >
                   About Us
                 </Link>
                 <Link 
                   to="/contact" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
                 >
                   Contact
                 </Link>
