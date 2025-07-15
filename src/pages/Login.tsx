@@ -172,7 +172,7 @@ const Login = () => {
                 ) : (
                   <>
                     <Lock className="mr-3 h-5 w-5" />
-                    <span className="tracking-wide">Access Admin Dashboard</span>
+                    <span className="tracking-wide">Login</span>
                   </>
                 )}
               </Button>
