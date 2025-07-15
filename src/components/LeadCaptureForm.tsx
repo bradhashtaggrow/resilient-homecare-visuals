@@ -184,8 +184,11 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
         description: "We'll contact you within 24 hours to schedule your demo.",
       });
       
-      onSuccess?.();
-      onClose?.();
+      // Wait a moment for the toast to be visible before closing
+      setTimeout(() => {
+        onSuccess?.();
+        onClose?.();
+      }, 2000); // 2 second delay to let user see the success message
       
     } catch (error) {
       console.error('Error submitting lead:', error);
