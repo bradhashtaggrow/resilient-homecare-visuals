@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Heart, Mail, Phone, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 
 interface FooterContent {
@@ -150,12 +151,12 @@ const Footer = () => {
                 <ul className="space-y-1 sm:space-y-2">
                   {links.map((link) => (
                     <li key={link.name}>
-                      <a 
-                        href={link.href}
+                      <Link 
+                        to={link.href}
                         className="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-xs sm:text-sm lg:text-base"
                       >
                         {link.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

@@ -179,13 +179,21 @@ Address: Dallas, TX`
       .channel('data-security-changes')
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.security_hero' },
-        () => loadContent()
+        (payload) => {
+          console.log('Data security hero updated:', payload);
+          loadContent();
+        }
       )
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.security_body' },
-        () => loadContent()
+        (payload) => {
+          console.log('Data security body updated:', payload);
+          loadContent();
+        }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log('Data security subscription status:', status);
+      });
 
     return () => {
       supabase.removeChannel(channel);

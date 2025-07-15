@@ -102,13 +102,21 @@ Questions about the Terms of Service should be sent to us at info@resilienthc.co
       .channel('terms-of-service-changes')
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.terms_hero' },
-        () => loadContent()
+        (payload) => {
+          console.log('Terms hero updated:', payload);
+          loadContent();
+        }
       )
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.terms_body' },
-        () => loadContent()
+        (payload) => {
+          console.log('Terms body updated:', payload);
+          loadContent();
+        }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log('Terms of service subscription status:', status);
+      });
 
     return () => {
       supabase.removeChannel(channel);

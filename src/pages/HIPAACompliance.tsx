@@ -167,13 +167,21 @@ Address: Dallas, TX`
       .channel('hipaa-compliance-changes')
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.hipaa_hero' },
-        () => loadContent()
+        (payload) => {
+          console.log('HIPAA hero updated:', payload);
+          loadContent();
+        }
       )
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.hipaa_body' },
-        () => loadContent()
+        (payload) => {
+          console.log('HIPAA body updated:', payload);
+          loadContent();
+        }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log('HIPAA compliance subscription status:', status);
+      });
 
     return () => {
       supabase.removeChannel(channel);
