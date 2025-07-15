@@ -16,6 +16,7 @@ interface HeroContent {
   title: string;
   highlightedText: string;
   description: string;
+  additionalContent: string;
   backgroundVideoUrl: string;
 }
 
@@ -35,6 +36,7 @@ const News = () => {
     title: "Healthcare News &",
     highlightedText: "Insights",
     description: '',
+    additionalContent: '',
     backgroundVideoUrl: '' // Start empty, only show database video
   });
   const [contentSection, setContentSection] = useState<ContentSectionData>({
@@ -66,6 +68,7 @@ const News = () => {
           title: parts[0],  // "Healthcare News"
           highlightedText: parts[1] ? '& ' + parts[1] : '& Insights',  // "& Insights"
           description: heroData.description || '',
+          additionalContent: ((heroData.content_data as any)?.additional_content) || '',
           backgroundVideoUrl: heroData.background_video_url || ''
         };
         console.log('Setting new news hero content:', newHeroContent);
@@ -165,6 +168,7 @@ const News = () => {
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
         description={heroContent.description}
+        additionalContent={heroContent.additionalContent}
         backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 

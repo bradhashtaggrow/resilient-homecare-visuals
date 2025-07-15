@@ -6,10 +6,11 @@ interface HeroSectionProps {
   title: string;
   highlightedText: string;
   description?: string;
+  additionalContent?: string;
   backgroundVideoUrl?: string;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText, description, backgroundVideoUrl }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText, description, additionalContent, backgroundVideoUrl }) => {
   return (
     <section className="pt-32 pb-32 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden h-[600px] flex items-center">
       {/* Video Background - only render if video URL exists */}
@@ -42,6 +43,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText, descr
             }`}>
               {description}
             </p>
+          )}
+          {additionalContent && (
+            <div className={`mt-6 text-lg leading-relaxed max-w-3xl mx-auto ${
+              backgroundVideoUrl ? 'text-white/90' : 'text-gray-600'
+            }`}>
+              {additionalContent.split('\n').map((line, index) => (
+                <p key={index} className={index === 0 ? 'font-semibold' : ''}>{line}</p>
+              ))}
+            </div>
           )}
         </div>
       </div>
