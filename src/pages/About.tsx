@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react';
-import { SEOHead, createOrganizationSchema, SEO_KEYWORDS } from '@/components/SEOHead';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
@@ -82,27 +81,9 @@ const About = () => {
     };
   }, []);
 
-  const aboutSchema = {
-    "@context": "https://schema.org",
-    "@type": "AboutPage",
-    "name": "About Resilient Healthcare",
-    "description": "Learn about Resilient Healthcare's mission to revolutionize remote healthcare through innovative technology, value-based care at home, and advanced telehealth solutions.",
-    "mainEntity": createOrganizationSchema()
-  };
-
   return (
-    <>
-      <SEOHead
-        title="About Resilient Healthcare - Innovating Remote Healthcare Technology"
-        description="Discover how Resilient Healthcare is transforming healthcare delivery with cutting-edge remote monitoring technology, value-based care at home solutions, and comprehensive telehealth platforms for providers and patients."
-        keywords={`${SEO_KEYWORDS.primary}, ${SEO_KEYWORDS.about}`}
-        canonical="/about"
-        ogTitle="About Resilient Healthcare - Leading Healthcare Technology Innovation"
-        ogDescription="Learn about our mission to revolutionize remote healthcare through advanced technology, AI-powered diagnostics, and value-based care at home solutions."
-        schemaData={aboutSchema}
-      />
-      <div className="min-h-screen bg-white font-apple">
-        <Navigation />
+    <div className="min-h-screen bg-white font-apple">
+      <Navigation />
       
       <HeroSection 
         title={heroContent.title}
@@ -120,10 +101,9 @@ const About = () => {
       <ClinicianBenefitsSection />
       <ValuesSection />
 
-        <LeadGenSection />
-        <Footer />
-      </div>
-    </>
+      <LeadGenSection />
+      <Footer />
+    </div>
   );
 };
 

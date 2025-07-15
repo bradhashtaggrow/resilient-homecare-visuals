@@ -1,87 +1,190 @@
-import React from 'react';
-import { SEOHead, createSoftwareApplicationSchema, SEO_KEYWORDS } from '@/components/SEOHead';
+
+import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import LeadGenSection from '@/components/LeadGenSection';
+import HeroSection from '@/components/hero/HeroSection';
+import ContentSection from '@/components/content/ContentSection';
+import ServicesGrid from '@/components/services/ServicesGrid';
+import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const Clinicians = () => {
-  const cliniciansSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Healthcare Provider Solutions - Clinician Platform",
-    "description": "Advanced remote healthcare technology platform designed for clinicians. Streamline patient care, remote monitoring, and telehealth services with AI-powered tools and integrated EMR systems.",
-    "mainEntity": {
-      "@type": "SoftwareApplication",
-      "name": "Resilient Healthcare Clinician Platform",
-      "description": "Comprehensive remote healthcare management platform for healthcare providers, featuring AI-powered diagnostics, patient monitoring, and integrated telehealth solutions.",
-      "applicationCategory": "HealthApplication",
-      "operatingSystem": "Web-based",
-      "audience": {
-        "@type": "Audience",
-        "audienceType": "Healthcare Providers"
-      }
+  const [heroContent, setHeroContent] = useState({
+    title: 'Enabling',
+    highlightedText: 'seamless referrals',
+    backgroundVideoUrl: '' // Start empty, only show database video
+  });
+  
+  const [services, setServices] = useState([
+    // Fallback services in case database doesn't load
+    {
+      id: 'work-with-hospitals',
+      icon: Building2,
+      title: 'Work with leading hospitals',
+      subtitle: 'Partnership Excellence',
+      description: 'Partner with top healthcare institutions to expand your reach and impact through our comprehensive network.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'steady-patient-flow',
+      icon: Users,
+      title: 'Get access to a consistent stream of patient referrals',
+      subtitle: 'Steady Patient Flow',
+      description: 'Receive steady patient referrals through our integrated network of healthcare partners and streamlined referral system.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'comprehensive-home-care',
+      icon: Heart,
+      title: 'Support care delivery for inpatient at home and outpatient at home services',
+      subtitle: 'Comprehensive Home Care',
+      description: 'Comprehensive support for both inpatient and outpatient care delivery in home settings with full clinical oversight.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'streamlined-operations',
+      icon: Zap,
+      title: 'Simplified workflows and credentialing through our platform',
+      subtitle: 'Streamlined Operations',
+      description: 'Streamlined processes that reduce administrative complexity, save time, and ensure compliance with healthcare standards.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
+    {
+      id: 'simple-payment-model',
+      icon: CheckCircle,
+      title: 'We pay you per visit so no need to worry about administrative burden',
+      subtitle: 'Simple Payment Model',
+      description: 'Simple per-visit payment structure that eliminates administrative hassles and ensures fair, transparent compensation.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     }
+  ]);
+
+  // Available icons mapping
+  const availableIcons = {
+    Building2,
+    Heart,
+    Users,
+    Shield,
+    CheckCircle,
+    Activity,
+    Zap
   };
 
-  return (
-    <>
-      <SEOHead
-        title="Healthcare Provider Platform - Remote Patient Management for Clinicians"
-        description="Empower healthcare providers with Resilient Healthcare's advanced clinician platform. Remote patient monitoring, AI-powered diagnostics, integrated EMR, telehealth solutions, and value-based care management tools."
-        keywords={`${SEO_KEYWORDS.primary}, ${SEO_KEYWORDS.clinicians}, healthcare provider software, clinician dashboard, medical practice management, telehealth for doctors, physician remote monitoring`}
-        canonical="/clinicians"
-        ogTitle="Advanced Healthcare Provider Platform - Resilient Healthcare for Clinicians"
-        ogDescription="Transform your healthcare practice with our comprehensive remote patient monitoring, AI-powered diagnostics, and integrated telehealth platform designed for modern clinicians."
-        schemaData={cliniciansSchema}
-      />
-      <div className="min-h-screen bg-white">
-        <Navigation />
-        <main className="pt-20">
-          <section className="py-20 px-4">
-            <div className="max-w-6xl mx-auto text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Advanced Healthcare Provider <span className="gradient-text">Platform</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto">
-                Empower your healthcare practice with cutting-edge remote patient monitoring, 
-                AI-powered diagnostics, and comprehensive telehealth solutions designed for modern clinicians.
-              </p>
-            </div>
-          </section>
+  const getIconComponent = (iconName: string) => {
+    const IconComponent = availableIcons[iconName as keyof typeof availableIcons];
+    return IconComponent || Building2;
+  };
 
-          <section className="py-16 px-4 bg-gray-50">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-                Complete Remote Healthcare Solution for Providers
-              </h2>
-              <div className="grid md:grid-cols-3 gap-8">
-                <div className="bg-white p-8 rounded-lg shadow-lg">
-                  <h3 className="text-xl font-semibold mb-4">Remote Patient Monitoring</h3>
-                  <p className="text-gray-600">
-                    Monitor patients at home with real-time vital signs, medication adherence tracking, 
-                    and automated alert systems for early intervention.
-                  </p>
-                </div>
-                <div className="bg-white p-8 rounded-lg shadow-lg">
-                  <h3 className="text-xl font-semibold mb-4">AI-Powered Diagnostics</h3>
-                  <p className="text-gray-600">
-                    Leverage artificial intelligence for accurate diagnosis support, 
-                    predictive analytics, and personalized treatment recommendations.
-                  </p>
-                </div>
-                <div className="bg-white p-8 rounded-lg shadow-lg">
-                  <h3 className="text-xl font-semibold mb-4">Integrated EMR Systems</h3>
-                  <p className="text-gray-600">
-                    Seamlessly integrate with existing electronic medical records 
-                    for comprehensive patient data management and workflow optimization.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-          <Footer />
-        </main>
-      </div>
-    </>
+  useEffect(() => {
+    console.log('Clinicians page - Loading content...');
+    
+    const loadContent = async () => {
+      try {
+        // Load hero content
+        const { data: heroData, error: heroError } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'clinicians_hero')
+          .eq('is_active', true)
+          .single();
+
+        if (heroData && !heroError) {
+          console.log('Loaded clinicians hero content:', heroData);
+          const newHeroContent = {
+            title: heroData.title || 'Enabling',
+            highlightedText: heroData.subtitle || 'seamless referrals',
+            backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
+          };
+          console.log('Setting new clinicians hero content:', newHeroContent);
+          setHeroContent(newHeroContent);
+        } else {
+          console.log('No clinicians hero content found or error:', heroError);
+        }
+
+        // Load services content
+        const { data: servicesData, error: servicesError } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'clinicians_mobile')
+          .eq('is_active', true)
+          .single();
+
+        if (servicesData && !servicesError) {
+          console.log('Loaded clinicians services content:', servicesData);
+
+          // Transform tabs data to services format
+          if (servicesData.content_data && typeof servicesData.content_data === 'object' && servicesData.content_data !== null) {
+            const contentData = servicesData.content_data as any;
+            if (contentData.tabs) {
+              const transformedServices = contentData.tabs.map((tab: any) => ({
+                id: tab.id,
+                icon: getIconComponent(tab.icon_name),
+                title: tab.title,
+                subtitle: tab.subtitle,
+                description: tab.description,
+                color: "blue", // Default color
+                patient_image_url: tab.image_url || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+              }));
+              setServices(transformedServices);
+              console.log('Transformed clinicians services:', transformedServices);
+            }
+          }
+        } else {
+          console.log('No clinicians services content found, using defaults');
+        }
+      } catch (error) {
+        console.error('Error loading clinicians content:', error);
+      }
+    };
+
+    loadContent();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('clinicians-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'website_content',
+        filter: 'section_key=in.(clinicians_hero,clinicians_mobile)'
+      }, (payload) => {
+        console.log('Real-time clinicians content change:', payload);
+        loadContent();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white font-apple">
+      <Navigation />
+      
+      <HeroSection 
+        title={heroContent.title}
+        highlightedText={heroContent.highlightedText}
+        backgroundVideoUrl={heroContent.backgroundVideoUrl}
+      />
+
+      <ContentSection 
+        title="Clinicians"
+        description="We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
+      />
+
+      <ServicesGrid services={services} />
+
+      <LeadGenSection />
+
+      <Footer />
+    </div>
   );
 };
 

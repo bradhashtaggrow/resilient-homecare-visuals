@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react';
-import { SEOHead, createMedicalOrganizationSchema, SEO_KEYWORDS } from '@/components/SEOHead';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
@@ -124,28 +123,9 @@ const CareAtHome = () => {
     };
   }, []);
 
-  const careAtHomeSchema = {
-    "@context": "https://schema.org",
-    "@type": "MedicalWebPage",
-    "name": "Value-Based Care at Home - Remote Healthcare Services",
-    "description": "Comprehensive value-based care at home services powered by advanced remote monitoring technology. Quality healthcare delivered safely and effectively in patients' homes.",
-    "mainEntity": createMedicalOrganizationSchema(),
-    "medicalAudience": ["Patient", "Caregiver", "HealthcareProvider"]
-  };
-
   return (
-    <>
-      <SEOHead
-        title="Value-Based Care at Home - Remote Healthcare Services"
-        description="Transform healthcare delivery with comprehensive value-based care at home services. Advanced remote monitoring, telehealth consultations, and personalized care management for better patient outcomes at home."
-        keywords={`${SEO_KEYWORDS.primary}, value-based care at home, home healthcare services, remote patient care, at-home medical care, home health monitoring, telehealth at home`}
-        canonical="/care-at-home"
-        ogTitle="Value-Based Care at Home - Quality Healthcare Services in Your Home"
-        ogDescription="Experience quality healthcare from the comfort of your home with our comprehensive value-based care services, remote monitoring, and telehealth solutions."
-        schemaData={careAtHomeSchema}
-      />
-      <div className="min-h-screen bg-white font-apple">
-        <Navigation />
+    <div className="min-h-screen bg-white font-apple">
+      <Navigation />
       
       <HeroSection 
         title={heroContent.title}
@@ -160,11 +140,10 @@ const CareAtHome = () => {
 
       {services.length > 0 && <TabsSection services={services} />}
 
-        <LeadGenSection />
+      <LeadGenSection />
 
-        <Footer />
-      </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 
