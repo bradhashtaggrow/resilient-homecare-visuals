@@ -5,10 +5,9 @@ import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
-import { Calendar, User, ArrowRight, Loader } from 'lucide-react';
+import { Calendar, User, ArrowRight, Loader, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Tables } from '@/integrations/supabase/types';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
 type BlogPost = Tables<'blog_posts'>;
@@ -242,85 +241,103 @@ const News = () => {
 
       <Footer />
 
-      {/* Blog Post Modal */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-4xl h-[90vh] flex flex-col bg-white overflow-hidden">
-          <DialogHeader className="space-y-4 pb-6 flex-shrink-0">
-            <DialogTitle className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
-              {selectedPost?.title}
-            </DialogTitle>
-            
-            {selectedPost && (
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 border-b pb-4">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-primary" />
-                  <span>{formatDate(selectedPost.published_at)}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <User className="h-4 w-4 text-primary" />
-                  <span>{selectedPost.author}</span>
-                </div>
-                {selectedPost.category && (
-                  <span className="bg-gradient-to-r from-primary to-primary/80 text-white px-3 py-1 rounded-full text-xs font-medium">
-                    {selectedPost.category}
-                  </span>
+      {/* Custom Modal that allows background scrolling */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center pt-8 px-4">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/50" 
+            onClick={handleCloseModal}
+          />
+          
+          {/* Modal Content */}
+          <div className="relative bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[85vh] flex flex-col overflow-hidden">
+            {/* Header */}
+            <div className="flex items-start justify-between p-6 border-b flex-shrink-0">
+              <div className="space-y-4 flex-1">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight pr-8">
+                  {selectedPost?.title}
+                </h2>
+                
+                {selectedPost && (
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-primary" />
+                      <span>{formatDate(selectedPost.published_at)}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <User className="h-4 w-4 text-primary" />
+                      <span>{selectedPost.author}</span>
+                    </div>
+                    {selectedPost.category && (
+                      <span className="bg-gradient-to-r from-primary to-primary/80 text-white px-3 py-1 rounded-full text-xs font-medium">
+                        {selectedPost.category}
+                      </span>
+                    )}
+                  </div>
                 )}
               </div>
-            )}
-          </DialogHeader>
-          
-          <DialogDescription className="sr-only">
-            Full article content for {selectedPost?.title}
-          </DialogDescription>
-          
-          <div className="flex-1 overflow-y-auto px-1">
-            {selectedPost && (
-            <div className="space-y-6">
-              {selectedPost.featured_image_url && (
-                <div className="relative w-full h-64 sm:h-80 rounded-lg overflow-hidden">
-                  <img 
-                    src={selectedPost.featured_image_url} 
-                    alt={selectedPost.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
               
-              {selectedPost.excerpt && (
-                <div className="bg-gradient-to-r from-primary/5 to-primary/10 p-6 rounded-lg border-l-4 border-primary">
-                  <p className="text-lg text-gray-700 font-medium italic leading-relaxed">
-                    {selectedPost.excerpt}
-                  </p>
-                </div>
-              )}
-              
-              <div className="prose prose-lg max-w-none">
-                <div 
-                  className="text-gray-700 leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: selectedPost.content }}
-                />
-              </div>
-              
-              {selectedPost.tags && selectedPost.tags.length > 0 && (
-                <div className="pt-6 border-t">
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3">Tags:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedPost.tags.map((tag, index) => (
-                      <span 
-                        key={index}
-                        className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-200 transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleCloseModal}
+                className="shrink-0 hover:bg-gray-100"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-6">
+              {selectedPost && (
+                <div className="space-y-6">
+                  {selectedPost.featured_image_url && (
+                    <div className="relative w-full h-64 sm:h-80 rounded-lg overflow-hidden">
+                      <img 
+                        src={selectedPost.featured_image_url} 
+                        alt={selectedPost.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  
+                  {selectedPost.excerpt && (
+                    <div className="bg-gradient-to-r from-primary/5 to-primary/10 p-6 rounded-lg border-l-4 border-primary">
+                      <p className="text-lg text-gray-700 font-medium italic leading-relaxed">
+                        {selectedPost.excerpt}
+                      </p>
+                    </div>
+                  )}
+                  
+                  <div className="prose prose-lg max-w-none">
+                    <div 
+                      className="text-gray-700 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+                    />
                   </div>
+                  
+                  {selectedPost.tags && selectedPost.tags.length > 0 && (
+                    <div className="pt-6 border-t">
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3">Tags:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedPost.tags.map((tag, index) => (
+                          <span 
+                            key={index}
+                            className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-200 transition-colors"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
-             </div>
-             )}
-           </div>
-        </DialogContent>
-      </Dialog>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
