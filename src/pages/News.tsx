@@ -221,8 +221,8 @@ const News = () => {
       <Footer />
 
       {/* Blog Post Modal */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen} modal={false}>
-        <DialogContent className="max-w-4xl h-[90vh] flex flex-col bg-white overflow-hidden fixed top-[5vh] left-1/2 transform -translate-x-1/2 z-50 shadow-2xl border rounded-lg">
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-4xl h-[90vh] flex flex-col bg-white overflow-hidden">
           <DialogHeader className="space-y-4 pb-6 flex-shrink-0">
             <DialogTitle className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
               {selectedPost?.title}
