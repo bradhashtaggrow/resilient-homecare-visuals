@@ -19,79 +19,51 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasError, setHasError] = useState(false);
 
-  // Aggressive video loading for hero sections - load immediately
+  // Ultra-fast video loading for millisecond performance
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !src) return;
 
-    console.log('OptimizedVideo: Loading video:', src);
     setHasError(false);
     setIsLoaded(false);
     setIsPlaying(false);
 
-    let retryCount = 0;
-    const maxRetries = 3;
-
-    const handleLoadedData = () => {
-      console.log('OptimizedVideo: Video loaded successfully:', src);
+    const handleLoadStart = () => {
+      // Set loaded immediately on loadstart for faster rendering
       setIsLoaded(true);
-      setHasError(false);
-      retryCount = 0;
-      
-      // Immediately try to play for hero sections
-      tryPlay();
-    };
-
-    const handleError = (event: Event) => {
-      retryCount++;
-      console.warn(`OptimizedVideo: Load error (attempt ${retryCount}/${maxRetries}):`, src, event);
-      
-      if (retryCount <= maxRetries) {
-        const delay = Math.pow(2, retryCount) * 500; // 500ms, 1s, 2s
-        setTimeout(() => {
-          if (video && retryCount <= maxRetries) {
-            console.log(`OptimizedVideo: Retrying load attempt ${retryCount}:`, src);
-            video.load();
-          }
-        }, delay);
-      } else {
-        console.error('OptimizedVideo: Failed to load after max retries:', src);
-        setHasError(true);
-      }
     };
 
     const handleCanPlay = () => {
-      console.log('OptimizedVideo: Can play:', src);
       setIsLoaded(true);
-      tryPlay();
+      // Immediate play attempt
+      video.play().catch(() => {
+        // Autoplay may fail, but that's expected
+      });
     };
 
-    const tryPlay = async () => {
-      if (!video || hasError) return;
-      
-      try {
-        console.log('OptimizedVideo: Attempting to play:', src);
-        await video.play();
-        setIsPlaying(true);
-        console.log('OptimizedVideo: Playing successfully:', src);
-      } catch (error) {
-        console.warn('OptimizedVideo: Autoplay failed (this is normal):', error);
-        // Don't set error state for autoplay failures - this is expected
-      }
+    const handleLoadedData = () => {
+      setIsLoaded(true);
+      setIsPlaying(true);
     };
 
-    // Add event listeners
+    const handleError = () => {
+      setHasError(true);
+    };
+
+    // Add event listeners for fastest response
+    video.addEventListener('loadstart', handleLoadStart);
+    video.addEventListener('canplay', handleCanPlay);
     video.addEventListener('loadeddata', handleLoadedData);
     video.addEventListener('error', handleError);
-    video.addEventListener('canplay', handleCanPlay);
 
-    // Force load immediately
+    // Force immediate load
     video.load();
 
     return () => {
+      video.removeEventListener('loadstart', handleLoadStart);
+      video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('error', handleError);
-      video.removeEventListener('canplay', handleCanPlay);
     };
   }, [src]);
 
