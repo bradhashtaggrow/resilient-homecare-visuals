@@ -251,7 +251,7 @@ const ServiceLinesSection = () => {
         {/* Header with dynamic content */}
         <div className="text-center mb-12 sm:mb-16 lg:mb-20 opacity-100 translate-y-0">
           <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-6 lg:mb-8"
-              style={{ fontSize: 'clamp(2.5rem, 8vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
+              style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {content.title?.includes(',') ? (
               <>
                 {content.title.split(',')[0]},
