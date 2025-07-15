@@ -86,6 +86,7 @@ interface LeadCaptureFormProps {
 const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, source = 'website' }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     first_name: '',
     last_name: '',
@@ -183,19 +184,24 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
         throw error;
       }
 
-      console.log('Lead submitted successfully, showing toast...');
+      console.log('Lead submitted successfully, showing success message...');
+      
+      // Show success message in the modal
+      setShowSuccess(true);
+      
+      // Also show toast
       toast({
         title: "Demo request submitted successfully!",
         description: "We'll contact you within 24 hours to schedule your demo.",
       });
       
-      console.log('Toast called, waiting before closing modal...');
-      // Wait a moment for the toast to be visible before closing
+      console.log('Success message shown, waiting before closing modal...');
+      // Wait longer for user to see the success message
       setTimeout(() => {
         console.log('Closing modal...');
         onSuccess?.();
         onClose?.();
-      }, 2000); // 2 second delay to let user see the success message
+      }, 4000); // 4 second delay to let user see both messages
       
     } catch (error) {
       console.error('Error submitting lead:', error);
@@ -505,6 +511,30 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
   };
 
   const getStepProgress = () => (currentStep / 4) * 100;
+
+  // Success message component
+  if (showSuccess) {
+    return (
+      <Card className="w-full max-w-2xl mx-auto">
+        <CardContent className="text-center py-12">
+          <div className="mb-6">
+            <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+            <h2 className="text-3xl font-bold text-green-600 mb-2">
+              Demo Request Submitted Successfully!
+            </h2>
+            <p className="text-lg text-gray-600">
+              We'll contact you within 24 hours to schedule your demo.
+            </p>
+          </div>
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <p className="text-green-800 font-medium">
+              Thank you for your interest in our healthcare technology platform.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
