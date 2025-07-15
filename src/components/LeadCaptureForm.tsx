@@ -223,26 +223,11 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               <Select 
                 value={formData.job_title} 
                 onValueChange={(value) => updateFormData('job_title', value)}
-                onOpenChange={(open) => {
-                  console.log('Job Title dropdown open state:', open);
-                  if (open) {
-                    setTimeout(() => {
-                      const selectContent = document.querySelector('[data-radix-select-content]');
-                      if (selectContent) {
-                        console.log('SelectContent element found:', selectContent);
-                        console.log('SelectContent position:', selectContent.getBoundingClientRect());
-                        console.log('SelectContent styles:', window.getComputedStyle(selectContent));
-                      } else {
-                        console.log('SelectContent element NOT found');
-                      }
-                    }, 100);
-                  }
-                }}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
-                <SelectContent position="popper" side="bottom" align="start" sideOffset={4} className="bg-white border shadow-lg z-[9999] max-h-48">
+                <SelectContent>
                   <SelectItem value="ceo">Chief Executive Officer (CEO)</SelectItem>
                   <SelectItem value="cto">Chief Technology Officer (CTO)</SelectItem>
                   <SelectItem value="cfo">Chief Financial Officer (CFO)</SelectItem>
@@ -458,7 +443,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="virtual">Virtual Demo</SelectItem>
-                  <SelectItem value="in-person">In-Person Demo</SelectItem>
+                  <SelectItem value="onsite">On-site Demo</SelectItem>
                   <SelectItem value="phone">Phone Call</SelectItem>
                 </SelectContent>
               </Select>
@@ -471,47 +456,58 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
     }
   };
 
-  const progressPercentage = (currentStep / 4) * 100;
+  const getStepProgress = () => (currentStep / 4) * 100;
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <div className="flex justify-between items-center mb-4">
-          <CardTitle>Request Demo - Step {currentStep} of 4</CardTitle>
-          <span className="text-sm text-gray-500">{Math.round(progressPercentage)}% Complete</span>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-2xl font-bold">Request Demo - Step {currentStep} of 4</CardTitle>
+          <span className="text-sm text-muted-foreground">{Math.round(getStepProgress())}% Complete</span>
         </div>
-        <Progress value={progressPercentage} className="w-full" />
+        <Progress value={getStepProgress()} className="mt-2" />
       </CardHeader>
-      
       <CardContent>
         {renderStep()}
         
         <div className="flex justify-between mt-6">
           <Button
+            type="button"
             variant="outline"
             onClick={handlePrevious}
             disabled={currentStep === 1}
+            className="flex items-center gap-2"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <ArrowLeft className="h-4 w-4" />
             Previous
           </Button>
           
           {currentStep < 4 ? (
-            <Button onClick={handleNext}>
+            <Button
+              type="button"
+              onClick={handleNext}
+              disabled={!validateStep(currentStep)}
+              className="flex items-center gap-2"
+            >
               Next
-              <ArrowRight className="h-4 w-4 ml-2" />
+              <ArrowRight className="h-4 w-4" />
             </Button>
           ) : (
-            <Button onClick={handleSubmit} disabled={isSubmitting}>
+            <Button
+              type="button"
+              onClick={handleSubmit}
+              disabled={!validateStep(4) || isSubmitting}
+              className="flex items-center gap-2"
+            >
               {isSubmitting ? (
                 <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                  <Clock className="h-4 w-4 animate-spin" />
                   Submitting...
                 </>
               ) : (
                 <>
+                  <CheckCircle className="h-4 w-4" />
                   Submit Request
-                  <CheckCircle className="h-4 w-4 ml-2" />
                 </>
               )}
             </Button>
