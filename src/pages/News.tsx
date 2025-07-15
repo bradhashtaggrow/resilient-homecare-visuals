@@ -5,9 +5,11 @@ import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
-import { Calendar, User, ArrowRight, Loader } from 'lucide-react';
+import { Calendar, User, ArrowRight, Loader, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Tables } from '@/integrations/supabase/types';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 type BlogPost = Tables<'blog_posts'>;
 
@@ -25,6 +27,8 @@ interface ContentSectionData {
 const News = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [heroContent, setHeroContent] = useState<HeroContent>({
     title: "Latest Healthcare",
     highlightedText: "News",
@@ -121,6 +125,16 @@ const News = () => {
     });
   };
 
+  const handleReadMore = (post: BlogPost) => {
+    setSelectedPost(post);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedPost(null);
+  };
+
   return (
     <div className="min-h-screen bg-white font-apple">
       <Navigation />
@@ -186,10 +200,14 @@ const News = () => {
                       {post.excerpt}
                     </p>
                     
-                    <button className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white font-semibold hover:from-[#5a95f5] hover:to-[#2576d1] inline-flex items-center text-sm sm:text-base px-4 py-2 rounded-lg transition-all duration-200">
+                    <Button 
+                      variant="gradient" 
+                      onClick={() => handleReadMore(post)}
+                      className="inline-flex items-center text-sm sm:text-base"
+                    >
                       Read More
                       <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
-                    </button>
+                    </Button>
                   </div>
                 </article>
               ))}
@@ -201,6 +219,90 @@ const News = () => {
       <LeadGenSection />
 
       <Footer />
+
+      {/* Blog Post Modal */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white">
+          <DialogHeader className="space-y-4 pb-6">
+            <div className="flex justify-between items-start">
+              <DialogTitle className="text-2xl sm:text-3xl font-bold text-gray-900 pr-8 leading-tight">
+                {selectedPost?.title}
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleCloseModal}
+                className="shrink-0 hover:bg-gray-100"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+            
+            {selectedPost && (
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 border-b pb-4">
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-primary" />
+                  <span>{formatDate(selectedPost.published_at)}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4 text-primary" />
+                  <span>{selectedPost.author}</span>
+                </div>
+                {selectedPost.category && (
+                  <span className="bg-gradient-to-r from-primary to-primary/80 text-white px-3 py-1 rounded-full text-xs font-medium">
+                    {selectedPost.category}
+                  </span>
+                )}
+              </div>
+            )}
+          </DialogHeader>
+          
+          {selectedPost && (
+            <div className="space-y-6">
+              {selectedPost.featured_image_url && (
+                <div className="relative w-full h-64 sm:h-80 rounded-lg overflow-hidden">
+                  <img 
+                    src={selectedPost.featured_image_url} 
+                    alt={selectedPost.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              
+              {selectedPost.excerpt && (
+                <div className="bg-gradient-to-r from-primary/5 to-primary/10 p-6 rounded-lg border-l-4 border-primary">
+                  <p className="text-lg text-gray-700 font-medium italic leading-relaxed">
+                    {selectedPost.excerpt}
+                  </p>
+                </div>
+              )}
+              
+              <div className="prose prose-lg max-w-none">
+                <div 
+                  className="text-gray-700 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+                />
+              </div>
+              
+              {selectedPost.tags && selectedPost.tags.length > 0 && (
+                <div className="pt-6 border-t">
+                  <h4 className="text-sm font-semibold text-gray-900 mb-3">Tags:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedPost.tags.map((tag, index) => (
+                      <span 
+                        key={index}
+                        className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-200 transition-colors"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
