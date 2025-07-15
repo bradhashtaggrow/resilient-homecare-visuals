@@ -11,8 +11,9 @@ import { supabase } from '@/integrations/supabase/client';
 
 const Clinicians = () => {
   const [heroContent, setHeroContent] = useState({
-    title: 'Enabling',
-    highlightedText: 'seamless referrals',
+    title: 'Join the Future of',
+    highlightedText: 'Healthcare',
+    description: '',
     backgroundVideoUrl: '' // Start empty, only show database video
   });
   
@@ -96,10 +97,14 @@ const Clinicians = () => {
 
         if (heroData && !heroError) {
           console.log('Loaded clinicians hero content:', heroData);
+          // Split the title properly - the CMS stores "Join the Future of Healthcare"
+          const fullTitle = heroData.title || 'Join the Future of Healthcare';
+          const parts = fullTitle.split(' of ');
           const newHeroContent = {
-            title: heroData.title || 'Enabling',
-            highlightedText: heroData.subtitle || 'seamless referrals',
-            backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
+            title: parts[0] + ' of',  // "Join the Future of"
+            highlightedText: parts[1] || 'Healthcare',  // "Healthcare"
+            description: heroData.description || '',
+            backgroundVideoUrl: heroData.background_video_url || ''
           };
           console.log('Setting new clinicians hero content:', newHeroContent);
           setHeroContent(newHeroContent);
@@ -171,6 +176,7 @@ const Clinicians = () => {
       <HeroSection 
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
+        description={heroContent.description}
         backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
