@@ -87,11 +87,19 @@ const Login = () => {
       <div className="relative z-20 w-full max-w-md px-4">
         <Card className="backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/15">
           <CardHeader className="text-center pb-8 pt-8">
+            {/* Logo */}
+            <div className="flex items-center justify-center mb-4">
+              <img 
+                src="/lovable-uploads/3e279b72-925a-4bb7-b13f-66705bd48399.png" 
+                alt="Resilient Healthcare Logo" 
+                className="h-12 w-auto"
+              />
+            </div>
             
             {/* Enhanced Title */}
             <CardTitle className="text-3xl font-black text-white mb-2 tracking-tight">
               <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-                Healthcare Admin
+                Resilient Healthcare Admin
               </span>
             </CardTitle>
             <p className="text-white/80 text-lg font-medium tracking-wide">
