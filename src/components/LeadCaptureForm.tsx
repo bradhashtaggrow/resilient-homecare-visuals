@@ -242,14 +242,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger>
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
-                <SelectContent 
-                  position="popper" 
-                  style={{ 
-                    position: 'fixed',
-                    zIndex: 2147483648
-                  }}
-                  sideOffset={5}
-                >
+                <SelectContent>
                   <SelectItem value="ceo">Chief Executive Officer (CEO)</SelectItem>
                   <SelectItem value="cto">Chief Technology Officer (CTO)</SelectItem>
                   <SelectItem value="cfo">Chief Financial Officer (CFO)</SelectItem>
