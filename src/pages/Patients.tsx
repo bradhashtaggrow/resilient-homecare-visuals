@@ -1,156 +1,86 @@
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { SEOHead, SEO_KEYWORDS } from '@/components/SEOHead';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import HeroSection from '@/components/hero/HeroSection';
-import ContentSection from '@/components/content/ContentSection';
-import TabsSection from '@/components/tabs/TabsSection';
-import LeadGenSection from '@/components/LeadGenSection';
-import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap, LucideIcon } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-
-interface TabData {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  color: string;
-  icon_name: string;
-  image_url: string;
-}
-
-interface Service {
-  id: string;
-  icon: LucideIcon;
-  title: string;
-  subtitle: string;
-  description: string;
-  color: string;
-  patient_image_url: string;
-}
-
-// Icon mapping
-const iconMap: Record<string, LucideIcon> = {
-  Building2,
-  Heart,
-  Users,
-  Shield,
-  CheckCircle,
-  Activity,
-  Zap,
-};
 
 const Patients = () => {
-  const [heroContent, setHeroContent] = useState({
-    title: "Patient-centered",
-    highlightedText: "care at home",
-    backgroundVideoUrl: '' // Start empty, only show database video
-  });
-  const [contentSection, setContentSection] = useState({
-    title: "Patients",
-    description: "We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
-  });
-  const [services, setServices] = useState<Service[]>([]);
-
-  useEffect(() => {
-    console.log('Patients page - Loading content...');
-    // Load all content from database
-    const loadAllContent = async () => {
-      try {
-        // Load hero content
-        const { data: heroData } = await supabase
-          .from('website_content')
-          .select('*')
-          .eq('section_key', 'patients_hero')
-          .eq('is_active', true)
-          .single();
-
-        if (heroData) {
-          console.log('Loaded patients hero content:', heroData);
-          const newHeroContent = {
-            title: heroData.title || "Patient-centered",
-            highlightedText: heroData.subtitle || "care at home",
-            backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
-          };
-          console.log('Setting new patients hero content:', newHeroContent);
-          setHeroContent(newHeroContent);
-          setContentSection({
-            title: "Patients",
-            description: heroData.description || "We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home."
-          });
-        } else {
-          console.log('No patients hero content found');
-        }
-
-        // Load mobile tabs content
-        const { data: mobileData } = await supabase
-          .from('website_content')
-          .select('*')
-          .eq('section_key', 'patients_mobile')
-          .eq('is_active', true)
-          .single();
-
-        if (mobileData && mobileData.content_data && typeof mobileData.content_data === 'object' && 'tabs' in mobileData.content_data) {
-          const tabsData = (mobileData.content_data as any).tabs as TabData[];
-          const transformedServices: Service[] = tabsData.map((tab) => ({
-            id: tab.id,
-            icon: iconMap[tab.icon_name] || Building2,
-            title: tab.title,
-            subtitle: tab.subtitle,
-            description: tab.description,
-            color: tab.color,
-            patient_image_url: tab.image_url
-          }));
-          setServices(transformedServices);
-        }
-
-      } catch (error) {
-        console.error('Error loading patients content:', error);
+  const patientsSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Patient Care Platform - Remote Healthcare at Home",
+    "description": "Comprehensive remote healthcare platform for patients. Access telehealth services, remote monitoring, virtual consultations, and personalized care management from the comfort of home.",
+    "mainEntity": {
+      "@type": "SoftwareApplication",
+      "name": "Resilient Healthcare Patient Platform",
+      "description": "User-friendly patient portal for remote healthcare management, featuring telehealth appointments, health tracking, medication reminders, and secure communication with healthcare providers.",
+      "applicationCategory": "HealthApplication",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Patients"
       }
-    };
-
-    loadAllContent();
-
-    // Set up real-time subscription for patients content
-    const channel = supabase
-      .channel('patients-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=in.(patients_hero,patients_mobile)'
-      }, (payload) => {
-        console.log('Real-time patients content change:', payload);
-        loadAllContent();
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-white font-apple">
-      <Navigation />
-      
-      <HeroSection 
-        title={heroContent.title}
-        highlightedText={heroContent.highlightedText}
-        backgroundVideoUrl={heroContent.backgroundVideoUrl}
+    <>
+      <SEOHead
+        title="Patient Care Platform - Remote Healthcare Services at Home"
+        description="Access comprehensive remote healthcare services with Resilient Healthcare's patient platform. Telehealth consultations, remote monitoring, health tracking, medication management, and virtual care from home."
+        keywords={`${SEO_KEYWORDS.primary}, ${SEO_KEYWORDS.patients}, patient portal, remote health monitoring, home healthcare technology, patient engagement, telehealth appointments`}
+        canonical="/patients"
+        ogTitle="Remote Patient Care Platform - Healthcare Technology for Patients at Home"
+        ogDescription="Transform your healthcare experience with remote monitoring, virtual consultations, and personalized care management from the comfort of your home."
+        schemaData={patientsSchema}
       />
+      <div className="min-h-screen bg-white">
+        <Navigation />
+        <main className="pt-20">
+          <section className="py-20 px-4">
+            <div className="max-w-6xl mx-auto text-center">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6">
+                Your Healthcare <span className="gradient-text">At Home</span>
+              </h1>
+              <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto">
+                Experience the future of healthcare with our comprehensive remote patient care platform. 
+                Access quality healthcare services from the comfort and safety of your home.
+              </p>
+            </div>
+          </section>
 
-      <ContentSection 
-        title={contentSection.title}
-        description={contentSection.description}
-      />
-
-      {services.length > 0 && <TabsSection services={services} />}
-
-      <LeadGenSection />
-
-      <Footer />
-    </div>
+          <section className="py-16 px-4 bg-gray-50">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+                Complete Remote Healthcare Services for Patients
+              </h2>
+              <div className="grid md:grid-cols-3 gap-8">
+                <div className="bg-white p-8 rounded-lg shadow-lg">
+                  <h3 className="text-xl font-semibold mb-4">Virtual Consultations</h3>
+                  <p className="text-gray-600">
+                    Connect with healthcare providers through secure video consultations, 
+                    eliminating travel time and providing convenient access to care.
+                  </p>
+                </div>
+                <div className="bg-white p-8 rounded-lg shadow-lg">
+                  <h3 className="text-xl font-semibold mb-4">Remote Health Monitoring</h3>
+                  <p className="text-gray-600">
+                    Track your health metrics at home with connected devices and 
+                    automated monitoring systems that alert your care team when needed.
+                  </p>
+                </div>
+                <div className="bg-white p-8 rounded-lg shadow-lg">
+                  <h3 className="text-xl font-semibold mb-4">Personalized Care Plans</h3>
+                  <p className="text-gray-600">
+                    Receive customized treatment plans, medication reminders, 
+                    and health goals tailored to your specific needs and conditions.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <Footer />
+        </main>
+      </div>
+    </>
   );
 };
 
