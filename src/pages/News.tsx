@@ -45,6 +45,22 @@ const News = () => {
     setupRealtimeSubscription();
   }, []);
 
+  // Manage body scroll when modal opens/closes
+  useEffect(() => {
+    if (isModalOpen) {
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Restore body scroll when modal is closed
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup function to restore scroll on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
+
   const loadHeroContent = async () => {
     try {
       const { data: heroData, error } = await supabase
@@ -136,7 +152,7 @@ const News = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-apple">
+    <div className="min-h-screen bg-white font-apple overflow-x-hidden">
       <Navigation />
       
       <HeroSection 
