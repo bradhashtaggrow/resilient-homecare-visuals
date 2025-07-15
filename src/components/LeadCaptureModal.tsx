@@ -51,8 +51,8 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
         }
       } else if (source === 'hero-button') {
         setModalPosition({
-          top: rect.bottom + scrollY + 5, // 5px below the button
-          left: rect.left + rect.width / 2 // Center horizontally on button
+          top: scrollY + 120, // Fixed position from top of viewport for hero button
+          left: window.innerWidth / 2 // Center horizontally on page
         });
       } else {
         setModalPosition({
