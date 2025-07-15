@@ -5,10 +5,8 @@ import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
-import WhyResilientSection from '@/components/about/WhyResilientSection';
-import HospitalBenefitsSection from '@/components/about/HospitalBenefitsSection';
-import ClinicianBenefitsSection from '@/components/about/ClinicianBenefitsSection';
-import ValuesSection from '@/components/about/ValuesSection';
+import WhyChooseResilientSection from '@/components/about/WhyChooseResilientSection';
+import CoreValuesSection from '@/components/about/CoreValuesSection';
 import { supabase } from '@/integrations/supabase/client';
 
 const About = () => {
@@ -102,10 +100,8 @@ const About = () => {
         description={contentSection.description}
       />
 
-      <WhyResilientSection />
-      <HospitalBenefitsSection />
-      <ClinicianBenefitsSection />
-      <ValuesSection />
+      <WhyChooseResilientSection />
+      <CoreValuesSection />
 
       <LeadGenSection />
       <Footer />
