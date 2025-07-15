@@ -140,7 +140,7 @@ const ServiceLinesSection = () => {
     };
     
     const IconComponent = iconMap[iconName] || Activity;
-    return <IconComponent className="h-12 w-12" />;
+    return <IconComponent className="h-12 w-12 text-current" />;
   };
 
   const getBenefitIcon = (iconName: string) => {
