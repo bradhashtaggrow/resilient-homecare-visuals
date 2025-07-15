@@ -12,8 +12,9 @@ import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
   const [heroContent, setHeroContent] = useState({
-    title: "Get in",
-    highlightedText: "Touch",
+    title: "Contact Resilient",
+    highlightedText: "Healthcare",
+    description: '',
     backgroundVideoUrl: '' // Start empty, only show database video
   });
   
@@ -45,10 +46,14 @@ const Contact = () => {
 
         if (heroData && !heroError) {
           console.log('Loaded contact hero content:', heroData);
+          // Split the title properly - the CMS stores "Contact Resilient Healthcare"
+          const fullTitle = heroData.title || 'Contact Resilient Healthcare';
+          const parts = fullTitle.split(' Healthcare');
           const newHeroContent = {
-            title: heroData.title || 'Get in',
-            highlightedText: heroData.subtitle || 'Touch',
-            backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
+            title: parts[0],  // "Contact Resilient"
+            highlightedText: parts[1] ? 'Healthcare' + parts[1] : 'Healthcare',  // "Healthcare"
+            description: heroData.description || '',
+            backgroundVideoUrl: heroData.background_video_url || ''
           };
           console.log('Setting new contact hero content:', newHeroContent);
           setHeroContent(newHeroContent);
@@ -108,6 +113,7 @@ const Contact = () => {
       <HeroSection 
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
+        description={heroContent.description}
         backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
