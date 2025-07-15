@@ -297,13 +297,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger>
                   <SelectValue placeholder="Select company size" />
                 </SelectTrigger>
-                <SelectContent>
+                <FormSelectContent>
                   <SelectItem value="1-10">1-10 employees</SelectItem>
                   <SelectItem value="11-50">11-50 employees</SelectItem>
                   <SelectItem value="51-200">51-200 employees</SelectItem>
                   <SelectItem value="201-500">201-500 employees</SelectItem>
                   <SelectItem value="500+">500+ employees</SelectItem>
-                </SelectContent>
+                </FormSelectContent>
               </Select>
             </div>
             <div>
@@ -312,14 +312,14 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger>
                   <SelectValue placeholder="Select industry" />
                 </SelectTrigger>
-                <SelectContent>
+                <FormSelectContent>
                   <SelectItem value="healthcare">Healthcare</SelectItem>
                   <SelectItem value="hospital">Hospital System</SelectItem>
                   <SelectItem value="clinic">Clinic/Practice</SelectItem>
                   <SelectItem value="insurance">Insurance</SelectItem>
                   <SelectItem value="pharma">Pharmaceutical</SelectItem>
                   <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
+                </FormSelectContent>
               </Select>
             </div>
             <div>
@@ -337,14 +337,14 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger>
                   <SelectValue placeholder="Select annual revenue" />
                 </SelectTrigger>
-                <SelectContent>
+                <FormSelectContent>
                   <SelectItem value="under-1m">Under $1M</SelectItem>
                   <SelectItem value="1m-5m">$1M - $5M</SelectItem>
                   <SelectItem value="5m-10m">$5M - $10M</SelectItem>
                   <SelectItem value="10m-50m">$10M - $50M</SelectItem>
                   <SelectItem value="50m-100m">$50M - $100M</SelectItem>
                   <SelectItem value="100m+">$100M+</SelectItem>
-                </SelectContent>
+                </FormSelectContent>
               </Select>
             </div>
           </div>
@@ -363,14 +363,14 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger>
                   <SelectValue placeholder="What's your biggest challenge?" />
                 </SelectTrigger>
-                <SelectContent>
+                <FormSelectContent>
                   <SelectItem value="patient-outcomes">Improving patient outcomes</SelectItem>
                   <SelectItem value="operational-efficiency">Operational efficiency</SelectItem>
                   <SelectItem value="cost-reduction">Cost reduction</SelectItem>
                   <SelectItem value="capacity-expansion">Capacity expansion</SelectItem>
                   <SelectItem value="technology-modernization">Technology modernization</SelectItem>
                   <SelectItem value="regulatory-compliance">Regulatory compliance</SelectItem>
-                </SelectContent>
+                </FormSelectContent>
               </Select>
             </div>
             <div>
@@ -394,12 +394,12 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger>
                   <SelectValue placeholder="When do you need this?" />
                 </SelectTrigger>
-                <SelectContent>
+                <FormSelectContent>
                   <SelectItem value="immediate">Immediate (0-30 days)</SelectItem>
                   <SelectItem value="short-term">Short-term (1-3 months)</SelectItem>
                   <SelectItem value="medium-term">Medium-term (3-6 months)</SelectItem>
                   <SelectItem value="long-term">Long-term (6+ months)</SelectItem>
-                </SelectContent>
+                </FormSelectContent>
               </Select>
             </div>
             <div>
@@ -408,13 +408,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger>
                   <SelectValue placeholder="Select budget range" />
                 </SelectTrigger>
-                <SelectContent>
+                <FormSelectContent>
                   <SelectItem value="under-50k">Under $50K</SelectItem>
                   <SelectItem value="50k-100k">$50K - $100K</SelectItem>
                   <SelectItem value="100k-250k">$100K - $250K</SelectItem>
                   <SelectItem value="250k-500k">$250K - $500K</SelectItem>
                   <SelectItem value="500k+">$500K+</SelectItem>
-                </SelectContent>
+                </FormSelectContent>
               </Select>
             </div>
             <div className="flex items-center space-x-2">
@@ -451,7 +451,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger>
                   <SelectValue placeholder="Select time" />
                 </SelectTrigger>
-                <SelectContent>
+                <FormSelectContent>
                   <SelectItem value="9:00 AM">9:00 AM</SelectItem>
                   <SelectItem value="10:00 AM">10:00 AM</SelectItem>
                   <SelectItem value="11:00 AM">11:00 AM</SelectItem>
@@ -461,7 +461,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectItem value="3:00 PM">3:00 PM</SelectItem>
                   <SelectItem value="4:00 PM">4:00 PM</SelectItem>
                   <SelectItem value="5:00 PM">5:00 PM</SelectItem>
-                </SelectContent>
+                </FormSelectContent>
               </Select>
             </div>
             <div>
@@ -479,11 +479,11 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger>
                   <SelectValue placeholder="Select demo type" />
                 </SelectTrigger>
-                <SelectContent>
+                <FormSelectContent>
                   <SelectItem value="virtual">Virtual Demo</SelectItem>
                   <SelectItem value="onsite">On-site Demo</SelectItem>
                   <SelectItem value="phone">Phone Call</SelectItem>
-                </SelectContent>
+                </FormSelectContent>
               </Select>
             </div>
           </div>
