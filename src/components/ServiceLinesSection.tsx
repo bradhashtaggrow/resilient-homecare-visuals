@@ -299,7 +299,7 @@ const ServiceLinesSection = () => {
                       <div className={`w-full h-full rounded-xl lg:rounded-2xl transition-all duration-300 ${
                         getColorClasses(service.color, activeService === index)
                       } flex items-center justify-center shadow-2xl`}>
-                        {getIconComponent(service.icon, activeService === index)}
+                        {getIconComponent(service.icon_name || service.icon, activeService === index)}
                       </div>
                     </div>
 
