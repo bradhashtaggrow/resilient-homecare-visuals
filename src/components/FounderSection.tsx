@@ -252,7 +252,7 @@ const FounderSection = () => {
                           style={{ fontSize: 'clamp(1.25rem, 3vw, 3rem)', fontWeight: 900, lineHeight: 0.85 }}>
                 {content.quote}
               </blockquote>
-              <p className="text-blue-600/90 font-medium tracking-wide mt-3 sm:mt-4 pl-8 sm:pl-12 group-hover:text-blue-700 transition-colors duration-500"
+              <p className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent font-medium tracking-wide mt-3 sm:mt-4 pl-8 sm:pl-12 hover:from-[#0066cc] hover:to-[#004499] transition-all duration-500"
                  style={{ fontSize: 'clamp(0.875rem, 2vw, 1.3rem)', lineHeight: 1.3 }}>
                 {content.quote_subtitle}
               </p>
