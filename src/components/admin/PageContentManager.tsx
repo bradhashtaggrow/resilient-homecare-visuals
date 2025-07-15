@@ -683,6 +683,32 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         />
                       </div>
 
+                      {/* Show button fields for news_hero section */}
+                      {section.section_key === 'news_hero' && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Button Text
+                            </label>
+                            <Input
+                              value={editForm.button_text || ''}
+                              onChange={(e) => setEditForm({...editForm, button_text: e.target.value})}
+                              placeholder="Button text"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Button URL
+                            </label>
+                            <Input
+                              value={editForm.button_url || ''}
+                              onChange={(e) => setEditForm({...editForm, button_url: e.target.value})}
+                              placeholder="Button URL"
+                            />
+                          </div>
+                        </div>
+                      )}
+
                       {/* Only show button fields for non-hero sections and non-mobile */}
                       {!section.section_key.includes('hero') && !section.section_key.includes('mobile') && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
