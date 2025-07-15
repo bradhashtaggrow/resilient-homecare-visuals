@@ -4,8 +4,12 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/hero/HeroSection';
 import { supabase } from '@/integrations/supabase/client';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 const TermsOfService = () => {
+  // Initialize optimized real-time sync for independent operation
+  const { isListening } = useWebsiteSync();
+  
   const [content, setContent] = useState({
     hero: {
       title: 'Terms of',
@@ -97,29 +101,20 @@ Questions about the Terms of Service should be sent to us at info@resilienthc.co
 
     loadContent();
 
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('terms-of-service-changes')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.terms_hero' },
-        (payload) => {
-          console.log('Terms hero updated:', payload);
-          loadContent();
-        }
-      )
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.terms_body' },
-        (payload) => {
-          console.log('Terms body updated:', payload);
-          loadContent();
-        }
-      )
-      .subscribe((status) => {
-        console.log('Terms of service subscription status:', status);
-      });
+    // Listen for real-time updates via global content sync system
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && 
+          (data.section_key === 'terms_hero' || data.section_key === 'terms_body')) {
+        console.log('Terms of service content updated via real-time sync:', data);
+        loadContent();
+      }
+    };
 
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
+    
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 

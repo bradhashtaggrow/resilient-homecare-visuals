@@ -4,8 +4,12 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/hero/HeroSection';
 import { supabase } from '@/integrations/supabase/client';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 const HIPAACompliance = () => {
+  // Initialize optimized real-time sync for independent operation
+  const { isListening } = useWebsiteSync();
+  
   const [content, setContent] = useState({
     hero: {
       title: 'HIPAA',
@@ -162,29 +166,20 @@ Address: Dallas, TX`
 
     loadContent();
 
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('hipaa-compliance-changes')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.hipaa_hero' },
-        (payload) => {
-          console.log('HIPAA hero updated:', payload);
-          loadContent();
-        }
-      )
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.hipaa_body' },
-        (payload) => {
-          console.log('HIPAA body updated:', payload);
-          loadContent();
-        }
-      )
-      .subscribe((status) => {
-        console.log('HIPAA compliance subscription status:', status);
-      });
+    // Listen for real-time updates via global content sync system
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && 
+          (data.section_key === 'hipaa_hero' || data.section_key === 'hipaa_body')) {
+        console.log('HIPAA content updated via real-time sync:', data);
+        loadContent();
+      }
+    };
 
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
+    
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 
