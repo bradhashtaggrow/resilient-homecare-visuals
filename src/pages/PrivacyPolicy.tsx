@@ -145,13 +145,21 @@ Address: Dallas, TX`
       .channel('privacy-policy-changes')
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.privacy_hero' },
-        () => loadContent()
+        (payload) => {
+          console.log('Privacy hero updated:', payload);
+          loadContent();
+        }
       )
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.privacy_body' },
-        () => loadContent()
+        (payload) => {
+          console.log('Privacy body updated:', payload);
+          loadContent();
+        }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log('Privacy policy subscription status:', status);
+      });
 
     return () => {
       supabase.removeChannel(channel);
