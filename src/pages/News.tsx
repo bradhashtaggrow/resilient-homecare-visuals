@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
-import { Calendar, User, ArrowRight, Loader, X } from 'lucide-react';
+import { Calendar, User, ArrowRight, Loader } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Tables } from '@/integrations/supabase/types';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -52,7 +52,7 @@ const News = () => {
         .select('*')
         .eq('section_key', 'news_hero')
         .eq('is_active', true)
-        .single();
+        .maybeSingle();
 
       if (heroData) {
         console.log('Loaded news hero content:', heroData);
@@ -224,19 +224,9 @@ const News = () => {
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-4xl h-[90vh] flex flex-col bg-white overflow-hidden">
           <DialogHeader className="space-y-4 pb-6 flex-shrink-0">
-            <div className="flex justify-between items-start">
-              <DialogTitle className="text-2xl sm:text-3xl font-bold text-gray-900 pr-8 leading-tight">
-                {selectedPost?.title}
-              </DialogTitle>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleCloseModal}
-                className="shrink-0 hover:bg-gray-100"
-              >
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
+            <DialogTitle className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
+              {selectedPost?.title}
+            </DialogTitle>
             
             {selectedPost && (
               <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 border-b pb-4">
