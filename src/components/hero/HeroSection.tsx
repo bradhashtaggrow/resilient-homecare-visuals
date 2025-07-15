@@ -21,7 +21,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText, descr
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-50/30" />
+          <OptimizedVideo
+            src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
         )}
         <div className="absolute inset-0 bg-black/30" />
       </div>
