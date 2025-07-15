@@ -683,24 +683,49 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         />
                       </div>
 
-                      {/* Additional content field for news_hero */}
+                      {/* Additional content fields for news_hero */}
                       {section.section_key === 'news_hero' && (
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Additional Content
-                          </label>
-                          <Textarea
-                            value={((editForm.content_data as any)?.additional_content) || ''}
-                            onChange={(e) => setEditForm({
-                              ...editForm,
-                              content_data: {
-                                ...editForm.content_data,
-                                additional_content: e.target.value
-                              }
-                            })}
-                            placeholder="News\nStay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
-                            rows={4}
-                          />
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Additional Content Section</h4>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Section Title
+                            </label>
+                            <Input
+                              value={((editForm.content_data as any)?.additional_content?.title) || ''}
+                              onChange={(e) => setEditForm({
+                                ...editForm,
+                                content_data: {
+                                  ...editForm.content_data,
+                                  additional_content: {
+                                    ...((editForm.content_data as any)?.additional_content || {}),
+                                    title: e.target.value
+                                  }
+                                }
+                              })}
+                              placeholder="News"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Section Description
+                            </label>
+                            <Textarea
+                              value={((editForm.content_data as any)?.additional_content?.description) || ''}
+                              onChange={(e) => setEditForm({
+                                ...editForm,
+                                content_data: {
+                                  ...editForm.content_data,
+                                  additional_content: {
+                                    ...((editForm.content_data as any)?.additional_content || {}),
+                                    description: e.target.value
+                                  }
+                                }
+                              })}
+                              placeholder="Stay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
+                              rows={4}
+                            />
+                          </div>
                         </div>
                       )}
 
