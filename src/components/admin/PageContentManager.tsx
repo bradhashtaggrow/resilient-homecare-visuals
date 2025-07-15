@@ -683,6 +683,27 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         />
                       </div>
 
+                      {/* Additional content field for news_hero */}
+                      {section.section_key === 'news_hero' && (
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Additional Content
+                          </label>
+                          <Textarea
+                            value={((editForm.content_data as any)?.additional_content) || ''}
+                            onChange={(e) => setEditForm({
+                              ...editForm,
+                              content_data: {
+                                ...editForm.content_data,
+                                additional_content: e.target.value
+                              }
+                            })}
+                            placeholder="News\nStay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
+                            rows={4}
+                          />
+                        </div>
+                      )}
+
                       {/* Show button fields for news_hero section */}
                       {section.section_key === 'news_hero' && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
