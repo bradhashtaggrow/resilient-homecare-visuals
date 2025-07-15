@@ -28,6 +28,7 @@ const News = () => {
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTop, setModalTop] = useState(0);
   // Modal management state
   const [heroContent, setHeroContent] = useState<HeroContent>({
     title: "Latest Healthcare",
@@ -125,7 +126,22 @@ const News = () => {
     });
   };
 
-  const handleReadMore = (post: BlogPost) => {
+  const handleReadMore = (post: BlogPost, event: React.MouseEvent) => {
+    // Get the article card's position
+    const article = (event.target as HTMLElement).closest('article');
+    if (article) {
+      const rect = article.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Position modal above the article (subtract 100px for spacing)
+      const articleTop = rect.top + scrollTop;
+      const modalPosition = Math.max(20, articleTop - 100);
+      
+      setModalTop(modalPosition);
+    } else {
+      setModalTop(20); // Fallback position
+    }
+    
     setSelectedPost(post);
     setIsModalOpen(true);
   };
@@ -202,7 +218,7 @@ const News = () => {
                     
                     <Button 
                       variant="gradient" 
-                      onClick={() => handleReadMore(post)}
+                      onClick={(event) => handleReadMore(post, event)}
                       className="inline-flex items-center text-sm sm:text-base"
                     >
                       Read More
@@ -222,7 +238,10 @@ const News = () => {
 
       {/* Custom Modal that allows background scrolling */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-20">
+        <div 
+          className="fixed inset-0 z-50 flex items-start justify-center px-4" 
+          style={{ paddingTop: `${modalTop}px` }}
+        >
           {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-black/50" 
