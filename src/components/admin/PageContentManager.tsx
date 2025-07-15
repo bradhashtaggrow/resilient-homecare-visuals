@@ -1158,6 +1158,21 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                       {section.section_key === 'about_for_hospitals' && (
                         <div className="space-y-4 border-t pt-4">
                           <h4 className="text-lg font-semibold text-gray-900">Section Image</h4>
+                          
+                          {/* Show current image if exists */}
+                          {(section.content_data as any)?.image_url && (
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Current Hospital Section Image
+                              </label>
+                              <img 
+                                src={(section.content_data as any)?.image_url} 
+                                alt="Current hospital section image" 
+                                className="w-full h-32 object-cover rounded border"
+                              />
+                            </div>
+                          )}
+                          
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                               Upload Hospital Section Image
@@ -1228,6 +1243,21 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                       {section.section_key === 'about_for_clinicians' && (
                         <div className="space-y-4 border-t pt-4">
                           <h4 className="text-lg font-semibold text-gray-900">Section Image</h4>
+                          
+                          {/* Show current image if exists */}
+                          {(section.content_data as any)?.image_url && (
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Current Clinician Section Image
+                              </label>
+                              <img 
+                                src={(section.content_data as any)?.image_url} 
+                                alt="Current clinician section image" 
+                                className="w-full h-32 object-cover rounded border"
+                              />
+                            </div>
+                          )}
+                          
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                               Upload Clinician Section Image
