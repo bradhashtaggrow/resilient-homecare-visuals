@@ -232,7 +232,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 <SelectTrigger className="modern-field">
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
-                <SelectContent className="z-50 bg-white/95 backdrop-blur-xl border-white/20">
+                <SelectContent className="z-[9999] bg-white border shadow-lg">
                   <SelectItem value="ceo">Chief Executive Officer (CEO)</SelectItem>
                   <SelectItem value="cto">Chief Technology Officer (CTO)</SelectItem>
                   <SelectItem value="cfo">Chief Financial Officer (CFO)</SelectItem>
