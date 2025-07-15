@@ -620,6 +620,19 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                             </Badge>
                           )}
                         </div>
+                        
+                        {/* Show section image thumbnails for hospitals and clinicians */}
+                        {(section.section_key === 'about_for_hospitals' || section.section_key === 'about_for_clinicians') && 
+                         section.content_data && (section.content_data as any)?.image_url && (
+                          <div className="mt-3">
+                            <p className="text-xs text-gray-500 mb-2">Current Section Image:</p>
+                            <img 
+                              src={(section.content_data as any).image_url} 
+                              alt={`${section.section_key} section image`}
+                              className="w-32 h-20 object-cover rounded border shadow-sm"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                     
