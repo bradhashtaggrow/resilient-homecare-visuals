@@ -78,7 +78,7 @@ const News = () => {
         setHeroContent(newHeroContent);
         setContentSection({
           title: "News",
-          description: heroData.description || "Stay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
+          description: ((heroData.content_data as any)?.additional_content) || "Stay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
         });
       } else {
         console.log('No news hero content found');
@@ -172,7 +172,6 @@ const News = () => {
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
         description={heroContent.description}
-        additionalContent={heroContent.additionalContent}
         backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
