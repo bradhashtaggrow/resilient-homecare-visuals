@@ -167,6 +167,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
     setIsSubmitting(true);
     
     try {
+      console.log('Attempting to submit lead form...');
       const { error } = await supabase
         .from('leads')
         .insert([{
@@ -177,15 +178,21 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
           utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign'),
         }]);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
 
+      console.log('Lead submitted successfully, showing toast...');
       toast({
         title: "Demo request submitted successfully!",
         description: "We'll contact you within 24 hours to schedule your demo.",
       });
       
+      console.log('Toast called, waiting before closing modal...');
       // Wait a moment for the toast to be visible before closing
       setTimeout(() => {
+        console.log('Closing modal...');
         onSuccess?.();
         onClose?.();
       }, 2000); // 2 second delay to let user see the success message
