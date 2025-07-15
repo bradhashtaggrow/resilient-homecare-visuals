@@ -519,7 +519,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
         <CardContent className="text-center py-12">
           <div className="mb-6">
             <CheckCircle className="h-16 w-16 text-primary mx-auto mb-4" />
-            <h2 className="text-3xl font-bold gradient-text mb-2">
+            <h2 className="text-3xl font-bold gradient-hero bg-clip-text text-transparent mb-2">
               Demo Request Submitted Successfully!
             </h2>
             <p className="text-lg text-gray-600">
@@ -527,7 +527,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
             </p>
           </div>
           <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-            <p className="gradient-text font-medium">
+            <p className="gradient-hero bg-clip-text text-transparent font-medium">
               Thank you for your interest in our healthcare technology platform.
             </p>
           </div>
