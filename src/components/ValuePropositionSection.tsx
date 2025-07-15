@@ -34,6 +34,14 @@ const ValuePropositionSection = () => {
   const firstLineText = content.title || '';
   const secondLineText = content.subtitle || '';
 
+  // Reset animation when content changes
+  useEffect(() => {
+    setCurrentLine(0);
+    setDisplayedFirstLine('');
+    setDisplayedSecondLine('');
+    setIsTypingComplete(false);
+  }, [content.title, content.subtitle]);
+
   // Custom typing animation effect
   useEffect(() => {
     if (!isVisible) return;
@@ -80,8 +88,8 @@ const ValuePropositionSection = () => {
           console.log('Loaded value proposition content:', data);
           const contentData = data.content_data as any;
           setContent({
-            title: 'We Manage The Work.',
-            subtitle: 'You Own The Program.',
+            title: data.title || 'We Manage The Work.',
+            subtitle: data.subtitle || 'You Own The Program.',
             description: data.description || 'Our comprehensive approach delivers measurable outcomes for hospitals, patients, and communities.',
             propositions: contentData?.propositions || content.propositions
           });
