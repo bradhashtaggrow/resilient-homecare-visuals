@@ -214,7 +214,7 @@ const ServiceLinesSection = () => {
             {content.title?.includes(',') ? (
               <>
                 {content.title.split(',')[0]},
-                <span className="block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent relative z-50 -mt-2">
                   {content.title.split(',').slice(1).join(',').trim()}
                 </span>
               </>
