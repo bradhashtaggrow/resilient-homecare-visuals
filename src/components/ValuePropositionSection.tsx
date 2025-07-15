@@ -163,7 +163,7 @@ const ValuePropositionSection = () => {
         {/* Header with Typing Animation */}
         <div className="text-center py-16">
           <div className="flex flex-col items-center justify-center relative z-50">
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-4 font-apple">
+            <h2 className="text-5xl md:text-6xl font-black text-gray-900 leading-tight mb-4 font-apple tracking-tight">
               <span className="block mb-2">
                 {displayedFirstLine}
                 {currentLine === 0 && !isTypingComplete && (
