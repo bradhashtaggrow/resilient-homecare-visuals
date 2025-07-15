@@ -8,8 +8,12 @@ import ContentSection from '@/components/content/ContentSection';
 import ServicesGrid from '@/components/services/ServicesGrid';
 import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 const Clinicians = () => {
+  // Initialize optimized real-time sync for independent operation
+  const { isListening } = useWebsiteSync();
+  
   const [heroContent, setHeroContent] = useState({
     title: 'Join the Future of',
     highlightedText: 'Healthcare',
@@ -150,22 +154,20 @@ const Clinicians = () => {
 
     loadContent();
 
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('clinicians-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=in.(clinicians_hero,clinicians_mobile)'
-      }, (payload) => {
-        console.log('Real-time clinicians content change:', payload);
+    // Listen for real-time updates via global content sync system
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && 
+          (data.section_key === 'clinicians_hero' || data.section_key === 'clinicians_mobile')) {
+        console.log('Clinicians content updated via real-time sync:', data);
         loadContent();
-      })
-      .subscribe();
+      }
+    };
 
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
+    
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 

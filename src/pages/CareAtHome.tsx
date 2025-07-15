@@ -8,8 +8,12 @@ import ContentSection from '@/components/content/ContentSection';
 import TabsSection from '@/components/tabs/TabsSection';
 import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 const CareAtHome = () => {
+  // Initialize optimized real-time sync for independent operation
+  const { isListening } = useWebsiteSync();
+  
   const [services, setServices] = useState([]);
   const [heroContent, setHeroContent] = useState({
     title: 'What is',
@@ -100,31 +104,20 @@ const CareAtHome = () => {
 
     loadContent();
 
-    // Set up real-time subscription for both hero and mobile sections
-    const channel = supabase
-      .channel('care-at-home-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=eq.care_at_home_hero'
-      }, (payload) => {
-        console.log('Real-time care at home hero change:', payload);
+    // Listen for real-time updates via global content sync system
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && 
+          (data.section_key === 'care_at_home_hero' || data.section_key === 'care_at_home_mobile')) {
+        console.log('Care at home content updated via real-time sync:', data);
         loadContent();
-      })
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=eq.care_at_home_mobile'
-      }, (payload) => {
-        console.log('Real-time care at home mobile change:', payload);
-        loadContent();
-      })
-      .subscribe();
+      }
+    };
 
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
+    
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 

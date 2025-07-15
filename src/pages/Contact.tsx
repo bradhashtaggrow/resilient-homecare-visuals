@@ -9,8 +9,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 const Contact = () => {
+  // Initialize optimized real-time sync for independent operation
+  const { isListening } = useWebsiteSync();
+  
   const [heroContent, setHeroContent] = useState({
     title: "Contact Resilient",
     highlightedText: "Healthcare",
@@ -74,22 +78,19 @@ const Contact = () => {
 
     loadContent();
 
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('contact-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=eq.contact_hero'
-      }, (payload) => {
-        console.log('Real-time contact content change:', payload);
+    // Listen for real-time updates via global content sync system
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && data.section_key === 'contact_hero') {
+        console.log('Contact content updated via real-time sync:', data);
         loadContent();
-      })
-      .subscribe();
+      }
+    };
 
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
+    
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 

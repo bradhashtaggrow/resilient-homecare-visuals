@@ -10,8 +10,12 @@ import HospitalBenefitsSection from '@/components/about/HospitalBenefitsSection'
 import ClinicianBenefitsSection from '@/components/about/ClinicianBenefitsSection';
 import ValuesSection from '@/components/about/ValuesSection';
 import { supabase } from '@/integrations/supabase/client';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 const About = () => {
+  // Initialize optimized real-time sync for independent operation
+  const { isListening } = useWebsiteSync();
+  
   const [heroContent, setHeroContent] = useState({
     title: "About Resilient",
     highlightedText: "Healthcare",
@@ -67,22 +71,19 @@ const About = () => {
 
     loadContent();
 
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('about-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=eq.about_hero'
-      }, (payload) => {
-        console.log('Real-time about content change:', payload);
+    // Listen for real-time updates via global content sync system
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && data.section_key === 'about_hero') {
+        console.log('About content updated via real-time sync:', data);
         loadContent();
-      })
-      .subscribe();
+      }
+    };
 
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
+    
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 

@@ -8,6 +8,7 @@ import TabsSection from '@/components/tabs/TabsSection';
 import LeadGenSection from '@/components/LeadGenSection';
 import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap, LucideIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 interface TabData {
   id: string;
@@ -41,6 +42,9 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 const Patients = () => {
+  // Initialize optimized real-time sync for independent operation
+  const { isListening } = useWebsiteSync();
+  
   const [heroContent, setHeroContent] = useState({
     title: "Hospital-Quality Care",
     highlightedText: "at Home",
@@ -116,22 +120,20 @@ const Patients = () => {
 
     loadAllContent();
 
-    // Set up real-time subscription for patients content
-    const channel = supabase
-      .channel('patients-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=in.(patients_hero,patients_mobile)'
-      }, (payload) => {
-        console.log('Real-time patients content change:', payload);
+    // Listen for real-time updates via global content sync system
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && 
+          (data.section_key === 'patients_hero' || data.section_key === 'patients_mobile')) {
+        console.log('Patients content updated via real-time sync:', data);
         loadAllContent();
-      })
-      .subscribe();
+      }
+    };
 
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
+    
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 

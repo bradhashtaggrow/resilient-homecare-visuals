@@ -9,6 +9,7 @@ import { Calendar, User, ArrowRight, Loader, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Tables } from '@/integrations/supabase/types';
 import { Button } from '@/components/ui/button';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 type BlogPost = Tables<'blog_posts'>;
 
@@ -26,6 +27,9 @@ interface ContentSectionData {
 }
 
 const News = () => {
+  // Initialize optimized real-time sync for independent operation
+  const { isListening } = useWebsiteSync();
+  
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
@@ -106,28 +110,23 @@ const News = () => {
   };
 
   const setupRealtimeSubscription = () => {
-    const channel = supabase
-      .channel('news-content-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'blog_posts',
-        filter: 'is_published=eq.true'
-      }, () => {
-        loadBlogPosts();
-      })
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=eq.news_hero'
-      }, (payload) => {
-        console.log('Real-time update received for news_hero:', payload);
+    // Listen for real-time updates via global content sync system
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && data.section_key === 'news_hero') {
+        console.log('News hero content updated via real-time sync:', data);
         loadHeroContent();
-      })
-      .subscribe();
+      } else if (table === 'blog_posts') {
+        console.log('Blog posts updated via real-time sync:', data);
+        loadBlogPosts();
+      }
+    };
 
-    return () => supabase.removeChannel(channel);
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
+    
+    return () => {
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
+    };
   };
 
   const formatDate = (dateString: string | null) => {
