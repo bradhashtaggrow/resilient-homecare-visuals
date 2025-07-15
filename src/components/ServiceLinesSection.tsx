@@ -56,9 +56,9 @@ const ServiceLinesSection = () => {
           })) || getDefaultServices();
 
           setContent({
-            title: data.title || 'Complete Healthcare',
-            subtitle: data.subtitle || 'Service Lines',
-            description: data.description || 'Comprehensive care delivery across all major clinical specialties, bringing hospital-level treatment directly to patients homes.',
+            title: data.title || 'Fully Streamlined, Uncompromisingly Simple',
+            subtitle: data.subtitle || '',
+            description: data.description || 'We offer a full spectrum of healthcare services delivered in the comfort of patients homes.',
             services: transformedServices
           });
         } else {
