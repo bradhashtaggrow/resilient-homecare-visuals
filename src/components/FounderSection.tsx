@@ -229,7 +229,7 @@ const FounderSection = () => {
                         animationIterationCount: 'infinite'
                       }}
                     >
-                      <div className="bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full p-3 sm:p-4 shadow-xl transition-all duration-300 border-2 border-white/20">
+                      <div className="bg-gradient-to-br from-[#0080ff] to-[#0066cc] hover:from-[#0066cc] hover:to-[#004499] text-white rounded-full p-3 sm:p-4 shadow-xl transition-all duration-300 border-2 border-white/20">
                         {getAchievementIcon(achievement.icon)}
                       </div>
                     </div>

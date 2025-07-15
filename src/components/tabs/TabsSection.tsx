@@ -57,10 +57,10 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
 
   const getColorClasses = (color: string) => {
     const blueGradient = { 
-      primary: '#4285F4', 
-      gradient: 'from-[#4285F4] to-[#1565C0]',
-      shadow: 'shadow-[#4285F4]/30',
-      glow: 'drop-shadow-[0_0_20px_rgba(66,133,244,0.5)]'
+      primary: '#0080ff', 
+      gradient: 'from-[#0080ff] to-[#0066cc]',
+      shadow: 'shadow-[#0080ff]/30',
+      glow: 'drop-shadow-[0_0_20px_rgba(0,128,255,0.5)]'
     };
     return blueGradient;
   };
@@ -71,9 +71,9 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-white" />
         <div 
-          className="absolute inset-0 opacity-5"
+         className="absolute inset-0 opacity-5"
           style={{
-            background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(66,133,244,0.1) 0%, transparent 50%)`
+            background: `radial-gradient(circle at ${50 + mousePosition.x}% ${50 + mousePosition.y}%, rgba(0,128,255,0.1) 0%, transparent 50%)`
           }}
         />
         {/* Responsive Floating Particles */}
@@ -101,7 +101,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
           <h2 className="font-black mb-4 md:mb-6 lg:mb-8 tracking-tight leading-none text-gray-900"
               style={{ fontSize: 'clamp(2rem, 6vw, 6rem)' }}>
             The Future of{' '}
-            <span className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent">
               Care
             </span>
           </h2>
@@ -183,10 +183,10 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                       </div>
                       
                       {isActive && !isMobile && (
-                        <div 
+                         <div 
                           className="absolute -inset-4 rounded-2xl opacity-30 animate-pulse"
                           style={{ 
-                            background: `linear-gradient(45deg, #4285F420, transparent)`,
+                            background: `linear-gradient(45deg, rgba(0,128,255,0.125), transparent)`,
                             filter: 'blur(20px)'
                           }}
                         />
@@ -249,11 +249,11 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           {activeService.title}
                         </h3>
                         
-                        <p 
+                         <p 
                           className={`
                             ${isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-2xl'} 
                             font-semibold mb-4 md:mb-6 
-                            bg-gradient-to-r from-[#4285F4] to-[#1565C0] bg-clip-text text-transparent
+                            bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent
                           `}
                         >
                           {activeService.subtitle}
@@ -281,17 +281,17 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                           }}
                         />
                         
-                        {/* Updated Overlay with Blue Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#4285F4]/80 to-[#1565C0]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
+                         {/* Updated Overlay with Blue Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#0080ff]/80 to-[#0066cc]/80 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
                       </div>
 
                     </div>
 
                     {/* Subtle Border Effect */}
-                    <div 
+                     <div 
                       className="absolute inset-0 rounded-2xl md:rounded-3xl opacity-20 pointer-events-none"
                       style={{
-                        background: `linear-gradient(135deg, #4285F410, transparent, #4285F405)`,
+                        background: `linear-gradient(135deg, rgba(0,128,255,0.062), transparent, rgba(0,128,255,0.031))`,
                         filter: 'blur(1px)'
                       }}
                     />
