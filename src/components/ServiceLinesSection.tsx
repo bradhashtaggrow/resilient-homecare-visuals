@@ -1,5 +1,13 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { Activity, Heart, Building2, Users, Stethoscope, Home, Shield, Target, TrendingUp, MapPin, Clock, Zap, Award, CheckCircle, LucideIcon } from 'lucide-react';
+import { 
+  Activity, Heart, Building2, Users, Stethoscope, Home, Shield, Target, 
+  TrendingUp, MapPin, Clock, Zap, Award, CheckCircle, Phone, Wifi, 
+  Monitor, Smartphone, Headphones, Video, MessageSquare, Mail, 
+  Calendar, FileText, Database, Settings, Globe, Search, Filter,
+  BarChart, PieChart, LineChart, Upload, Download, Save, Edit,
+  Plus, Minus, X, Check, Star, Flag, Bell, AlertCircle,
+  LucideIcon 
+} from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { supabase } from '@/integrations/supabase/client';
@@ -128,15 +136,47 @@ const ServiceLinesSection = () => {
       Activity,
       Heart,
       Building2,
-      TrendingUp,
+      Users,
+      Stethoscope,
+      Home,
       Shield,
       Target,
-      Award,
-      Users,
+      TrendingUp,
       MapPin,
-      CheckCircle,
+      Clock,
       Zap,
-      Clock
+      Award,
+      CheckCircle,
+      Phone,
+      Wifi,
+      Monitor,
+      Smartphone,
+      Headphones,
+      Video,
+      MessageSquare,
+      Mail,
+      Calendar,
+      FileText,
+      Database,
+      Settings,
+      Globe,
+      Search,
+      Filter,
+      BarChart,
+      PieChart,
+      LineChart,
+      Upload,
+      Download,
+      Save,
+      Edit,
+      Plus,
+      Minus,
+      X,
+      Check,
+      Star,
+      Flag,
+      Bell,
+      AlertCircle
     };
     
     const IconComponent = iconMap[iconName] || Activity;
