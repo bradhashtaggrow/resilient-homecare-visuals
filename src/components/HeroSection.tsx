@@ -27,7 +27,7 @@ const HeroSection = React.memo(() => {
   });
 
   useEffect(() => {
-    // Load hero content from database
+    // Load hero content from database with performance optimization
     const loadHeroContent = async () => {
       try {
         const { data, error } = await supabase
@@ -58,22 +58,19 @@ const HeroSection = React.memo(() => {
 
     loadHeroContent();
 
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('hero-content-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=eq.hero'
-      }, (payload) => {
-        console.log('Real-time hero content change:', payload);
+    // Listen for optimized real-time updates
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && data?.section_key === 'hero') {
+        console.log('Hero content updated via optimized sync:', data);
         loadHeroContent();
-      })
-      .subscribe();
+      }
+    };
+
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
 
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 

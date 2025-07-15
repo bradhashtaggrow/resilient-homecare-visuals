@@ -18,36 +18,50 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
 
-  // Reload video when src changes with better error handling
+  // Optimized video loading with better performance and error handling
   useEffect(() => {
     const video = videoRef.current;
-    if (video && isLoaded && src) {
+    if (video && src) {
       console.log('Video src changed, reloading:', src);
       
       // Reset loading state
       setIsLoaded(false);
       
-      // Add error handling
+      // Optimized error handling with exponential backoff
+      let retryCount = 0;
+      const maxRetries = 3;
+      
       const handleLoadError = () => {
-        console.warn('Video load failed, retrying...', src);
-        setTimeout(() => {
-          if (video && !video.error) {
-            video.load();
-          }
-        }, 1000);
+        retryCount++;
+        if (retryCount <= maxRetries) {
+          const delay = Math.pow(2, retryCount) * 1000; // Exponential backoff
+          console.warn(`Video load failed, retrying in ${delay}ms (attempt ${retryCount}/${maxRetries}):`, src);
+          setTimeout(() => {
+            if (video && !video.error && retryCount <= maxRetries) {
+              video.load();
+            }
+          }, delay);
+        } else {
+          console.error('Video failed to load after max retries:', src);
+        }
+      };
+      
+      const handleCanPlay = () => {
+        setIsLoaded(true);
+        retryCount = 0; // Reset on successful load
       };
       
       video.addEventListener('error', handleLoadError);
-      video.load();
+      video.addEventListener('canplay', handleCanPlay);
       
-      if (isInView) {
-        video.play().catch((error) => {
-          console.warn('Video autoplay failed:', error);
-        });
-      }
+      // Use requestAnimationFrame for smooth loading
+      requestAnimationFrame(() => {
+        video.load();
+      });
       
       return () => {
         video.removeEventListener('error', handleLoadError);
+        video.removeEventListener('canplay', handleCanPlay);
       };
     }
   }, [src]);

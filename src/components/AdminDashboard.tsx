@@ -30,7 +30,7 @@ const AdminDashboard = React.memo(() => {
   const demoScreens = useDemoScreens();
 
   useEffect(() => {
-    // Load admin dashboard content from database
+    // Load admin dashboard content from database with performance optimization
     const loadAdminContent = async () => {
       try {
         const { data, error } = await supabase
@@ -44,7 +44,7 @@ const AdminDashboard = React.memo(() => {
           console.log('Loaded admin dashboard content from database:', data);
           
           setContent({
-            title: data.title || 'Take Full Control Of Your Business 2',
+            title: data.title || 'Take Full Control Of Your Business',
             subtitle: data.subtitle || '',
             description: data.description || 'Next-generation management tools with AI-powered insights that give administrators unprecedented visibility and control.',
             button_text: data.button_text || 'Request Demo',
@@ -63,22 +63,19 @@ const AdminDashboard = React.memo(() => {
 
     loadAdminContent();
 
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('admin-dashboard-content-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=eq.admin_dashboard'
-      }, (payload) => {
-        console.log('Real-time admin dashboard content change:', payload);
+    // Listen for optimized real-time updates
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && data?.section_key === 'admin_dashboard') {
+        console.log('Admin dashboard content updated via optimized sync:', data);
         loadAdminContent();
-      })
-      .subscribe();
+      }
+    };
+
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
 
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 

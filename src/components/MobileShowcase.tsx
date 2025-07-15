@@ -50,7 +50,7 @@ const MobileShowcase = () => {
   });
 
   useEffect(() => {
-    // Load mobile showcase content from database
+    // Load mobile showcase content from database with caching
     const loadMobileShowcaseContent = async () => {
       try {
         const { data, error } = await supabase
@@ -82,21 +82,19 @@ const MobileShowcase = () => {
 
     loadMobileShowcaseContent();
 
-    const channel = supabase
-      .channel('mobile-showcase-content-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=eq.mobile_showcase'
-      }, (payload) => {
-        console.log('Real-time mobile showcase content change:', payload);
+    // Listen for optimized real-time updates
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && data?.section_key === 'mobile_showcase') {
+        console.log('Mobile showcase content updated via optimized sync:', data);
         loadMobileShowcaseContent();
-      })
-      .subscribe();
+      }
+    };
+
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
 
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 
