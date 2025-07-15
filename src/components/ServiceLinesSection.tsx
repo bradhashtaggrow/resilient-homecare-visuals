@@ -209,12 +209,12 @@ const ServiceLinesSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header with dynamic content */}
         <div className="text-center mb-12 sm:mb-16 lg:mb-20 opacity-100 translate-y-0">
-          <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-6 lg:mb-8 overflow-visible"
-              style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 1.1 }}>
+          <h2 className="text-black leading-none tracking-tight font-black text-shadow-white mb-6 lg:mb-8"
+              style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {content.title?.includes(',') ? (
               <>
                 {content.title.split(',')[0]},
-                <span className="block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent relative z-50 -mt-2">
+                <span className="block bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent">
                   {content.title.split(',').slice(1).join(',').trim()}
                 </span>
               </>
