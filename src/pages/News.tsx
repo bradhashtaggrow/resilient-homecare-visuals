@@ -15,6 +15,7 @@ type BlogPost = Tables<'blog_posts'>;
 interface HeroContent {
   title: string;
   highlightedText: string;
+  description: string;
   backgroundVideoUrl: string;
 }
 
@@ -31,8 +32,9 @@ const News = () => {
   const [modalTop, setModalTop] = useState(0);
   // Modal management state
   const [heroContent, setHeroContent] = useState<HeroContent>({
-    title: "Latest Healthcare",
-    highlightedText: "News",
+    title: "Healthcare News &",
+    highlightedText: "Insights",
+    description: '',
     backgroundVideoUrl: '' // Start empty, only show database video
   });
   const [contentSection, setContentSection] = useState<ContentSectionData>({
@@ -57,10 +59,14 @@ const News = () => {
 
       if (heroData) {
         console.log('Loaded news hero content:', heroData);
+        // Split the title properly - the CMS stores "Healthcare News & Insights"
+        const fullTitle = heroData.title || 'Healthcare News & Insights';
+        const parts = fullTitle.split(' & ');
         const newHeroContent = {
-          title: "Latest Healthcare", // Keep hardcoded title
-          highlightedText: "News", // Keep hardcoded highlighted text
-          backgroundVideoUrl: heroData.background_video_url || '' // Only use database for video
+          title: parts[0],  // "Healthcare News"
+          highlightedText: parts[1] ? '& ' + parts[1] : '& Insights',  // "& Insights"
+          description: heroData.description || '',
+          backgroundVideoUrl: heroData.background_video_url || ''
         };
         console.log('Setting new news hero content:', newHeroContent);
         setHeroContent(newHeroContent);
@@ -158,6 +164,7 @@ const News = () => {
       <HeroSection 
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
+        description={heroContent.description}
         backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
