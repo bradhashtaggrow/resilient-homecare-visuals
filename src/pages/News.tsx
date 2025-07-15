@@ -28,7 +28,7 @@ const News = () => {
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  // Modal management state
   const [heroContent, setHeroContent] = useState<HeroContent>({
     title: "Latest Healthcare",
     highlightedText: "News",
