@@ -10,8 +10,12 @@ import FounderSection from '@/components/FounderSection';
 import StatsSection from '@/components/StatsSection';
 import LeadGenSection from '@/components/LeadGenSection';
 import Footer from '@/components/Footer';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 const Index = () => {
+  // Enable real-time sync for independent operation
+  useWebsiteSync();
+  
   return (
     <div className="min-h-screen bg-white paper-texture">
       <Navigation />

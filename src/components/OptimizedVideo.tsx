@@ -18,17 +18,37 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
 
-  // Reload video when src changes
+  // Reload video when src changes with better error handling
   useEffect(() => {
     const video = videoRef.current;
-    if (video && isLoaded) {
+    if (video && isLoaded && src) {
       console.log('Video src changed, reloading:', src);
+      
+      // Reset loading state
+      setIsLoaded(false);
+      
+      // Add error handling
+      const handleLoadError = () => {
+        console.warn('Video load failed, retrying...', src);
+        setTimeout(() => {
+          if (video && !video.error) {
+            video.load();
+          }
+        }, 1000);
+      };
+      
+      video.addEventListener('error', handleLoadError);
       video.load();
+      
       if (isInView) {
-        video.play().catch(() => {
-          // Handle autoplay policy restrictions silently
+        video.play().catch((error) => {
+          console.warn('Video autoplay failed:', error);
         });
       }
+      
+      return () => {
+        video.removeEventListener('error', handleLoadError);
+      };
     }
   }, [src]);
 
