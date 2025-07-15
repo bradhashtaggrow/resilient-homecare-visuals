@@ -28,7 +28,7 @@ const News = () => {
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalPosition, setModalPosition] = useState({ top: 0, center: true });
+  
   const [heroContent, setHeroContent] = useState<HeroContent>({
     title: "Latest Healthcare",
     highlightedText: "News",
@@ -125,26 +125,7 @@ const News = () => {
     });
   };
 
-  const handleReadMore = (post: BlogPost, event: React.MouseEvent) => {
-    // Get the button's position relative to the viewport
-    const rect = (event.target as HTMLElement).closest('button')?.getBoundingClientRect();
-    if (rect) {
-      const viewportHeight = window.innerHeight;
-      const buttonCenter = rect.top + rect.height / 2;
-      
-      // Calculate ideal modal position - center modal around button but keep it visible
-      const modalHeight = Math.min(viewportHeight * 0.85, 600); // Approximate modal height
-      let modalTop = buttonCenter - modalHeight / 2;
-      
-      // Ensure modal stays within viewport bounds
-      modalTop = Math.max(20, Math.min(modalTop, viewportHeight - modalHeight - 20));
-      
-      setModalPosition({ top: modalTop, center: false });
-    } else {
-      // Fallback to center if button position can't be determined
-      setModalPosition({ top: 0, center: true });
-    }
-    
+  const handleReadMore = (post: BlogPost) => {
     setSelectedPost(post);
     setIsModalOpen(true);
   };
@@ -221,7 +202,7 @@ const News = () => {
                     
                     <Button 
                       variant="gradient" 
-                      onClick={(event) => handleReadMore(post, event)}
+                      onClick={() => handleReadMore(post)}
                       className="inline-flex items-center text-sm sm:text-base"
                     >
                       Read More
@@ -241,13 +222,7 @@ const News = () => {
 
       {/* Custom Modal that allows background scrolling */}
       {isModalOpen && (
-        <div 
-          className="fixed inset-0 z-50 flex px-4"
-          style={modalPosition.center ? 
-            { alignItems: 'center', justifyContent: 'center' } : 
-            { alignItems: 'flex-start', justifyContent: 'center', paddingTop: `${modalPosition.top}px` }
-          }
-        >
+        <div className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-20">
           {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-black/50" 
