@@ -49,40 +49,40 @@ const Navigation = () => {
               </Link>
               
               {/* Desktop Navigation */}
-              <div className="hidden lg:flex items-center space-x-8 h-full">
+              <div className="hidden lg:flex items-end space-x-8 h-full pb-1">
                 <Link 
                   to="/care-at-home" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
                 >
                   Care At Home
                 </Link>
                 <Link 
                   to="/clinicians" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
                 >
                   Clinicians
                 </Link>
                 <Link 
                   to="/patients" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
                 >
                   Patients
                 </Link>
                 <Link 
                   to="/news" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
                 >
                   News
                 </Link>
                 <Link 
                   to="/about" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
                 >
                   About Us
                 </Link>
                 <Link 
                   to="/contact" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
                 >
                   Contact
                 </Link>
