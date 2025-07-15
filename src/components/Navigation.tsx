@@ -50,45 +50,45 @@ const Navigation = () => {
             </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center space-x-10">
               <Link 
                 to="/care-at-home" 
-                className="text-gray-700 hover:text-primary transition-colors duration-200 font-medium text-sm"
+                className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
               >
                 Care At Home
               </Link>
               <Link 
                 to="/clinicians" 
-                className="text-gray-700 hover:text-primary transition-colors duration-200 font-medium text-sm"
+                className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
               >
                 Clinicians
               </Link>
               <Link 
                 to="/patients" 
-                className="text-gray-700 hover:text-primary transition-colors duration-200 font-medium text-sm"
+                className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
               >
                 Patients
               </Link>
               <Link 
                 to="/news" 
-                className="text-gray-700 hover:text-primary transition-colors duration-200 font-medium text-sm"
+                className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
               >
                 News
               </Link>
               <Link 
                 to="/about" 
-                className="text-gray-700 hover:text-primary transition-colors duration-200 font-medium text-sm"
+                className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
               >
                 About Us
               </Link>
               <Link 
                 to="/contact" 
-                className="text-gray-700 hover:text-primary transition-colors duration-200 font-medium text-sm"
+                className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
               >
                 Contact
               </Link>
               
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-4 ml-8">
                 <LeadCaptureModal source="navigation">
                   <Button className="bg-gradient-to-r from-[#4285F4] to-[#1565C0] text-white hover:from-[#5a95f5] hover:to-[#2576d1] font-semibold text-sm px-4 py-2 rounded-lg shadow-md transition-all duration-200 hover:shadow-lg">
                     Request Demo
