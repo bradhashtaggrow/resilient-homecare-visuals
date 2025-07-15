@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AnalyticsOverview } from './analytics/AnalyticsOverview';
-import RealtimeActivity from './analytics/RealtimeActivity';
 import { AnalyticsHeader } from './analytics/AnalyticsHeader';
 import { TrendingUp, Users, Eye, Clock } from 'lucide-react';
+
+// Lazy load heavy analytics components
+const AnalyticsOverview = lazy(() => import('./analytics/AnalyticsOverview').then(module => ({ default: module.AnalyticsOverview })));
+const RealtimeActivity = lazy(() => import('./analytics/RealtimeActivity'));
 
 const AnalyticsDashboard = () => {
   return (
@@ -23,7 +25,9 @@ const AnalyticsDashboard = () => {
         <div className="grid gap-6 lg:gap-8">
           {/* Hero metrics */}
           <div className="animate-scale-in" style={{ animationDelay: '0.1s' }}>
-            <AnalyticsOverview />
+            <Suspense fallback={<div className="h-48 bg-muted/50 rounded-lg animate-pulse" />}>
+              <AnalyticsOverview />
+            </Suspense>
           </div>
           
           {/* Real-time activity with glass effect */}
@@ -49,7 +53,9 @@ const AnalyticsDashboard = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <RealtimeActivity events={[]} />
+                <Suspense fallback={<div className="h-32 bg-muted/50 rounded animate-pulse" />}>
+                  <RealtimeActivity events={[]} />
+                </Suspense>
               </CardContent>
             </Card>
           </div>
