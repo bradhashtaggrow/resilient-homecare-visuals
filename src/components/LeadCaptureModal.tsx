@@ -75,9 +75,8 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       }}
     >
       <div 
-        className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-gray-200 absolute" 
+        className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-gray-200" 
         style={{ 
-          zIndex: 2147483647,
           position: 'absolute',
           top: `${modalPosition.top}px`,
           left: '50%',
