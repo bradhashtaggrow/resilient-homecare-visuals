@@ -5,7 +5,7 @@ import {
   Monitor, Smartphone, Headphones, Video, MessageSquare, Mail, 
   Calendar, FileText, Database, Settings, Globe, Search, Filter,
   BarChart, PieChart, LineChart, Upload, Download, Save, Edit,
-  Plus, Minus, X, Check, Star, Flag, Bell, AlertCircle,
+  Plus, Minus, X, Check, Star, Flag, Bell, AlertCircle, Ambulance,
   LucideIcon 
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -176,7 +176,8 @@ const ServiceLinesSection = () => {
       Star,
       Flag,
       Bell,
-      AlertCircle
+      AlertCircle,
+      Ambulance
     };
     
     const IconComponent = iconMap[iconName] || Activity;
