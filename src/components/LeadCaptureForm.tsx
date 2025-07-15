@@ -220,7 +220,25 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
             </div>
             <div>
               <Label htmlFor="job_title">Job Title</Label>
-              <Select value={formData.job_title} onValueChange={(value) => updateFormData('job_title', value)}>
+              <Select 
+                value={formData.job_title} 
+                onValueChange={(value) => updateFormData('job_title', value)}
+                onOpenChange={(open) => {
+                  console.log('Job Title dropdown open state:', open);
+                  if (open) {
+                    setTimeout(() => {
+                      const selectContent = document.querySelector('[data-radix-select-content]');
+                      if (selectContent) {
+                        console.log('SelectContent element found:', selectContent);
+                        console.log('SelectContent position:', selectContent.getBoundingClientRect());
+                        console.log('SelectContent styles:', window.getComputedStyle(selectContent));
+                      } else {
+                        console.log('SelectContent element NOT found');
+                      }
+                    }, 100);
+                  }
+                }}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>

@@ -73,6 +73,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         backdropFilter: 'blur(4px)'
       }}
+      onLoad={() => console.log('Modal backdrop loaded')}
     >
       <div 
         className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-gray-200" 
