@@ -87,17 +87,6 @@ const Login = () => {
       <div className="relative z-20 w-full max-w-md px-4">
         <Card className="backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl shadow-black/50 hover:shadow-3xl transition-all duration-500 hover:bg-white/15">
           <CardHeader className="text-center pb-8 pt-8">
-            {/* Enhanced Logo Container */}
-            <div className="flex items-center justify-center mb-6">
-              <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-light rounded-2xl flex items-center justify-center shadow-xl shadow-primary/30 hover:shadow-primary/50 transition-all duration-300 hover:scale-110">
-                  <Globe className="h-9 w-9 text-white drop-shadow-lg" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-primary to-primary-light rounded-full flex items-center justify-center">
-                  <Shield className="h-3 w-3 text-white" />
-                </div>
-              </div>
-            </div>
             
             {/* Enhanced Title */}
             <CardTitle className="text-3xl font-black text-white mb-2 tracking-tight">
