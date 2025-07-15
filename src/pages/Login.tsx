@@ -99,7 +99,7 @@ const Login = () => {
             {/* Enhanced Title */}
             <CardTitle className="text-3xl font-black text-white mb-2 tracking-tight">
               <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-                Resilient Healthcare Admin
+                Admin
               </span>
             </CardTitle>
             <p className="text-white/80 text-lg font-medium tracking-wide">
