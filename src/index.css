@@ -126,9 +126,6 @@ body {
   transform: translateZ(0);
   color: hsl(var(--foreground));
   background-color: hsl(var(--background));
-  /* Prevent layout shift */
-  min-height: 100vh;
-  overflow-x: hidden;
 }
 
 @layer components {
@@ -328,13 +325,11 @@ html::-webkit-scrollbar {
   background: hsl(var(--primary) / 0.4);
 }
 
-/* Optimize images and videos for performance */
+/* Optimize images and videos */
 img, video {
   max-width: 100%;
   height: auto;
   will-change: transform;
-  /* Prevent layout shift */
-  aspect-ratio: attr(width) / attr(height);
 }
 
 /* Hardware acceleration for animations */
@@ -346,11 +341,6 @@ img, video {
   transform-style: preserve-3d;
   backface-visibility: hidden;
   perspective: 1000px;
-}
-
-/* Critical CSS optimizations */
-.critical-above-fold {
-  contain: layout style paint;
 }
 
 /* Mobile-first responsive utilities */

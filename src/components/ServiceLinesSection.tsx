@@ -39,27 +39,11 @@ const ServiceLinesSection = () => {
         if (data && !error) {
           console.log('Loaded service lines content from database:', data);
           
-          // Transform database services to match component structure
-          const transformedServices = (data.content_data as any)?.services?.map((service: any, index: number) => ({
-            id: service.id || `service-${index}`,
-            icon: service.icon || 'Activity',
-            title: service.title,
-            subtitle: service.subtitle || '',
-            description: service.description,
-            benefits: service.benefits || [
-              { text: "Enhanced patient care delivery", icon: "Target" },
-              { text: "Improved clinical outcomes", icon: "TrendingUp" },
-              { text: "Cost-effective solutions", icon: "Shield" }
-            ],
-            color: service.color || 'blue',
-            patient_image_url: service.patient_image_url || "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-          })) || getDefaultServices();
-
           setContent({
             title: data.title || 'Fully Streamlined, Uncompromisingly Simple',
             subtitle: data.subtitle || '',
-            description: data.description || 'We offer a full spectrum of healthcare services delivered in the comfort of patients homes.',
-            services: transformedServices
+            description: data.description || 'Three core service lines designed to extend your hospital\'s reach and improve patient outcomes.',
+            services: (data.content_data as any)?.services || getDefaultServices()
           });
         } else {
           console.log('No service lines content found in database, using defaults');

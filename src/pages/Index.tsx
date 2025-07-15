@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { PerformanceWrapper } from '@/hooks/usePerformance';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
 import ServiceLinesSection from '@/components/ServiceLinesSection';
@@ -14,23 +13,21 @@ import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <PerformanceWrapper pageName="home">
-      <div className="min-h-screen bg-white paper-texture critical-above-fold">
-        <Navigation />
-        {/* No padding needed - sticky navigation flows with content */}
-        <div>
-          <HeroSection />
-          <ServiceLinesSection />
-          <MobileShowcase />
-          <ValuePropositionSection />
-          <AdminDashboard />
-          <FounderSection />
-          <StatsSection />
-          <LeadGenSection />
-          <Footer />
-        </div>
+    <div className="min-h-screen bg-white paper-texture">
+      <Navigation />
+      {/* No padding needed - sticky navigation flows with content */}
+      <div>
+        <HeroSection />
+        <ServiceLinesSection />
+        <MobileShowcase />
+        <ValuePropositionSection />
+        <AdminDashboard />
+        <FounderSection />
+        <StatsSection />
+        <LeadGenSection />
+        <Footer />
       </div>
-    </PerformanceWrapper>
+    </div>
   );
 };
 
