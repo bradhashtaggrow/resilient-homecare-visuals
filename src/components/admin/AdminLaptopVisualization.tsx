@@ -65,19 +65,21 @@ const AdminLaptopVisualization = ({
               borderRadius: '24px'
             }}
           >
-            {/* Screen Content with HD Video Background */}
+            {/* Screen Content with HD Video Background - Using working pattern */}
             <div className="w-full h-full relative overflow-hidden rounded-2xl">
-              {backgroundVideoUrl && (
-                <div className="absolute inset-0 z-0">
+              <div className="absolute inset-0 z-0">
+                {backgroundVideoUrl ? (
                   <OptimizedVideo
                     key={backgroundVideoUrl} // Force re-render when URL changes
                     src={backgroundVideoUrl}
                     className="absolute inset-0 w-full h-full object-cover rounded-2xl"
                   />
-                  {/* Minimal dark overlay for text readability */}
-                  <div className="absolute inset-0 bg-black/30 rounded-2xl" />
-                </div>
-              )}
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 rounded-2xl" />
+                )}
+                {/* Minimal dark overlay for text readability */}
+                <div className="absolute inset-0 bg-black/30 rounded-2xl" />
+              </div>
 
               {/* Admin Login Interface - Real UI from /login */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">

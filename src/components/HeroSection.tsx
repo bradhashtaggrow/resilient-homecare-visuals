@@ -110,29 +110,26 @@ const HeroSection = React.memo(() => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
-      {/* Background Media */}
-      {content?.background_video_url ? (
-        <div className="absolute inset-0 z-0">
+      {/* Background Media - Using working pattern from MobileShowcase */}
+      <div className="absolute inset-0 z-0">
+        {content?.background_video_url ? (
           <OptimizedVideo
             key={content.background_video_url} // Force re-render when URL changes
             src={content.background_video_url}
             className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/30" />
-        </div>
-      ) : content?.background_image_url ? (
-        <div className="absolute inset-0 z-0">
+        ) : content?.background_image_url ? (
           <img
             src={content.background_image_url}
             alt="Hero background"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/30" />
-        </div>
-      ) : (
-        // Show gradient background only when no media
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-blue-50 via-white to-blue-50/30" />
-      )}
+        ) : (
+          // Show gradient background only when no media
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-50/30" />
+        )}
+        <div className="absolute inset-0 bg-black/30" />
+      </div>
 
       {/* Mobile Background */}
       {content?.mobile_background_url && (
