@@ -42,8 +42,9 @@ const iconMap: Record<string, LucideIcon> = {
 
 const Patients = () => {
   const [heroContent, setHeroContent] = useState({
-    title: "Patient-centered",
-    highlightedText: "care at home",
+    title: "Hospital-Quality Care",
+    highlightedText: "at Home",
+    description: '',
     backgroundVideoUrl: '' // Start empty, only show database video
   });
   const [contentSection, setContentSection] = useState({
@@ -67,10 +68,14 @@ const Patients = () => {
 
         if (heroData) {
           console.log('Loaded patients hero content:', heroData);
+          // Split the title properly - the CMS stores "Hospital-Quality Care at Home"
+          const fullTitle = heroData.title || 'Hospital-Quality Care at Home';
+          const parts = fullTitle.split(' at ');
           const newHeroContent = {
-            title: heroData.title || "Patient-centered",
-            highlightedText: heroData.subtitle || "care at home",
-            backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
+            title: parts[0],  // "Hospital-Quality Care"
+            highlightedText: parts[1] ? 'at ' + parts[1] : 'at Home',  // "at Home"
+            description: heroData.description || '',
+            backgroundVideoUrl: heroData.background_video_url || ''
           };
           console.log('Setting new patients hero content:', newHeroContent);
           setHeroContent(newHeroContent);
@@ -137,6 +142,7 @@ const Patients = () => {
       <HeroSection 
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
+        description={heroContent.description}
         backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
