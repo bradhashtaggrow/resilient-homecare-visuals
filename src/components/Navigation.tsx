@@ -52,37 +52,37 @@ const Navigation = () => {
               <div className="hidden lg:flex items-center space-x-8 h-full">
                 <Link 
                   to="/care-at-home" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
                 >
                   Care At Home
                 </Link>
                 <Link 
                   to="/clinicians" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
                 >
                   Clinicians
                 </Link>
                 <Link 
                   to="/patients" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
                 >
                   Patients
                 </Link>
                 <Link 
                   to="/news" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
                 >
                   News
                 </Link>
                 <Link 
                   to="/about" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
                 >
                   About Us
                 </Link>
                 <Link 
                   to="/contact" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center h-16"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base flex items-center justify-center h-full"
                 >
                   Contact
                 </Link>
