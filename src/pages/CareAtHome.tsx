@@ -14,6 +14,7 @@ const CareAtHome = () => {
   const [heroContent, setHeroContent] = useState({
     title: 'What is',
     highlightedText: 'Resilient Community?',
+    description: '',
     backgroundVideoUrl: '' // Start empty, only show database video
   });
 
@@ -50,6 +51,7 @@ const CareAtHome = () => {
           const newHeroContent = {
             title: heroData.title || 'What is',
             highlightedText: heroData.subtitle || 'Resilient Community?',
+            description: heroData.description || '',
             backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
           };
           console.log('Setting new hero content:', newHeroContent);
@@ -130,6 +132,7 @@ const CareAtHome = () => {
       <HeroSection 
         title={heroContent.title}
         highlightedText={heroContent.highlightedText}
+        description={heroContent.description}
         backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
