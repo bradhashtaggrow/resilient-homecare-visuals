@@ -16,93 +16,108 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
-  // Optimized video loading with better performance and error handling
+  // Aggressive video loading for hero sections - load immediately
   useEffect(() => {
     const video = videoRef.current;
-    if (video && src) {
-      console.log('Video src changed, reloading:', src);
+    if (!video || !src) return;
+
+    console.log('OptimizedVideo: Loading video:', src);
+    setHasError(false);
+    setIsLoaded(false);
+    setIsPlaying(false);
+
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    const handleLoadedData = () => {
+      console.log('OptimizedVideo: Video loaded successfully:', src);
+      setIsLoaded(true);
+      setHasError(false);
+      retryCount = 0;
       
-      // Reset loading state
-      setIsLoaded(false);
+      // Immediately try to play for hero sections
+      tryPlay();
+    };
+
+    const handleError = (event: Event) => {
+      retryCount++;
+      console.warn(`OptimizedVideo: Load error (attempt ${retryCount}/${maxRetries}):`, src, event);
       
-      // Optimized error handling with exponential backoff
-      let retryCount = 0;
-      const maxRetries = 3;
+      if (retryCount <= maxRetries) {
+        const delay = Math.pow(2, retryCount) * 500; // 500ms, 1s, 2s
+        setTimeout(() => {
+          if (video && retryCount <= maxRetries) {
+            console.log(`OptimizedVideo: Retrying load attempt ${retryCount}:`, src);
+            video.load();
+          }
+        }, delay);
+      } else {
+        console.error('OptimizedVideo: Failed to load after max retries:', src);
+        setHasError(true);
+      }
+    };
+
+    const handleCanPlay = () => {
+      console.log('OptimizedVideo: Can play:', src);
+      setIsLoaded(true);
+      tryPlay();
+    };
+
+    const tryPlay = async () => {
+      if (!video || hasError) return;
       
-      const handleLoadError = () => {
-        retryCount++;
-        if (retryCount <= maxRetries) {
-          const delay = Math.pow(2, retryCount) * 1000; // Exponential backoff
-          console.warn(`Video load failed, retrying in ${delay}ms (attempt ${retryCount}/${maxRetries}):`, src);
-          setTimeout(() => {
-            if (video && !video.error && retryCount <= maxRetries) {
-              video.load();
-            }
-          }, delay);
-        } else {
-          console.error('Video failed to load after max retries:', src);
-        }
-      };
-      
-      const handleCanPlay = () => {
-        setIsLoaded(true);
-        retryCount = 0; // Reset on successful load
-      };
-      
-      video.addEventListener('error', handleLoadError);
-      video.addEventListener('canplay', handleCanPlay);
-      
-      // Use requestAnimationFrame for smooth loading
-      requestAnimationFrame(() => {
-        video.load();
-      });
-      
-      return () => {
-        video.removeEventListener('error', handleLoadError);
-        video.removeEventListener('canplay', handleCanPlay);
-      };
-    }
+      try {
+        console.log('OptimizedVideo: Attempting to play:', src);
+        await video.play();
+        setIsPlaying(true);
+        console.log('OptimizedVideo: Playing successfully:', src);
+      } catch (error) {
+        console.warn('OptimizedVideo: Autoplay failed (this is normal):', error);
+        // Don't set error state for autoplay failures - this is expected
+      }
+    };
+
+    // Add event listeners
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('error', handleError);
+    video.addEventListener('canplay', handleCanPlay);
+
+    // Force load immediately
+    video.load();
+
+    return () => {
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('error', handleError);
+      video.removeEventListener('canplay', handleCanPlay);
+    };
   }, [src]);
 
+  // Simple intersection observer for performance optimization
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsInView(entry.isIntersecting);
-        
-        if (entry.isIntersecting && !isLoaded) {
-          // Preload video when it comes into view
-          console.log('Loading video:', src);
-          video.load();
-          setIsLoaded(true);
+        if (entry.isIntersecting && isLoaded && !isPlaying) {
+          // Try to play when coming into view
+          video.play().catch(() => {
+            // Autoplay failed, but that's ok
+          });
         }
       },
       { 
         threshold: 0.1,
-        rootMargin: '100px' // Start loading 100px before it comes into view
+        rootMargin: '50px'
       }
     );
 
     observer.observe(video);
     return () => observer.unobserve(video);
-  }, [isLoaded, src]);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (isInView && isLoaded) {
-      video.play().catch(() => {
-        // Handle autoplay policy restrictions silently
-      });
-    } else if (!isInView) {
-      video.pause();
-    }
-  }, [isInView, isLoaded]);
+  }, [isLoaded, isPlaying]);
 
   return (
     <video
@@ -112,10 +127,13 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
       muted
       loop
       playsInline
-      preload="none"
+      preload="auto" // Changed from "none" to "auto" for immediate loading
       poster={poster}
+      autoPlay={false} // Let our logic handle play attempts
     >
       <source src={src} type="video/mp4" />
+      {/* Fallback for unsupported video */}
+      Your browser does not support the video tag.
     </video>
   );
 };
