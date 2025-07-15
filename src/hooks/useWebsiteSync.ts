@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface WebsiteData {
   content?: any[];
@@ -12,11 +13,90 @@ export const useWebsiteSync = () => {
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   
   useEffect(() => {
-    // Listen for updates from admin panel
-    const channel = new BroadcastChannel('website_updates');
+    console.log('Setting up Supabase real-time subscriptions...');
     
-    const handleMessage = (event: MessageEvent) => {
-      console.log('Website received update:', event.data);
+    // Create Supabase real-time channels for database changes
+    const websiteContentChannel = supabase
+      .channel('website_content_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'website_content'
+        },
+        (payload) => {
+          console.log('Website content changed:', payload);
+          setLastUpdate(new Date());
+          window.dispatchEvent(new CustomEvent('website-content-updated', { 
+            detail: { type: 'content_updated', data: payload.new } 
+          }));
+        }
+      )
+      .subscribe();
+
+    const servicesChannel = supabase
+      .channel('services_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'services'
+        },
+        (payload) => {
+          console.log('Services changed:', payload);
+          setLastUpdate(new Date());
+          window.dispatchEvent(new CustomEvent('website-services-updated', { 
+            detail: { type: 'service_updated', data: payload.new } 
+          }));
+        }
+      )
+      .subscribe();
+
+    const blogPostsChannel = supabase
+      .channel('blog_posts_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'blog_posts'
+        },
+        (payload) => {
+          console.log('Blog posts changed:', payload);
+          setLastUpdate(new Date());
+          window.dispatchEvent(new CustomEvent('website-content-updated', { 
+            detail: { type: 'blog_updated', data: payload.new } 
+          }));
+        }
+      )
+      .subscribe();
+
+    const valuePropsChannel = supabase
+      .channel('value_props_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'value_proposition_features'
+        },
+        (payload) => {
+          console.log('Value proposition features changed:', payload);
+          setLastUpdate(new Date());
+          window.dispatchEvent(new CustomEvent('website-content-updated', { 
+            detail: { type: 'value_props_updated', data: payload.new } 
+          }));
+        }
+      )
+      .subscribe();
+
+    // Fallback: Listen for BroadcastChannel updates (when in same browser/Lovable)
+    const broadcastChannel = new BroadcastChannel('website_updates');
+    
+    const handleBroadcastMessage = (event: MessageEvent) => {
+      console.log('Website received broadcast update:', event.data);
       const { type, data, timestamp } = event.data;
       
       setLastUpdate(new Date(timestamp));
@@ -26,7 +106,6 @@ export const useWebsiteSync = () => {
         case 'content_updated':
         case 'content_added':
         case 'content_deleted':
-          // Reload content sections
           window.dispatchEvent(new CustomEvent('website-content-updated', { 
             detail: { type, data } 
           }));
@@ -35,21 +114,18 @@ export const useWebsiteSync = () => {
         case 'service_updated':
         case 'service_added':
         case 'service_deleted':
-          // Reload services
           window.dispatchEvent(new CustomEvent('website-services-updated', { 
             detail: { type, data } 
           }));
           break;
           
         case 'media_updated':
-          // Reload media
           window.dispatchEvent(new CustomEvent('website-media-updated', { 
             detail: { type, data } 
           }));
           break;
           
         case 'data_updated':
-          // Full data reload
           window.dispatchEvent(new CustomEvent('website-full-reload', { 
             detail: { type, data } 
           }));
@@ -57,12 +133,20 @@ export const useWebsiteSync = () => {
       }
     };
     
-    channel.addEventListener('message', handleMessage);
+    broadcastChannel.addEventListener('message', handleBroadcastMessage);
     setIsListening(true);
     
     return () => {
-      channel.removeEventListener('message', handleMessage);
-      channel.close();
+      console.log('Cleaning up real-time subscriptions...');
+      // Clean up Supabase channels
+      supabase.removeChannel(websiteContentChannel);
+      supabase.removeChannel(servicesChannel);
+      supabase.removeChannel(blogPostsChannel);
+      supabase.removeChannel(valuePropsChannel);
+      
+      // Clean up broadcast channel
+      broadcastChannel.removeEventListener('message', handleBroadcastMessage);
+      broadcastChannel.close();
       setIsListening(false);
     };
   }, []);
