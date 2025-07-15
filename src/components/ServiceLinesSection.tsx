@@ -123,7 +123,7 @@ const ServiceLinesSection = () => {
     }
   ];
 
-  const getIconComponent = (iconName: string) => {
+  const getIconComponent = (iconName: string, isWhite: boolean = false) => {
     const iconMap: Record<string, LucideIcon> = {
       Activity,
       Heart,
@@ -140,8 +140,8 @@ const ServiceLinesSection = () => {
     };
     
     const IconComponent = iconMap[iconName] || Activity;
-    // Force blue color for all icons to match the design
-    return <IconComponent className="h-12 w-12 text-blue-600" />;
+    // Dynamic color based on active state
+    return <IconComponent className={`h-12 w-12 transition-colors duration-300 ${isWhite ? 'text-white' : 'text-blue-600'}`} />;
   };
 
   const getBenefitIcon = (iconName: string) => {
@@ -258,7 +258,7 @@ const ServiceLinesSection = () => {
                       <div className={`w-full h-full rounded-xl lg:rounded-2xl transition-all duration-300 ${
                         getColorClasses(service.color, activeService === index)
                       } flex items-center justify-center shadow-2xl`}>
-                        {getIconComponent(service.icon)}
+                        {getIconComponent(service.icon, activeService === index)}
                       </div>
                     </div>
 
