@@ -140,7 +140,8 @@ const ServiceLinesSection = () => {
     };
     
     const IconComponent = iconMap[iconName] || Activity;
-    return <IconComponent className="h-12 w-12 text-current" />;
+    // Force blue color for all icons to match the design
+    return <IconComponent className="h-12 w-12 text-blue-600" />;
   };
 
   const getBenefitIcon = (iconName: string) => {
@@ -194,12 +195,10 @@ const ServiceLinesSection = () => {
   });
 
   const getColorClasses = useCallback((color: string, isActive: boolean) => {
-    const colors = {
-      blue: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
-      red: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100',
-      cyan: isActive ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
-    };
-    return colors[color as keyof typeof colors];
+    // All services get the same blue treatment as requested
+    return isActive 
+      ? 'bg-gradient-to-r from-[#0080ff] to-[#0066cc] text-white shadow-blue-600/25' 
+      : 'text-blue-600 bg-blue-50 hover:bg-gradient-to-r hover:from-[#0080ff] hover:to-[#0066cc] hover:text-white';
   }, []);
 
   return (
