@@ -48,7 +48,6 @@ interface LeadCaptureFormProps {
 const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, source = 'website' }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     first_name: '',
     last_name: '',
@@ -142,15 +141,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
 
       if (error) throw error;
 
-      // Show success modal with fireworks
-      setShowSuccessModal(true);
+      toast({
+        title: "Demo request submitted successfully!",
+        description: "We'll contact you within 24 hours to schedule your demo.",
+      });
       
-      // Auto-close after 15 seconds (3x longer)
-      setTimeout(() => {
-        setShowSuccessModal(false);
-        onSuccess?.();
-        onClose?.();
-      }, 15000);
+      onSuccess?.();
+      onClose?.();
       
     } catch (error) {
       console.error('Error submitting lead:', error);
@@ -168,71 +165,66 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-2">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-4">
               <User className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Contact Information</h3>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="first_name" className="modern-label text-left block">First Name *</Label>
+                <Label htmlFor="first_name">First Name *</Label>
                 <Input
                   id="first_name"
                   value={formData.first_name}
                   onChange={(e) => updateFormData('first_name', e.target.value)}
                   placeholder="John"
-                  className="modern-field"
                 />
               </div>
               <div>
-                <Label htmlFor="last_name" className="modern-label text-left block">Last Name *</Label>
+                <Label htmlFor="last_name">Last Name *</Label>
                 <Input
                   id="last_name"
                   value={formData.last_name}
                   onChange={(e) => updateFormData('last_name', e.target.value)}
                   placeholder="Doe"
-                  className="modern-field"
                 />
               </div>
             </div>
             <div>
-              <Label htmlFor="email" className="modern-label text-left block">Email *</Label>
+              <Label htmlFor="email">Email *</Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => updateFormData('email', e.target.value)}
                 placeholder="john.doe@company.com"
-                className="modern-field"
               />
             </div>
             <div>
-              <Label htmlFor="phone" className="modern-label text-left block">Phone</Label>
+              <Label htmlFor="phone">Phone</Label>
               <Input
                 id="phone"
                 value={formData.phone}
                 onChange={(e) => updateFormData('phone', e.target.value)}
                 placeholder="+1 (555) 123-4567"
-                className="modern-field"
               />
             </div>
             <div>
-              <Label htmlFor="company" className="modern-label text-left block">Company *</Label>
+              <Label htmlFor="company">Company *</Label>
               <Input
                 id="company"
                 value={formData.company}
                 onChange={(e) => updateFormData('company', e.target.value)}
                 placeholder="Company Name"
-                className="modern-field"
               />
             </div>
             <div>
-              <Label htmlFor="job_title" className="modern-label text-left block">Job Title</Label>
+              <Label htmlFor="job_title">Job Title</Label>
               <Select value={formData.job_title} onValueChange={(value) => updateFormData('job_title', value)}>
-                <SelectTrigger className="modern-field">
+                <SelectTrigger>
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
-                <SelectContent className="z-[99999]">
+                <SelectContent>
                   <SelectItem value="ceo">Chief Executive Officer (CEO)</SelectItem>
                   <SelectItem value="cto">Chief Technology Officer (CTO)</SelectItem>
                   <SelectItem value="cfo">Chief Financial Officer (CFO)</SelectItem>
@@ -244,12 +236,6 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                   <SelectItem value="director-it">Director of IT</SelectItem>
                   <SelectItem value="director-operations">Director of Operations</SelectItem>
                   <SelectItem value="it-manager">IT Manager</SelectItem>
-                  <SelectItem value="operations-manager">Operations Manager</SelectItem>
-                  <SelectItem value="clinical-director">Clinical Director</SelectItem>
-                  <SelectItem value="nursing-director">Nursing Director</SelectItem>
-                  <SelectItem value="administrator">Administrator</SelectItem>
-                  <SelectItem value="project-manager">Project Manager</SelectItem>
-                  <SelectItem value="consultant">Consultant</SelectItem>
                   <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
@@ -259,34 +245,33 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
 
       case 2:
         return (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-2">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-4">
               <Building className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Company Information</h3>
             </div>
             <div>
-              <Label htmlFor="company_size" className="modern-label text-left block">Company Size *</Label>
+              <Label htmlFor="company_size">Company Size *</Label>
               <Select value={formData.company_size} onValueChange={(value) => updateFormData('company_size', value)}>
-                <SelectTrigger className="modern-field">
+                <SelectTrigger>
                   <SelectValue placeholder="Select company size" />
                 </SelectTrigger>
-                <SelectContent className="z-[99999]">
+                <SelectContent>
                   <SelectItem value="1-10">1-10 employees</SelectItem>
                   <SelectItem value="11-50">11-50 employees</SelectItem>
                   <SelectItem value="51-200">51-200 employees</SelectItem>
                   <SelectItem value="201-500">201-500 employees</SelectItem>
-                  <SelectItem value="501-1000">501-1000 employees</SelectItem>
-                  <SelectItem value="1000+">1000+ employees</SelectItem>
+                  <SelectItem value="500+">500+ employees</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label htmlFor="industry" className="modern-label text-left block">Industry *</Label>
+              <Label htmlFor="industry">Industry *</Label>
               <Select value={formData.industry} onValueChange={(value) => updateFormData('industry', value)}>
-                <SelectTrigger className="modern-field">
+                <SelectTrigger>
                   <SelectValue placeholder="Select industry" />
                 </SelectTrigger>
-                <SelectContent className="z-[99999]">
+                <SelectContent>
                   <SelectItem value="healthcare">Healthcare</SelectItem>
                   <SelectItem value="hospital">Hospital System</SelectItem>
                   <SelectItem value="clinic">Clinic/Practice</SelectItem>
@@ -297,22 +282,21 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </Select>
             </div>
             <div>
-              <Label htmlFor="current_solution" className="modern-label text-left block">Current Solution</Label>
+              <Label htmlFor="current_solution">Current Solution</Label>
               <Input
                 id="current_solution"
                 value={formData.current_solution}
                 onChange={(e) => updateFormData('current_solution', e.target.value)}
                 placeholder="What solution are you currently using?"
-                className="modern-field"
               />
             </div>
             <div>
-              <Label htmlFor="annual_revenue" className="modern-label text-left block">Annual Revenue</Label>
+              <Label htmlFor="annual_revenue">Annual Revenue</Label>
               <Select value={formData.annual_revenue} onValueChange={(value) => updateFormData('annual_revenue', value)}>
-                <SelectTrigger className="modern-field">
+                <SelectTrigger>
                   <SelectValue placeholder="Select annual revenue" />
                 </SelectTrigger>
-                <SelectContent className="z-[99999]">
+                <SelectContent>
                   <SelectItem value="under-1m">Under $1M</SelectItem>
                   <SelectItem value="1m-5m">$1M - $5M</SelectItem>
                   <SelectItem value="5m-10m">$5M - $10M</SelectItem>
@@ -327,18 +311,18 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
 
       case 3:
         return (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-2">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-4">
               <Target className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Requirements</h3>
             </div>
             <div>
-              <Label htmlFor="primary_challenge" className="modern-label text-left block">Primary Challenge *</Label>
+              <Label htmlFor="primary_challenge">Primary Challenge *</Label>
               <Select value={formData.primary_challenge} onValueChange={(value) => updateFormData('primary_challenge', value)}>
-                <SelectTrigger className="modern-field">
+                <SelectTrigger>
                   <SelectValue placeholder="What's your biggest challenge?" />
                 </SelectTrigger>
-                <SelectContent className="z-[99999]">
+                <SelectContent>
                   <SelectItem value="patient-outcomes">Improving patient outcomes</SelectItem>
                   <SelectItem value="operational-efficiency">Operational efficiency</SelectItem>
                   <SelectItem value="cost-reduction">Cost reduction</SelectItem>
@@ -349,7 +333,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </Select>
             </div>
             <div>
-              <Label className="modern-label text-left block">Interested Services * (Select all that apply)</Label>
+              <Label>Interested Services * (Select all that apply)</Label>
               <div className="grid grid-cols-2 gap-2 mt-2">
                 {['Remote Monitoring', 'Telemedicine', 'Home Healthcare', 'Clinical Analytics', 'Care Coordination', 'Patient Engagement'].map((service) => (
                   <div key={service} className="flex items-center space-x-2">
@@ -357,20 +341,19 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                       id={service}
                       checked={formData.interested_services.includes(service)}
                       onCheckedChange={(checked) => handleServicesChange(service, checked as boolean)}
-                      className="modern-checkbox"
                     />
-                    <Label htmlFor={service} className="text-sm font-medium text-gray-700">{service}</Label>
+                    <Label htmlFor={service} className="text-sm">{service}</Label>
                   </div>
                 ))}
               </div>
             </div>
             <div>
-              <Label htmlFor="timeline" className="modern-label text-left block">Implementation Timeline *</Label>
+              <Label htmlFor="timeline">Implementation Timeline *</Label>
               <Select value={formData.timeline} onValueChange={(value) => updateFormData('timeline', value)}>
-                <SelectTrigger className="modern-field">
+                <SelectTrigger>
                   <SelectValue placeholder="When do you need this?" />
                 </SelectTrigger>
-                <SelectContent className="z-[99999]">
+                <SelectContent>
                   <SelectItem value="immediate">Immediate (0-30 days)</SelectItem>
                   <SelectItem value="short-term">Short-term (1-3 months)</SelectItem>
                   <SelectItem value="medium-term">Medium-term (3-6 months)</SelectItem>
@@ -379,12 +362,12 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </Select>
             </div>
             <div>
-              <Label htmlFor="budget_range" className="modern-label text-left block">Budget Range</Label>
+              <Label htmlFor="budget_range">Budget Range</Label>
               <Select value={formData.budget_range} onValueChange={(value) => updateFormData('budget_range', value)}>
-                <SelectTrigger className="modern-field">
+                <SelectTrigger>
                   <SelectValue placeholder="Select budget range" />
                 </SelectTrigger>
-                <SelectContent className="z-[99999]">
+                <SelectContent>
                   <SelectItem value="under-50k">Under $50K</SelectItem>
                   <SelectItem value="50k-100k">$50K - $100K</SelectItem>
                   <SelectItem value="100k-250k">$100K - $250K</SelectItem>
@@ -398,38 +381,36 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
                 id="decision_maker"
                 checked={formData.decision_maker}
                 onCheckedChange={(checked) => updateFormData('decision_maker', checked)}
-                className="modern-checkbox"
               />
-              <Label htmlFor="decision_maker" className="text-sm font-medium text-gray-700">I am a decision maker for this purchase</Label>
+              <Label htmlFor="decision_maker">I am a decision maker for this purchase</Label>
             </div>
           </div>
         );
 
       case 4:
         return (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-2">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-4">
               <Calendar className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Schedule Your Demo</h3>
             </div>
             <div>
-              <Label htmlFor="preferred_date" className="modern-label text-left block">Preferred Date *</Label>
+              <Label htmlFor="preferred_date">Preferred Date *</Label>
               <Input
                 id="preferred_date"
                 type="date"
                 value={formData.preferred_date}
                 onChange={(e) => updateFormData('preferred_date', e.target.value)}
                 min={new Date().toISOString().split('T')[0]}
-                className="modern-field"
               />
             </div>
             <div>
-              <Label htmlFor="preferred_time" className="modern-label text-left block">Preferred Time *</Label>
+              <Label htmlFor="preferred_time">Preferred Time *</Label>
               <Select value={formData.preferred_time} onValueChange={(value) => updateFormData('preferred_time', value)}>
-                <SelectTrigger className="modern-field">
+                <SelectTrigger>
                   <SelectValue placeholder="Select time" />
                 </SelectTrigger>
-                <SelectContent className="z-[99999]">
+                <SelectContent>
                   <SelectItem value="9:00 AM">9:00 AM</SelectItem>
                   <SelectItem value="10:00 AM">10:00 AM</SelectItem>
                   <SelectItem value="11:00 AM">11:00 AM</SelectItem>
@@ -443,22 +424,21 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
               </Select>
             </div>
             <div>
-              <Label htmlFor="timezone" className="modern-label text-left block">Timezone</Label>
+              <Label htmlFor="timezone">Timezone</Label>
               <Input
                 id="timezone"
                 value={formData.timezone}
                 onChange={(e) => updateFormData('timezone', e.target.value)}
                 placeholder="Your timezone"
-                className="modern-field"
               />
             </div>
             <div>
-              <Label htmlFor="demo_type" className="modern-label text-left block">Demo Type</Label>
+              <Label htmlFor="demo_type">Demo Type</Label>
               <Select value={formData.demo_type} onValueChange={(value) => updateFormData('demo_type', value)}>
-                <SelectTrigger className="modern-field">
+                <SelectTrigger>
                   <SelectValue placeholder="Select demo type" />
                 </SelectTrigger>
-                <SelectContent className="z-[99999]">
+                <SelectContent>
                   <SelectItem value="virtual">Virtual Demo</SelectItem>
                   <SelectItem value="in-person">In-Person Demo</SelectItem>
                   <SelectItem value="phone">Phone Call</SelectItem>
@@ -473,97 +453,54 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({ onClose, onSuccess, s
     }
   };
 
-  const progress = (currentStep / 4) * 100;
+  const progressPercentage = (currentStep / 4) * 100;
 
   return (
-    <div className="w-full font-apple">
-      {/* Success Modal with Fireworks */}
-      {showSuccessModal && (
-        <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
-          <div className="relative">
-            {/* Success Modal Content */}
-            <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl w-full max-w-md p-8 text-center border border-white/20 animate-bounce-gentle">
-              <div className="mx-auto mb-6 w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg checkmark-container">
-                <CheckCircle className="w-8 h-8 text-white checkmark-swoop" />
-              </div>
-              
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Your demo request has been sent!
-              </h2>
-              
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                Please wait for our team to send you email confirmation with calendar invite and Zoom link. 
-                <br /><br />
-                <span className="font-semibold text-primary">We look forward to meeting with you!</span>
-              </p>
-            </div>
-          </div>
+    <Card className="w-full max-w-2xl mx-auto">
+      <CardHeader>
+        <div className="flex justify-between items-center mb-4">
+          <CardTitle>Request Demo - Step {currentStep} of 4</CardTitle>
+          <span className="text-sm text-gray-500">{Math.round(progressPercentage)}% Complete</span>
         </div>
-      )}
-
-      {/* Progress bar */}
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-3">
-          <span className="text-sm font-medium text-gray-500">Step {currentStep} of 4</span>
-          <span className="font-semibold" style={{
-            background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }}>{Math.round(progress)}% Complete</span>
-        </div>
-        <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
-          <div 
-            className="h-full transition-all duration-700 ease-out shadow-sm rounded-full"
-            style={{ 
-              width: `${progress}%`,
-              background: 'linear-gradient(145deg, #0080ff 0%, #0066cc 30%, #004d99 100%)'
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Form content */}
-      <div className="min-h-[400px]">
+        <Progress value={progressPercentage} className="w-full" />
+      </CardHeader>
+      
+      <CardContent>
         {renderStep()}
-      </div>
-
-      {/* Navigation buttons */}
-      <div className="flex justify-between mt-8 pt-6 border-t border-gray-100">
-        <button
-          onClick={currentStep === 1 ? onClose : handlePrevious}
-          disabled={isSubmitting}
-          className="px-6 py-3 text-gray-600 font-medium hover:text-gray-800 transition-colors duration-200 rounded-xl hover:bg-gray-50"
-        >
-          {currentStep === 1 ? 'Cancel' : '← Previous'}
-        </button>
-
-        {currentStep < 4 ? (
-          <button
-            onClick={handleNext}
-            disabled={isSubmitting}
-            className="modern-button-primary"
+        
+        <div className="flex justify-between mt-6">
+          <Button
+            variant="outline"
+            onClick={handlePrevious}
+            disabled={currentStep === 1}
           >
-            Next →
-          </button>
-        ) : (
-          <button
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            className="modern-button-primary min-w-[140px]"
-          >
-            {isSubmitting ? (
-              <div className="flex items-center justify-center">
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                Submitting...
-              </div>
-            ) : (
-              'Submit Request'
-            )}
-          </button>
-        )}
-      </div>
-    </div>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Previous
+          </Button>
+          
+          {currentStep < 4 ? (
+            <Button onClick={handleNext}>
+              Next
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          ) : (
+            <Button onClick={handleSubmit} disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  Submit Request
+                  <CheckCircle className="h-4 w-4 ml-2" />
+                </>
+              )}
+            </Button>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
