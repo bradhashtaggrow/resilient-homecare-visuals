@@ -117,7 +117,7 @@ const Contact = () => {
       />
 
       {/* Contact Form Section */}
-      <section className="py-24 bg-gradient-to-br from-[#0080ff]/5 to-[#0066cc]/10">
+      <section className="py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Contact Information */}
