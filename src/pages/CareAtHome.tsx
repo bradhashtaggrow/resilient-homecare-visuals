@@ -48,11 +48,14 @@ const CareAtHome = () => {
 
         if (heroData && !heroError) {
           console.log('Loaded care at home hero content:', heroData);
+          // Split the title properly - the CMS stores the full title, we need to split it
+          const fullTitle = heroData.title || 'Hospital-Level Care. At Home.';
+          const parts = fullTitle.split('.');
           const newHeroContent = {
-            title: heroData.title || 'What is',
-            highlightedText: heroData.subtitle || 'Resilient Community?',
+            title: parts[0] + '.',  // "Hospital-Level Care."
+            highlightedText: parts[1] ? parts[1].trim() : 'At Home',  // "At Home"
             description: heroData.description || '',
-            backgroundVideoUrl: heroData.background_video_url || '' // No fallback, only database video
+            backgroundVideoUrl: heroData.background_video_url || ''
           };
           console.log('Setting new hero content:', newHeroContent);
           setHeroContent(newHeroContent);
