@@ -9,12 +9,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { Globe, Loader2, Eye, EyeOff, Shield, Lock } from 'lucide-react';
 import OptimizedVideo from '@/components/OptimizedVideo';
+import { AdminUserCreator } from '@/components/AdminUserCreator';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showAdminCreator, setShowAdminCreator] = useState(false);
   const { signIn, user, isAdmin } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -181,10 +183,25 @@ const Login = () => {
         </Card>
 
         {/* Enhanced Footer Text */}
-        <div className="text-center mt-6">
+        <div className="text-center mt-6 space-y-4">
           <p className="text-white/60 text-sm">
             
           </p>
+          {/* Admin Creator Toggle */}
+          <Button 
+            variant="ghost" 
+            onClick={() => setShowAdminCreator(!showAdminCreator)}
+            className="text-white/70 hover:text-white/90 text-xs"
+          >
+            {showAdminCreator ? 'Hide Admin Creator' : 'Create Admin User'}
+          </Button>
+          
+          {/* Admin Creator Component */}
+          {showAdminCreator && (
+            <div className="mt-4">
+              <AdminUserCreator />
+            </div>
+          )}
         </div>
       </div>
     </div>
