@@ -77,6 +77,17 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Handle navigation requests (SPA routing)
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          return caches.match('/');
+        })
+    );
+    return;
+  }
+
   // Default strategy for other requests
   event.respondWith(
     caches.match(event.request)
