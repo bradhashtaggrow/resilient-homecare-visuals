@@ -45,6 +45,28 @@ const News = () => {
     setupRealtimeSubscription();
   }, []);
 
+  // Override the default dialog scroll lock behavior
+  useEffect(() => {
+    // Always keep body scrollable
+    document.body.style.overflow = 'auto';
+    document.body.style.paddingRight = '0px';
+    
+    // Remove any scroll lock classes that might be added
+    const observer = new MutationObserver(() => {
+      document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '0px';
+    });
+    
+    observer.observe(document.body, { 
+      attributes: true, 
+      attributeFilter: ['style', 'class'] 
+    });
+    
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const loadHeroContent = async () => {
     try {
       const { data: heroData, error } = await supabase
