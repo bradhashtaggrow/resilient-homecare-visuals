@@ -37,7 +37,7 @@ const Navigation = () => {
         }}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-16">
+          <div className="flex items-center h-20">
             {/* Logo and Navigation - Left Side */}
             <div className="flex items-center space-x-12 flex-1">
               <Link to="/" className="transition-transform duration-200 hover:scale-105 flex items-center">
