@@ -44,7 +44,7 @@ const Navigation = () => {
                 <img 
                   src="/lovable-uploads/06ab3abd-d10d-4743-8d6c-c0704b9ecf95.png" 
                   alt="Resilient Healthcare" 
-                  className="h-10 w-auto"
+                  className="h-16 w-auto"
                 />
               </Link>
               
