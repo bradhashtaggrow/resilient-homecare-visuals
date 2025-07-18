@@ -22,15 +22,27 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = React.memo(({
     // Set preload for faster loading
     video.preload = 'metadata';
     
-    // Instant play when ready
+    // Reset video to start and handle loading
     const handleLoadedData = () => {
+      // Ensure video always starts from the beginning
+      video.currentTime = 0;
       video.play().catch(() => {
         // Autoplay blocked, but video is ready
       });
     };
 
+    // Handle metadata loaded to ensure proper timing
+    const handleLoadedMetadata = () => {
+      video.currentTime = 0;
+    };
+
     video.addEventListener('loadeddata', handleLoadedData);
-    return () => video.removeEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    
+    return () => {
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+    };
   }, [src]);
 
   if (!src) return null;
