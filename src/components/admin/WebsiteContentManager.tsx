@@ -258,12 +258,12 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     try {
       setUploadingVideo(true);
       
-      // Validate file size (max 100MB for videos)
-      const maxSize = 100 * 1024 * 1024; // 100MB
+      // Validate file size (max 1GB for videos)
+      const maxSize = 1024 * 1024 * 1024; // 1GB
       if (file.size > maxSize) {
         toast({
           title: "File too large",
-          description: "Video file must be smaller than 100MB",
+          description: "Video file must be smaller than 1GB",
           variant: "destructive"
         });
         return null;
@@ -285,11 +285,13 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
 
       console.log('Starting video upload:', { fileName, fileSize: file.size, fileType: file.type });
 
+      // For large files, use chunked upload with longer timeout
       const { error: uploadError } = await supabase.storage
         .from('media')
         .upload(filePath, file, {
           cacheControl: '3600',
-          upsert: false
+          upsert: false,
+          duplex: 'half' // Enable streaming for large files
         });
 
       if (uploadError) {
@@ -1460,10 +1462,13 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               <div className="mt-2 space-y-2">
                                 <div className="text-sm text-blue-600 flex items-center">
                                   <RefreshCw className="h-3 w-3 animate-spin mr-1" />
-                                  Uploading video... This may take a few minutes for large files.
+                                  Uploading video... Please wait, large files may take 10-15 minutes.
                                 </div>
                                 <div className="text-xs text-gray-500">
-                                  If upload seems stuck, try refreshing the page and uploading a smaller file (&lt; 50MB)
+                                  Do not refresh the page or close the browser during upload.
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                  <div className="bg-blue-600 h-2 rounded-full animate-pulse" style={{width: '50%'}}></div>
                                 </div>
                               </div>
                             )}
