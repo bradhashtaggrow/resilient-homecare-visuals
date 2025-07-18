@@ -110,28 +110,16 @@ const HeroSection = React.memo(() => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
-      {/* Background Media - Using working pattern from MobileShowcase */}
-      <div className="absolute inset-0 z-0">
-        {content?.background_video_url ? (
+      {/* Database Video Only - Instant Load */}
+      {content?.background_video_url && (
+        <div className="absolute inset-0 z-0">
           <OptimizedVideo
-            key={content.background_video_url} // Force re-render when URL changes
+            key={content.background_video_url}
             src={content.background_video_url}
             className="absolute inset-0 w-full h-full object-cover"
           />
-        ) : content?.background_image_url ? (
-          <img
-            src={content.background_image_url}
-            alt="Hero background"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        ) : (
-          <OptimizedVideo
-            src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        )}
-        <div className="absolute inset-0 bg-black/30" />
-      </div>
+        </div>
+      )}
 
       {/* Mobile Background */}
       {content?.mobile_background_url && (

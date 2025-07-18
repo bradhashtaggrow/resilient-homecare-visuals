@@ -15,81 +15,22 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
   poster 
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [hasError, setHasError] = useState(false);
 
-  // Ultra-fast video loading for millisecond performance
+  // Instant video loading - no delays
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !src) return;
 
-    setHasError(false);
-    setIsLoaded(false);
-    setIsPlaying(false);
-
-    const handleLoadStart = () => {
-      // Set loaded immediately on loadstart for faster rendering
-      setIsLoaded(true);
-    };
-
+    // Immediate play on load
     const handleCanPlay = () => {
-      setIsLoaded(true);
-      // Immediate play attempt
       video.play().catch(() => {
-        // Autoplay may fail, but that's expected
+        console.log('Autoplay blocked, but video is ready');
       });
     };
 
-    const handleLoadedData = () => {
-      setIsLoaded(true);
-      setIsPlaying(true);
-    };
-
-    const handleError = () => {
-      setHasError(true);
-    };
-
-    // Add event listeners for fastest response
-    video.addEventListener('loadstart', handleLoadStart);
     video.addEventListener('canplay', handleCanPlay);
-    video.addEventListener('loadeddata', handleLoadedData);
-    video.addEventListener('error', handleError);
-
-    // Force immediate load
-    video.load();
-
-    return () => {
-      video.removeEventListener('loadstart', handleLoadStart);
-      video.removeEventListener('canplay', handleCanPlay);
-      video.removeEventListener('loadeddata', handleLoadedData);
-      video.removeEventListener('error', handleError);
-    };
+    return () => video.removeEventListener('canplay', handleCanPlay);
   }, [src]);
-
-  // Simple intersection observer for performance optimization
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && isLoaded && !isPlaying) {
-          // Try to play when coming into view
-          video.play().catch(() => {
-            // Autoplay failed, but that's ok
-          });
-        }
-      },
-      { 
-        threshold: 0.1,
-        rootMargin: '50px'
-      }
-    );
-
-    observer.observe(video);
-    return () => observer.unobserve(video);
-  }, [isLoaded, isPlaying]);
 
   return (
     <video
@@ -99,13 +40,10 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
       muted
       loop
       playsInline
-      preload="auto" // Changed from "none" to "auto" for immediate loading
-      poster={poster}
-      autoPlay={false} // Let our logic handle play attempts
+      preload="auto"
+      autoPlay
     >
       <source src={src} type="video/mp4" />
-      {/* Fallback for unsupported video */}
-      Your browser does not support the video tag.
     </video>
   );
 };
