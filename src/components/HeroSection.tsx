@@ -16,14 +16,8 @@ interface HeroContent {
 }
 
 const HeroSection = React.memo(() => {
-  // Start with defaults immediately visible
-  const [content, setContent] = useState<HeroContent>({
-    title: 'The Future of Healthcare',
-    description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
-    button_text: 'Request Demo',
-    button_url: '#',
-    background_video_url: '' // No default video, only database video
-  });
+  // Start with empty content, only show real-time CMS data
+  const [content, setContent] = useState<HeroContent>({});
 
   useEffect(() => {
     // Load database content immediately without any delay
