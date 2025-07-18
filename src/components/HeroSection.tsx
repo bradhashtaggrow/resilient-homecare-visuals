@@ -22,7 +22,7 @@ const HeroSection = React.memo(() => {
     description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
     button_text: 'Request Demo',
     button_url: '#',
-    background_video_url: '' // Will load from database
+    background_video_url: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4' // Start with video immediately
   });
 
   useEffect(() => {
@@ -103,16 +103,14 @@ const HeroSection = React.memo(() => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
-      {/* Database Video - Show if Available */}
-      {content?.background_video_url && (
-        <div className="absolute inset-0 z-0">
-          <OptimizedVideo
-            key={content.background_video_url}
-            src={content.background_video_url}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        </div>
-      )}
+      {/* Video Background - Always Show */}
+      <div className="absolute inset-0 z-0">
+        <OptimizedVideo
+          key={content.background_video_url}
+          src={content.background_video_url}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
 
       {/* Mobile Background */}
       {content?.mobile_background_url && (
