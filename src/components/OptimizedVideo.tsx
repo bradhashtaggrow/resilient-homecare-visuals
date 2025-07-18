@@ -59,12 +59,11 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
       muted
       loop
       playsInline
-      preload="auto"
+      preload="metadata"
       poster={poster}
       autoPlay
     >
       <source src={src} type="video/mp4" />
-      Your browser does not support the video tag.
     </video>
   );
 };
