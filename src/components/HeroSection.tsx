@@ -102,27 +102,31 @@ const HeroSection = React.memo(() => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
-      {/* Background Media - Using working pattern from MobileShowcase */}
-      <div className="absolute inset-0 z-0">
-        {content?.background_video_url ? (
-          <OptimizedVideo
-            key={content.background_video_url} // Force re-render when URL changes
-            src={content.background_video_url}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        ) : content?.background_image_url ? (
-          <img
-            src={content.background_image_url}
-            alt="Hero background"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        ) : null}
-        <div className="absolute inset-0 bg-black/30" />
+      {/* Immediate Background - No waiting, instant display */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900">
+        {/* Instant background pattern/texture */}
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_0%,transparent_50%)]" />
+        <div className="absolute inset-0 bg-black/20" />
       </div>
+
+      {/* Video Background - Loads over the instant background */}
+      {content?.background_video_url && (
+        <div className="absolute inset-0 z-1">
+          <OptimizedVideo
+            key={content.background_video_url}
+            src={content.background_video_url}
+            className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
+            style={{
+              willChange: 'opacity'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      )}
 
       {/* Mobile Background */}
       {content?.mobile_background_url && (
-        <div className="absolute inset-0 z-0 md:hidden">
+        <div className="absolute inset-0 z-1 md:hidden">
           <img
             src={content.mobile_background_url}
             alt="Mobile hero background"

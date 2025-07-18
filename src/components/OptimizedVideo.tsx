@@ -16,31 +16,38 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Ultra-fast video loading - NO states, NO delays, instant rendering
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !src) return;
 
-    // Immediate load and play - no waiting for events
-    video.load();
+    console.log('Loading video:', src);
     
-    // Aggressive autoplay attempt
-    const playVideo = async () => {
-      try {
-        await video.play();
-      } catch (error) {
-        // Silent fail for autoplay restrictions
-        console.log('Autoplay prevented, user interaction required');
-      }
+    const handleCanPlay = () => {
+      console.log('Video can play, making visible');
+      video.style.opacity = '1';
+      video.play().catch(console.log);
     };
+
+    const handleLoadedData = () => {
+      console.log('Video loaded data');
+      video.style.opacity = '1';
+    };
+
+    const handleError = (e) => {
+      console.error('Video load error:', e);
+    };
+
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('error', handleError);
     
-    // Play immediately when any data is available
-    video.addEventListener('loadstart', playVideo);
-    video.addEventListener('canplay', playVideo);
-    
+    // Immediate load
+    video.load();
+
     return () => {
-      video.removeEventListener('loadstart', playVideo);
-      video.removeEventListener('canplay', playVideo);
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('error', handleError);
     };
   }, [src]);
 
