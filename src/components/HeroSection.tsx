@@ -94,7 +94,7 @@ const HeroSection = React.memo(() => {
                 }}
               >
                 <span className="relative z-10 flex items-center justify-center">
-                  {content.button_text}
+                  {content.button_text || 'Request Demo'}
                 </span>
               </Button>
             </LeadCaptureModal>
