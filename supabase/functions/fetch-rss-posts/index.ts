@@ -81,8 +81,15 @@ serve(async (req) => {
 
     const rssText = await rssResponse.text();
     
+    // Handle HTML entities in RSS feeds (especially PR Newswire)
+    const cleanRssText = rssText.replace(/&lt;/g, '<')
+                                .replace(/&gt;/g, '>')
+                                .replace(/&amp;/g, '&')
+                                .replace(/&quot;/g, '"')
+                                .replace(/&#39;/g, "'");
+    
     // Parse RSS XML
-    const items = parseRSSFeed(rssText);
+    const items = parseRSSFeed(cleanRssText);
     
     let newPostsCount = 0;
 
@@ -180,6 +187,8 @@ function parseRSSFeed(xmlText: string): RSSItem[] {
         let featuredImage = 
           // Try media namespace tags first (most reliable)
           extractImageFromMeta(itemXml) ||
+          // PR Newswire specific extraction
+          extractPRNewswireImage(itemXml) ||
           // Try content extraction
           extractImageFromContent(content) ||
           extractImageFromContent(description) ||
@@ -273,6 +282,36 @@ function extractImageFromMeta(xml: string): string | null {
   const imageMatch = xml.match(imageRegex);
   if (imageMatch) {
     return imageMatch[1];
+  }
+  
+  return null;
+}
+
+function extractPRNewswireImage(xml: string): string | null {
+  // PR Newswire specific image extraction patterns
+  const patterns = [
+    // Look for prn:multimedia elements
+    /<prn:multimedia[^>]+url=["']([^"']+)["'][^>]*>/i,
+    /<prn:multimedia[^>]*>[\s\S]*?<url>([^<]+)<\/url>[\s\S]*?<\/prn:multimedia>/i,
+    
+    // Look for prn:image elements
+    /<prn:image[^>]+url=["']([^"']+)["'][^>]*>/i,
+    /<prn:image[^>]*>([^<]+)<\/prn:image>/i,
+    
+    // PR Newswire sometimes puts images in multimedia blocks
+    /<multimedia[^>]*>[\s\S]*?<url>([^<]*\.(jpg|jpeg|png|gif|webp|bmp)[^<]*)<\/url>[\s\S]*?<\/multimedia>/i,
+    
+    // Look for any image URLs in the description that might be from PR Newswire CDN
+    /https?:\/\/[^\/]*prnewswire[^\/]*\/[^"\s]+\.(jpg|jpeg|png|gif|webp|bmp)/i,
+    /https?:\/\/[^\/]*prn[^\/]*\/[^"\s]+\.(jpg|jpeg|png|gif|webp|bmp)/i,
+  ];
+  
+  for (const pattern of patterns) {
+    const match = xml.match(pattern);
+    if (match && match[1]) {
+      console.log(`Found PR Newswire image: ${match[1]}`);
+      return match[1];
+    }
   }
   
   return null;
