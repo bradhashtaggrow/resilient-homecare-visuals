@@ -70,7 +70,8 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ children, source = 
       onClick={handleBackdropClick}
       style={{ 
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        backdropFilter: 'blur(4px)'
+        backdropFilter: 'blur(4px)',
+        zIndex: 999999
       }}
       onLoad={() => console.log('Modal backdrop loaded')}
     >
