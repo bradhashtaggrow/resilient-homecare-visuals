@@ -258,26 +258,57 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     try {
       setUploadingVideo(true);
       
+      // Validate file size (max 100MB for videos)
+      const maxSize = 100 * 1024 * 1024; // 100MB
+      if (file.size > maxSize) {
+        toast({
+          title: "File too large",
+          description: "Video file must be smaller than 100MB",
+          variant: "destructive"
+        });
+        return null;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('video/')) {
+        toast({
+          title: "Invalid file type",
+          description: "Please select a video file",
+          variant: "destructive"
+        });
+        return null;
+      }
+      
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
       const filePath = `website-content/${fileName}`;
 
+      console.log('Starting video upload:', { fileName, fileSize: file.size, fileType: file.type });
+
       const { error: uploadError } = await supabase.storage
         .from('media')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        throw uploadError;
+      }
 
       const { data } = supabase.storage
         .from('media')
         .getPublicUrl(filePath);
 
+      console.log('Video upload successful:', data.publicUrl);
       return data.publicUrl;
     } catch (error) {
       console.error('Error uploading video:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       toast({
         title: "Upload failed",
-        description: "Failed to upload background video",
+        description: `Failed to upload video: ${errorMessage}`,
         variant: "destructive"
       });
       return null;
@@ -290,17 +321,31 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const url = type === 'image' ? await handleImageUpload(file) : await handleVideoUpload(file);
-    if (url) {
-      setEditForm({
-        ...editForm,
-        [type === 'image' ? 'background_image_url' : 'background_video_url']: url
-      });
+    try {
+      console.log(`Starting ${type} upload:`, { name: file.name, size: file.size, type: file.type });
       
+      const url = type === 'image' ? await handleImageUpload(file) : await handleVideoUpload(file);
+      if (url) {
+        setEditForm({
+          ...editForm,
+          [type === 'image' ? 'background_image_url' : 'background_video_url']: url
+        });
+        
+        toast({
+          title: "Upload successful",
+          description: `Background ${type} uploaded successfully`,
+        });
+      }
+    } catch (error) {
+      console.error(`Error in ${type} upload handler:`, error);
       toast({
-        title: "Upload successful",
-        description: `Background ${type} uploaded successfully`,
+        title: "Upload error",
+        description: `An error occurred while uploading the ${type}`,
+        variant: "destructive"
       });
+    } finally {
+      // Reset the input so the same file can be selected again if needed
+      e.target.value = '';
     }
   };
 
@@ -1412,9 +1457,14 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                               className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                             />
                             {uploadingVideo && (
-                              <div className="mt-2 text-sm text-blue-600 flex items-center">
-                                <RefreshCw className="h-3 w-3 animate-spin mr-1" />
-                                Uploading video...
+                              <div className="mt-2 space-y-2">
+                                <div className="text-sm text-blue-600 flex items-center">
+                                  <RefreshCw className="h-3 w-3 animate-spin mr-1" />
+                                  Uploading video... This may take a few minutes for large files.
+                                </div>
+                                <div className="text-xs text-gray-500">
+                                  If upload seems stuck, try refreshing the page and uploading a smaller file (&lt; 50MB)
+                                </div>
                               </div>
                             )}
                             {(() => {
