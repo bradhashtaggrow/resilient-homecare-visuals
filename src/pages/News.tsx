@@ -37,15 +37,15 @@ const News = () => {
   const [modalTop, setModalTop] = useState(0);
   // Modal management state
   const [heroContent, setHeroContent] = useState<HeroContent>({
-    title: "Healthcare News &",
-    highlightedText: "Insights",
+    title: '',
+    highlightedText: '',
     description: '',
     additionalContent: '',
-    backgroundVideoUrl: '' // Start empty, only show database video
+    backgroundVideoUrl: ''
   });
   const [contentSection, setContentSection] = useState<ContentSectionData>({
-    title: "News",
-    description: "Stay informed with the latest developments in healthcare innovation, research breakthroughs, and community health initiatives from Resilient Healthcare."
+    title: '',
+    description: ''
   });
 
   useEffect(() => {

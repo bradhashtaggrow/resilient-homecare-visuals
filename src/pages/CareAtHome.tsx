@@ -16,10 +16,10 @@ const CareAtHome = () => {
   
   const [services, setServices] = useState([]);
   const [heroContent, setHeroContent] = useState({
-    title: 'What is',
-    highlightedText: 'Resilient Community?',
+    title: '',
+    highlightedText: '',
     description: '',
-    backgroundVideoUrl: '' // Start empty, only show database video
+    backgroundVideoUrl: ''
   });
 
   // Available icons mapping with consistent blue gradient styling
