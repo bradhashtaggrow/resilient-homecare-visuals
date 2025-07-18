@@ -26,8 +26,7 @@ serve(async (req) => {
     const { data: postsWithoutImages, error: fetchError } = await supabaseClient
       .from('blog_posts')
       .select('id, title, content, excerpt, featured_image_url, rss_feed_id')
-      .eq('source', 'rss')
-      .or('featured_image_url.is.null,featured_image_url.eq.');
+      .eq('source', 'rss');
 
     if (fetchError) {
       console.error('Error fetching posts:', fetchError);

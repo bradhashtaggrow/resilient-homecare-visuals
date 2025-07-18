@@ -474,17 +474,15 @@ const BlogManager: React.FC = () => {
       setIsFetching(true);
       console.log('Starting RSS image update process...');
       
-      // First check if we have any RSS posts without images
-      const rssPostsWithoutImages = blogPosts.filter(p => 
-        p.source === 'rss' && !p.featured_image_url
-      );
+      // Check if we have any RSS posts
+      const rssPosts = blogPosts.filter(p => p.source === 'rss');
       
-      console.log(`Found ${rssPostsWithoutImages.length} RSS posts without images:`, rssPostsWithoutImages.map(p => p.title));
+      console.log(`Found ${rssPosts.length} RSS posts total`);
       
-      if (rssPostsWithoutImages.length === 0) {
+      if (rssPosts.length === 0) {
         toast({
-          title: "No posts to update",
-          description: "All RSS posts already have featured images or no RSS posts found.",
+          title: "No RSS posts found",
+          description: "There are no RSS posts to update images for.",
         });
         return;
       }
@@ -504,11 +502,11 @@ const BlogManager: React.FC = () => {
       
       toast({
         title: "RSS images updated",
-        description: `Successfully added images to ${data?.updatedCount || 0} existing RSS posts out of ${data?.totalProcessed || 0} processed.`,
+        description: `Successfully processed ${data?.totalProcessed || 0} posts and added images to ${data?.updatedCount || 0} of them.`,
       });
 
       // Reload blog posts to show updated images
-      loadBlogPosts();
+      await loadBlogPosts();
     } catch (error) {
       console.error('Error updating RSS images:', error);
       toast({
