@@ -61,6 +61,9 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = React.memo(({
 
   if (!src) return null;
 
+  // Add time fragment to force start from beginning on mobile
+  const videoSrc = src.includes('#') ? src : `${src}#t=0`;
+
   return (
     <video
       ref={videoRef}
@@ -73,7 +76,7 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = React.memo(({
       autoPlay
       poster={poster}
     >
-      <source src={src} type="video/mp4" />
+      <source src={videoSrc} type="video/mp4" />
     </video>
   );
 });
