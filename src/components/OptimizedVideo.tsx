@@ -19,15 +19,43 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = React.memo(({
     const video = videoRef.current;
     if (!video || !src) return;
 
-    // Simple, reliable approach - just play when ready
-    const handleCanPlay = () => {
-      video.play().catch(() => {
-        // Autoplay blocked, but video is ready
-      });
-    };
+    // Detect mobile devices
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Mobile-specific handling to ensure video starts from beginning
+    if (isMobile) {
+      // Force start time for mobile
+      video.currentTime = 0;
+      
+      const handleLoadedMetadata = () => {
+        video.currentTime = 0;
+      };
+      
+      const handleCanPlay = () => {
+        video.currentTime = 0;
+        video.play().catch(() => {
+          // Autoplay blocked, but video is ready
+        });
+      };
 
-    video.addEventListener('canplay', handleCanPlay);
-    return () => video.removeEventListener('canplay', handleCanPlay);
+      video.addEventListener('loadedmetadata', handleLoadedMetadata);
+      video.addEventListener('canplay', handleCanPlay);
+      
+      return () => {
+        video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        video.removeEventListener('canplay', handleCanPlay);
+      };
+    } else {
+      // Desktop - simple approach
+      const handleCanPlay = () => {
+        video.play().catch(() => {
+          // Autoplay blocked, but video is ready
+        });
+      };
+
+      video.addEventListener('canplay', handleCanPlay);
+      return () => video.removeEventListener('canplay', handleCanPlay);
+    }
   }, [src]);
 
   if (!src) return null;
