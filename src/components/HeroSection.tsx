@@ -103,7 +103,7 @@ const HeroSection = React.memo(() => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-20 sm:bottom-24 left-1/2 transform -translate-x-1/2 z-20">
+      <div className="absolute bottom-32 sm:bottom-36 left-1/2 transform -translate-x-1/2 z-20">
         <div className="animate-bounce-gentle hover:scale-110 transition-transform duration-300">
           <div className="w-6 h-10 sm:w-8 sm:h-12 border-2 border-white/40 rounded-full flex justify-center relative overflow-hidden hover:border-white/60 transition-colors duration-300">
             <div className="w-1 h-3 sm:w-1.5 sm:h-4 bg-white/60 rounded-full mt-2 sm:mt-3 animate-pulse-slow" />
