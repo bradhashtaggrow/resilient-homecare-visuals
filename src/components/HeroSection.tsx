@@ -22,7 +22,7 @@ const HeroSection = React.memo(() => {
     description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
     button_text: 'Request Demo',
     button_url: '#',
-    background_video_url: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4' // Always show video immediately
+    background_video_url: '' // No default video, only database video
   });
 
   useEffect(() => {
@@ -44,8 +44,8 @@ const HeroSection = React.memo(() => {
             description: data.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
             button_text: data.button_text || 'Request Demo',
             button_url: data.button_url || '#',
-            // Only replace video if database has one, otherwise keep default
-            background_video_url: data.background_video_url || 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4'
+            // Only use database video, no fallback
+            background_video_url: data.background_video_url || ''
           });
         }
       } catch (error) {
@@ -59,15 +59,17 @@ const HeroSection = React.memo(() => {
 
   return (
     <section className="pt-32 pb-32 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden h-screen flex items-center">
-      {/* Video Background - Always show immediately */}
-      <div className="absolute inset-0 z-0">
-        <OptimizedVideo
-          key={content.background_video_url} // Force re-render when URL changes
-          src={content.background_video_url}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/30" />
-      </div>
+      {/* Video Background - Only show if database has video */}
+      {content.background_video_url && (
+        <div className="absolute inset-0 z-0">
+          <OptimizedVideo
+            key={content.background_video_url}
+            src={content.background_video_url}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+      )}
       
       {/* Bottom blur gradient effect */}
       <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/20 to-transparent backdrop-blur-sm z-20" />

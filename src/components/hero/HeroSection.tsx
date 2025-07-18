@@ -12,17 +12,12 @@ interface HeroSectionProps {
 const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText, description, backgroundVideoUrl }) => {
   return (
     <section className="pt-32 pb-32 bg-gradient-to-br from-blue-50 via-white to-blue-50/30 relative overflow-hidden h-[600px] flex items-center">
-      {/* Video Background - Using working pattern from MobileShowcase */}
+      {/* Video Background - Only show database video */}
       <div className="absolute inset-0 z-0">
-        {backgroundVideoUrl ? (
+        {backgroundVideoUrl && (
           <OptimizedVideo
-            key={backgroundVideoUrl} // Force re-render when URL changes
+            key={backgroundVideoUrl}
             src={backgroundVideoUrl}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        ) : (
-          <OptimizedVideo
-            src="https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4"
             className="absolute inset-0 w-full h-full object-cover"
           />
         )}
@@ -34,17 +29,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText, descr
       
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto">
-          <h1 className={`leading-none tracking-tight font-black transition-transform duration-500 hover:scale-105 font-apple ${
-                backgroundVideoUrl ? 'text-white text-shadow-white' : 'text-gray-900'
-              }`}
+          <h1 className="text-white text-shadow-white leading-none tracking-tight font-black transition-transform duration-500 hover:scale-105 font-apple"
               style={{ fontSize: 'clamp(2rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
             {title}<br />
             <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent">{highlightedText}</span>
           </h1>
           {description && (
-            <p className={`mt-8 text-xl leading-relaxed max-w-3xl mx-auto ${
-              backgroundVideoUrl ? 'text-white/90' : 'text-gray-600'
-            }`}>
+            <p className="text-white/90 mt-8 text-xl leading-relaxed max-w-3xl mx-auto">
               {description}
             </p>
           )}
