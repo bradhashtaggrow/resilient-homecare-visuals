@@ -17,13 +17,7 @@ interface HeroContent {
 }
 
 const HeroSection = React.memo(() => {
-  const [content, setContent] = useState<HeroContent>({
-    title: 'The Future of Healthcare',
-    description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
-    button_text: 'Request Demo',
-    button_url: '#',
-    background_video_url: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4' // Show video immediately
-  });
+  const [content, setContent] = useState<HeroContent | null>(null);
 
   useEffect(() => {
     // Load hero content from database in background
@@ -93,21 +87,28 @@ const HeroSection = React.memo(() => {
   }, []);
 
   const handleButtonClick = () => {
-    if (content.button_url && content.button_url !== '#') {
+    if (content?.button_url && content.button_url !== '#') {
       window.open(content.button_url, '_blank');
     }
   };
 
+  // Don't render until content is loaded
+  if (!content) {
+    return null;
+  }
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
-      {/* Database Video - Always Show */}
-      <div className="absolute inset-0 z-0">
-        <OptimizedVideo
-          key={content.background_video_url}
-          src={content.background_video_url}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      </div>
+      {/* Database Video - Only Show if Available */}
+      {content.background_video_url && (
+        <div className="absolute inset-0 z-0">
+          <OptimizedVideo
+            key={content.background_video_url}
+            src={content.background_video_url}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
+      )}
 
       {/* Mobile Background */}
       {content?.mobile_background_url && (
