@@ -22,11 +22,11 @@ const HeroSection = React.memo(() => {
     description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
     button_text: 'Request Demo',
     button_url: '#',
-    background_video_url: '' // Start empty, only show database video
+    background_video_url: 'https://videos.pexels.com/video-files/4122849/4122849-uhd_2560_1440_25fps.mp4' // Show video immediately
   });
 
   useEffect(() => {
-    // Load hero content from database with performance optimization
+    // Load hero content from database in background
     const loadHeroContent = async () => {
       try {
         const { data, error } = await supabase
@@ -36,7 +36,7 @@ const HeroSection = React.memo(() => {
           .eq('is_active', true)
           .single();
 
-        if (data && !error) {
+        if (data && !error && data.background_video_url) {
           console.log('Loaded hero content from database:', data);
           
           setContent({
@@ -45,17 +45,16 @@ const HeroSection = React.memo(() => {
             description: data.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
             button_text: data.button_text || 'Request Demo',
             button_url: data.button_url || '#',
-            background_video_url: data.background_video_url || '' // No fallback, only database video
+            background_video_url: data.background_video_url
           });
-        } else {
-          console.log('No hero content found in database, using defaults');
         }
       } catch (error) {
         console.error('Error loading hero content from database:', error);
       }
     };
 
-    loadHeroContent();
+    // Load in background without blocking render
+    setTimeout(loadHeroContent, 0);
 
     // Listen for optimized real-time updates
     const handleContentUpdate = (event: CustomEvent) => {
@@ -101,16 +100,14 @@ const HeroSection = React.memo(() => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
-      {/* Database Video Only - Instant Load */}
-      {content?.background_video_url && (
-        <div className="absolute inset-0 z-0">
-          <OptimizedVideo
-            key={content.background_video_url}
-            src={content.background_video_url}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        </div>
-      )}
+      {/* Database Video - Always Show */}
+      <div className="absolute inset-0 z-0">
+        <OptimizedVideo
+          key={content.background_video_url}
+          src={content.background_video_url}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
 
       {/* Mobile Background */}
       {content?.mobile_background_url && (
