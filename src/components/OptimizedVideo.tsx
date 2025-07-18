@@ -1,5 +1,4 @@
-
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 interface OptimizedVideoProps {
   src: string;
@@ -16,15 +15,14 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Instant video loading - no delays
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !src) return;
 
-    // Immediate play on load
+    // Instant play on load
     const handleCanPlay = () => {
       video.play().catch(() => {
-        console.log('Autoplay blocked, but video is ready');
+        // Autoplay blocked, but video is ready
       });
     };
 
@@ -42,6 +40,7 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
       playsInline
       preload="auto"
       autoPlay
+      poster={poster}
     >
       <source src={src} type="video/mp4" />
     </video>
