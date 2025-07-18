@@ -52,4 +52,6 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = React.memo(({
   );
 });
 
+OptimizedVideo.displayName = 'OptimizedVideo';
+
 export default OptimizedVideo;
