@@ -7,7 +7,7 @@ interface OptimizedVideoProps {
   poster?: string;
 }
 
-const OptimizedVideo: React.FC<OptimizedVideoProps> = ({ 
+const OptimizedVideo: React.FC<OptimizedVideoProps> = React.memo(({ 
   src, 
   className = '', 
   style = {},
@@ -19,16 +19,21 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
     const video = videoRef.current;
     if (!video || !src) return;
 
-    // Instant play on load
-    const handleCanPlay = () => {
+    // Set preload for faster loading
+    video.preload = 'metadata';
+    
+    // Instant play when ready
+    const handleLoadedData = () => {
       video.play().catch(() => {
         // Autoplay blocked, but video is ready
       });
     };
 
-    video.addEventListener('canplay', handleCanPlay);
-    return () => video.removeEventListener('canplay', handleCanPlay);
+    video.addEventListener('loadeddata', handleLoadedData);
+    return () => video.removeEventListener('loadeddata', handleLoadedData);
   }, [src]);
+
+  if (!src) return null;
 
   return (
     <video
@@ -38,13 +43,13 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = ({
       muted
       loop
       playsInline
-      preload="auto"
+      preload="metadata"
       autoPlay
       poster={poster}
     >
       <source src={src} type="video/mp4" />
     </video>
   );
-};
+});
 
 export default OptimizedVideo;

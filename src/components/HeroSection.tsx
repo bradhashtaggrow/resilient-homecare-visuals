@@ -26,35 +26,33 @@ const HeroSection = React.memo(() => {
   });
 
   useEffect(() => {
-    // Load database content in background without blocking
+    // Load database content immediately without any delay
     const loadHeroContent = async () => {
       try {
         const { data, error } = await supabase
           .from('website_content')
-          .select('*')
+          .select('title,description,button_text,button_url,background_video_url')
           .eq('section_key', 'hero')
           .eq('is_active', true)
           .maybeSingle();
 
         if (data && !error) {
-          console.log('Loaded hero content from database:', data);
-          setContent({
-            title: data.title || 'The Future of Healthcare',
-            subtitle: data.subtitle || '',
-            description: data.description || 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
-            button_text: data.button_text || 'Request Demo',
-            button_url: data.button_url || '#',
-            // Only use database video, no fallback
+          setContent(prev => ({
+            ...prev,
+            title: data.title || prev.title,
+            description: data.description || prev.description,
+            button_text: data.button_text || prev.button_text,
+            button_url: data.button_url || prev.button_url,
             background_video_url: data.background_video_url || ''
-          });
+          }));
         }
       } catch (error) {
-        console.error('Error loading hero content from database:', error);
+        console.error('Error loading hero content:', error);
       }
     };
 
-    // Load in background after initial render
-    setTimeout(loadHeroContent, 10);
+    // Load immediately
+    loadHeroContent();
   }, []);
 
   return (
