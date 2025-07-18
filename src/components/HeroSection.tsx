@@ -17,7 +17,6 @@ interface HeroContent {
 }
 
 const HeroSection = React.memo(() => {
-  const [isVisible, setIsVisible] = useState(false);
   const [content, setContent] = useState<HeroContent>({
     title: 'The Future of Healthcare',
     description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
@@ -74,13 +73,6 @@ const HeroSection = React.memo(() => {
     };
   }, []);
 
-  useEffect(() => {
-    // Use requestAnimationFrame for smoother animation timing
-    const timer = requestAnimationFrame(() => {
-      setIsVisible(true);
-    });
-    return () => cancelAnimationFrame(timer);
-  }, []);
 
   const handleButtonHover = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.style.boxShadow = `
@@ -142,7 +134,7 @@ const HeroSection = React.memo(() => {
 
       {/* Enhanced Hero Content with Mobile Optimization */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className={`transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className="opacity-100 translate-y-0">{/* Removed loading animation for instant display */}
           {/* Enhanced Apple-Style Title with Mobile Typography */}
           <div className="mb-8 sm:mb-12">
             <h1 className="text-white leading-none tracking-tight font-black text-shadow-white transition-transform duration-500 hover:scale-105" 
