@@ -290,6 +290,9 @@ function extractImageFromMeta(xml: string): string | null {
 function extractPRNewswireImage(xml: string): string | null {
   // PR Newswire specific image extraction patterns
   const patterns = [
+    // Look for images in media:text CDATA sections (most common for PR Newswire)
+    /<media:text[^>]*>[\s\S]*?<!\[CDATA\[[\s\S]*?<img[^>]+src=['"]([^'"]+)['"][^>]*>[\s\S]*?\]\]>[\s\S]*?<\/media:text>/i,
+    
     // Look for prn:multimedia elements
     /<prn:multimedia[^>]+url=["']([^"']+)["'][^>]*>/i,
     /<prn:multimedia[^>]*>[\s\S]*?<url>([^<]+)<\/url>[\s\S]*?<\/prn:multimedia>/i,
@@ -304,13 +307,22 @@ function extractPRNewswireImage(xml: string): string | null {
     // Look for any image URLs in the description that might be from PR Newswire CDN
     /https?:\/\/[^\/]*prnewswire[^\/]*\/[^"\s]+\.(jpg|jpeg|png|gif|webp|bmp)/i,
     /https?:\/\/[^\/]*prn[^\/]*\/[^"\s]+\.(jpg|jpeg|png|gif|webp|bmp)/i,
+    /https?:\/\/mma\.prnewswire\.com\/[^"\s]+\.(jpg|jpeg|png|gif|webp|bmp)/i,
   ];
   
   for (const pattern of patterns) {
     const match = xml.match(pattern);
     if (match && match[1]) {
-      console.log(`Found PR Newswire image: ${match[1]}`);
-      return match[1];
+      let imageUrl = match[1];
+      
+      // Clean up PR Newswire URLs by removing query parameters that may break images
+      if (imageUrl.includes('prnewswire.com')) {
+        // Keep only essential parameters, remove others
+        imageUrl = imageUrl.split('?')[0] + '?p=original';
+      }
+      
+      console.log(`Found PR Newswire image: ${imageUrl}`);
+      return imageUrl;
     }
   }
   
