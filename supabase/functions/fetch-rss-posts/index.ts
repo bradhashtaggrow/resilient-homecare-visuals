@@ -177,16 +177,18 @@ function parseRSSFeed(xmlText: string): RSSItem[] {
                        description;
 
         // Extract featured image from various RSS elements with improved logic
-        const featuredImage = extractXMLContent(itemXml, 'media:content') ||
-                              extractXMLContent(itemXml, 'media:thumbnail') ||
-                              extractXMLContent(itemXml, 'enclosure') ||
-                              extractXMLContent(itemXml, 'image') ||
-                              extractXMLContent(itemXml, 'media:group') ||
-                              extractImageFromMeta(itemXml) ||
-                              extractImageFromContent(content) ||
-                              extractImageFromContent(description) ||
-                              extractImageFromLink(link) ||
-                              null;
+        let featuredImage = 
+          // Try media namespace tags first (most reliable)
+          extractImageFromMeta(itemXml) ||
+          // Try content extraction
+          extractImageFromContent(content) ||
+          extractImageFromContent(description) ||
+          null;
+
+        // If no image found in RSS, try fetching from the article page
+        if (!featuredImage && link) {
+          featuredImage = await extractImageFromLink(link);
+        }
 
         // Clean up HTML tags from description and content
         const cleanDescription = cleanHTML(description);
