@@ -17,7 +17,13 @@ interface HeroContent {
 }
 
 const HeroSection = React.memo(() => {
-  const [content, setContent] = useState<HeroContent | null>(null);
+  const [content, setContent] = useState<HeroContent>({
+    title: 'The Future of Healthcare',
+    description: 'We partner with hospitals to extend clinical services into the home—improving outcomes, reducing costs, and capturing new revenue.',
+    button_text: 'Request Demo',
+    button_url: '#',
+    background_video_url: '' // Will load from database
+  });
 
   useEffect(() => {
     // Load hero content from database in background
@@ -93,14 +99,12 @@ const HeroSection = React.memo(() => {
   };
 
   // Don't render until content is loaded
-  if (!content) {
-    return null;
-  }
+  // REMOVED - Always render immediately
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform">
-      {/* Database Video - Only Show if Available */}
-      {content.background_video_url && (
+      {/* Database Video - Show if Available */}
+      {content?.background_video_url && (
         <div className="absolute inset-0 z-0">
           <OptimizedVideo
             key={content.background_video_url}
