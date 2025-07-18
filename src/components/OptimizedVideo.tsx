@@ -19,29 +19,57 @@ const OptimizedVideo: React.FC<OptimizedVideoProps> = React.memo(({
     const video = videoRef.current;
     if (!video || !src) return;
 
+    // Force video to start from beginning - especially important for mobile
+    video.currentTime = 0;
+    
     // Set preload for faster loading
     video.preload = 'metadata';
     
-    // Reset video to start and handle loading
-    const handleLoadedData = () => {
-      // Ensure video always starts from the beginning
+    // Multiple event handlers to ensure video starts from beginning
+    const resetVideoTime = () => {
+      video.currentTime = 0;
+    };
+
+    const handleCanPlay = () => {
       video.currentTime = 0;
       video.play().catch(() => {
         // Autoplay blocked, but video is ready
       });
     };
 
-    // Handle metadata loaded to ensure proper timing
     const handleLoadedMetadata = () => {
       video.currentTime = 0;
     };
 
-    video.addEventListener('loadeddata', handleLoadedData);
+    const handleLoadedData = () => {
+      video.currentTime = 0;
+      video.play().catch(() => {
+        // Autoplay blocked, but video is ready
+      });
+    };
+
+    // Mobile browsers sometimes need this extra nudge
+    const handleTimeUpdate = () => {
+      // If video somehow jumped ahead, reset it (only on first few seconds)
+      if (video.currentTime > 5 && video.currentTime < 10) {
+        video.currentTime = 0;
+      }
+    };
+
+    // Add all event listeners
     video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    
+    // Immediate reset on mount
+    resetVideoTime();
     
     return () => {
-      video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('timeupdate', handleTimeUpdate);
     };
   }, [src]);
 
