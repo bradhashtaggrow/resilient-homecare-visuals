@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CheckCircle, Star, Award, Shield, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import LeadCaptureModal from './LeadCaptureModal';
+import { useNavigate } from 'react-router-dom';
 
 interface LeadGenContent {
   title?: string;
@@ -16,11 +16,12 @@ interface LeadGenContent {
 
 const LeadGenSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
   const [content, setContent] = useState<LeadGenContent>({
     title: 'Join Our Healthcare Organization Network',
     description: 'Leading hospitals, health systems, and care providers trust Resilient Healthcare to deliver exceptional patient outcomes and operational excellence.',
-    button_text: 'Request Demo',
-    button_url: '#'
+    button_text: 'Contact Us',
+    button_url: '/contact'
   });
 
   useEffect(() => {
@@ -41,8 +42,8 @@ const LeadGenSection = () => {
             title: data.title || 'Join Our Healthcare Organization Network',
             subtitle: data.subtitle || '',
             description: data.description || 'Leading hospitals, health systems, and care providers trust Resilient Healthcare to deliver exceptional patient outcomes and operational excellence.',
-            button_text: data.button_text || 'Request Demo',
-            button_url: data.button_url || '#'
+            button_text: data.button_text || 'Contact Us',
+            button_url: data.button_url || '/contact'
           });
         } else {
           console.log('No lead generation content found in database, using defaults');
@@ -92,9 +93,7 @@ const LeadGenSection = () => {
   }, []);
 
   const handleButtonClick = () => {
-    if (content.button_url && content.button_url !== '#') {
-      window.open(content.button_url, '_blank');
-    }
+    navigate('/contact');
   };
 
   return (
@@ -140,17 +139,16 @@ const LeadGenSection = () => {
                 {content.description}
               </p>
               
-              {/* Enhanced Button with Modal */}
-              <LeadCaptureModal source="lead_generation">
-                <Button 
-                  size="lg" 
-                  className="bg-white text-[#4F9CF9] hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg lg:text-xl font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto max-w-xs sm:max-w-none mx-auto"
-                >
-                  <span className="flex items-center justify-center">
-                    {content.button_text}
-                  </span>
-                </Button>
-              </LeadCaptureModal>
+              {/* Enhanced Button */}
+              <Button 
+                onClick={handleButtonClick}
+                size="lg" 
+                className="bg-white text-[#4F9CF9] hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg lg:text-xl font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto max-w-xs sm:max-w-none mx-auto"
+              >
+                <span className="flex items-center justify-center">
+                  {content.button_text}
+                </span>
+              </Button>
             </div>
 
             {/* Floating Elements for Desktop */}
