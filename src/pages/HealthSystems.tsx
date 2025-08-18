@@ -4,93 +4,204 @@ import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
-import ServicesGrid from '@/components/services/ServicesGrid';
-import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap, TrendingUp, DollarSign } from 'lucide-react';
+import { TrendingUp, Building, DollarSign, Zap, Heart, CheckCircle, ArrowRight, Users, Shield } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useWebsiteSync } from '@/hooks/useWebsiteSync';
+
+// Custom sections for Health Systems page
+const BurningPlatformSection = () => {
+  const items = [
+    {
+      icon: Heart,
+      title: "Improving Outcomes",
+      description: "Enhanced patient care delivery and satisfaction through innovative home-based healthcare solutions that put patients first."
+    },
+    {
+      icon: Building,
+      title: "Expanding Services",
+      description: "Broaden your service offerings and reach more patients in their preferred care environment with comprehensive solutions."
+    },
+    {
+      icon: DollarSign,
+      title: "Growing Revenue",
+      description: "Increase revenue streams while reducing operational costs through efficient care delivery models and optimized workflows."
+    },
+    {
+      icon: Zap,
+      title: "Preparing for Shifting Payment Models",
+      description: "Stay ahead of evolving healthcare payment structures and reimbursement changes with adaptive technology platforms."
+    }
+  ];
+
+  return (
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+            The Challenges <span className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Health Systems Face</span>
+          </h2>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            Transform these critical challenges into competitive advantages with our comprehensive platform
+          </p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-8">
+          {items.map((item, index) => (
+            <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="flex items-start space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <item.icon className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                  <p className="text-slate-600 leading-relaxed">{item.description}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const HealthSystemBenefitsSection = () => {
+  const benefits = [
+    {
+      icon: CheckCircle,
+      title: "Improved Patient Outcomes",
+      description: "Deliver personalized care that leads to better health results and higher patient satisfaction scores."
+    },
+    {
+      icon: TrendingUp,
+      title: "Operational Efficiency",
+      description: "Streamline workflows and reduce administrative burden while increasing productivity across departments."
+    },
+    {
+      icon: Shield,
+      title: "Enhanced Reputation",
+      description: "Build market leadership through innovative care delivery and superior patient experience."
+    },
+    {
+      icon: Users,
+      title: "Scalable Growth",
+      description: "Expand your care delivery network without proportional increases in infrastructure investment."
+    },
+    {
+      icon: ArrowRight,
+      title: "Future-Ready Technology",
+      description: "Stay ahead with cutting-edge healthcare technology that adapts to evolving industry needs."
+    },
+    {
+      icon: Building,
+      title: "Comprehensive Support",
+      description: "Full-service platform with training, implementation, and ongoing support for seamless integration."
+    }
+  ];
+
+  return (
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+            Why Leading <span className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Health Systems</span> Choose Us
+          </h2>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            Transform your care delivery with proven results and comprehensive support
+          </p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {benefits.map((benefit, index) => (
+            <div key={index} className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <benefit.icon className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{benefit.title}</h3>
+              <p className="text-slate-600 leading-relaxed">{benefit.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const HealthSystemsValueSection = () => {
+  return (
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-100 to-indigo-200">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+            Our <span className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Commitment</span> to Excellence
+          </h2>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            Dedicated to transforming healthcare delivery through innovation, partnership, and unwavering commitment to patient outcomes
+          </p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <div className="space-y-6">
+              <div className="flex items-start space-x-4">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Heart className="h-4 w-4 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">Patient-Centered Care</h3>
+                  <p className="text-slate-600">Every solution is designed with the patient experience at the forefront.</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-4">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Shield className="h-4 w-4 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">Proven Results</h3>
+                  <p className="text-slate-600">Track record of successful implementations and improved outcomes.</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-4">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <TrendingUp className="h-4 w-4 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">Continuous Innovation</h3>
+                  <p className="text-slate-600">Constantly evolving technology to meet changing healthcare needs.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="bg-white rounded-xl p-8 shadow-lg">
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">Ready to Transform Your Health System?</h3>
+              <p className="text-slate-600 mb-6">Join leading health systems who are already delivering exceptional care at home with our comprehensive platform.</p>
+              <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
+                Schedule a Demo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const HealthSystems = () => {
   // Initialize optimized real-time sync for independent operation
   const { isListening } = useWebsiteSync();
   
   const [heroContent, setHeroContent] = useState({
-    title: 'Transform Your',
-    highlightedText: 'Health System',
+    title: "Transform Your",
+    highlightedText: "Health System",
     description: '',
     backgroundVideoUrl: '' // Start empty, only show database video
   });
   
-  const [services, setServices] = useState([
-    // Fallback services in case database doesn't load
-    {
-      id: 'improving-outcomes',
-      icon: Heart,
-      title: 'Improving Outcomes',
-      subtitle: 'Enhanced Patient Care',
-      description: 'Enhanced patient care delivery and satisfaction through innovative home-based healthcare solutions that put patients first.',
-      color: "blue",
-      patient_image_url: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-    },
-    {
-      id: 'expanding-services',
-      icon: Building2,
-      title: 'Expanding Services',
-      subtitle: 'Broaden Your Reach',
-      description: 'Broaden your service offerings and reach more patients in their preferred care environment with comprehensive solutions.',
-      color: "blue",
-      patient_image_url: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-    },
-    {
-      id: 'growing-revenue',
-      icon: DollarSign,
-      title: 'Growing Revenue',
-      subtitle: 'Financial Excellence',
-      description: 'Increase revenue streams while reducing operational costs through efficient care delivery models and optimized workflows.',
-      color: "blue",
-      patient_image_url: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-    },
-    {
-      id: 'shifting-payment-models',
-      icon: Zap,
-      title: 'Preparing for Shifting Payment Models',
-      subtitle: 'Future-Ready Solutions',
-      description: 'Stay ahead of evolving healthcare payment structures and reimbursement changes with adaptive technology platforms.',
-      color: "blue",
-      patient_image_url: "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-    },
-    {
-      id: 'operational-efficiency',
-      icon: CheckCircle,
-      title: 'Operational Efficiency',
-      subtitle: 'Streamlined Operations',
-      description: 'Streamline workflows and reduce administrative burden while increasing productivity across all departments and teams.',
-      color: "blue",
-      patient_image_url: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-    }
-  ]);
-
   const [contentSection, setContentSection] = useState({
-    title: 'Partner with Leading Health Systems',
-    description: 'We connect health systems and hospitals with innovative technology solutions to deliver patient-centered care at home. Our platform enables seamless care coordination, improves outcomes, and prepares you for the future of healthcare delivery.'
+    title: "Revolutionizing Healthcare Delivery",
+    description: "We partner with progressive health systems and hospitals to transform patient care through cutting-edge technology and seamless care coordination. Our comprehensive platform enables you to expand services, improve outcomes, and prepare for the future of healthcare while maintaining the highest standards of clinical excellence."
   });
-
-  // Available icons mapping
-  const availableIcons = {
-    Building2,
-    Heart,
-    Users,
-    Shield,
-    CheckCircle,
-    Activity,
-    Zap,
-    TrendingUp,
-    DollarSign
-  };
-
-  const getIconComponent = (iconName: string) => {
-    const IconComponent = availableIcons[iconName as keyof typeof availableIcons];
-    return IconComponent || Building2;
-  };
 
   useEffect(() => {
     console.log('Health Systems page - Loading content...');
@@ -118,46 +229,15 @@ const HealthSystems = () => {
           };
           console.log('Setting new health systems hero content:', newHeroContent);
           setHeroContent(newHeroContent);
-        } else {
-          console.log('No health systems hero content found or error:', heroError);
-        }
-
-        // Load services content
-        const { data: servicesData, error: servicesError } = await supabase
-          .from('website_content')
-          .select('*')
-          .eq('section_key', 'health_systems_mobile')
-          .eq('is_active', true)
-          .maybeSingle();
-
-        if (servicesData && !servicesError) {
-          console.log('Loaded health systems services content:', servicesData);
-
-          // Update content section with database content
-          setContentSection({
-            title: servicesData.title || 'Partner with Leading Health Systems',
-            description: servicesData.description || 'We connect health systems and hospitals with innovative technology solutions to deliver patient-centered care at home. Our platform enables seamless care coordination, improves outcomes, and prepares you for the future of healthcare delivery.'
-          });
-
-          // Transform tabs data to services format
-          if (servicesData.content_data && typeof servicesData.content_data === 'object' && servicesData.content_data !== null) {
-            const contentData = servicesData.content_data as any;
-            if (contentData.tabs) {
-              const transformedServices = contentData.tabs.map((tab: any) => ({
-                id: tab.id,
-                icon: getIconComponent(tab.icon_name),
-                title: tab.title,
-                subtitle: tab.subtitle,
-                description: tab.description,
-                color: "blue", // Default color
-                patient_image_url: tab.image_url || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-              }));
-              setServices(transformedServices);
-              console.log('Transformed health systems services:', transformedServices);
-            }
+          
+          if (heroData.description) {
+            setContentSection({
+              title: "Revolutionizing Healthcare Delivery",
+              description: heroData.description
+            });
           }
         } else {
-          console.log('No health systems services content found, using defaults');
+          console.log('No health systems hero content found or error:', heroError);
         }
       } catch (error) {
         console.error('Error loading health systems content:', error);
@@ -169,8 +249,7 @@ const HealthSystems = () => {
     // Listen for real-time updates via global content sync system
     const handleContentUpdate = (event: CustomEvent) => {
       const { table, data } = event.detail;
-      if (table === 'website_content' && 
-          (data.section_key === 'health_systems_hero' || data.section_key === 'health_systems_mobile')) {
+      if (table === 'website_content' && data.section_key === 'health_systems_hero') {
         console.log('Health systems content updated via real-time sync:', data);
         loadContent();
       }
@@ -199,7 +278,9 @@ const HealthSystems = () => {
         description={contentSection.description}
       />
 
-      <ServicesGrid services={services} />
+      <BurningPlatformSection />
+      <HealthSystemBenefitsSection />
+      <HealthSystemsValueSection />
 
       <LeadGenSection />
       <Footer />
