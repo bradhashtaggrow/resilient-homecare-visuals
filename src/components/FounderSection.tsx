@@ -22,7 +22,7 @@ const FounderSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [content, setContent] = useState<FounderContent>({
     title: "Founder's Story",
-    subtitle: 'from Dr. Jackleen Samuel, PT, DPT | Founder & CEO',
+    subtitle: 'from Dr. Jackleen Samuel-Kloes, PT, DPT | Founder & CEO',
     founder_image: "/lovable-uploads/0e13c6b2-1822-4376-ae28-4c9ed2e5f0c7.png",
     quote: "Dad's in the hospital, again...",
     quote_subtitle: "That call became all too familiar.",
@@ -76,7 +76,7 @@ const FounderSection = () => {
           
           setContent({
             title: data.title || "Founder's Story",
-            subtitle: data.subtitle || 'from Dr. Jackleen Samuel, PT, DPT | Founder & CEO',
+            subtitle: data.subtitle || 'from Dr. Jackleen Samuel-Kloes, PT, DPT | Founder & CEO',
             description: data.description || '',
             founder_image: contentData?.founder_image || "/lovable-uploads/0e13c6b2-1822-4376-ae28-4c9ed2e5f0c7.png",
             quote: contentData?.quote || parsedContent.quote,
