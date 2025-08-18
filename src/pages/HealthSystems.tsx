@@ -3,146 +3,84 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
-import { TrendingUp, Building, DollarSign, Zap, ArrowRight, CheckCircle } from 'lucide-react';
+import ContentSection from '@/components/content/ContentSection';
+import TabsSection from '@/components/tabs/TabsSection';
+import { TrendingUp, Building, DollarSign, Zap, Heart, CheckCircle, ArrowRight, Users, Shield } from 'lucide-react';
 
 const HealthSystems = () => {
-  const burningPlatformItems = [
+  const services = [
     {
-      icon: TrendingUp,
-      title: "Improving Outcomes",
-      description: "Enhanced patient care delivery and satisfaction through innovative home-based healthcare solutions."
+      id: 'improving-outcomes',
+      icon: Heart,
+      title: 'Improving Outcomes',
+      subtitle: 'Enhanced Patient Care',
+      description: 'Enhanced patient care delivery and satisfaction through innovative home-based healthcare solutions that put patients first.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
+      id: 'expanding-services',
       icon: Building,
-      title: "Expanding Services", 
-      description: "Broaden your service offerings and reach more patients in their preferred care environment."
+      title: 'Expanding Services',
+      subtitle: 'Broaden Your Reach',
+      description: 'Broaden your service offerings and reach more patients in their preferred care environment with comprehensive solutions.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
+      id: 'growing-revenue',
       icon: DollarSign,
-      title: "Growing Revenue",
-      description: "Increase revenue streams while reducing operational costs through efficient care delivery models."
+      title: 'Growing Revenue',
+      subtitle: 'Financial Excellence',
+      description: 'Increase revenue streams while reducing operational costs through efficient care delivery models and optimized workflows.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
+      id: 'shifting-payment-models',
       icon: Zap,
-      title: "Preparing for Shifting Payment Models",
-      description: "Stay ahead of evolving healthcare payment structures and reimbursement changes."
-    }
-  ];
-
-  const benefits = [
+      title: 'Preparing for Shifting Payment Models',
+      subtitle: 'Future-Ready Solutions',
+      description: 'Stay ahead of evolving healthcare payment structures and reimbursement changes with adaptive technology platforms.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+    },
     {
+      id: 'operational-efficiency',
       icon: CheckCircle,
-      title: "Improved Patient Outcomes",
-      description: "Deliver personalized care that leads to better health results and higher patient satisfaction scores."
+      title: 'Operational Efficiency',
+      subtitle: 'Streamlined Operations',
+      description: 'Streamline workflows and reduce administrative burden while increasing productivity across all departments and teams.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
-      icon: TrendingUp,
-      title: "Operational Efficiency", 
-      description: "Streamline workflows and reduce administrative burden while increasing productivity across departments."
-    },
-    {
-      icon: DollarSign,
-      title: "Cost Reduction",
-      description: "Significantly lower operational costs through optimized resource allocation and reduced readmissions."
-    },
-    {
-      icon: Building,
-      title: "Scalable Growth",
-      description: "Expand your care delivery network without proportional increases in infrastructure investment."
-    },
-    {
-      icon: Zap,
-      title: "Enhanced Reputation",
-      description: "Build market leadership through innovative care delivery and superior patient experience."
-    },
-    {
-      icon: ArrowRight,
-      title: "Future-Ready Technology",
-      description: "Stay ahead with cutting-edge healthcare technology that adapts to evolving industry needs."
+      id: 'enhanced-reputation',
+      icon: Shield,
+      title: 'Enhanced Reputation',
+      subtitle: 'Market Leadership',
+      description: 'Build market leadership through innovative care delivery and superior patient experience that sets you apart.',
+      color: "blue",
+      patient_image_url: "https://images.unsplash.com/photo-1576669802149-e3f6d0d43c48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
       <HeroSection 
         title="Transform Your"
         highlightedText="Health System"
-        description="Partner with us to expand care delivery, improve outcomes, and prepare for the future of healthcare"
+        description="Partner with leading hospitals and health systems to deliver patient-centered, technology-driven care at home. Our platform grows your program through innovative solutions that ensure patients receive top-quality care where they are most comfortable."
       />
 
-      {/* Burning Platform Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-4">
-              The Challenge Health Systems Face Today
-            </h2>
-            <p className="text-xl text-slate-600 mb-4 max-w-3xl mx-auto">
-              Traditional healthcare delivery models are under unprecedented pressure
-            </p>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              Rising costs, staff shortages, and patient demands for convenient care create an urgent need for innovative solutions.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {burningPlatformItems.map((item, index) => (
-              <div 
-                key={index}
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group"
-              >
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <item.icon className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ContentSection 
+        title="Revolutionizing Healthcare Delivery"
+        description="We partner with progressive health systems and hospitals to transform patient care through cutting-edge technology and seamless care coordination. Our comprehensive platform enables you to expand services, improve outcomes, and prepare for the future of healthcare while maintaining the highest standards of clinical excellence."
+      />
 
-      {/* Benefits Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-100 to-indigo-200">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-4">
-              Why Leading Health Systems Choose Resilient Healthcare
-            </h2>
-            <p className="text-xl text-slate-600 mb-4 max-w-3xl mx-auto">
-              Transform your care delivery with our comprehensive platform
-            </p>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              Join the healthcare revolution and deliver exceptional patient outcomes while reducing costs and improving efficiency.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <div 
-                key={index}
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group"
-              >
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <benefit.icon className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  {benefit.title}
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  {benefit.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TabsSection services={services} />
 
       <LeadGenSection />
       <Footer />
