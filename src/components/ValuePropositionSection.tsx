@@ -164,7 +164,7 @@ const ValuePropositionSection = () => {
         <div className="text-center py-16">
           <div className="flex flex-col items-center justify-center relative z-50">
             <h2 className="text-gray-900 leading-none tracking-tight font-black mb-6 sm:mb-8 hover:scale-105 transition-transform duration-700"
-                style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 0.85 }}>
+                style={{ fontSize: 'clamp(1.5rem, 5vw, 6rem)', fontWeight: 900, lineHeight: 1.1 }}>
               <span className="block mb-2">
                 {displayedFirstLine}
                 {currentLine === 0 && !isTypingComplete && (
