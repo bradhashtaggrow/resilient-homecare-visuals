@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -810,16 +810,16 @@ export type Database = {
     }
     Functions: {
       get_analytics_summary: {
-        Args: { start_date?: string; end_date?: string }
+        Args: { end_date?: string; start_date?: string }
         Returns: {
-          total_page_views: number
-          unique_visitors: number
-          total_sessions: number
           avg_session_duration: number
           bounce_rate: number
-          top_pages: Json
-          traffic_sources: Json
           device_breakdown: Json
+          top_pages: Json
+          total_page_views: number
+          total_sessions: number
+          traffic_sources: Json
+          unique_visitors: number
         }[]
       }
       get_default_permissions: {
@@ -828,24 +828,24 @@ export type Database = {
       }
       has_permission: {
         Args: {
-          _user_id: string
           _permission: Database["public"]["Enums"]["permission_type"]
+          _user_id: string
         }
         Returns: boolean
       }
       has_role: {
         Args: {
-          _user_id: string
           _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
         }
         Returns: boolean
       }
       log_system_activity: {
         Args: {
-          activity_type: string
           activity_description: string
-          user_id?: string
+          activity_type: string
           metadata?: Json
+          user_id?: string
         }
         Returns: string
       }
