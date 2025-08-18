@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import RequestDemo from "./pages/RequestDemo";
 import NotFound from "./pages/NotFound";
 import CareAtHome from "./pages/CareAtHome";
+import HealthSystems from "./pages/HealthSystems";
 import Clinicians from "./pages/Clinicians";
 import Patients from "./pages/Patients";
 import News from "./pages/News";
@@ -35,6 +36,7 @@ function AppContent() {
       <Route path="/login" element={<Login />} />
       <Route path="/request-demo" element={<RequestDemo />} />
       <Route path="/care-at-home" element={<CareAtHome />} />
+      <Route path="/health-systems" element={<HealthSystems />} />
       <Route path="/clinicians" element={<Clinicians />} />
       <Route path="/patients" element={<Patients />} />
       <Route path="/news" element={<News />} />
