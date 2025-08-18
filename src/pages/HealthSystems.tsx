@@ -24,25 +24,25 @@ const HealthSystems = () => {
       icon: TrendingUp,
       title: 'Improving Outcomes',
       description: 'Deliver evidence-based care at home that improves patient satisfaction and clinical outcomes while reducing readmission rates.',
-      gradient: 'from-blue-500 to-cyan-500'
+      gradient: 'from-blue-500 to-blue-600'
     },
     {
       icon: Building,
       title: 'Expanding Services',
       description: 'Scale your care delivery beyond hospital walls to reach more patients in their preferred care setting - their homes.',
-      gradient: 'from-purple-500 to-pink-500'
+      gradient: 'from-blue-400 to-blue-500'
     },
     {
       icon: DollarSign,
       title: 'Growing Revenue',
       description: 'Create new revenue streams while reducing operational costs through efficient home-based care delivery models.',
-      gradient: 'from-green-500 to-emerald-500'
+      gradient: 'from-blue-600 to-blue-700'
     },
     {
       icon: Zap,
       title: 'Preparing for Shifting Payment Models',
       description: 'Position your health system ahead of evolving payment structures with flexible, outcome-driven care delivery.',
-      gradient: 'from-orange-500 to-red-500'
+      gradient: 'from-blue-500 to-cyan-500'
     }
   ];
 
@@ -176,7 +176,7 @@ const HealthSystems = () => {
             <div>
               <h2 className="font-black tracking-tight font-apple mb-8" 
                   style={{ fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: 900, lineHeight: 0.9 }}>
-                Built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Success</span>
+                Built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700">Success</span>
               </h2>
               <p className="text-gray-600 leading-relaxed font-apple font-medium mb-8"
                  style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.3rem)', lineHeight: 1.5 }}>
@@ -200,7 +200,7 @@ const HealthSystems = () => {
                       }`}
                       style={{ transitionDelay: `${index * 100}ms` }}
                     >
-                      <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                      <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center">
                         <CheckCircle className="w-5 h-5 text-white" />
                       </div>
                       <p className="text-gray-700 font-apple font-medium text-lg">
@@ -213,10 +213,10 @@ const HealthSystems = () => {
             </div>
 
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-600 rounded-2xl transform rotate-3"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl transform rotate-3"></div>
               <div className="relative bg-white p-8 rounded-2xl shadow-2xl">
                 <div className="text-center">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-6">
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full mb-6">
                     <Building className="w-10 h-10 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">
