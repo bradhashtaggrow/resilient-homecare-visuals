@@ -96,12 +96,6 @@ const Navigation = () => {
                   Request Demo
                 </Button>
               </LeadCaptureModal>
-              
-              <Link to="/login">
-                <Button variant="outline" className="text-gray-700 border-gray-300 hover:bg-gray-50 font-semibold text-sm px-4 py-2 rounded-lg transition-all duration-200">
-                  Login
-                </Button>
-              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -176,15 +170,6 @@ const Navigation = () => {
                       Request Demo
                     </Button>
                   </LeadCaptureModal>
-                  
-                  <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                    <Button 
-                      variant="outline" 
-                      className="text-gray-700 border-gray-300 hover:bg-gray-50 font-semibold text-lg px-6 py-3 rounded-lg w-full"
-                    >
-                      Login
-                    </Button>
-                  </Link>
                 </div>
               </div>
             </div>
