@@ -187,7 +187,7 @@ const AdminDashboard = React.memo(() => {
           </h3>
           <p className="text-white/90 max-w-3xl mx-auto leading-relaxed font-medium tracking-wide mb-6 sm:mb-8 hover:text-white transition-colors duration-500"
              style={{ fontSize: 'clamp(0.875rem, 2vw, 1.5rem)', lineHeight: 1.4 }}>
-            {content.content_data?.cta_description || 'Join forward-thinking healthcare organizations who\'ve already revolutionized their operations. See our comprehensive platform in action with a personalized demonstration.'}
+            {content.content_data?.cta_description || 'Join our healthcare organization network and revolutionize your operations. See our comprehensive platform in action with a personalized demonstration.'}
           </p>
           <LeadCaptureModal source="admin-dashboard-button">
             <Button 

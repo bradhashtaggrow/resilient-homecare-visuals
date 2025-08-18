@@ -789,7 +789,7 @@ const WebsiteContentManager: React.FC<WebsiteContentManagerProps> = ({ syncStatu
                                 cta_description: e.target.value
                               }
                             })}
-                            placeholder="Join forward-thinking healthcare organizations who've already revolutionized their operations. See our comprehensive platform in action with a personalized demonstration."
+                            placeholder="Join our healthcare organization network and revolutionize your operations. See our comprehensive platform in action with a personalized demonstration."
                             rows={3}
                             className="w-full"
                           />

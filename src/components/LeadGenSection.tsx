@@ -17,7 +17,7 @@ interface LeadGenContent {
 const LeadGenSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [content, setContent] = useState<LeadGenContent>({
-    title: 'Join 500+ Healthcare Organizations',
+    title: 'Join Our Healthcare Organization Network',
     description: 'Leading hospitals, health systems, and care providers trust Resilient Healthcare to deliver exceptional patient outcomes and operational excellence.',
     button_text: 'Request Demo',
     button_url: '#'
@@ -38,7 +38,7 @@ const LeadGenSection = () => {
           console.log('Loaded lead generation content from database:', data);
           
           setContent({
-            title: data.title || 'Join 500+ Healthcare Organizations',
+            title: data.title || 'Join Our Healthcare Organization Network',
             subtitle: data.subtitle || '',
             description: data.description || 'Leading hospitals, health systems, and care providers trust Resilient Healthcare to deliver exceptional patient outcomes and operational excellence.',
             button_text: data.button_text || 'Request Demo',
