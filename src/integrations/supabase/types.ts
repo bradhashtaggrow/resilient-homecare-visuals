@@ -235,6 +235,45 @@ export type Database = {
           },
         ]
       }
+      health_systems_items: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_order: number
+          gradient_class: string
+          icon_name: string
+          id: string
+          is_active: boolean
+          section_type: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          gradient_class?: string
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          section_type: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          gradient_class?: string
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          section_type?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           annual_revenue: string | null

@@ -18,48 +18,27 @@ const HealthSystems = () => {
     backgroundVideoUrl: ''
   });
 
-  // Burning platform bullets
-  const burningPlatformItems = [
-    {
-      icon: TrendingUp,
-      title: 'Improving Outcomes',
-      description: 'Deliver evidence-based care at home that improves patient satisfaction and clinical outcomes while reducing readmission rates.',
-      gradient: 'from-blue-500 to-blue-600'
-    },
-    {
-      icon: Building,
-      title: 'Expanding Services',
-      description: 'Scale your care delivery beyond hospital walls to reach more patients in their preferred care setting - their homes.',
-      gradient: 'from-blue-400 to-blue-500'
-    },
-    {
-      icon: DollarSign,
-      title: 'Growing Revenue',
-      description: 'Create new revenue streams while reducing operational costs through efficient home-based care delivery models.',
-      gradient: 'from-blue-600 to-blue-700'
-    },
-    {
-      icon: Zap,
-      title: 'Preparing for Shifting Payment Models',
-      description: 'Position your health system ahead of evolving payment structures with flexible, outcome-driven care delivery.',
-      gradient: 'from-blue-500 to-cyan-500'
-    }
-  ];
+  const [burningPlatformItems, setBurningPlatformItems] = useState<any[]>([]);
 
-  const benefits = [
-    'Seamless integration with existing workflows',
-    'Comprehensive clinical oversight and support',
-    'Advanced technology platform for care coordination',
-    'Proven outcomes and patient satisfaction metrics',
-    'Flexible deployment options to meet your needs',
-    'Dedicated partnership and support team'
-  ];
+  const [benefits, setBenefits] = useState<any[]>([]);
+  const [sectionContent, setSectionContent] = useState<any>({});
+
+  // Icon mapping
+  const iconMap: { [key: string]: any } = {
+    TrendingUp,
+    Building, 
+    DollarSign,
+    Zap,
+    CheckCircle,
+    // Add other icons as needed
+  };
 
   useEffect(() => {
     console.log('Health Systems page - Loading content...');
     
     const loadContent = async () => {
       try {
+        // Load hero content
         const { data: heroData, error: heroError } = await supabase
           .from('website_content')
           .select('*')
@@ -79,6 +58,50 @@ const HealthSystems = () => {
           };
           setHeroContent(newHeroContent);
         }
+
+        // Load section content
+        const { data: sections } = await supabase
+          .from('website_content')
+          .select('*')
+          .in('section_key', ['health_systems_burning_platform', 'health_systems_benefits', 'health_systems_cta'])
+          .eq('is_active', true);
+
+        if (sections) {
+          const sectionsMap: any = {};
+          sections.forEach(section => {
+            sectionsMap[section.section_key] = section;
+          });
+          setSectionContent(sectionsMap);
+        }
+
+        // Load burning platform items
+        const { data: burningPlatform } = await supabase
+          .from('health_systems_items')
+          .select('*')
+          .eq('section_type', 'burning_platform')
+          .eq('is_active', true)
+          .order('display_order');
+
+        if (burningPlatform) {
+          const itemsWithIcons = burningPlatform.map(item => ({
+            ...item,
+            icon: iconMap[item.icon_name] || TrendingUp
+          }));
+          setBurningPlatformItems(itemsWithIcons);
+        }
+
+        // Load benefits
+        const { data: benefitItems } = await supabase
+          .from('health_systems_items')
+          .select('*')
+          .eq('section_type', 'benefit')
+          .eq('is_active', true)
+          .order('display_order');
+
+        if (benefitItems) {
+          setBenefits(benefitItems);
+        }
+
       } catch (error) {
         console.error('Error loading health systems content:', error);
       }
@@ -88,8 +111,11 @@ const HealthSystems = () => {
 
     const handleContentUpdate = (event: CustomEvent) => {
       const { table, data } = event.detail;
-      if (table === 'website_content' && data.section_key === 'health_systems_hero') {
+      if (table === 'website_content' && data.section_key?.startsWith('health_systems')) {
         console.log('Health systems content updated via real-time sync:', data);
+        loadContent();
+      } else if (table === 'health_systems_items') {
+        console.log('Health systems items updated via real-time sync:', data);
         loadContent();
       }
     };
@@ -118,11 +144,11 @@ const HealthSystems = () => {
           <div className="text-center mb-16">
             <h2 className="font-black tracking-tight font-apple mb-6" 
                 style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
-              Why Partner with Us?
+              {sectionContent.health_systems_burning_platform?.title || 'Why Partner with Us?'}
             </h2>
             <p className="text-gray-600 leading-relaxed font-apple font-medium tracking-wide max-w-3xl mx-auto"
                style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', lineHeight: 1.4 }}>
-              Healthcare is evolving rapidly. Position your health system for success with our comprehensive platform.
+              {sectionContent.health_systems_burning_platform?.description || 'Healthcare is evolving rapidly. Position your health system for success with our comprehensive platform.'}
             </p>
           </div>
 
@@ -146,7 +172,7 @@ const HealthSystems = () => {
                   }}
                 >
                   <div className="flex items-start space-x-6">
-                    <div className={`flex-shrink-0 w-16 h-16 bg-gradient-to-r ${item.gradient} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`flex-shrink-0 w-16 h-16 bg-gradient-to-r ${item.gradient_class || item.gradient} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                       <item.icon className="w-8 h-8 text-white" />
                     </div>
                     <div className="flex-1">
@@ -176,12 +202,11 @@ const HealthSystems = () => {
             <div>
               <h2 className="font-black tracking-tight font-apple mb-8" 
                   style={{ fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: 900, lineHeight: 0.9 }}>
-                Built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700">Success</span>
+                {sectionContent.health_systems_benefits?.title || 'Built for Success'}
               </h2>
               <p className="text-gray-600 leading-relaxed font-apple font-medium mb-8"
                  style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.3rem)', lineHeight: 1.5 }}>
-                Our platform is designed specifically for health systems looking to expand their reach 
-                and improve patient outcomes through innovative care delivery models.
+                {sectionContent.health_systems_benefits?.description || 'Our platform is designed specifically for health systems looking to expand their reach and improve patient outcomes through innovative care delivery models.'}
               </p>
               
               <div className="space-y-4">
@@ -193,7 +218,7 @@ const HealthSystems = () => {
 
                   return (
                     <div 
-                      key={benefit}
+                      key={benefit.id || index}
                       ref={elementRef as any}
                       className={`flex items-center space-x-4 transition-all duration-500 ${
                         isVisible ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'
@@ -204,7 +229,7 @@ const HealthSystems = () => {
                         <CheckCircle className="w-5 h-5 text-white" />
                       </div>
                       <p className="text-gray-700 font-apple font-medium text-lg">
-                        {benefit}
+                        {benefit.title || benefit}
                       </p>
                     </div>
                   );
@@ -220,11 +245,10 @@ const HealthSystems = () => {
                     <Building className="w-10 h-10 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4 font-apple">
-                    Ready to Transform Healthcare Delivery?
+                    {sectionContent.health_systems_cta?.title || 'Ready to Transform Healthcare Delivery?'}
                   </h3>
                   <p className="text-gray-600 font-apple font-medium mb-6 text-lg leading-relaxed">
-                    Join leading health systems already using our platform to deliver exceptional 
-                    care at home and improve patient outcomes.
+                    {sectionContent.health_systems_cta?.description || 'Join leading health systems already using our platform to deliver exceptional care at home and improve patient outcomes.'}
                   </p>
                   <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-6 rounded-xl">
                     <p className="text-3xl font-bold text-gray-900 mb-2">98%</p>
