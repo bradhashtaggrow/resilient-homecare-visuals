@@ -386,11 +386,6 @@ const StatsSection = () => {
                     {stat.description}
                   </div>
                   
-                  {/* Trend indicator */}
-                  <div className="inline-flex items-center space-x-2 bg-green-500/20 text-green-300 px-2 sm:px-3 py-1 rounded-full text-xs font-medium">
-                    <TrendingUp className="h-3 w-3" />
-                    <span>Research Based</span>
-                  </div>
                 </div>
 
                 {/* Hover Glow Effect */}
