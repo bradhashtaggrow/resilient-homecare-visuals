@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import LeadGenSection from '@/components/LeadGenSection';
 import HeroSection from '@/components/hero/HeroSection';
 import ContentSection from '@/components/content/ContentSection';
-import TabsSection from '@/components/tabs/TabsSection';
-import { TrendingUp, Building, DollarSign, Zap, Heart, CheckCircle, ArrowRight, Users, Shield } from 'lucide-react';
+import ServicesGrid from '@/components/services/ServicesGrid';
+import { Building2, Heart, Users, Shield, CheckCircle, Activity, Zap, TrendingUp, DollarSign } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 const HealthSystems = () => {
-  const services = [
+  // Initialize optimized real-time sync for independent operation
+  const { isListening } = useWebsiteSync();
+  
+  const [heroContent, setHeroContent] = useState({
+    title: 'Transform Your',
+    highlightedText: 'Health System',
+    description: '',
+    backgroundVideoUrl: '' // Start empty, only show database video
+  });
+  
+  const [services, setServices] = useState([
+    // Fallback services in case database doesn't load
     {
       id: 'improving-outcomes',
       icon: Heart,
@@ -20,7 +33,7 @@ const HealthSystems = () => {
     },
     {
       id: 'expanding-services',
-      icon: Building,
+      icon: Building2,
       title: 'Expanding Services',
       subtitle: 'Broaden Your Reach',
       description: 'Broaden your service offerings and reach more patients in their preferred care environment with comprehensive solutions.',
@@ -53,34 +66,140 @@ const HealthSystems = () => {
       description: 'Streamline workflows and reduce administrative burden while increasing productivity across all departments and teams.',
       color: "blue",
       patient_image_url: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-    },
-    {
-      id: 'enhanced-reputation',
-      icon: Shield,
-      title: 'Enhanced Reputation',
-      subtitle: 'Market Leadership',
-      description: 'Build market leadership through innovative care delivery and superior patient experience that sets you apart.',
-      color: "blue",
-      patient_image_url: "https://images.unsplash.com/photo-1576669802149-e3f6d0d43c48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     }
-  ];
+  ]);
+
+  const [contentSection, setContentSection] = useState({
+    title: 'Partner with Leading Health Systems',
+    description: 'We connect health systems and hospitals with innovative technology solutions to deliver patient-centered care at home. Our platform enables seamless care coordination, improves outcomes, and prepares you for the future of healthcare delivery.'
+  });
+
+  // Available icons mapping
+  const availableIcons = {
+    Building2,
+    Heart,
+    Users,
+    Shield,
+    CheckCircle,
+    Activity,
+    Zap,
+    TrendingUp,
+    DollarSign
+  };
+
+  const getIconComponent = (iconName: string) => {
+    const IconComponent = availableIcons[iconName as keyof typeof availableIcons];
+    return IconComponent || Building2;
+  };
+
+  useEffect(() => {
+    console.log('Health Systems page - Loading content...');
+    
+    const loadContent = async () => {
+      try {
+        // Load hero content
+        const { data: heroData, error: heroError } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'health_systems_hero')
+          .eq('is_active', true)
+          .maybeSingle();
+
+        if (heroData && !heroError) {
+          console.log('Loaded health systems hero content:', heroData);
+          // Split the title properly - the CMS stores "Transform Your Health System"
+          const fullTitle = heroData.title || 'Transform Your Health System';
+          const parts = fullTitle.split(' Your ');
+          const newHeroContent = {
+            title: parts[0] + ' Your',  // "Transform Your"
+            highlightedText: parts[1] || 'Health System',  // "Health System"
+            description: heroData.description || '',
+            backgroundVideoUrl: heroData.background_video_url || ''
+          };
+          console.log('Setting new health systems hero content:', newHeroContent);
+          setHeroContent(newHeroContent);
+        } else {
+          console.log('No health systems hero content found or error:', heroError);
+        }
+
+        // Load services content
+        const { data: servicesData, error: servicesError } = await supabase
+          .from('website_content')
+          .select('*')
+          .eq('section_key', 'health_systems_mobile')
+          .eq('is_active', true)
+          .maybeSingle();
+
+        if (servicesData && !servicesError) {
+          console.log('Loaded health systems services content:', servicesData);
+
+          // Update content section with database content
+          setContentSection({
+            title: servicesData.title || 'Partner with Leading Health Systems',
+            description: servicesData.description || 'We connect health systems and hospitals with innovative technology solutions to deliver patient-centered care at home. Our platform enables seamless care coordination, improves outcomes, and prepares you for the future of healthcare delivery.'
+          });
+
+          // Transform tabs data to services format
+          if (servicesData.content_data && typeof servicesData.content_data === 'object' && servicesData.content_data !== null) {
+            const contentData = servicesData.content_data as any;
+            if (contentData.tabs) {
+              const transformedServices = contentData.tabs.map((tab: any) => ({
+                id: tab.id,
+                icon: getIconComponent(tab.icon_name),
+                title: tab.title,
+                subtitle: tab.subtitle,
+                description: tab.description,
+                color: "blue", // Default color
+                patient_image_url: tab.image_url || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+              }));
+              setServices(transformedServices);
+              console.log('Transformed health systems services:', transformedServices);
+            }
+          }
+        } else {
+          console.log('No health systems services content found, using defaults');
+        }
+      } catch (error) {
+        console.error('Error loading health systems content:', error);
+      }
+    };
+
+    loadContent();
+
+    // Listen for real-time updates via global content sync system
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && 
+          (data.section_key === 'health_systems_hero' || data.section_key === 'health_systems_mobile')) {
+        console.log('Health systems content updated via real-time sync:', data);
+        loadContent();
+      }
+    };
+
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
+    
+    return () => {
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-white font-apple">
       <Navigation />
       
       <HeroSection 
-        title="Transform Your"
-        highlightedText="Health System"
-        description="Partner with leading hospitals and health systems to deliver patient-centered, technology-driven care at home. Our platform grows your program through innovative solutions that ensure patients receive top-quality care where they are most comfortable."
+        title={heroContent.title}
+        highlightedText={heroContent.highlightedText}
+        description={heroContent.description}
+        backgroundVideoUrl={heroContent.backgroundVideoUrl}
       />
 
       <ContentSection 
-        title="Revolutionizing Healthcare Delivery"
-        description="We partner with progressive health systems and hospitals to transform patient care through cutting-edge technology and seamless care coordination. Our comprehensive platform enables you to expand services, improve outcomes, and prepare for the future of healthcare while maintaining the highest standards of clinical excellence."
+        title={contentSection.title}
+        description={contentSection.description}
       />
 
-      <TabsSection services={services} />
+      <ServicesGrid services={services} />
 
       <LeadGenSection />
       <Footer />
