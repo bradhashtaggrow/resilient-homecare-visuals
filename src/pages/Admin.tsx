@@ -9,7 +9,6 @@ import PageContentManager from '@/components/admin/PageContentManager';
 import RealTimePreview from '@/components/admin/RealTimePreview';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
 import BlogManager from '@/components/admin/BlogManager';
-import HealthSystemsManager from '@/components/admin/HealthSystemsManager';
 import UserManagement from '@/components/admin/UserManagement';
 import LeadsManager from '@/components/admin/LeadsManager';
 import SystemSettings from '@/components/admin/SystemSettings';
@@ -159,8 +158,6 @@ const Admin = () => {
         return <AnalyticsDashboard />;
       case 'blog':
         return <BlogManager />;
-      case 'health-systems':
-        return <HealthSystemsManager />;
       case 'users':
         return <UserManagement syncStatus={syncStatus} />;
       case 'leads':

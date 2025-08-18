@@ -39,7 +39,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
 
   const contentMenuItems = [
     { id: 'content', label: 'Website Content', icon: FileText },
-    { id: 'health-systems', label: 'Health Systems', icon: Edit3 },
     { id: 'blog', label: 'Blog Management', icon: Edit3 },
     { id: 'preview', label: 'Live Preview', icon: Eye },
   ];

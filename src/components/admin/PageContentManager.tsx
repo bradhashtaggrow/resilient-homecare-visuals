@@ -109,6 +109,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'clinicians': 'clinicians_',
       'care-at-home': 'care_at_home_',
       'patients': 'patients_',
+      'health-systems': 'health_systems_',
       'news': 'news_',
       'contact': '', // No prefix for contact, use specific sections
       'privacy-policy': 'privacy_',
@@ -402,6 +403,12 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       // Data Security
       'security_hero': 'Hero Section',
       'security_body': 'Body',
+      
+      // Health Systems
+      'health_systems_hero': 'Hero Section',
+      'health_systems_burning_platform': 'Burning Platform',
+      'health_systems_benefits': 'Benefits Section',
+      'health_systems_footer': 'Footer',
       
       'footer': 'Footer'
     };
