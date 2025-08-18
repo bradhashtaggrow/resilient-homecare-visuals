@@ -21,6 +21,10 @@ const CareAtHome = () => {
     description: '',
     backgroundVideoUrl: ''
   });
+  const [contentSection, setContentSection] = useState({
+    title: 'Connecting Healthcare Professionals',
+    description: 'We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable.'
+  });
 
   // Available icons mapping with consistent blue gradient styling
   const availableIcons = {
@@ -78,6 +82,12 @@ const CareAtHome = () => {
         if (mobileData && !mobileError) {
           console.log('Loaded care at home mobile content:', mobileData);
 
+          // Update content section with database content
+          setContentSection({
+            title: mobileData.title || 'Connecting Healthcare Professionals',
+            description: mobileData.description || 'We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable.'
+          });
+
           // Transform tabs data to services format
           if (mobileData.content_data && typeof mobileData.content_data === 'object' && mobileData.content_data !== null) {
             const contentData = mobileData.content_data as any;
@@ -133,8 +143,8 @@ const CareAtHome = () => {
       />
 
       <ContentSection 
-        title="Connecting Healthcare Professionals"
-        description="We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
+        title={contentSection.title}
+        description={contentSection.description}
       />
 
       {services.length > 0 && <TabsSection services={services} />}
