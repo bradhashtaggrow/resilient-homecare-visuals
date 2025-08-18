@@ -172,16 +172,6 @@ const Footer = () => {
               © {currentYear} Resilient Healthcare. All rights reserved.
             </div>
             
-            <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4 lg:space-x-6 items-center">
-              <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-400">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse-slow" />
-                <span>HIPAA Compliant</span>
-              </div>
-              <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-400">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse-slow" />
-                <span>SOC 2 Certified</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
