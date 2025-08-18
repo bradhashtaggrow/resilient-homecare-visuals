@@ -47,9 +47,9 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
   const pages = [
     { id: 'home', label: 'Home Page' },
     { id: 'care-at-home', label: 'Care at Home' },
+    { id: 'health-systems', label: 'Health Systems' },
     { id: 'clinicians', label: 'Clinicians' },
     { id: 'patients', label: 'Patients' },
-    { id: 'health-systems', label: 'Health Systems' },
     { id: 'news', label: 'News' },
     { id: 'about', label: 'About Us' },
     { id: 'contact', label: 'Contact Us' },
