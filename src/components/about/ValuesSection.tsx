@@ -35,19 +35,34 @@ const ValuesSection = () => {
 
   useEffect(() => {
     const loadContent = async () => {
-      const { data } = await supabase
+      // Load header content
+      const { data: headerData } = await supabase
         .from('website_content')
         .select('*')
-        .eq('section_key', 'about_values')
+        .eq('section_key', 'about_core_values_header')
         .eq('is_active', true)
         .single();
 
-      if (data) {
-        const contentData = data.content_data as any;
+      // Load individual core values
+      const { data: valuesData } = await supabase
+        .from('website_content')
+        .select('*')
+        .like('section_key', 'about_core_values_%')
+        .neq('section_key', 'about_core_values_header')
+        .eq('is_active', true)
+        .order('section_key');
+
+      if (valuesData && valuesData.length > 0) {
+        const mappedValues = valuesData.map(item => ({
+          title: item.title,
+          description: item.description,
+          icon_name: (item.content_data as any)?.icon || 'Heart'
+        }));
+
         setContent({
-          title: data.title || 'Our Core Values',
-          subtitle: data.subtitle || 'The principles that guide everything we do in transforming healthcare delivery',
-          values: contentData?.values || content.values
+          title: headerData?.title || 'Our Core Values',
+          subtitle: headerData?.subtitle || 'The principles that guide everything we do in transforming healthcare delivery',
+          values: mappedValues
         });
       }
     };
@@ -57,7 +72,7 @@ const ValuesSection = () => {
     const channel = supabase
       .channel('core-values-changes')
       .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.about_values' },
+        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=like.about_core_values_%' },
         () => loadContent()
       )
       .subscribe();
