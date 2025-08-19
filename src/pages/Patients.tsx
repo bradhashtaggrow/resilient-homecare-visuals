@@ -53,7 +53,7 @@ const Patients = () => {
   });
   const [contentSection, setContentSection] = useState({
     title: "Patients",
-    description: "We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
+    description: ""
   });
   const [services, setServices] = useState<Service[]>([]);
 
@@ -99,18 +99,30 @@ const Patients = () => {
           .eq('is_active', true)
           .single();
 
-        if (mobileData && mobileData.content_data && typeof mobileData.content_data === 'object' && 'tabs' in mobileData.content_data) {
-          const tabsData = (mobileData.content_data as any).tabs as TabData[];
-          const transformedServices: Service[] = tabsData.map((tab) => ({
-            id: tab.id,
-            icon: iconMap[tab.icon_name] || Building2,
-            title: tab.title,
-            subtitle: tab.subtitle,
-            description: tab.description,
-            color: tab.color,
-            patient_image_url: tab.image_url
-          }));
-          setServices(transformedServices);
+        if (mobileData) {
+          console.log('Loaded patients mobile content:', mobileData);
+          // Update ContentSection with mobile data
+          setContentSection({
+            title: mobileData.title || "Patient Care Services",
+            description: mobileData.description || "Receive exceptional care in the comfort of your home."
+          });
+
+          // Load tabs if they exist
+          if (mobileData.content_data && typeof mobileData.content_data === 'object' && 'tabs' in mobileData.content_data) {
+            const tabsData = (mobileData.content_data as any).tabs as TabData[];
+            const transformedServices: Service[] = tabsData.map((tab) => ({
+              id: tab.id,
+              icon: iconMap[tab.icon_name] || Building2,
+              title: tab.title,
+              subtitle: tab.subtitle,
+              description: tab.description,
+              color: tab.color,
+              patient_image_url: tab.image_url
+            }));
+            setServices(transformedServices);
+          }
+        } else {
+          console.log('No patients mobile content found');
         }
 
       } catch (error) {
