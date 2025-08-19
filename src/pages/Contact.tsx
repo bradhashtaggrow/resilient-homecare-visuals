@@ -158,15 +158,6 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#0080ff] to-[#0066cc] rounded-xl flex items-center justify-center">
-                    <MessageCircle className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Live Chat</h4>
-                    <p className="text-gray-600">Available 24/7 for support</p>
-                  </div>
-                </div>
               </div>
 
             </div>
