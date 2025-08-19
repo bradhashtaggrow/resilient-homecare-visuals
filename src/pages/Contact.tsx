@@ -169,16 +169,6 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Trust Indicators */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <div className="flex items-center space-x-4 mb-4">
-                  <Shield className="h-6 w-6 text-blue-600" />
-                  <h4 className="font-semibold text-gray-900">HIPAA Compliant</h4>
-                </div>
-                <p className="text-gray-600 text-sm">
-                  Your information is secure with our HIPAA-compliant platform and strict privacy protocols.
-                </p>
-              </div>
             </div>
 
             {/* Contact Form */}
