@@ -21,6 +21,11 @@ const Clinicians = () => {
     backgroundVideoUrl: '' // Start empty, only show database video
   });
   
+  const [contentSectionData, setContentSectionData] = useState({
+    title: 'Clinicians',
+    description: 'We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable.'
+  });
+
   const [services, setServices] = useState([
     // Fallback services in case database doesn't load
     {
@@ -127,6 +132,12 @@ const Clinicians = () => {
         if (servicesData && !servicesError) {
           console.log('Loaded clinicians services content:', servicesData);
 
+          // Update the content section data from CMS
+          setContentSectionData({
+            title: servicesData.title || 'Clinicians',
+            description: servicesData.description || 'We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home.'
+          });
+
           // Transform tabs data to services format
           if (servicesData.content_data && typeof servicesData.content_data === 'object' && servicesData.content_data !== null) {
             const contentData = servicesData.content_data as any;
@@ -183,8 +194,8 @@ const Clinicians = () => {
       />
 
       <ContentSection 
-        title="Clinicians"
-        description="We connect clinicians and healthcare agencies with hospitals to deliver patient-centered care at home. Our platform enables seamless referrals for hospital-at-home programs and outpatient care at home, ensuring patients receive top-quality care where they are most comfortable."
+        title={contentSectionData.title}
+        description={contentSectionData.description}
       />
 
       <ServicesGrid services={services} />
