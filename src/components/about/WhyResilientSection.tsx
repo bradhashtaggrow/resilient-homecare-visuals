@@ -39,7 +39,7 @@ const WhyResilientSection = () => {
         const { data, error } = await supabase
           .from('website_content')
           .select('*')
-          .eq('section_key', 'about_why_choose')
+          .eq('section_key', 'about_why_choose_resilient')
           .eq('is_active', true)
           .single();
 
@@ -73,7 +73,7 @@ const WhyResilientSection = () => {
         event: '*',
         schema: 'public',
         table: 'website_content',
-        filter: 'section_key=eq.about_why_choose'
+        filter: 'section_key=eq.about_why_choose_resilient'
       }, () => {
         loadContent();
       })
