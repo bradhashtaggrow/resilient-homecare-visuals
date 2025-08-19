@@ -146,7 +146,7 @@ const LeadGenSection = () => {
                 className="bg-white text-[#4F9CF9] hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg lg:text-xl font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-2 group-hover:bg-blue-50 w-full sm:w-auto max-w-xs sm:max-w-none mx-auto"
               >
                 <span className="flex items-center justify-center">
-                  {content.button_text}
+                  Contact Us
                 </span>
               </Button>
             </div>
