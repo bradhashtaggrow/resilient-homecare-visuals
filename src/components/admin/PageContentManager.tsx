@@ -180,7 +180,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
     } else if (selectedPage === 'contact') {
       contentFilter = 'section_key=in.(contact_hero,footer)';
     } else if (selectedPage === 'clinicians') {
-      contentFilter = 'section_key=in.(clinicians_hero,clinicians_hospitals,clinicians_referrals,clinicians_delivery,clinicians_workflows,clinicians_payment,clinicians_join,clinicians_tools,clinicians_benefits,clinicians_footer)';
+      contentFilter = 'section_key=in.(clinicians_hero,clinicians_hospitals,clinicians_referrals,clinicians_delivery,clinicians_workflows,clinicians_payment,clinicians_join,clinicians_tools,clinicians_benefits,clinicians_footer,clinicians_mobile)';
     } else if (selectedPage === 'about') {
       contentFilter = 'section_key=in.(about_hero,about_rain_section,about_why_choose_resilient,about_for_hospitals,about_for_clinicians,about_core_values_header,about_core_values_compassionate,about_core_values_excellence,about_core_values_innovation,about_footer)';
     } else if (selectedPage === 'health-systems') {
