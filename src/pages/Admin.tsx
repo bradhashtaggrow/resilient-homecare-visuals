@@ -6,6 +6,7 @@ import AdminHeader from '@/components/admin/AdminHeader';
 import DashboardOverview from '@/components/admin/DashboardOverview';
 import WebsiteContentManager from '@/components/admin/WebsiteContentManager';
 import PageContentManager from '@/components/admin/PageContentManager';
+import PageManager from '@/components/admin/PageManager';
 import RealTimePreview from '@/components/admin/RealTimePreview';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
 import BlogManager from '@/components/admin/BlogManager';
@@ -159,6 +160,8 @@ const Admin = () => {
         return <AnalyticsDashboard />;
       case 'blog':
         return <BlogManager />;
+      case 'pages':
+        return <PageManager />;
       case 'health-systems':
         return <HealthSystemsManager />;
       case 'users':

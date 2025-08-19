@@ -11,6 +11,7 @@ import {
   WifiOff,
   UserCheck,
   Edit3,
+  Globe,
   X,
   LogOut
 } from 'lucide-react';
@@ -40,6 +41,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   const contentMenuItems = [
     { id: 'content', label: 'Website Content', icon: FileText },
     { id: 'blog', label: 'Blog Management', icon: Edit3 },
+    { id: 'pages', label: 'Page Manager', icon: Globe },
     { id: 'preview', label: 'Live Preview', icon: Eye },
   ];
 

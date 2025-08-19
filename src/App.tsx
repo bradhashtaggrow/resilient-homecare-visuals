@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import ScrollToTop from "@/components/ScrollToTop";
 
 import ProtectedRoute from "@/components/ProtectedRoute";
+import PageGuard from "@/components/PageGuard";
 import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
@@ -32,20 +33,20 @@ function AppContent() {
     <>
       <ScrollToTop />
       <Routes>
-      <Route path="/" element={<Index />} />
+      <Route path="/" element={<PageGuard><Index /></PageGuard>} />
       <Route path="/login" element={<Login />} />
       <Route path="/request-demo" element={<RequestDemo />} />
-      <Route path="/care-at-home" element={<CareAtHome />} />
-      <Route path="/health-systems" element={<HealthSystems />} />
-      <Route path="/clinicians" element={<Clinicians />} />
-      <Route path="/patients" element={<Patients />} />
-      <Route path="/news" element={<News />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      <Route path="/terms-of-service" element={<TermsOfService />} />
-      <Route path="/hipaa-compliance" element={<HIPAACompliance />} />
-      <Route path="/data-security" element={<DataSecurity />} />
+      <Route path="/care-at-home" element={<PageGuard><CareAtHome /></PageGuard>} />
+      <Route path="/health-systems" element={<PageGuard><HealthSystems /></PageGuard>} />
+      <Route path="/clinicians" element={<PageGuard><Clinicians /></PageGuard>} />
+      <Route path="/patients" element={<PageGuard><Patients /></PageGuard>} />
+      <Route path="/news" element={<PageGuard><News /></PageGuard>} />
+      <Route path="/about" element={<PageGuard><About /></PageGuard>} />
+      <Route path="/contact" element={<PageGuard><Contact /></PageGuard>} />
+      <Route path="/privacy-policy" element={<PageGuard><PrivacyPolicy /></PageGuard>} />
+      <Route path="/terms-of-service" element={<PageGuard><TermsOfService /></PageGuard>} />
+      <Route path="/hipaa-compliance" element={<PageGuard><HIPAACompliance /></PageGuard>} />
+      <Route path="/data-security" element={<PageGuard><DataSecurity /></PageGuard>} />
       <Route path="/admin" element={
         <ProtectedRoute requireAdmin={true}>
           <Admin />

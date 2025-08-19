@@ -5,10 +5,17 @@ import { ArrowRight, LogIn, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LeadCaptureModal from './LeadCaptureModal';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { supabase } from '@/integrations/supabase/client';
+
+interface PageSetting {
+  page_name: string;
+  is_enabled: boolean;
+}
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [pageSettings, setPageSettings] = useState<PageSetting[]>([]);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -20,6 +27,28 @@ const Navigation = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const loadPageSettings = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('page_settings')
+          .select('page_name, is_enabled');
+
+        if (error) throw error;
+        setPageSettings(data || []);
+      } catch (error) {
+        console.error('Error loading page settings:', error);
+      }
+    };
+
+    loadPageSettings();
+  }, []);
+
+  const isPageEnabled = (pageName: string): boolean => {
+    const setting = pageSettings.find(p => p.page_name === pageName);
+    return setting ? setting.is_enabled : true; // Default to enabled if not found
+  };
 
   return (
     <>
@@ -50,48 +79,62 @@ const Navigation = () => {
               
               {/* Desktop Navigation */}
               <div className="hidden lg:flex items-center space-x-8 h-full mt-3">
-                <Link 
-                  to="/care-at-home" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
-                >
-                  Care At Home
-                </Link>
-                <Link 
-                  to="/health-systems" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
-                >
-                  Health Systems
-                </Link>
-                <Link 
-                  to="/clinicians" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
-                >
-                  Clinicians
-                </Link>
-                <Link 
-                  to="/patients" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
-                >
-                  Patients
-                </Link>
-                <Link 
-                  to="/news" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
-                >
-                  News
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
-                >
-                  About Us
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
-                >
-                  Contact
-                </Link>
+                {isPageEnabled('care-at-home') && (
+                  <Link 
+                    to="/care-at-home" 
+                    className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  >
+                    Care At Home
+                  </Link>
+                )}
+                {isPageEnabled('healthsystems') && (
+                  <Link 
+                    to="/health-systems" 
+                    className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  >
+                    Health Systems
+                  </Link>
+                )}
+                {isPageEnabled('clinicians') && (
+                  <Link 
+                    to="/clinicians" 
+                    className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  >
+                    Clinicians
+                  </Link>
+                )}
+                {isPageEnabled('patients') && (
+                  <Link 
+                    to="/patients" 
+                    className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  >
+                    Patients
+                  </Link>
+                )}
+                {isPageEnabled('news') && (
+                  <Link 
+                    to="/news" 
+                    className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  >
+                    News
+                  </Link>
+                )}
+                {isPageEnabled('about') && (
+                  <Link 
+                    to="/about" 
+                    className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  >
+                    About Us
+                  </Link>
+                )}
+                {isPageEnabled('contact') && (
+                  <Link 
+                    to="/contact" 
+                    className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
+                  >
+                    Contact
+                  </Link>
+                )}
               </div>
             </div>
             
@@ -123,55 +166,69 @@ const Navigation = () => {
           <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-xl z-[99998] animate-fade-in">
             <div className="px-6 py-8">
               <div className="space-y-6">
-                <Link 
-                  to="/care-at-home" 
-                  className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Care At Home
-                </Link>
-                <Link 
-                  to="/health-systems" 
-                  className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Health Systems
-                </Link>
-                <Link 
-                  to="/clinicians" 
-                  className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Clinicians
-                </Link>
-                <Link 
-                  to="/patients" 
-                  className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Patients
-                </Link>
-                <Link 
-                  to="/news" 
-                  className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  News
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  About Us
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Contact
-                </Link>
+                {isPageEnabled('care-at-home') && (
+                  <Link 
+                    to="/care-at-home" 
+                    className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Care At Home
+                  </Link>
+                )}
+                {isPageEnabled('healthsystems') && (
+                  <Link 
+                    to="/health-systems" 
+                    className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Health Systems
+                  </Link>
+                )}
+                {isPageEnabled('clinicians') && (
+                  <Link 
+                    to="/clinicians" 
+                    className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Clinicians
+                  </Link>
+                )}
+                {isPageEnabled('patients') && (
+                  <Link 
+                    to="/patients" 
+                    className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Patients
+                  </Link>
+                )}
+                {isPageEnabled('news') && (
+                  <Link 
+                    to="/news" 
+                    className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    News
+                  </Link>
+                )}
+                {isPageEnabled('about') && (
+                  <Link 
+                    to="/about" 
+                    className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    About Us
+                  </Link>
+                )}
+                {isPageEnabled('contact') && (
+                  <Link 
+                    to="/contact" 
+                    className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Contact
+                  </Link>
+                )}
                 
                 {/* Mobile Action Buttons */}
                 <div className="flex flex-col space-y-4 pt-6">
