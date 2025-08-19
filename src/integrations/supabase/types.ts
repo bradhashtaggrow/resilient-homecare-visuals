@@ -450,6 +450,7 @@ export type Database = {
           created_at: string
           description: string | null
           display_name: string
+          display_order: number | null
           id: string
           is_enabled: boolean
           page_name: string
@@ -459,6 +460,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           display_name: string
+          display_order?: number | null
           id?: string
           is_enabled?: boolean
           page_name: string
@@ -468,6 +470,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           display_name?: string
+          display_order?: number | null
           id?: string
           is_enabled?: boolean
           page_name?: string

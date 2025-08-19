@@ -30,7 +30,7 @@ const PageManager: React.FC = () => {
       const { data, error } = await supabase
         .from('page_settings')
         .select('*')
-        .order('display_name');
+        .order('display_order');
 
       if (error) throw error;
       setPages(data || []);

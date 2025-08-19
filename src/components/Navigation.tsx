@@ -87,7 +87,7 @@ const Navigation = () => {
                     Care At Home
                   </Link>
                 )}
-                {isPageEnabled('healthsystems') && (
+                {isPageEnabled('health-systems') && (
                   <Link 
                     to="/health-systems" 
                     className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
@@ -175,7 +175,7 @@ const Navigation = () => {
                     Care At Home
                   </Link>
                 )}
-                {isPageEnabled('healthsystems') && (
+                {isPageEnabled('health-systems') && (
                   <Link 
                     to="/health-systems" 
                     className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
