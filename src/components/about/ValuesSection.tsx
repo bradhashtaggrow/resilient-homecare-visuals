@@ -38,7 +38,7 @@ const ValuesSection = () => {
       const { data } = await supabase
         .from('website_content')
         .select('*')
-        .eq('section_key', 'about_core_values')
+        .eq('section_key', 'about_values')
         .eq('is_active', true)
         .single();
 
@@ -57,7 +57,7 @@ const ValuesSection = () => {
     const channel = supabase
       .channel('core-values-changes')
       .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.about_core_values' },
+        { event: '*', schema: 'public', table: 'website_content', filter: 'section_key=eq.about_values' },
         () => loadContent()
       )
       .subscribe();
