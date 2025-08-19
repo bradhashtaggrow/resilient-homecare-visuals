@@ -125,8 +125,8 @@ const LeadGenSection = () => {
             <div className="absolute bottom-0 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-36 lg:h-36 bg-white/5 rounded-full translate-y-8 sm:translate-y-12 lg:translate-y-18 -translate-x-8 sm:-translate-x-12 lg:-translate-x-18 group-hover:scale-110 transition-transform duration-1000 delay-200" />
             
             <div className="relative z-10">
-              <h3 className="text-white leading-none tracking-tight font-[500] mb-4 sm:mb-6 group-hover:scale-105 transition-transform duration-500"
-                  style={{ fontSize: 'clamp(1.5rem, 6vw, 4rem)', lineHeight: 0.85 }}>
+              <h3 className="text-white leading-none tracking-tight font-black mb-4 sm:mb-6 group-hover:scale-105 transition-transform duration-500"
+                  style={{ fontSize: 'clamp(1.5rem, 6vw, 4rem)', fontWeight: 900, lineHeight: 0.85 }}>
                 {content.title}
               </h3>
               {content.subtitle && (
