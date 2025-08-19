@@ -169,7 +169,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-6 sm:pt-8">
           <div className="flex flex-col space-y-4 md:flex-row md:justify-between md:items-center md:space-y-0">
             <div className="text-gray-400 text-xs sm:text-sm text-center md:text-left">
-              © {currentYear} Resilient Healthcare. All rights reserved.
+              2025 Resilient Healthcare Corp. All rights reserved.
             </div>
             
           </div>
