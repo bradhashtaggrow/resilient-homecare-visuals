@@ -225,7 +225,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
         query = query.or(`section_key.eq.health_systems_hero,section_key.eq.health_systems_why_transform,section_key.eq.health_systems_benefits,section_key.eq.health_systems_features,section_key.eq.health_systems_values,section_key.eq.footer`);
       } else if (selectedPage === 'patients') {
         // For patients page, show specific sections
-        query = query.or(`section_key.eq.patients_hero,section_key.eq.patients_footer,section_key.eq.patient_tabs`);
+        query = query.or(`section_key.eq.patients_hero,section_key.eq.patients_mobile,section_key.eq.patients_footer,section_key.eq.patient_tabs`);
       } else if (selectedPage === 'care-at-home') {
         // For care at home page, show specific sections
         query = query.or(`section_key.eq.care_at_home_hero,section_key.eq.care_at_home_future,section_key.eq.care_at_home_hospitals,section_key.eq.care_at_home_referrals,section_key.eq.care_at_home_delivery,section_key.eq.care_at_home_workflows,section_key.eq.care_at_home_payment,section_key.eq.care_at_home_mobile,section_key.eq.care_at_home_services,section_key.eq.care_at_home_value_prop,section_key.eq.care_at_home_stats,section_key.eq.care_at_home_footer`);
