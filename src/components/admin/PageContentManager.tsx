@@ -8,6 +8,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 import { 
   Edit3, 
@@ -65,6 +66,9 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
   syncStatus = 'disconnected',
   selectedPage 
 }) => {
+  // Initialize global sync system
+  const { isListening } = useWebsiteSync();
+  
   const [content, setContent] = useState<WebsiteContent[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingSection, setEditingSection] = useState<string | null>(null);
@@ -173,71 +177,27 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
   useEffect(() => {
     loadContent();
     
-    // Set up filtered real-time subscription based on selected page
-    let contentFilter = '';
-    if (selectedPage === 'home') {
-      contentFilter = 'section_key=in.(hero,patient_tabs,services,mobile_showcase,value_proposition,admin_dashboard,founder,stats,lead_generation,navigation,footer)';
-    } else if (selectedPage === 'contact') {
-      contentFilter = 'section_key=in.(contact_hero,footer)';
-    } else if (selectedPage === 'clinicians') {
-      contentFilter = 'section_key=in.(clinicians_hero,clinicians_hospitals,clinicians_referrals,clinicians_delivery,clinicians_workflows,clinicians_payment,clinicians_join,clinicians_tools,clinicians_benefits,clinicians_footer,clinicians_mobile)';
-    } else if (selectedPage === 'about') {
-      contentFilter = 'section_key=in.(about_hero,about_rain_section,about_why_choose_resilient,about_for_hospitals,about_for_clinicians,about_core_values_header,about_core_values_compassionate,about_core_values_excellence,about_core_values_innovation,about_footer)';
-    } else if (selectedPage === 'health-systems') {
-      contentFilter = 'section_key=in.(health_systems_hero,health_systems_why_transform,health_systems_benefits,health_systems_features,health_systems_values,footer)';
-    } else if (selectedPage === 'patients') {
-      contentFilter = 'section_key=in.(patients_hero,patients_footer,patient_tabs)';
-    } else if (selectedPage === 'care-at-home') {
-      contentFilter = 'section_key=in.(care_at_home_hero,care_at_home_future,care_at_home_hospitals,care_at_home_referrals,care_at_home_delivery,care_at_home_workflows,care_at_home_payment,care_at_home_mobile,care_at_home_services,care_at_home_value_prop,care_at_home_stats,care_at_home_footer)';
-    } else if (selectedPage === 'news') {
-      contentFilter = 'section_key=in.(news_hero,news_featured,news_insights,news_footer)';
-    } else if (selectedPage === 'privacy-policy') {
-      contentFilter = 'section_key=in.(privacy_hero,privacy_body)';
-    } else if (selectedPage === 'terms-of-service') {
-      contentFilter = 'section_key=in.(terms_hero,terms_body)';
-    } else if (selectedPage === 'hipaa-compliance') {
-      contentFilter = 'section_key=in.(hipaa_hero,hipaa_body)';
-    } else if (selectedPage === 'data-security') {
-      contentFilter = 'section_key=in.(security_hero,security_body)';
-    } else {
-      const prefix = getPagePrefix(selectedPage);
-      contentFilter = `section_key=in.(${prefix}hero,${prefix}footer)`;
-    }
-    
-    const channel = supabase
-      .channel(`website-content-changes-${selectedPage}`)
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: contentFilter
-      }, (payload) => {
-        console.log(`Real-time ${selectedPage} content change:`, payload);
+    // Listen for global content sync updates instead of creating duplicate subscription
+    const handleGlobalContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' || table === 'media_library') {
+        console.log(`Admin CMS detected global content update for ${selectedPage}:`, data);
         loadContent();
-      })
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'media_library'
-      }, (payload) => {
-        console.log('Real-time media change:', payload);
-        loadContent();
-      })
-      .subscribe();
+      }
+    };
 
+    window.addEventListener('content-sync-update', handleGlobalContentUpdate as EventListener);
+    
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleGlobalContentUpdate as EventListener);
     };
   }, [selectedPage]);
 
   const getSyncStatusIcon = () => {
-    switch (syncStatus) {
-      case 'connected':
-        return <Wifi className="h-4 w-4 text-green-600" />;
-      case 'syncing':
-        return <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />;
-      default:
-        return <WifiOff className="h-4 w-4 text-red-600" />;
+    if (isListening) {
+      return <Wifi className="h-4 w-4 text-green-600" />;
+    } else {
+      return <WifiOff className="h-4 w-4 text-red-600" />;
     }
   };
 
@@ -619,8 +579,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
         <div className="flex items-center space-x-2">
           {getSyncStatusIcon()}
           <Badge variant="outline" className="text-sm">
-            {syncStatus === 'connected' ? 'Live Updates' : 
-             syncStatus === 'syncing' ? 'Syncing' : 'Offline'}
+            {isListening ? 'Live Updates' : 'Connecting...'}
           </Badge>
         </div>
       </div>
