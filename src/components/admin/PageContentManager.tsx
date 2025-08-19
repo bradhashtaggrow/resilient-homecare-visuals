@@ -254,6 +254,24 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       } else if (selectedPage === 'contact') {
         // For contact page, show hero section first then footer
         query = query.or(`section_key.eq.contact_hero,section_key.eq.footer`);
+      } else if (selectedPage === 'clinicians') {
+        // For clinicians page, show specific sections
+        query = query.or(`section_key.eq.clinicians_hero,section_key.eq.clinicians_hospitals,section_key.eq.clinicians_referrals,section_key.eq.clinicians_delivery,section_key.eq.clinicians_workflows,section_key.eq.clinicians_payment,section_key.eq.clinicians_join,section_key.eq.clinicians_tools,section_key.eq.clinicians_benefits,section_key.eq.clinicians_footer,section_key.eq.clinicians_mobile`);
+      } else if (selectedPage === 'about') {
+        // For about page, show specific sections
+        query = query.or(`section_key.eq.about_hero,section_key.eq.about_rain_section,section_key.eq.about_why_choose_resilient,section_key.eq.about_for_hospitals,section_key.eq.about_for_clinicians,section_key.eq.about_core_values_header,section_key.eq.about_core_values_compassionate,section_key.eq.about_core_values_excellence,section_key.eq.about_core_values_innovation,section_key.eq.about_footer`);
+      } else if (selectedPage === 'health-systems') {
+        // For health systems page, show specific sections
+        query = query.or(`section_key.eq.health_systems_hero,section_key.eq.health_systems_why_transform,section_key.eq.health_systems_benefits,section_key.eq.health_systems_features,section_key.eq.health_systems_values,section_key.eq.footer`);
+      } else if (selectedPage === 'patients') {
+        // For patients page, show specific sections
+        query = query.or(`section_key.eq.patients_hero,section_key.eq.patients_footer,section_key.eq.patient_tabs`);
+      } else if (selectedPage === 'care-at-home') {
+        // For care at home page, show specific sections
+        query = query.or(`section_key.eq.care_at_home_hero,section_key.eq.care_at_home_future,section_key.eq.care_at_home_hospitals,section_key.eq.care_at_home_referrals,section_key.eq.care_at_home_delivery,section_key.eq.care_at_home_workflows,section_key.eq.care_at_home_payment,section_key.eq.care_at_home_mobile,section_key.eq.care_at_home_services,section_key.eq.care_at_home_value_prop,section_key.eq.care_at_home_stats,section_key.eq.care_at_home_footer`);
+      } else if (selectedPage === 'news') {
+        // For news page, show specific sections
+        query = query.or(`section_key.eq.news_hero,section_key.eq.news_featured,section_key.eq.news_insights,section_key.eq.news_footer`);
       } else if (selectedPage === 'privacy-policy') {
         // For privacy policy page, show hero and body sections only
         query = query.or(`section_key.eq.privacy_hero,section_key.eq.privacy_body`);
