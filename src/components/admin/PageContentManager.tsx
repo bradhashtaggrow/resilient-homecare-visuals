@@ -147,13 +147,16 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       'core_values_compassionate': 8,
       'core_values_excellence': 9,
       'core_values_innovation': 10,
+      // Health Systems specific sections
+      'why_transform': 3,
+      'benefits': 4,
+      'features': 5,
+      'values': 6,
       'footer': 99, // Footer comes last
       'team': 8,
       'tools': 3,
-      'benefits': 4,
       'services_grid': 3,
       'technology': 4,
-      'features': 3,
       'support': 4,
       'patient_tabs': 3,
       'featured': 3,
@@ -406,9 +409,10 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
       
       // Health Systems
       'health_systems_hero': 'Hero Section',
-      'health_systems_burning_platform': 'Burning Platform',
-      'health_systems_benefits': 'Benefits Section',
-      'health_systems_footer': 'Footer',
+      'health_systems_why_transform': 'Why Transform Your Health System (3 Feature Cards)',
+      'health_systems_benefits': 'For Health Systems (Benefits)',
+      'health_systems_features': 'Platform Features', 
+      'health_systems_values': 'Our Commitment (4 Values Cards)',
       
       'footer': 'Footer'
     };

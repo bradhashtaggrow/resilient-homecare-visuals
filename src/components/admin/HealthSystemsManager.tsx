@@ -1,8 +1,8 @@
 import React from 'react';
-import HealthSystemsContentManager from '@/components/admin/HealthSystemsContentManager';
+import PageContentManager from '@/components/admin/PageContentManager';
 
 const HealthSystemsManager = () => {
-  return <HealthSystemsContentManager syncStatus="connected" />;
+  return <PageContentManager syncStatus="connected" selectedPage="health-systems" />;
 };
 
 export default HealthSystemsManager;
