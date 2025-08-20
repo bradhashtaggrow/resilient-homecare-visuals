@@ -73,6 +73,7 @@ const Footer = () => {
     ],
     Services: [
       { name: 'Care at Home', href: '/care-at-home' },
+      { name: 'Health Systems', href: '/health-systems' },
       { name: 'For Clinicians', href: '/clinicians' },
       { name: 'For Patients', href: '/patients' }
     ],
