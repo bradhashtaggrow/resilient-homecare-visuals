@@ -222,13 +222,13 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                     {/* Half and Half Layout */}
                     <div className={`
                       ${isMobile ? 'flex flex-col' : 'grid grid-cols-2'} 
-                      ${isMobile ? 'min-h-[500px]' : isTablet ? 'min-h-[400px]' : 'min-h-[500px]'}
+                      ${isMobile ? 'min-h-[500px]' : 'min-h-auto'}
                     `}>
                       
                       {/* Left Side - Content */}
                       <div className={`
                         ${isMobile ? 'order-2 p-6' : isTablet ? 'p-6' : 'p-12'} 
-                        flex flex-col justify-center bg-white
+                        flex flex-col justify-start bg-white
                       `}>
                         {/* Floating Icon */}
                         <div 
@@ -261,7 +261,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                         
                         <p className={`
                           ${isMobile ? 'text-base' : isTablet ? 'text-lg' : 'text-lg'} 
-                          text-gray-600 leading-relaxed
+                          text-gray-600 leading-relaxed whitespace-pre-wrap
                         `}>
                           {activeService.description}
                         </p>
