@@ -7,7 +7,6 @@ import MobileShowcase from '@/components/MobileShowcase';
 import ValuePropositionSection from '@/components/ValuePropositionSection';
 import AdminDashboard from '@/components/AdminDashboard';
 import FounderSection from '@/components/FounderSection';
-import StatsSection from '@/components/StatsSection';
 import LeadGenSection from '@/components/LeadGenSection';
 import Footer from '@/components/Footer';
 import { useWebsiteSync } from '@/hooks/useWebsiteSync';
@@ -27,7 +26,6 @@ const Index = () => {
         <ValuePropositionSection />
         <AdminDashboard />
         <FounderSection />
-        <StatsSection />
         <LeadGenSection />
         <Footer />
       </div>
