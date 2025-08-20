@@ -17,7 +17,6 @@ interface StatsContent {
 
 const StatsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [starsReady, setStarsReady] = useState(false);
   const [counts, setCounts] = useState({
     costSavings: 0,
     readmissionReduction: 0,
@@ -178,14 +177,8 @@ const StatsSection = () => {
     const element = document.getElementById('stats-section');
     if (element) observer.observe(element);
 
-    // Initialize stars after a brief delay to prevent glitching
-    const starTimer = setTimeout(() => {
-      setStarsReady(true);
-    }, 100);
-
     return () => {
       observer.disconnect();
-      clearTimeout(starTimer);
     };
   }, []);
 
@@ -237,27 +230,6 @@ const StatsSection = () => {
     }
   }, [isVisible, content.content_data?.stats]);
 
-  // Generate stable star positions
-  const generateStars = () => {
-    const stars = [];
-    for (let i = 0; i < 80; i++) {
-      const x = (i * 13 + 7) % 100;
-      const y = (i * 17 + 11) % 100;
-      const delay = (i * 0.1) % 4;
-      const duration = 2 + (i % 3);
-      
-      stars.push({
-        id: i,
-        x,
-        y,
-        delay,
-        duration
-      });
-    }
-    return stars;
-  };
-
-  const stars = generateStars();
 
   // Icon mapping
   const getIconComponent = (iconName: string) => {
