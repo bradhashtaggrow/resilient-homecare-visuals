@@ -92,7 +92,7 @@ We may update this Privacy Policy periodically. We will notify you of any materi
 If you have questions about this Privacy Policy or our privacy practices, please contact us at:
 
 Resilient Healthcare
-Email: info@resilienthc.com
+Email: info@resilienthc.org
 Phone: +1 888-874-0852
 Address: Dallas, TX`
     }
@@ -231,7 +231,7 @@ Address: Dallas, TX`
 
             <div className="bg-gray-50 p-6 rounded-lg mt-8">
               <p className="text-gray-700 mb-2"><strong>Resilient Healthcare</strong></p>
-              <p className="text-gray-700 mb-2">Email: info@resilienthc.com</p>
+              <p className="text-gray-700 mb-2">Email: info@resilienthc.org</p>
               <p className="text-gray-700 mb-2">Phone: +1 888-874-0852</p>
               <p className="text-gray-700">Address: Dallas, TX</p>
             </div>

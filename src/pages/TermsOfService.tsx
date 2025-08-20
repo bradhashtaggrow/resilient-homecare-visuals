@@ -51,7 +51,7 @@ The information provided by Resilient Healthcare is for educational and informat
 Your privacy is important to us. Please review our Privacy Policy, which also governs your use of our services, to understand our practices.
 
 11. Contact Information
-Questions about the Terms of Service should be sent to us at info@resilienthc.com.`
+Questions about the Terms of Service should be sent to us at info@resilienthc.org.`
     }
   });
 
@@ -188,7 +188,7 @@ Questions about the Terms of Service should be sent to us at info@resilienthc.co
 
             <div className="bg-gray-50 p-6 rounded-lg mt-8">
               <p className="text-gray-700 mb-2"><strong>Resilient Healthcare</strong></p>
-              <p className="text-gray-700 mb-2">Email: info@resilienthc.com</p>
+              <p className="text-gray-700 mb-2">Email: info@resilienthc.org</p>
               <p className="text-gray-700 mb-2">Phone: +1 888-874-0852</p>
               <p className="text-gray-700">Address: Dallas, TX</p>
             </div>
