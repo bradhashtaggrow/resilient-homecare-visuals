@@ -100,9 +100,12 @@ const WhyHealthSystemsSection = () => {
     <section className="py-12 md:py-16 lg:py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 md:mb-12 lg:mb-16">
-          <h2 className="font-black tracking-tight font-apple mb-4 sm:mb-6" 
-              style={{ fontSize: 'clamp(1.5rem, 6vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
-            {content.title}
+          <h2 className="font-black mb-4 md:mb-6 lg:mb-8 tracking-tight leading-none text-gray-900"
+              style={{ fontSize: 'clamp(2rem, 6vw, 6rem)' }}>
+            Why Transform Your{' '}
+            <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent">
+              Health System?
+            </span>
           </h2>
           <p className="text-base md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
             {content.subtitle}
