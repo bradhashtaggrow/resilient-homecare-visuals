@@ -320,23 +320,6 @@ const StatsSection = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       </div>
 
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        {starsReady && stars.map((star) => (
-          <div
-            key={star.id}
-            className="absolute w-1 h-1 bg-white/20 rounded-full"
-            style={{
-              left: `${star.x}%`,
-              top: `${star.y}%`,
-              animation: `twinkle ${star.duration}s ease-in-out infinite`,
-              animationDelay: `${star.delay}s`,
-              opacity: 0,
-              animationFillMode: 'forwards'
-            }}
-          />
-        ))}
-      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className={`text-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-1200 ${
