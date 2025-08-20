@@ -110,7 +110,7 @@ const AdminLaptopVisualization = ({
                           type="text" 
                           placeholder="Enter your email"
                           className="w-full p-3 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 rounded-lg border text-sm"
-                          defaultValue="admin@resilienthc.com"
+                          defaultValue="admin@resilienthc.org"
                         />
                       </div>
                     </div>

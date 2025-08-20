@@ -6,7 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { createAdminUser } from '@/utils/createAdminUser';
 
 export const AdminUserCreator: React.FC = () => {
-  const [email, setEmail] = useState('admin@resilienthc.com');
+  const [email, setEmail] = useState('admin@resilienthc.org');
   const [password, setPassword] = useState('Admin123!');
   const [isCreating, setIsCreating] = useState(false);
   const { toast } = useToast();
@@ -51,7 +51,7 @@ export const AdminUserCreator: React.FC = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="admin@resilienthc.com"
+            placeholder="admin@resilienthc.org"
           />
         </div>
         <div>
