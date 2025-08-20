@@ -100,8 +100,8 @@ const WhyHealthSystemsSection = () => {
     <section className="py-12 md:py-16 lg:py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 md:mb-12 lg:mb-16">
-          <h2 className="font-black tracking-tight font-apple mb-4 md:mb-6" 
-              style={{ fontSize: 'clamp(1.5rem, 4vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
+          <h2 className="font-black tracking-tight font-apple mb-4 sm:mb-6" 
+              style={{ fontSize: 'clamp(1.5rem, 6vw, 4rem)', fontWeight: 900, lineHeight: 0.9 }}>
             {content.title}
           </h2>
           <p className="text-base md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
