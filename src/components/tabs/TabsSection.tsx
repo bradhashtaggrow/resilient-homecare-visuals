@@ -169,10 +169,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
                         </div>
                         <div className="text-left flex-1">
                           <div className={`font-semibold ${isMobile ? 'text-sm' : isTablet ? 'text-sm' : 'text-sm'} ${isActive ? 'text-white' : 'text-gray-700'}`}>
-                            {isMobile 
-                              ? service.title
-                              : service.title.split(' ').slice(0, 2).join(' ')
-                            }
+                            {service.title}
                           </div>
                           {isMobile && (
                             <div className={`text-xs mt-1 ${isActive ? 'text-white/80' : 'text-gray-500'}`}>
