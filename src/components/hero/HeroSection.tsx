@@ -35,7 +35,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, highlightedText, descr
             <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent">{highlightedText}</span>
           </h1>
           {description && (
-            <p className="text-white/90 mt-8 text-xl leading-relaxed max-w-3xl mx-auto">
+            <p className="text-white/90 mt-8 leading-relaxed max-w-3xl mx-auto font-apple font-medium tracking-wide"
+               style={{ fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', lineHeight: 1.4 }}>
               {description}
             </p>
           )}
