@@ -16,6 +16,8 @@ const About = () => {
   // Initialize optimized real-time sync for independent operation
   const { isListening } = useWebsiteSync();
   
+  console.log('About page - Real-time sync status:', isListening);
+  
   const [heroContent, setHeroContent] = useState({
     title: "About Resilient",
     highlightedText: "Healthcare",
@@ -74,6 +76,7 @@ const About = () => {
     // Listen for real-time updates via global content sync system
     const handleContentUpdate = (event: CustomEvent) => {
       const { table, data } = event.detail;
+      console.log('About page received content update:', { table, data });
       if (table === 'website_content' && (
         data.section_key === 'about_hero' || 
         data.section_key === 'about_for_hospitals' ||
