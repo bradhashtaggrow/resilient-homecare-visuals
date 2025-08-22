@@ -114,7 +114,7 @@ For questions about our HIPAA compliance practices or to report potential violat
 
 HIPAA Privacy Officer
 Resilient Healthcare
-Email: privacy@resilienthc.org
+Email: info@ResilientHC.org
 Phone: +1 888-874-0852
 Address: Dallas, TX`
     }
@@ -254,7 +254,7 @@ Address: Dallas, TX`
             <div className="bg-gray-50 p-6 rounded-lg mt-8">
               <p className="text-gray-700 mb-2"><strong>HIPAA Privacy Officer</strong></p>
               <p className="text-gray-700 mb-2"><strong>Resilient Healthcare</strong></p>
-              <p className="text-gray-700 mb-2">Email: privacy@resilienthc.org</p>
+              <p className="text-gray-700 mb-2">Email: info@ResilientHC.org</p>
               <p className="text-gray-700 mb-2">Phone: +1 888-874-0852</p>
               <p className="text-gray-700">Address: Dallas, TX</p>
             </div>
