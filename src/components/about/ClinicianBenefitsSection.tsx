@@ -15,9 +15,9 @@ const ClinicianBenefitsSection = () => {
     title: "For Clinicians",
     subtitle: "More Flexibility, More Earnings, More Patient Impact",
     benefits: [
-      "Work on your schedule—join the home healthcare gig economy.",
-      "RAIN automates scheduling, payments, and records management for a seamless experience.",
-      "Deliver high-quality, patient-centered care with less bureaucracy."
+      "Work on your schedule—join the home healthcare revolution",
+      "RAIN automates scheduling, payments, and records management for a seamless experience",
+      "Deliver high-quality, patient-centered care with less bureaucracy"
     ]
   });
 
@@ -33,10 +33,15 @@ const ClinicianBenefitsSection = () => {
 
         if (data && !error) {
           console.log('Loaded clinician content:', data);
+          const benefits = (data.content_data as any)?.benefits || [
+            "Work on your schedule—join the home healthcare revolution",
+            "RAIN automates scheduling, payments, and records management for a seamless experience",
+            "Deliver high-quality, patient-centered care with less bureaucracy"
+          ];
           setContent({
             title: data.title || "For Clinicians",
             subtitle: data.subtitle || "More Flexibility, More Earnings, More Patient Impact",
-            benefits: (data.content_data as any)?.benefits || [],
+            benefits: benefits,
             image_url: (data.content_data as any)?.image_url
           });
         }
