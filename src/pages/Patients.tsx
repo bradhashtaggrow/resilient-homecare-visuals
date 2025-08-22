@@ -72,12 +72,14 @@ const Patients = () => {
 
         if (heroData) {
           console.log('Loaded patients hero content:', heroData);
-          // Split the title properly - the CMS stores "Hospital-Quality Care at Home"
-          const fullTitle = heroData.title || 'Hospital-Quality Care at Home';
-          const parts = fullTitle.split(' at ');
+          // Split the title properly to highlight just "Home"
+          const fullTitle = heroData.title || 'Receive Exceptional Care In The Comfort Of Your Home';
+          // Remove any duplicate "at Home" and split to make just "Home" blue
+          const cleanTitle = fullTitle.replace(' at Home', '');
+          const parts = cleanTitle.split(' Home');
           const newHeroContent = {
-            title: parts[0],  // "Hospital-Quality Care"
-            highlightedText: parts[1] ? 'at ' + parts[1] : 'at Home',  // "at Home"
+            title: parts[0] + (parts[0].endsWith('Your') ? '' : ' Your'),  // "Receive Exceptional Care In The Comfort Of Your"
+            highlightedText: 'Home',  // Just "Home" in blue
             description: heroData.description || '',
             backgroundVideoUrl: heroData.background_video_url || ''
           };
