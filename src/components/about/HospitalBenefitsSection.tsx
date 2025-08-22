@@ -17,7 +17,7 @@ const HospitalBenefitsSection = () => {
     benefits: [
       "Reduce readmissions by 25-40% while optimizing care efficiency.",
       "Scale hospital-at-home services with on-demand contract clinicians.",
-      "Maintain profitability with AI-driven automation that reduces overhead."
+      "Maintain/improve profitability with AI-driven automation."
     ]
   });
 
