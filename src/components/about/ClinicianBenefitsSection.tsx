@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { UserCheck, CheckCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useWebsiteSync } from '@/hooks/useWebsiteSync';
 
 interface ClinicianContent {
   title: string;
@@ -11,6 +12,7 @@ interface ClinicianContent {
 }
 
 const ClinicianBenefitsSection = () => {
+  const { lastUpdate } = useWebsiteSync(); // Use the global sync system
   const [content, setContent] = useState<ClinicianContent>({
     title: "For Clinicians",
     subtitle: "More Flexibility, More Earnings, More Patient Impact",
@@ -21,84 +23,79 @@ const ClinicianBenefitsSection = () => {
     ]
   });
 
-  useEffect(() => {
-    const loadContent = async () => {
-      try {
-        console.log('🔍 Loading clinician content from database...');
-        const { data, error } = await supabase
-          .from('website_content')
-          .select('*')
-          .eq('section_key', 'about_for_clinicians')
-          .eq('is_active', true);
+  const loadContent = async () => {
+    try {
+      console.log('🔍 Loading clinician content from database...');
+      const { data, error } = await supabase
+        .from('website_content')
+        .select('*')
+        .eq('section_key', 'about_for_clinicians')
+        .eq('is_active', true);
 
-        console.log('📊 Database query result:', { data, error });
+      console.log('📊 Database query result:', { data, error });
 
-        if (data && data.length > 0 && !error) {
-          const contentData = data[0];
-          console.log('✅ Loaded clinician content:', contentData);
-          
-          // Parse benefits from content_data
-          let benefits = [
-            "Work on your schedule—join the home healthcare revolution",
-            "RAIN automates scheduling, payments, and records management for a seamless experience",
-            "Deliver high-quality, patient-centered care with less bureaucracy"
-          ];
+      if (data && data.length > 0 && !error) {
+        const contentData = data[0];
+        console.log('✅ Loaded clinician content:', contentData);
+        
+        // Parse benefits from content_data first, then fallback to description
+        let benefits = [
+          "Work on your schedule—join the home healthcare revolution",
+          "RAIN automates scheduling, payments, and records management for a seamless experience",
+          "Deliver high-quality, patient-centered care with less bureaucracy"
+        ];
 
-          if (contentData.content_data) {
-            const parsedData = contentData.content_data as any;
-            if (parsedData.benefits && Array.isArray(parsedData.benefits)) {
-              benefits = parsedData.benefits;
-            } else if (contentData.description) {
-              // Parse description as benefits (split by line breaks)
-              benefits = contentData.description.split('\n').filter(line => line.trim());
-            }
+        if (contentData.content_data && typeof contentData.content_data === 'object' && contentData.content_data !== null) {
+          const parsedData = contentData.content_data as any;
+          if (parsedData.benefits && Array.isArray(parsedData.benefits)) {
+            benefits = parsedData.benefits;
+            console.log('📝 Using benefits from content_data:', benefits);
           }
-
-          console.log('📝 Parsed benefits:', benefits);
-
-          setContent({
-            title: contentData.title || "For Clinicians",
-            subtitle: contentData.subtitle || "More Flexibility, More Earnings, More Patient Impact",
-            benefits: benefits,
-            image_url: (contentData.content_data as any)?.image_url
-          });
-        } else {
-          console.log('❌ No clinician content found, using defaults');
+        } 
+        
+        if (benefits.length === 3 && contentData.description) {
+          // Parse description as benefits (split by line breaks)
+          benefits = contentData.description.split('\n').filter(line => line.trim());
+          console.log('📝 Using benefits from description:', benefits);
         }
-      } catch (error) {
-        console.error('❌ Error loading clinician content:', error);
+
+        const imageUrl = contentData.content_data && typeof contentData.content_data === 'object' && contentData.content_data !== null 
+          ? (contentData.content_data as any)?.image_url 
+          : undefined;
+
+        setContent({
+          title: contentData.title || "For Clinicians",
+          subtitle: contentData.subtitle || "More Flexibility, More Earnings, More Patient Impact",
+          benefits: benefits,
+          image_url: imageUrl
+        });
+      } else {
+        console.log('❌ No clinician content found, using defaults');
       }
-    };
+    } catch (error) {
+      console.error('❌ Error loading clinician content:', error);
+    }
+  };
 
+  useEffect(() => {
     loadContent();
+  }, []);
 
-    // Set up real-time subscription directly to the database
-    console.log('🔄 Setting up real-time subscription for clinician content...');
-    const channel = supabase
-      .channel('clinician-content-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'website_content',
-          filter: 'section_key=eq.about_for_clinicians'
-        },
-        (payload) => {
-          console.log('🚨 Real-time update received:', payload);
-          loadContent();
-        }
-      )
-      .subscribe((status) => {
-        console.log('📡 Clinician content subscription status:', status);
-      });
+  // Reload content when global sync updates
+  useEffect(() => {
+    if (lastUpdate) {
+      console.log('🔄 Global sync triggered reload for clinician content');
+      loadContent();
+    }
+  }, [lastUpdate]);
 
-    // Also listen for global content sync events
+  // Also listen for specific content sync events
+  useEffect(() => {
     const handleContentUpdate = (event: CustomEvent) => {
       const { table, data } = event.detail;
-      console.log('🌐 Global content sync event:', { table, data });
-      if (table === 'website_content' && data.section_key === 'about_for_clinicians') {
-        console.log('🎯 Clinician content updated via global sync:', data);
+      console.log('🌐 Content sync event received:', { table, data });
+      if (table === 'website_content' && data?.section_key === 'about_for_clinicians') {
+        console.log('🎯 Clinician content updated via event:', data);
         loadContent();
       }
     };
@@ -106,8 +103,6 @@ const ClinicianBenefitsSection = () => {
     window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
     
     return () => {
-      console.log('🧹 Cleaning up clinician content subscriptions...');
-      supabase.removeChannel(channel);
       window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
