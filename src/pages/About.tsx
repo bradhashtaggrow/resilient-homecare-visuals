@@ -74,7 +74,11 @@ const About = () => {
     // Listen for real-time updates via global content sync system
     const handleContentUpdate = (event: CustomEvent) => {
       const { table, data } = event.detail;
-      if (table === 'website_content' && data.section_key === 'about_hero') {
+      if (table === 'website_content' && (
+        data.section_key === 'about_hero' || 
+        data.section_key === 'about_for_hospitals' ||
+        data.section_key === 'about_for_clinicians'
+      )) {
         console.log('About content updated via real-time sync:', data);
         loadContent();
       }

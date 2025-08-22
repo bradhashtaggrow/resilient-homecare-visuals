@@ -47,21 +47,19 @@ const ClinicianBenefitsSection = () => {
 
     loadContent();
 
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('clinician-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'website_content',
-        filter: 'section_key=eq.about_for_clinicians'
-      }, () => {
+    // Listen for real-time updates via global content sync system
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { table, data } = event.detail;
+      if (table === 'website_content' && data.section_key === 'about_for_clinicians') {
+        console.log('Clinician content updated via real-time sync:', data);
         loadContent();
-      })
-      .subscribe();
+      }
+    };
 
+    window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
+    
     return () => {
-      supabase.removeChannel(channel);
+      window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
 
