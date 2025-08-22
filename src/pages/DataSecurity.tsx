@@ -125,9 +125,8 @@ For security-related inquiries or to report security incidents, please contact:
 
 Chief Information Security Officer
 Resilient Healthcare
-Email: security@resilienthc.org
+Email: info@ResilientHC.org
 Phone: +1 888-874-0852
-Security Hotline: Available 24/7
 Address: Dallas, TX`
     }
   });
@@ -266,9 +265,8 @@ Address: Dallas, TX`
             <div className="bg-gray-50 p-6 rounded-lg mt-8">
               <p className="text-gray-700 mb-2"><strong>Chief Information Security Officer</strong></p>
               <p className="text-gray-700 mb-2"><strong>Resilient Healthcare</strong></p>
-              <p className="text-gray-700 mb-2">Email: security@resilienthc.org</p>
+              <p className="text-gray-700 mb-2">Email: info@ResilientHC.org</p>
               <p className="text-gray-700 mb-2">Phone: +1 888-874-0852</p>
-              <p className="text-gray-700 mb-2">Security Hotline: Available 24/7</p>
               <p className="text-gray-700">Address: Dallas, TX</p>
             </div>
           </div>
