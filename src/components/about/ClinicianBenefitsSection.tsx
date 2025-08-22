@@ -24,39 +24,81 @@ const ClinicianBenefitsSection = () => {
   useEffect(() => {
     const loadContent = async () => {
       try {
+        console.log('🔍 Loading clinician content from database...');
         const { data, error } = await supabase
           .from('website_content')
           .select('*')
           .eq('section_key', 'about_for_clinicians')
-          .eq('is_active', true)
-          .single();
+          .eq('is_active', true);
 
-        if (data && !error) {
-          console.log('Loaded clinician content:', data);
-          const benefits = (data.content_data as any)?.benefits || [
+        console.log('📊 Database query result:', { data, error });
+
+        if (data && data.length > 0 && !error) {
+          const contentData = data[0];
+          console.log('✅ Loaded clinician content:', contentData);
+          
+          // Parse benefits from content_data
+          let benefits = [
             "Work on your schedule—join the home healthcare revolution",
             "RAIN automates scheduling, payments, and records management for a seamless experience",
             "Deliver high-quality, patient-centered care with less bureaucracy"
           ];
+
+          if (contentData.content_data) {
+            const parsedData = contentData.content_data as any;
+            if (parsedData.benefits && Array.isArray(parsedData.benefits)) {
+              benefits = parsedData.benefits;
+            } else if (contentData.description) {
+              // Parse description as benefits (split by line breaks)
+              benefits = contentData.description.split('\n').filter(line => line.trim());
+            }
+          }
+
+          console.log('📝 Parsed benefits:', benefits);
+
           setContent({
-            title: data.title || "For Clinicians",
-            subtitle: data.subtitle || "More Flexibility, More Earnings, More Patient Impact",
+            title: contentData.title || "For Clinicians",
+            subtitle: contentData.subtitle || "More Flexibility, More Earnings, More Patient Impact",
             benefits: benefits,
-            image_url: (data.content_data as any)?.image_url
+            image_url: (contentData.content_data as any)?.image_url
           });
+        } else {
+          console.log('❌ No clinician content found, using defaults');
         }
       } catch (error) {
-        console.error('Error loading clinician content:', error);
+        console.error('❌ Error loading clinician content:', error);
       }
     };
 
     loadContent();
 
-    // Listen for real-time updates via global content sync system
+    // Set up real-time subscription directly to the database
+    console.log('🔄 Setting up real-time subscription for clinician content...');
+    const channel = supabase
+      .channel('clinician-content-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'website_content',
+          filter: 'section_key=eq.about_for_clinicians'
+        },
+        (payload) => {
+          console.log('🚨 Real-time update received:', payload);
+          loadContent();
+        }
+      )
+      .subscribe((status) => {
+        console.log('📡 Clinician content subscription status:', status);
+      });
+
+    // Also listen for global content sync events
     const handleContentUpdate = (event: CustomEvent) => {
       const { table, data } = event.detail;
+      console.log('🌐 Global content sync event:', { table, data });
       if (table === 'website_content' && data.section_key === 'about_for_clinicians') {
-        console.log('Clinician content updated via real-time sync:', data);
+        console.log('🎯 Clinician content updated via global sync:', data);
         loadContent();
       }
     };
@@ -64,6 +106,8 @@ const ClinicianBenefitsSection = () => {
     window.addEventListener('content-sync-update', handleContentUpdate as EventListener);
     
     return () => {
+      console.log('🧹 Cleaning up clinician content subscriptions...');
+      supabase.removeChannel(channel);
       window.removeEventListener('content-sync-update', handleContentUpdate as EventListener);
     };
   }, []);
