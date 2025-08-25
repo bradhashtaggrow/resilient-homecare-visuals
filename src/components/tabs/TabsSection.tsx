@@ -98,7 +98,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
       >
         {/* Responsive Header Section */}
         <div className="text-center pt-16 md:pt-24 lg:pt-32 pb-12 md:pb-16 lg:pb-20 px-4 md:px-6 lg:px-8">          
-          <h2 className="font-black mb-4 md:mb-6 lg:mb-8 tracking-tight leading-none text-gray-900"
+          <h2 className="font-apple font-black mb-4 md:mb-6 lg:mb-8 tracking-tight leading-none text-gray-900"
               style={{ fontSize: 'clamp(2rem, 6vw, 6rem)' }}>
             The Future of{' '}
             <span className="bg-gradient-to-r from-[#0080ff] to-[#0066cc] bg-clip-text text-transparent">
@@ -106,7 +106,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
             </span>
           </h2>
           
-            <p className="text-base sm:text-lg md:text-xl lg:text-xl text-gray-600 max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-bold px-4">
+            <p className="font-apple text-base sm:text-lg md:text-xl lg:text-xl text-gray-600 max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-bold px-4">
               Experience healthcare like never before. Every interaction reimagined.
             </p>
         </div>
