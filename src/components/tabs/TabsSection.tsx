@@ -106,7 +106,8 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
             </span>
           </h2>
           
-            <p className="font-apple text-base sm:text-lg md:text-xl lg:text-xl text-gray-600 max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-bold px-4">
+            <p className="text-gray-600 leading-relaxed font-apple font-medium tracking-wide max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto px-4"
+               style={{ fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', lineHeight: 1.4 }}>
               Experience healthcare like never before. Every interaction reimagined.
             </p>
         </div>
