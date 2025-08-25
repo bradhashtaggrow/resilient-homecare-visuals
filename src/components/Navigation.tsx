@@ -84,7 +84,7 @@ const Navigation = () => {
                     to="/care-at-home" 
                     className="text-gray-700 hover:text-primary transition-colors duration-200 font-apple font-semibold text-base"
                   >
-                    Care At Home
+                    Care at Home
                   </Link>
                 )}
                 {isPageEnabled('health-systems') && (
@@ -172,7 +172,7 @@ const Navigation = () => {
                     className="block text-xl font-semibold text-gray-900 hover:text-primary transition-colors py-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Care At Home
+                    Care at Home
                   </Link>
                 )}
                 {isPageEnabled('health-systems') && (

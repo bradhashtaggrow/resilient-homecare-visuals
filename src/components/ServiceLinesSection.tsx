@@ -117,7 +117,7 @@ const ServiceLinesSection = () => {
     {
       id: 'hospital-at-home',
       icon: 'Building2',
-      title: "Acute Hospital-at-Home",
+      title: "Acute Hospital at Home",
       subtitle: "CMS-Compliant Inpatient Care at Home",
       description: "Full implementation support for hospital-level care delivery in the home environment.",
       benefits: [
