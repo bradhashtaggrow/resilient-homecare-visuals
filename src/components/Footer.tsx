@@ -129,11 +129,11 @@ const Footer = () => {
             <div className="space-y-2 sm:space-y-3">
               <div className="flex items-center space-x-2 sm:space-x-3 justify-center lg:justify-start">
                 <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 flex-shrink-0" />
-                <span className="text-gray-400 text-sm sm:text-base">info@resilienthc.org</span>
+                <a href="mailto:info@resilienthc.org" className="text-gray-400 text-sm sm:text-base hover:text-blue-400 transition-colors">info@resilienthc.org</a>
               </div>
               <div className="flex items-center space-x-2 sm:space-x-3 justify-center lg:justify-start">
                 <Phone className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 flex-shrink-0" />
-                <span className="text-gray-400 text-sm sm:text-base">+1 888-874-0852</span>
+                <a href="tel:+18888740852" className="text-gray-400 text-sm sm:text-base hover:text-blue-400 transition-colors">+1 888-874-0852</a>
               </div>
               <div className="flex items-center space-x-2 sm:space-x-3 justify-center lg:justify-start">
                 <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 flex-shrink-0" />
