@@ -106,9 +106,9 @@ const TabsSection: React.FC<TabsSectionProps> = ({ services }) => {
             </span>
           </h2>
           
-          <p className="text-base sm:text-lg md:text-xl lg:text-xl text-gray-600 max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-light px-4">
-            Experience healthcare like never before. Every interaction reimagined.
-          </p>
+            <p className="text-base sm:text-lg md:text-xl lg:text-xl text-gray-600 max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-bold px-4">
+              Experience healthcare like never before. Every interaction reimagined.
+            </p>
         </div>
 
         {/* Interface Section */}
