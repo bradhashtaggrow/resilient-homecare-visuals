@@ -95,7 +95,8 @@ const WhyResilientSection = () => {
               Resilient?
             </span>
           </h2>
-          <p className="text-base md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
+          <p className="text-gray-600 leading-relaxed font-apple font-medium tracking-wide max-w-3xl mx-auto px-4"
+             style={{ fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', lineHeight: 1.4 }}>
             {content.subtitle}
           </p>
         </div>
