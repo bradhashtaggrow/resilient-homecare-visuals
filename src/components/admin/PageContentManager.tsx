@@ -970,11 +970,11 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                         </div>
                       )}
 
-                      {/* Feature cards management for health_systems_benefits section */}
+                       {/* Feature cards management for health_systems_benefits section */}
                       {section.section_key === 'health_systems_benefits' && (
                         <div className="space-y-4 border-t pt-4">
                           <h4 className="text-lg font-semibold text-gray-900">Feature Cards</h4>
-                          {((editForm.content_data as any)?.features || []).map((feature: any, index: number) => (
+                          {((editForm.content_data as any)?.feature_cards || []).map((feature: any, index: number) => (
                             <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
                               <div className="flex items-center justify-between">
                                 <h5 className="font-medium text-gray-800">Feature Card {index + 1}</h5>
@@ -982,11 +982,11 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                   size="sm"
                                   variant="destructive"
                                   onClick={() => {
-                                    const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                    const newFeatures = [...((editForm.content_data as any)?.feature_cards || [])];
                                     newFeatures.splice(index, 1);
                                     setEditForm({
                                       ...editForm,
-                                      content_data: { ...editForm.content_data, features: newFeatures }
+                                      content_data: { ...editForm.content_data, feature_cards: newFeatures }
                                     });
                                   }}
                                 >
@@ -1002,11 +1002,11 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                   <Input
                                     value={feature.title || ''}
                                     onChange={(e) => {
-                                      const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                      const newFeatures = [...((editForm.content_data as any)?.feature_cards || [])];
                                       newFeatures[index] = { ...newFeatures[index], title: e.target.value };
                                       setEditForm({
                                         ...editForm,
-                                        content_data: { ...editForm.content_data, features: newFeatures }
+                                        content_data: { ...editForm.content_data, feature_cards: newFeatures }
                                       });
                                     }}
                                     placeholder="Feature title"
@@ -1019,11 +1019,11 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                   <Input
                                     value={feature.icon || ''}
                                     onChange={(e) => {
-                                      const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                      const newFeatures = [...((editForm.content_data as any)?.feature_cards || [])];
                                       newFeatures[index] = { ...newFeatures[index], icon: e.target.value };
                                       setEditForm({
                                         ...editForm,
-                                        content_data: { ...editForm.content_data, features: newFeatures }
+                                        content_data: { ...editForm.content_data, feature_cards: newFeatures }
                                       });
                                     }}
                                     placeholder="e.g., TrendingUp, Shield, Users"
@@ -1038,11 +1038,11 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                                 <Textarea
                                   value={feature.description || ''}
                                   onChange={(e) => {
-                                    const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                    const newFeatures = [...((editForm.content_data as any)?.feature_cards || [])];
                                     newFeatures[index] = { ...newFeatures[index], description: e.target.value };
                                     setEditForm({
                                       ...editForm,
-                                      content_data: { ...editForm.content_data, features: newFeatures }
+                                      content_data: { ...editForm.content_data, feature_cards: newFeatures }
                                     });
                                   }}
                                   placeholder="Feature description"
@@ -1067,7 +1067,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                           
                           <Button
                             onClick={() => {
-                              const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                              const newFeatures = [...((editForm.content_data as any)?.feature_cards || [])];
                               newFeatures.push({
                                 title: '',
                                 description: '',
@@ -1076,7 +1076,7 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                               });
                               setEditForm({
                                 ...editForm,
-                                content_data: { ...editForm.content_data, features: newFeatures }
+                                content_data: { ...editForm.content_data, feature_cards: newFeatures }
                               });
                             }}
                             variant="outline"
