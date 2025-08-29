@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Building2, CheckCircle } from 'lucide-react';
+import { Building2, CheckCircle, Users, TrendingUp, Shield, Clock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+
+interface FeatureCard {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  image_url?: string;
+}
 
 interface HealthSystemContent {
   title: string;
   subtitle: string;
-  benefits: string[];
+  description: string;
+  button_text: string;
+  button_url: string;
+  feature_cards: FeatureCard[];
   image_url?: string;
 }
 
@@ -13,14 +24,47 @@ const HealthSystemBenefitsSection = () => {
   const [content, setContent] = useState<HealthSystemContent>({
     title: "For Health Systems",
     subtitle: "Scale Home-Based Care Without Compromising Quality",
-    benefits: [
-      "Expand patient capacity by 40-60% with efficient home-based care delivery.",
-      "Reduce operational costs while improving patient satisfaction and outcomes.",
-      "Integrate seamlessly with existing workflows and technology infrastructure.",
-      "Access on-demand clinical workforce to meet fluctuating care demands."
+    description: "Transform your healthcare delivery with our comprehensive platform.",
+    button_text: "Learn More",
+    button_url: "/about",
+    feature_cards: [
+      {
+        id: '1',
+        title: "Expand Patient Capacity",
+        description: "Increase capacity by 40-60% with efficient home-based care delivery.",
+        icon: "Users"
+      },
+      {
+        id: '2',
+        title: "Reduce Operational Costs",
+        description: "Lower costs while improving patient satisfaction and outcomes.",
+        icon: "TrendingUp"
+      },
+      {
+        id: '3',
+        title: "Seamless Integration",
+        description: "Integrate with existing workflows and technology infrastructure.",
+        icon: "Shield"
+      },
+      {
+        id: '4',
+        title: "On-Demand Workforce",
+        description: "Access clinical workforce to meet fluctuating care demands.",
+        icon: "Clock"
+      }
     ],
     image_url: "https://images.unsplash.com/photo-1527576539890-dfa815648363?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   });
+
+  const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+      case 'Users': return Users;
+      case 'TrendingUp': return TrendingUp;
+      case 'Shield': return Shield;
+      case 'Clock': return Clock;
+      default: return CheckCircle;
+    }
+  };
 
   useEffect(() => {
     const loadContent = async () => {
@@ -37,7 +81,10 @@ const HealthSystemBenefitsSection = () => {
           setContent({
             title: data.title || content.title,
             subtitle: data.subtitle || content.subtitle,
-            benefits: (data.content_data as any)?.benefits || content.benefits,
+            description: (data.content_data as any)?.description || content.description,
+            button_text: (data.content_data as any)?.button_text || content.button_text,
+            button_url: (data.content_data as any)?.button_url || content.button_url,
+            feature_cards: (data.content_data as any)?.feature_cards || content.feature_cards,
             image_url: (data.content_data as any)?.image_url || content.image_url
           });
         }
@@ -83,14 +130,20 @@ const HealthSystemBenefitsSection = () => {
               {content.subtitle}
             </h2>
             <div className="space-y-4 lg:space-y-6">
-              {content.benefits.map((benefit, index) => (
-                <div key={index} className="flex items-start space-x-3 lg:space-x-4 group">
-                  <div className="flex-shrink-0 w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,45%)] rounded-full flex items-center justify-center mt-1 group-hover:from-[hsl(214,100%,65%)] group-hover:to-[hsl(214,100%,50%)] transition-all duration-300">
-                    <CheckCircle className="h-4 w-4 lg:h-5 lg:w-5 text-white" />
+              {content.feature_cards.map((card) => {
+                const IconComponent = getIconComponent(card.icon);
+                return (
+                  <div key={card.id} className="flex items-start space-x-3 lg:space-x-4 group">
+                    <div className="flex-shrink-0 w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-br from-[hsl(214,100%,60%)] to-[hsl(214,100%,45%)] rounded-full flex items-center justify-center mt-1 group-hover:from-[hsl(214,100%,65%)] group-hover:to-[hsl(214,100%,50%)] transition-all duration-300">
+                      <IconComponent className="h-4 w-4 lg:h-5 lg:w-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 font-apple mb-1">{card.title}</h3>
+                      <p className="text-sm sm:text-base text-gray-700 leading-relaxed font-apple">{card.description}</p>
+                    </div>
                   </div>
-                  <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed font-apple">{benefit}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
           <div className="order-1 lg:order-2 relative group">
