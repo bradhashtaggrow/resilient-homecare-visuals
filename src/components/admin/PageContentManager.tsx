@@ -18,6 +18,7 @@ import {
   Video, 
   Wifi,
   WifiOff,
+  Trash2,
   Eye,
   Settings,
   Activity,
@@ -966,6 +967,78 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                           >
                             <Plus className="h-4 w-4 mr-2" />
                             Add Feature Card
+                          </Button>
+                        </div>
+                      )}
+
+                      {/* Feature list management for health_systems_features section */}
+                      {section.section_key === 'health_systems_features' && (
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Features List</h4>
+                          {((editForm.content_data as any)?.features || []).map((feature: string, index: number) => (
+                            <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
+                              <div className="flex items-center justify-between">
+                                <h5 className="font-medium text-gray-800">Feature {index + 1}</h5>
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  onClick={() => {
+                                    const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                    newFeatures.splice(index, 1);
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...(editForm.content_data as any),
+                                        features: newFeatures
+                                      }
+                                    });
+                                  }}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                              
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Feature Description
+                                </label>
+                                <textarea
+                                  value={feature}
+                                  onChange={(e) => {
+                                    const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                    newFeatures[index] = e.target.value;
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: {
+                                        ...(editForm.content_data as any),
+                                        features: newFeatures
+                                      }
+                                    });
+                                  }}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                  rows={2}
+                                  placeholder="Enter feature description..."
+                                />
+                              </div>
+                            </div>
+                          ))}
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => {
+                              const currentFeatures = (editForm.content_data as any)?.features || [];
+                              setEditForm({
+                                ...editForm,
+                                content_data: {
+                                  ...(editForm.content_data as any),
+                                  features: [...currentFeatures, ""]
+                                }
+                              });
+                            }}
+                            className="w-full"
+                          >
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add Feature
                           </Button>
                         </div>
                       )}
