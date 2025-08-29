@@ -36,7 +36,8 @@ import {
   Database,
   Lock,
   BookOpen,
-  Lightbulb
+  Lightbulb,
+  Plus
 } from 'lucide-react';
 
 interface WebsiteContent {
@@ -849,6 +850,124 @@ const PageContentManager: React.FC<PageContentManagerProps> = ({
                           )}
                         </div>
                       </div>
+                      )}
+
+                      {/* Feature cards management for health_systems_why_transform section */}
+                      {section.section_key === 'health_systems_why_transform' && (
+                        <div className="space-y-4 border-t pt-4">
+                          <h4 className="text-lg font-semibold text-gray-900">Feature Cards</h4>
+                          {((editForm.content_data as any)?.features || []).map((feature: any, index: number) => (
+                            <div key={index} className="border rounded-lg p-4 space-y-4 bg-gray-50">
+                              <div className="flex items-center justify-between">
+                                <h5 className="font-medium text-gray-800">Feature Card {index + 1}</h5>
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  onClick={() => {
+                                    const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                    newFeatures.splice(index, 1);
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: { ...editForm.content_data, features: newFeatures }
+                                    });
+                                  }}
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Title
+                                  </label>
+                                  <Input
+                                    value={feature.title || ''}
+                                    onChange={(e) => {
+                                      const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                      newFeatures[index] = { ...newFeatures[index], title: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, features: newFeatures }
+                                      });
+                                    }}
+                                    placeholder="Feature title"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Icon Name
+                                  </label>
+                                  <Input
+                                    value={feature.icon || ''}
+                                    onChange={(e) => {
+                                      const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                      newFeatures[index] = { ...newFeatures[index], icon: e.target.value };
+                                      setEditForm({
+                                        ...editForm,
+                                        content_data: { ...editForm.content_data, features: newFeatures }
+                                      });
+                                    }}
+                                    placeholder="e.g., TrendingUp, Shield, Users"
+                                  />
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Description
+                                </label>
+                                <Textarea
+                                  value={feature.description || ''}
+                                  onChange={(e) => {
+                                    const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                                    newFeatures[index] = { ...newFeatures[index], description: e.target.value };
+                                    setEditForm({
+                                      ...editForm,
+                                      content_data: { ...editForm.content_data, features: newFeatures }
+                                    });
+                                  }}
+                                  placeholder="Feature description"
+                                  rows={3}
+                                />
+                              </div>
+
+                              {feature.image_url && (
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Feature Image
+                                  </label>
+                                  <img 
+                                    src={feature.image_url} 
+                                    alt="Feature preview" 
+                                    className="w-full h-32 object-cover rounded border"
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                          
+                          <Button
+                            onClick={() => {
+                              const newFeatures = [...((editForm.content_data as any)?.features || [])];
+                              newFeatures.push({
+                                title: '',
+                                description: '',
+                                icon: '',
+                                image_url: ''
+                              });
+                              setEditForm({
+                                ...editForm,
+                                content_data: { ...editForm.content_data, features: newFeatures }
+                              });
+                            }}
+                            variant="outline"
+                            className="w-full"
+                          >
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add Feature Card
+                          </Button>
+                        </div>
                       )}
 
                       {/* Tabs management for care_at_home_mobile, clinicians_mobile, and patients_mobile sections */}
